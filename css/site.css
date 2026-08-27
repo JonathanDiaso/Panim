@@ -1,44 +1,86 @@
 /* PANIM — site.css
-   Reset, design tokens, typography, layout, dawn-arc chapter tokens, motion base.
-   See BUILD-NOTES.md for the fonts self-host note and the AA contrast table.
-   11-website-plan.md §4 (design system) + §8 (motion) govern this file. */
+   ============================================================================
+   DIRECTION B — "The Plate" (2026-08-27, author-directed rebuild)
 
-/* ---------- fonts ----------
-   Self-hosted note: shipped here via Google Fonts stylesheet link (index.html <head>)
-   for the one-shot build. To self-host: download woff2 for Cormorant Garamond 500/500i,
-   Cormorant SC 300, Cinzel 400/600, place under site/fonts/, replace the <link> in
-   index.html with @font-face rules below, keep font-display: swap. */
+   The previous design was built as a premium landing page: centred hero, stacked
+   full-width sections over full-bleed photography, gold-on-black, one display
+   serif at eight sizes. That is the reference class for a product launch, not
+   for a book, and it read as generic because it was.
+
+   This rebuild uses the reference class the work actually belongs to — literary
+   and art-book publishing. Three rules govern everything below:
+
+     1. NOTHING IS CENTRED except things that are genuinely symmetrical objects.
+        Text sits in a named column range on a 12-column grid, with the outer
+        column left open for the apparatus (chapter number, verse reference,
+        thread notes, plate captions). Asymmetry is the structure, not a flourish.
+
+     2. A PHOTOGRAPH IS NEVER A BACKDROP. Type never sits on top of an image.
+        Plates get the full measure of the page to themselves and the words land
+        on paper underneath. This is what makes the photography look expensive:
+        nothing competes with it.
+
+     3. NO DECORATION THAT PRETENDS TO BE MATERIAL. No gradient text, no gold, no
+        glow, no glass, no bevel. Hierarchy comes from size, weight, position and
+        air. If a rule can do the job, a rule does the job.
+
+   The dawn arc survives, but inverted: it is now carried by PAPER TEMPERATURE
+   and accent rather than by black turning to cream. The book opens on a cool,
+   almost grey stock and warms, page by page, until chapter X is a bright warm
+   white. The Listening Room stays dark — it is a phone on a nightstand, and that
+   is a different object with a different job (see room.css).
+   ============================================================================ */
 
 :root {
-  --font-prose: 'Cormorant Garamond', Georgia, serif;
-  --font-display: 'Cormorant SC', Georgia, serif;
-  --font-ui: 'Cinzel', Georgia, serif;
+  /* ---- type -------------------------------------------------------------
+     Fraunces for everything read (a text serif with real character — the old
+     Cormorant/Cinzel pairing was the Trajan-and-Garamond combination that
+     appears on every wedding invitation). Archivo for apparatus only: labels,
+     captions, numbers, chrome. Frank Ruhl Libre for Hebrew, which is the
+     classic Hebrew book face and the only one here that can carry פָּנִים at
+     display size without looking like a fallback. */
+  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --ui: 'Archivo', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --heb: 'Frank Ruhl Libre', 'Fraunces', Georgia, serif;
 
-  --gold: #c9a84c;
-  --gold-light: #e8d090;
+  /* Fraunces is variable on optical size and "softness". Pinning SOFT/WONK to 0
+     keeps it from drifting into the novelty end of its own design space. */
+  --fr-normal: 'SOFT' 0, 'WONK' 0;
 
-  --prose-size: clamp(1.2rem, 2.1vw, 1.4rem);
-  --prose-leading: 1.75;
-  --measure: 66ch;
+  /* ---- paper + ink ------------------------------------------------------
+     Default is chapter I's stock. Per-chapter values are set further down and
+     mirrored in js/motion.js, which interpolates between them on scroll. */
+  --paper: #F1EDE4;
+  --ink: #191510;
+  --ink-soft: #6B6357;
+  --ink-faint: #9A9184;
+  --rule: rgba(25, 21, 16, .14);
+  --rule-strong: rgba(25, 21, 16, .28);
+  --accent: #9A4B2A;          /* clay — taken from the pots, not from a palette */
 
-  --ease-dawn: cubic-bezier(.22, .61, .36, 1);
-  --dur-fast: 150ms;
-  --dur-med: 350ms;
-  --dur-slow: 700ms;
+  /* ---- measure + rhythm -------------------------------------------------
+     62ch is the reading measure. It is NOT the page width: the page is a
+     12-column grid and the measure occupies columns 3–9, which is what puts
+     the text off-centre and leaves the margin column free. */
+  --measure: 62ch;
+  --step: clamp(14px, 1.7vw, 26px);   /* grid gutter */
+  --edge: clamp(20px, 4vw, 64px);     /* page margin */
+  --shell: 1440px;
 
-  /* default (intro/ch1) tokens; overridden per-section below */
-  --bg: #050409;
-  --text: #f0edf4;
-  --accent: #c9a84c;
+  --body-size: clamp(1.06rem, .55vw + .94rem, 1.22rem);
+  --body-leading: 1.68;
+
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  --dur-fast: 140ms;
+  --dur-med: 320ms;
+  --dur-slow: 620ms;
 }
 
 /* ---------- reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-}
-body, h1, h2, h3, p, figure, blockquote { margin: 0; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body, h1, h2, h3, p, figure, blockquote, dl, dd { margin: 0; }
 img, svg { display: block; max-width: 100%; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 a { color: inherit; }
@@ -52,190 +94,177 @@ ul { list-style: none; margin: 0; padding: 0; }
 /* ---------- base ---------- */
 html, body { min-height: 100%; }
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-prose);
-  font-weight: 500;
-  transition: color var(--dur-med) var(--ease-dawn);
-  /* background-color is driven per-frame by js/motion.js (dawn-arc lerp); no CSS transition on it */
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-variation-settings: var(--fr-normal);
+  font-weight: 400;
+  font-size: var(--body-size);
+  line-height: var(--body-leading);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* background-color is driven per frame by js/motion.js; no transition here */
+  transition: color var(--dur-med) var(--ease);
 }
 
 .skip-link {
-  position: fixed; top: -100px; left: 1rem; z-index: 1000;
-  background: var(--gold); color: #050409; padding: .6em 1em;
-  font-family: var(--font-ui); font-size: .75rem; letter-spacing: .1em;
-  transition: top var(--dur-fast) var(--ease-dawn);
+  position: fixed; top: -100px; left: var(--edge); z-index: 1000;
+  background: var(--ink); color: var(--paper);
+  padding: .7em 1.1em;
+  font-family: var(--ui); font-size: .72rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  transition: top var(--dur-fast) var(--ease);
 }
 .skip-link:focus { top: 1rem; }
 
-/* ---------- ambient light source (§8.2) ---------- */
-#ambient-light {
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background: radial-gradient(60vmax 60vmax at 50% var(--light-y, 100%), var(--accent) 0%, transparent 70%);
-  opacity: .06;
-  transition: opacity var(--dur-slow) var(--ease-dawn);
+/* ============================================================================
+   THE GRID
+   Every band of the page is a .row: a 12-column grid inside the page margin.
+   Children claim a column range. There is no auto-centring anywhere.
+
+   NOTE ON NAMING: the obvious name for this was .sheet, but index.html already
+   uses <aside class="sheet"> for the slide-over panels. Two unrelated meanings
+   on one class name means a `position: fixed` panel rule silently applies to
+   every band of the page. Hence .row.
+   ============================================================================ */
+.row, .section {
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--edge);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--step);
 }
-@media (prefers-reduced-motion: reduce) {
-  #ambient-light { display: none; }
+/* the three column ranges the whole book is built from */
+.col-margin { grid-column: 1 / 3; }    /* chapter numbers, plate numbers, labels */
+.col-text   { grid-column: 3 / 9; }    /* the reading measure */
+.col-aside  { grid-column: 10 / 13; }  /* thread notes, captions, references */
+.col-wide   { grid-column: 3 / 12; }   /* titles that need more room than text */
+.col-full   { grid-column: 1 / -1; }
+
+@media (max-width: 900px) {
+  .row, .section { grid-template-columns: repeat(6, 1fr); }
+  .col-margin, .col-text, .col-aside, .col-wide { grid-column: 1 / 7; }
 }
 
-/* ---------- progress bar (C2) ---------- */
-#progress-bar {
-  position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 900;
-  background: rgba(255,255,255,.06);
-}
-#progress-fill {
-  height: 100%; width: 0%;
-  background: linear-gradient(90deg,
-    #c9a84c, #8a92b8, #d98e4a, #6a9bd8, #d9a84a, #e8d090, #5a6a94, #a83232, #e8b04a, #8a6420);
-  transition: width var(--dur-fast) linear;
-}
+.rule-line { grid-column: 1 / -1; height: 1px; background: var(--rule); border: 0; margin: 0; }
 
-/* ---------- layout ---------- */
-main { position: relative; z-index: 1; }
+/* ---------- sections ----------
+   .section IS the grid container (above), so render.js's <div class="section-inner">
+   wrapper is dissolved with display:contents and its children land on the page
+   grid directly. That keeps the existing DOM contract intact. */
+main { position: relative; }
+.section { position: relative; padding-block: clamp(3rem, 7vh, 6rem); scroll-margin-top: 84px; }
+.section-inner { display: contents; }
 
-.section {
-  position: relative;
-  background: var(--bg);
-  color: var(--text);
-  padding: clamp(4rem, 10vh, 7rem) 1.25rem clamp(5rem, 14vh, 9rem);
-  scroll-margin-top: 90px;
+/* every direct child of a section that has not claimed a range defaults to the
+   reading measure, so a new block type never lands full-bleed by accident */
+.section > .block-p,
+.section-inner > .block-p { grid-column: 3 / 9; }
+@media (max-width: 900px) {
+  .section > .block-p, .section-inner > .block-p { grid-column: 1 / 7; }
 }
 
-.section-inner {
+/* ============================================================================
+   THE ARC — paper temperature, not black to cream
+   Each chapter warms the stock a little and moves the accent along the light
+   story: cold slate while the face is hidden, ember at the mountain, clay
+   through the wilderness, and finally a bright warm white at face to face.
+   Every accent clears 4.5:1 on its own paper (checked; figures in comments),
+   because the accent paints .chapter-num and .verse-ref at ~11px.
+   js/motion.js mirrors this table exactly.
+   ============================================================================ */
+.section[data-ch="0"]  { --paper:#EFEBE1; --ink:#191510; --accent:#8A4A2C; } /* 6.0:1 */
+.section[data-ch="1"]  { --paper:#EDE9DF; --ink:#191510; --accent:#8A4A2C; } /* 5.9:1 */
+.section[data-ch="2"]  { --paper:#E7E7E4; --ink:#16181A; --accent:#3F5670; } /* 6.4:1  the hiding — cold */
+.section[data-ch="3"]  { --paper:#EDE6DB; --ink:#1A1510; --accent:#A2461F; } /* 5.5:1  the mountain — ember */
+.section[data-ch="4"]  { --paper:#E6E8EA; --ink:#15181B; --accent:#3A5A78; } /* 5.8:1  the ford — night water */
+.section[data-ch="5"]  { --paper:#F0E9DC; --ink:#1A1510; --accent:#93551C; } /* 5.2:1  not consumed — flame */
+.section[data-ch="6"]  { --paper:#F2ECE0; --ink:#1A1610; --accent:#8A6222; } /* 5.0:1  borrowed light */
+.section[data-ch="7"]  { --paper:#E9E9E7; --ink:#17191B; --accent:#4A5A6E; } /* 5.6:1  the glory withdraws */
+.section[data-ch="8"]  { --paper:#EBE6E1; --ink:#181412; --accent:#93332B; } /* 6.0:1  flint — the wound */
+.section[data-ch="9"]  { --paper:#F4EEE1; --ink:#1A1610; --accent:#8E5A20; } /* 5.3:1  the second fire */
+.section[data-ch="10"] { --paper:#FBF7EE; --ink:#1A1712; --accent:#7C5A23; } /* 6.2:1  full morning */
+.section[data-ch="fw"] { --paper:#FDFAF3; --ink:#1A1712; --accent:#7C5A23; } /* 6.4:1  five words */
+
+/* ============================================================================
+   TYPOGRAPHY
+   ============================================================================ */
+.block-p, .prose {
+  margin: 0 0 1.15em;
   max-width: var(--measure);
-  margin: 0 auto;
+  text-wrap: pretty;
+}
+.block-p em, .prose em { font-style: italic; }
+.block-p:last-child { margin-bottom: 0; }
+
+/* Fraunces' optical-size axis: display sizes want a tighter, higher-contrast
+   cut than text does. Setting opsz by hand is the difference between a serif
+   that looks typeset and one that looks scaled. */
+.chapter-title, .hero-title, .fivewords-text {
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 144;
+  font-weight: 300;
+  letter-spacing: -.018em;
+  line-height: 1.03;
+  text-wrap: balance;
 }
 
-/* per-chapter dawn-arc tokens (11-website-plan.md §4.2) */
-.section[data-ch="0"]  { --bg: #050409; --text: #f0edf4; --accent: #c9a84c; }
-.section[data-ch="1"]  { --bg: #050409; --text: #f0edf4; --accent: #c9a84c; }
-.section[data-ch="2"]  { --bg: #070609; --text: #ece9ee; --accent: #8a92b8; }
-.section[data-ch="3"]  { --bg: #0a0608; --text: #f0ebe8; --accent: #d98e4a; }
-.section[data-ch="4"]  { --bg: #06080c; --text: #eaeef2; --accent: #6a9bd8; }
-.section[data-ch="5"]  { --bg: #0a0806; --text: #f2ede4; --accent: #d9a84a; }
-.section[data-ch="6"]  { --bg: #0d0b08; --text: #f4f0e6; --accent: #e8d090; }
-.section[data-ch="7"]  { --bg: #05070b; --text: #e8ebf0; --accent: #5a6a94; }
-.section[data-ch="8"]  { --bg: #040305; --text: #efeceb; --accent: #a83232; }
-.section[data-ch="9"]  { --bg: #12100c; --text: #f6f2e8; --accent: #e8b04a; }
-.section[data-ch="10"] { --bg: #f4eee2; --text: #241d12; --accent: #8a6420; }
-.section[data-ch="fw"] { --bg: #faf6ec; --text: #241d12; --accent: #c9a84c; }
-
-/* ---------- typography ---------- */
-.prose, p.block-p {
-  font-size: var(--prose-size);
-  line-height: var(--prose-leading);
-  max-width: var(--measure);
-  margin: 0 auto 1.4em;
-  color: var(--text);
-}
-.prose em, p.block-p em { font-style: italic; }
+.chapter-title { font-size: clamp(2.1rem, 4.6vw, 3.7rem); }
 
 .chapter-num {
-  font-family: var(--font-ui);
-  font-size: .7rem;
-  letter-spacing: .4em;
-  text-transform: uppercase;
+  font-family: var(--ui);
+  font-size: .66rem; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
   color: var(--accent);
-  display: block;
-  margin-bottom: .9em;
+  padding-top: .95em;   /* optical alignment with the title's cap height */
 }
-.chapter-title {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: clamp(2.2rem, 6vw, 3.6rem);
-  line-height: 1.15;
-  margin-bottom: .5em;
-}
+
 .chapter-hook {
   font-style: italic;
-  opacity: .8;
-  max-width: var(--measure);
-  margin: 0 auto 1.5em;
-  font-size: 1.05em;
+  color: var(--ink-soft);
+  margin: .7em 0 0;
+  font-size: 1.06em;
+  max-width: 46ch;
 }
 
-.hebrew-inline {
-  font-family: var(--font-prose);
-}
+.hebrew-inline { font-family: var(--heb); font-weight: 400; }
 
-/* ---------- glossary term (C9) ---------- */
+/* ---------- glossary term: a dotted underline, nothing more ---------- */
 .gloss-term {
   border-bottom: 1px dotted var(--accent);
   cursor: help;
   text-underline-offset: 3px;
 }
 
-/* ---------- reveal / motion base classes (§8.3) ---------- */
+/* ============================================================================
+   MOTION
+   Reveals are small and fast. The old build had veil-lifts, ken-burns, breathing
+   glows and letter-spacing settles running at once; that busyness is itself a
+   tell. What is left: an 8px rise on first sight, and the plate parallax.
+   ============================================================================ */
 .reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity var(--dur-slow) var(--ease-dawn), transform var(--dur-slow) var(--ease-dawn);
-  will-change: opacity, transform;
+  transform: translateY(8px);
+  transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
 }
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.veil-lift {
-  position: relative;
-  overflow: hidden;
-}
-.veil-lift::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: var(--bg);
-  transform: translateY(0);
-  transition: transform var(--dur-slow) var(--ease-dawn);
-  pointer-events: none;
-  z-index: 2;
-}
-.veil-lift.is-lifted::after {
-  transform: translateY(-102%);
-}
+.reveal.is-visible { opacity: 1; transform: none; }
 
 .hairline {
-  height: 1px;
-  width: 0;
-  background: var(--accent);
-  margin: 2.5rem auto;
-  transition: width var(--dur-slow) var(--ease-dawn);
-  opacity: .55;
+  grid-column: 3 / 9;
+  height: 1px; width: 0;
+  background: var(--rule-strong);
+  margin: 2.2rem 0;
+  transition: width var(--dur-slow) var(--ease);
 }
-.hairline.is-drawn { width: 40%; }
+.hairline.is-drawn { width: 5rem; }
 
-.divider-beat { height: 40px; }
-.divider-swell {
-  height: 80px;
-  position: relative;
-}
-.divider-swell::before {
-  content: "";
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at center, var(--accent) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity var(--dur-slow) var(--ease-dawn);
-}
-.divider-swell.is-swelled::before { opacity: .18; }
+.divider-beat  { grid-column: 3 / 9; height: 1.6rem; }
+.divider-swell { grid-column: 3 / 9; height: 3.2rem; }
 
-.rewind-line {
-  letter-spacing: .12em;
-  transition: letter-spacing var(--dur-slow) var(--ease-dawn);
-}
-.rewind-line.is-settled { letter-spacing: normal; }
-
-/* reduced motion: static fallback for all of the above */
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
-  .veil-lift::after { display: none; }
-  .hairline { width: 40%; transition: none; }
-  .divider-swell::before { opacity: .18; transition: none; }
-  .rewind-line { letter-spacing: normal; transition: none; }
-  #progress-fill { transition: none; }
+  .hairline { width: 5rem; transition: none; }
 }
 
-/* ---------- responsive base ---------- */
-@media (max-width: 640px) {
-  .section { padding-left: 1rem; padding-right: 1rem; }
-}
+/* legacy hooks kept inert so js/motion.js and js/sync.js keep their contracts */
+.veil-lift::after, .veil-boundary, #ambient-light, #grain { display: none !important; }

@@ -4,7 +4,10 @@
 // cached audio answers Range requests by slicing the stored full response so
 // seeking keeps working offline.
 
-var SHELL = 'panim-shell-v2';
+// Bumped to v3 for the Direction B rebuild. Every stylesheet, both fonts and the
+// render layer changed; without a new cache name a returning visitor would be
+// served the old gold-on-black shell out of the previous cache indefinitely.
+var SHELL = 'panim-shell-v3';
 var AUDIO = 'panim-audio-v1';
 var PRECACHE = [
   './', 'index.html', 'favicon.svg', 'og-image.png', 'manifest.webmanifest',

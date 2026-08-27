@@ -14,7 +14,7 @@ window.PANIM_CHAPTERS = [
     "num": 1,
     "id": "ch01",
     "title": "The God Who Sees",
-    "hook": "Jerusalem, 1979.",
+    "hook": "Two small silver scrolls, a blessing about a face, and the oldest words of the Bible anyone has ever found.",
     "blocks": [
       {
         "type": "slot",
@@ -288,7 +288,7 @@ window.PANIM_CHAPTERS = [
     "num": 2,
     "id": "ch02",
     "title": "The Hiding",
-    "hook": "Evening settles over the garden.",
+    "hook": "The first thing that goes wrong is not a rule broken. It is a face avoided.",
     "blocks": [
       {
         "type": "slot",
@@ -564,7 +564,7 @@ window.PANIM_CHAPTERS = [
     "num": 3,
     "id": "ch03",
     "title": "The Offer",
-    "hook": "Every god they had ever seen had a face.",
+    "hook": "A nation is offered the thing every other nation wanted, and asks to be spared it.",
     "blocks": [
       {
         "type": "slot",
@@ -813,7 +813,7 @@ window.PANIM_CHAPTERS = [
     "num": 4,
     "id": "ch04",
     "title": "The Word He Kept Rehearsing",
-    "hook": "It is the black middle of the night at a river crossing, and a man is sending away everything he loves.",
+    "hook": "Jacob has one word he cannot stop rehearsing, and it is the word this whole book is about.",
     "blocks": [
       {
         "type": "slot",
@@ -1042,7 +1042,7 @@ window.PANIM_CHAPTERS = [
     "num": 5,
     "id": "ch05",
     "title": "Mouth to Mouth",
-    "hook": "Before the mountain burned for a nation, it burned for an audience of one, and the fire was small enough to fit inside a bush.",
+    "hook": "A fire that will not consume the bush it burns in, and a man who will not look at it.",
     "blocks": [
       {
         "type": "slot",
@@ -1327,7 +1327,7 @@ window.PANIM_CHAPTERS = [
     "num": 6,
     "id": "ch06",
     "title": "The Shine and the Blessing",
-    "hook": "Nobody will come tell him.",
+    "hook": "Moses comes down the mountain lit up, and is the only person who cannot see it.",
     "blocks": [
       {
         "type": "slot",
@@ -1541,7 +1541,7 @@ window.PANIM_CHAPTERS = [
     "num": 7,
     "id": "ch07",
     "title": "The Glory Backs Out",
-    "hook": "The saddest thing God ever showed a human being, He showed to a man sitting seven hundred miles away from where it happened.",
+    "hook": "Ezekiel watches the light leave the temple one slow, deliberate step at a time.",
     "blocks": [
       {
         "type": "slot",
@@ -1767,7 +1767,7 @@ window.PANIM_CHAPTERS = [
     "num": 8,
     "id": "ch08",
     "title": "The Face Set Like Flint",
-    "hook": "Before He takes the east road into Jerusalem, He climbs a different mountain, and heaven throws a reunion.",
+    "hook": "A face lit like the sun on one mountain, and set like flint toward another.",
     "blocks": [
       {
         "type": "slot",
@@ -1983,7 +1983,7 @@ window.PANIM_CHAPTERS = [
     "num": 9,
     "id": "ch09",
     "title": "Eyes Opened",
-    "hook": "Seven miles is a long walk when hope is behind you.",
+    "hook": "Two men walk with Him for seven miles and do not know Him until the bread breaks.",
     "blocks": [
       {
         "type": "slot",
@@ -2187,7 +2187,7 @@ window.PANIM_CHAPTERS = [
     "num": 10,
     "id": "ch10",
     "title": "Face to Face",
-    "hook": "Everything that separates those two crowds comes down to a supper table in Jerusalem, the night before He dies, and to the oldest question in this book, asked by one of His friends.",
+    "hook": "Philip asks for the one thing no one has ever been given. He is already looking at it.",
     "blocks": [
       {
         "type": "slot",

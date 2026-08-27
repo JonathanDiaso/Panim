@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PANIM — The Invitation Hidden on Every Page</title>
 <meta name="description" content="An audiobook of light. The Hebrew word for face — panim — followed across the whole Bible, narrated by the author. By Jonathan Diaso.">
-<meta name="theme-color" content="#050409">
+<meta name="theme-color" content="#EDE9DF">
 
 <meta property="og:type" content="book">
 <meta property="og:title" content="PANIM — The Invitation Hidden on Every Page">
@@ -27,32 +27,38 @@
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 
-<div id="ambient-light" aria-hidden="true"></div>
-<div id="grain" aria-hidden="true"></div>
 <div id="progress-bar" aria-hidden="true"><div id="progress-fill"></div></div>
 <div class="veil-boundary" id="veil-boundary" aria-hidden="true"></div>
 
 <nav id="site-nav" aria-label="Chapters">
-  <a class="nav-mark" href="#hero">פָּנִים</a>
-  <ul class="nav-chapters" id="nav-chapters"><!-- js/ui.js populates ch01–ch10 links --></ul>
-  <div class="nav-actions">
-    <button class="btn btn-icon" id="thread-btn" aria-haspopup="dialog" aria-controls="thread-panel" title="The Thread">Thread</button>
-    <button class="btn btn-icon" id="about-btn" aria-haspopup="dialog" aria-controls="about-sheet" title="About">i</button>
-    <button class="btn" id="listen-btn" title="Open the Listening Room">Listen</button>
+  <div class="nav-shell">
+    <a class="nav-mark" href="#hero">Panim</a>
+    <ul class="nav-chapters" id="nav-chapters"><!-- js/ui.js populates ch01–ch10 links --></ul>
+    <div class="nav-actions">
+      <button class="btn btn-icon" id="thread-btn" aria-haspopup="dialog" aria-controls="thread-panel" title="The Thread">Thread</button>
+      <button class="btn btn-icon" id="about-btn" aria-haspopup="dialog" aria-controls="about-sheet" title="About">About</button>
+      <button class="btn" id="listen-btn" title="Open the Listening Room">Listen</button>
+    </div>
   </div>
 </nav>
 
 <main id="main">
+  <!-- The opening plate (art/hero.jpg) is inserted here by js/render.js mountHero()
+       so the photograph stays data-driven from content/images.js. Nothing is ever
+       laid on top of it; the title block below sits on paper. -->
   <section id="hero" class="section" data-ch="0">
-    <div class="hero-bg" aria-hidden="true"></div>
-    <div class="hero-content">
+    <div class="hero-block">
       <div class="hero-hebrew" lang="he" dir="rtl">פָּנִים</div>
-      <h1 class="hero-title">PANIM</h1>
-      <p class="hero-subtitle">The Invitation Hidden on Every Page</p>
-      <p class="hero-byline">Jonathan Diaso</p>
+      <h1 class="hero-title">The Invitation Hidden on Every Page</h1>
+      <p class="hero-subtitle">One Hebrew word for <em>face</em>, followed from the first page of the Bible to the last, until it becomes the whole story.</p>
+      <div class="hero-meta">
+        <b>Jonathan Diaso</b>
+        Ten chapters<br>
+        Read and listen, free
+      </div>
       <div class="hero-actions">
-        <button class="btn" id="begin-btn">Begin Listening</button>
-        <a class="hero-hint" href="#ch01">or read ↓</a>
+        <button class="btn btn-solid" id="begin-btn">Begin listening</button>
+        <a class="hero-hint" href="#contents">Contents ↓</a>
       </div>
     </div>
   </section>

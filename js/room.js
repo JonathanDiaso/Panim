@@ -86,7 +86,7 @@
   }
   function tokensFor(num) {
     var T = window.PANIM_TOKENS || {};
-    return T[String(num)] || { bg: '#050409', accent: '#c9a84c', text: '#f0edf4' };
+    return T[String(num)] || { bg: '#050409', accent: '#d9a441', text: '#f0edf4' };
   }
   function paintProgress(ratio) {
     var num = P.manifest[P.state.chapterId] ? P.manifest[P.state.chapterId].num : 1;

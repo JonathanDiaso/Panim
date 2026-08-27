@@ -12,19 +12,24 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Dawn-arc token table (11-website-plan.md §4.2) — mirrors css/site.css section rules.
+  // Direction B: the arc is carried by PAPER TEMPERATURE, not by black turning to
+  // cream. The book opens on a cool, almost grey stock and warms page by page until
+  // chapter X is a bright warm white. Accents follow the light story — cold slate
+  // while the face is hidden, ember at the mountain, clay through the wilderness.
+  // This table must stay identical to the .section[data-ch] block in css/site.css.
   var TOKENS = {
-    '0': { bg: '#050409', text: '#f0edf4', accent: '#c9a84c' },
-    '1': { bg: '#050409', text: '#f0edf4', accent: '#c9a84c' },
-    '2': { bg: '#070609', text: '#ece9ee', accent: '#8a92b8' },
-    '3': { bg: '#0a0608', text: '#f0ebe8', accent: '#d98e4a' },
-    '4': { bg: '#06080c', text: '#eaeef2', accent: '#6a9bd8' },
-    '5': { bg: '#0a0806', text: '#f2ede4', accent: '#d9a84a' },
-    '6': { bg: '#0d0b08', text: '#f4f0e6', accent: '#e8d090' },
-    '7': { bg: '#05070b', text: '#e8ebf0', accent: '#5a6a94' },
-    '8': { bg: '#040305', text: '#efeceb', accent: '#a83232' },
-    '9': { bg: '#12100c', text: '#f6f2e8', accent: '#e8b04a' },
-    '10': { bg: '#f4eee2', text: '#241d12', accent: '#8a6420' },
-    'fw': { bg: '#faf6ec', text: '#241d12', accent: '#c9a84c' }
+    '0':  { bg: '#EFEBE1', text: '#191510', accent: '#8A4A2C' },
+    '1':  { bg: '#EDE9DF', text: '#191510', accent: '#8A4A2C' },
+    '2':  { bg: '#E7E7E4', text: '#16181A', accent: '#3F5670' },
+    '3':  { bg: '#EDE6DB', text: '#1A1510', accent: '#A2461F' },
+    '4':  { bg: '#E6E8EA', text: '#15181B', accent: '#3A5A78' },
+    '5':  { bg: '#F0E9DC', text: '#1A1510', accent: '#93551C' },
+    '6':  { bg: '#F2ECE0', text: '#1A1610', accent: '#8A6222' },
+    '7':  { bg: '#E9E9E7', text: '#17191B', accent: '#4A5A6E' },
+    '8':  { bg: '#EBE6E1', text: '#181412', accent: '#93332B' },
+    '9':  { bg: '#F4EEE1', text: '#1A1610', accent: '#8E5A20' },
+    '10': { bg: '#FBF7EE', text: '#1A1712', accent: '#7C5A23' },
+    'fw': { bg: '#FDFAF3', text: '#1A1712', accent: '#7C5A23' }
   };
 
   function hexToRgb(hex) {
@@ -80,18 +85,19 @@
     var blended = reduceMotion ? bgA.bg : lerpColor(bgA.bg, bgB.bg, t);
     document.body.style.backgroundColor = blended;
 
-    // discrete text/accent switch per current section
+    // discrete ink/accent switch per current section. These land on <html> so the
+    // FIXED chrome — nav, player, sheets, toast — inherits the current chapter's
+    // paper and accent. That chrome lives outside .section and would otherwise be
+    // stuck on chapter I's stock for the whole book.
     var cur = currentSectionFor(viewportCenter);
     var tok = TOKENS[cur.ch] || TOKENS['0'];
     document.documentElement.style.setProperty('--accent', tok.accent);
-    document.documentElement.style.setProperty('--bg', tok.bg);
-    document.documentElement.style.setProperty('--text', tok.text);
+    document.documentElement.style.setProperty('--paper', blended);
+    document.documentElement.style.setProperty('--ink', tok.text);
     document.body.style.color = tok.text;
 
-    // ambient light rises with progress
     var docHeight = document.documentElement.scrollHeight - window.innerHeight;
     var progress = docHeight > 0 ? window.scrollY / docHeight : 0;
-    document.documentElement.style.setProperty('--light-y', (100 - progress * 85) + '%');
 
     // progress bar
     var fill = document.getElementById('progress-fill');
@@ -180,23 +186,15 @@
     document.querySelectorAll('.tear-line').forEach(function (el) { tearObserver.observe(el); });
   }
 
-  // ---------- ch.9→10 veil-lift boundary (§8.4, once) ----------
+  // ---------- ch.9→10 veil-lift boundary ----------
+  // Retired in the Direction B rebuild. The set piece was a full-screen cream
+  // curtain wiping up over a black page — it only read as "the veil lifts" because
+  // the book was dark until then. On paper the same beat is carried by the arc
+  // itself: chapter X's stock is the brightest in the book. The element is left in
+  // index.html (hidden by site.css) so nothing downstream breaks.
   function wireVeilBoundary() {
     var boundary = document.getElementById('veil-boundary');
-    var ch10 = document.getElementById('ch10');
-    if (!boundary || !ch10 || reduceMotion) { if (boundary) boundary.classList.add('is-done'); return; }
-    var fired = false;
-    var obs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting && !fired) {
-          fired = true;
-          boundary.classList.add('is-lifting');
-          setTimeout(function () { boundary.classList.add('is-done'); }, 1100);
-          obs.disconnect();
-        }
-      });
-    }, { threshold: 0.05 });
-    obs.observe(ch10);
+    if (boundary) boundary.classList.add('is-done');
   }
 
   // ---------- five-words terminal reveal (§6.10, C18) ----------
@@ -242,35 +240,41 @@
     zones.forEach(function (z) { obs.observe(z); });
   }
 
-  // ---------- frontispiece parallax + Ken-Burns wake (SITE-V2-PLAN.md §4.3) ----------
-  // The photo drifts at 0.85× scroll while the header rides at 1× — transform-only,
-  // rAF-shared with the main scroll frame via this second observer-driven list.
-  var frontis = [];
-  function wireFrontis() {
-    frontis = Array.prototype.slice.call(document.querySelectorAll('.frontis-media'));
-    if (!frontis.length || reduceMotion) return;
+  // ---------- plate parallax ----------
+  // The picture inside a plate drifts slightly slower than the page. It is the one
+  // piece of scroll motion left in the book: enough that a plate feels like a
+  // window rather than a pasted rectangle, small enough that nobody notices it
+  // happening. 7% of the frame, transform only, skipped entirely off-screen.
+  var plates = [];
+  function wirePlates() {
+    plates = Array.prototype.slice.call(document.querySelectorAll('.plate-frame > img, .hero-plate > img'));
+    if (!plates.length || reduceMotion) return;
+    // no blanket will-change: promoting fifteen full-width photographs to their own
+    // compositor layers costs more memory than the parallax saves. Each plate is
+    // promoted only while it is actually crossing the viewport, below.
     window.addEventListener('scroll', function () {
-      if (!frontisTick) { frontisTick = true; requestAnimationFrame(frontisFrame); }
+      if (!plateTick) { plateTick = true; requestAnimationFrame(plateFrame); }
     }, { passive: true });
-    frontisFrame();
+    plateFrame();
   }
-  var frontisTick = false;
-  function frontisFrame() {
-    frontisTick = false;
+  var plateTick = false;
+  function plateFrame() {
+    plateTick = false;
     var vh = window.innerHeight;
-    frontis.forEach(function (el) {
-      var r = el.parentElement.getBoundingClientRect();
-      if (r.bottom < -vh || r.top > vh * 2) return;
-      el.style.transform = 'translateY(' + (r.top * 0.15).toFixed(1) + 'px) scale(1.08)';
+    plates.forEach(function (el) {
+      var box = el.parentElement.getBoundingClientRect();
+      if (box.bottom < 0 || box.top > vh) {
+        if (el.style.willChange) el.style.willChange = '';
+        return;
+      }
+      if (!el.style.willChange) el.style.willChange = 'transform';
+      // −1..1 across the crossing, scaled to a few percent of the frame height
+      var p = (box.top + box.height / 2 - vh / 2) / (vh / 2 + box.height / 2);
+      el.style.transform = 'scale(1.07) translateY(' + (p * 3.2).toFixed(2) + '%)';
     });
   }
-  // narration reaching a figure's cue range wakes its Ken-Burns drift (sync.js emits)
-  document.addEventListener('panim:cue-live', function (e) {
-    var el = document.getElementById(e.detail.id);
-    if (!el) return;
-    var fig = el.nextElementSibling;
-    if (fig && fig.classList && fig.classList.contains('img-slot')) fig.classList.add('is-awake');
-  });
+  // Ken-Burns wake retired: an image that starts drifting when the narration
+  // reaches it is motion for its own sake, and it fought the plate parallax above.
 
   function init() {
     measureSections();
@@ -281,7 +285,7 @@
     wireVeilBoundary();
     wireFiveWords();
     wirePrayerZones();
-    wireFrontis();
+    wirePlates();
   }
 
   document.addEventListener('panim:rendered', init);

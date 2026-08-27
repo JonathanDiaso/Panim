@@ -96,35 +96,109 @@
     return '';
   }
 
-  // Frontispiece (SITE-V2-PLAN.md §4.3): when the author has supplied the chapter's
-  // FIRST image, it renders full-bleed behind the chapter header, graded into the
-  // dawn arc by css (.frontis-grade) and drifting at 0.85x scroll (motion.js).
-  // With no image yet the chapter opens exactly as before — zero empty frames.
-  function renderFrontis(slotId) {
+  // OPENING PLATE (Direction B). The chapter's first image used to be a graded
+  // backdrop with the title sitting on top of it. It is now a plate that owns the
+  // full width of the page with nothing laid over it, and the title lands on paper
+  // underneath. That single inversion is most of the design: a photograph stops
+  // being a texture behind the words and becomes the thing you are looking at.
+  // With no image supplied the chapter simply opens with its title — no empty frame.
+  var PLATE_ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X',
+                     'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI'];
+  var plateCount = 0;
+  function renderPlate(slotId) {
     var img = window.PANIM_IMAGES ? window.PANIM_IMAGES[slotId] : null;
     if (!img || !img.src) return '';
-    return '<div class="frontis" aria-hidden="true">' +
-      '<div class="frontis-media" style="background-image:url(\'' + esc(img.src) + '\')"></div>' +
-      '<div class="frontis-grade"></div><div class="frontis-veil"></div></div>';
+    plateCount++;
+    var caption = img.caption
+      ? '<figcaption class="plate-caption">' +
+          '<span class="plate-num">Plate ' + (PLATE_ROMAN[plateCount] || plateCount) + '</span>' +
+          '<span class="plate-text">' + esc(img.caption) + '</span>' +
+        '</figcaption>'
+      : '';
+    // the image lives inside .plate-frame, which is the clipping box. The parallax
+    // in motion.js scales the image past 100%, and without a frame to crop it the
+    // overflow paints straight over the caption underneath.
+    return '<figure class="plate reveal" data-slot="' + esc(slotId) + '">' +
+      '<div class="plate-frame"><img src="' + esc(img.src) + '" alt="' + esc(img.alt || '') +
+        '" loading="lazy" decoding="async"></div>' +
+      caption + '</figure>';
+  }
+
+  // CONTENTS. Ten chapters and, before this, the only ways in were the numeral strip
+  // in the running head and scrolling. A book opens on its contents page; so does this.
+  // Durations come from content/audio-manifest.js (voiceDur, seconds) — the same
+  // numbers the player uses, so they cannot drift out of sync with the audio.
+  function renderContents(chapters) {
+    var audio = window.PANIM_AUDIO || {};
+    var rows = chapters.map(function (ch) {
+      var a = audio[ch.id];
+      var mins = a && a.voiceDur ? Math.round(a.voiceDur / 60) + ' min' : '';
+      return '<a class="toc-row" href="#' + esc(ch.id) + '">' +
+        '<span class="toc-num">' + ROMAN[ch.num] + '</span>' +
+        '<span class="toc-body">' +
+          '<span class="toc-title">' + esc(ch.title) + '</span>' +
+          '<span class="toc-hook">' + esc(ch.hook) + '</span>' +
+        '</span>' +
+        '<span class="toc-dur">' + mins + '</span>' +
+      '</a>';
+    }).join('');
+
+    var total = chapters.reduce(function (n, ch) {
+      var a = audio[ch.id]; return n + (a && a.voiceDur ? a.voiceDur : 0);
+    }, 0);
+    var hrs = Math.floor(total / 3600), rem = Math.round((total % 3600) / 60);
+
+    return '<section class="section" id="contents">' +
+      '<div class="section-inner">' +
+        '<div class="toc-head">' +
+          '<span class="chapter-num">Contents</span>' +
+          '<span class="toc-total">' + chapters.length + ' chapters &middot; ' +
+            (hrs ? hrs + ' hr ' : '') + rem + ' min</span>' +
+        '</div>' +
+        '<nav class="toc" aria-label="Table of contents">' + rows + '</nav>' +
+      '</div></section>';
+  }
+
+  function plainText(html) { return String(html || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(); }
+
+  function hookDuplicatesOpening(chapter) {
+    var hook = plainText(chapter.hook);
+    if (!hook) return true;
+    for (var i = 0; i < chapter.blocks.length; i++) {
+      if (chapter.blocks[i].type !== 'p') continue;
+      return plainText(chapter.blocks[i].html).indexOf(hook) === 0;
+    }
+    return false;
   }
 
   function renderChapter(chapter) {
     var out = [];
-    var frontisHtml = '';
-    var frontisSlot = null;
+    var dropCapDone = false;
+    var plateHtml = '';
+    var plateSlot = null;
     if (chapter.blocks.length && chapter.blocks[0].type === 'slot') {
-      frontisHtml = renderFrontis(chapter.blocks[0].slot);
-      if (frontisHtml) frontisSlot = chapter.blocks[0].slot;  // consumed: skip in flow
+      plateHtml = renderPlate(chapter.blocks[0].slot);
+      if (plateHtml) plateSlot = chapter.blocks[0].slot;  // consumed: skip in flow
     }
-    out.push('<section class="section chapter' + (frontisHtml ? ' has-frontis' : '') +
+    out.push('<section class="section chapter' + (plateHtml ? ' has-plate' : '') +
              '" id="' + chapter.id + '" data-ch="' + chapter.num + '">');
-    out.push(frontisHtml);
+    out.push(plateHtml);
     out.push('<div class="section-inner">');
-    out.push('<header class="chapter-header reveal veil-lift" data-ghost="' + ROMAN[chapter.num] + '">');
-    out.push('<span class="chapter-num">' + ROMAN[chapter.num] + '</span>');
+    out.push('<header class="chapter-header reveal">');
+    out.push('<span class="chapter-num">Chapter ' + ROMAN[chapter.num] + '</span>');
+    out.push('<div class="chapter-titleblock">');
     out.push('<h2 class="chapter-title">' + esc(chapter.title) + '</h2>');
-    out.push('<p class="chapter-hook">' + esc(chapter.hook) + '</p>');
+    // The hook in content/chapters.js is the opening line of the chapter's own
+    // first paragraph — in ch.I and ch.III it IS the whole first paragraph. The
+    // old layout hid that (the hook sat centred under a huge title, and the prose
+    // began a full screen lower, past a photograph); at this density the sentence
+    // simply appears twice, four lines apart. So the hook is only set as a
+    // standfirst when it is NOT how the prose already opens. No content is edited.
+    if (!hookDuplicatesOpening(chapter)) {
+      out.push('<p class="chapter-hook">' + esc(chapter.hook) + '</p>');
+    }
     out.push('<button class="btn listen-from-here" data-listen-chapter="' + chapter.id + '">Listen from here</button>');
+    out.push('</div>');
     out.push('</header>');
 
     var prayerBuffer = [];
@@ -139,11 +213,19 @@
       if (b.type === 'fivewords') return; // rendered separately, terminal section
       var html;
       if (b.type === 'slot') {
-        if (b.slot === frontisSlot) return; // consumed as the frontispiece
+        if (b.slot === plateSlot) return; // consumed as the chapter's opening plate
         html = renderImageSlot(b.slot);
       } else if (b.type === 'p') {
         var tear = maybeTearLine(chapter.id, b._html.replace(/<[^>]+>/g, ''));
-        html = '<p class="block-p reveal" id="' + esc(b.id) + '" data-cue-id="' + esc(b.id) + '">' + b._html + tear + '</p>';
+        // The drop cap goes on the first paragraph with enough text to wrap around
+        // it. Chapter I opens on "Jerusalem, 1979." — a two-word paragraph, where a
+        // three-line initial has nothing to sit beside and just floats.
+        var cls = 'block-p reveal';
+        if (!dropCapDone && b.zone !== 'prayer' && plainText(b._html).length >= 90) {
+          cls += ' has-dropcap';
+          dropCapDone = true;
+        }
+        html = '<p class="' + cls + '" id="' + esc(b.id) + '" data-cue-id="' + esc(b.id) + '">' + b._html + tear + '</p>';
       } else if (b.type === 'verse') {
         html = renderVerse(b);
       } else if (b.type === 'beat') {
@@ -166,10 +248,29 @@
     return out.join('');
   }
 
+  // The hero photograph (PANIM_IMAGES.hero) is the opening plate: it takes the top
+  // of the page on its own, with the title block set on paper beneath it. Nothing
+  // is laid over the picture. With the slot empty the title block simply moves to
+  // the top of the page and the site opens on type, which also works.
+  function mountHero() {
+    var img = window.PANIM_IMAGES ? window.PANIM_IMAGES.hero : null;
+    var hero = document.getElementById('hero');
+    if (!img || !img.src || !hero) return;
+    var fig = document.createElement('figure');
+    fig.className = 'hero-plate';
+    // the hero is the LCP element: eager, high priority, and never lazy.
+    fig.innerHTML = '<img src="' + esc(img.src) + '" alt="' + esc(img.alt || '') +
+      '" fetchpriority="high" decoding="async">';
+    hero.insertBefore(fig, hero.firstChild);
+    hero.classList.add('has-hero-plate');
+  }
+
   function run() {
     var chapters = window.PANIM_CHAPTERS || [];
     var skippedGlossTerms = [];
     var html = [];
+
+    html.push(renderContents(chapters));
 
     chapters.forEach(function (chapter) {
       // work on a private copy of html text per block so glossify never touches source data
@@ -185,6 +286,8 @@
 
     var root = document.getElementById('chapters-root');
     root.innerHTML = html.join('');
+
+    mountHero();
 
     window.PANIM_RENDERED = {
       chapters: chapters,

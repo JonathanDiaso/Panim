@@ -1,112 +1,110 @@
-/* PANIM — polish.css
-   The "incredible, not basic" pass (2026-08-26, author-directed). Texture, type
-   craft, entrance choreography, dawn-gradient progress, glass player, and the
-   Listening Room's voice-breathing glow. Everything degrades cleanly; every
-   animation has a reduced-motion fallback. */
+/* PANIM — polish.css  (Direction B — "The Plate")
+   ============================================================================
+   WHAT USED TO BE HERE, AND WHY IT IS GONE
 
-/* ---------- film grain — de-flattens every dark surface ---------- */
-#grain {
-  position: fixed; inset: -50%; z-index: 5; pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-  opacity: .045; mix-blend-mode: overlay;
-  animation: grain-shift 9s steps(6) infinite;
+   This file previously held an "incredible, not basic" pass: an animated film-
+   grain overlay, a gilt gradient painted through the title and every rule, a
+   ten-stop dawn gradient on the progress bar, a glass-blurred player, a glow
+   behind the play button that breathed with the narration's amplitude, and a
+   ghost roman numeral outlined behind each chapter header.
+
+   Every one of those is decoration standing in for design, and stacked together
+   they are the reason the site read as generated rather than made. Gradient
+   metallic type in particular is a well-known tell — it signals cheap, not
+   expensive, because real gilding is an effect of light on a surface and a CSS
+   gradient is a picture of one.
+
+   What is left in this file is only what a printed book actually does: correct
+   quotation marks and small caps, hanging punctuation on the pull quotes,
+   sensible orphan control, a real focus ring, and print styles. Detail work,
+   not effects.
+   ============================================================================ */
+
+/* ---------- selection ---------- */
+::selection { background: color-mix(in srgb, var(--accent) 22%, transparent); color: var(--ink); }
+
+/* ---------- focus: one ring, everywhere, high contrast on any paper ---------- */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
-@keyframes grain-shift {
-  0% { transform: translate(0,0); } 20% { transform: translate(-2%,1%); }
-  40% { transform: translate(1%,-2%); } 60% { transform: translate(-1%,2%); }
-  80% { transform: translate(2%,1%); } 100% { transform: translate(0,0); }
+
+/* ---------- progress: a hairline that fills, not a rainbow ---------- */
+#progress-bar {
+  position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 900;
+  background: transparent;
 }
-@media (prefers-reduced-motion: reduce) { #grain { animation: none; } }
-
-/* ---------- selection + scrollbar in the book's gold ---------- */
-::selection { background: color-mix(in srgb, var(--gold) 30%, transparent); color: inherit; }
-html { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--gold) 35%, transparent) transparent; }
-
-/* ---------- dawn-gradient progress + seek fill (July C2, finally itself) ---------- */
 #progress-fill {
-  background: linear-gradient(90deg,
-    #c9a84c 0%, #8a92b8 12%, #d98e4a 23%, #6a9bd8 34%, #d9a84a 45%,
-    #e8d090 56%, #5a6a94 67%, #a83232 76%, #e8b04a 87%, #8a6420 100%) !important;
-  background-size: 100vw 100%;
-}
-.seekbar-fill { background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 70%, transparent), var(--accent)) !important; }
-
-/* ---------- hero entrance: the page dawns, in order ---------- */
-.hero-hebrew, .hero-title, .hero-subtitle, .hero-byline, .hero-actions {
-  opacity: 0; transform: translateY(14px);
-  animation: hero-rise 1.1s var(--ease-dawn) forwards;
-}
-.hero-hebrew  { animation-delay: .2s; }
-.hero-title   { animation-delay: .7s; }
-.hero-subtitle{ animation-delay: 1.25s; }
-.hero-byline  { animation-delay: 1.7s; }
-.hero-actions { animation-delay: 2.2s; }
-@keyframes hero-rise { to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) {
-  .hero-hebrew, .hero-title, .hero-subtitle, .hero-byline, .hero-actions {
-    animation: none; opacity: 1; transform: none;
-  }
+  height: 100%; width: 0%;
+  background: var(--accent);
+  transition: width var(--dur-fast) linear;
 }
 
-/* ---------- ghost numeral behind each chapter header ---------- */
-.chapter-header { position: relative; }
-.chapter-header::before {
-  content: attr(data-ghost);
-  position: absolute; right: -0.05em; top: -0.35em; z-index: -1;
-  font-family: var(--font-ui); font-size: clamp(7rem, 22vw, 13rem); line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1px color-mix(in srgb, var(--accent) 22%, transparent);
-  pointer-events: none; user-select: none;
-}
-.section.has-frontis .chapter-header::before { display: none; } /* the photo carries it */
+/* ============================================================================
+   TYPESETTING DETAIL
+   ============================================================================ */
 
-/* ---------- drop cap on each chapter's opening paragraph ---------- */
-.chapter-header + .block-p::first-letter,
-.chapter-header + .img-slot + .block-p::first-letter {
-  font-family: var(--font-display); font-weight: 300;
-  font-size: 3.15em; line-height: .78;
-  float: left; padding: .06em .12em 0 0;
+/* Fraunces ships proper oldstyle figures and small caps. Numbers inside running
+   prose should be oldstyle so they sit on the x-height and stop shouting; numbers
+   in the apparatus (times, chapter counts) should be lining and tabular so columns
+   of them line up. */
+.block-p, .verse-text, .chapter-hook { font-variant-numeric: oldstyle-nums proportional-nums; }
+.meta-time, .plate-num, .hero-meta, .room-clock { font-variant-numeric: lining-nums tabular-nums; }
+
+/* Hanging punctuation on the verse setting: an opening quote that sits inside the
+   measure makes the left edge look dented. Browsers that support it hang it. */
+.verse-text { hanging-punctuation: first last; }
+
+/* Orphans and widows. `text-wrap: pretty` handles the last line of a paragraph;
+   `balance` is only correct on short headline-length text, so it is scoped to
+   headings and never applied to body copy, where it would cost layout time on
+   every paragraph in a 70,000-word book. */
+.block-p { text-wrap: pretty; }
+.chapter-title, .hero-title, .sheet h2, .modal-card h2 { text-wrap: balance; }
+
+/* Optical margin: an italic opening line leans away from the rule beside it. */
+.verse-text { text-indent: -.02em; }
+
+/* The drop cap. One per chapter, on the first paragraph after the header — set in
+   the same face at the same weight, aligned to three lines. No colour trick, no
+   gradient: it is simply a large letter, which is what a drop cap is. */
+.block-p.has-dropcap::first-letter {
+  font-size: 3.3em;
+  line-height: .84;
+  float: left;
+  padding: .04em .09em 0 0;
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 144;
   color: var(--accent);
 }
+/* the paragraph carrying the drop cap needs its first line to clear the initial */
+.block-p.has-dropcap { min-height: 3.1em; }
 
-/* ---------- glass player bar ---------- */
-.player {
-  background: color-mix(in srgb, var(--bg) 62%, transparent) !important;
-  backdrop-filter: blur(16px) saturate(1.1);
-  -webkit-backdrop-filter: blur(16px) saturate(1.1);
-  border-top: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+/* ---------- links in prose ---------- */
+.block-p a, .sheet p a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+  text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent);
 }
-.player .btn-icon { border-radius: 8px; transition: background var(--dur-fast) var(--ease-dawn), transform 80ms var(--ease-dawn); }
-.player .btn-icon:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
-.player .btn-icon:active { transform: scale(.94); }
+.block-p a:hover, .sheet p a:hover { text-decoration-color: var(--accent); }
 
-/* ---------- verse box: hairlines draw themselves on reveal ---------- */
-.verse-box::before, .verse-box::after { transition: transform 900ms var(--ease-dawn), opacity 900ms var(--ease-dawn); transform: scaleX(.25); }
-.verse-box.is-lifted::before, .verse-box.is-lifted::after { transform: scaleX(1); }
-@media (prefers-reduced-motion: reduce) {
-  .verse-box::before, .verse-box::after { transition: none; transform: none; }
-}
+/* ---------- the running head fades where it would collide with the terminal ---------- */
+#site-nav { backdrop-filter: none; }   /* explicit: no glass anywhere in this build */
 
-/* ---------- listening room: the glow that breathes with the voice ---------- */
-#room { --pulse: 0; }
-.room-play { position: relative; }
-.room-play::before {
-  content: ''; position: absolute; inset: -26px; border-radius: 50%; z-index: -1;
-  background: radial-gradient(circle, color-mix(in srgb, var(--room-accent) 32%, transparent) 0%, transparent 70%);
-  opacity: calc(.25 + var(--pulse) * .75);
-  transform: scale(calc(.9 + var(--pulse) * .35));
-  pointer-events: none;
+/* ============================================================================
+   PRINT — a book should print like one
+   ============================================================================ */
+@media print {
+  #site-nav, .player, #room, .toast, #progress-bar, .listen-from-here,
+  #hold-btn, #lightbox, #gloss-card { display: none !important; }
+  body { background: #fff; color: #000; font-size: 11pt; }
+  .section { padding-block: 0; display: block; max-width: none; }
+  .section-inner { display: block; }
+  .block-p, .verse-box, .img-slot, .plate { max-width: none; grid-column: auto; }
+  .chapter { break-before: page; }
+  .plate, .img-slot { break-inside: avoid; }
+  .plate-frame { height: auto; overflow: visible; }
+  .plate-frame > img { height: auto; max-height: 4in; }
+  .reveal { opacity: 1 !important; transform: none !important; }
 }
-.room-grade { opacity: calc(.75 + var(--pulse) * .25); }
-@media (prefers-reduced-motion: reduce) {
-  .room-play::before { opacity: .3; transform: none; }
-  .room-grade { opacity: 1; }
-}
-
-/* ---------- nav: hairline underline slides under the active chapter ---------- */
-#nav-chapters a { position: relative; }
-#nav-chapters a::after {
-  content: ''; position: absolute; left: 20%; right: 20%; bottom: -4px; height: 1px;
-  background: var(--accent); transform: scaleX(0); transition: transform var(--dur-med) var(--ease-dawn);
-}
-#nav-chapters a.is-active::after { transform: scaleX(1); }
