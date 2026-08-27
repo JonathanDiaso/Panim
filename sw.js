@@ -4,11 +4,19 @@
 // cached audio answers Range requests by slicing the stored full response so
 // seeking keeps working offline.
 
-// Bumped to v3 for the Direction B rebuild. Every stylesheet, both fonts and the
-// render layer changed; without a new cache name a returning visitor would be
-// served the old gold-on-black shell out of the previous cache indefinitely.
-var SHELL = 'panim-shell-v5';
+// Bump SHELL on every change to a precached file. Without a new cache name a
+// returning visitor is served the previous build out of the old cache
+// indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
+// manuscript, v5 the four new plates and the section dividers.
+var SHELL = 'panim-shell-v6';
 var AUDIO = 'panim-audio-v1';
+
+// index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
+// in step with the `?v=` in index.html and with the SHELL number, or the
+// precache stores URLs the page never asks for and everything falls through to
+// the network — which still works, but offline stops working silently.
+var ASSET_V = '6';
+var VERSIONED = /\.(css|js)$/;
 var PRECACHE = [
   './', 'index.html', 'favicon.svg', 'og-image.png', 'manifest.webmanifest',
   'fonts/fonts.css',
@@ -20,7 +28,20 @@ var PRECACHE = [
 ];
 
 self.addEventListener('install', function (e) {
-  e.waitUntil(caches.open(SHELL).then(function (c) { return c.addAll(PRECACHE); }).then(function () { return self.skipWaiting(); }));
+  // cache:'reload' on every precache request. addAll() would otherwise be
+  // allowed to answer from the browser's own HTTP cache, so a returning visitor
+  // arriving inside the CDN's max-age window could fill a brand-new SHELL cache
+  // with the files the bump was meant to replace — and then be served that stale
+  // copy indefinitely, which for content/chapters.js means reading last week's
+  // text while listening to this week's audio.
+  e.waitUntil(caches.open(SHELL).then(function (c) {
+    return Promise.all(PRECACHE.map(function (u) {
+      var key = VERSIONED.test(u) ? u + '?v=' + ASSET_V : u;
+      return fetch(new Request(key, { cache: 'reload' })).then(function (r) {
+        if (r.ok) return c.put(key, r);
+      });
+    }));
+  }).then(function () { return self.skipWaiting(); }));
 });
 self.addEventListener('activate', function (e) {
   e.waitUntil(caches.keys().then(function (keys) {

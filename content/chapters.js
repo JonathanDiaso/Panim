@@ -375,6 +375,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch01-p59"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "One of those is a man at a counter. The other is a man looking for someone.",
     "id": "ch01-p60"
@@ -543,6 +546,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch01-p90"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "One man in the Gospels acted that out with his whole body.",
     "id": "ch01-p91"
@@ -656,6 +662,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch01-p110"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "The oldest Bible on earth is a prayer about the face of God, and the only name a human being ever gave Him is <em>the One who sees</em>.",
     "id": "ch01-p111"
@@ -682,6 +691,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "They hide.",
     "id": "ch01-p115"
+   },
+   {
+    "type": "swell"
    }
   ]
  },
@@ -1260,6 +1272,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch02-p91"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "And one song in the book never gets that turn.",
     "id": "ch02-p92"
@@ -1302,6 +1317,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "If that is your song right now: God kept it.",
     "id": "ch02-p98"
+   },
+   {
+    "type": "swell"
    },
    {
     "type": "p",
@@ -1408,6 +1426,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Nobody hides like that unless they want to be found.",
     "id": "ch02-p115"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -1900,6 +1921,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch03-p56"
    },
    {
+    "type": "swell"
+   },
+   {
     "type": "p",
     "html": "And that instinct did not die at Sinai.",
     "id": "ch03-p57"
@@ -2003,6 +2027,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch03-p73"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Then comes the second sentence.",
     "id": "ch03-p74"
@@ -2046,6 +2073,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "So the God of Sinai stands inside His own fire and sighs the sentence of every unrequited love in history: “Who will give?”",
     "id": "ch03-p82"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -2175,6 +2205,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Esther wrote a will because she knew what the dark of it was worth.",
     "id": "ch03-p106"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -2329,6 +2362,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Which is, by now, you.",
     "id": "ch03-p135"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -2506,6 +2542,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch04-p22"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "But something shows through the seams of that plan. <em>I will see his face</em>. That is not the sentence of a man arranging to slip past his brother. A man who only wanted to survive Esau would be walking the other way. Strip the terror from the sentence and what is left underneath looks almost like longing.",
     "id": "ch04-p23"
@@ -2564,6 +2603,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "And then, out of the dark, the first words of the whole night.",
     "id": "ch04-p34"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "verse",
@@ -2655,6 +2697,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch04-p50"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "One word. The truth. The first time, his name was the one thing the blessing required him to hide. This time, his real name is the one thing the blessing requires him to say. And the moment it is out of his mouth, the voice in the dark takes it from him. “You will no longer be called Jacob, but Israel.”",
     "id": "ch04-p51"
@@ -2733,6 +2778,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Jacob walks away marked.",
     "id": "ch04-p64"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -2860,6 +2908,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "He will hide his face.",
     "id": "ch04-p84"
+   },
+   {
+    "type": "swell"
    }
   ]
  },
@@ -3143,6 +3194,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "The word I spent years hiding inside longer sentences so I would never have to let it stand there by itself.",
     "id": "ch05-p41"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -3591,6 +3645,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch05-p121"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "At the bush, an old man led with the failure of his mouth: heavy of speech, heavy of tongue, even since You have spoken to me.",
     "id": "ch05-p122"
@@ -3629,6 +3686,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "It names the mouth.",
     "id": "ch05-p129"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -3835,6 +3895,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Whom the LORD knew.",
     "id": "ch05-p163"
+   },
+   {
+    "type": "swell"
    },
    {
     "type": "p",
@@ -4211,6 +4274,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch06-p50"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "In the wilderness, in the aftermath of the shine, God dictates the words Himself and hands them to Aaron and his sons with orders attached: what soaked into one man’s face at the summit is to be prayed down onto every face in the camp, forever.",
     "id": "ch06-p51"
@@ -4234,6 +4300,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Thousands of people standing in that camp, and the grammar is aimed at one face at a time.",
     "id": "ch06-p55"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -4419,6 +4488,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch06-p86"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Israel asked for a middleman, and God consented.",
     "id": "ch06-p87"
@@ -4516,6 +4588,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "It is hard to imagine a face lower.",
     "id": "ch06-p105"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -4665,6 +4740,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch06-p127"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "And three verses below that line, in David’s psalm, sits the invitation.",
     "id": "ch06-p128"
@@ -4729,6 +4807,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch06-p134"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Moses shone and a nation saw.",
     "id": "ch06-p135"
@@ -4779,6 +4860,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch06-p144"
    },
    {
+    "type": "swell"
+   },
+   {
     "type": "p",
     "html": "But glory on a human face is reflected glory, and reflected glory obeys the oldest rule there is: it lasts only as long as the face remains turned toward its source.",
     "id": "ch06-p145"
@@ -4797,6 +4881,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "It was fading.",
     "id": "ch06-p148"
+   },
+   {
+    "type": "swell"
    }
   ]
  },
@@ -5188,6 +5275,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch07-p65"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "You have read both of these books. You have never once read them the way the people inside them had to live them.",
     "id": "ch07-p66"
@@ -5203,6 +5293,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch07-p68"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "One book hands you the answer and keeps it from the man in the story. The other keeps it from everybody, and lets you watch it work regardless.",
     "id": "ch07-p69"
@@ -5211,6 +5304,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "You are not in the first book. You are in the second one.",
     "id": "ch07-p70"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -5305,6 +5401,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "David sent for him, and Scripture closes his story in one breath: he ate at the king’s table every day of his life, and he was lame in both his feet.",
     "id": "ch07-p87"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -5414,6 +5513,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "A chair in that house was never about deserving it. It was about who the king had decided to look at.",
     "id": "ch07-p105"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -5750,6 +5852,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch07-p170"
    },
    {
+    "type": "swell"
+   },
+   {
     "type": "p",
     "html": "The shortest verse in the English Bible is two words long, and it is about His face.",
     "id": "ch07-p171"
@@ -5787,6 +5892,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "As tears.",
     "id": "ch07-p176"
+   },
+   {
+    "type": "swell"
    },
    {
     "type": "p",
@@ -5851,6 +5959,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "And there is a hiding that puts you inside it.",
     "id": "ch07-p187"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -6034,6 +6145,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch07-p216"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Make Your face shine.",
     "id": "ch07-p217"
@@ -6074,6 +6188,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch07-p224"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "He was not the only one. There is a psalm that prays the same line as a chorus, three times over, at the start and the middle and the end, the way a nation leans on a door: cause Your face to shine on us, and we will be saved.",
     "id": "ch07-p225"
@@ -6111,6 +6228,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "The departure was walked backward on purpose, so that one day every step of it could be walked forward.",
     "id": "ch07-p230"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -6515,6 +6635,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch08-p56"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "A deportee by a canal watched the glory stop on a ridge and stand there, hoping to be called after.",
     "id": "ch08-p57"
@@ -6676,6 +6799,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "He goes out of the city, down through the ravine and up among the olive trees, the way He has gone so many nights that the man betraying Him never has to ask where to look.",
     "id": "ch08-p85"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -6883,6 +7009,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch08-p120"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Out in the courtyard of that same house, by a charcoal fire, Peter is coming apart.",
     "id": "ch08-p121"
@@ -6970,6 +7099,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "The look that named him is the look that finds him now.",
     "id": "ch08-p136"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -7302,6 +7434,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch08-p196"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "At the moment He died, across the city, the veil of the temple was torn in two from top to bottom.",
     "id": "ch08-p197"
@@ -7397,6 +7532,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch08-p215"
    },
    {
+    "type": "swell"
+   },
+   {
     "type": "slot",
     "slot": "ch08-veil"
    },
@@ -7419,6 +7557,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "It breathed.",
     "id": "ch08-p219"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -8108,6 +8249,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch09-p100"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "slot",
     "slot": "ch09-charcoal"
    },
@@ -8137,6 +8281,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch09-p105"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Tonight the fire does not come for one mouth.",
     "id": "ch09-p106"
@@ -8150,6 +8297,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "The wind arrived first. A house filling with breath, and then fire landing on mouths. Breath, and then speech.",
     "id": "ch09-p108"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -8276,6 +8426,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch09-p131"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "And the man who writes the last word on all of this got it by going blind.",
     "id": "ch09-p132"
@@ -8370,6 +8523,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch09-p148"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "<em>Sakak</em> is what those cherubim are doing over that lid. Covering. Screening. Spreading something protective overhead. It is the same verb Exodus uses for a palm laid over a crack in a mountain while the glory went past. The shelter and the meeting place were always the same word.",
     "id": "ch09-p149"
@@ -8439,6 +8595,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch09-p160"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "The first creation began when light touched the face of the waters. The new creation begins when the face of Christ dawns over the darkness inside a person, one person at a time. He starts where He has always started: hovering over a deep, saying light.",
     "id": "ch09-p161"
@@ -8487,6 +8646,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Every name in history will stand under one of them.",
     "id": "ch09-p170"
+   },
+   {
+    "type": "swell"
    }
   ]
  },
@@ -8836,6 +8998,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p57"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "But the throne He sits on, He does not keep to Himself.",
     "id": "ch10-p58"
@@ -8875,6 +9040,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p63"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Absalom lived two years in his father’s city and never once sat at his father’s table.",
     "id": "ch10-p64"
@@ -8893,6 +9061,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "One of them went there to put a blessing on another man’s name. The other went there to cut his own into a rock, because there was nobody left to carry it.",
     "id": "ch10-p67"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -9141,6 +9312,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p110"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "And there is a vow that goes with it. God wrote it out in the middle of the ugliest marriage in the Bible.",
     "id": "ch10-p111"
@@ -9288,6 +9462,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p134"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "And Paul’s phrase for what waits behind it, <em>prosopon pros prosopon</em>, is Moses’s <em>panim el panim</em> in another language. Face to face. The old promise, carried across the centuries and opened to everyone.",
     "id": "ch10-p135"
@@ -9370,6 +9547,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p146"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "And the name. The blessing has been moving toward this moment since the wilderness. In the wilderness, the name of God rested on exactly one forehead in all the world: a plate of pure gold on the high priest’s turban, <em>Holy to the LORD</em>, one man wearing it on behalf of everyone.",
     "id": "ch10-p147"
@@ -9403,6 +9583,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Nobody ever told him he was standing in the one place God had already picked out.",
     "id": "ch10-p153"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -9439,6 +9622,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p158"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Shiloh. Before there is a temple, before there is a king, there is a tent, and a woman standing in front of it with her mouth moving and no sound coming out.",
     "id": "ch10-p159"
@@ -9454,6 +9640,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p161"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "The priest on duty is Eli. He is the man whose whole office is turning God’s face toward people.",
     "id": "ch10-p162"
@@ -9467,6 +9656,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "He never looks at her face.",
     "id": "ch10-p164"
+   },
+   {
+    "type": "swell"
    },
    {
     "type": "p",
@@ -9499,6 +9691,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p170"
    },
    {
+    "type": "swell"
+   },
+   {
     "type": "p",
     "html": "Two chapters later the book mentions Eli’s eyes. They had begun to grow dim, it says. He could not see.",
     "id": "ch10-p171"
@@ -9527,6 +9722,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Hannah.",
     "id": "ch10-p176"
+   },
+   {
+    "type": "swell"
    },
    {
     "type": "p",
@@ -9559,6 +9757,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p182"
    },
    {
+    "type": "swell"
+   },
+   {
     "type": "p",
     "html": "And that is the afternoon God keeps bringing me back to. Of everything I have of her, He picks that one. When He brings me to His face, He takes me to the bad lighting and the tank and my sister singing a cartoon song in public, not caring who heard her.",
     "id": "ch10-p183"
@@ -9572,6 +9773,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "It keeps feeling like that afternoon.",
     "id": "ch10-p185"
+   },
+   {
+    "type": "swell"
    },
    {
     "type": "p",
@@ -9622,6 +9826,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "<em>Stoma pros stoma</em>, he writes. Mouth to mouth.",
     "id": "ch10-p195"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -9812,6 +10019,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p232"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "And He had done it once before, in the same poem the dove came out of.",
     "id": "ch10-p233"
@@ -9879,6 +10089,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p240"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Father, I have been hiding.",
     "id": "ch10-p241",
@@ -9900,6 +10113,10 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "I have known what You wanted for a long time now. It was never complicated. You wanted my face.",
     "id": "ch10-p244",
+    "zone": "prayer"
+   },
+   {
+    "type": "beat",
     "zone": "prayer"
    },
    {
@@ -9932,6 +10149,10 @@ window.PANIM_CHAPTERS = [
     "zone": "prayer"
    },
    {
+    "type": "beat",
+    "zone": "prayer"
+   },
+   {
     "type": "p",
     "html": "And I am not asking You to look past what You will see. I am asking for the harder thing.",
     "id": "ch10-p249",
@@ -9952,6 +10173,10 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "I am done hiding.",
     "id": "ch10-p251",
+    "zone": "prayer"
+   },
+   {
+    "type": "beat",
     "zone": "prayer"
    },
    {
@@ -9989,9 +10214,17 @@ window.PANIM_CHAPTERS = [
     "zone": "prayer"
    },
    {
+    "type": "beat",
+    "zone": "prayer"
+   },
+   {
     "type": "p",
     "html": "Jesus, You set Your face toward me when I was the cost of it. You saw my worst night, and You came back at dawn and built a fire anyway. What You did for Peter, do for me: walk me back onto the ground where I failed, and give me new lines to say there.",
     "id": "ch10-p256",
+    "zone": "prayer"
+   },
+   {
+    "type": "beat",
     "zone": "prayer"
    },
    {
@@ -10007,6 +10240,10 @@ window.PANIM_CHAPTERS = [
     "zone": "prayer"
    },
    {
+    "type": "beat",
+    "zone": "prayer"
+   },
+   {
     "type": "ref",
     "ref": "Acts 2:3",
     "zone": "prayer"
@@ -10018,9 +10255,17 @@ window.PANIM_CHAPTERS = [
     "zone": "prayer"
    },
    {
+    "type": "beat",
+    "zone": "prayer"
+   },
+   {
     "type": "p",
     "html": "And the thing You have been asking me to do — the one I keep pretending not to hear — I will do it. You know the one.",
     "id": "ch10-p260",
+    "zone": "prayer"
+   },
+   {
+    "type": "beat",
     "zone": "prayer"
    },
    {
@@ -10053,6 +10298,10 @@ window.PANIM_CHAPTERS = [
     "zone": "prayer"
    },
    {
+    "type": "beat",
+    "zone": "prayer"
+   },
+   {
     "type": "ref",
     "ref": "Genesis 24:58",
     "zone": "prayer"
@@ -10082,9 +10331,15 @@ window.PANIM_CHAPTERS = [
     "zone": "prayer"
    },
    {
+    "type": "swell"
+   },
+   {
     "type": "p",
     "html": "One more thing, and it is not mine. It was never written to be read. It was written to be said out loud, over somebody.",
     "id": "ch10-p269"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -10095,6 +10350,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Listen to the last line.",
     "id": "ch10-p271"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "verse",
@@ -10121,6 +10379,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Nothing comes after them. When they come true, every other longing you have ever had will turn out to have been this one, wearing a disguise.",
     "id": "ch10-p273"
+   },
+   {
+    "type": "swell"
    },
    {
     "type": "fivewords",

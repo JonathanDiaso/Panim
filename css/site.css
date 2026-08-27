@@ -274,8 +274,13 @@ main { position: relative; }
 }
 .hairline.is-drawn { width: 5rem; }
 
-.divider-beat  { grid-column: 3 / 9; height: 1.6rem; }
-.divider-swell { grid-column: 3 / 9; height: 3.2rem; }
+/* Both dividers ARE the hairline; they differ only in how much air they take.
+   These used to set height, which overrode .hairline's 1px and drew each one as
+   a 1.6rem slab of --rule-strong once it was drawn. With thirteen dividers on
+   the site that was easy to miss; there are ninety-seven now. */
+.divider-beat  { grid-column: 3 / 9; margin: 2.2rem 0; }
+.divider-swell { grid-column: 3 / 9; margin: 3.8rem 0; }
+.divider-swell.is-drawn { width: 9rem; }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }

@@ -126,8 +126,12 @@ tools/ build-chapters.py · gen-cues.py · check-coverage.py · cue-marker.html
 ```
 
 Local: `python3 -m http.server 8899` then `localhost:8899`.
-After any CSS/JS change bump `SHELL` in `sw.js` or returning visitors get the old
-shell from cache.
+
+**After any CSS/JS/content change, bump the version in three places, together:**
+`SHELL` and `ASSET_V` in `sw.js`, and every `?v=` in `index.html`. They must
+match. The `?v=` query is what actually defeats the browser's own HTTP cache —
+bumping `SHELL` alone re-fills the cache from whatever the browser already had.
+The service worker now precaches with `cache: 'reload'` for the same reason.
 
 ---
 
@@ -162,10 +166,5 @@ shell from cache.
    not worth risking. Needs the pointed forms supplied.
 5. **Chapter titles** — reconcile site vs manuscript vs audio (§2).
 6. `hanging-punctuation` is Safari-only; no clean cross-browser equivalent.
-7. **Inline pacing marks are dropped.** The manuscript has 72 `[beat]`s but only
-   4 stand on their own line; the other 68 sit at the end of a paragraph, where
-   the paragraph break already does the work. The page therefore has 13 dividers
-   where the July draft had 31. If more breathing room is wanted on the page,
-   that is the decision to revisit — the marks are all still in the manuscript.
-8. `tools/validate.mjs` is referenced in older notes but does not exist.
+7. `tools/validate.mjs` is referenced in older notes but does not exist.
    `check-coverage.py` and the builder's parity assertion are the checks now.

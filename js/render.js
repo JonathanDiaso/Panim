@@ -278,7 +278,11 @@
       } else if (b.type === 'beat') {
         html = '<div class="divider-beat hairline" aria-hidden="true"></div>';
       } else if (b.type === 'swell') {
-        html = '<div class="divider-swell" aria-hidden="true"></div>';
+        // A swell is the same mark as a beat, held longer: the same rule, drawn
+        // wider, with more air around it. Before this it carried no .hairline
+        // and was only empty space, so a section break and a dropped paragraph
+        // looked identical on the page.
+        html = '<div class="divider-swell hairline" aria-hidden="true"></div>';
       } else {
         html = '';
       }

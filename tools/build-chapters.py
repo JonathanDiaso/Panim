@@ -8,10 +8,13 @@ text the cue files can be aligned against.
 
 The manuscript carries three things the page must not show:
 
-  [beat] [swell] [hold]   pacing marks. On their own line they are the section
-                          dividers the site already renders. Inline, at the end
-                          of a sentence, they are a direction to the reader and
-                          are dropped.
+  [beat] [swell] [hold]   pacing marks, and the manuscript places them two ways.
+                          On their own line, and — far more often — at the end
+                          of a paragraph. Both are the same instruction: stop
+                          here. Both become the dividers the site renders. Only
+                          a mark sitting mid-line, with words after it, is a
+                          direction inside a run of speech, and only those are
+                          dropped. There are five of them in the whole book.
   [AB-suh-lum]            pronunciation guides, written for the mic. Dropped.
   *italics*               the book's emphasis, kept as <em>.
   *Psalm 51:10*           a citation on its own line, under the line it cites,
@@ -195,6 +198,13 @@ def parse_chapter(path):
             if re.fullmatch(r"\[(?:swell|hold)\]", line, re.I):
                 blocks.append({"type": "swell"})
                 continue
+            # A mark at the very end of the line closes the paragraph, so the
+            # divider is emitted after it rather than swallowed.
+            closer = None
+            tail = re.search(r"\[(beat|swell|hold)\]\s*$", line, re.I)
+            if tail:
+                closer = "beat" if tail.group(1).lower() == "beat" else "swell"
+
             clean, c = strip_marks(line)
             counts["pacing"] += c["pacing"]
             counts["pron"] += c["pron"]
@@ -205,6 +215,8 @@ def parse_chapter(path):
                 blocks.append({"type": "ref", "ref": m.group(1).strip().rstrip(".")})
                 continue
             blocks.append({"type": "p", "html": to_html(clean)})
+            if closer:
+                blocks.append({"type": closer})
 
     if num is None:
         raise SystemExit("no heading found in %s" % path)

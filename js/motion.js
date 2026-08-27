@@ -192,17 +192,10 @@
         }
       });
     }, { threshold: 0.5 });
-    document.querySelectorAll('.divider-beat.hairline').forEach(function (el) { hairlineObserver.observe(el); });
-
-    var swellObserver = new IntersectionObserver(function (entries, obs) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-swelled');
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.4 });
-    document.querySelectorAll('.divider-swell').forEach(function (el) { swellObserver.observe(el); });
+    // Both dividers draw themselves the same way; a swell is just the wider
+    // rule. The separate swell observer this replaces added an .is-swelled
+    // class that no stylesheet has ever used, so swells never drew at all.
+    document.querySelectorAll('.hairline').forEach(function (el) { hairlineObserver.observe(el); });
 
     // ch.8 tearing hairline (§8.4) — once, on the "torn in two" paragraph entering view
     var tearObserver = new IntersectionObserver(function (entries, obs) {
