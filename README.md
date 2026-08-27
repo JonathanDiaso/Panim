@@ -10,16 +10,48 @@ current state; everything else here is a brief or an archive.
 
 ## 1. Where everything lives — THREE folders, not one
 
-| Folder | What it is | Canonical for |
-|---|---|---|
-| `~/Panim/panim-book/` | **The book.** Manuscript, artwork, audio masters, build scripts. | **The text.** `chapters/01…10-*.md` |
-| `~/Panim-audio/` | Audio production. Stems, masters, transcripts, runbook. | **The narration.** `transcripts/*.srt` |
-| `~/Panim-site/` | **This repo.** The published website only. | The site |
+🗺 **The full map is [`../README.md`](../README.md).** Read it before touching
+audio or anything on the T7.
+
+**They all live under `~/Panim/`.** (Corrected 2026-08-27 — this table used to
+say `~/Panim-audio/` and `~/Panim-site/`, which were not real paths. They now
+exist as symlinks into `~/Panim/`, so both spellings work; see `../README.md`.)
+
+| Folder | What it is | Canonical for | Repo |
+|---|---|---|---|
+| `~/Panim/panim-book/` | **The book.** Manuscript, chapter scripts, sheets, archives. | **The text.** `chapters/01…10-*.md` | `panim-book` (private) |
+| `~/Panim/Panim-audio/` | Audio production. Pipeline, masters, transcripts, runbook. | **The narration.** `transcripts/*.srt` | `panim-audio` (private) |
+| `~/Panim/Panim-site/` | **This repo.** The published website only. | The site | **`JonathanDiaso/Panim`** (public) |
+
+⭐ **This repo is the one named `Panim`.** The book is in the repo named
+`panim-book`. That inversion is the most confusing thing in the project — the
+name `Panim` was already taken by this site when the book got its remote.
 
 Docs in the other two folders worth knowing about:
-`~/Panim/panim-book/CLAUDE.md`, `START-HERE.md`, `DO-THIS.md`, `SITE-V2-PLAN.md`
+[`../panim-book/START-HERE.md`](../panim-book/START-HERE.md),
+`../panim-book/CLAUDE.md`, `DO-THIS.md`, `SITE-V2-PLAN.md`
 (the v2 build brief — parts of it are now superseded, see §3);
-`~/Panim-audio/RUNBOOK.md`, `HANDOFF.md`, `FABLE-BRIEF.md`.
+[`../Panim-audio/RUNBOOK.md`](../Panim-audio/RUNBOOK.md), `HANDOFF.md`, `FABLE-BRIEF.md`.
+
+> 🗄 `../panim-book/site/` is the **v1 skeleton**, last touched 2026-07-19, with
+> an empty `audio/`. It is kept only because `SITE-V2-PLAN.md` harvests from it.
+> It carries a `SUPERSEDED.md` saying so. **Nothing you add there is published.**
+
+### 🔊 The audio here must stay same-origin
+
+`audio/music/*.m4a` (229 MB) is committed on purpose. Two things break
+**silently** if it moves to a CDN without CORS headers and a `crossOrigin`
+attribute:
+
+1. `js/room.js` calls `createMediaElementSource()` for the breathing glow.
+   Cross-origin media without CORS **taints the graph and plays silence** — and
+   it does not throw, so the `try/catch` will not save you.
+2. `sw.js` returns early on `url.origin !== location.origin`, so offline
+   download and Range-sliced seeking both stop.
+
+Moving it off-origin is a migration, not a cleanup: rehost with CORS, add
+`crossOrigin="anonymous"`, rewrite the service worker's origin check, *then*
+strip history. Don't do half.
 
 ---
 
