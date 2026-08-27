@@ -23,46 +23,56 @@ Docs in the other two folders worth knowing about:
 
 ---
 
-## 2. ⚠️ THE BIGGEST OPEN PROBLEM: the site's text is an old draft
+## 2. The text — fixed 2026-08-27, and how to keep it fixed
 
-`content/chapters.js` was built from a manuscript draft **older than the recorded
-audio**. The manuscript and the audio agree with each other; the website disagrees
-with both.
+`content/chapters.js` used to be a July draft. Every chapter was edited for the
+mic in late August, so the manuscript and the recording agreed with each other
+and disagreed with the website: as little as 43% of chapter X's spoken words
+were on the page, and the read-along was anchored to text that was up to 57%
+absent.
 
-Measured word coverage of the spoken narration by the text on the page:
+It is now **generated from the manuscript**, which is the script the narrator
+actually read. Coverage of the narration by the page, measured against the SRTs:
 
-| | I | II | III | IV | V | VI | VII | VIII | IX | X |
-|---|---|---|---|---|---|---|---|---|---|---|
-| covered | 60% | 56% | 83% | 79% | 69% | 66% | **47%** | 59% | 53% | **43%** |
+| | I | II | III | IV | V | VI | VII | VIII | IX | X | all |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| was | 60% | 56% | 83% | 79% | 69% | 66% | 47% | 59% | 53% | 43% | — |
+| now | 99.1 | 99.1 | 98.4 | 99.1 | 98.5 | 98.4 | 98.7 | 98.1 | 98.9 | 99.2 | **98.8%** |
 
-**~9,800 words of narration are not on the page.** Chapter X is missing 4,281.
+The remaining ~1% is transcription variance, not missing text.
 
-Concrete examples:
-- Audio ch01 opens *"The oldest words of the Bible ever found were found by a bored
-  kid who was supposed to be sweeping."* — that sentence is **not on the site at all**.
-- ch07: audio and manuscript say *nine hundred miles*; the site says *seven hundred*.
-- ch09: audio opens *"It is still dark when she reaches the tomb"*; site opens
-  *"Seven miles is a long walk."*
-- Two chapter titles differ: site says **The Offer** / **The Shine and the Blessing**;
-  manuscript and audio filenames say **The Face They Fled** / **Borrowed Light**.
+### The loop, whenever the manuscript changes
 
-### Why it matters
-The read-along is the point of the site. `tools/gen-cues.py` aligns the SRTs to the
-site's paragraph IDs and its own docstring assumes *"the narrator read the manuscript,
-so the two word streams nearly match."* That assumption is false, so the cue anchors
-in `cues/*.json` are aligned against text that is 40–57% absent. Follow-the-narration
-will drift.
+```
+python3 tools/build-chapters.py      # manuscript -> content/chapters.js
+python3 tools/gen-cues.py            # rebuilt text -> cues/*.json
+python3 tools/check-coverage.py      # prove the page still matches the audio
+```
 
-### The fix (not yet done — needs a decision)
-1. Rebuild `content/chapters.js` from `~/Panim/panim-book/chapters/*.md`.
-   Must preserve: block ids (`chNN-pN`, `chNN-vN`), verse blocks with `ref` +
-   `lines` + `translation`, `slot` blocks in their existing positions, `glossary`
-   arrays, `zone: "prayer"` marks, and the `fivewords` terminal block.
-2. Re-run `tools/gen-cues.py` and check its confidence report.
-3. Re-check the chapter titles against what the narrator actually says.
-4. Re-apply the smart-quote pass (§5) — a rebuild will reintroduce straight quotes.
+**Always in that order, and always all three.** Block ids are assigned in
+manuscript order, so they move when paragraphs do, and stale cue files point at
+paragraphs that no longer exist. `build-chapters.py` asserts word-count parity
+with the manuscript per chapter on every run; if it prints `WORD PARITY FAILED`,
+something was dropped and the output should not be shipped.
 
----
+**Never hand-edit `content/chapters.js`.** It is generated. Edit the manuscript
+in `~/Panim/panim-book/chapters/` and re-run.
+
+### What the builder carries rather than derives
+The manuscript has no marker for these, so they come from the previous build:
+the chapter **hooks** (standfirsts), the fifteen **image slots**, chapter X's
+**prayer zone**, and the **glossary** terms. Slots and the zone are re-anchored
+by matching the paragraph they used to sit beside. Two anchors in chapter X had
+lost their text entirely and are placed by hand in the `ANCHORS` table at the top
+of the builder — if a rebuild reports `UNPLACED`, that table is where to fix it.
+
+### What it strips, and why
+The manuscript is a recording script. It carries 89 `[beat]`/`[swell]`/`[hold]`
+pacing marks and 99 pronunciation guides (`[AB-suh-lum]`) written for the mic and
+not for the page. Standalone pacing marks become the existing dividers; inline
+ones and every pronunciation guide are dropped. A line that is nothing but a
+scripture reference becomes a `ref` block: **printed, never cued** — verified
+against the SRTs, the narrator does not read those aloud.
 
 ## 3. The design, and the rules that hold it together
 
@@ -101,7 +111,8 @@ carries a hairline that fills (`is-read` / `is-active` / `--ch-progress`).
 ```
 index.html          shell; nav, hero, modals, Listening Room, player
 content/
-  chapters.js       ⚠️ old draft — see §2.  window.PANIM_CHAPTERS
+  chapters.js       GENERATED from the manuscript — never hand-edit. See §2.
+  archive/          superseded builds, kept
   images.js         photo manifest. one line per slot: {src, alt, caption, ref}
   audio-manifest.js durations + music offsets (source of truth for run times)
   HOOKS-original.json  the chapter hooks as they were before the rewrite
@@ -110,7 +121,8 @@ js/   render.js (DOM) · motion.js (scroll, arc, progress) · sync.js (cues)
       player.js · room.js · ui.js
 art/  *.webp published · originals/ source JPGs · PROMPTS-v2.md · archive/
 cues/ chNN.json — [{t, id}] on the voice timeline
-tools/ gen-cues.py · cue-marker.html · validate.mjs
+art/incoming/  new photographs staged and named, not yet wired into images.js
+tools/ build-chapters.py · gen-cues.py · check-coverage.py · cue-marker.html
 ```
 
 Local: `python3 -m http.server 8899` then `localhost:8899`.
@@ -136,12 +148,24 @@ shell from cache.
 
 ## 6. Not done
 
-1. **Rebuild the text from the manuscript** (§2). Everything else is cosmetic next to this.
-2. **Ten of fifteen images missing** — prompts ready in `art/PROMPTS-v2.md`.
-3. **Source images are 1408 px**; plates want 2400 px+. They soften on a large display.
+1. **Twelve new photographs are staged in `art/incoming/`** with descriptive
+   names, deduplicated from `~/Downloads`. Nothing is wired into `images.js`
+   yet — the mapping needs the author's call, in particular whether chapters
+   III and IV take the day or the night version, which is really a question
+   about the dawn arc (§3).
+2. **Ten of fifteen slots still empty** — prompts ready in `art/PROMPTS-v2.md`.
+3. **Source images are 1408 px**, the new ones included; plates want 2400 px+.
+   They soften on a large display.
 4. **Per-chapter Hebrew.** Every chapter opening currently shows the same פָּנִים.
    `satar` for The Hiding, `hester panim` for The Glory Backs Out, etc. Not done because
    the vocalisation would be guessed, and wrong nikkud in a book about a Hebrew word is
    not worth risking. Needs the pointed forms supplied.
 5. **Chapter titles** — reconcile site vs manuscript vs audio (§2).
 6. `hanging-punctuation` is Safari-only; no clean cross-browser equivalent.
+7. **Inline pacing marks are dropped.** The manuscript has 72 `[beat]`s but only
+   4 stand on their own line; the other 68 sit at the end of a paragraph, where
+   the paragraph break already does the work. The page therefore has 13 dividers
+   where the July draft had 31. If more breathing room is wanted on the page,
+   that is the decision to revisit — the marks are all still in the manuscript.
+8. `tools/validate.mjs` is referenced in older notes but does not exist.
+   `check-coverage.py` and the builder's parity assertion are the checks now.
