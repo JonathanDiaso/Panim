@@ -91,6 +91,12 @@ Ch. I is a cool grey-bone stock; ch. X is bright warm white. The table in `css/s
 `.section[data-ch]` **must stay identical** to `TOKENS` in `js/motion.js` — motion.js
 interpolates between them per frame.
 
+**Standfirsts are option C everywhere** — the apparatus sans, in the contents and at
+the chapter openings both. Option B (the book's serif) was tried at the openings on the
+argument that a standfirst is the author's voice leading into the prose; it read as a
+smaller first paragraph and started the chapter twice. The sans says the line is *about*
+the chapter, and leaves the drop cap on the first real sentence.
+
 The **Listening Room is deliberately dark.** The page is a book read in daylight; the
 Room is a phone on a nightstand. It is the one place the night palette still belongs.
 It also has a 6-second **idle dim** — the controls receding is correct, not a fault.
@@ -122,7 +128,8 @@ js/   render.js (DOM) · motion.js (scroll, arc, progress) · sync.js (cues)
 art/  *.webp published · originals/ source JPGs · incoming/ staged · PROMPTS.md · archive/
 cues/ chNN.json — [{t, id}] on the voice timeline
 art/incoming/  new photographs staged and named, not yet wired into images.js
-tools/ build-chapters.py · gen-cues.py · check-coverage.py · cue-marker.html
+tools/ build-chapters.py · gen-cues.py · check-coverage.py · tape-vs-page.py
+      cue-marker.html
 ```
 
 Local: `python3 -m http.server 8899` then `localhost:8899`.

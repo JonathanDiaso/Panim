@@ -593,10 +593,10 @@
   font-weight: 300; font-size: clamp(1.3rem, 2.2vw, 1.75rem);
   line-height: 1.14; letter-spacing: -.014em;
 }
-/* Option C here, roman serif (option B) at the chapter opening. The distinction is
-   deliberate: at a chapter opening the standfirst is the author's voice leading
-   into the prose, so it belongs in the book's face. In the contents it is metadata
-   in a scannable list, and the sans stops ten rows reading as ten paragraphs. */
+/* Option C, and now option C at the chapter openings too — see .chapter-hook in
+   site.css. In a ten-row list the sans stops the rows reading as ten paragraphs;
+   at a chapter opening it stops the standfirst reading as the chapter's real
+   first paragraph. Same job both times. */
 .toc-hook {
   display: block; margin-top: .45em;
   font-family: var(--ui); font-weight: 400;

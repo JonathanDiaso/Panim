@@ -226,16 +226,22 @@ main { position: relative; }
   padding-top: .95em;   /* optical alignment with the title's cap height */
 }
 
-/* Roman, not italic. A serif headline with an italic subtitle under it is a stock
-   pairing, and Fraunces' italic is a characterful display italic that turns fussy
-   at this size. The standfirst is the author's voice leading into the prose, so it
-   stays in the book's face — just lighter in colour and a size down. */
+/* Option C, the same treatment the contents list uses: the apparatus sans, not
+   the book's serif. The argument for keeping the serif here was that a chapter
+   standfirst is the author's voice leading into the prose. In practice it reads
+   as a slightly smaller first paragraph, and the reader starts the chapter twice.
+   The sans says plainly that this line is about the chapter rather than part of
+   it, and it makes the drop cap below the first real sentence in the book's face.
+   Never italic: Fraunces' italic is a display cut and turns fussy at this size. */
 .chapter-hook {
+  font-family: var(--ui);
+  font-weight: 400;
   color: var(--ink-soft);
-  margin: .75em 0 0;
-  font-size: 1.02em;
-  line-height: 1.55;
-  max-width: 52ch;
+  margin: 1.1em 0 0;
+  font-size: .84rem;
+  line-height: 1.6;
+  letter-spacing: 0;
+  max-width: 58ch;
 }
 
 .hebrew-inline { font-family: var(--heb); font-weight: 400; }

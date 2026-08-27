@@ -8,14 +8,14 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v7';
+var SHELL = 'panim-shell-v8';
 var AUDIO = 'panim-audio-v1';
 
 // index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
 // in step with the `?v=` in index.html and with the SHELL number, or the
 // precache stores URLs the page never asks for and everything falls through to
 // the network — which still works, but offline stops working silently.
-var ASSET_V = '7';
+var ASSET_V = '8';
 var VERSIONED = /\.(css|js)$/;
 var PRECACHE = [
   './', 'index.html', 'favicon.svg', 'og-image.png', 'manifest.webmanifest',
