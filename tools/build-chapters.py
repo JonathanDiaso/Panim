@@ -14,9 +14,10 @@ The manuscript carries three things the page must not show:
                           are dropped.
   [AB-suh-lum]            pronunciation guides, written for the mic. Dropped.
   *italics*               the book's emphasis, kept as <em>.
-  *Psalm 51:10*           a citation on its own line, under the line it cites.
-                          The narrator does not read these aloud, so they
-                          become "ref" blocks: printed, never cued.
+  *Psalm 51:10*           a citation on its own line, under the line it cites,
+  Genesis 1:2.            italicised or not. Verified against the SRTs: the
+                          narrator does not read these aloud, so they become
+                          "ref" blocks — printed, never cued.
 
 Everything else in the manuscript is text, and this script never rewrites it.
 Word-count parity against the source is asserted at the end of every run.
@@ -69,6 +70,16 @@ ANCHORS = {
 # their own page. In the manuscript they are simply the last paragraph and its
 # citation.
 FIVEWORDS_TEXT = "They will see His face."
+
+# A line that is nothing but a scripture reference — "*Psalm 51:10*" in the
+# chapter X prayer, "Genesis 1:2." in chapter I. Anchored at both ends and
+# required to be a book name followed by chapter:verse, so it cannot swallow a
+# sentence that merely happens to end in a citation.
+CITATION = re.compile(
+    r"\*?((?:[1-3] )?[A-Z][A-Za-z]+(?: of [A-Z][A-Za-z]+)?"
+    r"(?: [A-Z][A-Za-z]+)? \d+:\d+(?:\s*[\u2013\u2014-]\s*\d+(?::\d+)?)?"
+    r"(?:, ?\d+(?::\d+)?)*(?: \([A-Z0-9 ]+\))?)\.?\*?\.?"
+)
 
 PACING = re.compile(r"\[(?:beat|swell|hold)\]", re.I)
 # A pronunciation guide is a bracketed run of letters, hyphens and spaces that is
@@ -189,7 +200,7 @@ def parse_chapter(path):
             counts["pron"] += c["pron"]
             if not clean:
                 continue
-            m = re.fullmatch(r"\*([A-Z0-9][^*]*\d+:\d+[^*]*)\*", clean)
+            m = CITATION.fullmatch(clean)
             if m:
                 blocks.append({"type": "ref", "ref": m.group(1).strip().rstrip(".")})
                 continue

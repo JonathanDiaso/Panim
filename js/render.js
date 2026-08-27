@@ -89,13 +89,20 @@
 
   function renderVerse(b) {
     var lines = b.lines.map(function (l) { return '<span class="verse-line">' + esc(l) + '</span>'; }).join('');
-    var ref = '<span class="verse-ref-text">' + esc(b.ref) + '</span>';
-    var tag = (b.translation && b.translation !== 'NASB')
-      ? '<span class="verse-translation">' + esc(b.translation) + '</span>' : '';
+    // Two quotations in ch. V carry no reference on purpose: they are the book
+    // echoing a verse it has already cited, printed bare so the sentence lands
+    // as a sentence. An empty apparatus line under them would undo that.
+    var apparatus = '';
+    if (b.ref) {
+      var tag = (b.translation && b.translation !== 'NASB')
+        ? '<span class="verse-translation">' + esc(b.translation) + '</span>' : '';
+      apparatus = '<div class="verse-ref"><span class="verse-ref-text">' +
+        esc(b.ref) + '</span>' + tag + '</div>';
+    }
     return '<div class="verse-box reveal veil-lift" id="' + esc(b.id) + '" data-cue-id="' + esc(b.id) + '">' +
       '<span class="verse-quotemark" aria-hidden="true">&#8220;</span>' +
       '<div class="verse-text">' + lines + '</div>' +
-      '<div class="verse-ref">' + ref + tag + '</div>' +
+      apparatus +
       '</div>';
   }
 

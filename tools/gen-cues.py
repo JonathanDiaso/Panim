@@ -4,8 +4,19 @@ paragraph IDs. SITE-V2-PLAN.md §6.4.
 
 The SRTs are ground truth for WHEN words are spoken (verified against the golden
 master to +/-0.1s in ~/Panim-audio); chapters.js is ground truth for WHAT the site
-shows. The narrator read the manuscript, so the two word streams nearly match —
-difflib alignment maps each block's first words to a spoken time.
+shows. Both now come from the same manuscript — chapters.js is generated from it by
+tools/build-chapters.py — so the two word streams agree to ~99% (tools/check-coverage.py
+measures it). difflib alignment maps each block's first words to a spoken time.
+
+This held only from 2026-08-27. Before that chapters.js was a July draft the narrator
+never read, and up to 57% of a chapter's spoken words had no text to anchor to. Run
+tools/check-coverage.py before trusting a cue file; if coverage drops, rebuild the
+text first and regenerate cues after — never the other way round.
+
+Block ids come from the current build of chapters.js and change whenever the
+manuscript's paragraph structure does, so cues/*.json must be regenerated in the
+same pass as content/chapters.js. "ref" blocks are page-only apparatus and are
+deliberately not cued.
 
 Emits [{t, id}] on the VOICE-edition timeline (SRT time + 0.5s head pad).
 The music edition is voice + 6.0s (introoutro LEAD_IN), applied in the player.
@@ -39,7 +50,8 @@ def srt_words(path):
     return w, t
 
 src = open(os.path.join(SITE, 'content/chapters.js')).read()
-chapters = json.loads(src[src.index('['):src.rindex(']')+1])
+_i = src.index('[', src.index('window.PANIM_CHAPTERS'))   # the header comment has brackets
+chapters = json.loads(src[_i:src.rindex(']')+1])
 
 review = []
 for ch in chapters:

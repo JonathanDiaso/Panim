@@ -237,239 +237,236 @@ window.PANIM_CHAPTERS = [
     "id": "ch01-p33"
    },
    {
-    "type": "p",
-    "html": "Genesis 1:2.",
-    "id": "ch01-p34"
+    "type": "ref",
+    "ref": "Genesis 1:2"
    },
    {
     "type": "p",
     "html": "The Hebrew behind “hovering” is <em>merachefet</em>, and the verb appears only three times in the entire Hebrew Bible. Once here. Once for a man whose bones are shaking. And once in a song, written at the very end of Moses’s life, where it describes an eagle over her young.",
-    "id": "ch01-p35"
+    "id": "ch01-p34"
    },
    {
     "type": "p",
     "html": "That song begins by telling you where God found the people He was hovering over. In a desert. In a howling waste. And the Hebrew for that waste is <em>tohu</em>, the same word sitting in the second verse of the Bible, over the dark water, before anything had a shape.",
-    "id": "ch01-p36"
+    "id": "ch01-p35"
    },
    {
     "type": "p",
     "html": "Then the eagle. He spread His wings, the song says, and carried them out on them.",
-    "id": "ch01-p37"
+    "id": "ch01-p36"
    },
    {
-    "type": "p",
-    "html": "Deuteronomy 32:10–11.",
-    "id": "ch01-p38"
+    "type": "ref",
+    "ref": "Deuteronomy 32:10–11"
    },
    {
     "type": "p",
     "html": "So the hovering was never only about oceans.",
-    "id": "ch01-p39"
+    "id": "ch01-p37"
    },
    {
     "type": "p",
     "html": "Protective. Attentive. Present over what has not yet become what it will be.",
-    "id": "ch01-p40"
+    "id": "ch01-p38"
    },
    {
     "type": "p",
     "html": "This is how the Bible chooses to begin.",
-    "id": "ch01-p41"
+    "id": "ch01-p39"
    },
    {
     "type": "p",
     "html": "The first face the Bible ever mentions is the face of the waters, and God is turned toward it.",
-    "id": "ch01-p42"
+    "id": "ch01-p40"
    },
    {
     "type": "p",
     "html": "From its opening line, this is a book about a God who faces what He loves.",
-    "id": "ch01-p43"
+    "id": "ch01-p41"
    },
    {
     "type": "p",
     "html": "And the story of that word closes on the Bible’s last page, in a sentence still waiting to come true. Between those two pages, the face hides, shines, bleeds, and comes home.",
-    "id": "ch01-p44"
+    "id": "ch01-p42"
    },
    {
     "type": "p",
     "html": "There is a night river on that road, and a man clinging in the dark to Someone he cannot see and will not release.",
-    "id": "ch01-p45"
+    "id": "ch01-p43"
    },
    {
     "type": "p",
     "html": "The glory of God gets up and leaves a building, and out of everyone alive on earth, exactly one man sees it go.",
-    "id": "ch01-p46"
+    "id": "ch01-p44"
    },
    {
     "type": "p",
     "html": "Farther on, there are tears on the face of God, and spit, and a blindfold, and a morning waiting on the far side of everything.",
-    "id": "ch01-p47"
+    "id": "ch01-p45"
    },
    {
     "type": "p",
     "html": "It is a love story, the oldest one still running.",
-    "id": "ch01-p48"
+    "id": "ch01-p46"
    },
    {
     "type": "p",
     "html": "Once you start watching for the word, it will not leave you alone. In Hebrew, the everyday word for “before,” the one inside standing <em>before the LORD</em>, is <em>lifnei</em>, built directly out of <em>panim</em>. It means, literally, “to the face of.” So when God tells Abram, “Walk before Me,” He is saying something no English Bible can quite show you:",
-    "id": "ch01-p49"
+    "id": "ch01-p47"
    },
    {
     "type": "p",
     "html": "<em>Walk before My face.</em>",
-    "id": "ch01-p50"
+    "id": "ch01-p48"
    },
    {
     "type": "p",
     "html": "Live your whole life turned toward Me. Genesis 17:1.",
-    "id": "ch01-p51"
+    "id": "ch01-p49"
    },
    {
     "type": "p",
     "html": "David danced the day the ark came home to Jerusalem, out in the street with everything he had, spinning out of his royal robes until his own wife despised him from a window. Your Bible says he danced <em>before the LORD</em>. The Hebrew says he danced <em>before the face of the LORD</em>. He was not performing for the crowd, and he was not working up a feeling; he was a man dancing at the face of Someone he could feel watching him, and loving every second of it.",
-    "id": "ch01-p52"
+    "id": "ch01-p50"
    },
    {
     "type": "p",
     "html": "The woman at the window was Saul’s daughter. She came out to tell him how he had looked in front of the servant girls, and he did not defend the dancing. He told her which face he had been dancing for, and then he named her father. <em>It was before the LORD, who chose me above your father.</em>",
-    "id": "ch01-p53"
+    "id": "ch01-p51"
    },
    {
     "type": "p",
     "html": "Her father had lost a kingdom explaining himself in one sentence. <em>I feared the people and listened to their voice.</em>",
-    "id": "ch01-p54"
+    "id": "ch01-p52"
    },
    {
     "type": "p",
     "html": "She had grown up in a house that played to the room. And when she told her husband he had humiliated himself in public, he said he would go lower than that, and be low in his own eyes.",
-    "id": "ch01-p55"
+    "id": "ch01-p53"
    },
    {
     "type": "p",
     "html": "And the same key cuts the other way: when a man sins <em>before the LORD</em>, he is sinning in front of a face, and that sentence is suddenly much harder to read. The Bible does not just record what happened. Page after page, it records Whose face it happened before.",
-    "id": "ch01-p56"
+    "id": "ch01-p54"
    },
    {
     "type": "p",
     "html": "Counting its compound forms, the word appears more than two thousand times, which means the face of God has been sitting inside sentences you have read all your life, hidden under a word as ordinary as before. You may have met the face in its famous verses, the blessings and the psalms. It was also standing on nearly every other page.",
-    "id": "ch01-p57"
+    "id": "ch01-p55"
    },
    {
     "type": "p",
     "html": "And sometimes it is not hidden at all. Sometimes it has been taken out.",
-    "id": "ch01-p58"
+    "id": "ch01-p56"
    },
    {
     "type": "p",
     "html": "Three years of famine in David’s country, year after year, and the king goes looking for God.",
-    "id": "ch01-p59"
+    "id": "ch01-p57"
    },
    {
     "type": "p",
     "html": "The text says he sought the face of the LORD.",
-    "id": "ch01-p60"
+    "id": "ch01-p58"
    },
    {
     "type": "p",
     "html": "You have only ever read that he inquired.",
-    "id": "ch01-p61"
+    "id": "ch01-p59"
    },
    {
     "type": "p",
     "html": "One of those is a man at a counter. The other is a man looking for someone.",
-    "id": "ch01-p62"
+    "id": "ch01-p60"
    },
    {
     "type": "p",
     "html": "And the first person who ever looked toward that face and understood what she was seeing was a slave.",
-    "id": "ch01-p63"
+    "id": "ch01-p61"
    },
    {
     "type": "p",
     "html": "She is Egyptian, property in the household of Abram, pregnant with a child she did not choose. The pregnancy was her mistress’s plan. In that world a slave could be used however her owners wished, her body conscripted into someone else’s dream. And the story hides a detail in plain sight: to this point, no one has spoken her name. Sarai says “my maid.” Abram says “your maid.” She is discussed, handed over, blamed. Never once addressed.",
-    "id": "ch01-p64"
+    "id": "ch01-p62"
    },
    {
     "type": "p",
     "html": "Then the household turns cruel, and Hagar has nowhere to appeal, no one to protect her, no door that opens for her.",
-    "id": "ch01-p65"
+    "id": "ch01-p63"
    },
    {
     "type": "p",
     "html": "She runs.",
-    "id": "ch01-p66"
+    "id": "ch01-p64"
    },
    {
     "type": "p",
     "html": "Out into the desert. Down the road toward Egypt, toward the only other life she has ever known.",
-    "id": "ch01-p67"
+    "id": "ch01-p65"
    },
    {
     "type": "p",
     "html": "And what is waiting at the end of that road?",
-    "id": "ch01-p68"
+    "id": "ch01-p66"
    },
    {
     "type": "p",
     "html": "Egypt is a country of gods with stone faces, the faces Hagar grew up beneath, gilded and staring down the Nile. Not one of them ever looked back at a slave girl.",
-    "id": "ch01-p69"
+    "id": "ch01-p67"
    },
    {
     "type": "p",
     "html": "She is running home to the gods who do not see.",
-    "id": "ch01-p70"
+    "id": "ch01-p68"
    },
    {
-    "type": "p",
-    "html": "Genesis 16:6–7.",
-    "id": "ch01-p71"
+    "type": "ref",
+    "ref": "Genesis 16:6–7"
    },
    {
     "type": "p",
     "html": "Then, at a spring in the wilderness, a voice finds her.",
-    "id": "ch01-p72"
+    "id": "ch01-p69"
    },
    {
     "type": "p",
     "html": "She does not know yet whose voice it is.",
-    "id": "ch01-p73"
+    "id": "ch01-p70"
    },
    {
     "type": "p",
     "html": "But before He asks her for anything, He gives her something no one in her world ever has.",
-    "id": "ch01-p74"
+    "id": "ch01-p71"
    },
    {
     "type": "p",
     "html": "Her name.",
-    "id": "ch01-p75"
+    "id": "ch01-p72"
    },
    {
     "type": "p",
     "html": "“Hagar, servant of Sarai, where have you come from, and where are you going?” Gen 16:8",
-    "id": "ch01-p76"
+    "id": "ch01-p73"
    },
    {
     "type": "p",
     "html": "He already knows both answers. He asks anyway. Orders are what you give property; a question is what you give a person whose story matters. And this question hands her back the two things slavery had erased: a past worth telling, and a future worth asking about. God does not begin by telling her what to do. He begins by asking who she is.",
-    "id": "ch01-p77"
+    "id": "ch01-p74"
    },
    {
     "type": "p",
     "html": "When the encounter ends, this pregnant runaway does something found nowhere else in all of Scripture.",
-    "id": "ch01-p78"
+    "id": "ch01-p75"
    },
    {
     "type": "p",
     "html": "No patriarch gives Him one. No prophet. No king.",
-    "id": "ch01-p79"
+    "id": "ch01-p76"
    },
    {
     "type": "p",
     "html": "She gives God a name.",
-    "id": "ch01-p80"
+    "id": "ch01-p77"
    },
    {
     "type": "verse",
@@ -483,157 +480,156 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "<em>El Roi.</em> Two Hebrew words: <em>El</em>, God, and <em>Roi</em>, who sees me. And sitting inside <em>Roi</em> is the verb <em>ra'ah</em>, the plain physical act of eyes landing on something. Once you have met that verb, you find it standing at the hinges of the whole story.",
-    "id": "ch01-p81"
+    "id": "ch01-p78"
    },
    {
     "type": "p",
     "html": "It is there on Mount Moriah, where Abraham names the mountain <em>YHWH-jireh</em>. Your Bible translates it “the LORD will provide,” but <em>jireh</em> is <em>ra'ah</em> again: literally, <em>the LORD will see</em> — He will see to it. Even our English keeps the secret: “provide” comes from a Latin word meaning <em>to see ahead</em>. Provision was never a separate miracle. It was what seeing looked like when the One who saw you was God.",
-    "id": "ch01-p82"
+    "id": "ch01-p79"
    },
    {
     "type": "p",
     "html": "For Hagar, being seen and being cared for were the same mercy, moving toward her from the same face. Genesis 22:14.",
-    "id": "ch01-p83"
+    "id": "ch01-p80"
    },
    {
     "type": "p",
     "html": "The verb returns centuries later, at the bottom of Israel’s darkest stretch, when four hundred years of slavery finally crack open against a single line: “God saw the sons of Israel, and God took notice of them.” Ex 2:25.",
-    "id": "ch01-p84"
+    "id": "ch01-p81"
    },
    {
     "type": "p",
     "html": "The whole exodus — the plagues, the sea, the mountain — swings on a verb of the eyes. Rescue begins the same way it began for Hagar: not with an army, but with a look.",
-    "id": "ch01-p85"
+    "id": "ch01-p82"
    },
    {
     "type": "p",
     "html": "Her theology did not come from a scroll or an altar or a vision of thrones. She was simply seen. Seen all the way through, where she came from and where she was going, by Someone who did not look away.",
-    "id": "ch01-p86"
+    "id": "ch01-p83"
    },
    {
     "type": "p",
     "html": "The lowest-ranked person in the story walked out of that desert knowing what to call God before the patriarchs did.",
-    "id": "ch01-p87"
+    "id": "ch01-p84"
    },
    {
     "type": "p",
     "html": "She is the first of a long line.",
-    "id": "ch01-p88"
+    "id": "ch01-p85"
    },
    {
     "type": "p",
     "html": "Maybe that is why her story still finds people, four thousand years later. You were built to notice faces. Deep in your brain, a small patch of circuitry is devoted almost entirely to recognizing them. Almost nothing else you look at gets that. Not trees, not mountains, not the sunsets you stop the car for. Faces alone get their own machinery.",
-    "id": "ch01-p89"
+    "id": "ch01-p86"
    },
    {
     "type": "p",
     "html": "And that wiring is installed before almost anything else is ready. A newborn’s eyes arrive focused to roughly one distance, and it is not the distance to the window or the ceiling. It is eight to twelve inches: the distance to the face of whoever is holding them. From your first hours of life, you were scanning for a face, and you have never stopped.",
-    "id": "ch01-p90"
+    "id": "ch01-p87"
    },
    {
     "type": "p",
     "html": "Science can map the circuitry. It can describe the mechanism. But it cannot tell you what a face is for.",
-    "id": "ch01-p91"
+    "id": "ch01-p88"
    },
    {
     "type": "p",
     "html": "Hagar could.",
-    "id": "ch01-p92"
+    "id": "ch01-p89"
    },
    {
     "type": "p",
     "html": "You were built to search for a face. This book is about the One you were made to find.",
-    "id": "ch01-p93"
+    "id": "ch01-p90"
    },
    {
     "type": "p",
     "html": "One man in the Gospels acted that out with his whole body.",
-    "id": "ch01-p94"
+    "id": "ch01-p91"
    },
    {
     "type": "p",
     "html": "He was the chief tax collector in Jericho, which in that town meant a man everyone could name and nobody would stand beside. He was also short. So when the crowd closed up along the road, he did the undignified thing: he ran on ahead of everybody and climbed a sycamore, because a face was coming through and he could not see over the shoulders in front of him.",
-    "id": "ch01-p95"
+    "id": "ch01-p92"
    },
    {
     "type": "p",
     "html": "The face stopped underneath him.",
-    "id": "ch01-p96"
+    "id": "ch01-p93"
    },
    {
     "type": "p",
     "html": "Jesus looked up, and used his name, and invited Himself to dinner.",
-    "id": "ch01-p97"
+    "id": "ch01-p94"
    },
    {
     "type": "p",
     "html": "He came to see. He got seen. And it ended at his own table, with the neighbors out in the street complaining about who was eating in there.",
-    "id": "ch01-p98"
+    "id": "ch01-p95"
    },
    {
-    "type": "p",
-    "html": "Luke 19:1–7.",
-    "id": "ch01-p99"
+    "type": "ref",
+    "ref": "Luke 19:1–7"
    },
    {
     "type": "p",
     "html": "And one page earlier, Luke had already put another tax collector in the temple, too ashamed to try any of that.",
-    "id": "ch01-p100"
+    "id": "ch01-p96"
    },
    {
     "type": "p",
     "html": "He stood off at a distance. He would not lift his eyes off the floor. All he could do was strike his own chest and ask God for mercy.",
-    "id": "ch01-p101"
+    "id": "ch01-p97"
    },
    {
     "type": "p",
     "html": "Jesus said that one went home justified.",
-    "id": "ch01-p102"
+    "id": "ch01-p98"
    },
    {
     "type": "p",
     "html": "Two tax collectors, back to back in the same Gospel. One climbed a tree to get his eyes up. One could not raise his at all.",
-    "id": "ch01-p103"
+    "id": "ch01-p99"
    },
    {
     "type": "p",
     "html": "Neither of them missed.",
-    "id": "ch01-p104"
+    "id": "ch01-p100"
    },
    {
     "type": "p",
     "html": "And there was a third man, earlier still, who was not looking for anything.",
-    "id": "ch01-p105"
+    "id": "ch01-p101"
    },
    {
     "type": "p",
     "html": "A skeptic named Nathanael gets dragged to Jesus by a friend, arrives with his arms folded, and is undone inside of one sentence. Not by an argument. By a location.",
-    "id": "ch01-p106"
+    "id": "ch01-p102"
    },
    {
     "type": "p",
     "html": "“Before Philip called you, when you were under the fig tree, I saw you.” John 1:48.",
-    "id": "ch01-p107"
+    "id": "ch01-p103"
    },
    {
     "type": "p",
     "html": "Nobody was there. A man alone under some leaves, and Someone was already looking.",
-    "id": "ch01-p108"
+    "id": "ch01-p104"
    },
    {
     "type": "p",
     "html": "And that search comes with a promise, and the promise is older than the man who made it.",
-    "id": "ch01-p109"
+    "id": "ch01-p105"
    },
    {
     "type": "p",
     "html": "One of the psalms is built like a question at a door. Who may go up the hill of the LORD? Who gets to stand in the holy place? And the answer comes back the way answers come back at doors — short. Clean hands. A pure heart. Then the psalm names that crowd, and the name it gives them is the one this whole search has been reaching for: <em>the generation of those who seek Him, who seek Your face.</em>",
-    "id": "ch01-p110"
+    "id": "ch01-p106"
    },
    {
     "type": "p",
     "html": "Centuries later a man stood on a hillside with no temple in sight and gave the door’s own answer back to a crowd.",
-    "id": "ch01-p111"
+    "id": "ch01-p107"
    },
    {
     "type": "verse",
@@ -647,32 +643,32 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "The door had offered a way in. He offers the face.",
-    "id": "ch01-p112"
+    "id": "ch01-p108"
    },
    {
     "type": "p",
     "html": "He named who gets to.",
-    "id": "ch01-p113"
+    "id": "ch01-p109"
    },
    {
     "type": "p",
     "html": "Nobody has collected on it yet.",
-    "id": "ch01-p114"
+    "id": "ch01-p110"
    },
    {
     "type": "p",
     "html": "The oldest Bible on earth is a prayer about the face of God, and the only name a human being ever gave Him is <em>the One who sees</em>.",
-    "id": "ch01-p115"
+    "id": "ch01-p111"
    },
    {
     "type": "p",
     "html": "With a beginning like that, the rest should be simple: A God who loves to look. A people learning to be seen. Glory the whole way home.",
-    "id": "ch01-p116"
+    "id": "ch01-p112"
    },
    {
     "type": "p",
     "html": "That is not what happens.",
-    "id": "ch01-p117"
+    "id": "ch01-p113"
    },
    {
     "type": "swell"
@@ -680,12 +676,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Back in the garden, in the cool of the day, on the first evening after everything went wrong, God comes looking for two human faces.",
-    "id": "ch01-p118"
+    "id": "ch01-p114"
    },
    {
     "type": "p",
     "html": "They hide.",
-    "id": "ch01-p119"
+    "id": "ch01-p115"
    }
   ]
  },
