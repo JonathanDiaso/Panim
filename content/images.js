@@ -28,10 +28,30 @@ window.PANIM_IMAGES = {
     ref: "Genesis 3:8"
   },
   "ch02-storm": null,
-  "ch03-mountain": null,
-  "ch04-river": null,
-  "ch05-bush": null,
-  "ch06-shine": null,
+  "ch03-mountain": {
+    src: "art/ch03-mountain.webp",
+    alt: "A mountain under a night sky, its summit burning under smoke and lightning while a crowd of small robed figures stands far back on the plain below, facing it, not moving closer.",
+    caption: "Speak to us yourself, and we will listen; but let not God speak to us.",
+    ref: "Exodus 20:19"
+  },
+  "ch04-river": {
+    src: "art/ch04-river.webp",
+    alt: "Two figures locked together in the shallows of a dark river at night, water thrown up around them, a low moon behind. Neither face is visible.",
+    caption: "I have seen God face to face, yet my life has been preserved.",
+    ref: "Genesis 32:30 · Peniel"
+  },
+  "ch05-bush": {
+    src: "art/ch05-bush.webp",
+    alt: "A desert scrub bush burning in low golden light, unconsumed, with a pair of worn sandals set down on the stone in front of it.",
+    caption: "Then Moses hid his face, for he was afraid to look at God.",
+    ref: "Exodus 3:6"
+  },
+  "ch06-shine": {
+    src: "art/ch06-shine.webp",
+    alt: "A figure standing with a heavy cloth drawn over the head and face, sun directly behind, light burning around the edge of the covering so the face itself cannot be seen.",
+    caption: "The word Hebrew had to mint for that piece of cloth, and never used again.",
+    ref: "masveh · Exodus 34:33"
+  },
   "ch07-gate": null,
   "ch08-flint": null,
   "ch08-veil": null,
