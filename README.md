@@ -6,6 +6,15 @@ Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` �
 Read this first in a new session. It is the only doc in this repo that describes
 current state; everything else here is a brief or an archive.
 
+> 👉 **Then read the handoff:
+> [`../panim-book/handoffs/site-handoff-2026-08-27.md`](../panim-book/handoffs/site-handoff-2026-08-27.md)**
+> — what happened last session, what was decided, and the ordered worklist for
+> this one (fonts and the A/B/C directions first, then a mobile audit).
+>
+> 🛑 It lives in the **private** `panim-book` repo, not here, because **this repo
+> is public** and the handoff quotes the author directly. Keep it that way: put
+> session notes there, not next to the site.
+
 ---
 
 ## 1. Where everything lives — THREE folders, not one
