@@ -45,7 +45,14 @@
 
   /* Fraunces is variable on optical size and "softness". Pinning SOFT/WONK to 0
      keeps it from drifting into the novelty end of its own design space. */
-  --fr-normal: 'SOFT' 0, 'WONK' 0;
+  /* Setting font-variation-settings silently disables font-optical-sizing:auto, so
+     every size on the site was being rendered in ONE optical cut. A 19px standfirst
+     was getting the DISPLAY cut of Fraunces — high contrast, mannered, and the
+     reason the italics looked wrong. opsz must therefore be stated explicitly
+     everywhere it matters: 14 for text, 72 for mid, 144 for display. */
+  --fr-normal: 'SOFT' 0, 'WONK' 0, 'opsz' 14;
+  --fr-mid:    'SOFT' 0, 'WONK' 0, 'opsz' 72;
+  --fr-display:'SOFT' 0, 'WONK' 0, 'opsz' 144;
 
   /* ---- paper + ink ------------------------------------------------------
      Default is chapter I's stock. Per-chapter values are set further down and
@@ -202,7 +209,7 @@ main { position: relative; }
    cut than text does. Setting opsz by hand is the difference between a serif
    that looks typeset and one that looks scaled. */
 .chapter-title, .hero-title, .fivewords-text {
-  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 144;
+  font-variation-settings: var(--fr-display);
   font-weight: 300;
   letter-spacing: -.018em;
   line-height: 1.03;
@@ -219,12 +226,16 @@ main { position: relative; }
   padding-top: .95em;   /* optical alignment with the title's cap height */
 }
 
+/* Roman, not italic. A serif headline with an italic subtitle under it is a stock
+   pairing, and Fraunces' italic is a characterful display italic that turns fussy
+   at this size. The standfirst is the author's voice leading into the prose, so it
+   stays in the book's face — just lighter in colour and a size down. */
 .chapter-hook {
-  font-style: italic;
   color: var(--ink-soft);
-  margin: .7em 0 0;
-  font-size: 1.06em;
-  max-width: 46ch;
+  margin: .75em 0 0;
+  font-size: 1.02em;
+  line-height: 1.55;
+  max-width: 52ch;
 }
 
 .hebrew-inline { font-family: var(--heb); font-weight: 400; }
@@ -242,12 +253,17 @@ main { position: relative; }
    glows and letter-spacing settles running at once; that busyness is itself a
    tell. What is left: an 8px rise on first sight, and the plate parallax.
    ============================================================================ */
-.reveal {
+/* Scroll-triggered fade-up on running text is the single most generic web
+   animation there is, and it actively fights reading — a paragraph that is still
+   arriving is a paragraph you cannot start. It now applies ONLY to plates and to
+   the closing line. Text is simply there. */
+.reveal { opacity: 1; transform: none; }
+.plate.reveal, .fivewords-text .fw-word, .fivewords-ref {
   opacity: 0;
-  transform: translateY(8px);
+  transform: translateY(10px);
   transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
 }
-.reveal.is-visible { opacity: 1; transform: none; }
+.plate.reveal.is-visible { opacity: 1; transform: none; }
 
 .hairline {
   grid-column: 3 / 9;

@@ -69,19 +69,42 @@
 
 <!-- ================= sheets / modals ================= -->
 
+<!-- The first thing anyone sees. It used to be a keyboard-shortcut legend, which is
+     product onboarding, not a book. It now does what a jacket does: says what this is,
+     why it is worth your evening, and quotes the book in the book's own words. The
+     shortcuts are demoted to one line and repeated in About. -->
 <div class="modal" id="onboarding-modal" hidden>
-  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
-    <h2 id="onboarding-title">Before you begin</h2>
-    <p>Panim is meant to be heard. Read along, or let the narration carry you — the page follows either way.</p>
-    <ul class="legend">
-      <li><kbd>Space</kbd> Play / pause</li>
-      <li><kbd>←</kbd> <kbd>→</kbd> Skip 15s back / 30s forward</li>
-      <li><kbd>↑</kbd> <kbd>↓</kbd> Volume</li>
-      <li><kbd>S</kbd> Sleep timer</li>
-      <li><kbd>F</kbd> Follow the narration</li>
-      <li><kbd>L</kbd> The Listening Room</li>
-    </ul>
-    <button class="btn" id="onboarding-begin">Begin</button>
+  <div class="modal-card modal-invite" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
+    <div class="invite-mark" lang="he" dir="rtl" aria-hidden="true">פָּנִים</div>
+
+    <blockquote class="invite-epigraph">
+      <p>Let me see your face; let me hear your voice.</p>
+      <cite>Song of Songs 2:14</cite>
+    </blockquote>
+
+    <h2 id="onboarding-title">The invitation hidden on every page</h2>
+
+    <p><em>Panim</em> is the Hebrew word for <em>face</em>. Counting its compound forms it
+    appears more than two thousand times in the Bible — which means the face of God has
+    been sitting inside sentences you have read all your life, hidden under a word as
+    ordinary as this one.</p>
+
+    <p>This book follows that single word from the first page of Scripture to the last:
+    a garden where two people hide, a river at midnight, a mountain on fire, a curtain
+    torn from the top down, and a supper table the night before a death.</p>
+
+    <p class="invite-pull">Between those two pages the face hides, shines, bleeds and
+    comes home. It is a love story, the oldest one still running — and before it is over
+    you will find your own face in it.</p>
+
+    <div class="invite-actions">
+      <button class="btn btn-solid" id="onboarding-begin">Begin listening</button>
+      <button class="btn" id="onboarding-read">Read instead</button>
+    </div>
+
+    <p class="invite-meta">Ten chapters · 5 hr 21 min · free · your place is saved
+      <span class="invite-keys"><kbd>Space</kbd> play · <kbd>←</kbd><kbd>→</kbd> skip ·
+      <kbd>S</kbd> sleep · <kbd>F</kbd> follow · <kbd>L</kbd> listening room</span></p>
   </div>
 </div>
 

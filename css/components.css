@@ -15,8 +15,9 @@
   border: 1px solid var(--rule-strong);
   color: var(--ink);
   font-family: var(--ui);
-  font-size: .7rem; font-weight: 600;
-  letter-spacing: .1em; text-transform: uppercase;
+  font-size: .8rem; font-weight: 600;
+  letter-spacing: .01em;   /* sentence case: uppercase + wide tracking is the
+                              stock "premium" button and reads as template chrome */
   background: transparent;
   transition: border-color var(--dur-fast) var(--ease),
               background-color var(--dur-fast) var(--ease),
@@ -129,7 +130,7 @@
 }
 .hero-subtitle {
   grid-column: 3 / 9;
-  font-style: italic; color: var(--ink-soft);
+  color: var(--ink-soft);
   font-size: clamp(1.05rem, 1.5vw, 1.28rem);
   margin: 1.1rem 0 0; max-width: 48ch;
 }
@@ -167,7 +168,7 @@
   grid-template-columns: subgrid;
   padding-bottom: clamp(1.4rem, 2.6vw, 2.4rem);
 }
-.chapter-header .chapter-num { grid-column: 1 / 3; }
+.chapter-header .chapter-margin { grid-column: 1 / 3; }
 .chapter-header .chapter-titleblock { grid-column: 3 / 11; }
 .listen-from-here { margin-top: 1.5rem; }
 
@@ -179,11 +180,50 @@
 
 @media (max-width: 900px) {
   .chapter-header { grid-column: 1 / -1; }
-  .chapter-header .chapter-num { grid-column: 1 / 7; padding-top: 0; margin-bottom: .5rem; }
+  .chapter-header .chapter-margin { grid-column: 1 / 7; }
+  .chapter-header .chapter-num { padding-top: 0; margin-bottom: .5rem; }
   .chapter-header .chapter-titleblock { grid-column: 1 / 7; }
   @supports not (grid-template-columns: subgrid) {
     .chapter-header { grid-template-columns: repeat(6, 1fr); }
   }
+}
+
+/* ---------- the Hebrew in the margin ----------
+   The book is named after one Hebrew word and, before this, that word appeared
+   exactly twice on the whole site. It now sits in the margin column of every
+   chapter opening, large and pale, in the chapter's own accent — a standing
+   watermark, the way a running head works in print. Correct vocalised Hebrew
+   (פָּנִים), reused rather than invented per chapter, so nothing is guessed. */
+.chapter-mark {
+  font-family: var(--heb); font-weight: 300;
+  font-size: clamp(2.2rem, 4.4vw, 3.9rem);
+  line-height: .95;
+  color: var(--accent);
+  opacity: .17;
+  margin-top: .55em;
+  user-select: none;
+  pointer-events: none;
+}
+.chapter-mark .heb-g {
+  display: inline-block;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+}
+.chapter-mark.is-visible .heb-g { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .chapter-mark .heb-g { opacity: 1; transform: none; transition: none; }
+}
+@media (max-width: 900px) { .chapter-mark { display: none; } }
+
+/* the hero's Hebrew writes itself in, right to left, once */
+.hero-hebrew .heb-g {
+  display: inline-block;
+  opacity: 0; transform: translateY(8px);
+  animation: heb-in 620ms var(--ease) forwards;
+}
+@keyframes heb-in { to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-hebrew .heb-g { animation: none; opacity: 1; transform: none; }
 }
 
 /* ============================================================================
@@ -512,14 +552,17 @@
   padding: 1.05rem 0;
   border-bottom: 1px solid var(--rule);
   text-decoration: none;
-  transition: background-color var(--dur-fast) var(--ease);
 }
 /* the hover target is the whole row, and it bleeds a little past the measure so
    the highlight reads as a band of paper rather than a button */
-.toc-row:hover, .toc-row:focus-visible {
-  background: color-mix(in srgb, var(--accent) 7%, transparent);
-  box-shadow: 0 0 0 var(--step) color-mix(in srgb, var(--accent) 7%, transparent);
-}
+/* A tinted panel with a bleeding shadow is a web control. A printed index responds
+   by inking its rule and nudging the numeral — that is all this does. */
+.toc-row { transition: border-color var(--dur-fast) var(--ease); }
+.toc-row:hover, .toc-row:focus-visible { border-bottom-color: var(--ink); }
+.toc-row .toc-num { transition: transform var(--dur-fast) var(--ease); }
+.toc-row:hover .toc-num, .toc-row:focus-visible .toc-num { transform: translateX(4px); }
+.toc-row:hover .toc-title, .toc-row:focus-visible .toc-title { color: var(--accent); }
+.toc-title { transition: color var(--dur-fast) var(--ease); }
 .toc-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .toc-num {
@@ -534,10 +577,15 @@
   font-weight: 300; font-size: clamp(1.3rem, 2.2vw, 1.75rem);
   line-height: 1.14; letter-spacing: -.014em;
 }
+/* Option C here, roman serif (option B) at the chapter opening. The distinction is
+   deliberate: at a chapter opening the standfirst is the author's voice leading
+   into the prose, so it belongs in the book's face. In the contents it is metadata
+   in a scannable list, and the sans stops ten rows reading as ten paragraphs. */
 .toc-hook {
-  display: block; margin-top: .3em;
-  font-style: italic; color: var(--ink-soft);
-  font-size: .95rem; line-height: 1.5; max-width: 54ch;
+  display: block; margin-top: .45em;
+  font-family: var(--ui); font-weight: 400;
+  color: var(--ink-soft);
+  font-size: .8rem; line-height: 1.6; max-width: 58ch;
 }
 .toc-dur {
   grid-column: 10 / 13;
@@ -554,4 +602,77 @@
   .toc-num { grid-column: 1 / 2; }
   .toc-body { grid-column: 2 / 7; }
   .toc-dur { grid-column: 2 / 7; margin-top: .5em; }
+}
+
+/* ============================================================================
+   THE INVITATION  (onboarding modal)
+   Not a settings dialog. A jacket: what this is, why it's worth an evening, and
+   the book quoted in its own words. Keyboard shortcuts demoted to one line.
+   ============================================================================ */
+.modal-invite {
+  max-width: 620px;
+  padding: clamp(1.8rem, 3.4vw, 3rem) clamp(1.6rem, 3vw, 2.8rem) clamp(1.4rem, 2.4vw, 2rem);
+  max-height: 92vh; overflow-y: auto;
+}
+.invite-mark {
+  /* dir="rtl" right-aligns the block, which left the mark stranded away from the
+     left-aligned card. Glyph order still comes from dir; only the box is realigned. */
+  text-align: left;
+  font-family: var(--heb); font-weight: 400;
+  font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1;
+  color: var(--accent); opacity: .85;
+  margin-bottom: 1.4rem;
+}
+.invite-epigraph {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.1rem; margin: 0 0 1.6rem;
+}
+.invite-epigraph p {
+  font-variation-settings: var(--fr-mid);
+  font-weight: 300; font-size: 1.3rem; line-height: 1.34;
+  letter-spacing: -.012em; color: var(--ink); margin: 0 0 .5em;
+}
+.invite-epigraph cite {
+  font-family: var(--ui); font-style: normal;
+  font-size: .64rem; font-weight: 600; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--accent);
+}
+.modal-invite h2 {
+  font-variation-settings: var(--fr-display);
+  font-weight: 300; font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  line-height: 1.06; letter-spacing: -.018em;
+  margin-bottom: .8em;
+}
+.modal-invite p { font-size: .98rem; line-height: 1.62; margin-bottom: .95em; color: var(--ink-soft); }
+.modal-invite p em { font-style: italic; color: var(--ink); }
+.invite-pull {
+  color: var(--ink) !important;
+  font-size: 1.06rem !important;
+  border-top: 1px solid var(--rule);
+  padding-top: 1.1em; margin-top: 1.3em;
+}
+.invite-actions { display: flex; gap: .7rem; flex-wrap: wrap; margin: 1.6rem 0 1.2rem; }
+.invite-meta {
+  font-family: var(--ui) !important;
+  font-size: .68rem !important; line-height: 1.9 !important;
+  letter-spacing: .04em; color: var(--ink-faint) !important;
+  border-top: 1px solid var(--rule); padding-top: .9em; margin: 0 !important;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.invite-keys { display: block; margin-top: .2em; }
+.invite-keys kbd {
+  font-family: var(--ui); font-size: .58rem; font-weight: 600;
+  border: 1px solid var(--rule-strong); color: var(--ink-soft);
+  padding: .15em .4em; margin-right: .15em; letter-spacing: .04em;
+}
+@media (max-width: 560px) {
+  .invite-actions .btn { flex: 1 1 100%; }
+}
+
+/* the plate's reference: where this is in the book, set below the caption */
+.plate-ref {
+  display: block; margin-top: .45em;
+  font-family: var(--ui); font-style: normal;
+  font-size: .62rem; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--accent);
 }

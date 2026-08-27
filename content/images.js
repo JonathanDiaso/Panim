@@ -12,17 +12,20 @@ window.PANIM_IMAGES = {
   "ch01-tomb": {
     src: "art/ch01-tomb.webp",
     alt: "Looking down through a broken hole in an ancient stone floor into a burial chamber; a dusty hand grips the jagged edge as one shaft of light rakes across scrolls and a lamp below.",
-    caption: "Chamber 25."
+    caption: "Chamber 25.",
+    ref: "Ketef Hinnom, Jerusalem · 1979"
   },
   "ch01-scroll": {
     src: "art/ch01-scroll.webp",
     alt: "Extreme close-up of a small blackened silver scroll resting in an open weathered palm, faint scratched Hebrew letters catching the light.",
-    caption: "The oldest words we have."
+    caption: "The oldest words we have.",
+    ref: "Numbers 6:24–26 · c. 600 BC"
   },
   "ch02-trees": {
     src: "art/ch02-trees.webp",
     alt: "A dense garden at dusk; two figures press themselves behind tree trunks, faces hidden, while a soft searching light moves between the trees toward them.",
-    caption: "And they hid themselves from the face of the LORD God among the trees."
+    caption: "And they hid themselves from the face of the LORD God among the trees.",
+    ref: "Genesis 3:8"
   },
   "ch02-storm": null,
   "ch03-mountain": null,
@@ -38,7 +41,8 @@ window.PANIM_IMAGES = {
   "ch10-morning": {
     src: "art/ch10-morning.webp",
     alt: "Full morning light on a woman's face, eyes open and calm, tears at the edge of joy, a hand resting against her cheek. The first full face of the book.",
-    caption: "Face to face."
+    caption: "Face to face.",
+    ref: "John 14:9 · Song of Songs 2:14"
   },
   "og-image": null
 };

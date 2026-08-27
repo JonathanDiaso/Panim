@@ -29,16 +29,31 @@
   outline-offset: 3px;
 }
 
-/* ---------- progress: a hairline that fills, not a rainbow ---------- */
-#progress-bar {
-  position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 900;
-  background: transparent;
+/* ---------- progress ----------
+   The 2px bar pinned across the top of the viewport is a stock reading-progress
+   widget and it belongs to no particular book. It is gone. Progress is now carried
+   by the book's own furniture: the chapter numerals in the running head. Numerals
+   you have read through go to full ink; the one you are inside carries a hairline
+   that fills as you read it. Same information, no extra chrome, and it is legible
+   as a position in a BOOK rather than a percentage of a page. */
+#progress-bar { display: none; }
+
+#nav-chapters a { position: relative; }
+#nav-chapters a::after {
+  content: ''; position: absolute; left: 15%; right: 15%; bottom: 7px; height: 1px;
+  background: var(--rule-strong);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform var(--dur-fast) linear;
 }
-#progress-fill {
-  height: 100%; width: 0%;
+/* chapters already read: full ink, no rule */
+#nav-chapters a.is-read { color: var(--ink-soft); }
+/* the chapter you are inside: accent, with the rule filling underneath it */
+#nav-chapters a.is-active { color: var(--accent); }
+#nav-chapters a.is-active::after {
   background: var(--accent);
-  transition: width var(--dur-fast) linear;
+  transform: scaleX(var(--ch-progress, 0));
 }
+@media (prefers-reduced-motion: reduce) { #nav-chapters a::after { transition: none; } }
 
 /* ============================================================================
    TYPESETTING DETAIL
@@ -74,8 +89,10 @@
   float: left;
   padding: .04em .09em 0 0;
   font-weight: 400;
-  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 144;
-  color: var(--accent);
+  font-variation-settings: var(--fr-display);
+  /* ink, not accent. A coloured initial reads decorative; classic book setting
+     lets the size do the work and keeps the colour for the apparatus. */
+  color: var(--ink);
 }
 /* the paragraph carrying the drop cap needs its first line to clear the initial */
 .block-p.has-dropcap { min-height: 3.1em; }

@@ -99,12 +99,15 @@
     var docHeight = document.documentElement.scrollHeight - window.innerHeight;
     var progress = docHeight > 0 ? window.scrollY / docHeight : 0;
 
-    // progress bar
-    var fill = document.getElementById('progress-fill');
-    if (fill) fill.style.width = (progress * 100) + '%';
+    // progress within the CURRENT chapter, for the hairline under its numeral
+    var chProgress = 0;
+    if (cur && cur.height) {
+      chProgress = (window.scrollY + window.innerHeight - cur.top) / cur.height;
+      chProgress = Math.max(0, Math.min(1, chProgress));
+    }
 
     // active chapter + nav visibility
-    updateNav(cur.ch, progress);
+    updateNav(cur.ch, progress, chProgress);
 
     if (cur.ch !== lastActiveCh) {
       lastActiveCh = cur.ch;
@@ -120,7 +123,8 @@
   }
 
   var lastScrollY = 0;
-  function updateNav(ch, progress) {
+  var CH_ORDER = ['0','1','2','3','4','5','6','7','8','9','10','fw'];
+  function updateNav(ch, progress, chProgress) {
     var nav = document.getElementById('site-nav');
     if (!nav) return;
     nav.classList.toggle('nav-faded', ch === 'fw');
@@ -135,8 +139,19 @@
       nav.classList.remove('nav-hidden');
     }
 
+    // The running head IS the progress indicator (see css/polish.css): numerals you
+    // have read through go to full ink, and the one you are inside carries a
+    // hairline that fills. Replaces the old 2px bar across the top of the viewport.
+    var hereIdx = CH_ORDER.indexOf(ch);
     Array.prototype.forEach.call(document.querySelectorAll('#nav-chapters a'), function (a) {
-      a.classList.toggle('is-active', a.getAttribute('data-nav-ch') === 'ch' + (ch.length === 1 ? '0' + ch : ch));
+      var navCh = a.getAttribute('data-nav-ch') || '';
+      var n = navCh.replace(/^ch0?/, '');
+      var isActive = navCh === 'ch' + (ch.length === 1 ? '0' + ch : ch);
+      var idx = CH_ORDER.indexOf(n);
+      a.classList.toggle('is-active', isActive);
+      a.classList.toggle('is-read', !isActive && idx > -1 && hereIdx > -1 && idx < hereIdx);
+      if (isActive) a.style.setProperty('--ch-progress', (chProgress || 0).toFixed(3));
+      else a.style.removeProperty('--ch-progress');
     });
   }
 
@@ -153,6 +168,21 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
 
     document.querySelectorAll('.reveal').forEach(function (el) { revealObserver.observe(el); });
+
+    // the Hebrew watermark in each chapter's margin writes itself in, right to left
+    var markObserver = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var gs = entry.target.querySelectorAll('.heb-g');
+        Array.prototype.forEach.call(gs, function (g, i) {
+          // gs is in DOM order (RTL source order), so index 0 is the rightmost glyph
+          g.style.transitionDelay = (i * 70) + 'ms';
+        });
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('.chapter-mark').forEach(function (el) { markObserver.observe(el); });
 
     var hairlineObserver = new IntersectionObserver(function (entries, obs) {
       entries.forEach(function (entry) {

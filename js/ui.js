@@ -91,18 +91,31 @@
     });
   }
 
-  // ---------- onboarding (C4, first-visit only) ----------
+  // ---------- the invitation (first visit only) ----------
   function wireOnboarding() {
     var KEY = 'panim:onboarded';
     var modal = $('#onboarding-modal');
     if (!localStorage.getItem(KEY)) {
       modal.hidden = false;
-      var begin = $('#onboarding-begin');
-      begin.focus();
+      $('#onboarding-begin').focus();
     }
+    function dismiss() { localStorage.setItem(KEY, '1'); modal.hidden = true; }
+
     $('#onboarding-begin').addEventListener('click', function () {
-      localStorage.setItem(KEY, '1');
-      modal.hidden = true;
+      dismiss();
+      document.dispatchEvent(new CustomEvent('panim:listen-chapter', { detail: { chapterId: 'ch01' } }));
+    });
+    // "Read instead" closes the invitation and drops the reader at the contents,
+    // which is the whole point of having a contents page.
+    var read = $('#onboarding-read');
+    if (read) read.addEventListener('click', function () {
+      dismiss();
+      var toc = document.getElementById('contents');
+      if (toc) toc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    // Escape dismisses without starting anything
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !modal.hidden) dismiss();
     });
   }
 
@@ -185,10 +198,33 @@
         }));
       }
     });
-    $('#begin-btn').addEventListener('click', function () {
-      var last = null;
-      try { last = JSON.parse(localStorage.getItem('panim:lastChapter')); } catch (e) {}
-      document.dispatchEvent(new CustomEvent('panim:listen-chapter', { detail: { chapterId: last || 'ch01' } }));
+    // The hero button knew which chapter you were last in but always restarted it
+    // from zero, which is not "continue" — it is "start this chapter again". It now
+    // carries the saved position through, and says so on its face.
+    var beginBtn = $('#begin-btn');
+    function savedPlace() {
+      try {
+        var ch = JSON.parse(localStorage.getItem('panim:lastChapter'));
+        var pos = JSON.parse(localStorage.getItem('panim:lastPos'));
+        if (ch && typeof pos === 'number' && pos > 10) return { chapterId: ch, pos: pos };
+      } catch (e) {}
+      return null;
+    }
+    function fmt(s) {
+      s = Math.floor(s); var m = Math.floor(s / 60);
+      return m + ':' + String(s % 60).padStart(2, '0');
+    }
+    var place = savedPlace();
+    if (place && beginBtn) {
+      var rendered = window.PANIM_RENDERED;
+      var num = rendered ? rendered.romanFor(parseInt(place.chapterId.replace('ch', ''), 10)) : '';
+      beginBtn.textContent = 'Continue — ' + (num ? num + ', ' : '') + fmt(place.pos);
+    }
+    if (beginBtn) beginBtn.addEventListener('click', function () {
+      var p = savedPlace();
+      document.dispatchEvent(new CustomEvent('panim:listen-chapter', {
+        detail: p ? { chapterId: p.chapterId, seekTo: p.pos } : { chapterId: 'ch01' }
+      }));
     });
   }
 

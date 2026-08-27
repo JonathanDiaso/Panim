@@ -52,6 +52,29 @@
     return skipped;
   }
 
+  // Hebrew must be split by GRAPHEME, never by code point: פָּנִים carries combining
+  // vowel points, and Array.from() would tear a nikkud mark off its consonant and
+  // animate it as a separate glyph. Intl.Segmenter does this correctly; the regex
+  // fallback keeps any combining mark (U+0590–U+05C7) attached to the letter before it.
+  function hebGraphemes(str) {
+    if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+      try {
+        var seg = new Intl.Segmenter('he', { granularity: 'grapheme' });
+        return Array.from(seg.segment(str), function (s) { return s.segment; });
+      } catch (e) { /* fall through */ }
+    }
+    return str.match(/[\s\S][\u0591-\u05C7]*/g) || [str];
+  }
+
+  function hebSpans(str, delayStep) {
+    return hebGraphemes(str).map(function (g, i) {
+      var d = delayStep ? ' style="animation-delay:' + (i * delayStep) + 'ms"' : '';
+      return '<span class="heb-g"' + d + '>' + esc(g) + '</span>';
+    }).join('');
+  }
+
+  var PANIM_HEB = '\u05E4\u05B8\u05BC\u05E0\u05B4\u05D9\u05DD';  // פָּנִים
+
   function renderImageSlot(slotId) {
     var img = window.PANIM_IMAGES ? window.PANIM_IMAGES[slotId] : null;
     if (img && img.src) {
@@ -109,10 +132,15 @@
     var img = window.PANIM_IMAGES ? window.PANIM_IMAGES[slotId] : null;
     if (!img || !img.src) return '';
     plateCount++;
-    var caption = img.caption
+    // The caption carries an optional `ref` — a scripture reference or a locator. A
+    // plate in a book earns its place by telling you WHERE you are, not just what
+    // you are looking at, and it sends the reader back into the text.
+    var caption = (img.caption || img.ref)
       ? '<figcaption class="plate-caption">' +
           '<span class="plate-num">Plate ' + (PLATE_ROMAN[plateCount] || plateCount) + '</span>' +
-          '<span class="plate-text">' + esc(img.caption) + '</span>' +
+          '<span class="plate-text">' + esc(img.caption || '') +
+            (img.ref ? '<span class="plate-ref">' + esc(img.ref) + '</span>' : '') +
+          '</span>' +
         '</figcaption>'
       : '';
     // the image lives inside .plate-frame, which is the clipping box. The parallax
@@ -185,7 +213,13 @@
     out.push(plateHtml);
     out.push('<div class="section-inner">');
     out.push('<header class="chapter-header reveal">');
-    out.push('<span class="chapter-num">Chapter ' + ROMAN[chapter.num] + '</span>');
+    // numeral and Hebrew mark share the margin column as one stack, so the mark sits
+    // just under the numeral instead of dropping to a second grid row below the
+    // whole title block.
+    out.push('<div class="chapter-margin">' +
+      '<span class="chapter-num">Chapter ' + ROMAN[chapter.num] + '</span>' +
+      '<div class="chapter-mark" lang="he" dir="rtl" aria-hidden="true">' + hebSpans(PANIM_HEB) + '</div>' +
+    '</div>');
     out.push('<div class="chapter-titleblock">');
     out.push('<h2 class="chapter-title">' + esc(chapter.title) + '</h2>');
     // The hook in content/chapters.js is the opening line of the chapter's own
@@ -253,6 +287,12 @@
   // is laid over the picture. With the slot empty the title block simply moves to
   // the top of the page and the site opens on type, which also works.
   function mountHero() {
+    // the hero's Hebrew writes itself in, right to left, once on load
+    var heb = document.querySelector('.hero-hebrew');
+    if (heb && heb.textContent.trim()) {
+      heb.innerHTML = hebSpans(heb.textContent.trim(), 90);
+    }
+
     var img = window.PANIM_IMAGES ? window.PANIM_IMAGES.hero : null;
     var hero = document.getElementById('hero');
     if (!img || !img.src || !hero) return;

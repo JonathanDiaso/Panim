@@ -10,7 +10,11 @@
 
 /* ---------- the listening room ---------- */
 #room {
-  position: fixed; inset: 0; z-index: 300;
+  /* z-index 300 put the "full-screen" room UNDER the running head (800) and the
+     player bar (900), so both stayed visible on top of it and the two interfaces
+     rendered stacked. It now sits above them, but below the sheets (960) which are
+     opened FROM the room and must appear over it. */
+  position: fixed; inset: 0; z-index: 920;
   --room-bg: #0C0B0A; --room-accent: #C98A4B;
   background: var(--room-bg);
   color: #f0edf4;
@@ -21,6 +25,11 @@
 }
 #room.is-open { opacity: 1; }
 body.room-open { overflow: hidden; }
+/* belt and braces: the page chrome is also faded out, so nothing bleeds through a
+   translucent frame during the cross-fade */
+body.room-open #site-nav,
+body.room-open .player { opacity: 0; pointer-events: none; }
+#site-nav, .player { transition: opacity var(--dur-med) var(--ease); }
 
 /* Same grading decision as the frontispiece: deepen, don't recolor. The room is a
    phone on a nightstand in a dark bedroom, so it goes further down than the page
@@ -29,7 +38,10 @@ body.room-open { overflow: hidden; }
 .room-backdrop {
   position: absolute; inset: -4%; background-size: cover; background-position: center;
   opacity: 0; transition: opacity 1.2s var(--ease);
-  filter: brightness(.30) contrast(1.2) saturate(.9);
+  /* .30 still read as a lit photograph behind the controls and made the transport
+     illegible. The room is a phone on a nightstand in the dark: the picture should
+     be a presence, not an image you look at. */
+  filter: brightness(.15) contrast(1.15) saturate(.75);
   animation: room-drift 48s ease-in-out infinite alternate;
 }
 .room-backdrop.has-image { opacity: 1; }
@@ -41,8 +53,11 @@ body.room-open { overflow: hidden; }
   position: absolute; inset: 0;
   background:
     radial-gradient(120% 90% at 50% 110%,
-      color-mix(in srgb, var(--room-accent) 18%, transparent) 0%, transparent 60%),
-    radial-gradient(105% 70% at 50% 40%, transparent 38%, rgba(0,0,0,.55) 100%);
+      color-mix(in srgb, var(--room-accent) 16%, transparent) 0%, transparent 60%),
+    /* a soft pool of dark directly behind the control stack, so the transport always
+       has something to sit on whatever the photograph is doing underneath */
+    radial-gradient(46% 42% at 50% 50%, rgba(0,0,0,.72) 0%, rgba(0,0,0,.34) 60%, transparent 100%),
+    radial-gradient(105% 70% at 50% 40%, transparent 30%, rgba(0,0,0,.72) 100%);
   pointer-events: none;
 }
 
@@ -155,3 +170,34 @@ body.room-open { overflow: hidden; }
 .chapter-row.is-complete .cr-num::after { content: ' ✓'; letter-spacing: 0; }
 
 .sheet-note { font-size: .85rem; opacity: .65; margin-top: 1rem; }
+
+/* ---------- the room's own control colours ----------
+   components.css sets `.btn-icon { color: var(--ink-soft) }`, and --ink-soft is a
+   DARK token because the page is paper. Inside the room that resolved to dark grey
+   on near-black and every control — −15, +30, Sleep, Read, I–X — was effectively
+   invisible. The room is a dark surface and has to state its own values. */
+#room { --room-ink: #EFEAE1; --room-dim: #A9A196; }
+
+#room .btn,
+#room .btn-icon { color: var(--room-ink); font-family: var(--ui); }
+#room .btn-icon { opacity: .8; transition: opacity var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease); }
+#room .btn-icon:hover,
+#room .btn-icon:focus-visible { opacity: 1; color: #fff; background: none; }
+#room .btn { border-color: rgba(255,255,255,.3); }
+#room .btn:hover, #room .btn:focus-visible {
+  background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.6); color: #fff;
+}
+#room .btn:focus-visible, #room .btn-icon:focus-visible {
+  outline: 2px solid var(--room-accent); outline-offset: 3px;
+}
+
+.room-title { color: var(--room-ink); }
+.room-clock { color: var(--room-ink); }
+.room-chnum { color: var(--room-accent); opacity: 1; }
+.room-hebrew { color: var(--room-accent); opacity: .9; }
+.room-secondary .btn-icon { font-size: .72rem; letter-spacing: .06em; }
+.room-btn { font-variant-numeric: lining-nums tabular-nums; }
+
+/* the seek bar has to read against a photograph, not just against black */
+.room-seek { background: rgba(255,255,255,.16); }
+.room-seek-fill { background: var(--room-accent); }
