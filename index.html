@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PANIM — The Invitation Hidden on Every Page</title>
+<meta name="description" content="An audiobook of light. The Hebrew word for face — panim — followed across the whole Bible, narrated by the author. By Jonathan Diaso.">
+<meta name="theme-color" content="#050409">
+
+<meta property="og:type" content="book">
+<meta property="og:title" content="PANIM — The Invitation Hidden on Every Page">
+<meta property="og:description" content="An audiobook of light. The Hebrew word for face, followed across the whole Bible — listen free, read along, night into morning.">
+<meta property="og:image" content="https://jonathandiaso.github.io/Panim/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Cormorant+SC:wght@300&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/player.css">
+<link rel="stylesheet" href="css/room.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div id="ambient-light" aria-hidden="true"></div>
+<div id="progress-bar" aria-hidden="true"><div id="progress-fill"></div></div>
+<div class="veil-boundary" id="veil-boundary" aria-hidden="true"></div>
+
+<nav id="site-nav" aria-label="Chapters">
+  <a class="nav-mark" href="#hero">פָּנִים</a>
+  <ul class="nav-chapters" id="nav-chapters"><!-- js/ui.js populates ch01–ch10 links --></ul>
+  <div class="nav-actions">
+    <button class="btn btn-icon" id="thread-btn" aria-haspopup="dialog" aria-controls="thread-panel" title="The Thread">Thread</button>
+    <button class="btn btn-icon" id="about-btn" aria-haspopup="dialog" aria-controls="about-sheet" title="About">i</button>
+    <button class="btn" id="listen-btn" title="Open the Listening Room">Listen</button>
+  </div>
+</nav>
+
+<main id="main">
+  <section id="hero" class="section" data-ch="0">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-hebrew" lang="he" dir="rtl">פָּנִים</div>
+      <h1 class="hero-title">PANIM</h1>
+      <p class="hero-subtitle">The Invitation Hidden on Every Page</p>
+      <p class="hero-byline">Jonathan Diaso</p>
+      <div class="hero-actions">
+        <button class="btn" id="begin-btn">Begin Listening</button>
+        <a class="hero-hint" href="#ch01">or read ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- js/render.js renders section[data-ch="1"]…[data-ch="10"] and #five-words here -->
+  <div id="chapters-root"></div>
+</main>
+
+<!-- ================= sheets / modals ================= -->
+
+<div class="modal" id="onboarding-modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
+    <h2 id="onboarding-title">Before you begin</h2>
+    <p>Panim is meant to be heard. Read along, or let the narration carry you — the page follows either way. The music edition plays by default; words-only is one tap away.</p>
+    <ul class="legend">
+      <li><kbd>Space</kbd> Play / pause</li>
+      <li><kbd>←</kbd> <kbd>→</kbd> Skip 15s back / 30s forward</li>
+      <li><kbd>↑</kbd> <kbd>↓</kbd> Volume</li>
+      <li><kbd>S</kbd> Sleep timer</li>
+      <li><kbd>F</kbd> Follow the narration</li>
+      <li><kbd>L</kbd> The Listening Room</li>
+    </ul>
+    <button class="btn" id="onboarding-begin">Begin</button>
+  </div>
+</div>
+
+<aside class="sheet" id="about-sheet" hidden role="dialog" aria-label="About">
+  <div class="sheet-inner">
+    <button class="btn btn-icon sheet-close" data-close-sheet="about-sheet" aria-label="Close">×</button>
+    <h2>About this book</h2>
+    <p>PANIM traces the Hebrew word for face — <em>panim</em> — across the whole of Scripture: a single word, followed from the first page to the last, until it becomes the whole story.</p>
+    <p>Written and narrated by Jonathan Diaso.</p>
+    <div class="about-links">
+      <a href="https://jonathandiaso.github.io/One-Promise-Abraham-and-the-Living-God/" target="_blank" rel="noopener">One Promise — Abraham and the Living God</a>
+      <button class="btn" id="share-btn">Share this book</button>
+    </div>
+  </div>
+</aside>
+
+<aside class="sheet" id="thread-panel" hidden role="dialog" aria-label="The Thread">
+  <div class="sheet-inner">
+    <button class="btn btn-icon sheet-close" data-close-sheet="thread-panel" aria-label="Close">×</button>
+    <h2>The Thread</h2>
+    <p>Every plant in this book pays off later. Jump between them.</p>
+    <div id="thread-list"><!-- js/ui.js populates from THREAD_ENTRIES --></div>
+  </div>
+</aside>
+
+<aside class="sheet" id="sleep-sheet" hidden role="dialog" aria-label="Sleep timer">
+  <div class="sheet-inner">
+    <button class="btn btn-icon sheet-close" data-close-sheet="sleep-sheet" aria-label="Close">×</button>
+    <h2>Sleep timer</h2>
+    <div class="sleep-options" id="sleep-options">
+      <button class="btn" data-sleep="15">15 min</button>
+      <button class="btn" data-sleep="30">30 min</button>
+      <button class="btn" data-sleep="45">45 min</button>
+      <button class="btn" data-sleep="60">60 min</button>
+      <button class="btn" data-sleep="chapter">End of chapter</button>
+      <button class="btn" data-sleep="off">Off</button>
+    </div>
+    <p class="sheet-note">The audio fades out over the last 30 seconds. Your place is saved.</p>
+  </div>
+</aside>
+
+<aside class="sheet" id="chapters-sheet" hidden role="dialog" aria-label="Chapters">
+  <div class="sheet-inner">
+    <button class="btn btn-icon sheet-close" data-close-sheet="chapters-sheet" aria-label="Close">×</button>
+    <h2>Chapters</h2>
+    <div id="chapters-sheet-list"><!-- js/room.js populates --></div>
+  </div>
+</aside>
+
+<div class="modal" id="completion-modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="completion-title">
+    <h2 id="completion-title">Chapter complete</h2>
+    <p id="completion-body">You've finished this chapter.</p>
+    <div class="completion-actions">
+      <button class="btn" id="completion-next">Next chapter</button>
+      <button class="btn" id="completion-bookmark">Resume tomorrow</button>
+      <button class="btn" id="completion-close">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="resume-toast" hidden role="status">
+  <span id="resume-toast-text">Resume where you left off?</span>
+  <button class="btn" id="resume-toast-yes">Resume</button>
+  <button class="btn btn-icon" id="resume-toast-dismiss" aria-label="Dismiss">×</button>
+</div>
+
+<div id="lightbox" hidden>
+  <button class="btn btn-icon sheet-close" id="lightbox-close" aria-label="Close image">×</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<div id="gloss-card" hidden></div>
+
+<button class="btn" id="hold-btn" hidden>Hold</button>
+
+<!-- ================= THE LISTENING ROOM ================= -->
+<section id="room" hidden aria-label="Listening room" data-idle="false">
+  <div class="room-backdrop" id="room-backdrop" aria-hidden="true"></div>
+  <div class="room-grade" aria-hidden="true"></div>
+  <button class="btn btn-icon room-close" id="room-close" aria-label="Close the listening room">×</button>
+  <div class="room-sleep-badge" id="room-sleep-badge" hidden aria-live="off">
+    <span class="moon" aria-hidden="true"></span><span id="room-sleep-count"></span>
+  </div>
+  <div class="room-stack">
+    <div class="room-hebrew" lang="he" dir="rtl" aria-hidden="true">פָּנִים</div>
+    <div class="room-chnum" id="room-chnum">I</div>
+    <h2 class="room-title" id="room-title">The God Who Sees</h2>
+    <button class="room-clock" id="room-clock" title="Elapsed / remaining">0:00</button>
+    <div class="room-arc" aria-hidden="true">
+      <svg viewBox="0 0 100 54" preserveAspectRatio="xMidYMid meet">
+        <path class="arc-track" d="M 6 50 A 44 44 0 0 1 94 50" pathLength="100"/>
+        <path class="arc-fill" id="room-arc-fill" d="M 6 50 A 44 44 0 0 1 94 50" pathLength="100"/>
+      </svg>
+    </div>
+    <div class="room-transport">
+      <button class="btn btn-icon room-btn" id="room-back" aria-label="Skip back 15 seconds">−15</button>
+      <button class="room-play" id="room-play" aria-label="Play">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="ico-play" d="M8 5.5v13l11-6.5z"/><g class="ico-pause"><rect x="7" y="5" width="3.4" height="14" rx="1"/><rect x="13.6" y="5" width="3.4" height="14" rx="1"/></g></svg>
+      </button>
+      <button class="btn btn-icon room-btn" id="room-fwd" aria-label="Skip forward 30 seconds">+30</button>
+    </div>
+    <div class="room-secondary">
+      <button class="btn btn-icon" id="room-speed" title="Playback speed">1×</button>
+      <button class="btn btn-icon" id="room-edition" title="Edition" aria-pressed="true">♪ Music</button>
+      <button class="btn btn-icon" id="room-sleep" title="Sleep timer">Sleep</button>
+      <button class="btn btn-icon" id="room-follow" title="Read along — drop to the page at the live paragraph">Read</button>
+      <button class="btn btn-icon" id="room-chapters" title="Chapters">I–X</button>
+    </div>
+  </div>
+  <div class="room-seek" id="room-seek" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+    <div class="room-seek-fill" id="room-seek-fill"></div>
+  </div>
+</section>
+
+<!-- ================= player bar ================= -->
+<footer class="player" id="player" data-state="idle" aria-label="Audio player">
+  <div class="player-controls">
+    <div class="player-transport">
+      <button class="btn btn-icon" id="skip-back-btn" title="Back 15s" aria-label="Skip back 15 seconds">−15</button>
+      <button class="btn btn-icon" id="play-btn" title="Play" aria-label="Play">▶</button>
+      <button class="btn btn-icon" id="skip-fwd-btn" title="Forward 30s" aria-label="Skip forward 30 seconds">+30</button>
+    </div>
+    <div class="player-meta">
+      <span class="meta-title" id="meta-title">Select a chapter to begin</span>
+      <span class="meta-time" id="meta-time">0:00 / 0:00</span>
+    </div>
+    <div class="player-secondary">
+      <button class="btn btn-icon" id="speed-btn" title="Playback speed" aria-label="Playback speed">1×</button>
+      <button class="btn btn-icon" id="edition-btn" title="Switch edition" aria-label="Switch between music and voice-only editions" aria-pressed="true">♪</button>
+      <button class="btn btn-icon" id="follow-btn" title="Follow the narration" aria-label="Follow the narration" aria-pressed="false">Follow</button>
+      <button class="btn btn-icon" id="sleep-btn" title="Sleep timer" aria-haspopup="dialog" aria-controls="sleep-sheet">Sleep</button>
+      <button class="btn btn-icon" id="room-btn" title="Listening room" aria-label="Open the listening room">◉</button>
+    </div>
+  </div>
+  <div class="player-seek">
+    <div class="seekbar" id="seekbar" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+      <div class="seekbar-buffered" id="seekbar-buffered"></div>
+      <div class="seekbar-fill" id="seekbar-fill"></div>
+      <div class="seekbar-marks" id="seekbar-marks"></div>
+      <div class="seek-handle" id="seek-handle"></div>
+    </div>
+  </div>
+</footer>
+
+<div id="aria-live" class="visually-hidden" aria-live="polite"></div>
+
+<audio id="narration-audio" preload="none"></audio>
+
+<script src="content/chapters.js"></script>
+<script src="content/images.js"></script>
+<script src="content/audio-manifest.js"></script>
+<script src="js/render.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/motion.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/player.js"></script>
+<script src="js/room.js"></script>
+<script>
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });
+}
+</script>
+</body>
+</html>

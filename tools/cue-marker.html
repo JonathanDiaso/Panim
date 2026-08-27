@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PANIM — Cue Marker</title>
+<style>
+  :root { color-scheme: dark; }
+  body { font-family: Georgia, serif; background: #0a0810; color: #f0edf4; margin: 0; padding: 1.5rem; }
+  h1 { font-size: 1.1rem; letter-spacing: .08em; text-transform: uppercase; font-family: system-ui, sans-serif; }
+  .bar { position: sticky; top: 0; background: #0a0810; padding: 1rem 0; border-bottom: 1px solid #c9a84c; display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; z-index: 5; }
+  select, input[type=file] { font: inherit; background: #14101c; color: #f0edf4; border: 1px solid #555; padding: .4em; }
+  button { font: inherit; background: transparent; border: 1px solid #c9a84c; color: #f0edf4; padding: .5em 1em; cursor: pointer; }
+  button:hover { background: rgba(201,168,76,.2); }
+  button:disabled { opacity: .4; cursor: not-allowed; }
+  audio { width: 100%; margin-top: .75rem; }
+  .status { font-size: .85rem; opacity: .8; }
+  .list { max-width: 68ch; margin: 1.5rem auto; }
+  .block { padding: .6em .8em; margin-bottom: .3em; border-left: 3px solid transparent; line-height: 1.5; font-size: 1rem; }
+  .block small { display: block; opacity: .5; font-family: system-ui, sans-serif; font-size: .7rem; margin-bottom: .2em; }
+  .block.is-current { border-left-color: #c9a84c; background: rgba(201,168,76,.08); }
+  .block.is-marked { color: #8bd08b; }
+  .block.is-marked small { color: #8bd08b; }
+  textarea { width: 100%; height: 200px; background: #14101c; color: #dcefdc; border: 1px solid #555; font-family: monospace; font-size: .8rem; padding: .6em; }
+  .hint { font-size: .8rem; opacity: .7; margin: .5rem 0 1.5rem; }
+  kbd { border: 1px solid #888; padding: .05em .4em; font-size: .75em; }
+</style>
+</head>
+<body>
+<h1>PANIM — Cue Marker</h1>
+<p class="hint">Loads a chapter's paragraphs from <code>../content/chapters.js</code>. Press <kbd>Enter</kbd> the instant narration reaches each highlighted block, one listen-through per chapter. <kbd>Backspace</kbd> undoes the last mark. Export writes the cue JSON for <code>cues/chNN.json</code>.</p>
+
+<div class="bar">
+  <label>Chapter
+    <select id="chapter-select"></select>
+  </label>
+  <span class="status" id="audio-source-status">No audio loaded</span>
+  <label>Load local file <input type="file" id="file-input" accept="audio/*"></label>
+  <button id="try-auto-load">Try ../audio/&lt;chapter&gt;.mp3</button>
+  <button id="export-btn" disabled>Export JSON</button>
+  <button id="undo-btn" disabled>Undo last (Backspace)</button>
+  <span class="status" id="mark-count">0 marked</span>
+</div>
+<audio id="audio" controls></audio>
+
+<div class="list" id="block-list"></div>
+
+<h2>Export</h2>
+<textarea id="output" readonly placeholder="Marked cues will appear here as JSON…"></textarea>
+
+<script src="../content/chapters.js"></script>
+<script>
+(function () {
+  'use strict';
+  var chapters = window.PANIM_CHAPTERS || [];
+  var select = document.getElementById('chapter-select');
+  var audio = document.getElementById('audio');
+  var list = document.getElementById('block-list');
+  var output = document.getElementById('output');
+  var exportBtn = document.getElementById('export-btn');
+  var undoBtn = document.getElementById('undo-btn');
+  var markCount = document.getElementById('mark-count');
+  var sourceStatus = document.getElementById('audio-source-status');
+
+  var blocks = [];   // {id, label, text}
+  var pointer = 0;
+  var cues = [];      // {t, id}
+
+  chapters.forEach(function (c) {
+    var opt = document.createElement('option');
+    opt.value = c.id;
+    opt.textContent = c.id + ' — ' + c.title;
+    select.appendChild(opt);
+  });
+
+  function cueableBlocks(chapter) {
+    return chapter.blocks
+      .filter(function (b) { return b.type === 'p' || b.type === 'verse' || b.type === 'fivewords'; })
+      .map(function (b) {
+        var text = b.type === 'verse' ? b.lines.join(' / ') : (b.text || b.html || '').replace(/<[^>]+>/g, '');
+        return { id: b.id || 'fivewords', text: text };
+      });
+  }
+
+  function loadChapter(chapterId) {
+    var chapter = chapters.filter(function (c) { return c.id === chapterId; })[0];
+    blocks = chapter ? cueableBlocks(chapter) : [];
+    pointer = 0;
+    cues = [];
+    renderList();
+    renderOutput();
+    audio.removeAttribute('src');
+    sourceStatus.textContent = 'No audio loaded';
+    exportBtn.disabled = true;
+  }
+
+  function renderList() {
+    list.innerHTML = blocks.map(function (b, i) {
+      var cls = 'block' + (i === pointer ? ' is-current' : '') + (i < pointer ? ' is-marked' : '');
+      return '<div class="' + cls + '" data-idx="' + i + '"><small>' + b.id + '</small>' + b.text + '</div>';
+    }).join('');
+    var cur = list.querySelector('.is-current');
+    if (cur) cur.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    markCount.textContent = cues.length + ' marked / ' + blocks.length;
+    undoBtn.disabled = cues.length === 0;
+  }
+
+  function renderOutput() {
+    output.value = JSON.stringify(cues, null, 2);
+  }
+
+  function markCurrent() {
+    if (pointer >= blocks.length) return;
+    cues.push({ t: Math.round(audio.currentTime * 100) / 100, id: blocks[pointer].id });
+    pointer++;
+    renderList();
+    renderOutput();
+    if (pointer >= blocks.length) exportBtn.disabled = false;
+  }
+
+  function undoLast() {
+    if (!cues.length) return;
+    cues.pop();
+    pointer = Math.max(0, pointer - 1);
+    renderList();
+    renderOutput();
+    exportBtn.disabled = true;
+  }
+
+  select.addEventListener('change', function () { loadChapter(select.value); });
+
+  document.getElementById('file-input').addEventListener('change', function (e) {
+    var f = e.target.files[0];
+    if (!f) return;
+    audio.src = URL.createObjectURL(f);
+    sourceStatus.textContent = 'Local file: ' + f.name;
+  });
+
+  document.getElementById('try-auto-load').addEventListener('click', function () {
+    var id = select.value;
+    audio.src = '../audio/' + id + '.mp3';
+    sourceStatus.textContent = 'Trying ../audio/' + id + '.mp3 …';
+    audio.addEventListener('error', function onErr() {
+      sourceStatus.textContent = 'Not found: ../audio/' + id + '.mp3 — use local file instead.';
+      audio.removeEventListener('error', onErr);
+    }, { once: true });
+    audio.addEventListener('loadedmetadata', function onOk() {
+      sourceStatus.textContent = 'Loaded ../audio/' + id + '.mp3';
+      audio.removeEventListener('loadedmetadata', onOk);
+    }, { once: true });
+  });
+
+  exportBtn.addEventListener('click', function () {
+    var blob = new Blob([JSON.stringify(cues, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = select.value + '.json';
+    a.click();
+  });
+  undoBtn.addEventListener('click', undoLast);
+
+  document.addEventListener('keydown', function (e) {
+    var tag = document.activeElement.tagName;
+    if (tag === 'TEXTAREA' || tag === 'INPUT' || tag === 'SELECT') return;
+    if (e.key === 'Enter') { e.preventDefault(); markCurrent(); }
+    else if (e.key === 'Backspace') { e.preventDefault(); undoLast(); }
+  });
+
+  list.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-idx]');
+    if (el) { pointer = Number(el.getAttribute('data-idx')); renderList(); }
+  });
+
+  loadChapter(select.value);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+/* PANIM — room.css
+   v2 additions: THE LISTENING ROOM (SITE-V2-PLAN.md §5.3), chapter frontispieces
+   (§4.3), the chapters sheet rows, and small v2 chrome. Everything transform/
+   opacity animated; full prefers-reduced-motion fallbacks. */
+
+/* ---------- frontispiece ---------- */
+.section.has-frontis { position: relative; overflow: clip; }
+.frontis {
+  position: absolute; inset: 0 0 auto 0; height: 100svh; z-index: 0;
+  pointer-events: none;
+}
+.frontis-media {
+  position: absolute; inset: -8% 0; background-size: cover; background-position: center;
+  transform: scale(1.08); will-change: transform;
+  filter: grayscale(1) contrast(1.05);
+}
+.frontis-grade {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg,
+    color-mix(in srgb, var(--bg) 78%, black) 0%,
+    color-mix(in srgb, var(--accent) 22%, var(--bg)) 100%);
+  mix-blend-mode: color; opacity: .9;
+}
+.frontis-veil {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--bg) 55%, transparent) 0%,
+    transparent 35%,
+    color-mix(in srgb, var(--bg) 92%, transparent) 82%,
+    var(--bg) 100%);
+}
+.section.has-frontis .section-inner { position: relative; z-index: 1; }
+.section.has-frontis .chapter-header {
+  min-height: 88svh; display: flex; flex-direction: column; justify-content: flex-end;
+  padding-bottom: 8svh;
+}
+@media (prefers-reduced-motion: reduce) {
+  .frontis-media { transform: none; }
+}
+
+/* inline figures wake when the narration reaches them */
+.img-slot.is-filled img { transition: transform 8s var(--ease-dawn); }
+.img-slot.is-filled.is-awake img { transform: scale(1.045); }
+@media (prefers-reduced-motion: reduce) {
+  .img-slot.is-filled.is-awake img { transform: none; }
+}
+
+/* ---------- the listening room ---------- */
+#room {
+  position: fixed; inset: 0; z-index: 300;
+  --room-bg: #050409; --room-accent: var(--gold);
+  background: var(--room-bg);
+  color: #f0edf4;
+  opacity: 0; transition: opacity var(--dur-med) var(--ease-dawn);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+#room.is-open { opacity: 1; }
+body.room-open { overflow: hidden; }
+
+.room-backdrop {
+  position: absolute; inset: 0; background-size: cover; background-position: center;
+  opacity: 0; transition: opacity 1.2s var(--ease-dawn);
+  filter: grayscale(1) brightness(.32) contrast(1.05);
+}
+.room-backdrop.has-image { opacity: 1; }
+.room-grade {
+  position: absolute; inset: 0;
+  background: radial-gradient(120% 90% at 50% 110%,
+    color-mix(in srgb, var(--room-accent) 14%, transparent) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.room-close {
+  position: absolute; top: max(1rem, env(safe-area-inset-top)); right: 1rem; z-index: 2;
+}
+.room-sleep-badge {
+  position: absolute; top: max(1.2rem, env(safe-area-inset-top)); left: 1.2rem; z-index: 2;
+  display: flex; align-items: center; gap: .5em;
+  font-family: var(--font-ui); font-size: .7rem; letter-spacing: .15em;
+  color: color-mix(in srgb, var(--room-accent) 80%, white);
+}
+.room-sleep-badge .moon {
+  width: 10px; height: 10px; border-radius: 50%;
+  box-shadow: inset -3px -1px 0 0 currentColor;
+}
+
+.room-stack {
+  position: relative; z-index: 1; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: .9rem;
+  max-width: min(92vw, 30rem);
+}
+.room-hebrew { font-size: 1rem; color: var(--room-accent); opacity: .8; letter-spacing: .1em; }
+.room-chnum {
+  font-family: var(--font-ui); font-size: .75rem; letter-spacing: .45em;
+  color: var(--room-accent); margin-top: .4rem;
+}
+.room-title {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: clamp(1.7rem, 6vw, 2.6rem); line-height: 1.15;
+}
+.room-clock {
+  font-family: var(--font-ui); font-variant-numeric: tabular-nums;
+  font-size: clamp(2.2rem, 9vw, 3.4rem); letter-spacing: .06em; line-height: 1;
+  padding: .2em .4em; border-radius: 6px;
+}
+.room-clock:focus-visible { outline: 2px solid var(--room-accent); outline-offset: 3px; }
+
+.room-arc { width: min(64vw, 300px); margin: -0.4rem 0; }
+.room-arc svg { width: 100%; height: auto; overflow: visible; }
+.room-arc path { fill: none; stroke-width: 1.4; stroke-linecap: round; }
+.arc-track { stroke: color-mix(in srgb, currentColor 18%, transparent); }
+.arc-fill {
+  stroke: var(--room-accent);
+  stroke-dasharray: 100; stroke-dashoffset: 100;
+  transition: stroke-dashoffset .5s linear;
+}
+
+.room-transport { display: flex; align-items: center; gap: 1.4rem; margin-top: .4rem; }
+.room-btn { min-width: 52px; min-height: 52px; font-size: .9rem; }
+.room-play {
+  width: 74px; height: 74px; border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--room-accent) 65%, transparent);
+  background: color-mix(in srgb, var(--room-accent) 10%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 80ms var(--ease-dawn), background var(--dur-fast) var(--ease-dawn);
+}
+.room-play:active { transform: scale(.96); }
+.room-play:focus-visible { outline: 2px solid var(--room-accent); outline-offset: 3px; }
+.room-play svg { width: 30px; height: 30px; fill: currentColor; }
+.room-play .ico-pause { display: none; }
+.room-play.is-playing .ico-pause { display: block; }
+.room-play.is-playing .ico-play { display: none; }
+
+.room-secondary { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem; margin-top: .3rem; }
+.room-secondary .btn-icon { min-width: 60px; min-height: 44px; font-size: .72rem; }
+
+.room-seek {
+  position: absolute; left: 0; right: 0;
+  bottom: max(0px, env(safe-area-inset-bottom));
+  height: 28px; cursor: pointer; z-index: 2;
+}
+.room-seek::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 13px; height: 2px;
+  background: color-mix(in srgb, currentColor 18%, transparent);
+}
+.room-seek-fill {
+  position: absolute; left: 0; top: 13px; height: 2px; width: 0;
+  background: var(--room-accent);
+}
+.room-seek:focus-visible { outline: 2px solid var(--room-accent); outline-offset: -4px; }
+
+/* idle dim — the room recedes while you listen */
+#room .room-stack, #room .room-close, #room .room-seek { transition: opacity 1.2s var(--ease-dawn); }
+#room[data-idle="true"] .room-stack { opacity: .38; }
+#room[data-idle="true"] .room-close, #room[data-idle="true"] .room-seek { opacity: .25; }
+@media (prefers-reduced-motion: reduce) {
+  #room, .room-backdrop, .arc-fill { transition: none; }
+}
+
+/* ---------- chapters sheet rows ---------- */
+.chapter-row {
+  display: flex; align-items: center; gap: .2rem; width: 100%;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+}
+.chapter-row .cr-main {
+  display: flex; align-items: baseline; gap: 1rem; flex: 1;
+  padding: .8rem .4rem; text-align: left;
+  transition: background var(--dur-fast) var(--ease-dawn);
+}
+.chapter-row .cr-main:hover, .chapter-row .cr-main:focus-visible { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.chapter-row .cr-dl { min-width: 44px; min-height: 44px; opacity: .7; }
+.chapter-row .cr-dl.is-cached { color: var(--accent); opacity: 1; }
+.chapter-row .cr-num { font-family: var(--font-ui); font-size: .7rem; letter-spacing: .3em; color: var(--accent); min-width: 2.4em; }
+.chapter-row .cr-title { font-family: var(--font-prose); font-size: 1.05rem; flex: 1; }
+.chapter-row .cr-dur { font-family: var(--font-ui); font-size: .65rem; opacity: .6; font-variant-numeric: tabular-nums; }
+.chapter-row.is-current .cr-title { color: var(--accent); }
+.chapter-row.is-complete .cr-num::after { content: ' ✓'; letter-spacing: 0; }
+
+.sheet-note { font-size: .85rem; opacity: .65; margin-top: 1rem; }
