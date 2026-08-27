@@ -258,6 +258,22 @@
 .verse-ref .verse-translation { margin-left: .6em; color: var(--ink-faint); font-weight: 500; }
 .verse-quotemark { display: none; }   /* removed: decoration pretending to be typography */
 
+/* A citation standing alone under the line it belongs to. Same apparatus voice
+   as .verse-ref, but it hangs in the right margin so the prayer reads as one
+   unbroken column of speech with its sources beside it, not inside it. */
+.block-ref {
+  grid-column: 10 / 12;
+  align-self: start;
+  margin: -1.4em 0 1.4em;
+  font-family: var(--ui);
+  font-size: .6rem; font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink-faint);
+}
+@media (max-width: 900px) {
+  .block-ref { grid-column: 1 / 7; margin: -.4em 0 1.4em; }
+}
+
 /* narration-aware state — a weight shift on the rule, no glow */
 .verse-box.is-live { border-left-color: var(--ink); }
 .block-p.is-live { color: var(--ink); }

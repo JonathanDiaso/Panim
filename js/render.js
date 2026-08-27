@@ -262,6 +262,12 @@
         html = '<p class="' + cls + '" id="' + esc(b.id) + '" data-cue-id="' + esc(b.id) + '">' + b._html + tear + '</p>';
       } else if (b.type === 'verse') {
         html = renderVerse(b);
+      } else if (b.type === 'ref') {
+        // A citation the manuscript sets on its own line, under the line it
+        // cites — the prayer in ch. X is written this way throughout. It is
+        // apparatus, not narration: the narrator never reads it, so it carries
+        // no cue id and the follow-along steps straight over it.
+        html = '<p class="block-ref">' + esc(b.ref) + '</p>';
       } else if (b.type === 'beat') {
         html = '<div class="divider-beat hairline" aria-hidden="true"></div>';
       } else if (b.type === 'swell') {
