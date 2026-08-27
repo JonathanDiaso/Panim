@@ -983,6 +983,10 @@ window.PANIM_CHAPTERS = [
     "id": "ch02-p45"
    },
    {
+    "type": "slot",
+    "slot": "ch02-storm"
+   },
+   {
     "type": "p",
     "html": "The text says the LORD hurled a great wind onto the sea. Hurled, the way a man throws a stone. The storm is bad enough to make lifelong sailors start praying and pitching their livelihood over the side.",
     "id": "ch02-p46"
@@ -1005,10 +1009,6 @@ window.PANIM_CHAPTERS = [
     "ref": "Jonah 2:4",
     "translation": "NASB",
     "id": "ch02-v5"
-   },
-   {
-    "type": "slot",
-    "slot": "ch02-storm"
    },
    {
     "type": "p",
@@ -8042,6 +8042,10 @@ window.PANIM_CHAPTERS = [
     "id": "ch09-v4"
    },
    {
+    "type": "slot",
+    "slot": "ch09-charcoal"
+   },
+   {
     "type": "p",
     "html": "A charcoal fire. Because smell is the sense time cannot silence; one breath of charcoal smoke and Peter is standing in that courtyard again, the rooster still ringing in his ears.",
     "id": "ch09-p65"
@@ -8250,10 +8254,6 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "beat"
-   },
-   {
-    "type": "slot",
-    "slot": "ch09-charcoal"
    },
    {
     "type": "p",

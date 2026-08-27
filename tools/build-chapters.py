@@ -61,6 +61,16 @@ DEFAULT_TRANSLATION = "NASB"
 # mark it carried is re-anchored by hand instead of by matching. Each value is
 # the opening words of the manuscript paragraph the mark belongs to.
 ANCHORS = {
+    # Both of these were placed by matching the paragraph that followed them in
+    # the July draft. The paragraph survived; the scene around it moved. The
+    # charcoal plate ended up at Pentecost, fifty days and one chapter-section
+    # past the beach it is a picture of, and the storm plate landed three
+    # paragraphs after the storm. A picture belongs to a scene, not to a
+    # sentence, so these two name their scene.
+    ("ch02", "slot", "ch02-storm"):
+        "The text says the LORD hurled a great wind onto the sea.",
+    ("ch09", "slot", "ch09-charcoal"):
+        "A charcoal fire. Because smell is the sense time cannot silence",
     ("ch10", "slot", "ch10-veil-lift"):
         "Then she arrives. Isaac has gone out into the field toward evening",
     ("ch10", "prayer", "start"):

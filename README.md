@@ -119,7 +119,7 @@ content/
 css/  site.css (tokens, grid, arc) · components.css · player.css · room.css · polish.css
 js/   render.js (DOM) · motion.js (scroll, arc, progress) · sync.js (cues)
       player.js · room.js · ui.js
-art/  *.webp published · originals/ source JPGs · PROMPTS-v2.md · archive/
+art/  *.webp published · originals/ source JPGs · incoming/ staged · PROMPTS.md · archive/
 cues/ chNN.json — [{t, id}] on the voice timeline
 art/incoming/  new photographs staged and named, not yet wired into images.js
 tools/ build-chapters.py · gen-cues.py · check-coverage.py · cue-marker.html
@@ -157,7 +157,7 @@ The service worker now precaches with `cache: 'reload'` for the same reason.
    yet — the mapping needs the author's call, in particular whether chapters
    III and IV take the day or the night version, which is really a question
    about the dawn arc (§3).
-2. **Ten of fifteen slots still empty** — prompts ready in `art/PROMPTS-v2.md`.
+2. **Six of fifteen slots still empty** — prompts ready in `art/PROMPTS.md`.
 3. **Source images are 1408 px**, the new ones included; plates want 2400 px+.
    They soften on a large display.
 4. **Per-chapter Hebrew.** Every chapter opening currently shows the same פָּנִים.
