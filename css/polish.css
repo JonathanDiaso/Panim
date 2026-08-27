@@ -1,0 +1,112 @@
+/* PANIM — polish.css
+   The "incredible, not basic" pass (2026-08-26, author-directed). Texture, type
+   craft, entrance choreography, dawn-gradient progress, glass player, and the
+   Listening Room's voice-breathing glow. Everything degrades cleanly; every
+   animation has a reduced-motion fallback. */
+
+/* ---------- film grain — de-flattens every dark surface ---------- */
+#grain {
+  position: fixed; inset: -50%; z-index: 5; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: .045; mix-blend-mode: overlay;
+  animation: grain-shift 9s steps(6) infinite;
+}
+@keyframes grain-shift {
+  0% { transform: translate(0,0); } 20% { transform: translate(-2%,1%); }
+  40% { transform: translate(1%,-2%); } 60% { transform: translate(-1%,2%); }
+  80% { transform: translate(2%,1%); } 100% { transform: translate(0,0); }
+}
+@media (prefers-reduced-motion: reduce) { #grain { animation: none; } }
+
+/* ---------- selection + scrollbar in the book's gold ---------- */
+::selection { background: color-mix(in srgb, var(--gold) 30%, transparent); color: inherit; }
+html { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--gold) 35%, transparent) transparent; }
+
+/* ---------- dawn-gradient progress + seek fill (July C2, finally itself) ---------- */
+#progress-fill {
+  background: linear-gradient(90deg,
+    #c9a84c 0%, #8a92b8 12%, #d98e4a 23%, #6a9bd8 34%, #d9a84a 45%,
+    #e8d090 56%, #5a6a94 67%, #a83232 76%, #e8b04a 87%, #8a6420 100%) !important;
+  background-size: 100vw 100%;
+}
+.seekbar-fill { background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 70%, transparent), var(--accent)) !important; }
+
+/* ---------- hero entrance: the page dawns, in order ---------- */
+.hero-hebrew, .hero-title, .hero-subtitle, .hero-byline, .hero-actions {
+  opacity: 0; transform: translateY(14px);
+  animation: hero-rise 1.1s var(--ease-dawn) forwards;
+}
+.hero-hebrew  { animation-delay: .2s; }
+.hero-title   { animation-delay: .7s; }
+.hero-subtitle{ animation-delay: 1.25s; }
+.hero-byline  { animation-delay: 1.7s; }
+.hero-actions { animation-delay: 2.2s; }
+@keyframes hero-rise { to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-hebrew, .hero-title, .hero-subtitle, .hero-byline, .hero-actions {
+    animation: none; opacity: 1; transform: none;
+  }
+}
+
+/* ---------- ghost numeral behind each chapter header ---------- */
+.chapter-header { position: relative; }
+.chapter-header::before {
+  content: attr(data-ghost);
+  position: absolute; right: -0.05em; top: -0.35em; z-index: -1;
+  font-family: var(--font-ui); font-size: clamp(7rem, 22vw, 13rem); line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--accent) 22%, transparent);
+  pointer-events: none; user-select: none;
+}
+.section.has-frontis .chapter-header::before { display: none; } /* the photo carries it */
+
+/* ---------- drop cap on each chapter's opening paragraph ---------- */
+.chapter-header + .block-p::first-letter,
+.chapter-header + .img-slot + .block-p::first-letter {
+  font-family: var(--font-display); font-weight: 300;
+  font-size: 3.15em; line-height: .78;
+  float: left; padding: .06em .12em 0 0;
+  color: var(--accent);
+}
+
+/* ---------- glass player bar ---------- */
+.player {
+  background: color-mix(in srgb, var(--bg) 62%, transparent) !important;
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  border-top: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.player .btn-icon { border-radius: 8px; transition: background var(--dur-fast) var(--ease-dawn), transform 80ms var(--ease-dawn); }
+.player .btn-icon:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.player .btn-icon:active { transform: scale(.94); }
+
+/* ---------- verse box: hairlines draw themselves on reveal ---------- */
+.verse-box::before, .verse-box::after { transition: transform 900ms var(--ease-dawn), opacity 900ms var(--ease-dawn); transform: scaleX(.25); }
+.verse-box.is-lifted::before, .verse-box.is-lifted::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .verse-box::before, .verse-box::after { transition: none; transform: none; }
+}
+
+/* ---------- listening room: the glow that breathes with the voice ---------- */
+#room { --pulse: 0; }
+.room-play { position: relative; }
+.room-play::before {
+  content: ''; position: absolute; inset: -26px; border-radius: 50%; z-index: -1;
+  background: radial-gradient(circle, color-mix(in srgb, var(--room-accent) 32%, transparent) 0%, transparent 70%);
+  opacity: calc(.25 + var(--pulse) * .75);
+  transform: scale(calc(.9 + var(--pulse) * .35));
+  pointer-events: none;
+}
+.room-grade { opacity: calc(.75 + var(--pulse) * .25); }
+@media (prefers-reduced-motion: reduce) {
+  .room-play::before { opacity: .3; transform: none; }
+  .room-grade { opacity: 1; }
+}
+
+/* ---------- nav: hairline underline slides under the active chapter ---------- */
+#nav-chapters a { position: relative; }
+#nav-chapters a::after {
+  content: ''; position: absolute; left: 20%; right: 20%; bottom: -4px; height: 1px;
+  background: var(--accent); transform: scaleX(0); transition: transform var(--dur-med) var(--ease-dawn);
+}
+#nav-chapters a.is-active::after { transform: scaleX(1); }

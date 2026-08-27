@@ -120,7 +120,7 @@
              '" id="' + chapter.id + '" data-ch="' + chapter.num + '">');
     out.push(frontisHtml);
     out.push('<div class="section-inner">');
-    out.push('<header class="chapter-header reveal veil-lift">');
+    out.push('<header class="chapter-header reveal veil-lift" data-ghost="' + ROMAN[chapter.num] + '">');
     out.push('<span class="chapter-num">' + ROMAN[chapter.num] + '</span>');
     out.push('<h2 class="chapter-title">' + esc(chapter.title) + '</h2>');
     out.push('<p class="chapter-hook">' + esc(chapter.hook) + '</p>');

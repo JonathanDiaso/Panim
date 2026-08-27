@@ -48,6 +48,7 @@
     if (!P.state.chapterId) P.load(P.ids[0], {});
     refresh();
     armIdle();
+    if (P.state.playing) startPulse();
   }
   function closeRoom() {
     if (!open) return;
@@ -111,6 +112,45 @@
     }
   }
 
+  // ---------- the room breathes with the voice ----------
+  // Same-origin audio, so a Web Audio analyser is available: while the room is open
+  // and playing, --pulse (0..1) follows the narration's short-term level, and CSS
+  // lets the glow behind the play button breathe with the reading. No beat-sync,
+  // no flicker — a 120 ms smoothed swell. Off under prefers-reduced-motion.
+  var actx = null, analyser = null, adata = null, pulseRaf = false, pulseSmooth = 0;
+  function ensureAnalyser() {
+    if (analyser || reduceMotion) return;
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      actx = new Ctx();
+      var srcNode = actx.createMediaElementSource(P.audio);
+      analyser = actx.createAnalyser();
+      analyser.fftSize = 512;
+      analyser.smoothingTimeConstant = 0.6;
+      srcNode.connect(analyser);
+      analyser.connect(actx.destination);
+      adata = new Uint8Array(analyser.fftSize);
+    } catch (e) { analyser = null; }
+  }
+  function pulseFrame() {
+    pulseRaf = false;
+    if (!open || !analyser) { room.style.setProperty('--pulse', '0'); return; }
+    analyser.getByteTimeDomainData(adata);
+    var sum = 0;
+    for (var i = 0; i < adata.length; i += 4) { var v = (adata[i] - 128) / 128; sum += v * v; }
+    var rms = Math.sqrt(sum / (adata.length / 4));
+    var level = Math.min(1, rms * 5);
+    pulseSmooth += (level - pulseSmooth) * 0.25;
+    room.style.setProperty('--pulse', pulseSmooth.toFixed(3));
+    if (P.state.playing) { pulseRaf = true; requestAnimationFrame(pulseFrame); }
+  }
+  function startPulse() {
+    if (reduceMotion) return;
+    ensureAnalyser();
+    if (actx && actx.state === 'suspended') actx.resume();
+    if (analyser && !pulseRaf) { pulseRaf = true; requestAnimationFrame(pulseFrame); }
+  }
+
   // ---------- reflect player state ----------
   function refresh() {
     if (!P.state.chapterId) return;
@@ -119,9 +159,11 @@
     els.chnum.textContent = r ? r.romanFor(m.num || 1) : String(m.num || '');
     els.title.textContent = m.title || '';
     els.speed.textContent = P.state.speed + '×';
-    var music = P.state.edition === 'music';
-    els.edition.textContent = music ? '♪ Music' : '¶ Voice';
-    els.edition.setAttribute('aria-pressed', String(music));
+    if (els.edition) {
+      var music = P.state.edition === 'music';
+      els.edition.textContent = music ? '♪ Music' : '¶ Voice';
+      els.edition.setAttribute('aria-pressed', String(music));
+    }
     els.play.classList.toggle('is-playing', P.state.playing);
     els.play.setAttribute('aria-label', P.state.playing ? 'Pause' : 'Play');
     paintBackdrop(P.state.chapterId);
@@ -194,7 +236,7 @@
     els.back.addEventListener('click', function () { P.skip(-15); });
     els.fwd.addEventListener('click', function () { P.skip(30); });
     els.speed.addEventListener('click', function () { P.cycleSpeed(); });
-    els.edition.addEventListener('click', function () { P.setEdition(P.state.edition === 'music' ? 'voice' : 'music'); });
+    if (els.edition) els.edition.addEventListener('click', function () { P.setEdition(P.state.edition === 'music' ? 'voice' : 'music'); });
     els.sleep.addEventListener('click', function () { if (window.PanimUI) window.PanimUI.openSheet('sleep-sheet'); });
     els.chapters.addEventListener('click', function () {
       buildChaptersSheet();
@@ -241,7 +283,10 @@
 
     document.addEventListener('panim:room-toggle', toggleRoom);
     document.addEventListener('panim:chapter-loaded', function () { if (open) refresh(); });
-    document.addEventListener('panim:play-state', function () { if (open) refresh(); });
+    document.addEventListener('panim:play-state', function (e) {
+      if (open) refresh();
+      if (open && e.detail.playing) startPulse();
+    });
     document.addEventListener('panim:edition-change', function () { if (open) refresh(); });
     document.addEventListener('panim:speed-change', function () { if (open) refresh(); });
     document.addEventListener('panim:sleep-change', function () { if (open) tick(); });

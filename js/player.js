@@ -133,6 +133,7 @@
   }
   function toggleEdition() { setEdition(state.edition === 'music' ? 'voice' : 'music'); }
   function updateEditionButtons() {
+    if (!els.editionBtn) return;   // single-edition build: the toggle is not in the DOM
     var music = state.edition === 'music';
     els.editionBtn.textContent = music ? '♪' : '¶';
     els.editionBtn.title = music ? 'Music edition — tap for voice only' : 'Voice only — tap for music';
@@ -419,7 +420,7 @@
     els.skipBackBtn.addEventListener('click', function () { skip(-15); });
     els.skipFwdBtn.addEventListener('click', function () { skip(30); });
     els.speedBtn.addEventListener('click', cycleSpeed);
-    els.editionBtn.addEventListener('click', toggleEdition);
+    if (els.editionBtn) els.editionBtn.addEventListener('click', toggleEdition);
     els.followBtn.addEventListener('click', function () { setFollow(!state.follow); });
     els.roomBtn.addEventListener('click', function () { emit('panim:room-toggle'); });
     els.sleepOptions.addEventListener('click', function (e) {
@@ -437,7 +438,10 @@
 
   function init() {
     state.speed = LS.get('speed', 1);
-    state.edition = LS.get('edition', 'music') === 'voice' ? 'voice' : 'music';
+    // ONE edition, the author's call 2026-08-26: "the voice sounds better when it's
+    // actually connected to the music." The voice-only master lives on locally;
+    // restoring the toggle = re-adding audio/voice/ + the two edition buttons.
+    state.edition = 'music';
     state.completed = LS.get('completed', {});
     updateEditionButtons();
     setSpeed(state.speed);

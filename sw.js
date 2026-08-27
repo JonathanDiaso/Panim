@@ -4,11 +4,12 @@
 // cached audio answers Range requests by slicing the stored full response so
 // seeking keeps working offline.
 
-var SHELL = 'panim-shell-v1';
+var SHELL = 'panim-shell-v2';
 var AUDIO = 'panim-audio-v1';
 var PRECACHE = [
   './', 'index.html', 'favicon.svg', 'og-image.png', 'manifest.webmanifest',
-  'css/site.css', 'css/components.css', 'css/player.css', 'css/room.css',
+  'fonts/fonts.css',
+  'css/site.css', 'css/components.css', 'css/player.css', 'css/room.css', 'css/polish.css',
   'js/render.js', 'js/ui.js', 'js/motion.js', 'js/sync.js', 'js/player.js', 'js/room.js',
   'content/chapters.js', 'content/images.js', 'content/audio-manifest.js',
   'cues/ch01.json', 'cues/ch02.json', 'cues/ch03.json', 'cues/ch04.json', 'cues/ch05.json',
