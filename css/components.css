@@ -258,21 +258,21 @@
 .verse-ref .verse-translation { margin-left: .6em; color: var(--ink-faint); font-weight: 500; }
 .verse-quotemark { display: none; }   /* removed: decoration pretending to be typography */
 
-/* A citation standing alone under the line it belongs to. Same apparatus voice
-   as .verse-ref, but it hangs in the right margin so the prayer reads as one
-   unbroken column of speech with its sources beside it, not inside it. */
+/* A citation standing alone under the line it belongs to, in the apparatus
+   voice. It stays in the text column rather than hanging in the margin: the
+   prayer in ch. X cites a source after almost every line, and in the margin
+   the grid places each one against whichever paragraph happens to leave room
+   beside it, which is not always the paragraph it belongs to. Under the line,
+   tight, it is unambiguous. */
 .block-ref {
-  grid-column: 10 / 12;
-  align-self: start;
-  margin: -1.4em 0 1.4em;
+  grid-column: 3 / 9;
+  margin: -1.1em 0 1.5em;
   font-family: var(--ui);
   font-size: .6rem; font-weight: 600;
   letter-spacing: .16em; text-transform: uppercase;
   color: var(--ink-faint);
 }
-@media (max-width: 900px) {
-  .block-ref { grid-column: 1 / 7; margin: -.4em 0 1.4em; }
-}
+@media (max-width: 900px) { .block-ref { grid-column: 1 / 7; } }
 
 /* narration-aware state — a weight shift on the rule, no glow */
 .verse-box.is-live { border-left-color: var(--ink); }
