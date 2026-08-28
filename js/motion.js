@@ -58,12 +58,23 @@
     });
   }
 
+  // Not every pixel of the page is inside a .section[data-ch]: #contents sits in a
+  // ~1400px gap between the hero and chapter I, and each plate break leaves a smaller
+  // one. The old fallback here returned the LAST section for any y that missed —
+  // so standing in the contents reported the closing five-words, which is the one
+  // section that carries .nav-faded (opacity 0, pointer-events none). The running
+  // head vanished on the first scroll of the book and did not come back until
+  // chapter I. Answer the question honestly instead: the last section you have
+  // entered, which in a gap is the one you just left.
   function currentSectionFor(y) {
+    if (!sections.length) return null;
+    if (y < sections[0].top) return sections[0];
+    var found = sections[0];
     for (var i = 0; i < sections.length; i++) {
-      var s = sections[i];
-      if (y >= s.top && y < s.top + s.height) return s;
+      if (sections[i].top <= y) found = sections[i];
+      else break;
     }
-    return y < (sections[0] ? sections[0].top : 0) ? sections[0] : sections[sections.length - 1];
+    return found;
   }
 
   function onScrollFrame() {
@@ -171,15 +182,15 @@
     if (!nav) return;
     nav.classList.toggle('nav-faded', ch === 'fw');
 
-    // hide-on-scroll-down (mobile/tablet, matching the nav-chapters collapse breakpoint)
-    if (window.innerWidth <= 900) {
-      var y = window.scrollY;
-      if (y > lastScrollY + 4 && y > 120) nav.classList.add('nav-hidden');
-      else if (y < lastScrollY - 4) nav.classList.remove('nav-hidden');
-      lastScrollY = y;
-    } else {
-      nav.classList.remove('nav-hidden');
-    }
+    // Hide-on-scroll-down, at every width. This used to be gated to <= 900px, which
+    // meant the running head was pinned for the whole book on a desktop window — the
+    // one place there is room for a photograph to run to the top of the viewport.
+    // Reading forward, the bar goes; the moment you scroll back, it returns. The
+    // open contents panel is not affected: body.nav-toc-open pins the nav in CSS.
+    var y = window.scrollY;
+    if (y > lastScrollY + 4 && y > 120) nav.classList.add('nav-hidden');
+    else if (y < lastScrollY - 4) nav.classList.remove('nav-hidden');
+    lastScrollY = y;
 
     // The running head IS the progress indicator (see css/polish.css): numerals you
     // have read through go to full ink, and the one you are inside carries a
@@ -369,9 +380,29 @@
     initTocRoll();
     onScrollFrame();
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', function () {
-      measureSections(); tocRollLast = -1; onScrollFrame();
-    });
+    var remeasure = function () { measureSections(); tocRollLast = -1; onScrollFrame(); };
+    window.addEventListener('resize', remeasure);
+
+    // measureSections() ran ONCE, at render, against a page set in the fallback
+    // fonts and with nothing decoded. Fraunces then swapped in and 209,000px of
+    // prose reflowed underneath a section table that was never rebuilt — so every
+    // boundary was wrong for the rest of the session. Standing in the middle of
+    // chapter IV, the running head read VII, the paper was the closing section's
+    // white, and the nav carried .nav-faded: opacity 0, pointer-events none. The
+    // bar was not broken; it was correctly hiding for a section you were not in.
+    // Re-measure whenever the document actually changes height.
+    window.addEventListener('load', remeasure);
+    if (window.ResizeObserver) {
+      var lastH = document.documentElement.scrollHeight;
+      new ResizeObserver(function () {
+        var h = document.documentElement.scrollHeight;
+        if (h === lastH) return;   // a width-only reflow is already covered by resize
+        lastH = h;
+        remeasure();
+      }).observe(document.body);
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
+
     wireReveals();
     wireVeilBoundary();
     wireFiveWords();
