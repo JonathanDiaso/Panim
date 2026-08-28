@@ -17,12 +17,12 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
 
-<link rel="stylesheet" href="fonts/fonts.css?v=8">
-<link rel="stylesheet" href="css/site.css?v=8">
-<link rel="stylesheet" href="css/components.css?v=8">
-<link rel="stylesheet" href="css/player.css?v=8">
-<link rel="stylesheet" href="css/room.css?v=8">
-<link rel="stylesheet" href="css/polish.css?v=8">
+<link rel="stylesheet" href="fonts/fonts.css?v=12">
+<link rel="stylesheet" href="css/site.css?v=12">
+<link rel="stylesheet" href="css/components.css?v=12">
+<link rel="stylesheet" href="css/player.css?v=12">
+<link rel="stylesheet" href="css/room.css?v=12">
+<link rel="stylesheet" href="css/polish.css?v=12">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -34,6 +34,11 @@
   <div class="nav-shell">
     <a class="nav-mark" href="#hero">Panim</a>
     <ul class="nav-chapters" id="nav-chapters"><!-- js/ui.js populates ch01–ch10 links --></ul>
+    <button class="nav-toc-toggle" id="nav-toc-toggle" type="button"
+            aria-expanded="false" aria-controls="nav-toc" title="Contents">
+      <span class="ntt-word">Contents</span>
+      <span class="ntt-here" id="ntt-here">I</span>
+    </button>
     <div class="nav-actions">
       <button class="btn btn-icon" id="thread-btn" aria-haspopup="dialog" aria-controls="thread-panel" title="The Thread">Thread</button>
       <button class="btn btn-icon" id="about-btn" aria-haspopup="dialog" aria-controls="about-sheet" title="About">About</button>
@@ -41,6 +46,15 @@
     </div>
   </div>
 </nav>
+
+<!-- The contents, brought back down over the page. Built by js/ui.js from the same
+     chapter data the #contents section uses.
+     It is a SIBLING of #site-nav, not a child: the nav fades to opacity 0 on the
+     closing section and translates away on scroll-down, and a child panel inherited
+     both — an open list would silently vanish under the reader. -->
+<div class="nav-toc" id="nav-toc" hidden>
+  <div class="nav-toc-inner" id="nav-toc-inner"></div>
+</div>
 
 <main id="main">
   <!-- The opening plate (art/hero.jpg) is inserted here by js/render.js mountHero()
@@ -252,15 +266,15 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=8"></script>
-<script src="content/images.js?v=8"></script>
-<script src="content/audio-manifest.js?v=8"></script>
-<script src="js/render.js?v=8"></script>
-<script src="js/ui.js?v=8"></script>
-<script src="js/motion.js?v=8"></script>
-<script src="js/sync.js?v=8"></script>
-<script src="js/player.js?v=8"></script>
-<script src="js/room.js?v=8"></script>
+<script src="content/chapters.js?v=12"></script>
+<script src="content/images.js?v=12"></script>
+<script src="content/audio-manifest.js?v=12"></script>
+<script src="js/render.js?v=12"></script>
+<script src="js/ui.js?v=12"></script>
+<script src="js/motion.js?v=12"></script>
+<script src="js/sync.js?v=12"></script>
+<script src="js/player.js?v=12"></script>
+<script src="js/room.js?v=12"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

@@ -108,6 +108,7 @@
 
     // active chapter + nav visibility
     updateNav(cur.ch, progress, chProgress);
+    updateTocRoll();
 
     if (cur.ch !== lastActiveCh) {
       lastActiveCh = cur.ch;
@@ -119,6 +120,47 @@
     if (!ticking) {
       ticking = true;
       requestAnimationFrame(onScrollFrame);
+    }
+  }
+
+  // ---------- the contents rolls up into the running head ----------
+  // As #contents leaves the viewport its rows lift and fade in sequence, and the
+  // head's numerals fade in as they go: the list does not disappear, it moves.
+  // Everything here is layout-driven (getBoundingClientRect), never time-driven,
+  // so a throttled or backgrounded tab cannot leave it mid-flight.
+  var tocSection = null, tocRows = null, navChapters = null, tocRollLast = -1;
+  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function initTocRoll() {
+    tocSection = document.getElementById('contents');
+    tocRows = tocSection ? Array.prototype.slice.call(tocSection.querySelectorAll('.toc-row')) : [];
+    navChapters = document.getElementById('nav-chapters');
+    tocRows.forEach(function (r, i) { r.style.setProperty('--i', i); });
+    updateTocRoll();
+  }
+
+  function updateTocRoll() {
+    if (!tocSection || !tocRows || !tocRows.length) return;
+    var r = tocSection.getBoundingClientRect();
+    var h = r.height || 1;
+    // 0 while the contents is still in place; 1 once a full section-height of it
+    // has passed above the top of the viewport.
+    var roll = (-r.top) / h;
+    roll = roll < 0 ? 0 : (roll > 1 ? 1 : roll);
+    if (Math.abs(roll - tocRollLast) < 0.004) return;   // nothing visible changed
+    tocRollLast = roll;
+
+    if (navChapters) navChapters.style.opacity = roll.toFixed(3);
+
+    if (REDUCED) return;   // the head still takes over; the rows just do not travel
+    var n = tocRows.length;
+    for (var i = 0; i < n; i++) {
+      // staggered: the top row goes first, the last row last
+      var local = roll * (n * 0.62 + 1) - i * 0.62;
+      local = local < 0 ? 0 : (local > 1 ? 1 : local);
+      var row = tocRows[i];
+      row.style.opacity = (1 - local).toFixed(3);
+      row.style.transform = local ? 'translateY(' + (-local * 22).toFixed(1) + 'px)' : '';
     }
   }
 
@@ -153,7 +195,30 @@
       if (isActive) a.style.setProperty('--ch-progress', (chProgress || 0).toFixed(3));
       else a.style.removeProperty('--ch-progress');
     });
+
+    // the head's chip carries the same chapter and the same filling hairline —
+    // under 900px the numerals are display:none and this is the only one there is
+    var chip = document.getElementById('ntt-here');
+    if (chip) {
+      var roman = ROMAN_BY_N[ch];
+      if (roman) {
+        chip.textContent = roman;
+        chip.style.setProperty('--ch-progress', (chProgress || 0).toFixed(3));
+      }
+    }
+    // and the panel marks where you are, so opening it answers "where am I"
+    Array.prototype.forEach.call(document.querySelectorAll('#nav-toc .ntr'), function (a) {
+      var navCh = a.getAttribute('data-nav-ch') || '';
+      var n2 = navCh.replace(/^ch0?/, '');
+      var idx2 = CH_ORDER.indexOf(n2);
+      var act = navCh === 'ch' + (ch.length === 1 ? '0' + ch : ch);
+      a.classList.toggle('is-active', act);
+      a.classList.toggle('is-read', !act && idx2 > -1 && hereIdx > -1 && idx2 < hereIdx);
+    });
   }
+
+  var ROMAN_BY_N = { '1':'I','2':'II','3':'III','4':'IV','5':'V',
+                     '6':'VI','7':'VII','8':'VIII','9':'IX','10':'X' };
 
   // ---------- reveal observers (once-only) ----------
   function wireReveals() {
@@ -301,9 +366,12 @@
 
   function init() {
     measureSections();
+    initTocRoll();
     onScrollFrame();
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', function () { measureSections(); onScrollFrame(); });
+    window.addEventListener('resize', function () {
+      measureSections(); tocRollLast = -1; onScrollFrame();
+    });
     wireReveals();
     wireVeilBoundary();
     wireFiveWords();

@@ -1,25 +1,42 @@
-# Staged photographs
+# art/incoming — staged, named, not yet wired
 
-New plates land here, named for what they are, before anything is decided about
-them. Nothing in this folder is referenced by the site.
+Nothing here is published. `content/images.js` still points at `art/*.webp`.
+Wiring one in is: pick it, convert to WebP, add the line to `images.js`.
 
-When one is assigned to a slot: copy it to `art/originals/<slot>.jpg` unchanged
-(that copy is the master), write the WebP to `art/<slot>.webp` at quality 82,
-add the entry to `content/images.js`, and delete it from here only after `cmp`
-proves the two files are byte-identical.
+**Naming:** `<slot>--<variant>.jpeg`. Two files sharing a slot prefix are
+alternates for the same plate and need a choice, not both.
 
-## What is still here, and why
+⚠️ **Everything here is 1408×768.** That is Gemini's output ceiling, and it is
+both **too small** (plates want 2400 px+, these soften on a large display) and
+**the wrong shape** (1.83:1, where the sheet asks for 3:2 / 1.5:1). See the
+resolution note in `../PROMPTS.md` before generating more.
 
-| file | note |
-|---|---|
-| `01-tomb--day.jpeg` | a re-roll of `ch01-tomb`, which is already published. Not obviously better — the published one has the excavation tools in frame and reads as a dig; this one reads as a hole. Author's call. |
-| `02-trees--plain.jpeg` | a re-roll of `ch02-trees`, already published. |
-| `02-trees--flowers.jpeg` | the same frame with flowers added. |
-| `hero--open-door.jpeg` | a re-roll of the hero. Wider, more of the room, the light less concentrated. |
-| `03-mountain--day.jpeg` | the golden-hour version of ch. III, not chosen. Sinai in the book is darkness and thick cloud, and the paper is still near night at chapter III. |
-| `04-river--day.jpeg` | the daylight version of ch. IV, not chosen. Jacob wrestles until the breaking of the day, so the fight itself is night. |
-| `unassigned--man-walking-into-haze.jpeg` | a lone figure walking away into dust. No slot claimed yet. |
-| `unassigned--ridge-at-night.jpeg` | a robed figure on a ridge under a moon, valley below. **The only true-night plate in the set** — worth spending on a slot that wants night rather than one that merely tolerates it. |
+---
 
-Every source so far is 1408×768. Plates want 2400 px+; they soften on a large
-display.
+## Staged, 2026-08-27 — 19 frames, 12 slots
+
+| file | slot | verdict against `../PROMPTS.md` |
+|---|---|---|
+| `hero--open-door.jpeg` | `hero` | mossy stone, ring handle — European village, not Levantine |
+| `hero--door-bright.jpeg` | `hero` | strong wedge of light, heavy dust — **best of the three** |
+| `hero--door-dark.jpeg` | `hero` | same door, darker, less dust |
+| `01-tomb--day.jpeg` | `ch01-tomb` | good lamps and shaft. **Hand is an adult's, not a 13-year-old's**; no bones, no beads |
+| `02-trees--plain.jpeg` | `ch02-trees` | 🔴 golden and lush on the coldest page. Robed, not fig leaves |
+| `02-trees--flowers.jpeg` | `ch02-trees` | 🔴 worse — a flower garden |
+| `03-mountain--day.jpeg` | `ch03-mountain` | teal daylight sky, god rays — off-arc |
+| `03-mountain--night-camp.jpeg` | `ch03-mountain` | ⭐ **the keeper.** Storm-dark, tents, the crowd standing in a line facing it. No boundary marker yet |
+| `04-river--day.jpeg` | `ch04-river` | good splash, but faces readable and a warm sunset band |
+| `04-river--night-silhouette.jpeg` | `ch04-river` | ⭐ **the keeper.** Pure silhouette, no faces, deep blue. Far bank has reeds but no camp |
+| `05-bush--golden.jpeg` | `ch05-bush` | sandals are right. **Golden desert daylight — the fire barely reads as the only source.** No flock |
+| `06-shine--veiled-forest.jpeg` | `ch06-shine` | backlit weave is beautiful. **Set in a green forest**, and the cloth is a hood, not the flat masveh square |
+| `08-flint--profile.jpeg` | `ch08-flint` | beard and rim light right. **Looking down, not forward** — reads as sorrow, not decision |
+| `08-veil--torn.jpeg` | `ch08-veil` | colours and snapping threads right. **No cherubim woven in**, and the architecture is Gothic vaulting |
+| `09-emmaus--table.jpeg` | `ch09-emmaus` | ⭐ **strongest frame in the batch.** Torn loaf, cup, lamp, smoke line, grey window. A small stool intrudes |
+| `09-charcoal--close.jpeg` | `ch09-charcoal` | **has open flames** — it is a wood fire, not *anthrakia*. Grey pebble, not basalt |
+| `09-charcoal--wide.jpeg` | `ch09-charcoal` | wider, more smoke, footprints. Still flaming |
+| `unassigned--man-walking-into-haze.jpeg` | — | figure from behind walking into dust |
+| `unassigned--ridge-at-night.jpeg` | — | bloodstained robe, moonlit path above a village |
+
+## Slots with nothing staged
+
+`ch01-scroll` · `ch02-storm` · `ch07-gate` · `ch10-veil-lift` · `ch10-morning` · `og-image`

@@ -53,10 +53,30 @@ window.PANIM_IMAGES = {
     ref: "masveh · Exodus 34:33"
   },
   "ch07-gate": null,
-  "ch08-flint": null,
-  "ch08-veil": null,
-  "ch09-charcoal": null,
-  "ch09-emmaus": null,
+  "ch08-flint": {
+    src: "art/ch08-flint.webp",
+    alt: "A bearded man's profile turned hard to one side against a storm-dark sky, one low red-brown light tracing the nose and jaw, the rest near black. The expression is not anguish; it is a decision already made.",
+    caption: "Therefore I have set My face like flint.",
+    ref: "Isaiah 50:7"
+  },
+  "ch08-veil": {
+    src: "art/ch08-veil.webp",
+    alt: "A colossal woven temple curtain in blue, purple and scarlet, split from the top downward, hard white light bursting through the tear and individual threads snapping and lighting up as they part.",
+    caption: "Torn in two from top to bottom — from the other side.",
+    ref: "parochet · Matthew 27:51"
+  },
+  "ch09-charcoal": {
+    src: "art/ch09-charcoal.webp",
+    alt: "A small charcoal fire on a pebble shore at first light, fish and flat bread laid on the coals, low smoke drifting sideways and backlit into a thin sheet, cold grey sea behind.",
+    caption: "The word burns in only two places: a courtyard, and this beach.",
+    ref: "anthrakia · John 21:9"
+  },
+  "ch09-emmaus": {
+    src: "art/ch09-emmaus.webp",
+    alt: "A rough table in a dim stone room lit by one small window at first light: a round loaf torn in half, a clay cup, and a thin line of smoke still rising from a wick just gone out. No one is there.",
+    caption: "Then their eyes were opened and they recognized Him.",
+    ref: "Luke 24:31 · Emmaus"
+  },
   "ch10-veil-lift": null,
   "ch10-morning": {
     src: "art/ch10-morning.webp",

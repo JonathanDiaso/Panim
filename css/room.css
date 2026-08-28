@@ -143,8 +143,14 @@ body.room-open .player { opacity: 0; pointer-events: none; }
 
 /* idle dim — the room recedes while you listen */
 #room .room-stack, #room .room-close, #room .room-seek { transition: opacity 1.2s var(--ease); }
-#room[data-idle="true"] .room-stack { opacity: .38; }
-#room[data-idle="true"] .room-close, #room[data-idle="true"] .room-seek { opacity: .25; }
+/* Measured against the room's own base (#0C0B0A, text #f0edf4): .38 composited to
+   3.20:1 — under the 4.5:1 AA floor for text — and .25 composited to 2.04:1, which
+   is under even the 3:1 minimum for UI controls (WCAG 1.4.11). The close button and
+   the seek bar were the worst of it. These land at ~5.1:1 and ~3.9:1, and over the
+   backdrop photograph (brightness .15) there is headroom left for the bright patches.
+   Receding is the intent; vanishing was the bug. */
+#room[data-idle="true"] .room-stack { opacity: .55; }
+#room[data-idle="true"] .room-close, #room[data-idle="true"] .room-seek { opacity: .45; }
 @media (prefers-reduced-motion: reduce) {
   #room, .room-backdrop, .arc-fill { transition: none; }
   .room-backdrop { animation: none; transform: scale(1.04); }

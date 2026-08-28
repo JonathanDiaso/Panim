@@ -106,10 +106,58 @@
 }
 .player[data-state="unavailable"] .meta-status { opacity: 1; }
 
+/* ---------------------------------------------------------------------------
+   THE BAR HIDES WHEN NOTHING IS PLAYING
+   Measured 2026-08-27 at 402x874: the bar is 161.6px on a phone (not the 114px
+   it is on desktop -- see the mobile row rules below), which is 18.5% of the
+   screen, permanently, spent on the words "Select a chapter to begin" and a dead
+   0:00 / 0:00. On a page whose thesis is a book read in daylight, that made the
+   most app-like object the most constant one.
+   `idle` is the state player.js already sets before anything is loaded and again
+   when playback resets, so nothing new has to be tracked. Chapter selection lives
+   in the running head (see components.css, .nav-toc) and in the Listening Room,
+   so the bar is not the only way in and can leave completely.
+   --------------------------------------------------------------------------- */
+.player {
+  transform: translateY(0);
+  transition: transform var(--dur-med) var(--ease);
+  will-change: transform;
+}
+.player[data-state="idle"] {
+  transform: translateY(100%);
+  pointer-events: none;
+}
+/* Anything pinned above the bar has to travel with it, or it hangs in mid-air
+   over the prose while the bar is gone. --player-h is the single source. */
+:root { --player-h: 114px; }
+@media (max-width: 640px) { :root { --player-h: 92px; } }   /* measured at 402px wide */
+body:has(.player[data-state="idle"]) { --player-h: 0px; }
+@media (prefers-reduced-motion: reduce) { .player { transition: none; } }
+
+/* ---------------------------------------------------------------------------
+   MOBILE: ONE ROW, NOT THREE
+   The old rule wrapped .player-meta onto its own full-width row (order:3,
+   flex-basis:100%), which is what made the bar TALLER on the device with the
+   least room -- 111.6px of controls instead of 64px.
+   Speed / Follow / Sleep are not dropped, they are already in the Listening Room
+   (#room-speed, #room-sleep, #room-follow, #room-chapters), which is a superset
+   of this bar. The Room button stays, so all four remain one tap away.
+   --------------------------------------------------------------------------- */
 @media (max-width: 640px) {
-  .player-controls { flex-wrap: wrap; padding: .5rem .6rem; }
-  .player-meta { order: 3; flex-basis: 100%; }
+  .player-controls {
+    flex-wrap: nowrap;
+    gap: .35rem;
+    padding: .25rem .6rem;
+    min-height: 56px;
+  }
+  .player-transport { gap: 0; }
+  .player-meta { flex: 1 1 auto; min-width: 0; }
+  /* the seek bar directly below already shows position; the Room carries a clock */
+  .player-meta .meta-time { display: none; }
+  #speed-btn, #follow-btn, #sleep-btn { display: none; }
   .player-secondary .label-hide-mobile { display: none; }
+  .player-seek { padding-bottom: .25rem; }
+  .seekbar { margin: 14px 0; }
 }
 
 /* ---------- mix panel (C13) ---------- */

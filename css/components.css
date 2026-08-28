@@ -61,6 +61,8 @@
   letter-spacing: .2em; text-transform: uppercase;
   color: var(--ink);
 }
+/* was 47x19 — under the 44px target minimum */
+.nav-mark { display: inline-flex; align-items: center; min-height: 44px; }
 .nav-chapters { display: flex; gap: .1rem; }
 .nav-chapters a {
   display: inline-flex; align-items: center; justify-content: center;
@@ -72,7 +74,8 @@
 .nav-chapters a:hover, .nav-chapters a:focus-visible { color: var(--ink); }
 .nav-chapters a.is-active { color: var(--accent); font-weight: 600; }
 .nav-actions { display: flex; gap: .3rem; align-items: center; }
-.nav-actions .btn { padding: .6em 1em; min-height: 38px; font-size: .64rem; }
+/* 38px failed the 44px minimum on three buttons (measured 52x38 at 402px wide). */
+.nav-actions .btn { padding: .6em 1em; min-height: 44px; font-size: .64rem; }
 
 @media (max-width: 900px) {
   .nav-chapters { display: none; }
@@ -142,7 +145,12 @@
 }
 .hero-meta b { display: block; color: var(--ink); font-weight: 600; }
 .hero-actions { grid-column: 3 / 9; display: flex; gap: .8rem; align-items: center; margin-top: 1.8rem; flex-wrap: wrap; }
-.hero-hint { font-family: var(--ui); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint); }
+.hero-hint {
+  font-family: var(--ui); font-size: .66rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-faint);
+  /* was 77x18 — under the 44px target minimum */
+  display: inline-flex; align-items: center; min-height: 44px;
+}
 
 @media (max-width: 900px) {
   .hero-block { grid-column: 1 / -1; }
@@ -461,7 +469,8 @@
 .completion-actions { display: flex; gap: .6rem; flex-wrap: wrap; }
 
 .toast {
-  position: fixed; left: var(--edge); bottom: 104px; z-index: 940;
+  position: fixed; left: var(--edge); bottom: calc(var(--player-h, 114px) + 10px); z-index: 940;
+  transition: bottom var(--dur-med) var(--ease);
   background: var(--ink); color: var(--paper);
   padding: .9em 1.2em; display: flex; gap: 1em; align-items: center;
   font-family: var(--ui); font-size: .74rem; max-width: min(420px, 88vw);
@@ -493,7 +502,11 @@
 .prayer-zone { grid-column: 3 / 9; }
 .prayer-zone .block-p { font-style: italic; color: var(--ink-soft); }
 .prayer-zone .divider-beat { grid-column: auto; }
-#hold-btn { position: fixed; left: var(--edge); bottom: 104px; z-index: 930; }
+#hold-btn {
+  position: fixed; left: var(--edge); z-index: 930;
+  bottom: calc(var(--player-h, 114px) + 10px);
+  transition: bottom var(--dur-med) var(--ease);
+}
 #hold-btn[hidden] { display: none; }
 @media (max-width: 900px) { .prayer-zone { grid-column: 1 / 7; } }
 
@@ -685,10 +698,143 @@
   .invite-actions .btn { flex: 1 1 100%; }
 }
 
+/* the inline slot's reference — same idea as .plate-ref, one step quieter because
+   an inline figure is not a plate and should not shout the way a frontispiece does. */
+.img-slot figcaption .slot-ref {
+  display: block; margin-top: .4em;
+  font-family: var(--ui); font-style: normal;
+  font-size: .58rem; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--accent);
+}
+
 /* the plate's reference: where this is in the book, set below the caption */
 .plate-ref {
   display: block; margin-top: .45em;
   font-family: var(--ui); font-style: normal;
   font-size: .62rem; font-weight: 600; letter-spacing: .14em;
   text-transform: uppercase; color: var(--accent);
+}
+
+/* ============================================================================
+   THE CONTENTS ROLLS UP INTO THE RUNNING HEAD
+   ----------------------------------------------------------------------------
+   Two problems solved by one object.
+   (1) The contents page was ten static rows you scroll past once and never
+       return to, and the running head numerals were a separate thing that knew
+       nothing about it.
+   (2) `.nav-chapters` is display:none under 900px, so on a PHONE there was no
+       chapter navigation anywhere in the chrome — which is the only reason the
+       player bar had to carry "Select a chapter to begin".
+   So: as you scroll past #contents its rows lift and fade in sequence, and the
+   running head takes over carrying them. The head is then tappable to bring the
+   whole list back down over the page. Same list, two states.
+   js/motion.js drives the roll; js/ui.js builds the panel.
+   ============================================================================ */
+
+.toc-row { will-change: transform, opacity; }
+#nav-chapters { transition: opacity var(--dur-fast) linear; }
+
+/* ---- the head's toggle. On desktop it reads "Contents"; under 900px, where the
+        numerals are hidden, it becomes the current-chapter chip and is the only
+        chapter affordance on the page. ---- */
+.nav-toc-toggle {
+  display: inline-flex; align-items: center; gap: .5em;
+  min-height: 44px; padding: 0 .8em;
+  background: none; border: 1px solid transparent; cursor: pointer;
+  font-family: var(--ui); font-size: .64rem; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.nav-toc-toggle:hover, .nav-toc-toggle:focus-visible { color: var(--ink); }
+.nav-toc-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.nav-toc-toggle[aria-expanded="true"] { color: var(--accent); border-color: var(--rule-strong); }
+
+/* the chip: the roman numeral you are inside, with the same filling hairline the
+   numerals carry, so the head means the same thing at both sizes */
+.ntt-here {
+  position: relative; font-weight: 600; color: var(--accent);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.ntt-here::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -5px; height: 1px;
+  background: var(--accent);
+  transform: scaleX(var(--ch-progress, 0)); transform-origin: left;
+  transition: transform var(--dur-fast) linear;
+}
+.nav-toc-toggle .ntt-word { display: inline; }
+@media (max-width: 900px) {
+  /* the numerals are gone here, so the chip carries the chapter on its own */
+  .nav-toc-toggle .ntt-word { display: none; }
+  .nav-toc-toggle { font-size: .72rem; }
+  .nav-toc-toggle::before {
+    content: 'Ch'; font-size: .6rem; font-weight: 500; color: var(--ink-faint);
+    letter-spacing: .14em;
+  }
+}
+
+/* ---- the panel that drops out of the head ---- */
+/* Sibling of #site-nav and fixed on its own, so the nav's opacity fade and its
+   scroll-down transform cannot take an open list with them. z-index sits one above
+   the nav (800) and below the sheets (960). --nav-h matches .nav-shell min-height. */
+:root { --nav-h: 59px; }
+@media (max-width: 900px) { :root { --nav-h: 53px; } }
+.nav-toc {
+  position: fixed; left: 0; right: 0; top: var(--nav-h); z-index: 810;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule-strong);
+  max-height: min(72vh, 640px); overflow-y: auto;
+  overscroll-behavior: contain;
+  transform-origin: top;
+  transform: translateY(-8px); opacity: 0;
+  transition: transform var(--dur-med) var(--ease), opacity var(--dur-med) var(--ease);
+}
+.nav-toc[hidden] { display: none; }
+.nav-toc.is-open { transform: translateY(0); opacity: 1; }
+/* while the list is down, the head that opened it stays put and stays legible —
+   otherwise the only control that closes it can fade or slide away mid-use */
+body.nav-toc-open #site-nav {
+  opacity: 1 !important; transform: none !important; pointer-events: auto !important;
+}
+
+.nav-toc-inner {
+  max-width: var(--shell); margin-inline: auto;
+  padding: .4rem var(--edge) 1.1rem;
+}
+.ntr {
+  display: flex; align-items: baseline; gap: 1rem;
+  width: 100%; min-height: 48px; padding: .55rem .2rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: left; color: var(--ink);
+  text-decoration: none;
+  transition: border-color var(--dur-fast) var(--ease);
+}
+.ntr:last-child { border-bottom: 0; }
+.ntr:hover, .ntr:focus-visible { border-bottom-color: var(--ink); }
+.ntr:hover .ntr-title { color: var(--accent); }
+.ntr:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ntr-num {
+  flex: 0 0 3.4em;
+  font-family: var(--ui); font-size: .64rem; font-weight: 600;
+  letter-spacing: .16em; color: var(--accent);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.ntr-title {
+  flex: 1 1 auto; min-width: 0;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 72;
+  font-weight: 300; font-size: 1.02rem; line-height: 1.2;
+  transition: color var(--dur-fast) var(--ease);
+}
+.ntr-dur {
+  flex: 0 0 auto;
+  font-family: var(--ui); font-size: .62rem; color: var(--ink-faint);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.ntr.is-read .ntr-title { color: var(--ink-soft); }
+.ntr.is-active .ntr-title { color: var(--accent); font-weight: 400; }
+.ntr.is-active .ntr-num::before { content: '▸ '; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-toc { transition: none; }
+  .toc-row { transition: none; }
+  .ntt-here::after { transition: none; }
 }
