@@ -74,7 +74,7 @@ body.room-open .player { opacity: 0; pointer-events: none; }
 .room-sleep-badge {
   position: absolute; top: max(1.2rem, env(safe-area-inset-top)); left: 1.2rem; z-index: 2;
   display: flex; align-items: center; gap: .5em;
-  font-family: var(--ui); font-size: .7rem; letter-spacing: .15em;
+  font-family: var(--ui); font-size: var(--ap-md); letter-spacing: .15em;
   color: color-mix(in srgb, var(--room-accent) 80%, white);
 }
 .room-sleep-badge .moon {
@@ -93,7 +93,7 @@ body.room-open .player { opacity: 0; pointer-events: none; }
 }
 .room-hebrew { font-size: 1rem; color: var(--room-accent); opacity: .8; letter-spacing: .1em; }
 .room-chnum {
-  font-family: var(--ui); font-size: .75rem; letter-spacing: .45em;
+  font-family: var(--ui); font-size: var(--ap-lg); letter-spacing: .45em;
   color: var(--room-accent); margin-top: .4rem;
 }
 .room-title {
@@ -135,7 +135,7 @@ body.room-open .player { opacity: 0; pointer-events: none; }
 .room-play.is-playing .ico-play { display: none; }
 
 .room-secondary { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem; margin-top: .3rem; }
-.room-secondary .btn-icon { min-width: 60px; min-height: 44px; font-size: .72rem; }
+.room-secondary .btn-icon { min-width: 60px; min-height: 44px; font-size: var(--ap-md); }
 
 .room-seek {
   position: absolute; left: 0; right: 0;
@@ -180,9 +180,9 @@ body.room-open .player { opacity: 0; pointer-events: none; }
 .chapter-row .cr-main:hover, .chapter-row .cr-main:focus-visible { background: color-mix(in srgb, var(--accent) 8%, transparent); }
 .chapter-row .cr-dl { min-width: 44px; min-height: 44px; opacity: .7; }
 .chapter-row .cr-dl.is-cached { color: var(--accent); opacity: 1; }
-.chapter-row .cr-num { font-family: var(--ui); font-size: .7rem; letter-spacing: .3em; color: var(--accent); min-width: 2.4em; }
+.chapter-row .cr-num { font-family: var(--ui); font-size: var(--ap-md); letter-spacing: .3em; color: var(--accent); min-width: 2.4em; }
 .chapter-row .cr-title { font-family: var(--serif); font-size: 1.05rem; flex: 1; }
-.chapter-row .cr-dur { font-family: var(--ui); font-size: .65rem; opacity: .6; font-variant-numeric: tabular-nums; }
+.chapter-row .cr-dur { font-family: var(--ui); font-size: var(--ap-md); opacity: .6; font-variant-numeric: tabular-nums; }
 .chapter-row.is-current .cr-title { color: var(--accent); }
 .chapter-row.is-complete .cr-num::after { content: ' ✓'; letter-spacing: 0; }
 
@@ -212,7 +212,7 @@ body.room-open .player { opacity: 0; pointer-events: none; }
 .room-clock { color: var(--room-ink); }
 .room-chnum { color: var(--room-accent); opacity: 1; }
 .room-hebrew { color: var(--room-accent); opacity: .9; }
-.room-secondary .btn-icon { font-size: .72rem; letter-spacing: .06em; }
+.room-secondary .btn-icon { font-size: var(--ap-md); letter-spacing: .06em; }
 .room-btn { font-variant-numeric: lining-nums tabular-nums; }
 
 /* the seek bar has to read against a photograph, not just against black */

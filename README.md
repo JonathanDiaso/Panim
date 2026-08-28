@@ -302,8 +302,8 @@ check its own comment had promised but never implemented.
 - WebP conversion: 5.36 MB → 0.58 MB (−89%). Originals in `art/originals/`.
 - Contents page; running times read from the audio manifest.
 - Chapter hooks rewritten as standfirsts — each was previously a verbatim copy of its
-  own opening sentence. **These are drafts written by Claude, in the author's book** —
-  originals in `content/HOOKS-original.json`.
+  own opening sentence. **These ten lines are drafts and are not yet approved by the
+  author** — originals in `content/HOOKS-original.json`.
 - Typographic quotes throughout (203 apostrophes, 44 doubles). Transliteration glottal
   marks (`ra'ah`) deliberately left straight.
 - The invitation modal (was a keyboard-shortcut legend).

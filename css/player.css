@@ -38,19 +38,19 @@
   font-family: var(--ui);
 }
 .player-meta .meta-title {
-  font-size: .78rem; letter-spacing: .06em;
+  font-size: var(--ap-lg); letter-spacing: .06em;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .player-meta .meta-time {
-  font-size: .65rem; opacity: .6; letter-spacing: .04em;
+  font-size: var(--ap-md); opacity: .6; letter-spacing: .04em;
 }
 .player-meta .meta-status {
-  font-size: .65rem; opacity: .7; font-style: italic; font-family: var(--serif);
+  font-size: var(--ap-md); opacity: .7; font-style: italic; font-family: var(--serif);
 }
 
 .player-secondary { display: flex; align-items: center; gap: .25rem; }
 .player-secondary .btn-icon { min-width: 44px; min-height: 44px; font-size: .85rem; }
-#speed-btn { font-family: var(--ui); font-size: .68rem; min-width: 44px; }
+#speed-btn { font-family: var(--ui); font-size: var(--ap-md); min-width: 44px; }
 
 /* Follow is on, but the reader has scrolled ahead and the page has stopped moving
    with the voice (js/sync.js). Left lit, the button claims something untrue; turned
@@ -125,7 +125,7 @@
   position: absolute; top: 8px; left: 50%;
   transform: translateX(-50%);
   font-family: var(--ui); font-style: normal;
-  font-size: .56rem; font-weight: 600; letter-spacing: .08em;
+  font-size: var(--ap-sm); font-weight: 600; letter-spacing: .08em;
   color: var(--ink-faint);
   line-height: 1;
 }
@@ -214,7 +214,7 @@ body:has(.player[data-state="idle"]) { --player-h: 0px; }
 
 /* ---------- mix panel (C13) ---------- */
 .mix-row { display: flex; flex-direction: column; gap: .5em; margin-bottom: 1.4em; }
-.mix-row label { font-family: var(--ui); font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; }
+.mix-row label { font-family: var(--ui); font-size: var(--ap-md); letter-spacing: .12em; text-transform: uppercase; }
 .mix-row input[type="range"] {
   width: 100%; accent-color: var(--accent); min-height: 44px;
 }

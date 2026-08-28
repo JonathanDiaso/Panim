@@ -1,5 +1,14 @@
 /* PANIM — fonts.css
    ============================================================================
+   ⚠️ font-display: swap ON ALL 28 FACES, 2026-08-28. There was none, which is the
+   browser default `auto` — in practice a block period of up to 3 seconds where the
+   text is rendered INVISIBLE while the font downloads. On a book, that is a blank
+   page. With swap the reader gets Georgia immediately and Literata when it lands.
+   index.html also preloads the four files that are always needed on first paint
+   (l04 Literata roman latin, l09 Literata italic latin, g02 Archivo latin,
+   h00 Frank Ruhl Libre Hebrew — the hero sets פָּנִים above the fold), because the
+   browser cannot discover a @font-face src until it has parsed this file.
+   ============================================================================
    Three faces, self-hosted, no network call to Google at runtime.
 
      Literata           the book. Everything the reader reads.

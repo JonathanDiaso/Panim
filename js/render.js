@@ -91,8 +91,11 @@
         '<img src="' + esc(img.src) + '" alt="' + esc(img.alt || '') + '" loading="lazy">' + cap +
         '</figure>';
     }
-    return '<div class="img-slot reveal" data-slot="' + esc(slotId) + '" aria-hidden="true">' +
-      '<span class="img-slot-mark">Image forthcoming</span></div>';
+    // An empty slot renders NOTHING, 2026-08-28. It used to draw a framed box with
+    // the words "Image forthcoming" in it — a published book telling every reader
+    // that two of its pictures are not done. A chapter without a plate should look
+    // like a chapter without a plate: it opens on its title.
+    return '';
   }
 
   function renderVerse(b) {
@@ -125,6 +128,82 @@
       '</div></section>';
   }
 
+  // THE THREAD — the closing section, after the five words.
+  // It used to be a sheet behind a button in the running head: thirteen bare labels
+  // and two chapter links, opened by a control that competed with About and Listen
+  // before a first-time reader had read a sentence. At the end of the book the same
+  // thirteen entries change job — they stop being navigation and become the argument.
+  // Data and every claim in it live in content/thread.js.
+  function renderThread() {
+    var entries = window.PANIM_THREAD || [];
+    if (!entries.length) return '';
+    var rows = entries.map(function (t) {
+      return '<article class="thread-item reveal">' +
+        '<div class="thread-span">' +
+          '<a href="#' + esc(t.from) + '">' + (ROMAN[+t.from.slice(2)] || t.from) + '</a>' +
+          '<span class="thread-arrow" aria-hidden="true">\u2192</span>' +
+          '<a href="#' + esc(t.to) + '">' + (ROMAN[+t.to.slice(2)] || t.to) + '</a>' +
+        '</div>' +
+        '<div class="thread-body">' +
+          '<h3 class="thread-name">' + t.label + '</h3>' +
+          '<p class="thread-note">' + t.note + '</p>' +
+          (t.refs ? '<p class="thread-refs">' + esc(t.refs) + '</p>' : '') +
+        '</div>' +
+      '</article>';
+    }).join('');
+    return '<section class="section" id="thread" data-ch="fw" aria-labelledby="thread-heading">' +
+      '<div class="section-inner">' +
+        '<div class="thread-head">' +
+          '<span class="chapter-num">The Thread</span>' +
+          '<div class="thread-standfirst">' +
+            '<h2 id="thread-heading">Nothing in this book was set down once.</h2>' +
+            '<p>Every one of these was planted in an early chapter and left alone until a ' +
+            'later one came back for it. They are listed here rather than earlier because ' +
+            'a thread only reads as a thread once you have walked its whole length.</p>' +
+          '</div>' +
+        '</div>' +
+        rows +
+      '</div></section>';
+  }
+
+  // THE LEXICON — the closing plate, after the Thread.
+  // The words are set as REAL TEXT in Frank Ruhl Libre, not as images. A Hebrew
+  // letterform is already a drawing; a picture of one is heavier, blurrier at the
+  // size this wants, unselectable, invisible to a screen reader and needs a retina
+  // twin. The ink effect is done in CSS on live type (css/components.css, LEXICON):
+  // a mask sweeps right-to-left — the direction Hebrew is actually written — with a
+  // feathered leading edge and a nib travelling on it, so the word appears to be laid
+  // down rather than faded in. Greek sweeps left-to-right, because Greek does.
+  function renderLexicon() {
+    var entries = window.PANIM_LEXICON || [];
+    if (!entries.length) return '';
+    var cards = entries.map(function (e) {
+      var heb = e.lang === 'he';
+      return '<article class="lex-card" data-ch="' + esc(e.ch) + '">' +
+        '<div class="lex-word' + (heb ? '' : ' is-greek') + '" lang="' + esc(e.lang) + '"' +
+          (heb ? ' dir="rtl"' : '') + '><span class="lex-ink">' + esc(e.w) + '</span></div>' +
+        '<div class="lex-body">' +
+          '<p class="lex-translit">' + esc(e.t) + '</p>' +
+          '<p class="lex-gloss">' + esc(e.g) + '</p>' +
+          '<p class="lex-where">' + esc(e.r) +
+            '<a href="#' + esc(e.ch) + '">Chapter ' + (ROMAN[e.num] || e.num) + '</a></p>' +
+        '</div>' +
+      '</article>';
+    }).join('');
+    return '<section class="section" id="lexicon" data-ch="fw" aria-labelledby="lexicon-heading">' +
+      '<div class="section-inner">' +
+        '<div class="lex-head">' +
+          '<span class="chapter-num">The Lexicon</span>' +
+          '<div class="lex-standfirst">' +
+            '<h2 id="lexicon-heading">Ten words, in the language they were written in.</h2>' +
+            '<p>One for each chapter \u2014 the word that chapter turns on. Every vowel mark ' +
+            'here was checked against a source rather than typed from memory.</p>' +
+          '</div>' +
+        '</div>' +
+        cards +
+      '</div></section>';
+  }
+
   // Ch.8's tearing hairline (§8.4): the paragraph whose text contains "torn in two" gets a
   // .tear-line sibling that motion.js animates once, on scroll-into-view.
   function maybeTearLine(chapterId, plainText) {
@@ -140,19 +219,19 @@
   // underneath. That single inversion is most of the design: a photograph stops
   // being a texture behind the words and becomes the thing you are looking at.
   // With no image supplied the chapter simply opens with its title — no empty frame.
-  var PLATE_ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X',
-                     'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI'];
-  var plateCount = 0;
+  // The "PLATE I / PLATE II" label was dropped 2026-08-28: a plate number is
+  // apparatus for a book with a list of plates in the back matter, and this has
+  // no such list — the numeral told the reader nothing they could use, and it
+  // put a second roman numeral beside the chapter's own. The caption and its
+  // reference stay; they say what the picture is and where it sits in the text.
   function renderPlate(slotId) {
     var img = window.PANIM_IMAGES ? window.PANIM_IMAGES[slotId] : null;
     if (!img || !img.src) return '';
-    plateCount++;
     // The caption carries an optional `ref` — a scripture reference or a locator. A
     // plate in a book earns its place by telling you WHERE you are, not just what
     // you are looking at, and it sends the reader back into the text.
     var caption = (img.caption || img.ref)
       ? '<figcaption class="plate-caption">' +
-          '<span class="plate-num">Plate ' + (PLATE_ROMAN[plateCount] || plateCount) + '</span>' +
           '<span class="plate-text">' + esc(img.caption || '') +
             (img.ref ? '<span class="plate-ref">' + esc(img.ref) + '</span>' : '') +
           '</span>' +
@@ -191,18 +270,21 @@
     }, 0);
     var hrs = Math.floor(total / 3600), rem = Math.round((total % 3600) / 60);
 
-    // Measured 2026-08-28 at 1440x900: the contents ran 1225px against an 813px
-    // viewport — one and a half screens of index standing between the jacket and
-    // chapter I, and raising the body size had just made it taller. The standfirsts
-    // are what cost it (113px rows, ~62px without), so they fold rather than go: the
-    // list keeps every title, numeral and running time, and one tap on Descriptions
-    // brings the rest back. js/ui.js remembers the choice.
+    // ONE LINE, 2026-08-28. The section is now the words "Table of Contents" and
+    // nothing else until it is tapped: no label, no chapter count, no running time
+    // visible while it is closed. Everything below appears on open.
+    // FOLDED WHOLE, earlier the same day. Folding only the standfirsts was the wrong cut: the
+    // list still ran ~700px of index between the jacket and chapter I, and the thing
+    // the author objected to was the block itself, not its height. The contents are
+    // reachable from two other places that are always on screen — the Contents toggle
+    // in the running head and the chapters sheet in the player — so on the page it is
+    // now one line of apparatus that opens on demand, descriptions and all.
+    // js/ui.js remembers the choice.
     return '<section class="section" id="contents">' +
       '<div class="section-inner">' +
         '<div class="toc-head">' +
-          '<span class="chapter-num">Contents</span>' +
           '<button type="button" class="toc-expand" id="toc-expand" ' +
-            'aria-expanded="false" aria-controls="toc-list">Descriptions</button>' +
+            'aria-expanded="false" aria-controls="toc-list">Table of Contents</button>' +
           '<span class="toc-total">' + chapters.length + ' chapters &middot; ' +
             (hrs ? hrs + ' hr ' : '') + rem + ' min</span>' +
         '</div>' +
@@ -246,7 +328,7 @@
     var mk = (window.PANIM_MARKS || {})[chapter.id];
     var markHtml;
     if (mk && mk.w) {
-      var isHeb = mk.lang !== 'el';
+      var isHeb = mk.lang === 'he';   // anything else is Greek (lang 'grc'), set LTR in the serif
       var title = mk.t + ' — ' + mk.g + ' (' + mk.r + ')';
       markHtml =
         '<div class="chapter-mark' + (isHeb ? '' : ' is-greek') + '" lang="' + esc(mk.lang) + '"' +
@@ -380,6 +462,9 @@
     var ch10 = chapters[chapters.length - 1];
     var fw = ch10 && ch10.blocks[ch10.blocks.length - 1];
     if (fw && fw.type === 'fivewords') html.push(renderFiveWords(fw));
+
+    html.push(renderThread());
+    html.push(renderLexicon());
 
     var root = document.getElementById('chapters-root');
     root.innerHTML = html.join('');

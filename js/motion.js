@@ -14,22 +14,23 @@
   // Dawn-arc token table (11-website-plan.md §4.2) — mirrors css/site.css section rules.
   // Direction B: the arc is carried by PAPER TEMPERATURE, not by black turning to
   // cream. The book opens on a cool, almost grey stock and warms page by page until
-  // chapter X is a bright warm white. Accents follow the light story — cold slate
-  // while the face is hidden, ember at the mountain, clay through the wilderness.
+  // chapter X is a bright warm white. The ACCENT is now three colours, not ten —
+  // night (I–IV), fire (V–VIII), morning (IX–X) — switching where the book turns
+  // rather than once per chapter. See the long note in css/site.css.
   // This table must stay identical to the .section[data-ch] block in css/site.css.
   var TOKENS = {
-    '0':  { bg: '#EFEBE1', text: '#191510', accent: '#8A4A2C' },
-    '1':  { bg: '#EDE9DF', text: '#191510', accent: '#8A4A2C' },
-    '2':  { bg: '#E7E7E4', text: '#16181A', accent: '#3F5670' },
-    '3':  { bg: '#EDE6DB', text: '#1A1510', accent: '#A2461F' },
-    '4':  { bg: '#E6E8EA', text: '#15181B', accent: '#3A5A78' },
-    '5':  { bg: '#F0E9DC', text: '#1A1510', accent: '#93551C' },
-    '6':  { bg: '#F2ECE0', text: '#1A1610', accent: '#8A6222' },
-    '7':  { bg: '#E9E9E7', text: '#17191B', accent: '#4A5A6E' },
-    '8':  { bg: '#EBE6E1', text: '#181412', accent: '#93332B' },
-    '9':  { bg: '#F4EEE1', text: '#1A1610', accent: '#8E5A20' },
-    '10': { bg: '#FBF7EE', text: '#1A1712', accent: '#7C5A23' },
-    'fw': { bg: '#FDFAF3', text: '#1A1712', accent: '#7C5A23' }
+    '0':  { bg: '#EFEBE1', text: '#191510', accent: '#32506B' },
+    '1':  { bg: '#EDE9DF', text: '#191510', accent: '#32506B' },
+    '2':  { bg: '#E7E7E4', text: '#16181A', accent: '#32506B' },
+    '3':  { bg: '#EDE6DB', text: '#1A1510', accent: '#32506B' },
+    '4':  { bg: '#E6E8EA', text: '#15181B', accent: '#32506B' },
+    '5':  { bg: '#F0E9DC', text: '#1A1510', accent: '#A8391B' },
+    '6':  { bg: '#F2ECE0', text: '#1A1610', accent: '#A8391B' },
+    '7':  { bg: '#E9E9E7', text: '#17191B', accent: '#A8391B' },
+    '8':  { bg: '#EBE6E1', text: '#181412', accent: '#A8391B' },
+    '9':  { bg: '#F4EEE1', text: '#1A1610', accent: '#7E5A20' },
+    '10': { bg: '#FBF7EE', text: '#1A1712', accent: '#7E5A20' },
+    'fw': { bg: '#FDFAF3', text: '#1A1712', accent: '#7E5A20' }
   };
 
   function hexToRgb(hex) {
@@ -259,6 +260,21 @@
       });
     }, { threshold: 0.4 });
     document.querySelectorAll('.chapter-mark').forEach(function (el) { markObserver.observe(el); });
+
+    // THE LEXICON: each word draws itself in ink as its card comes up.
+    // The sweep is pure CSS (an animatable @property driving a feathered mask); all
+    // this does is decide WHEN, and it fires once per card and then lets go. The
+    // threshold is high on purpose — the word should not have started before the
+    // reader is looking at it, which is the whole difference between "it is being
+    // written" and "it was already there".
+    var inkObserver = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-drawn');
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.55 });
+    document.querySelectorAll('.lex-card').forEach(function (el) { inkObserver.observe(el); });
 
     var hairlineObserver = new IntersectionObserver(function (entries, obs) {
       entries.forEach(function (entry) {

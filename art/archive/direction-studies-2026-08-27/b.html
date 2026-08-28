@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PANIM — Direction B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F1E8;      /* warm gallery wall */
+  --ink:#191510;
+  --ink-soft:#6B6357;
+  --clay:#9A4B2A;        /* one earth signal, taken from the pots — not gold */
+  --display:'Fraunces',Georgia,serif;
+  --text:'Fraunces',Georgia,serif;
+  --ui:'Archivo',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--text);font-size:19px;line-height:1.68;
+  font-variation-settings:'SOFT' 0,'WONK' 0;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+
+.wrap{max-width:1440px;margin:0 auto;padding:0 clamp(20px,4vw,64px)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);column-gap:clamp(14px,1.8vw,26px)}
+
+/* ── masthead: thin, quiet, out of the way ── */
+.mast{padding:22px 0;border-bottom:1px solid rgba(25,21,16,.14)}
+.mast .grid{align-items:center}
+.mast .mark{grid-column:1/4;font-family:var(--ui);font-size:11px;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase}
+.mast .nav{grid-column:5/13;display:flex;gap:26px;justify-content:flex-end;
+  font-family:var(--ui);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft)}
+
+/* ── OPENING PLATE: the photograph gets the page. nothing sits on top of it. ── */
+.opening-plate{margin:0;padding:0}
+.opening-plate img{width:100%;height:72vh;min-height:420px;object-fit:cover;
+  object-position:50% 45%}
+
+/* the title comes AFTER the picture, on paper — never over it */
+.titleblock{padding:clamp(40px,6vw,86px) 0 clamp(36px,5vw,64px)}
+.titleblock .heb{grid-column:1/3;font-size:clamp(30px,3.6vw,48px);color:var(--clay);
+  line-height:1;padding-top:.16em}
+.titleblock h1{grid-column:3/10;font-family:var(--display);font-weight:300;
+  font-size:clamp(42px,6.6vw,92px);line-height:1.02;margin:0;letter-spacing:-.015em}
+.titleblock .sub{grid-column:3/9;font-style:italic;font-size:21px;color:var(--ink-soft);
+  margin:22px 0 0}
+.titleblock .by{grid-column:10/13;font-family:var(--ui);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-soft);line-height:2;padding-top:.5em}
+.titleblock .by b{display:block;color:var(--ink);font-weight:600}
+
+.hr{height:1px;background:rgba(25,21,16,.14);margin:0}
+
+/* ── chapter opening ── */
+.chapter{padding:clamp(52px,8vw,104px) 0 clamp(26px,3vw,40px)}
+.chapter .num{grid-column:1/3;font-family:var(--ui);font-size:10.5px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--clay);padding-top:.85em}
+.chapter .ttl{grid-column:3/11}
+.chapter h2{font-family:var(--display);font-weight:300;font-size:clamp(32px,4.6vw,58px);
+  line-height:1.06;margin:0;letter-spacing:-.01em}
+.chapter .hook{font-style:italic;color:var(--ink-soft);margin:12px 0 0;font-size:20px}
+
+/* ── body: measure sits in cols 3–9, margin column carries the apparatus ── */
+.prose{padding-bottom:clamp(30px,4vw,52px)}
+.prose .col{grid-column:3/9}
+.prose p{margin:0 0 1.2em;max-width:62ch}
+.prose .drop::first-letter{font-family:var(--display);font-weight:300;font-size:3.4em;
+  line-height:.82;float:left;padding:.08em .1em 0 0;color:var(--clay)}
+.prose .margin{grid-column:10/13;font-family:var(--ui);font-size:11.5px;line-height:1.7;
+  color:var(--ink-soft);padding-top:.5em}
+.prose .margin b{display:block;font-weight:600;color:var(--ink);font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;margin-bottom:.55em}
+
+/* ── verse: air, not ornament ── */
+.verse{grid-column:3/9;margin:2.4em 0 2.6em}
+.verse p{font-family:var(--display);font-weight:300;font-size:29px;line-height:1.36;
+  margin:0;max-width:30ch;letter-spacing:-.01em}
+.verse .ref{font-family:var(--ui);font-size:10.5px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--clay);margin-top:1.2em}
+
+/* ── full-bleed plate, alone, with a caption underneath on paper ── */
+.plate{margin:clamp(36px,5vw,70px) 0 0}
+.plate img{width:100%;height:64vh;min-height:380px;object-fit:cover}
+.plate .cap{padding:14px 0 0}
+.plate .cap .t{grid-column:3/9;font-style:italic;color:var(--ink-soft);font-size:16px}
+.plate .cap .n{grid-column:1/3;font-family:var(--ui);font-size:10px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.tail{height:70px}
+</style></head><body>
+
+<header class="mast"><div class="wrap grid">
+  <div class="mark">Panim</div>
+  <nav class="nav"><span>Chapters</span><span>The Thread</span><span>About</span><span>Listen</span></nav>
+</div></header>
+
+<figure class="opening-plate"><img src="../art/hero.jpg" alt="A door standing ajar in the dark"></figure>
+
+<div class="wrap"><div class="grid titleblock">
+  <div class="heb" lang="he" dir="rtl">פָּנִים</div>
+  <h1>The Invitation Hidden on Every Page</h1>
+  <p class="sub">One Hebrew word, followed from the first page of the Bible to the last, until it becomes the whole story.</p>
+  <div class="by"><b>Jonathan Diaso</b>Ten chapters<br>4 hr 12 min</div>
+</div></div>
+
+<div class="wrap"><div class="hr"></div></div>
+
+<div class="wrap"><div class="grid chapter">
+  <div class="num">Chapter One</div>
+  <div class="ttl"><h2>The God Who Sees</h2><p class="hook">Jerusalem, 1979.</p></div>
+</div></div>
+
+<div class="wrap"><div class="grid prose">
+  <div class="col">
+    <p class="drop">On a rocky slope above the Hinnom Valley, an excavation is coming up empty. The tombs here were cut into the hillside more than twenty-five centuries ago, and grave robbers have had nearly all of that time to work. Chamber after chamber gives up the same verdict: dust, shattered pottery, nothing worth the dig.</p>
+    <p>The archaeologist has one problem left on the site, and the problem is thirteen years old. A volunteer with too much energy and nowhere to put it. So the boy gets the assignment every excavation keeps ready for a restless kid. Chamber 25. Sweep it out. Stay out of the way.</p>
+    <p>And somewhere in that long dead hour the silence gets to you, and you start knocking on the ancient stone floor. No reason. Just to give the quiet something to answer. The stone knocks back hollow.</p>
+    <div class="verse">
+      <p>The LORD make His face shine on you, and be gracious to you.</p>
+      <div class="ref">Numbers 6:24–26</div>
+    </div>
+    <p>Someone was buried wearing those words. Out of creation, covenant, commandments, an entire thundering library of prophets, what the people of Jerusalem chose to carry into the grave was a prayer that God's face would turn toward them and shine.</p>
+  </div>
+  <aside class="margin">
+    <b>The thread</b>
+    The silver scrolls return in Chapter X, when the blessing is finally spoken over a face that is no longer hidden.
+  </aside>
+</div></div>
+
+<figure class="plate">
+  <img src="../art/ch01-scroll.jpg" alt="A small blackened silver scroll in an open palm">
+  <div class="wrap"><div class="grid cap">
+    <div class="n">Plate II</div>
+    <div class="t">The oldest words of the Bible in existence, on the oldest objects ever found that carry the name of the LORD.</div>
+  </div></div>
+</figure>
+<div class="tail"></div>
+</body></html>

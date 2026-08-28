@@ -83,7 +83,27 @@
   --ink-faint: #726B60;
   --rule: rgba(25, 21, 16, .14);
   --rule-strong: rgba(25, 21, 16, .28);
-  --accent: #9A4B2A;          /* clay — taken from the pots, not from a palette */
+  --accent: #32506B;          /* night — the default before any section claims the page */
+
+  /* ---- the apparatus scale -----------------------------------------------
+     THREE SIZES, 2026-08-28. There were twenty-one distinct sub-1rem sizes in this
+     stylesheet and eleven of them rendered at 10px or under on a phone — measured,
+     not estimated, at a 402px viewport. Small type is right for apparatus; twenty-one
+     sizes of it is not a system, it is an accident. Everything that is a label, a
+     caption, a numeral or a reference now takes one of these three and nothing else.
+     The floor is deliberate and it is a real floor: --ap-sm is 10.24px at a 16px
+     root, so nothing on the site renders under 10px any more — it was eleven
+     declarations before. --ap-sm is only ever used for tracked-out uppercase, which
+     reads larger than its size. Anything carrying a sentence takes --ap-md or --ap-lg.
+
+     ⚠️ Literata has NO smcp table — checked with fontTools against fonts/l04.woff2,
+     which lists only ccmp/dnum/frac/liga/locl/numr/pnum/rvrn/tnum. So
+     `font-variant-caps: small-caps` would be SYNTHESISED: scaled-down capitals with
+     the wrong stem weight. Everywhere this file wants small caps it uses uppercase
+     with tracking instead, which is honest and is what a printed apparatus does. */
+  --ap-sm: .64rem;   /* tracked uppercase only: numerals, references, labels */
+  --ap-md: .72rem;   /* captions, running times, anything with a few words */
+  --ap-lg: .82rem;   /* apparatus that carries a sentence */
 
   /* ---- measure + rhythm -------------------------------------------------
      62ch is the reading measure. It is NOT the page width: the page is a
@@ -146,7 +166,7 @@ body {
   background: var(--ink); color: var(--paper);
   padding: .7em 1.1em;
   display: inline-flex; align-items: center; min-height: 44px;   /* was 145x35 */
-  font-family: var(--ui); font-size: .72rem; font-weight: 600;
+  font-family: var(--ui); font-size: var(--ap-md); font-weight: 600;
   letter-spacing: .1em; text-transform: uppercase;
   transition: top var(--dur-fast) var(--ease);
 }
@@ -209,18 +229,35 @@ main { position: relative; }
    because the accent paints .chapter-num and .verse-ref at ~11px.
    js/motion.js mirrors this table exactly.
    ============================================================================ */
-.section[data-ch="0"]  { --paper:#EFEBE1; --ink:#191510; --accent:#8A4A2C; } /* 6.0:1 */
-.section[data-ch="1"]  { --paper:#EDE9DF; --ink:#191510; --accent:#8A4A2C; } /* 5.9:1 */
-.section[data-ch="2"]  { --paper:#E7E7E4; --ink:#16181A; --accent:#3F5670; } /* 6.4:1  the hiding — cold */
-.section[data-ch="3"]  { --paper:#EDE6DB; --ink:#1A1510; --accent:#A2461F; } /* 5.5:1  the mountain — ember */
-.section[data-ch="4"]  { --paper:#E6E8EA; --ink:#15181B; --accent:#3A5A78; } /* 5.8:1  the ford — night water */
-.section[data-ch="5"]  { --paper:#F0E9DC; --ink:#1A1510; --accent:#93551C; } /* 5.2:1  not consumed — flame */
-.section[data-ch="6"]  { --paper:#F2ECE0; --ink:#1A1610; --accent:#8A6222; } /* 5.0:1  borrowed light */
-.section[data-ch="7"]  { --paper:#E9E9E7; --ink:#17191B; --accent:#4A5A6E; } /* 5.6:1  the glory withdraws */
-.section[data-ch="8"]  { --paper:#EBE6E1; --ink:#181412; --accent:#93332B; } /* 6.0:1  flint — the wound */
-.section[data-ch="9"]  { --paper:#F4EEE1; --ink:#1A1610; --accent:#8E5A20; } /* 5.3:1  the second fire */
-.section[data-ch="10"] { --paper:#FBF7EE; --ink:#1A1712; --accent:#7C5A23; } /* 6.2:1  full morning */
-.section[data-ch="fw"] { --paper:#FDFAF3; --ink:#1A1712; --accent:#7C5A23; } /* 6.4:1  five words */
+/* THREE ACCENTS, NOT TEN — 2026-08-28.
+   There were ten and only four real hues: three near-identical blues (II, IV, VII),
+   four near-identical brown-golds (V, VI, IX, X), and chapter V — whose light is
+   fire — painted a dull brown. Ten near-misses read as a palette generator. Three
+   that mean something read as a decision, and the switch happens where the BOOK
+   turns, not once per chapter:
+
+     NIGHT   #32506B   I–IV     the face is buried, hidden, fled from, wrestled in the dark
+     FIRE    #A8391B   V–VIII   the bush, the shine, the glory leaving, the flint and the tear
+     MORNING #7E5A20   IX–X     the second fire at dawn, and the face in full light
+
+   The night→morning arc is not lost: it is still carried chapter by chapter by
+   PAPER TEMPERATURE, which is finer-grained than the accent ever was.
+   Contrast, measured against the darkest stock in the set (#EBE6E1, chapter VIII):
+   night 6.79 : 1, fire 5.19 : 1, morning 5.03 : 1 — all clear of the 4.5 AA floor,
+   which matters because the accent paints .chapter-num and .verse-ref at ~10-12px.
+   js/motion.js mirrors this table exactly. */
+.section[data-ch="0"]   { --paper:#EFEBE1; --ink:#191510; --accent:#32506B; } /* the jacket */
+.section[data-ch="1"]   { --paper:#EDE9DF; --ink:#191510; --accent:#32506B; } /* the tomb — found in the dark */
+.section[data-ch="2"]   { --paper:#E7E7E4; --ink:#16181A; --accent:#32506B; } /* the hiding */
+.section[data-ch="3"]   { --paper:#EDE6DB; --ink:#1A1510; --accent:#32506B; } /* the mountain they fled */
+.section[data-ch="4"]   { --paper:#E6E8EA; --ink:#15181B; --accent:#32506B; } /* the ford at night */
+.section[data-ch="5"]   { --paper:#F0E9DC; --ink:#1A1510; --accent:#A8391B; } /* the bush that is not consumed */
+.section[data-ch="6"]   { --paper:#F2ECE0; --ink:#1A1610; --accent:#A8391B; } /* borrowed light */
+.section[data-ch="7"]   { --paper:#E9E9E7; --ink:#17191B; --accent:#A8391B; } /* the glory backs out — the fire leaves */
+.section[data-ch="8"]   { --paper:#EBE6E1; --ink:#181412; --accent:#A8391B; } /* flint, and the curtain */
+.section[data-ch="9"]   { --paper:#F4EEE1; --ink:#1A1610; --accent:#7E5A20; } /* the second fire, at dawn */
+.section[data-ch="10"]  { --paper:#FBF7EE; --ink:#1A1712; --accent:#7E5A20; } /* full morning */
+.section[data-ch="fw"] { --paper:#FDFAF3; --ink:#1A1712; --accent:#7E5A20; } /* five words */
 
 /* ============================================================================
    TYPOGRAPHY
@@ -251,7 +288,7 @@ main { position: relative; }
 
 .chapter-num {
   font-family: var(--ui);
-  font-size: .66rem; font-weight: 600;
+  font-size: var(--ap-sm); font-weight: 600;
   letter-spacing: .18em; text-transform: uppercase;
   color: var(--accent);
   padding-top: .95em;   /* optical alignment with the title's cap height */
@@ -264,13 +301,20 @@ main { position: relative; }
    The sans says plainly that this line is about the chapter rather than part of
    it, and it makes the drop cap below the first real sentence in the book's face.
    Never italic: this line is apparatus, and the sans has no italic in play here. */
+/* SET IN THE BOOK'S OWN FACE, 2026-08-28. This was Archivo — the interface sans —
+   on the argument that a sans stops the reader starting the chapter twice. It does,
+   but it also made the author's own standfirst speak in the player buttons' voice.
+   Literata italic does the same separating job honestly: italic is not the body
+   roman, so the eye still knows this line is about the chapter rather than in it. */
 .chapter-hook {
-  font-family: var(--ui);
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-normal);
+  font-style: italic;
   font-weight: 400;
   color: var(--ink-soft);
   margin: 1.1em 0 0;
-  font-size: .84rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.55;
   letter-spacing: 0;
   max-width: 58ch;
 }

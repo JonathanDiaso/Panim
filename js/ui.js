@@ -9,22 +9,6 @@
 
   // The Thread — seed→payoff map (11-website-plan.md §3 / build-brief "Thread panel").
   // Hardcoded per the book's seed-map (00-gameplan.md); each entry deep-links both anchors.
-  var THREAD_ENTRIES = [
-    { label: '"Lift up my face"', from: 'ch04', to: 'ch06' },
-    { label: 'Satar — the hiding', from: 'ch02', to: 'ch07' },
-    { label: "Elijah's appointment", from: 'ch07', to: 'ch08' },
-    { label: 'Watch His face', from: 'ch07', to: 'ch08' },
-    { label: 'The wish', from: 'ch05', to: 'ch09' },
-    { label: 'The fading', from: 'ch06', to: 'ch09' },
-    { label: 'Charcoal', from: 'ch08', to: 'ch09' },
-    { label: 'Metamorphoo', from: 'ch08', to: 'ch09' },
-    { label: 'The cleft', from: 'ch05', to: 'ch10' },
-    { label: 'Court of the face', from: 'ch03', to: 'ch10' },
-    { label: 'Name on foreheads', from: 'ch06', to: 'ch10' },
-    { label: 'Matthew 5:8, at last', from: 'ch01', to: 'ch10' },
-    { label: 'Two crowds', from: 'ch09', to: 'ch10' }
-  ];
-
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
 
@@ -128,7 +112,6 @@
 
   function wireSheets() {
     $('#about-btn').addEventListener('click', function () { openSheet('about-sheet'); });
-    $('#thread-btn').addEventListener('click', function () { openSheet('thread-panel'); });
     $('#sleep-btn').addEventListener('click', function () { openSheet('sleep-sheet'); });
     $all('[data-close-sheet]').forEach(function (btn) {
       btn.addEventListener('click', function () { closeSheet(btn.getAttribute('data-close-sheet')); });
@@ -137,21 +120,6 @@
   }
 
   // ---------- The Thread panel ----------
-  function buildThread() {
-    var list = $('#thread-list');
-    list.innerHTML = THREAD_ENTRIES.map(function (t) {
-      return '<div class="thread-entry">' +
-        '<div class="thread-label">' + t.label + '</div>' +
-        '<div class="thread-links">' +
-        '<a href="#' + t.from + '" data-close-sheet="thread-panel">' + t.from.replace('ch0', 'Ch. ').replace('ch', 'Ch. ') + '</a>' +
-        '<span aria-hidden="true">→</span>' +
-        '<a href="#' + t.to + '" data-close-sheet="thread-panel">' + t.to.replace('ch0', 'Ch. ').replace('ch', 'Ch. ') + '</a>' +
-        '</div></div>';
-    }).join('');
-    $all('.thread-links a', list).forEach(function (a) {
-      a.addEventListener('click', function () { closeSheet('thread-panel'); });
-    });
-  }
 
   // ---------- the invitation (first visit only) ----------
   function wireOnboarding() {
@@ -202,14 +170,30 @@
       openTerm = null;
     }
 
-    document.addEventListener('mouseover', function (e) {
-      var t = e.target.closest && e.target.closest('.gloss-term, .chapter-mark[data-gloss-text]');
-      if (t) show(t);
-    });
-    document.addEventListener('mouseout', function (e) {
-      var t = e.target.closest && e.target.closest('.gloss-term, .chapter-mark[data-gloss-text]');
-      if (t) hide();
-    });
+    // 🛑 HOVER IS BOUND ONLY ON DEVICES THAT ACTUALLY HOVER.
+    // A tap on a touchscreen fires mouseover AND click, in that order. With both
+    // bound, tapping a Hebrew word ran show() on the mouseover and then click saw
+    // openTerm === t and ran hide() — so the card opened and shut inside one tap and
+    // the glossary had never worked on a phone. Keyboard focus and click are bound
+    // unconditionally; only the pointer-hover pair is gated.
+    var canHover = !window.matchMedia || window.matchMedia('(hover: hover)').matches;
+    if (canHover) {
+      document.addEventListener('mouseover', function (e) {
+        var t = e.target.closest && e.target.closest('.gloss-term, .chapter-mark[data-gloss-text]');
+        if (t) show(t);
+      });
+      document.addEventListener('mouseout', function (e) {
+        var t = e.target.closest && e.target.closest('.gloss-term, .chapter-mark[data-gloss-text]');
+        if (t) hide();
+      });
+    }
+    // On a phone there is no mouse-out, so a tapped card needs another way to go.
+    // A tap elsewhere already closes it (below); scrolling away closes it too.
+    // Not bound on a hover device: there the card is anchored in document
+    // coordinates and rides the page correctly, and mouseout already handles it.
+    if (!canHover) {
+      addEventListener('scroll', function () { if (openTerm) hide(); }, { passive: true });
+    }
     document.addEventListener('focusin', function (e) {
       var t = e.target.closest && e.target.closest('.gloss-term, .chapter-mark[data-gloss-text]');
       if (t) show(t);
@@ -323,7 +307,7 @@
     function apply(open) {
       section.classList.toggle('is-open', open);
       btn.setAttribute('aria-expanded', String(open));
-      btn.textContent = open ? 'Hide descriptions' : 'Descriptions';
+      btn.textContent = open ? 'Close the contents' : 'Table of Contents';
     }
     var saved = false;
     try { saved = localStorage.getItem(KEY) === '1'; } catch (e) {}
@@ -340,7 +324,6 @@
     buildNav();
     wireNavToc();
     wireContentsToggle();
-    buildThread();
     wireSheets();
     wireOnboarding();
     wireGloss();

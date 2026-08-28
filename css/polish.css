@@ -64,7 +64,7 @@
    in the apparatus (times, chapter counts) should be lining and tabular so columns
    of them line up. */
 .block-p, .verse-text, .chapter-hook { font-variant-numeric: oldstyle-nums proportional-nums; }
-.meta-time, .plate-num, .hero-meta, .room-clock { font-variant-numeric: lining-nums tabular-nums; }
+.meta-time, .hero-meta, .room-clock { font-variant-numeric: lining-nums tabular-nums; }
 
 /* Hanging punctuation on the verse setting: an opening quote that sits inside the
    measure makes the left edge look dented. Browsers that support it hang it. */
