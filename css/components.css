@@ -202,15 +202,31 @@
    chapter opening, large and pale, in the chapter's own accent — a standing
    watermark, the way a running head works in print. Correct vocalised Hebrew
    (פָּנִים), reused rather than invented per chapter, so nothing is guessed. */
+/* Each chapter's own word (content/marks.js), not a watermark any more.
+   It was opacity .17 with pointer-events:none — decoration you could not read and
+   could not touch. It now carries meaning, so it has to be legible and hoverable:
+   the word in plain view, and what it means on hover or keyboard focus, through the
+   same #gloss-card the inline glossary terms use.
+   Smaller than before because four of the ten marks are phrases, not single words
+   (peh el peh, panim be-panim, haster astir, prosopon pros prosopon). */
 .chapter-mark {
   font-family: var(--heb); font-weight: 300;
-  font-size: clamp(2.2rem, 4.4vw, 3.9rem);
-  line-height: .95;
+  font-size: clamp(1.45rem, 2.5vw, 2.35rem);
+  line-height: 1.12;
   color: var(--accent);
-  opacity: .17;
+  opacity: .62;
   margin-top: .55em;
   user-select: none;
-  pointer-events: none;
+  cursor: help;
+  transition: opacity var(--dur-fast) var(--ease);
+}
+.chapter-mark:hover, .chapter-mark:focus-visible { opacity: 1; }
+.chapter-mark:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+/* Greek is left-to-right and is set in the book serif, not the Hebrew face */
+.chapter-mark.is-greek {
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 1.9vw, 1.7rem);
+  font-style: italic;
 }
 .chapter-mark .heb-g {
   display: inline-block;
@@ -221,7 +237,12 @@
 @media (prefers-reduced-motion: reduce) {
   .chapter-mark .heb-g { opacity: 1; transform: none; transition: none; }
 }
-@media (max-width: 900px) { .chapter-mark { display: none; } }
+/* It used to be hidden on phones because it was ornament. It is content now:
+   the word each chapter turns on. Kept, smaller, above the title. */
+@media (max-width: 900px) {
+  .chapter-mark { font-size: 1.3rem; opacity: .7; margin-top: .25em; }
+  .chapter-mark.is-greek { font-size: 1.05rem; }
+}
 
 /* the hero's Hebrew writes itself in, right to left, once */
 .hero-hebrew .heb-g {

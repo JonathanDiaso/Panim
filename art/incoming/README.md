@@ -40,3 +40,18 @@ resolution note in `../PROMPTS.md` before generating more.
 ## Slots with nothing staged
 
 `ch01-scroll` · `ch02-storm` · `ch07-gate` · `ch10-veil-lift` · `ch10-morning` · `og-image`
+
+---
+
+## 🚧 Placeholders now live on the site — replace these
+
+Wired 2026-08-27 so the slots are not empty. **Both are wrong and both are flagged
+in `content/images.js` with the reason, inline, right above the entry.**
+
+| slot | what is wrong | fix against |
+|---|---|---|
+| `ch02-storm` | 🔴 **It is a Viking longship** — dragon-head prow, Norse knotwork, axe-blade sternpost, Scandinavian crew. 9th century AD; Jonah's ship is 8th century BC Phoenician. Painted, not photographic. | `../PROMPTS.md` → `ch02-storm`, which specifies one mast, one square sail, curved stem and stern, steering oar, no rudder, no castles |
+| `ch02-trees` | 🟠 Still golden and lush on the coldest page in the book. Figures read as modern (long wavy auburn hair) and are nude rather than in the fig leaves of Gen 3:7. | `../PROMPTS.md` → `ch02-trees` |
+
+**The rest of the reroll queue is above.** Nothing here is a permanent decision —
+a plate is replaced by dropping a better frame in and re-running the WebP step.

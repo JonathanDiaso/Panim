@@ -21,13 +21,26 @@ window.PANIM_IMAGES = {
     caption: "The oldest words we have.",
     ref: "Numbers 6:24–26 · c. 600 BC"
   },
+  // ⚠️ PLACEHOLDER — still golden and lush on the coldest page in the book, and the
+  // figures read as modern (long wavy auburn hair) and are nude rather than in the
+  // fig leaves of Gen 3:7. Better than the previous frame, still not right.
+  // Replace against art/PROMPTS.md `ch02-trees`.
   "ch02-trees": {
     src: "art/ch02-trees.webp",
-    alt: "A dense garden at dusk; two figures press themselves behind tree trunks, faces hidden, while a soft searching light moves between the trees toward them.",
+    alt: "A garden at dusk; two figures press themselves behind tree trunks, faces hidden, while a soft searching light moves between the trees toward them.",
     caption: "And they hid themselves from the face of the LORD God among the trees.",
     ref: "Genesis 3:8"
   },
-  "ch02-storm": null,
+  // ⚠️ PLACEHOLDER — this is a VIKING LONGSHIP. Dragon-head prow, Norse knotwork,
+  // axe-blade sternpost, Scandinavian crew; 9th-century AD, where Jonah's ship is
+  // 8th-century BC Phoenician. It is also painted, not photographic. Up so the slot
+  // is not empty; replace against art/PROMPTS.md `ch02-storm`, which names the fix.
+  "ch02-storm": {
+    src: "art/ch02-storm.webp",
+    alt: "A single-masted ship in a heavy sea at night under rain, a wave lifting under the hull, cargo jars going over the side, one cold break of light in the cloud behind.",
+    caption: "The LORD hurled a great wind onto the sea.",
+    ref: "Jonah 1:4"
+  },
   "ch03-mountain": {
     src: "art/ch03-mountain.webp",
     alt: "A mountain under a night sky, its summit burning under smoke and lightning while a crowd of small robed figures stands far back on the plain below, facing it, not moving closer.",
