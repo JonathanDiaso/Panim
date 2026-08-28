@@ -10,6 +10,14 @@
   var room = document.getElementById('room');
   if (!room) return;
 
+  // WCAG 4.1.2 — index.html marks the room with aria-label but not a role: to
+  // assistive tech it read as a plain <section>, not the full-screen overlay it
+  // actually is. Set once here rather than in index.html, which this session does
+  // not own; role and aria-modal only matter once the room is actually shown, so
+  // there is no harm in them being present while it sits [hidden].
+  room.setAttribute('role', 'dialog');
+  room.setAttribute('aria-modal', 'true');
+
   var els = {
     backdrop: document.getElementById('room-backdrop'),
     close: document.getElementById('room-close'),
@@ -37,14 +45,24 @@
   var clockMode = 'elapsed';    // 'elapsed' | 'remaining'
   var idleTimer = null;
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Whichever control opened the room — Begin listening, nav Listen, or the player
+  // bar's own Room button — gets focus back on close. The Tab trap that keeps
+  // focus inside the room while it is open lives in js/ui.js (trapOverlayTab,
+  // keyed on #room.is-open) so this file only has to save, move and restore it.
+  var lastFocused = null;
 
   // ---------- open / close ----------
   function openRoom() {
     if (open) return;
     open = true;
+    lastFocused = document.activeElement;
     room.hidden = false;
     document.body.classList.add('room-open');
-    requestAnimationFrame(function () { room.classList.add('is-open'); });
+    requestAnimationFrame(function () {
+      room.classList.add('is-open');
+      els.close.focus();
+    });
+    setExpanded(true);
     if (!P.state.chapterId) P.load(P.ids[0], {});
     refresh();
     armIdle();
@@ -57,8 +75,22 @@
     document.body.classList.remove('room-open');
     setTimeout(function () { room.hidden = true; }, 350);
     if (idleTimer) clearTimeout(idleTimer);
+    setExpanded(false);
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+    lastFocused = null;
   }
   function toggleRoom() { open ? closeRoom() : openRoom(); }
+
+  // WCAG 4.1.2 — neither #listen-btn (nav) nor #room-btn (player bar) carries
+  // aria-haspopup/aria-expanded in index.html, which this session does not own.
+  // Set once at wire-time and kept in sync here so both announce the room's state
+  // whichever one opened it.
+  function setExpanded(v) {
+    ['listen-btn', 'room-btn'].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (b) b.setAttribute('aria-expanded', String(v));
+    });
+  }
 
   // swipe down closes (mobile)
   var touchY = null;
@@ -311,6 +343,10 @@
     P = window.PanimPlayer;
     if (!P) return;
     wire();
+    ['listen-btn', 'room-btn'].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (b) { b.setAttribute('aria-haspopup', 'dialog'); b.setAttribute('aria-expanded', 'false'); }
+    });
     // hero Begin and nav Listen open the room (the listening product)
     var begin = document.getElementById('begin-btn');
     if (begin) begin.addEventListener('click', function () { setTimeout(openRoom, 50); });

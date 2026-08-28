@@ -357,23 +357,39 @@
   }
 
   // ---------- completion ----------
+  // WCAG 2.1.1/2.1.2/4.1.2 — this modal carries role="dialog" aria-modal="true" in
+  // index.html but nothing here ever acted like it: opening moved focus nowhere
+  // (it stayed on whatever was focused before, now hidden behind the overlay),
+  // there was no Escape handler at all, and closing never gave focus back. The
+  // Tab trap that keeps focus inside it while open lives in js/ui.js
+  // (trapOverlayTab, keyed on `.modal:not([hidden]) .modal-card`); this only has
+  // to save, move and restore focus and give Escape a way in.
+  var completionLastFocused = null;
+  function closeCompletionModal() {
+    if (els.completionModal.hidden) return;
+    els.completionModal.hidden = true;
+    if (completionLastFocused && completionLastFocused.focus) completionLastFocused.focus();
+    completionLastFocused = null;
+  }
   function showCompletion(reason) {
     els.completionBody.textContent = reason === 'sleep'
       ? 'Sleep timer ended. Your place is saved.'
       : "You've finished this chapter.";
+    completionLastFocused = document.activeElement;
     els.completionModal.hidden = false;
+    requestAnimationFrame(function () { els.completionNext.focus(); });
     els.completionNext.onclick = function () {
-      els.completionModal.hidden = true;
+      closeCompletionModal();
       var next = CHAPTER_IDS[CHAPTER_IDS.indexOf(state.chapterId) + 1];
       if (next) loadChapter(next, { autoplay: true });
     };
     els.completionBookmark.onclick = function () {
       LS.set('lastChapter', state.chapterId);
       LS.set('lastPos', voiceTime());
-      els.completionModal.hidden = true;
+      closeCompletionModal();
       announce('Bookmarked. Come back anytime.');
     };
-    els.completionClose.onclick = function () { els.completionModal.hidden = true; };
+    els.completionClose.onclick = closeCompletionModal;
   }
 
   // ---------- MediaSession ----------
@@ -527,6 +543,9 @@
     document.addEventListener('panim:listen-toggle', function () {
       if (!state.chapterId) loadChapter(CHAPTER_IDS[0], { autoplay: true });
       else togglePlay();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeCompletionModal();
     });
   }
 

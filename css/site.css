@@ -73,14 +73,22 @@
      mirrored in js/motion.js, which interpolates between them on scroll. */
   --paper: #F1EDE4;
   --ink: #191510;
-  /* Three tiers, all AA against the DARKEST stock (#F1EDE4, chapter I) and therefore
-     against all ten: 15.5 : 6.4 : 4.5. --ink-faint used to be #9A9184, which is
-     2.66:1 — a fail, and it carries real text in eleven places (verse translations,
-     plate labels, contents meta, apparatus captions), most of it 10–11px caps, which
-     is the worst case there is. Anything added to this scale gets checked against
-     #F1EDE4 before it ships, not against the warm stocks where everything passes. */
+  /* Three tiers, all AA against the DARKEST stock and therefore against all ten.
+     WCAG AUDIT, 2026-08-28 — #F1EDE4 above is the :root FALLBACK, not the darkest
+     stock: js/motion.js overwrites --paper on <html> before first paint, so no
+     reader ever actually sees it, and the real darkest rendered stock is chapter
+     VIII's #EBE6E1 (measured 0.79692 relative luminance — a hair under even
+     chapter II/III). --ink-faint was checked against the fallback (4.51:1 there)
+     and shipped believing it cleared AA everywhere; against #EBE6E1 it is 4.25:1,
+     a real fail, and it carries real text in the same eleven places the note below
+     still describes — verse translations, plate labels, contents meta, apparatus
+     captions, most of it 10–11px caps. Darkened three RGB steps to clear 4.5:1
+     against #EBE6E1 with margin (4.72:1) without changing its hue. Tiers now run
+     15.5 : 6.4 : 4.7 against the fallback, 14.6 : 6.0 : 4.7 against the true
+     darkest stock. Anything added to this scale gets checked against #EBE6E1
+     (chapter VIII), not #F1EDE4 and not the warm stocks where everything passes. */
   --ink-soft: #5C5449;
-  --ink-faint: #726B60;
+  --ink-faint: #6B6459;
   --rule: rgba(25, 21, 16, .14);
   --rule-strong: rgba(25, 21, 16, .28);
   --accent: #32506B;          /* night — the default before any section claims the page */
@@ -134,6 +142,16 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+/* WCAG 2.4.11 Focus Not Obscured (Minimum) — the running head and the player bar
+   are both `position: fixed`, and neither reserved any room in the browser's own
+   scroll-into-view math. .section already carries scroll-margin-top for anchor
+   jumps, but a Tab press lands on things that are not a .section — a link in
+   running prose, a .gloss-term, a .chapter-mark — and without this the browser is
+   free to park a freshly focused element flush against the viewport edge, which
+   is exactly where the nav (--nav-h, components.css) or the player bar
+   (--player-h, player.css) sit on top of it. Reusing both tokens rather than a
+   new number so this tracks the bar hiding on idle and the nav's mobile height. */
+html { scroll-padding-top: var(--nav-h, 59px); scroll-padding-bottom: var(--player-h, 134px); }
 body, h1, h2, h3, p, figure, blockquote, dl, dd { margin: 0; }
 img, svg { display: block; max-width: 100%; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }

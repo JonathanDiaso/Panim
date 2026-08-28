@@ -8,7 +8,7 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v27';
+var SHELL = 'panim-shell-v28';
 var AUDIO = 'panim-audio-v1';
 
 // index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
@@ -22,7 +22,7 @@ var AUDIO = 'panim-audio-v1';
 //      accessibility.html — both are standalone pages with their own copy, and
 //      neither is reached by the index.html sweep. 404.html was left on v24 for
 //      a whole release because of exactly this.
-var ASSET_V = '27';
+var ASSET_V = '28';
 var VERSIONED = /\.(css|js)$/;
 var PRECACHE = [
   './', 'index.html', 'accessibility.html', 'favicon.svg', 'og-card-face.jpg', 'manifest.webmanifest',
@@ -40,6 +40,11 @@ var PRECACHE = [
   'content/thread.js', 'content/lexicon.js',
   'cues/ch01.json', 'cues/ch02.json', 'cues/ch03.json', 'cues/ch04.json', 'cues/ch05.json',
   'cues/ch06.json', 'cues/ch07.json', 'cues/ch08.json', 'cues/ch09.json', 'cues/ch10.json'
+  // NOT HERE, and asked and answered 2026-08-28: sitemap.xml and robots.txt. This list
+  // is what a reader needs to read the book with no network. A crawler never goes
+  // through a service worker, so precaching those two spends install bytes on files
+  // nobody offline will ever open. Same reason art/*.webp is absent — the plates are
+  // heavy and the text is the product. Don't add them.
 ];
 
 self.addEventListener('install', function (e) {

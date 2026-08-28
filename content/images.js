@@ -146,7 +146,33 @@ window.PANIM_IMAGES = {
     caption: "The word Hebrew had to mint for that piece of cloth, and never used again.",
     ref: "masveh · Exodus 34:33"
   },
-  "ch07-gate": null,
+  // ✅ FILLED 2026-08-28 (round seven). This was the LAST EMPTY SLOT ON THE SITE — chapter
+  // VII had no plate at all across six rounds. Every chapter now has one.
+  // What the prompt asked for and got: the east gate seen from INSIDE the court, standing
+  // wide open onto the ridge beyond; a deep recessed passage of dressed ashlar with flat
+  // lintels — no arch, no vault, no rib anywhere; cedar-panelled jambs carved in low relief
+  // with CHERUBIM AND PALM TREES ALTERNATING, which is 1 Kings 6:29 exactly, the gold gone
+  // to tarnish rather than gleaming; the passage COMPLETELY EMPTY, no priest, no guard, no
+  // figure; and the thread of altar smoke still going up at the left edge, which is the other
+  // half of the chapter — "there is no earthquake the morning the glory leaves. The priests
+  // keep the schedule, the smoke goes up on time."
+  // Three things noted and accepted, none of them falsifiable at plate size:
+  //   1. It is NOT the overcast the prompt asked for. There is blue sky and hard directional
+  //      sun throwing sharp shadows across the foreground. Left as delivered: an ordinary
+  //      bright morning arguably serves "nobody noticed" better than a portentous grey one.
+  //   2. COLUMNS were on the never-list and the far colonnade at left has square piers, with
+  //      a low balustrade of turned balusters below them — a post-classical form and the one
+  //      genuinely anachronistic object in the frame. Small, distant, in shadow.
+  //   3. The cherubim read Byzantine-angelic — human, feathered, frontal, hands folded —
+  //      rather than the composite ANE creature. Same fault accepted on ch08-veil. The load
+  //      this plate has to carry is that the carving is PRESENT and WORN, and it is.
+  // Source frame on the drive at site-art-2026-08-28/incoming-round-seven-2026-08-28/.
+  "ch07-gate": {
+    src: "art/ch07-gate.webp",
+    alt: "Looking out through the open east gate of a temple courtyard: a deep passage of dressed limestone with flat lintels, its cedar jambs carved in worn low relief with winged figures and palm trees alternating, the doors standing wide, nobody in the passage, a bare terraced ridge beyond, and a single thread of altar smoke rising at the left edge.",
+    caption: "No earthquake. The smoke goes up on time.",
+    ref: "The east gate · Ezekiel 11:23"
+  },
   // 🟡 Graded 2026-08-28 (also previously listed as "never generated" — it was).
   // Handsome and correctly dark, but THE EYES ARE DOWNCAST, which reads as resignation —
   // the opposite of "I have set My face like flint," which is a decision already made and

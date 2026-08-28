@@ -7,13 +7,17 @@
 <meta name="description" content="What this site aims for on accessibility, what has been measured, what has not been done yet, and how to report a problem.">
 <link rel="canonical" href="https://jonathandiaso.github.io/Panim/accessibility.html">
 <link rel="icon" type="image/svg+xml" href="/Panim/favicon.svg">
-<link rel="stylesheet" href="/Panim/fonts/fonts.css?v=27">
+<link rel="stylesheet" href="/Panim/fonts/fonts.css?v=28">
 <style>
   /* Standalone page, same pattern as 404.html: the tokens are copied rather than
      imported so this page renders correctly even if the main stylesheet fails.
      Values are lifted verbatim from css/site.css :root — if those change, change
-     these. The three ink tiers are AA against the darkest stock (#F1EDE4) at
-     15.5 : 6.4 : 4.5, which is the whole point of the page. */
+     these. That is not a suggestion: on 2026-08-28 --ink-faint was corrected in
+     css/site.css and this copy still held the old #726B60 for the length of the
+     fix, which is exactly the drift this comment exists to prevent.
+     The three ink tiers are AA against the darkest stock the BOOK renders
+     (#EBE6E1, chapter VIII) at 14.7 : 6.0 : 4.7. This page itself is always
+     #F1EDE4 — it has no chapter stocks — where they run 15.6 : 6.4 : 5.0. */
   :root {
     --serif: 'Literata', Georgia, 'Times New Roman', serif;
     --ui: 'Archivo', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
@@ -21,7 +25,7 @@
     --paper: #F1EDE4;
     --ink: #191510;
     --ink-soft: #5C5449;
-    --ink-faint: #726B60;
+    --ink-faint: #6B6459;
     --rule: rgba(25, 21, 16, .14);
     --rule-strong: rgba(25, 21, 16, .28);
     --accent: #32506B;
@@ -159,18 +163,41 @@
       <h2>What has been measured</h2>
       <p>These are done and were checked with numbers rather than by eye:</p>
       <ul>
-        <li><strong>Text contrast.</strong> The three ink tiers run 15.5:1, 6.4:1 and
-            4.5:1 against the darkest paper stock in the book, so they clear AA against
-            all ten stocks, not just the warm ones.</li>
+        <li><strong>Text contrast.</strong> The three ink tiers run 14.7:1, 6.0:1 and
+            4.7:1 against the darkest paper stock in the book (chapter VIII), so they
+            clear AA against all ten stocks, not just the warm ones. <em>Corrected
+            2026-08-28:</em> the numbers previously published here were measured
+            against a paper colour that is only a fallback and is never actually
+            rendered. Against the real darkest stock the faintest tier was 4.25:1 &#8212;
+            a genuine failure, in eleven places carrying real text. It has been
+            darkened and now clears AA on every stock.</li>
         <li><strong>The Listening Room's dim states</strong> were raised off 3.2:1 and
             2.0:1, both of which were failures carrying real text.</li>
-        <li><strong>Tap targets</strong> are at least 44&#215;44&#8239;px.</li>
+        <li><strong>Tap targets</strong> are 44&#215;44&#8239;px, with two measured
+            exceptions named under Known limitations below.</li>
         <li><strong>The smallest type on the site</strong> is 10.24&#8239;px and is only
             ever used for tracked-out uppercase. Nothing renders under 10&#8239;px;
             eleven declarations used to.</li>
         <li><strong>Every accent colour</strong> in the palette was measured against its
             own paper stock before it shipped.</li>
         <li><strong>Motion</strong> respects <code>prefers-reduced-motion</code>.</li>
+        <li><strong>Focus inside every overlay.</strong> The About and Sleep sheets, the
+            chapter-complete dialog, the Listening Room and the image lightbox now each
+            move focus in on open, hold it there while open, close on
+            <kbd>Esc</kbd>, and hand focus back to whatever opened them. Before
+            2026-08-28 the chapter-complete dialog and the Listening Room did none of
+            that, and background controls stayed reachable by <kbd>Tab</kbd> while
+            invisible behind an overlay.</li>
+        <li><strong>The image lightbox is reachable by keyboard.</strong> It opened on a
+            mouse click only, with nothing marking the picture as interactive. It now
+            takes focus, announces itself, and opens on <kbd>Enter</kbd> or
+            <kbd>Space</kbd>.</li>
+        <li><strong>Nothing focused hides under the fixed bars.</strong> The running head
+            and the player bar now reserve their own height in the browser's
+            scroll-into-view calculation (WCAG&#8239;2.2 Focus Not Obscured).</li>
+        <li><strong>The chapter ticks on the seek bar</strong> were raised from 1.9:1 to
+            3.1:1. They carry read/unread state, so they are a graphic that has to meet
+            the same 3:1 floor a control does.</li>
       </ul>
 
       <h2>What has not been done yet</h2>
@@ -180,8 +207,8 @@
         <li>Every image's alt text <strong>judged</strong> rather than counted &#8212;
             confirming each one says what the picture is doing, not just that a string
             is present.</li>
-        <li>Keyboard navigation walked end to end, including every trap and every skip.</li>
-        <li>Focus order and focus visibility inside every modal and sheet.</li>
+        <li>Keyboard navigation walked end to end, including every skip and every
+            reading path. <em>Partly done 2026-08-28</em> &#8212; see below.</li>
         <li>The audio player and the Listening Room driven with a screen reader.</li>
         <li>Every player state &#8212; playing, loading, error, sleep &#8212; checked for
             whether it is actually announced.</li>
@@ -191,6 +218,14 @@
 
       <h2>Known limitations</h2>
       <ul>
+        <li><strong>Two measured failures are open, and both are named here rather than
+            quietly fixed.</strong> The outline on a button, before you hover or focus it,
+            is 1.8:1 against the paper where 3:1 is required &#8212; the buttons on this
+            site have no fill, so that hairline is the only thing drawing them, and
+            darkening it would change the look of every control on the page. And the
+            chapter links in the closing Thread section are about 22&#8239;px tall where
+            24&#8239;px is the floor. Both are one-line changes with a visible cost, and
+            neither is being made without the author looking at it.</li>
         <li>The book is a long single reading surface. It is navigable by keyboard, but a
             screen reader user has not yet confirmed the experience end to end.</li>
         <li>Audio is the primary medium here. Every chapter has a full read-along text on

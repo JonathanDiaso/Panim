@@ -87,7 +87,13 @@
             (img.ref ? '<span class="slot-ref">' + esc(img.ref) + '</span>' : '') +
           '</figcaption>'
         : '';
-      return '<figure class="img-slot is-filled reveal" data-slot="' + esc(slotId) + '">' +
+      // WCAG 2.1.1: the slot opens a lightbox (js/ui.js wireLightbox) and used to do
+      // it on a bare click listener only — no tabindex, no role, no keyboard path in
+      // at all. tabindex + role="button" here, Enter/Space in ui.js, make it operable
+      // the same way a click is; the label is what a screen reader announces instead
+      // of the alt text underneath a figure with no accessible name of its own.
+      return '<figure class="img-slot is-filled reveal" data-slot="' + esc(slotId) + '"' +
+        ' tabindex="0" role="button" aria-label="View larger: ' + esc(img.alt || 'image') + '">' +
         '<img src="' + esc(img.src) + '" alt="' + esc(img.alt || '') + '" loading="lazy">' + cap +
         '</figure>';
     }
@@ -195,9 +201,12 @@
         '<div class="lex-head">' +
           '<span class="chapter-num">The Lexicon</span>' +
           '<div class="lex-standfirst">' +
-            '<h2 id="lexicon-heading">Ten words, in the language they were written in.</h2>' +
-            '<p>One for each chapter \u2014 the word that chapter turns on. Every vowel mark ' +
-            'here was checked against a source rather than typed from memory.</p>' +
+            '<h2 id="lexicon-heading">' + entries.length +
+              ' words, in the language they were written in.</h2>' +
+            '<p>Each chapter\u2019s own word first, then the terms that chapter turns on. ' +
+            'Every vowel point and every accent here was read out of a published source ' +
+            '\u2014 the Masoretic text, BDB, Klein, Jastrow, BibleHub \u2014 and pasted in ' +
+            'by a script. Not one character was typed from memory.</p>' +
           '</div>' +
         '</div>' +
         cards +
