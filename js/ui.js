@@ -36,7 +36,69 @@
       return '<li><a href="#' + c.id + '" data-nav-ch="' + c.id + '" title="' + c.title.replace(/"/g, '') + '">' +
         window.PANIM_RENDERED.romanFor(c.num) + '</a></li>';
     }).join('');
+    buildNavToc(chapters);
   }
+
+  // ---------- the contents, in the running head ----------
+  // Same ten chapters as the #contents section, in the chrome. Under 900px the
+  // numerals are display:none, so before this existed a phone had no chapter
+  // navigation at all and the player bar had to be the way in.
+  function buildNavToc(chapters) {
+    var host = $('#nav-toc-inner');
+    if (!host) return;
+    var A = window.PANIM_AUDIO || {};
+    host.innerHTML = chapters.map(function (c) {
+      var a = A[c.id] || {};
+      var mins = a.voiceDur ? Math.round(a.voiceDur / 60) + ' min' : '';
+      return '<a class="ntr" href="#' + c.id + '" data-nav-ch="' + c.id + '">' +
+        '<span class="ntr-num">' + window.PANIM_RENDERED.romanFor(c.num) + '</span>' +
+        '<span class="ntr-title">' + c.title.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</span>' +
+        '<span class="ntr-dur">' + mins + '</span>' +
+      '</a>';
+    }).join('');
+  }
+
+  function navTocOpen() { return document.body.classList.contains('nav-toc-open'); }
+  function setNavToc(open) {
+    var panel = $('#nav-toc'), btn = $('#nav-toc-toggle');
+    if (!panel || !btn) return;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.classList.toggle('nav-toc-open', open);
+    if (open) {
+      panel.hidden = false;
+      // the nav auto-hides on scroll-down; it must not take the open panel with it
+      var nav = document.getElementById('site-nav');
+      if (nav) nav.classList.remove('nav-hidden');
+      requestAnimationFrame(function () { panel.classList.add('is-open'); });
+    } else {
+      panel.classList.remove('is-open');
+      var done = function () { if (!navTocOpen()) panel.hidden = true; };
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) done();
+      else setTimeout(done, 240);
+    }
+  }
+
+  function wireNavToc() {
+    var btn = $('#nav-toc-toggle'), panel = $('#nav-toc');
+    if (!btn || !panel) return;
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setNavToc(!navTocOpen());
+    });
+    // choosing a chapter closes it
+    panel.addEventListener('click', function (e) {
+      if (e.target.closest('.ntr')) setNavToc(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && navTocOpen()) { setNavToc(false); btn.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (!navTocOpen()) return;
+      if (e.target.closest('#nav-toc') || e.target.closest('#nav-toc-toggle')) return;
+      setNavToc(false);
+    });
+  }
+  window.PANIM_NAVTOC = { close: function () { setNavToc(false); }, isOpen: navTocOpen };
 
   // ---------- sheets ----------
   var lastFocused = null;
@@ -249,6 +311,7 @@
 
   function init() {
     buildNav();
+    wireNavToc();
     buildThread();
     wireSheets();
     wireOnboarding();

@@ -78,7 +78,15 @@
   function renderImageSlot(slotId) {
     var img = window.PANIM_IMAGES ? window.PANIM_IMAGES[slotId] : null;
     if (img && img.src) {
-      var cap = img.caption ? '<figcaption>' + esc(img.caption) + '</figcaption>' : '';
+      // `ref` was authored on every image and rendered by renderPlate only, so the
+      // five INLINE slots dropped it silently — ch01-scroll's "Numbers 6:24-26 -
+      // c. 600 BC" had never once appeared. Same shape as the plate caption: the
+      // caption says what it is, the ref says where you are.
+      var cap = (img.caption || img.ref)
+        ? '<figcaption>' + esc(img.caption || '') +
+            (img.ref ? '<span class="slot-ref">' + esc(img.ref) + '</span>' : '') +
+          '</figcaption>'
+        : '';
       return '<figure class="img-slot is-filled reveal" data-slot="' + esc(slotId) + '">' +
         '<img src="' + esc(img.src) + '" alt="' + esc(img.alt || '') + '" loading="lazy">' + cap +
         '</figure>';
