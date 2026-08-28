@@ -89,20 +89,52 @@
   width: 0%;
   pointer-events: none;
 }
-.seekbar-marks { position: absolute; inset: 0; pointer-events: none; }
+/* ---------------------------------------------------------------------------
+   THE CHAPTER RAIL — the book index, on its own axis
+   These ten marks used to live INSIDE .seekbar. That track measures position in the
+   chapter you are listening to, so the two were different quantities drawn on one
+   rail: the fill said "55% through chapter I" while the tick at that same 55% meant
+   "chapter V", and tapping it changed chapter. Now the position track is only ever
+   position, and the index sits above it, labelled, where evenly spaced marks read as
+   what they are.
+   --------------------------------------------------------------------------- */
+.chapter-rail {
+  position: relative;
+  height: 20px;
+  margin: 0 0 6px;
+}
+.seekbar-marks { position: absolute; inset: 0; }
 .seek-mark {
-  position: absolute; top: -3px; width: 2px; height: 12px;
+  position: absolute; top: 0; width: 2px; height: 6px; padding: 0;
   background: color-mix(in srgb, var(--ink) 30%, transparent);
-  pointer-events: auto;
+  transition: background var(--dur-fast) var(--ease);
 }
 .seek-mark::before {
-  /* 44px-square invisible tap target centered on the 2px visual tick */
+  /* 44px-square invisible tap target centred on the 2px visual tick */
   content: "";
   position: absolute; top: 50%; left: 50%; width: 44px; height: 44px;
   transform: translate(-50%, -50%);
 }
+.seek-mark:hover, .seek-mark:focus-visible { background: var(--ink); }
 .seek-mark.is-complete { background: var(--accent); }
-.seek-mark .seek-mark-label { display: none; }
+.seek-mark.is-current { background: var(--ink); height: 10px; }
+
+/* The label was authored and then hidden, so the rail asked the reader to know what
+   ten unlabelled ticks meant. Roman numerals, matching the running head and contents. */
+.seek-mark-label {
+  position: absolute; top: 8px; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--ui); font-style: normal;
+  font-size: .56rem; font-weight: 600; letter-spacing: .08em;
+  color: var(--ink-faint);
+  line-height: 1;
+}
+.seek-mark:hover .seek-mark-label,
+.seek-mark:focus-visible .seek-mark-label { color: var(--ink); }
+.seek-mark.is-current .seek-mark-label { color: var(--accent); }
+/* the end marks sit at 0% and 100%, so a centred label would hang off the bar */
+.seek-mark:first-child .seek-mark-label { left: 0; transform: none; }
+.seek-mark:last-child .seek-mark-label { left: 100%; transform: translateX(-100%); }
 
 .seek-handle {
   position: absolute; top: 50%; width: 11px; height: 11px; margin-left: -5.5px;
@@ -140,7 +172,12 @@
 }
 /* Anything pinned above the bar has to travel with it, or it hangs in mid-air
    over the prose while the bar is gone. --player-h is the single source. */
-:root { --player-h: 114px; }
+/* Both measured off a screenshot, not estimated: 134px at 1440 (114px + the 20px
+   chapter rail), 92px at 402 where the rail is hidden. js/sync.js reads this to work
+   out which part of the screen the reader can actually see, so a wrong number here
+   makes the read-along stop scrolling to lines that are behind the bar. Re-measure
+   if the bar's contents change. */
+:root { --player-h: 134px; }
 @media (max-width: 640px) { :root { --player-h: 92px; } }   /* measured at 402px wide */
 body:has(.player[data-state="idle"]) { --player-h: 0px; }
 @media (prefers-reduced-motion: reduce) { .player { transition: none; } }
@@ -169,6 +206,10 @@ body:has(.player[data-state="idle"]) { --player-h: 0px; }
   .player-secondary .label-hide-mobile { display: none; }
   .player-seek { padding-bottom: .25rem; }
   .seekbar { margin: 14px 0; }
+  /* The chapter rail is 26px, which is a lot of a 92px bar to spend on an index that
+     is already in the running head, the Contents and the Listening Room — the same
+     argument that drops Speed / Follow / Sleep above. The position track stays. */
+  .chapter-rail { display: none; }
 }
 
 /* ---------- mix panel (C13) ---------- */

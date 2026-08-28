@@ -91,18 +91,36 @@
     return String(s).replace(/["\\]/g, '\\$&');
   }
 
+  // THE READABLE BAND, not the viewport. The sticky running head covers the top and the
+  // transport bar covers the bottom (114px desktop / 92px phone, 0 while the bar is
+  // hidden — --player-h in css/player.css is the single source). Measuring against the
+  // raw viewport meant a paragraph sitting entirely *behind the player* counted as
+  // "comfortably in view", so following declined to scroll to the line being read —
+  // worst on a phone, where the bar is a larger share of the screen.
+  function readableBand() {
+    var nav = document.getElementById('site-nav');
+    var top = nav ? Math.max(0, nav.getBoundingClientRect().bottom) : 0;
+    var playerH = parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue('--player-h')
+    ) || 0;
+    return { top: top, bottom: window.innerHeight - playerH };
+  }
+
   function isComfortablyInView(el) {
     var r = el.getBoundingClientRect();
-    var vh = window.innerHeight;
-    return r.top >= 0 && r.bottom <= vh;
+    var band = readableBand();
+    return r.top >= band.top && r.bottom <= band.bottom;
   }
 
   function scrollIntoCenterThird(el) {
     var r = el.getBoundingClientRect();
-    var vh = window.innerHeight;
-    var third = vh / 3;
-    if (r.top >= third && r.bottom <= third * 2) return; // already centered enough
-    var targetY = Math.max(0, window.scrollY + r.top - (vh / 2 - r.height / 2));
+    var band = readableBand();
+    var height = Math.max(1, band.bottom - band.top);
+    var third = band.top + height / 3;
+    if (r.top >= third && r.bottom <= band.top + (height / 3) * 2) return; // centred enough
+    // Centre the line in the band, not in the window, so it does not settle low under
+    // the transport bar.
+    var targetY = Math.max(0, window.scrollY + r.top - (band.top + height / 2 - r.height / 2));
     autoTarget = targetY;
     autoUntil = Date.now() + 2500;   // longest a smooth scroll should still be running
     window.scrollTo({ top: targetY, behavior: reduceMotion ? 'auto' : 'smooth' });
