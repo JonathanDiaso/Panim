@@ -203,23 +203,23 @@
     }
 
     document.addEventListener('mouseover', function (e) {
-      var t = e.target.closest && e.target.closest('.gloss-term');
+      var t = e.target.closest && e.target.closest('.gloss-term, .chapter-mark[data-gloss-text]');
       if (t) show(t);
     });
     document.addEventListener('mouseout', function (e) {
-      var t = e.target.closest && e.target.closest('.gloss-term');
+      var t = e.target.closest && e.target.closest('.gloss-term, .chapter-mark[data-gloss-text]');
       if (t) hide();
     });
     document.addEventListener('focusin', function (e) {
-      var t = e.target.closest && e.target.closest('.gloss-term');
+      var t = e.target.closest && e.target.closest('.gloss-term, .chapter-mark[data-gloss-text]');
       if (t) show(t);
     });
     document.addEventListener('focusout', function (e) {
-      var t = e.target.closest && e.target.closest('.gloss-term');
+      var t = e.target.closest && e.target.closest('.gloss-term, .chapter-mark[data-gloss-text]');
       if (t) hide();
     });
     document.addEventListener('click', function (e) {
-      var t = e.target.closest && e.target.closest('.gloss-term');
+      var t = e.target.closest && e.target.closest('.gloss-term, .chapter-mark[data-gloss-text]');
       if (t) {
         e.preventDefault();
         if (openTerm === t) hide(); else show(t);

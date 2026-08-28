@@ -231,9 +231,33 @@
     // numeral and Hebrew mark share the margin column as one stack, so the mark sits
     // just under the numeral instead of dropping to a second grid row below the
     // whole title block.
+    // Each chapter's own word, from content/marks.js — the openings all used to
+    // show the same hardcoded PANIM_HEB. Hebrew is rtl and gets grapheme-split so
+    // the combining nikkud stay attached; Greek is ltr and needs neither. Falls
+    // back to פָּנִים if a chapter has no entry.
+    var mk = (window.PANIM_MARKS || {})[chapter.id];
+    var markHtml;
+    if (mk && mk.w) {
+      var isHeb = mk.lang !== 'el';
+      var title = mk.t + ' — ' + mk.g + ' (' + mk.r + ')';
+      markHtml =
+        '<div class="chapter-mark' + (isHeb ? '' : ' is-greek') + '" lang="' + esc(mk.lang) + '"' +
+             (isHeb ? ' dir="rtl"' : '') +
+             ' tabindex="0" role="note"' +
+             ' aria-label="' + esc(title) + '"' +
+             ' data-mark-term="' + esc(mk.t) + '"' +
+             ' data-mark-ref="' + esc(mk.r) + '"' +
+             // reuses the existing #gloss-card tooltip rather than a second one
+             ' data-gloss-text="' + esc(title) + '">' +
+          (isHeb ? hebSpans(mk.w) : esc(mk.w)) +
+        '</div>';
+    } else {
+      markHtml = '<div class="chapter-mark" lang="he" dir="rtl" aria-hidden="true">' +
+        hebSpans(PANIM_HEB) + '</div>';
+    }
     out.push('<div class="chapter-margin">' +
       '<span class="chapter-num">Chapter ' + ROMAN[chapter.num] + '</span>' +
-      '<div class="chapter-mark" lang="he" dir="rtl" aria-hidden="true">' + hebSpans(PANIM_HEB) + '</div>' +
+      markHtml +
     '</div>');
     out.push('<div class="chapter-titleblock">');
     out.push('<h2 class="chapter-title">' + esc(chapter.title) + '</h2>');
