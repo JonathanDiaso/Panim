@@ -486,6 +486,19 @@
 }
 .about-links a { display: block; margin: .5em 0; text-decoration: underline; text-underline-offset: 3px; }
 
+/* Fine print at the foot of the About panel. Apparatus voice and quiet, but the link
+   still has to clear a 44px target and take a visible focus ring — an accessibility
+   statement that is itself hard to reach would be a poor advertisement for one. */
+.about-fineprint {
+  margin: 1.9em 0 0; padding-top: 1.2em; border-top: 1px solid var(--rule);
+  font-family: var(--ui); font-size: var(--ap-md); letter-spacing: .04em;
+}
+.about-fineprint a {
+  display: inline-flex; align-items: center; min-height: 44px;
+  color: var(--ink-faint); text-decoration: underline; text-underline-offset: 3px;
+}
+.about-fineprint a:hover, .about-fineprint a:focus-visible { color: var(--ink); }
+
 /* ============================================================================
    THE THREAD — a closing section, not a sheet
    Thirteen plants and their payoffs, laid out on the same 12-column grid the

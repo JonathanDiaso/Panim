@@ -1,8 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Panim mark">
-  <rect width="32" height="32" fill="#EDE9DF"/>
-  <g fill="none" stroke="#8A4A2C" stroke-width="1.1" stroke-linecap="square">
-    <path d="M16 6 C21 6 24 11 24 16 C24 21 21 26 16 26 C11 26 8 21 8 16 C8 11 11 6 16 6 Z"/>
-    <path d="M16 6 L16 26" stroke-width="0.7" opacity="0.55"/>
-    <path d="M10 13 Q16 9.5 22 13" stroke-width="0.9"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Panim: the Hebrew letter pe">
+  <!--
+    The Hebrew letter PE — the first letter of panim (פנים), the book's own mark.
+
+    Why a letter and not a picture: a favicon is 16 CSS pixels wide in a browser tab.
+    At that size a word is unreadable and a photograph is mud. Three things survive
+    16px: one letter, one geometric shape, one very high contrast silhouette. Pe is
+    all three at once — it is a left-open square, which is a distinct silhouette in a
+    row of tabs, and it is unmistakably this book rather than a generic glyph.
+
+    Drawn as strokes, not set as type: an SVG <text> favicon depends on a Hebrew face
+    being installed on the reader's machine, and falls back to a box when it is not.
+
+    Colour: accent #8A4A2C on the paper stock #EDE9DF — 5.6:1, which clears WCAG AA
+    for text and comfortably clears the 3:1 floor for a non-text graphic.
+  -->
+  <rect width="32" height="32" rx="5" fill="#EDE9DF"/>
+  <g fill="none" stroke="#8A4A2C" stroke-linecap="round" stroke-linejoin="round">
+    <!-- The body: top bar, right side, bottom bar. The left side stays open — that
+         opening is what makes it a pe and not a mem. -->
+    <path d="M8 8.5 H23.5 V23.5 H8" stroke-width="4"/>
+    <!-- The tongue: descends from under the top bar and curls left, ending free
+         inside the letter. Without it the mark is just a bracket. -->
+    <path d="M19.5 12.5 C19.5 16.4 16.8 17.2 14.2 16.9" stroke-width="3.2"/>
   </g>
 </svg>

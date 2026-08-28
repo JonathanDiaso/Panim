@@ -14,13 +14,22 @@
      picture, half title + standfirst + byline, set in Fraunces. Every unfurl already
      prints og:title and og:description as text directly under the image, so the card
      was saying the title twice and spending half its area to do it — and at the size a
-     link actually appears in a message bubble, that half was unreadable anyway. New
-     filename on purpose: platforms cache og:image hard by URL, so overwriting the old
-     one would have kept serving the old card. -->
-<meta property="og:image" content="https://jonathandiaso.github.io/Panim/og-card.jpg">
+     link actually appears in a message bubble, that half was unreadable anyway.
+
+     2026-08-28: the card is now the chapter X plate, not the tomb. At message size the
+     tomb read as an archaeology dig — no subject, no scale, nothing to lock onto. A
+     human face is the strongest thumbnail there is, attention finds it before it
+     processes anything else, and this one carries the book's own thesis in one frame:
+     tears, and a hand against a cheek. Cut from art/ch10-morning.webp, centre crop to
+     1200x630, subject left of centre so the right third stays quiet for the link title.
+
+     New filename on purpose, BOTH times: platforms cache og:image hard by URL, so
+     overwriting would have kept serving the previous card for weeks. -->
+<meta property="og:image" content="https://jonathandiaso.github.io/Panim/og-card-face.jpg">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Looking down through a broken stone floor into a burial chamber, one shaft of daylight falling on clay oil lamps below.">
+<meta property="og:image:alt" content="A sun-lined, freckled woman in a coarse woven head covering looks straight ahead with tears on her cheek, a hand resting against the side of her face.">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -36,12 +45,12 @@
 <link rel="preload" href="fonts/l04.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/g02.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/h00.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts/fonts.css?v=24">
-<link rel="stylesheet" href="css/site.css?v=24">
-<link rel="stylesheet" href="css/components.css?v=24">
-<link rel="stylesheet" href="css/player.css?v=24">
-<link rel="stylesheet" href="css/room.css?v=24">
-<link rel="stylesheet" href="css/polish.css?v=24">
+<link rel="stylesheet" href="fonts/fonts.css?v=26">
+<link rel="stylesheet" href="css/site.css?v=26">
+<link rel="stylesheet" href="css/components.css?v=26">
+<link rel="stylesheet" href="css/player.css?v=26">
+<link rel="stylesheet" href="css/room.css?v=26">
+<link rel="stylesheet" href="css/polish.css?v=26">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -157,6 +166,10 @@
       <a href="https://jonathandiaso.github.io/One-Promise-Abraham-and-the-Living-God/" target="_blank" rel="noopener">Listen to <em>One Promise</em> →</a>
       <button class="btn" id="share-btn">Share this book</button>
     </div>
+
+    <!-- The accessibility statement lives in About rather than in a footer because this
+         site has no footer other than the player, which is chrome. -->
+    <p class="about-fineprint"><a href="accessibility.html">Accessibility</a></p>
   </div>
 </aside>
 
@@ -289,18 +302,18 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=24"></script>
-<script src="content/images.js?v=24"></script>
-<script src="content/audio-manifest.js?v=24"></script>
-<script src="content/marks.js?v=24"></script>
-<script src="content/thread.js?v=24"></script>
-<script src="content/lexicon.js?v=24"></script>
-<script src="js/render.js?v=24"></script>
-<script src="js/ui.js?v=24"></script>
-<script src="js/motion.js?v=24"></script>
-<script src="js/sync.js?v=24"></script>
-<script src="js/player.js?v=24"></script>
-<script src="js/room.js?v=24"></script>
+<script src="content/chapters.js?v=26"></script>
+<script src="content/images.js?v=26"></script>
+<script src="content/audio-manifest.js?v=26"></script>
+<script src="content/marks.js?v=26"></script>
+<script src="content/thread.js?v=26"></script>
+<script src="content/lexicon.js?v=26"></script>
+<script src="js/render.js?v=26"></script>
+<script src="js/ui.js?v=26"></script>
+<script src="js/motion.js?v=26"></script>
+<script src="js/sync.js?v=26"></script>
+<script src="js/player.js?v=26"></script>
+<script src="js/room.js?v=26"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

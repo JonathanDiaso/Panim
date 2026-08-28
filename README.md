@@ -322,28 +322,39 @@ check its own comment had promised but never implemented.
    2026-08-28 — 37 MB that was published to a public site and never served to a
    reader. See `art/archive/WHERE-THE-SOURCES-WENT.md`. All 47 files were verified
    by MD5 before removal and every one is still in git history.
-2. **Six of fifteen slots still empty** — prompts ready in `art/PROMPTS.md`.
-3. **Source images are 1408 px**, the new ones included; plates want 2400 px+.
-   They soften on a large display.
-4. **Three plates are wrong pictures**, re-examined 2026-08-28 by looking at the files
-   rather than at the notes about them. None is a wiring problem:
-   - `ch02-trees` 🔴 — the worst in the set. Golden and sunbeamed on the coldest page;
-     both figures nude rather than in fig leaves; the woman's hair is long, wavy and
-     light auburn; there are cut stone steps in a garden that predates masonry; and the
-     frame is full of god rays. **Two of those were forbidden by name in the prompt and
-     came back anyway** — see `art/PROMPTS.md` §6.
-   - `ch06-shine` 🟠 — a hood, not the flat square masveh, and set in a green deciduous
-     forest with bokeh orbs, where the scene is Late Bronze Age Sinai.
-   - `ch03-mountain` 🟡 — closer than recorded: it has the night, the fire, the crowd and
-     the tents. Missing the stone boundary line, which is the chapter's hinge; and the
-     summit reads as a volcanic eruption, which Sinai's fire is not.
+2. **One of sixteen slots still empty** — `ch07-gate`. Chapter VII has no plate at all.
+   `ch10-veil-lift` was the other and was **filled 2026-08-28 (round five)**.
+   Prompt ready to paste in `art/PROMPTS.md`.
+3. **Source images are 1408 px**; plates want 2400 px+. **The author accepted this
+   2026-08-28** — the consequence is that a plate is never asked to fill a wide screen
+   at full bleed. `ch10-veil-lift` is the one exception at 1536x1024, a true 3:2.
+4. **Two plates are still wrong pictures**, graded 2026-08-28 by opening every file
+   rather than reading the notes about them. Neither is a wiring problem:
+   - `ch08-veil` 🔴 — **the worst frame on the site.** The curtain hangs in a **Gothic
+     cathedral** — pointed arches, ribbed vaults, clustered piers — and there are **no
+     cherubim in the cloth**, which is what chapter VIII spends four paragraphs on.
+     This slot went ungraded for two rounds because every handoff wrongly said it had
+     never been generated.
+   - `ch02-trees` 🟠 — improved in round five (clothed in stitched leaves, stone steps
+     gone) but still golden-hour on the coldest page, still full of god rays, hair still
+     long and light auburn — and they are no longer hiding, which is the caption.
 
-   **`ch10-morning` is NOT on this list any more.** It was queued first for a year on
-   the claim that it "came back a modern studio portrait." It did not: she is sun-lined,
-   freckled, unshaped brows, no cosmetics, coarse head covering. What actually diverges
-   from the brief is that it is an interior rather than a garden, there is a second
-   figure where the brief says none, and she is faintly smiling. Whether those are
-   faults is an editorial call.
+   ✅ **Fixed in round five, 2026-08-28:** `ch02-storm` (was a Viking longship),
+   `ch06-shine` (was a hood in a green forest with bokeh orbs), `ch03-mountain` (was a
+   volcanic eruption with no boundary line), `ch01-tomb` (had no 1979 marker at all),
+   `ch01-scroll` (was modern square Hebrew under "the oldest words we have"). **Three of
+   those five had faults a never-list failed to prevent for two rounds and a positive
+   description fixed on the first try — see `art/PROMPTS.md` §6.**
+
+   Remaining Tier 2: `ch09-charcoal` (open flames on a fire whose point is that it has
+   none) and `ch09-emmaus` (a stool, where Luke's verb is *reclined*).
+
+   **`ch10-morning` is NOT on this list.** It was queued first on the claim that it
+   "came back a modern studio portrait." It did not: she is sun-lined, freckled,
+   unshaped brows, no cosmetics, coarse head covering. It diverges from its brief in
+   three places — an interior rather than a garden, a second figure, a faint smile —
+   and the author kept it. Its prompt now describes the picture, so a reroll cannot
+   lose it.
 
    Prompts for all of them are in `art/PROMPTS.md`.
 5. **Chapter titles** — reconcile site vs manuscript vs audio (§2).

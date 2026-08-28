@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accessibility — PANIM</title>
+<meta name="description" content="What this site aims for on accessibility, what has been measured, what has not been done yet, and how to report a problem.">
+<link rel="canonical" href="https://jonathandiaso.github.io/Panim/accessibility.html">
+<link rel="icon" type="image/svg+xml" href="/Panim/favicon.svg">
+<link rel="stylesheet" href="/Panim/fonts/fonts.css?v=26">
+<style>
+  /* Standalone page, same pattern as 404.html: the tokens are copied rather than
+     imported so this page renders correctly even if the main stylesheet fails.
+     Values are lifted verbatim from css/site.css :root — if those change, change
+     these. The three ink tiers are AA against the darkest stock (#F1EDE4) at
+     15.5 : 6.4 : 4.5, which is the whole point of the page. */
+  :root {
+    --serif: 'Literata', Georgia, 'Times New Roman', serif;
+    --ui: 'Archivo', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+    --heb: 'Frank Ruhl Libre', 'Literata', Georgia, serif;
+    --paper: #F1EDE4;
+    --ink: #191510;
+    --ink-soft: #5C5449;
+    --ink-faint: #726B60;
+    --rule: rgba(25, 21, 16, .14);
+    --rule-strong: rgba(25, 21, 16, .28);
+    --accent: #32506B;
+    --ap-sm: .64rem;
+    --ap-md: .72rem;
+    --ap-lg: .82rem;
+    --edge: clamp(20px, 4vw, 64px);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 12;
+    font-size: clamp(1.14rem, .5vw + 1.03rem, 1.32rem);
+    line-height: 1.68;
+    padding: var(--edge);
+  }
+  .wrap { max-width: 66ch; margin: 0 auto; }
+
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .back {
+    font-family: var(--ui);
+    font-size: var(--ap-sm);
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink-soft);
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .back:hover { color: var(--ink); }
+
+  h1 {
+    font-variation-settings: 'opsz' 60;
+    font-weight: 400;
+    font-size: clamp(2rem, 4vw, 2.9rem);
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    margin: .6em 0 .1em;
+  }
+  .standfirst {
+    color: var(--ink-soft);
+    margin: 0 0 2.4em;
+  }
+  /* The body size tops out at 1.32rem, so an h2 of 1.32rem is not a heading — it is a
+     bold-ish paragraph. Sized off the body's ceiling, not at it, and given real space
+     underneath so the sentence below reads as following it rather than as part of it. */
+  h2 {
+    font-variation-settings: 'opsz' 28;
+    font-weight: 400;
+    font-size: clamp(1.5rem, 1.1vw + 1.28rem, 1.85rem);
+    line-height: 1.22;
+    letter-spacing: -.015em;
+    margin: 2.2em 0 .55em;
+    padding-top: 1.5em;
+    border-top: 1px solid var(--rule);
+  }
+  h3 {
+    font-family: var(--ui);
+    font-size: var(--ap-lg);
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 2em 0 .4em;
+  }
+  p { margin: 0 0 1.2em; }
+  ul { margin: 0 0 1.4em; padding-left: 1.2em; }
+  li { margin-bottom: .55em; }
+  strong { font-weight: 600; }
+
+  .meta {
+    font-family: var(--ui);
+    font-size: var(--ap-md);
+    color: var(--ink-faint);
+    letter-spacing: .02em;
+    line-height: 1.6;
+  }
+
+  .note {
+    border-left: 2px solid var(--accent);
+    padding: .1em 0 .1em 1.2em;
+    margin: 0 0 1.6em;
+    color: var(--ink-soft);
+  }
+
+  .contact {
+    font-family: var(--ui);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--ink);
+    text-decoration-color: rgba(50, 80, 107, .55);
+    text-underline-offset: .22em;
+  }
+  .contact:hover { text-decoration-color: var(--accent); }
+
+  footer {
+    margin-top: 3.4em;
+    padding-top: 1.4em;
+    border-top: 1px solid var(--rule);
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/Panim/">&#8592;&nbsp;&nbsp;Back to the book</a>
+
+    <main>
+      <h1>Accessibility</h1>
+      <p class="standfirst">This page says what the site aims for, what has actually been
+         measured, what has not been done yet, and how to tell me when something is
+         broken for you.</p>
+
+      <h2>What this site aims for</h2>
+      <p>PANIM aims to meet <strong>WCAG 2.2 Level AA</strong>. That is the standard this
+         site is built and checked against.</p>
+      <p class="note">This is a statement of intent and of current status, not a claim of
+         full conformance. Where the site falls short of AA today, it is listed below
+         rather than left out.</p>
+
+      <h2>What has been measured</h2>
+      <p>These are done and were checked with numbers rather than by eye:</p>
+      <ul>
+        <li><strong>Text contrast.</strong> The three ink tiers run 15.5:1, 6.4:1 and
+            4.5:1 against the darkest paper stock in the book, so they clear AA against
+            all ten stocks, not just the warm ones.</li>
+        <li><strong>The Listening Room's dim states</strong> were raised off 3.2:1 and
+            2.0:1, both of which were failures carrying real text.</li>
+        <li><strong>Tap targets</strong> are at least 44&#215;44&#8239;px.</li>
+        <li><strong>The smallest type on the site</strong> is 10.24&#8239;px and is only
+            ever used for tracked-out uppercase. Nothing renders under 10&#8239;px;
+            eleven declarations used to.</li>
+        <li><strong>Every accent colour</strong> in the palette was measured against its
+            own paper stock before it shipped.</li>
+        <li><strong>Motion</strong> respects <code>prefers-reduced-motion</code>.</li>
+      </ul>
+
+      <h2>What has not been done yet</h2>
+      <p>Being straight about this is the point of the page. None of the following has
+         had a full pass:</p>
+      <ul>
+        <li>Every image's alt text <strong>judged</strong> rather than counted &#8212;
+            confirming each one says what the picture is doing, not just that a string
+            is present.</li>
+        <li>Keyboard navigation walked end to end, including every trap and every skip.</li>
+        <li>Focus order and focus visibility inside every modal and sheet.</li>
+        <li>The audio player and the Listening Room driven with a screen reader.</li>
+        <li>Every player state &#8212; playing, loading, error, sleep &#8212; checked for
+            whether it is actually announced.</li>
+      </ul>
+      <p>This work is scheduled. Until it is finished, assume there are real problems in
+         those areas.</p>
+
+      <h2>Known limitations</h2>
+      <ul>
+        <li>The book is a long single reading surface. It is navigable by keyboard, but a
+            screen reader user has not yet confirmed the experience end to end.</li>
+        <li>Audio is the primary medium here. Every chapter has a full read-along text on
+            the page, so the words are available without the audio &#8212; but the
+            recordings are not separately captioned or transcribed as timed text.</li>
+      </ul>
+
+      <h2>Telling me something is broken</h2>
+      <p>If any part of this site does not work for you, I want to know, and a specific
+         report is worth more than a general one. Useful details: the page, what you were
+         trying to do, what happened instead, and the browser and assistive technology you
+         were using.</p>
+      <!-- CONTACT ADDRESS — dedicated, chosen by the author 2026-08-28 in place of their
+           personal address. This is the ONLY place on the site an address appears, so a
+           future change is a one-line edit here. -->
+      <p><a class="contact" href="mailto:lockstepusa@gmail.com?subject=PANIM%20accessibility">lockstepusa@gmail.com</a></p>
+      <p>I read every one of these and I will tell you what I am able to fix and when.</p>
+
+      <h2>How this site is tested</h2>
+      <ul>
+        <li>Contrast ratios calculated against each chapter's own paper stock, not against
+            a single reference background.</li>
+        <li>Layout and type sizes measured at a 402&#8239;px viewport &#8212; a real phone
+            width, not a desktop window narrowed down.</li>
+        <li>A full WCAG 2.2 AA audit, finding by finding, is in progress; this page will
+            be updated with its results rather than replaced.</li>
+      </ul>
+    </main>
+
+    <footer>
+      <p class="meta">
+        Statement first published 28 August 2026. Last reviewed 28 August 2026.<br>
+        Measured against WCAG 2.2 Level AA.
+      </p>
+    </footer>
+  </div>
+</body>
+</html>

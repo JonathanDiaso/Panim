@@ -8,17 +8,24 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v24';
+var SHELL = 'panim-shell-v26';
 var AUDIO = 'panim-audio-v1';
 
 // index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
 // in step with the `?v=` in index.html and with the SHELL number, or the
 // precache stores URLs the page never asks for and everything falls through to
 // the network — which still works, but offline stops working silently.
-var ASSET_V = '24';
+//
+// FOUR PLACES MOVE TOGETHER on a bump — this is easy to half-do:
+//   1. SHELL, above            2. ASSET_V, here
+//   3. every ?v= in index.html 4. the ?v= on fonts.css in 404.html AND
+//      accessibility.html — both are standalone pages with their own copy, and
+//      neither is reached by the index.html sweep. 404.html was left on v24 for
+//      a whole release because of exactly this.
+var ASSET_V = '26';
 var VERSIONED = /\.(css|js)$/;
 var PRECACHE = [
-  './', 'index.html', 'favicon.svg', 'og-card.jpg', 'manifest.webmanifest',
+  './', 'index.html', 'accessibility.html', 'favicon.svg', 'og-card-face.jpg', 'manifest.webmanifest',
   'fonts/fonts.css',
   // The font FILES, not just the stylesheet. Precaching fonts.css alone meant an
   // installed, offline copy of the book named three typefaces it could not fetch and
