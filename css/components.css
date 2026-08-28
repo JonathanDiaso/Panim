@@ -126,9 +126,15 @@
   color: var(--accent);
   padding-top: .18em;
 }
+/* Retuned for Literata, 2026-08-27. Literata sets wider than Fraunces did, so the
+   old clamp(…, 5.1rem) pushed the title from two lines to three and the jacket
+   started to shout. Smaller, and a notch lighter than the 400 the shared display
+   rule uses: at 70px the light end reads as air rather than as thin, which is not
+   true at chapter-title size. */
 .hero-title {
   grid-column: 3 / 10;
-  font-size: clamp(2.3rem, 6vw, 5.1rem);
+  font-size: clamp(2.2rem, 5vw, 4.4rem);
+  font-weight: 350;
   margin: 0;
 }
 .hero-subtitle {
@@ -490,7 +496,7 @@
 .completion-actions { display: flex; gap: .6rem; flex-wrap: wrap; }
 
 .toast {
-  position: fixed; left: var(--edge); bottom: calc(var(--player-h, 114px) + 10px); z-index: 940;
+  position: fixed; left: var(--edge); bottom: calc(var(--player-h, 134px) + 10px); z-index: 940;
   transition: bottom var(--dur-med) var(--ease);
   background: var(--ink); color: var(--paper);
   padding: .9em 1.2em; display: flex; gap: 1em; align-items: center;
@@ -525,7 +531,7 @@
 .prayer-zone .divider-beat { grid-column: auto; }
 #hold-btn {
   position: fixed; left: var(--edge); z-index: 930;
-  bottom: calc(var(--player-h, 114px) + 10px);
+  bottom: calc(var(--player-h, 134px) + 10px);
   transition: bottom var(--dur-med) var(--ease);
 }
 #hold-btn[hidden] { display: none; }
@@ -678,7 +684,7 @@
   padding-left: 1.1rem; margin: 0 0 1.6rem;
 }
 .invite-epigraph p {
-  font-variation-settings: var(--fr-mid);
+  font-variation-settings: var(--lit-mid);
   font-weight: 300; font-size: 1.3rem; line-height: 1.34;
   letter-spacing: -.012em; color: var(--ink); margin: 0 0 .5em;
 }
@@ -688,7 +694,7 @@
   text-transform: uppercase; color: var(--accent);
 }
 .modal-invite h2 {
-  font-variation-settings: var(--fr-display);
+  font-variation-settings: var(--lit-display);
   font-weight: 300; font-size: clamp(1.7rem, 3.4vw, 2.4rem);
   line-height: 1.06; letter-spacing: -.018em;
   margin-bottom: .8em;
