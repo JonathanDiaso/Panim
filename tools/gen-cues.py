@@ -74,20 +74,54 @@ for ch in chapters:
             bid = owner[i1 + k]
             m, t0 = hit.get(bid, (0, None))
             hit[bid] = (m + 1, t0 if t0 is not None else at[j1 + k])
+    # A block difflib could attribute no word to used to be DROPPED. Every one of them
+    # is two to five words long ("Israel.", "The word is ra'ah.") — short lines get
+    # swallowed into a neighbouring equal-run, which says nothing about whether they
+    # are spoken. Dropping them stalls the read-along on the previous paragraph and
+    # leaves that line permanently un-highlighted. Interpolate instead: the block sits
+    # between two known times, so place it by its share of the words in that gap. A
+    # placed line is marked so the review list still calls for an ear on it.
+    placed = set()
+    for k, (bid, ws) in enumerate(blocks):
+        if hit.get(bid, (0, None))[1] is not None: continue
+        prev = next((b for b, _ in reversed(blocks[:k]) if hit.get(b, (0, None))[1] is not None), None)
+        nxt  = next((b for b, _ in blocks[k+1:]      if hit.get(b, (0, None))[1] is not None), None)
+        if prev is None or nxt is None:
+            review.append((bid, 0.0, 'NO MATCH, no neighbours to place it between')); continue
+        i0 = [b for b, _ in blocks].index(prev); i1 = [b for b, _ in blocks].index(nxt)
+        span = sum(tot[b] for b, _ in blocks[i0:i1]) or 1
+        before = sum(tot[b] for b, _ in blocks[i0:k]) or 0
+        t0, t1 = hit[prev][1], hit[nxt][1]
+        hit[bid] = (0, t0 + (t1 - t0) * before / span)
+        placed.add(bid)
+
     cues = []
     for bid, ws in blocks:
         m, t0 = hit.get(bid, (0, None))
         conf = m / max(1, tot[bid])
         if t0 is None:
             review.append((bid, 0.0, 'NO MATCH')); continue
-        if conf < 0.6: review.append((bid, conf, f't={t0:.1f}'))
+        if bid in placed: review.append((bid, 0.0, f'interpolated t={t0 + HEAD_PAD:.1f}'))
+        elif conf < 0.6: review.append((bid, conf, f't={t0:.1f}'))
         cues.append(dict(t=round(t0 + HEAD_PAD, 2), id=bid))
-    cues.sort(key=lambda c: c['t'])
-    # sanity: cue times must be non-decreasing per manuscript order too
+
+    # Cue times must not go backwards against the manuscript. sync.js walks the file in
+    # time order and highlights whatever it lands on, so one badly-aligned block that
+    # sorts out of place does not merely mistime a line — it yanks the reader back up
+    # the page mid-sentence. Assert it rather than sorting the evidence away.
+    order = {bid: i for i, (bid, _) in enumerate(blocks)}
+    cues.sort(key=lambda c: (c['t'], order[c['id']]))
+    back = [(a['id'], b['id']) for a, b in zip(cues, cues[1:]) if order[b['id']] < order[a['id']]]
+    if back:
+        raise SystemExit(f"ch{n:02d}: {len(back)} cue(s) out of manuscript order, first "
+                         f"{back[0][0]} -> {back[0][1]}. Fix the alignment; do not ship this.")
+
     out = os.path.join(SITE, 'cues', f'ch{n:02d}.json')
     json.dump(cues, open(out, 'w'))
-    print(f"ch{n:02d}: {len(cues)}/{len(blocks)} blocks cued, "
-          f"median conf {sorted(hit[b][0]/tot[b] for b, _ in blocks if b in hit)[len(hit)//2]:.2f}")
+    matched = [b for b, _ in blocks if b in hit and b not in placed]
+    print(f"ch{n:02d}: {len(cues)}/{len(blocks)} blocks cued "
+          f"({len(placed)} interpolated), median conf "
+          f"{sorted(hit[b][0]/tot[b] for b in matched)[len(matched)//2]:.2f}")
 
 print(f"\nreview list ({len(review)}):")
 for bid, conf, note in review: print(f"  {bid}  conf={conf:.2f}  {note}")

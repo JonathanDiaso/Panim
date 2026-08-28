@@ -173,7 +173,14 @@ tools/ build-chapters.py · gen-cues.py · check-coverage.py · tape-vs-page.py
       cue-marker.html
 ```
 
-Local: `python3 -m http.server 8899` then `localhost:8899`.
+Local: **`python3 tools/serve.py`** then `localhost:8899`.
+
+> ⚠️ **Not `python3 -m http.server`.** It types `.m4a` as `audio/mp4a-latm` (a raw
+> AAC streaming type, not the MP4 container these are) and ignores Range requests.
+> The `<audio>` element gets a type it will not decode: `readyState` stays 0, and
+> **no MediaError is ever raised** — audio simply never starts, locally only, while
+> production is fine. Pages sends `audio/mp4` + `accept-ranges: bytes`; `tools/serve.py`
+> matches it, and sends `no-store` so a stale header cannot outlive a restart.
 
 **After any CSS/JS/content change, bump the version in three places, together:**
 `SHELL` and `ASSET_V` in `sw.js`, and every `?v=` in `index.html`. They must
@@ -182,6 +189,36 @@ bumping `SHELL` alone re-fills the cache from whatever the browser already had.
 The service worker now precaches with `cache: 'reload'` for the same reason.
 
 ---
+
+### The read-along, and why it stopped working
+
+`cues/chNN.json` is `[{t, id}]` on the **voice** timeline; the player converts with
+`voiceTime = currentTime − musicOffset` (6.0s). All three links were measured against
+the audio itself on 2026-08-27, not taken on trust:
+
+| checked | result |
+|---|---|
+| music lead-in vs. the flat 6.0s the player assumes | **6.00s in all ten**, no drift across the chapter, correlation ≥ 0.996 |
+| SRT timestamps vs. the final voice WAVs | constant **+0.51s**, spread **≤ 0.04s** — no pauseclean drift; `HEAD_PAD = 0.5` in the generator is what cancels it |
+| `audio-manifest.js` vs. the shipped `.m4a` | within **0.07s** |
+| cue data vs. `chapters.js` | **1839/1839** blocks cued, 0 stale ids, 0 out of manuscript order |
+
+So the timing was never the problem. **Following was.** Any `scroll` event set a
+`userScrollBroke` flag that only `setFollow(true)` ever cleared, so one glance down the
+page killed auto-scroll for the rest of the session — and the Follow button stayed lit
+over a page that had stopped moving. Our own smooth scroll fired that same event and
+broke it on its first move.
+
+Now: only a real gesture (wheel / touch / a scrolling key, plus a target-aware `scroll`
+check that catches scrollbar drags) **suspends** following. It resumes three ways — the
+narration reaches a paragraph still on screen, 12s hands-off, or a tap on Follow, which
+jumps back to the voice. While suspended the button says so (`#follow-btn.is-suspended`)
+instead of claiming otherwise.
+
+`tools/gen-cues.py` now also **interpolates** a block difflib could attribute no word to
+(all four were 2–5 word lines like "Israel." that get swallowed into a neighbouring
+match) rather than dropping it, and **asserts** cue order against the manuscript — the
+check its own comment had promised but never implemented.
 
 ## 5. Done — so it isn't redone
 

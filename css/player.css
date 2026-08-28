@@ -52,6 +52,17 @@
 .player-secondary .btn-icon { min-width: 44px; min-height: 44px; font-size: .85rem; }
 #speed-btn { font-family: var(--ui); font-size: .68rem; min-width: 44px; }
 
+/* Follow is on, but the reader has scrolled ahead and the page has stopped moving
+   with the voice (js/sync.js). Left lit, the button claims something untrue; turned
+   off, the reader loses the state they are actually in. So it goes quiet and carries
+   a hollow marker — still active, not currently driving. Tapping returns to the voice.
+   No new colour: this is the apparatus rule, a rule doing the job. */
+#follow-btn.is-suspended { opacity: .55; }
+#follow-btn.is-suspended::after {
+  content: ''; display: block; height: 1px; margin-top: 2px;
+  background: currentColor; opacity: .5;
+}
+
 .player-seek { position: relative; padding-bottom: .5rem; }
 .seekbar {
   position: relative;

@@ -384,8 +384,21 @@
     state.follow = on;
     els.followBtn.setAttribute('aria-pressed', String(on));
     els.followBtn.classList.toggle('is-active', on);
+    els.followBtn.classList.remove('is-suspended');
+    els.followBtn.title = on ? 'Following the narration' : 'Follow the narration';
     emit('panim:follow-change', { on: on });
   }
+
+  // Reading ahead suspends following (js/sync.js). Say so on the button instead of
+  // leaving it lit over a page that has stopped moving — and make tapping it the way
+  // back to the voice, which is what a reader reaches for.
+  document.addEventListener('panim:follow-suspended', function (e) {
+    if (!els.followBtn) return;
+    var s = !!e.detail.suspended;
+    els.followBtn.classList.toggle('is-suspended', s && state.follow);
+    els.followBtn.title = s ? 'Reading ahead — tap to jump back to the narration'
+                            : 'Following the narration';
+  });
 
   // ---------- keyboard ----------
   function wireKeyboard() {
@@ -421,7 +434,12 @@
     els.skipFwdBtn.addEventListener('click', function () { skip(30); });
     els.speedBtn.addEventListener('click', cycleSpeed);
     if (els.editionBtn) els.editionBtn.addEventListener('click', toggleEdition);
-    els.followBtn.addEventListener('click', function () { setFollow(!state.follow); });
+    els.followBtn.addEventListener('click', function () {
+      // while suspended the button means "take me back to the voice", not "turn this
+      // off" — the reader has already stopped following by scrolling away
+      if (state.follow && els.followBtn.classList.contains('is-suspended')) { setFollow(true); return; }
+      setFollow(!state.follow);
+    });
     els.roomBtn.addEventListener('click', function () { emit('panim:room-toggle'); });
     els.sleepOptions.addEventListener('click', function (e) {
       var btn = e.target.closest('[data-sleep]');
