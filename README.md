@@ -142,11 +142,33 @@ The **Listening Room is deliberately dark.** The page is a book read in daylight
 Room is a phone on a nightstand. It is the one place the night palette still belongs.
 It also has a 6-second **idle dim** — the controls receding is correct, not a fault.
 
-**Type:** Fraunces (book), Archivo (apparatus), Frank Ruhl Libre (Hebrew), self-hosted
-in `fonts/`. Fraunces is variable: setting `font-variation-settings` disables
-`font-optical-sizing:auto`, so `opsz` must always be stated — `--fr-normal` (14),
-`--fr-mid` (72), `--fr-display` (144). Forgetting this renders body text in the
-display cut, which is what made the italics look wrong.
+**Type:** **Literata** (book), Archivo (apparatus), Frank Ruhl Libre (Hebrew), self-hosted
+in `fonts/`. Setting `font-variation-settings` disables `font-optical-sizing:auto`, so
+`opsz` must always be stated — `--lit-normal` (12), `--lit-mid` (28), `--lit-display` (60).
+The old `--fr-*` names still work as aliases.
+
+> ⚠️ **This section used to say the italic problem was a missing `opsz`. It was not.**
+> Fraunces was replaced on 2026-08-27 because *its italic at text optical sizes is much
+> darker in colour than its own roman* — every `<em>` in running prose read as **bold**
+> italic. That was measured, not inferred: the same line rendered three ways — with the
+> old `'SOFT' 0, 'WONK' 0, 'opsz' 14`, with `'wght' 400` stated explicitly, and with no
+> `font-variation-settings` at all — came out pixel-identical. The weight was never
+> wrong; the face is built that way and only thins out near `opsz 144`, a display size.
+>
+> Two further things that download got wrong, worth not repeating: **`SOFT` and `WONK`
+> were not in the files at all.** That Fraunces build was cut with `opsz,wght` only, so
+> Google had instanced both axes out — the CSS named two axes that did not exist. And
+> the files' `opsz` default was 9, not Fraunces' natural 14. **Check a font's `fvar`
+> before writing an axis name into `css/site.css`.**
+>
+> Literata's files are the real variable font: `opsz 7–72`, `wght 200–900`, both intact.
+> They also carry **greek and greek-ext**, which nothing here had before — `content/marks.js`
+> quotes polytonic Greek (ἀνθρακιά, ch. IX) that was previously falling back to a system
+> font. The superseded Fraunces build is in `fonts/archive/fraunces-2026-08-27/`.
+>
+> Retuned with the face, because Literata sets wider and its light end is thinner:
+> `.hero-title` is `clamp(2.2rem, 5vw, 4.4rem)` at weight 350 (was 5.1rem/300 — Literata
+> pushed the title onto three lines), and the shared display rule is weight 400.
 
 **Progress** is the running head: numerals ink as you pass them, the current one
 carries a hairline that fills (`is-read` / `is-active` / `--ch-progress`).
@@ -230,6 +252,52 @@ check its own comment had promised but never implemented.
 
 ## 5. Done — so it isn't redone
 
+**2026-08-27, later session**
+
+- **The phone play/pause bug.** Tapping play on a phone flipped the button to ❚❚ and
+  back to ▶ forever without ever playing. Two faults, compounding: `loadChapter()`
+  deferred its `play()` into the `loadedmetadata` handler — a network round trip later,
+  because the `<audio>` is `preload="none"` — so iOS Safari, which honours `play()` only
+  inside the gesture that asked for it, rejected every one; and `play()` then swallowed
+  the rejection (`p.catch(function () {})`) while setting `state.playing = true`
+  regardless. The bar recorded what we had *asked* for, not what happened.
+  Reproduced against the pre-fix file under `--autoplay-policy=document-user-activation-required`
+  — tap 2 gave `audio.paused=true` with `state.playing=true` and the button reading Pause.
+  Now: playback starts in the same tick as the tap, and **the audio element is the source
+  of truth** — its own `play`/`pause` events drive the UI, so an incoming call, the lock
+  screen, or headphones pulled out can no longer leave the bar claiming to play. Verified
+  across all five states including an external pause.
+- **The seekbar drew two different quantities on one rail.** The ten chapter ticks were
+  spread evenly *inside* the position track, so the fill said "55% through chapter I"
+  while the tick at that same 55% meant "chapter V" and jumped chapters when tapped.
+  Split: `#chapter-rail` above carries the labelled book index (I–X, hidden under 640px
+  where it would cost 26px of a 92px bar), and `.seekbar` means position, only.
+- Seek drags in **both** the bar and the Room use `setPointerCapture` and handle
+  `pointercancel`; an interrupted touch used to leave `dragging = true`, after which any
+  stray pointermove anywhere on the page scrubbed the audio. Seekbar gained Home / End /
+  PageUp / PageDown and an `aria-valuetext` that reads a time instead of "37".
+- `loadChapter()`'s `loadedmetadata` and `error` listeners now come off together. Each
+  used to remove only itself, so a failed load left its handler behind and later loads
+  stacked stale closures over old `resumeAt` / `autoplay` values.
+- **The read-along measured the wrong region.** `isComfortablyInView` compared against
+  the raw viewport, but the running head covers the top and the player covers the bottom
+  134px (92 on a phone) — so a paragraph sitting entirely *behind the player* counted as
+  visible and following declined to scroll to it. Both it and `scrollIntoCenterThird`
+  now use a `readableBand()` derived from the nav's real height and `--player-h`.
+- **`--ink-faint` failed WCAG AA at 2.66:1** and carried real text in eleven places, most
+  of it 10–11px caps. The three ink tiers are now 15.5 : 6.4 : 4.5 against the *darkest*
+  stock, which is the one to check new values against.
+- **Fraunces → Literata** (§3), and `--player-h` re-measured off a screenshot: 134px / 92px.
+- `ch01-tomb`, `ch04-river` and `ch05-bush` replaced with the author's frames. The old
+  tomb plate had a medieval metal-bound **codex**, a compass, a brush and a photographic
+  scale bar in a 600 BC chamber; the old river plate had **one** figure under a caption
+  about seeing God face to face; the old bush was from the superseded golden-hour set.
+  All three superseded frames in `art/archive/superseded-2026-08-27/`.
+- `art/` root cleaned: ten loose author drops filed into `art/incoming/` under descriptive
+  names. Six were byte-identical to what was already published; the names now say so.
+
+**Earlier**
+
 - Five photographs wired in (they had been sitting on disk, unreferenced).
 - WebP conversion: 5.36 MB → 0.58 MB (−89%). Originals in `art/originals/`.
 - Contents page; running times read from the audio manifest.
@@ -253,10 +321,17 @@ check its own comment had promised but never implemented.
 2. **Six of fifteen slots still empty** — prompts ready in `art/PROMPTS.md`.
 3. **Source images are 1408 px**, the new ones included; plates want 2400 px+.
    They soften on a large display.
-4. **Per-chapter Hebrew.** Every chapter opening currently shows the same פָּנִים.
-   `satar` for The Hiding, `hester panim` for The Glory Backs Out, etc. Not done because
-   the vocalisation would be guessed, and wrong nikkud in a book about a Hebrew word is
-   not worth risking. Needs the pointed forms supplied.
+4. **Two plates are still wrong pictures**, flagged by the author 2026-08-27. Neither is
+   a wiring problem — these are the frames themselves:
+   - `ch02-trees` — the placeholder already flagged in `content/images.js`: golden and
+     lush on the coldest page in the book, figures reading as modern and nude rather
+     than in fig leaves. (The author's `Newch2Hiding.jpeg` is the *same image*; it is
+     filed as `art/incoming/02-trees--same-as-published.jpeg` to record that.)
+   - `ch03-mountain` — the night volcano. Already the newer of the two on disk; the
+     day version (`art/incoming/03-mountain--day-golden.jpeg`) is from the superseded
+     golden-hour direction, so this needs a *new* generation, not a swap.
+
+   Prompts for all three are in `art/PROMPTS.md`.
 5. **Chapter titles** — reconcile site vs manuscript vs audio (§2).
 6. `hanging-punctuation` is Safari-only; no clean cross-browser equivalent.
 7. `tools/validate.mjs` is referenced in older notes but does not exist.
