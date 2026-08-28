@@ -9,9 +9,15 @@ window.PANIM_IMAGES = {
     src: "art/hero.webp",
     alt: "A heavy ancient wooden door standing ajar in a dark stone room, warm golden light pouring through the gap, dust drifting in the beam."
   },
+  // Replaced 2026-08-27 with the author's ch1 frame. The previous plate put a medieval
+  // metal-bound CODEX, a compass, a brush and a photographic scale bar in a 600 BC
+  // burial chamber. This one is the chamber: rock-cut shelf, oil lamps, broken pottery,
+  // and nothing in it that had not been invented yet. The scrolls stay unseen here and
+  // arrive on the next plate (ch01-scroll), which is also the order the chapter tells it
+  // in. Superseded frame in art/archive/superseded-2026-08-27/.
   "ch01-tomb": {
     src: "art/ch01-tomb.webp",
-    alt: "Looking down through a broken hole in an ancient stone floor into a burial chamber; a dusty hand grips the jagged edge as one shaft of light rakes across scrolls and a lamp below.",
+    alt: "Looking down through a broken hole in an ancient stone floor into a burial chamber; a hand grips the jagged edge while one shaft of daylight falls through the dust onto a rock-cut shelf of clay oil lamps and shattered pottery below.",
     caption: "Chamber 25.",
     ref: "Ketef Hinnom, Jerusalem · 1979"
   },
@@ -47,15 +53,23 @@ window.PANIM_IMAGES = {
     caption: "Speak to us yourself, and we will listen; but let not God speak to us.",
     ref: "Exodus 20:19"
   },
+  // Replaced 2026-08-27 with the author's Ch4River frame. The previous plate had ONE
+  // figure alone in the water, under a caption about seeing God face to face — the
+  // wrestling match the chapter turns on was not in the picture. Superseded frame in
+  // art/archive/superseded-2026-08-27/.
   "ch04-river": {
     src: "art/ch04-river.webp",
-    alt: "Two figures locked together in the shallows of a dark river at night, water thrown up around them, a low moon behind. Neither face is visible.",
+    alt: "Two men locked together and straining against each other in the shallows of a dark river at night, water thrown up around their legs, one break of pale light in the cloud behind. Neither face is visible.",
     caption: "I have seen God face to face, yet my life has been preserved.",
     ref: "Genesis 32:30 · Peniel"
   },
+  // Replaced 2026-08-27 with the author's ch5Bush frame. The previous plate was from the
+  // superseded golden-hour direction (see art/archive/PROMPTS-v2-golden-hour-superseded);
+  // this one is night, which is where chapter V sits on the dawn arc. Superseded frame
+  // in art/archive/superseded-2026-08-27/.
   "ch05-bush": {
     src: "art/ch05-bush.webp",
-    alt: "A desert scrub bush burning in low golden light, unconsumed, with a pair of worn sandals set down on the stone in front of it.",
+    alt: "A desert bush burning fiercely on bare rock at night under a field of stars, unconsumed, a shepherd's staff and a pair of worn sandals set down on the stone in front of it and a small flock standing off in the dark to one side.",
     caption: "Then Moses hid his face, for he was afraid to look at God.",
     ref: "Exodus 3:6"
   },
