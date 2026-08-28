@@ -29,19 +29,20 @@ window.PANIM_IMAGES = {
     caption: "Chamber 25.",
     ref: "Ketef Hinnom, Jerusalem · 1979"
   },
-  // ✅ REPLACED 2026-08-28 (round five) — the falsifiable error is gone. The previous frame
-  // had MODERN SQUARE HEBREW, legible as such, under a caption calling it the oldest words
-  // we have. This one is angular incised strokes with no square blocks, no crowns and no
-  // vowel points, which is the right family of letterform.
-  // ⚠️ TWO THINGS TO JUDGE, both style rather than fact — flagged for the author:
-  //   1. The incisions GLOW warm gold from inside, which can read as fantasy rather than
-  //      as a low raking light catching a cut edge.
-  //   2. The object reads as charred wood or bark rather than as tarnished SILVER foil,
-  //      which is what KH1 actually is.
-  // Still an unambiguous improvement on what it replaces. See art/PROMPTS.md `ch01-scroll`.
+  // ✅ REPLACED AGAIN 2026-08-28 (round six) — BOTH round-five flags are now resolved.
+  // Round five fixed the falsifiable error (modern square Hebrew under a caption calling it
+  // the oldest words we have) but left two style faults: the cuts GLOWED warm gold from
+  // inside, and the object read as charred wood rather than as silver. This frame fixes
+  // both. The surface is now blackened, oxidised METAL with bright silver where the roll is
+  // abraded, and the letters are lit by a low RAKING light catching the cut edges — no glow
+  // from within. Letterforms stay angular and incised: no square blocks, no crowns, no
+  // vowel points. This is what round five asked for as option B.
+  // Remaining nit, not worth a reroll: a few glyphs read as generic angular marks rather
+  // than strictly palaeo-Hebrew. Not falsifiable at plate size.
+  // Superseded frame archived at site-art-2026-08-28/superseded-2026-08-28-round-six/.
   "ch01-scroll": {
     src: "art/ch01-scroll.webp",
-    alt: "Extreme close-up of a small blackened rolled scroll held in a palm, angular letters scratched into its surface and catching the light along their cut edges.",
+    alt: "Extreme close-up of a small rolled strip of tarnished silver resting on an open palm, blackened with age and bright where it is worn, angular letters incised into the metal and catching a low raking light along their cut edges.",
     caption: "The oldest words we have.",
     ref: "Numbers 6:24–26 · c. 600 BC"
   },
@@ -158,45 +159,62 @@ window.PANIM_IMAGES = {
     caption: "Therefore I have set My face like flint.",
     ref: "Isaiah 50:7"
   },
-  // 🔴 PRIORITY 4 — graded for the FIRST time 2026-08-28. Every handoff until now listed
-  // this slot as "needed — never generated." It was generated, it is live, and nobody had
-  // looked at it. Two faults, both serious:
-  //   1. The curtain hangs in a GOTHIC CATHEDRAL — pointed arches, ribbed vaults,
-  //      clustered piers. Thirteen centuries late and the wrong religion's architecture.
-  //   2. There are NO CHERUBIM woven into the cloth. Chapter VIII spends four paragraphs
-  //      on those cherubim — Eden's guards, embroidered on the barrier for a thousand
-  //      years. Without them the plate cannot say what the chapter says.
-  // The curtain itself is good: colossal, blue and scarlet, torn from the top, threads
-  // snapping in the light. Replace against art/PROMPTS.md `ch08-veil`.
+  // ✅ REPLACED 2026-08-28 (round six) — this was THE WORST FRAME ON THE SITE and both
+  // faults are fixed. The Gothic cathedral is gone: the cloth now hangs in plain massive
+  // dressed limestone with flat lintels, no pointed arches, no ribs, no piers, no marble.
+  // And THE CHERUBIM ARE IN THE CLOTH — large winged frontal figures woven into the weave
+  // and repeated across the whole surface, with the tear running down THROUGH them and
+  // splitting one in half. That is the thing chapter VIII spends four paragraphs on, and
+  // the plate can now say what the chapter says. Blue, purple and scarlet per Exodus 26:31,
+  // torn from the top downward, threads snapping and lighting up as they part.
+  // Two things noted and accepted, neither falsifiable:
+  //   1. The cherubim faces read Byzantine-angelic — soft, frontal, haloed — rather than as
+  //      the composite ANE creature. They are unmistakably woven figures, which is the load
+  //      the plate has to carry.
+  //   2. The stone jambs step inward toward the top, which can suggest a corbelled arch.
+  //      No vaulting, no ribs, no piers — it does not read as a cathedral.
+  // Superseded frame archived at site-art-2026-08-28/superseded-2026-08-28-round-six/.
   "ch08-veil": {
     src: "art/ch08-veil.webp",
-    alt: "A colossal woven temple curtain in blue, purple and scarlet, split from the top downward, hard white light bursting through the tear and individual threads snapping and lighting up as they part.",
+    alt: "A colossal woven temple curtain in blue, purple and scarlet with large winged cherubim worked into the weave and repeated across it, split from the top downward through one of the figures, hard white light bursting through the tear and individual threads snapping and lighting up as they part.",
     caption: "Torn in two from top to bottom — from the other side.",
     ref: "parochet · Matthew 27:51"
   },
-  // 🟠 Graded 2026-08-28 (also previously listed as "never generated" — it was).
-  // The frame has OPEN ORANGE FLAMES standing above the fire. Anthrakia is a CHARCOAL
-  // fire and the flamelessness is the whole point the chapter turns on — the same smell
-  // as the courtyard where Peter denied him, the word appearing in only those two places
-  // in the New Testament. The prompt forbade flames by name and got them anyway; that is
-  // one of the six data points behind art/PROMPTS.md §6. The beach is also grey pebble
-  // where the Galilee shore is black basalt.
+  // ✅ REPLACED 2026-08-28 (round six) — the one fault that mattered is gone. The previous
+  // frame had OPEN ORANGE FLAMES standing above the fire; anthrakia is a CHARCOAL fire and
+  // the flamelessness is the point the chapter turns on. This frame is completely flameless:
+  // a low flat bed of burnt lumps, matte black and ash-white outside, glowing deep red only
+  // DOWN INSIDE the cracks, with nothing rising above the stones. The shore is also now
+  // BLACK BASALT rather than grey pebble, with dark wet sand between the stones, and the
+  // low blue-grey smoke drifts sideways and backlights into a sheet across the frame.
+  // Fish and one flat loaf lie directly on the coals. Cold flat Galilee behind.
+  // Rewriting the never-list as a positive description ("glowing cracks only, nothing
+  // rising") is what finally worked — another data point for art/PROMPTS.md §6.
+  // Not delivered, not worth a reroll: the bare footprints leading to the fire and stopping.
+  // NOTE ON SHAPE: the author's original is 1584x672 (2.36:1), wider than the house 1408x768.
+  // It was cropped to 1232x672 with the fire biased to ~0.58 of the width so it survives the
+  // 4:3 centre crop the plate takes on a phone, then resized to 1408x768. Original on the drive.
   "ch09-charcoal": {
     src: "art/ch09-charcoal.webp",
-    alt: "A small charcoal fire on a pebble shore at first light, fish and flat bread laid on the coals, low smoke drifting sideways and backlit into a thin sheet, cold grey sea behind.",
+    alt: "A small flameless charcoal fire on a shore of black basalt stones at first light, two fish and a flat round loaf laid on the coals, deep red glowing only in the cracks between them, low smoke drifting sideways and backlit into a thin sheet, cold grey sea and hills behind.",
     caption: "The word burns in only two places: a courtyard, and this beach.",
     ref: "anthrakia · John 21:9"
   },
-  // 🟠 Graded 2026-08-28 (also previously listed as "never generated" — it was).
-  // There is a WOODEN STOOL at frame right and the table stands at dining height. A chair
-  // in this room is exactly what the prompt was rewritten to prevent: first-century
-  // Judeans did not sit at a meal, Luke's verb is *reclined*, and the brief asks for a
-  // reed floor mat and a bolster with the hollow still in it. Forbidden by name, delivered
-  // anyway — see art/PROMPTS.md §6. Everything else in the frame is right: the dim stone
-  // room, the small window, the torn loaf, the clay cup, the lamp and the smoke line.
+  // ✅ REPLACED 2026-08-28 (round six) — the stool is gone and the floor seating arrived.
+  // The previous frame had a WOODEN STOOL at frame right and a table at dining height, which
+  // is a nineteenth-century dining room in a first-century village house: Luke's verb is
+  // *reclined*. This frame has no stool, no chair, no seat of any kind. In their place, at
+  // floor level, are the woven reed mat and the long undyed bolster with the hollow of
+  // someone still in it — the only seating in the room, which is the whole point.
+  // Everything that was already right is kept: dim dry-stone room, one small unglazed
+  // window at first light, the torn loaf, the clay cup, the lamp and the thin smoke line
+  // from a wick just gone out.
+  // Noted, accepted: the table is low but not the "barely a foot off the floor" the brief
+  // asks for. It reads as a low table, not a dining table, so it is not worth a reroll.
+  // Superseded frame archived at site-art-2026-08-28/superseded-2026-08-28-round-six/.
   "ch09-emmaus": {
     src: "art/ch09-emmaus.webp",
-    alt: "A rough table in a dim stone room lit by one small window at first light: a round loaf torn in half, a clay cup, and a thin line of smoke still rising from a wick just gone out. No one is there.",
+    alt: "A low table in a dim stone room lit by one small window at first light: a round loaf torn in half, a clay cup, and a thin line of smoke still rising from a wick just gone out. On the floor beside it a reed mat and a long bolster cushion with the hollow of someone still in it. No one is there.",
     caption: "Then their eyes were opened and they recognized Him.",
     ref: "Luke 24:31 · Emmaus"
   },

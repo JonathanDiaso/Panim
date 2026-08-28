@@ -32,6 +32,15 @@ only on what is actually in the frames.
 > `site-art-2026-08-28/superseded-2026-08-28-round-five/`; the new originals are alongside
 > them in `incoming-round-five-2026-08-28/`.
 
+> ✅ **Round six, 2026-08-28 — four more plates replaced, and Tier 1 and Tier 2 are now
+> empty.** The author delivered four frames: `ch08-veil`, `ch09-charcoal`, `ch09-emmaus` and
+> a second `ch01-scroll`. All four landed. **`ch08-veil` — the worst frame on the site — is
+> fixed, cherubim and all**, both Tier 2 faults are gone, and the two style flags left open
+> on `ch01-scroll` are resolved. **The only picture work left is `ch07-gate`, which has never
+> been generated, and `ch02-trees`, which the author has now accepted as it stands.**
+> Superseded frames at `site-art-2026-08-28/superseded-2026-08-28-round-six/`, originals in
+> `incoming-round-six-2026-08-28/`.
+
 ### ✅ Fixed in round five
 
 | slot | was | now |
@@ -40,22 +49,31 @@ only on what is actually in the frames.
 | ~~`ch06-shine`~~ | green forest, bokeh orbs, a hood | **open desert, clear air, and the flat masveh panel** tucked at the temples with hair and shoulders uncovered. All three named faults fixed at once. |
 | ~~`ch03-mountain`~~ | a volcanic eruption, no boundary | **fire standing over intact rock**, and **the piled-stone boundary line runs the full width** with the crowd behind it. The chapter's hinge is finally in the picture. |
 | ~~`ch01-tomb`~~ | an adult's bare wrist; no 1979 | **the frayed 1970s cuff and a dust-white young hand** — and it adds the **bone repository** the old frame lacked entirely. |
-| ~~`ch01-scroll`~~ | modern square Hebrew under "the oldest words we have" | **angular incised strokes**, no square blocks, no crowns, no vowel points. ⚠️ Two style flags: the incisions **glow gold** (can read as fantasy), and the object reads as **charred wood rather than tarnished silver**. |
+| ~~`ch01-scroll`~~ | modern square Hebrew under "the oldest words we have" | **angular incised strokes**, no square blocks, no crowns, no vowel points. *(Its two style flags were then fixed in round six — see below.)* |
 | ~~`ch10-veil-lift`~~ | **the slot rendered nothing** | **filled.** Her hand raised, the sheer cloth moving **across** her face — Gen 24:65, the way round the book argues. He is far off across the field; their shadows reach toward each other. True 3:2 at 1536×1024. |
+
+### ✅ Fixed in round six
+
+| slot | was | now |
+| --- | --- | --- |
+| ~~`ch08-veil`~~ | a **Gothic cathedral**, and **no cherubim in the cloth** | **the cherubim are in the weave** — large winged frontal figures repeated across the whole surface, with the tear running down **through** one and splitting it. Stone behind is plain massive limestone with flat lintels. Blue, purple and scarlet per Exodus 26:31, torn from the top down. *Noted and accepted: the faces read Byzantine-angelic rather than the composite ANE creature; the jambs step inward toward the top.* |
+| ~~`ch09-charcoal`~~ | **open orange flames**, grey pebble beach | **completely flameless** — matte black and ash-white lumps glowing deep red only down inside the cracks, nothing rising above the stones — on **black basalt** with dark wet sand. Smoke drifts sideways into a backlit sheet. *Footprints not delivered; not worth a reroll.* |
+| ~~`ch09-emmaus`~~ | a **wooden stool**, table at dining height | **no stool, no chair, no seat of any kind.** In their place, at floor level, the **reed mat and the long bolster with the hollow still in it** — the only seating in the room, which is the point. *Table is low but not the briefed foot off the floor.* |
+| ~~`ch01-scroll`~~ | cuts **glowing gold** from inside; read as **charred wood** | **tarnished silver** — blackened oxidised metal, bright where worn — lit by a low **raking** light across the cut edges. No glow from within. This was round five's option B. |
+
+**Three of these four were fixed on faults a never-list had failed to prevent** — the flames
+and the stool were both forbidden by name for two rounds and both arrived anyway. Rewriting
+them as positive descriptions fixed both on the first try. §6 is now carrying six wins.
 
 ### Still open — Tier 1
 
 | # | slot | what is actually in the frame |
 | --- | --- | --- |
-| 1 | `ch08-veil` | 🔴 **Now the worst frame on the site.** The curtain itself is good: colossal, blue and scarlet, torn from the top, threads snapping in the light. But it hangs in a **Gothic cathedral** — pointed arches, ribbed vaults, clustered piers — and **there are no cherubim in the cloth.** Chapter VIII spends four paragraphs on those cherubim. Without them the plate cannot say what the chapter says. **No new frame was supplied for this one.** |
-| 2 | `ch02-trees` | 🟠 **Improved, not finished.** Fixed: they are **clothed in stitched leaves**, and the **cut stone steps are gone**. Still wrong: the light is **warm golden hour** on the coldest page in the book; **god rays** remain; her hair is still **long, wavy and light auburn**. New: **they are no longer hiding** — the caption says they hid among the trees and this frame has them in the open. |
+| 1 | `ch02-trees` | 🟠 **Author has accepted this frame as it stands** (round five, §2): *"we can assume God is in the light and they are hiding."* That reading takes the warm light as the presence they are hiding **from**, which resolves the light and the hiding together. Left on the list only as a record of the three unfixed faults — warm golden hour on the coldest page, god rays, and Northern European hair — in case it is ever rerolled for another reason. **Do not reroll without asking.** |
 
 ### Still open — Tier 2
 
-| # | slot | what is actually in the frame |
-| --- | --- | --- |
-| 3 | `ch09-charcoal` | 🟠 **Open orange flames.** *Anthrakia* is charcoal — matte black lumps glowing red in the cracks, no flame at all — and the flamelessness is the point the chapter turns on. The beach is also **grey pebble**, where the Galilee shore is black basalt. |
-| 4 | `ch09-emmaus` | 🟠 There is a **wooden stool** at frame right, and the table stands at dining height. A chair in this room is precisely what the prompt was rewritten to prevent: Luke's verb is *reclined*. Otherwise the room, the torn loaf, the lamp and the smoke line are all right. |
+**Empty.** Both Tier 2 faults were fixed in round six.
 
 ### Tier 3 — good plates; reroll only if it is cheap
 
@@ -76,6 +94,7 @@ anything in Tier 2.
 - **`ch07-gate`** — **chapter VII has no plate at all.** The only empty slot left.
 
 `ch10-veil-lift` was the other one and it was **filled in round five** — see the table above.
+After round six, **`ch07-gate` is the only picture work left on the whole site.**
 
 ---
 
@@ -360,7 +379,7 @@ bone pile. Remove everything else.
 
 ---
 
-### `ch01-scroll` — the oldest words · ✅ **replaced round five — script fixed, two style flags**
+### `ch01-scroll` — the oldest words · ✅ **replaced round six — script AND both style flags fixed**
 
 The delivered frame has **modern square Hebrew** scratched into the metal, clearly enough to
 read as such, under the caption *"the oldest words we have."* Square Hebrew is Aramaic script
@@ -395,7 +414,7 @@ and everything else is dull grey metal. Keep the strokes thin, angular and irreg
 
 ---
 
-### `ch02-trees` — the hiding · 🟠 **replaced round five — improved, NOT finished**
+### `ch02-trees` — the hiding · ✅ **replaced round five — author accepted as it stands, round six**
 
 The delivered frame is golden and sunbeamed on **the coldest page in the book**; it has **cut
 stone steps** in a garden that predates masonry; both figures are **nude** rather than in the
@@ -618,7 +637,7 @@ Keep the light strictly behind.
 
 ---
 
-### `ch07-gate` — the glory backs out · ⬛ **STILL never generated — the only empty slot left**
+### `ch07-gate` — the glory backs out · ⬛ **STILL never generated — THE ONLY PICTURE WORK LEFT**
 
 > 🔁 **A different picture from the old prompt, on purpose.** The old one asked for a bare
 > undecorated stone hall and then said to *"strip all decoration from the stone."* Solomon's
@@ -696,7 +715,7 @@ rather than gold. Flat storm-grey behind, no detail at all.
 
 ---
 
-### `ch08-veil` — torn · 🔴 **NOW THE WORST FRAME ON THE SITE — no new frame supplied**
+### `ch08-veil` — torn · ✅ **replaced round six — cathedral gone, CHERUBIM PRESENT**
 
 > ⚠️ **Not previously graded; the notes said it had never been generated.** It has, it is live,
 > and it has two faults. The curtain hangs in a **Gothic cathedral** — pointed arches, ribbed
@@ -742,7 +761,7 @@ readable in the surviving cloth at the bottom. Keep the stonework behind flat an
 
 ---
 
-### `ch09-emmaus` — the table after · 🟠 **Tier 2 — there is a stool in the room**
+### `ch09-emmaus` — the table after · ✅ **replaced round six — the stool is gone, the bolster arrived**
 
 The delivered room, loaf, cup, lamp and smoke line are all right. But there is **a wooden stool
 at frame right**, and the table stands at dining height. First-century Judeans did not sit on
@@ -778,7 +797,7 @@ line — it should be the sharpest detail in the frame.
 
 ---
 
-### `ch09-charcoal` — the second fire · 🟠 **Tier 2 — it has flames, and flames are the point**
+### `ch09-charcoal` — the second fire · ✅ **replaced round six — completely flameless, black basalt**
 
 The delivered frame has **open orange flames** standing above the fire. *Anthrakia* is a
 **charcoal** fire, and the chapter turns on the smell of charcoal specifically — the same smell
@@ -985,3 +1004,27 @@ Open the file. Do not grade from the note about the file — every stale claim c
 | 2026-08-28 | Added §6 — say the positive, because negation is weak. The never-list stays as the grading checklist; every constraint that matters must also appear as a positive statement in the prompt body. |
 | 2026-08-27 | Third pass. Added §1, §2 and §5. Fixed a **reversed** `ch10-veil-lift` — Gen 24:65 has her covering, not uncovering. Rewrote `ch07-gate` from a bare hall to the east gate with its carved cherubim, per Ezek 11:23 / 43:2 and 1 Kings 6:29. Put the woven cherubim into `ch08-veil`. Removed "rough linen" from Eden, chairs from Emmaus, flames from a charcoal fire, square Hebrew from a 7th-century BC amulet, and a galleon from Jonah. |
 | 2026-08-27 | Second pass. Replaced the single golden-hour opener with the per-chapter light arc. |
+
+---
+
+### 2026-08-28 — round six, four plates
+
+Four frames delivered and all four wired. **Tier 1 and Tier 2 are now empty; `ch07-gate` is
+the only picture work left on the site.**
+
+| slot | fault it carried | fixed by |
+|---|---|---|
+| `ch08-veil` | Gothic cathedral; **no cherubim in the cloth** | describing the cherubim positively and at length — "woven into the weave itself and repeated across the whole surface… they must be clearly visible and clearly figures" — and describing the stone positively as flat lintels and horizontal courses, rather than forbidding arches |
+| `ch09-charcoal` | **open flames** on a charcoal fire; grey pebble beach | "glowing deep red only DOWN INSIDE the cracks… nothing at all standing up above the stones" as a positive statement, plus "BLACK BASALT" named in the body rather than "no grey pebbles" in the never-list |
+| `ch09-emmaus` | a **wooden stool**; table at dining height | naming the replacement rather than the prohibition — "a woven reed mat and a long bolster cushion… this is where the person was RECLINING on the floor, and it is the only seating in the room" |
+| `ch01-scroll` | cuts **glowing gold**; read as charred wood not silver | "tarnished silver" and "low raking light catching the cut edge" stated positively |
+
+**Three of the four had been forbidden by name for two rounds and delivered anyway.** All three
+were fixed on the first try once the forbidden thing was also stated as a positive description
+of what should be there instead. That is now **six** independent confirmations of §6, and it is
+the single most reliable finding this project has about how these models read a prompt.
+
+**Shape note.** `ch09-charcoal` arrived at 1584×672 (2.36:1), wider than the house 1408×768.
+It was cropped to 1232×672 with the fire biased to ~0.58 of the width — so it survives the 4:3
+centre crop a plate takes below the 900px breakpoint — then resized to 1408×768. The uncropped
+original is on the drive.
