@@ -57,17 +57,23 @@
   min-height: 58px;
 }
 .nav-mark {
-  font-family: var(--ui); font-size: .7rem; font-weight: 600;
+  font-family: var(--ui); font-size: var(--ap-md); font-weight: 600;
   letter-spacing: .2em; text-transform: uppercase;
   color: var(--ink);
 }
 /* was 47x19 — under the 44px target minimum */
 .nav-mark { display: inline-flex; align-items: center; min-height: 44px; }
 .nav-chapters { display: flex; gap: .1rem; }
+/* SET IN LITERATA, 2026-08-28. Ten roman numerals tracked out in the interface sans
+   read as an app toolbar; the same ten in the book's own face read as a spine. Lining
+   tabular figures so I, II, III and VIII occupy the same rhythm, and no letter-spacing
+   — a roman numeral is one word, not an acronym. */
 .nav-chapters a {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 34px; min-height: 44px;
-  font-family: var(--ui); font-size: .66rem; font-weight: 500; letter-spacing: .06em;
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: .8rem; font-weight: 500; letter-spacing: 0;
+  font-variant-numeric: lining-nums tabular-nums;
   color: var(--ink-faint);
   transition: color var(--dur-fast) var(--ease);
 }
@@ -75,7 +81,7 @@
 .nav-chapters a.is-active { color: var(--accent); font-weight: 600; }
 .nav-actions { display: flex; gap: .3rem; align-items: center; }
 /* 38px failed the 44px minimum on three buttons (measured 52x38 at 402px wide). */
-.nav-actions .btn { padding: .6em 1em; min-height: 44px; font-size: .64rem; }
+.nav-actions .btn { padding: .6em 1em; min-height: 44px; font-size: var(--ap-md); }
 
 @media (max-width: 900px) {
   .nav-chapters { display: none; }
@@ -145,14 +151,14 @@
 }
 .hero-meta {
   grid-column: 10 / 13;
-  font-family: var(--ui); font-size: .68rem; letter-spacing: .1em;
+  font-family: var(--ui); font-size: var(--ap-md); letter-spacing: .1em;
   text-transform: uppercase; color: var(--ink-soft); line-height: 2.1;
   padding-top: .5em;
 }
 .hero-meta b { display: block; color: var(--ink); font-weight: 600; }
 .hero-actions { grid-column: 3 / 9; display: flex; gap: .8rem; align-items: center; margin-top: 1.8rem; flex-wrap: wrap; }
 .hero-hint {
-  font-family: var(--ui); font-size: .66rem; letter-spacing: .1em;
+  font-family: var(--ui); font-size: var(--ap-md); letter-spacing: .1em;
   text-transform: uppercase; color: var(--ink-faint);
   /* was 77x18 — under the 44px target minimum */
   display: inline-flex; align-items: center; min-height: 44px;
@@ -283,14 +289,35 @@
   max-width: 32ch;
 }
 .verse-text .verse-line { display: block; }
+/* HUNG IN THE MARGIN AND SET IN THE BOOK'S FACE, 2026-08-28.
+   It was Archivo at .64rem — the size and voice of a player button, sitting under a
+   verse. A set Bible puts its citation in the same family as the text and hangs it
+   beside the quotation, which is what the empty outer column is for. The one place
+   that cannot work is chapter X's prayer, which cites after almost every line; there
+   the margin would place a reference beside whichever paragraph happened to leave
+   room, so .prayer-zone .verse-ref drops back underneath. */
+.verse-box { position: relative; }
 .verse-ref {
-  font-family: var(--ui);
-  font-size: .64rem; font-weight: 600;
-  letter-spacing: .16em; text-transform: uppercase;
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-md); font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase;
   color: var(--accent);
-  margin-top: 1.1em;
+  position: absolute; top: .25em; right: calc(100% + var(--step));
+  width: calc(var(--step) * 6);
+  text-align: right;
+  margin-top: 0;
 }
-.verse-ref .verse-translation { margin-left: .6em; color: var(--ink-faint); font-weight: 500; }
+.verse-ref .verse-translation { display: block; margin-left: 0; color: var(--ink-faint); font-weight: 400; }
+/* the prayer zone, and every viewport too narrow for a margin, keep it underneath */
+.prayer-zone .verse-ref,
+.section[data-ch="10"] .prayer-zone .verse-ref {
+  position: static; width: auto; text-align: left; margin-top: 1.1em;
+}
+@media (max-width: 1100px) {
+  .verse-ref { position: static; width: auto; text-align: left; margin-top: 1.1em; }
+  .verse-ref .verse-translation { display: inline; margin-left: .6em; }
+}
 .verse-quotemark { display: none; }   /* removed: decoration pretending to be typography */
 
 /* A citation standing alone under the line it belongs to, in the apparatus
@@ -303,7 +330,7 @@
   grid-column: 3 / 9;
   margin: -1.1em 0 1.5em;
   font-family: var(--ui);
-  font-size: .6rem; font-weight: 600;
+  font-size: var(--ap-sm); font-weight: 600;
   letter-spacing: .16em; text-transform: uppercase;
   color: var(--ink-faint);
 }
@@ -357,18 +384,12 @@
 @media (max-width: 900px) {
   .plate-caption { grid-template-columns: repeat(6, 1fr); }
 }
-.plate-caption .plate-num {
-  grid-column: 1 / 3;
-  font-family: var(--ui); font-size: .6rem; font-weight: 600;
-  letter-spacing: .18em; text-transform: uppercase; color: var(--ink-faint);
-}
 .plate-caption .plate-text {
   grid-column: 3 / 9;
   font-style: italic; color: var(--ink-soft); font-size: .95rem; line-height: 1.5;
   max-width: 54ch;
 }
 @media (max-width: 900px) {
-  .plate-caption .plate-num { grid-column: 1 / 7; margin-bottom: .3rem; }
   .plate-caption .plate-text { grid-column: 1 / 7; }
 }
 
@@ -377,30 +398,25 @@
 .img-slot.is-filled { cursor: zoom-in; }
 .img-slot img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
 .img-slot figcaption {
-  font-family: var(--ui); font-size: .68rem; line-height: 1.6;
+  font-family: var(--ui); font-size: var(--ap-md); line-height: 1.6;
   color: var(--ink-soft); padding-top: .6rem;
   letter-spacing: .01em;
 }
-/* empty slots: a rule and a label. no dashed box, no "image forthcoming" sign. */
-.img-slot:not(.is-filled) {
-  border-top: 1px solid var(--rule);
-  padding-top: .5rem; margin-bottom: 1.6rem;
-}
-.img-slot .img-slot-mark {
-  font-family: var(--ui); font-size: .6rem; font-weight: 500;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint);
-}
+/* Empty slots render nothing at all now (js/render.js) — these two rules are gone
+   with them. An unfilled slot used to leave a rule and the words "Image forthcoming"
+   on a published page. If a placeholder is ever wanted again, put it back here. */
 @media (max-width: 900px) { .img-slot { grid-column: 1 / 7; } }
 
 /* ---------- the margin apparatus ---------- */
 .aside-note {
   grid-column: 10 / 13;
-  font-family: var(--ui); font-size: .7rem; line-height: 1.7;
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-lg); line-height: 1.6;
   color: var(--ink-soft); padding-top: .45em;
 }
 .aside-note b {
-  display: block; font-weight: 600; color: var(--ink);
-  font-size: .6rem; letter-spacing: .16em; text-transform: uppercase;
+  display: block; font-family: var(--ui); font-weight: 600; color: var(--ink);
+  font-size: var(--ap-sm); letter-spacing: .16em; text-transform: uppercase;
   margin-bottom: .55em;
 }
 @media (max-width: 900px) { .aside-note { grid-column: 1 / 7; } }
@@ -453,15 +469,97 @@
   letter-spacing: -.015em;
 }
 .sheet p { margin-bottom: 1em; line-height: 1.62; font-size: .96rem; color: var(--ink-soft); }
+
+/* A second-level heading inside a sheet. The sheet's h2 is 1.75rem display; this is
+   apparatus voice, so it takes the sans and the same caps treatment the chapter
+   numbers and plate captions use, with a rule above it to break the panel in two. */
+.sheet h3.about-sub {
+  font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--ink-faint);
+  margin: 1.9em 0 .8em; padding-top: 1.4em; border-top: 1px solid var(--rule);
+}
+/* The one line in the panel that is spoken TO the reader rather than about the book.
+   Set in the book's italic and at full ink so it does not read as more apparatus. */
+.about-thanks {
+  font-style: italic; color: var(--ink) !important;
+  border-left: 2px solid var(--accent); padding-left: .9em;
+}
 .about-links a { display: block; margin: .5em 0; text-decoration: underline; text-underline-offset: 3px; }
 
-.thread-entry { padding: 1em 0; border-bottom: 1px solid var(--rule); }
-.thread-entry .thread-label { font-size: 1.05rem; margin-bottom: .35em; }
-.thread-entry .thread-links {
-  display: flex; gap: .9em; font-family: var(--ui); font-size: .64rem;
-  letter-spacing: .1em; text-transform: uppercase;
+/* ============================================================================
+   THE THREAD — a closing section, not a sheet
+   Thirteen plants and their payoffs, laid out on the same 12-column grid the
+   chapters use: the two chapter numerals hang in the margin column, the note sits
+   in the reading measure. See content/thread.js for the data and the sourcing rule.
+   ============================================================================ */
+#thread { padding-block: clamp(3rem, 8vh, 6rem); }
+.thread-head {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: subgrid;
+  padding-bottom: clamp(1.6rem, 3vw, 2.6rem);
+  border-bottom: 1px solid var(--rule-strong);
 }
-.thread-entry .thread-links a { text-decoration: underline; text-underline-offset: 3px; color: var(--accent); }
+@supports not (grid-template-columns: subgrid) {
+  .thread-head { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
+}
+.thread-head .chapter-num { grid-column: 1 / 3; padding-top: .55em; }
+.thread-standfirst { grid-column: 3 / 10; }
+.thread-standfirst h2 {
+  font-variation-settings: var(--lit-mid);
+  font-weight: 350; font-size: clamp(1.5rem, 3vw, 2.1rem);
+  line-height: 1.12; letter-spacing: -.016em; margin: 0 0 .6em;
+}
+.thread-standfirst p {
+  font-style: italic; color: var(--ink-soft);
+  font-size: 1rem; line-height: 1.55; max-width: 52ch; margin: 0;
+}
+
+.thread-item {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: subgrid;
+  padding: clamp(1.5rem, 3vw, 2.2rem) 0;
+  border-bottom: 1px solid var(--rule);
+}
+@supports not (grid-template-columns: subgrid) {
+  .thread-item { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
+}
+.thread-span {
+  grid-column: 1 / 3;
+  display: flex; align-items: baseline; gap: .5em;
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-lg); font-weight: 500;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--accent);
+  padding-top: .35em;
+}
+.thread-span a { color: inherit; text-decoration: none; border-bottom: 1px solid transparent; }
+.thread-span a:hover, .thread-span a:focus-visible { border-bottom-color: currentColor; }
+.thread-arrow { color: var(--ink-faint); }
+.thread-body { grid-column: 3 / 10; }
+.thread-name {
+  font-variation-settings: var(--lit-mid);
+  font-weight: 400; font-size: clamp(1.15rem, 2vw, 1.45rem);
+  line-height: 1.16; letter-spacing: -.012em; margin: 0 0 .5em;
+}
+.thread-note {
+  font-size: 1rem; line-height: 1.62; color: var(--ink-soft);
+  max-width: 58ch; margin: 0;
+}
+.thread-note em { font-style: italic; color: var(--ink); }
+.thread-refs {
+  margin: .7em 0 0;
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-sm); font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--accent);
+}
+@media (max-width: 900px) {
+  .thread-head { grid-template-columns: repeat(6, 1fr); }
+  .thread-head .chapter-num { grid-column: 1 / 7; padding-top: 0; margin-bottom: .6rem; }
+  .thread-standfirst { grid-column: 1 / 7; }
+  .thread-item { grid-template-columns: repeat(6, 1fr); }
+  .thread-span { grid-column: 1 / 7; padding-top: 0; margin-bottom: .5rem; }
+  .thread-body { grid-column: 1 / 7; }
+}
 
 .modal {
   position: fixed; inset: 0; z-index: 970;
@@ -488,7 +586,7 @@
 }
 .legend li:first-child { border-top: 0; }
 .legend kbd {
-  font-family: var(--ui); font-size: .6rem; font-weight: 600;
+  font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
   border: 1px solid var(--rule-strong); color: var(--ink);
   padding: .25em .5em; min-width: 2.2em; text-align: center;
   letter-spacing: .06em;
@@ -500,7 +598,7 @@
   transition: bottom var(--dur-med) var(--ease);
   background: var(--ink); color: var(--paper);
   padding: .9em 1.2em; display: flex; gap: 1em; align-items: center;
-  font-family: var(--ui); font-size: .74rem; max-width: min(420px, 88vw);
+  font-family: var(--ui); font-size: var(--ap-lg); max-width: min(420px, 88vw);
   opacity: 0; transform: translateY(10px);
   transition: opacity var(--dur-med) var(--ease), transform var(--dur-med) var(--ease);
 }
@@ -515,7 +613,11 @@
   padding: 1em 1.1em;
   background: var(--paper); border: 1px solid var(--rule-strong);
   color: var(--ink);
-  font-family: var(--ui); font-size: .78rem; line-height: 1.6;
+  /* This holds the MEANING OF A HEBREW WORD. That is the book talking, not the
+     interface, and it was set in the interface sans. */
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-normal);
+  font-size: .92rem; line-height: 1.55;
   box-shadow: 0 16px 40px -22px rgba(0,0,0,.5);
   opacity: 0; transform: translateY(4px);
   transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
@@ -550,8 +652,9 @@
 .fivewords-ref {
   grid-column: 3 / 11;
   display: block; margin-top: 1.6em;
-  font-family: var(--ui); font-size: .64rem; font-weight: 600;
-  letter-spacing: .18em; text-transform: uppercase; color: var(--accent);
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-md); font-weight: 500;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--accent);
   opacity: 0; transition: opacity var(--dur-slow) var(--ease);
 }
 .fivewords-ref.is-visible { opacity: 1; }
@@ -590,29 +693,29 @@
 @supports not (grid-template-columns: subgrid) {
   .toc-head { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
 }
-.toc-head .chapter-num { grid-column: 1 / 3; padding-top: 0; }
+/* nothing sits in the margin column any more — the toggle IS the heading */
 /* Apparatus, so it takes the apparatus vocabulary: a label and a rule, no chevron,
    no pill. It sits in the text range rather than the margin because it acts on the
    list below it, not on the page. */
 .toc-expand {
-  grid-column: 3 / 7;
+  grid-column: 1 / 8;
   justify-self: start;
   display: inline-flex; align-items: center; min-height: 44px;
   padding: 0;
-  font-family: var(--ui); font-size: .66rem; font-weight: 500;
+  font-family: var(--ui); font-size: var(--ap-md); font-weight: 500;
   letter-spacing: .12em; text-transform: uppercase;
   color: var(--ink-faint);
   border-bottom: 1px solid transparent;
   transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
 }
-.toc-expand::before { content: '+'; margin-right: .6em; font-size: 1.1em; line-height: 1; }
+.toc-expand::before { content: '+'; margin-right: .7em; font-size: 1.1em; line-height: 1; }
 .toc-expand[aria-expanded="true"]::before { content: '\2212'; }   /* − */
 .toc-expand:hover, .toc-expand:focus-visible { color: var(--ink); border-bottom-color: var(--ink); }
 .toc-expand:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 .toc-total {
   grid-column: 10 / 13;
-  font-family: var(--ui); font-size: .66rem; font-weight: 500;
+  font-family: var(--ui); font-size: var(--ap-md); font-weight: 500;
   letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
   font-variant-numeric: lining-nums tabular-nums;
 }
@@ -642,7 +745,7 @@
 
 .toc-num {
   grid-column: 1 / 3;
-  font-family: var(--ui); font-size: .66rem; font-weight: 600;
+  font-family: var(--ui); font-size: var(--ap-md); font-weight: 600;
   letter-spacing: .16em; color: var(--accent);
 }
 .toc-body { grid-column: 3 / 10; }
@@ -656,32 +759,35 @@
    site.css. In a ten-row list the sans stops the rows reading as ten paragraphs;
    at a chapter opening it stops the standfirst reading as the chapter's real
    first paragraph. Same job both times. */
-/* Folded by default — the standfirsts are the whole difference between a 113px row
-   and a 62px one. #contents.is-open is set by js/ui.js from the remembered choice. */
 .toc-hook {
-  display: none; margin-top: .45em;
-  font-family: var(--ui); font-weight: 400;
+  display: block; margin-top: .45em;
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-style: italic; font-weight: 400;
   color: var(--ink-soft);
-  font-size: .8rem; line-height: 1.6; max-width: 58ch;
+  font-size: .95rem; line-height: 1.55; max-width: 58ch;
 }
-#contents.is-open .toc-hook { display: block; }
-/* Folded, a row is one line of title, so it wants a tighter rhythm than a row with a
-   two-line standfirst under it. 59px, still comfortably over the 44px target. */
-#contents:not(.is-open) .toc-row { padding: .8rem 0; }
+/* The WHOLE list folds, not just the standfirsts. #contents.is-open is set by
+   js/ui.js from the remembered choice; closed is the default on a first visit.
+   The head line stays, so the section still reads as a contents page — it just
+   does not spend a screen and a half proving it. */
+#contents:not(.is-open) .toc { display: none; }
+/* Closed, the section is the four words and nothing else. The chapter count and
+   running time are useful once you have opened the list and meaningless before. */
+#contents:not(.is-open) .toc-total { visibility: hidden; }
+#contents:not(.is-open) .toc-head { border-bottom-color: transparent; }
+#contents:not(.is-open) .toc-head { border-bottom-color: var(--rule); padding-bottom: .9rem; }
 .toc-dur {
   grid-column: 10 / 13;
-  font-family: var(--ui); font-size: .66rem; font-weight: 500;
+  font-family: var(--ui); font-size: var(--ap-md); font-weight: 500;
   letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint);
   font-variant-numeric: lining-nums tabular-nums;
 }
 
 @media (max-width: 900px) {
   .toc-head { grid-template-columns: repeat(6, 1fr); }
-  .toc-head .chapter-num { grid-column: 1 / 4; grid-row: 1; }
-  .toc-total { grid-column: 4 / 7; grid-row: 1; text-align: right; }
-  /* six columns cannot hold label, toggle and running time on one line — the toggle
-     drops to its own row rather than colliding with .toc-total at 4/7 */
-  .toc-expand { grid-column: 1 / 7; grid-row: 2; min-height: 44px; }
+  /* with the label gone the toggle and the running time fit on one row */
+  .toc-expand { grid-column: 1 / 5; grid-row: 1; min-height: 44px; }
+  .toc-total { grid-column: 5 / 7; grid-row: 1; text-align: right; }
   .toc-row { grid-template-columns: repeat(6, 1fr); }
   .toc-num { grid-column: 1 / 2; }
   .toc-body { grid-column: 2 / 7; }
@@ -717,8 +823,9 @@
   letter-spacing: -.012em; color: var(--ink); margin: 0 0 .5em;
 }
 .invite-epigraph cite {
-  font-family: var(--ui); font-style: normal;
-  font-size: .64rem; font-weight: 600; letter-spacing: .16em;
+  font-family: var(--serif); font-style: normal;
+  font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-md); font-weight: 500; letter-spacing: .14em;
   text-transform: uppercase; color: var(--accent);
 }
 .modal-invite h2 {
@@ -738,14 +845,14 @@
 .invite-actions { display: flex; gap: .7rem; flex-wrap: wrap; margin: 1.6rem 0 1.2rem; }
 .invite-meta {
   font-family: var(--ui) !important;
-  font-size: .68rem !important; line-height: 1.9 !important;
+  font-size: var(--ap-md) !important; line-height: 1.9 !important;
   letter-spacing: .04em; color: var(--ink-faint) !important;
   border-top: 1px solid var(--rule); padding-top: .9em; margin: 0 !important;
   font-variant-numeric: lining-nums tabular-nums;
 }
 .invite-keys { display: block; margin-top: .2em; }
 .invite-keys kbd {
-  font-family: var(--ui); font-size: .58rem; font-weight: 600;
+  font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
   border: 1px solid var(--rule-strong); color: var(--ink-soft);
   padding: .15em .4em; margin-right: .15em; letter-spacing: .04em;
 }
@@ -757,16 +864,18 @@
    an inline figure is not a plate and should not shout the way a frontispiece does. */
 .img-slot figcaption .slot-ref {
   display: block; margin-top: .4em;
-  font-family: var(--ui); font-style: normal;
-  font-size: .58rem; font-weight: 600; letter-spacing: .14em;
+  font-family: var(--serif); font-style: normal;
+  font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-sm); font-weight: 500; letter-spacing: .14em;
   text-transform: uppercase; color: var(--accent);
 }
 
 /* the plate's reference: where this is in the book, set below the caption */
 .plate-ref {
   display: block; margin-top: .45em;
-  font-family: var(--ui); font-style: normal;
-  font-size: .62rem; font-weight: 600; letter-spacing: .14em;
+  font-family: var(--serif); font-style: normal;
+  font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-sm); font-weight: 500; letter-spacing: .14em;
   text-transform: uppercase; color: var(--accent);
 }
 
@@ -796,7 +905,7 @@
   display: inline-flex; align-items: center; gap: .5em;
   min-height: 44px; padding: 0 .8em;
   background: none; border: 1px solid transparent; cursor: pointer;
-  font-family: var(--ui); font-size: .64rem; font-weight: 500;
+  font-family: var(--ui); font-size: var(--ap-md); font-weight: 500;
   letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
   transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
 }
@@ -820,9 +929,9 @@
 @media (max-width: 900px) {
   /* the numerals are gone here, so the chip carries the chapter on its own */
   .nav-toc-toggle .ntt-word { display: none; }
-  .nav-toc-toggle { font-size: .72rem; }
+  .nav-toc-toggle { font-size: var(--ap-md); }
   .nav-toc-toggle::before {
-    content: 'Ch'; font-size: .6rem; font-weight: 500; color: var(--ink-faint);
+    content: 'Ch'; font-size: var(--ap-sm); font-weight: 500; color: var(--ink-faint);
     letter-spacing: .14em;
   }
 }
@@ -869,7 +978,7 @@ body.nav-toc-open #site-nav {
 .ntr:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .ntr-num {
   flex: 0 0 3.4em;
-  font-family: var(--ui); font-size: .64rem; font-weight: 600;
+  font-family: var(--ui); font-size: var(--ap-md); font-weight: 600;
   letter-spacing: .16em; color: var(--accent);
   font-variant-numeric: lining-nums tabular-nums;
 }
@@ -881,7 +990,7 @@ body.nav-toc-open #site-nav {
 }
 .ntr-dur {
   flex: 0 0 auto;
-  font-family: var(--ui); font-size: .62rem; color: var(--ink-faint);
+  font-family: var(--ui); font-size: var(--ap-sm); color: var(--ink-faint);
   font-variant-numeric: lining-nums tabular-nums;
 }
 .ntr.is-read .ntr-title { color: var(--ink-soft); }
@@ -892,4 +1001,153 @@ body.nav-toc-open #site-nav {
   .nav-toc { transition: none; }
   .toc-row { transition: none; }
   .ntt-here::after { transition: none; }
+}
+
+/* ============================================================================
+   THE LEXICON — the words, laid down in ink
+   ============================================================================
+   Ten words set as LIVE TEXT in Frank Ruhl Libre, not as pictures. A Hebrew
+   letterform is already a drawing: set at this size it is sharper than any image
+   of it, it weighs nothing on top of a font the site already ships, it can be
+   selected and copied, a screen reader can read it, and it never needs a second
+   file for a retina screen. An image of a Hebrew word is a worse Hebrew word.
+
+   THE INK. @property makes a percentage animatable, so a mask can be swept across
+   live type. The gradient has a soft leading edge (the 7% feather) rather than a
+   hard one, which is the difference between a wipe and a nib laying ink down. It
+   sweeps RIGHT TO LEFT, the direction Hebrew is written; .is-greek reverses it,
+   because Greek is written the other way and a word that draws itself backwards
+   is worse than one that just appears.
+
+   Browsers without @property (older Safari, older Firefox) cannot interpolate the
+   custom property, so --lex-ink jumps rather than sweeps. The @supports block
+   below catches that and gives them a plain fade, which is why the base state is
+   never left invisible: nothing here is required to read the page.
+   ============================================================================ */
+@property --lex-ink {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+#lexicon { padding-block: clamp(3rem, 8vh, 6rem); }
+
+.lex-head {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: subgrid;
+  padding-bottom: clamp(1.6rem, 3vw, 2.6rem);
+  border-bottom: 1px solid var(--rule-strong);
+}
+@supports not (grid-template-columns: subgrid) {
+  .lex-head { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
+}
+.lex-head .chapter-num { grid-column: 1 / 3; padding-top: .55em; }
+.lex-standfirst { grid-column: 3 / 10; }
+.lex-standfirst h2 {
+  font-variation-settings: var(--lit-mid);
+  font-weight: 350; font-size: clamp(1.5rem, 3vw, 2.1rem);
+  line-height: 1.12; letter-spacing: -.016em; margin: 0 0 .6em;
+}
+.lex-standfirst p {
+  font-style: italic; color: var(--ink-soft);
+  font-size: 1rem; line-height: 1.55; max-width: 52ch; margin: 0;
+}
+
+.lex-card {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: subgrid;
+  align-items: start;
+  padding: clamp(2.2rem, 5vw, 3.6rem) 0;
+  border-bottom: 1px solid var(--rule);
+}
+@supports not (grid-template-columns: subgrid) {
+  .lex-card { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
+}
+
+/* the word itself */
+.lex-word {
+  grid-column: 1 / 7;
+  font-family: var(--heb); font-weight: 300;
+  font-size: clamp(3.2rem, 9vw, 7rem);
+  line-height: 1.12;
+  color: var(--accent);
+  overflow: visible;
+}
+.lex-word.is-greek {
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-display);
+  font-style: italic; font-weight: 300;
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+
+.lex-ink {
+  display: inline-block;
+  --lex-ink: 0%;
+  /* the nib: a soft warm smear riding the leading edge, painted BEHIND the glyphs
+     so it reads as wet ink rather than as a highlight over the letter */
+  -webkit-mask-image: linear-gradient(to left,
+    #000 0, #000 calc(var(--lex-ink) - 7%), transparent var(--lex-ink), transparent 100%);
+  mask-image: linear-gradient(to left,
+    #000 0, #000 calc(var(--lex-ink) - 7%), transparent var(--lex-ink), transparent 100%);
+  transition: --lex-ink 1500ms cubic-bezier(.16, .68, .28, 1);
+}
+.lex-word.is-greek .lex-ink {
+  -webkit-mask-image: linear-gradient(to right,
+    #000 0, #000 calc(var(--lex-ink) - 7%), transparent var(--lex-ink), transparent 100%);
+  mask-image: linear-gradient(to right,
+    #000 0, #000 calc(var(--lex-ink) - 7%), transparent var(--lex-ink), transparent 100%);
+}
+.lex-card.is-drawn .lex-ink { --lex-ink: 112%; }
+
+/* No @property: the percentage cannot interpolate, so the mask would snap. Drop the
+   mask entirely there and fade instead — the word still arrives, just plainly. */
+@supports not (background: paint(x)) {
+  @supports not (--lex-probe: 1%) {
+    .lex-ink { -webkit-mask-image: none; mask-image: none; opacity: 0; transition: opacity 900ms var(--ease); }
+    .lex-card.is-drawn .lex-ink { opacity: 1; }
+  }
+}
+
+/* the reading side */
+.lex-body { grid-column: 7 / 12; padding-top: .8em; }
+.lex-translit {
+  font-family: var(--serif); font-variation-settings: var(--lit-mid);
+  font-style: italic; font-weight: 400;
+  font-size: clamp(1.15rem, 2vw, 1.5rem); line-height: 1.2;
+  margin: 0 0 .55em; color: var(--ink);
+}
+.lex-gloss {
+  font-size: 1rem; line-height: 1.6; color: var(--ink-soft);
+  max-width: 46ch; margin: 0;
+}
+.lex-where {
+  margin: .9em 0 0;
+  display: flex; flex-wrap: wrap; gap: .9em;
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-sm); font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--accent);
+}
+.lex-where a {
+  color: var(--ink-faint);
+  border-bottom: 1px solid currentColor;
+  min-height: 44px; display: inline-flex; align-items: center;
+}
+.lex-where a:hover, .lex-where a:focus-visible { color: var(--ink); }
+
+@media (max-width: 900px) {
+  .lex-head { grid-template-columns: repeat(6, 1fr); }
+  .lex-head .chapter-num { grid-column: 1 / 7; padding-top: 0; margin-bottom: .6rem; }
+  .lex-standfirst { grid-column: 1 / 7; }
+  .lex-card { grid-template-columns: repeat(6, 1fr); }
+  .lex-word { grid-column: 1 / 7; }
+  .lex-body { grid-column: 1 / 7; padding-top: 1.1rem; }
+}
+
+/* The whole effect is decoration on top of text that is already legible. Turned off,
+   the word is simply there. */
+@media (prefers-reduced-motion: reduce) {
+  .lex-ink {
+    -webkit-mask-image: none; mask-image: none;
+    transition: none; --lex-ink: 112%;
+  }
 }

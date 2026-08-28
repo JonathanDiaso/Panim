@@ -58,6 +58,12 @@ This is the paragraph the old sheet was missing. It goes in **prompt 1**, after 
 and before the optics. Trim it to what is visible — do not describe a face in a prompt where
 the face is turned away.
 
+> ✅ **2026-08-28: you no longer have to paste it.** Every prompt below now carries its own
+> trimmed casting block and its own never-list, inline, so **prompt 1 is copy-paste complete
+> as written**. §2 and the never list are kept here as the source of truth for writing a
+> *new* slot; they are no longer an assembly step. The old sheet's real failure mode was
+> not the wording — it was that the wording lived in a section nobody pasted.
+
 > **Period and casting.** [ERA — see the table below]. The people are Levantine: olive-brown
 > to deep brown skin weathered by sun, dark brown-to-black hair, dark eyes, strong brows, no
 > Northern European features. Men are bearded and unbarbered, hair to the collar. Women's
@@ -185,6 +191,8 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > with dust moving in it. The far corners stay black. Shot from inside at standing height,
 > 35mm, the door slightly off centre. The picture is about being invited in, not about the
 > door. No lettering, no carving, no metalwork later than cast bronze.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same room, same door. Darker, and the wedge of light narrower and harder — one shape
 > on the floor, not a glow filling the space. Remove any second light source. Let the far wall
@@ -211,6 +219,8 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > One shaft of afternoon sun comes through the break and is the only light reaching the
 > chamber; the rest of the chamber is dark. 35mm, directly overhead. No metal tools, no
 > writing, no textile, no artefact later than 600 BC anywhere below the break.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same shot, darker. Let two thirds of the frame go to black. Keep the hand, the broken
 > edge, the shaft of light, three or four clay lamps and the edge of the bone pile. Remove
@@ -234,6 +244,8 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > vowel points, no crowns** — and a low raking light catches only their incised edges. The
 > palm behind it is weathered, out of focus, filling the background. 135mm macro, the scroll
 > filling the frame. No text legible enough to read as a word, no ornament, no chain, no case.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same object, closer. Fill the frame with the silver alone, the palm only a soft field
 > behind it. Rake the light lower until the scratched letters are the brightest thing in the
@@ -258,6 +270,8 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > them. Deeper in among the trees, a soft pale light is moving toward them — not a lantern,
 > not a torch, no visible source. 85mm, waist height, the figures small and off to one side.
 > The picture is about being looked for. No serpent, no fruit, no apple, no wings, no halo.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same garden, same two figures. Colder and emptier: remove the flowers and the
 > undergrowth detail, let the ground go dark. Keep only the two trunks, the two hidden figures
@@ -280,6 +294,10 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > already half swamped. The only light is a cold blue-white break in the cloud behind, which
 > turns the water to moving glass and the ship to a black shape. 35mm, low. The sea should look
 > aimed at this one ship.
+>
+> **Period and casting.** Iron Age Levant, 8th century BC — Phoenician coastal shipping. Any crew visible are Levantine: olive-brown to deep brown skin weathered by sun, dark hair, dark eyes, no Northern European features; bearded and unbarbered. Clothing is hand-spun wool and linen, woven in one piece and draped, not tailored — no seam, hem-stitch, button, collar, cuff or pocket. Colour only from plant dye, never saturated.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same frame, harder. Remove the crew. Remove any warm lantern light. Push the ship
 > smaller and further off centre, and let the foreground wave take a third of the picture.
@@ -302,6 +320,10 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > mantles, goat-hair tents, no architecture of any kind. 24mm, low, looking up, the mountain
 > taking the upper two thirds. Firelight is the only colour; everything else is black and
 > ash-grey. No stone tablets, no figure on the summit, no parted sea.
+>
+> **Period and casting.** Late Bronze Age, c. 1300 BC — Israelites out of Egypt, a camp not a town. The crowd is Levantine and read only as a dark band at this distance; hand-spun wool and linen, draped not tailored, plant dye only, no saturated colour, nothing with a seam, hem-stitch, button, collar, cuff or pocket.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same mountain. Push the crowd further back and smaller, and keep the stone boundary
 > line. Kill any moonlight so the fire inside the smoke is the single source. More smoke, less
@@ -322,6 +344,10 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > one wears a short belted wool tunic soaked through, the other is barely readable as clothed
 > at all. **The far bank is empty and black: no tents, no animals, no fire, nobody watching.**
 > A single band of grey at the horizon — dawn, still hours off. Deep blue-black everywhere else.
+>
+> **Period and casting.** Middle Bronze Age Canaan, c. 1800 BC — patriarchal, tent-dwelling, no iron. Both men are Levantine: deep olive-brown skin weathered by sun, black hair to the collar, full unbarbered beards, no Northern European features, working hands. Hand-spun wool, woven in one piece and belted with folded cloth — no seam, hem-stitch, button, collar, cuff or pocket; undyed cream and brown only.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same two figures, later in the fight. Camera almost in the water. Thin the rim light
 > further. They should look exhausted rather than athletic — heavier, lower, leaning into each
@@ -343,6 +369,8 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > the edge of the firelight, four or five fat-tailed sheep stand in the dark, indifferent.**
 > Late Bronze Age Midian. 50mm, low, close to the ground. No man in frame, no face, no angel,
 > no wings.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same bush. Darken everything the fire does not reach until the picture is mostly
 > black. Keep the green inside the flame clearly visible — that is the whole point of the
@@ -366,6 +394,10 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > the rim, deep shadow on the near side. 85mm, eye level, tight. **The light must read as
 > borrowed — clearly arriving from behind him, never emitted by the cloth or the man.** No
 > halo, no rays, no horns, no glow around the head.
+>
+> **Period and casting.** Late Bronze Age, c. 1300 BC. Levantine: deep olive-brown skin weathered by sun, grey-white hair and a full unbarbered beard at eighty, no Northern European features, no cosmetics, no shaped brows, no modern dentistry. Hand-spun undyed wool, draped not tailored — no seam, hem-stitch, button, collar, cuff or pocket.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same figure. Overexpose the light behind until the top edge of the cloth is pure
 > white and the weave only survives lower down. Nothing else in frame — no landscape, no
@@ -403,6 +435,8 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > light. 24mm, eye level, the gate slightly off centre, one-point perspective down the
 > passage. The picture is about something having just left, on schedule, unnoticed. No wheels,
 > no throne, no winged creatures in the sky, no fire, no rays.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same gate, emptier and greyer. Drain the colour until it is close to monochrome
 > slate; let the gold in the carving read as tarnish only. Darken the near half of the passage
@@ -426,6 +460,8 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > crown, no thorns, no blood, no halo, no cross, no European features. **The expression is not
 > anguish and not serenity — it is a decision already made**, jaw set, eye forward, going
 > somewhere.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same profile, tighter and darker. Crop until the eye is out of frame or lost in
 > shadow. Reduce the rim light until it traces only the nose and the jaw through the beard.
@@ -455,6 +491,8 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > tear is far overhead. Most of the colour is blown out near the rip and survives only lower
 > down. **No people, no hands, no figure behind it, no altar, no furniture** — the curtain is
 > the entire picture. No cross, no crucifix, no rays, no dove.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same curtain one second later — the tear longer, reaching further down toward us,
 > splitting a second woven figure. More light through the split, less visible fabric. Let the
@@ -480,6 +518,8 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > in the picture, and **a thin line of smoke is still rising from a wick that has just gone
 > out.** No people, no chairs, no benches, no cutlery, no glassware. Someone left this table
 > half a second ago.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same table. Darker room, brighter window, so the torn bread and the cup are almost
 > silhouettes with a warm edge from the lamp. Clear everything else off the table. Keep the
@@ -504,6 +544,8 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > leading toward the fire and stopping. Cold grey-blue sea and sky behind, flat calm; the fire
 > is the only warm colour in the frame and it is small. No people, no boats, no nets, no birds,
 > no flames.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same fire, camera lower still, until the sheet of smoke crosses the whole frame. Cool
 > the sea and sky further toward grey-blue and keep the fire small. Keep it flameless — coals
@@ -535,6 +577,10 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > neither should be. Hand-woven wool, no tailoring, no saddle frame — a folded blanket and
 > girth only. The picture is about two people seeing each other in the same moment. No wedding
 > imagery, no white dress, no flowers, no crowd.
+>
+> **Period and casting.** Middle Bronze Age Canaan, c. 1800 BC. Both figures are Levantine: olive-brown skin weathered by sun, dark hair, dark eyes, the man bearded and unbarbered, the woman's hair covered by a draped cloth. Hand-spun wool and linen, woven in one piece and draped, not tailored; plant dye only — undyed cream and brown, madder red, weld yellow — never saturated. No seam, hem-stitch, button, zip, collar, cuff or pocket.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same field, same two. Pull back further so both are smaller and the field is most of
 > the picture. Warmer, later light — almost the last minute of sun. Keep her raised hand and
@@ -567,6 +613,8 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > all; skin, lashes and the edge of the iris are sharp. Behind her, soft out-of-focus green and
 > the pale edge of cut rock. No jewellery, no halo, no second figure, no tomb, no cross, no
 > lettering.
+>
+> **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same face, same light, closer — the eyes and mouth fill the frame. Let the garden go
 > to soft warm white and remove everything behind her. Keep the linen slipped back off the
@@ -622,5 +670,6 @@ The light is doing the arc.
 
 | date | what changed |
 |---|---|
+| 2026-08-28 | Made every prompt copy-paste complete. §2's casting block and the never list were correct and never reached the generator, because they lived in a section and the prompts lived below it — the model only ever saw what was pasted. Both are now inline at the end of each `**1.**`, trimmed per slot. `ch01-tomb`, `ch01-scroll`, `ch08-flint` and `ch10-morning` already cast in-prompt and were not doubled. Nothing about the pictures themselves changed. |
 | 2026-08-27 | Third pass. Added §1 (why the last set failed), §2 (the standing period/casting block and the never list), §5 (the three veils are three objects). Fixed a **reversed** `ch10-veil-lift` — Gen 24:65 has her covering, not uncovering. Rewrote `ch07-gate` from a bare hall to the east gate with its carved cherubim, per Ezek 11:23 / 43:2 and 1 Kings 6:29. Put the woven cherubim into `ch08-veil`. Removed "rough linen" from Eden, chairs from Emmaus, flames from a charcoal fire, square Hebrew from a 7th-century BC amulet, and a galleon from Jonah. |
 | 2026-08-27 | Second pass. Replaced the single golden-hour opener with the per-chapter light arc. |

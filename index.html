@@ -27,12 +27,21 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
 
-<link rel="stylesheet" href="fonts/fonts.css?v=22">
-<link rel="stylesheet" href="css/site.css?v=22">
-<link rel="stylesheet" href="css/components.css?v=22">
-<link rel="stylesheet" href="css/player.css?v=22">
-<link rel="stylesheet" href="css/room.css?v=22">
-<link rel="stylesheet" href="css/polish.css?v=22">
+<!-- The browser cannot see a @font-face src until it has parsed fonts.css, so the
+     three files needed for the FIRST paint are named here: Literata roman latin
+     (all running text), Archivo latin (all chrome), and Frank Ruhl Libre Hebrew
+     (the hero sets פָּנִים above the fold). The italic (l09) is deliberately NOT
+     preloaded — it swaps in a beat later and preloading it would put another 110KB
+     ahead of the opening photograph. -->
+<link rel="preload" href="fonts/l04.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/g02.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/h00.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts/fonts.css?v=24">
+<link rel="stylesheet" href="css/site.css?v=24">
+<link rel="stylesheet" href="css/components.css?v=24">
+<link rel="stylesheet" href="css/player.css?v=24">
+<link rel="stylesheet" href="css/room.css?v=24">
+<link rel="stylesheet" href="css/polish.css?v=24">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -50,7 +59,6 @@
       <span class="ntt-here" id="ntt-here">I</span>
     </button>
     <div class="nav-actions">
-      <button class="btn btn-icon" id="thread-btn" aria-haspopup="dialog" aria-controls="thread-panel" title="The Thread">Thread</button>
       <button class="btn btn-icon" id="about-btn" aria-haspopup="dialog" aria-controls="about-sheet" title="About">About</button>
       <button class="btn" id="listen-btn" title="Open the Listening Room">Listen</button>
     </div>
@@ -94,9 +102,11 @@
 <!-- ================= sheets / modals ================= -->
 
 <!-- The first thing anyone sees. It used to be a keyboard-shortcut legend, which is
-     product onboarding, not a book. It now does what a jacket does: says what this is,
-     why it is worth your evening, and quotes the book in the book's own words. The
-     shortcuts are demoted to one line and repeated in About. -->
+     product onboarding, not a book. It now does what a jacket does.
+     CUT FROM 185 WORDS TO 88, 2026-08-28. Two and a half phone screens stood between
+     the epigraph and the button, and the two lines that actually make someone stay were
+     at the bottom of them. Song of Songs leads; the pull line closes; everything that
+     was explanation moved into About. -->
 <div class="modal" id="onboarding-modal" hidden>
   <div class="modal-card modal-invite" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
     <div class="invite-mark" lang="he" dir="rtl" aria-hidden="true">פָּנִים</div>
@@ -108,18 +118,12 @@
 
     <h2 id="onboarding-title">The invitation hidden on every page</h2>
 
-    <p><em>Panim</em> is the Hebrew word for <em>face</em>. Counting its compound forms it
-    appears more than two thousand times in the Bible — which means the face of God has
-    been sitting inside sentences you have read all your life, hidden under a word as
-    ordinary as this one.</p>
+    <p><em>Panim</em> is the Hebrew word for <em>face</em>. It is in your Bible more than
+    two thousand times, hidden under a word as ordinary as this one.</p>
 
-    <p>This book follows that single word from the first page of Scripture to the last:
-    a garden where two people hide, a river at midnight, a mountain on fire, a curtain
-    torn from the top down, and a supper table the night before a death.</p>
-
-    <p class="invite-pull">Between those two pages the face hides, shines, bleeds and
-    comes home. It is a love story, the oldest one still running — and before it is over
-    you will find your own face in it.</p>
+    <p class="invite-pull">Between the first page and the last the face hides, shines,
+    bleeds and comes home. It is a love story — the oldest one still running — and before
+    it is over you will find your own face in it.</p>
 
     <div class="invite-actions">
       <button class="btn btn-solid" id="onboarding-begin">Begin listening</button>
@@ -137,20 +141,22 @@
     <button class="btn btn-icon sheet-close" data-close-sheet="about-sheet" aria-label="Close">×</button>
     <h2>About this book</h2>
     <p>PANIM traces the Hebrew word for face — <em>panim</em> — across the whole of Scripture: a single word, followed from the first page to the last, until it becomes the whole story.</p>
-    <p>Written and narrated by Jonathan Diaso.</p>
+    <p>Written and narrated by Jonathan Diaso. Ten chapters, five and a half hours, free — no account, no paywall, and your place is saved on this device.</p>
+
+    <p class="about-thanks">Thank you for giving it your evening. If any of it landed, the
+    only thing I would ask is that you send it to one person you thought of while you were
+    listening.</p>
+
+    <h3 class="about-sub">There is another one</h3>
+    <p><em>One Promise — Abraham and the Living God</em> is a separate book, read the same
+    way: narrated end to end, free, read along or just listen. It is not a sequel and it does
+    not need this one first — different man, different mountain, the same God keeping a
+    promise nobody could keep for Him.</p>
+
     <div class="about-links">
-      <a href="https://jonathandiaso.github.io/One-Promise-Abraham-and-the-Living-God/" target="_blank" rel="noopener">One Promise — Abraham and the Living God</a>
+      <a href="https://jonathandiaso.github.io/One-Promise-Abraham-and-the-Living-God/" target="_blank" rel="noopener">Listen to <em>One Promise</em> →</a>
       <button class="btn" id="share-btn">Share this book</button>
     </div>
-  </div>
-</aside>
-
-<aside class="sheet" id="thread-panel" hidden role="dialog" aria-label="The Thread">
-  <div class="sheet-inner">
-    <button class="btn btn-icon sheet-close" data-close-sheet="thread-panel" aria-label="Close">×</button>
-    <h2>The Thread</h2>
-    <p>Every plant in this book pays off later. Jump between them.</p>
-    <div id="thread-list"><!-- js/ui.js populates from THREAD_ENTRIES --></div>
   </div>
 </aside>
 
@@ -283,16 +289,18 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=22"></script>
-<script src="content/images.js?v=22"></script>
-<script src="content/audio-manifest.js?v=22"></script>
-<script src="content/marks.js?v=22"></script>
-<script src="js/render.js?v=22"></script>
-<script src="js/ui.js?v=22"></script>
-<script src="js/motion.js?v=22"></script>
-<script src="js/sync.js?v=22"></script>
-<script src="js/player.js?v=22"></script>
-<script src="js/room.js?v=22"></script>
+<script src="content/chapters.js?v=24"></script>
+<script src="content/images.js?v=24"></script>
+<script src="content/audio-manifest.js?v=24"></script>
+<script src="content/marks.js?v=24"></script>
+<script src="content/thread.js?v=24"></script>
+<script src="content/lexicon.js?v=24"></script>
+<script src="js/render.js?v=24"></script>
+<script src="js/ui.js?v=24"></script>
+<script src="js/motion.js?v=24"></script>
+<script src="js/sync.js?v=24"></script>
+<script src="js/player.js?v=24"></script>
+<script src="js/room.js?v=24"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });
