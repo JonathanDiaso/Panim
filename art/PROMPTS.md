@@ -156,6 +156,43 @@ interchangeable, and a picture that gets the wrong one is a picture that argues 
 
 ---
 
+## 6. Say the positive. Negation is the weakest instruction you can give.
+
+🔁 **Added 2026-08-28, from evidence in the delivered frames, not from theory.**
+
+The never-list is a chain of *no X, no Y, no Z*. Image models are poor at negation —
+naming a thing puts it in the model's head whether or not the word "no" is in front of
+it. Two frames prove it:
+
+| slot | the prompt said | what came back |
+|---|---|---|
+| `ch06-shine` | **no bokeh orbs** | bokeh orbs |
+| `ch02-trees` | **no light shafts added for effect**, and *no Northern European features* | god rays through the trees, and a woman with long wavy light auburn hair |
+
+Four instructions, all stated, all ignored — and two of them arguably *summoned* by
+being named. That is not the model being disobedient; it is a known property of how
+these systems read text.
+
+**The fix is not to delete the never-list.** It stays, because it is the checklist you
+grade the delivered frame against, and because a few models do honour it. The fix is
+that **every constraint that matters must also exist as a positive statement in the
+body of the prompt**, where it is doing work.
+
+| instead of | say |
+|---|---|
+| no lens flare, no god rays | *the only light in the picture comes from the fire; everything the fire does not reach is black* |
+| no bokeh, no dust sparkles | *the air is clear and still; the background is a flat wall of unlit foliage* |
+| no Northern European features | *deep olive-brown skin weathered by sun, black hair, dark eyes, strong brows* — she is already described, so there is no gap for the median to fill |
+| not a hood, not a cowl | *one flat unhemmed square of cloth laid over the face, its four corners visible, two of them tucked at the temples* |
+| no chairs | *a woven reed floor mat and a bolster cushion, the hollow of someone still in it* |
+| no masonry | *bare earth and roots underfoot; nothing in the frame has been cut, stacked or shaped by a tool* |
+
+The rule in one line: **a silence is filled with the median. A description is not.**
+Every failure in §1 was a silence. Two of the failures above were a silence with a
+"no" standing next to it, which is the same silence.
+
+---
+
 ## The set
 
 Deliver **3:2 landscape, 2400 px or better, JPEG**. Name by slot — `ch07-gate.jpg`.
@@ -261,13 +298,18 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > the first hour after shame. And the published plate is golden and lush — chapter II is the
 > coldest page in the book.
 
-> **1.** A garden at dusk, twenty minutes after the sun has gone. The colour has drained out
-> of everything: blue-grey leaves, cold shadow, no warm light anywhere in the frame. Two human
+> **1.** A garden at dusk, twenty minutes after the sun has gone. **The sun is already below
+> the horizon and the only light left is the flat blue of the sky itself — an even, sourceless
+> dusk with no beam, no shaft and no bright spot anywhere in the frame.** The colour has drained
+> out of everything: blue-grey leaves, cold shadow, no warm light anywhere in the frame. Two human
 > figures press themselves against the far side of two heavy tree trunks, backs to us, faces
 > turned into the bark and hidden. **They are the first two people, before any craft exists —
 > covered only by large fig leaves crudely stitched together at the hip with plant fibre,
-> nothing woven, nothing spun, nothing dyed.** Bare shoulders, bare feet, dark hair, dirt on
-> them. Deeper in among the trees, a soft pale light is moving toward them — not a lantern,
+> nothing woven, nothing spun, nothing dyed.** Bare shoulders, bare feet, dirt on them.
+> **Both are Levantine: deep olive-brown skin, near-black hair, hers gathered and pushed back
+> off the neck rather than falling loose.** **The ground is bare earth, leaf litter and exposed
+> roots — nothing in the frame has been cut, stacked, carved or shaped by a tool: no step, no
+> wall, no path, no bench.** Deeper in among the trees, a soft pale light is moving toward them — not a lantern,
 > not a torch, no visible source. 85mm, waist height, the figures small and off to one side.
 > The picture is about being looked for. No serpent, no fruit, no apple, no wings, no halo.
 >
@@ -313,6 +355,10 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 
 > **1.** A granite desert mountain at night, its summit inside a column of smoke lit from
 > within by fire, lightning tearing the smoke open from inside, ash falling through the dark.
+> **The fire is burning ON the mountain, not coming out of it — the peak is solid rock with
+> flame and smoke standing over it. No crater, no vent, no lava, no molten rock running down
+> the slope; this is not an eruption. The fire inside the smoke is the single source of light
+> in the entire frame and the sky elsewhere is black.**
 > **Across the plain below, a low boundary of piled stones runs the full width of the frame —
 > a marked line nobody has crossed.** Behind it and far back, an enormous crowd stands facing
 > the mountain, not moving closer, small enough to read as a dark band rather than as people;
@@ -386,9 +432,12 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > because no such object existed. It should look improvised, because it was.
 
 > **1.** The head and shoulders of an eighty-year-old man, shot against a low sun directly
-> behind him. **A single flat square of undyed hand-spun wool is laid over his face and tucked
-> at the temples — a plain unhemmed panel of cloth, not a hood, not a cowl, not a garment;
-> nothing tailored, nothing fastened.** The sun sits right at the edge of the fabric so the
+> behind him, **standing in open desert: bare rock, dust and dry air, the ground running flat
+> and empty to a far ridge, no tree or leaf anywhere in the picture.** **A single flat square of
+> undyed hand-spun wool is laid over his face — a loose panel about a forearm across, its four
+> corners visible, the two upper ones tucked at the temples so the lower edge hangs free of the
+> jaw and the cloth reads as a piece of household weaving someone picked up and used. It is not
+> a hood, not a cowl and not part of a garment; nothing tailored, nothing fastened.** The sun sits right at the edge of the fabric so the
 > weave glows and loose threads light up like filament. No face, no eyes, no shape of features
 > readable through it. Beneath, the shoulders of a coarse wool mantle. Hard gold, blown out at
 > the rim, deep shadow on the near side. 85mm, eye level, tight. **The light must read as
@@ -400,8 +449,9 @@ away to read. Chapter X is the first face in full light and it only lands if it 
 > **Never.** No halo, no aureole, no rays from a head, no glowing skin except where asked for above. No crucifix, no cross, no Star of David, no menorah unless named. No Greco-Roman columns, no marble, no togas. No European faces. No cosmetics, no manicure, no watch, no ring unless named. No modern textile — no denim, no jersey knit, no machine hem, no printed pattern. No lens flare, no light shafts added for effect, no floating embers, no dust sparkles, no bokeh orbs. No text, no signage, no lettering except where named.
 
 > **2.** Same figure. Overexpose the light behind until the top edge of the cloth is pure
-> white and the weave only survives lower down. Nothing else in frame — no landscape, no
-> second figure, no tablets. Keep the light strictly behind.
+> white and the weave only survives lower down. **The air is clear and completely still — the
+> background is a flat unlit field with nothing in it to catch a highlight.** Nothing else in
+> frame — no second figure, no tablets. Keep the light strictly behind.
 
 ---
 
@@ -651,16 +701,21 @@ The light is doing the arc.
 
 ## Reroll queue — what to regenerate, in order
 
+> 🔁 **Re-ordered 2026-08-28, by looking at the files rather than at the notes about
+> them.** `ch10-morning` was queued first on the claim that it "came back a modern
+> studio portrait." It did not. That entry was wrong and it had been repeated into
+> `content/images.js`, `README.md` and two handoffs.
+
 | # | slot | why | severity |
 |---|---|---|---|
-| 1 | `ch10-morning` | came back a modern studio portrait; it is the book's only full face | 🔴 |
-| 2 | `ch02-trees` | golden and lush on the coldest page; clothed in linen that does not exist yet | 🔴 |
-| 3 | `ch01-scroll` | letters are modern square Hebrew, eight centuries too late, under a caption calling it the oldest words | 🔴 |
+| 1 | `ch02-trees` | **worse than previously recorded.** Golden and sunbeamed on the coldest page in the book; both figures nude rather than in fig leaves; the woman's hair is long, wavy and light auburn — Northern European, which the never-list forbids by name; there are **cut stone steps** in a garden that predates masonry; and the frame is full of **god rays**, also forbidden by name | 🔴 |
+| 2 | `ch01-scroll` | letters are modern square Hebrew, eight centuries too late, under a caption calling it the oldest words | 🔴 |
+| 3 | `ch06-shine` | **worse than previously recorded.** It reads as a hood or cowl rather than a flat square of cloth — and it is set in a **green deciduous forest** with visible **bokeh orbs**, where the scene is Late Bronze Age Sinai. Two things forbidden by name, in one frame | 🟠 |
 | 4 | `ch01-tomb` | two periods in one frame, never distinguished | 🟠 |
-| 5 | `ch06-shine` | reads as a hood or cloak, not the masveh | 🟠 |
-| 6 | `ch03-mountain` | no boundary line, so the chapter's point is missing | 🟡 |
-| 7 | `ch04-river` | check the far bank is empty — "Jacob was left alone" | 🟡 |
-| 8 | `ch05-bush` | no flock; loses the one-man scale against ch. III | 🟡 |
+| 5 | `ch03-mountain` | closer than recorded — it has the night, the fire, the crowd and the tents. Missing the **stone boundary line**, which is the chapter's hinge; the summit reads as a **volcanic eruption** with a lava plume, and Sinai's fire is not volcanic; and there is a second light source at upper left | 🟡 |
+| 6 | `ch04-river` | check the far bank is empty — "Jacob was left alone" | 🟡 |
+| 7 | `ch05-bush` | no flock; loses the one-man scale against ch. III | 🟡 |
+| 8 | `ch10-morning` | **not a reroll for the reason previously given.** She is sun-lined, freckled, unshaped brows, no cosmetics, coarse head covering — she is right. What diverges from the brief below: it is an interior, not a garden; there is a second figure where the brief says none; she is faintly smiling where the brief says steady. Decide whether the picture beats its brief before regenerating anything | ⚪ |
 | 9 | `hero` | optional; a pivot-hung door would be more right than what is there | ⚪ |
 
 **Still needed, never generated:** `ch02-storm`, `ch07-gate`, `ch08-flint`, `ch08-veil`,
@@ -670,6 +725,7 @@ The light is doing the arc.
 
 | date | what changed |
 |---|---|
+| 2026-08-28 | Added §6 — say the positive, because negation is weak. Evidence: `ch06-shine` came back with the bokeh orbs its prompt forbade by name, and `ch02-trees` with the god rays and the Northern European hair its prompt forbade by name. The never-list stays as the grading checklist; every constraint that matters now also has to appear as a positive statement in the prompt body. Re-ordered the reroll queue by looking at the files: `ch02-trees` is first, and `ch10-morning` was queued first on a claim ("a modern studio portrait") that is simply not what the picture is. |
 | 2026-08-28 | Made every prompt copy-paste complete. §2's casting block and the never list were correct and never reached the generator, because they lived in a section and the prompts lived below it — the model only ever saw what was pasted. Both are now inline at the end of each `**1.**`, trimmed per slot. `ch01-tomb`, `ch01-scroll`, `ch08-flint` and `ch10-morning` already cast in-prompt and were not doubled. Nothing about the pictures themselves changed. |
 | 2026-08-27 | Third pass. Added §1 (why the last set failed), §2 (the standing period/casting block and the never list), §5 (the three veils are three objects). Fixed a **reversed** `ch10-veil-lift` — Gen 24:65 has her covering, not uncovering. Rewrote `ch07-gate` from a bare hall to the east gate with its carved cherubim, per Ezek 11:23 / 43:2 and 1 Kings 6:29. Put the woven cherubim into `ch08-veil`. Removed "rough linen" from Eden, chairs from Emmaus, flames from a charcoal fire, square Hebrew from a 7th-century BC amulet, and a galleon from Jonah. |
 | 2026-08-27 | Second pass. Replaced the single golden-hour opener with the per-chapter light arc. |
