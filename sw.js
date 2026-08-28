@@ -8,21 +8,21 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v13';
+var SHELL = 'panim-shell-v14';
 var AUDIO = 'panim-audio-v1';
 
 // index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
 // in step with the `?v=` in index.html and with the SHELL number, or the
 // precache stores URLs the page never asks for and everything falls through to
 // the network — which still works, but offline stops working silently.
-var ASSET_V = '13';
+var ASSET_V = '14';
 var VERSIONED = /\.(css|js)$/;
 var PRECACHE = [
   './', 'index.html', 'favicon.svg', 'og-image.png', 'manifest.webmanifest',
   'fonts/fonts.css',
   'css/site.css', 'css/components.css', 'css/player.css', 'css/room.css', 'css/polish.css',
   'js/render.js', 'js/ui.js', 'js/motion.js', 'js/sync.js', 'js/player.js', 'js/room.js',
-  'content/chapters.js', 'content/images.js', 'content/audio-manifest.js',
+  'content/chapters.js', 'content/images.js', 'content/audio-manifest.js', 'content/marks.js',
   'cues/ch01.json', 'cues/ch02.json', 'cues/ch03.json', 'cues/ch04.json', 'cues/ch05.json',
   'cues/ch06.json', 'cues/ch07.json', 'cues/ch08.json', 'cues/ch09.json', 'cues/ch10.json'
 ];
@@ -84,9 +84,41 @@ self.addEventListener('fetch', function (e) {
     return;
   }
 
+  // ---------------------------------------------------------------------------
+  // NAVIGATIONS ARE NETWORK-FIRST. Everything else stays stale-while-revalidate.
+  //
+  // This was the bug that made a deploy invisible. index.html is the ONE file with
+  // no `?v=` of its own — it is what *carries* the version to everything else. Served
+  // cache-first (`return hit || net`), a returning visitor got the OLD shell, which
+  // then asked for the OLD ?v= assets, every one of which was also cached. So the
+  // whole site rendered a version behind, and bumping SHELL/ASSET_V could not fix it:
+  // the new html was fetched and stored, but only *shown* on the NEXT visit.
+  //
+  // Versioned assets are safe cache-first because their URL changes when they change.
+  // The shell is not, so it goes to the network and only falls back to cache offline.
+  // ---------------------------------------------------------------------------
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request).then(function (res) {
+        if (res && res.ok) {
+          var copy = res.clone();
+          caches.open(SHELL).then(function (c) { c.put(e.request, copy); });
+        }
+        return res;
+      }).catch(function () {
+        return caches.open(SHELL).then(function (c) {
+          return c.match(e.request, { ignoreSearch: true }).then(function (hit) {
+            return hit || c.match('index.html') || c.match('./');
+          });
+        });
+      })
+    );
+    return;
+  }
+
   e.respondWith(
     caches.open(SHELL).then(function (c) {
-      return c.match(e.request, { ignoreSearch: e.request.mode === 'navigate' }).then(function (hit) {
+      return c.match(e.request).then(function (hit) {
         var net = fetch(e.request).then(function (res) {
           if (res && res.ok && e.request.method === 'GET') c.put(e.request, res.clone());
           return res;
