@@ -63,3 +63,23 @@ Hebrew **פ** replaced) and the previous share card (the tomb, which the chapter
 replaced) are at `site-art-2026-08-28/site-assets-superseded-2026-08-28/`. Neither is kept
 in the repo: both are still in git history, and the old share card is additionally still
 live at `og-card.jpg` on purpose, so links already unfurled with it do not break.
+
+---
+
+## Round six, 2026-08-28 — four more
+
+| folder on the drive | what it holds |
+|---|---|
+| `site-art-2026-08-28/incoming-round-six-2026-08-28/` | the four originals as supplied — `ch8Veil.jpeg`, `ch9Charcoal.jpeg`, `Ch9Emmaus.jpeg`, `scroll.jpeg`, 3.1 MB of JPEG |
+| `site-art-2026-08-28/superseded-2026-08-28-round-six/` | the four plates they replaced |
+
+All eight files MD5-verified in both directions before anything was removed from the working
+copy. `art/` is **1.9 MB**.
+
+**Four plates replaced:** `ch01-scroll` (second replacement — the round-five style flags),
+`ch08-veil` (which was the worst frame on the site), `ch09-charcoal` and `ch09-emmaus`.
+
+⚠️ **The drive is mounted at `/Volumes/MAS`, not `/Volumes/T7`.** Earlier notes on this project
+call it "the T7" and give T7 paths; the volume label is **MAS**. Same disk, and
+`/Volumes/MAS/Panim-archive/` is the real path. Nothing is lost — the notes are just wrong
+about the name.
