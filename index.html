@@ -10,19 +10,29 @@
 <meta property="og:type" content="book">
 <meta property="og:title" content="PANIM — The Invitation Hidden on Every Page">
 <meta property="og:description" content="An audiobook of light. The Hebrew word for face, followed across the whole Bible — listen free, read along, night into morning.">
-<meta property="og:image" content="https://jonathandiaso.github.io/Panim/og-image.png">
+<!-- The share card is the PHOTOGRAPH, nothing else. It used to be a split panel: half
+     picture, half title + standfirst + byline, set in Fraunces. Every unfurl already
+     prints og:title and og:description as text directly under the image, so the card
+     was saying the title twice and spending half its area to do it — and at the size a
+     link actually appears in a message bubble, that half was unreadable anyway. New
+     filename on purpose: platforms cache og:image hard by URL, so overwriting the old
+     one would have kept serving the old card. -->
+<meta property="og:image" content="https://jonathandiaso.github.io/Panim/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Looking down through a broken stone floor into a burial chamber, one shaft of daylight falling on clay oil lamps below.">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
 
-<link rel="stylesheet" href="fonts/fonts.css?v=21">
-<link rel="stylesheet" href="css/site.css?v=21">
-<link rel="stylesheet" href="css/components.css?v=21">
-<link rel="stylesheet" href="css/player.css?v=21">
-<link rel="stylesheet" href="css/room.css?v=21">
-<link rel="stylesheet" href="css/polish.css?v=21">
+<link rel="stylesheet" href="fonts/fonts.css?v=22">
+<link rel="stylesheet" href="css/site.css?v=22">
+<link rel="stylesheet" href="css/components.css?v=22">
+<link rel="stylesheet" href="css/player.css?v=22">
+<link rel="stylesheet" href="css/room.css?v=22">
+<link rel="stylesheet" href="css/polish.css?v=22">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -273,16 +283,16 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=21"></script>
-<script src="content/images.js?v=21"></script>
-<script src="content/audio-manifest.js?v=21"></script>
-<script src="content/marks.js?v=21"></script>
-<script src="js/render.js?v=21"></script>
-<script src="js/ui.js?v=21"></script>
-<script src="js/motion.js?v=21"></script>
-<script src="js/sync.js?v=21"></script>
-<script src="js/player.js?v=21"></script>
-<script src="js/room.js?v=21"></script>
+<script src="content/chapters.js?v=22"></script>
+<script src="content/images.js?v=22"></script>
+<script src="content/audio-manifest.js?v=22"></script>
+<script src="content/marks.js?v=22"></script>
+<script src="js/render.js?v=22"></script>
+<script src="js/ui.js?v=22"></script>
+<script src="js/motion.js?v=22"></script>
+<script src="js/sync.js?v=22"></script>
+<script src="js/player.js?v=22"></script>
+<script src="js/room.js?v=22"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

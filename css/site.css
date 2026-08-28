@@ -94,7 +94,14 @@
   --edge: clamp(20px, 4vw, 64px);     /* page margin */
   --shell: 1440px;
 
-  --body-size: clamp(1.06rem, .55vw + .94rem, 1.22rem);
+  /* Raised 2026-08-28 at the author's ask: was clamp(1.06rem, .55vw + .94rem, 1.22rem),
+     i.e. 17.0–19.5px. Now 18.2–21.1px. The measure is in `ch`, so it scales with the
+     type and the line still breaks at 62 characters — the column does not get longer,
+     the letters get bigger, which is the difference between setting a book larger and
+     just widening it. 21.1px is the ceiling because 62ch of Literata at that size is
+     ~702px and columns 3–9 are 755px at the 1440px shell; past it the measure would
+     start wrapping short of its own limit. */
+  --body-size: clamp(1.14rem, .5vw + 1.03rem, 1.32rem);
   --body-leading: 1.68;
 
   --ease: cubic-bezier(.22, .61, .36, 1);

@@ -384,7 +384,7 @@
         title: chapterTitle(id),
         artist: 'Jonathan Diaso',
         album: 'PANIM — The Invitation Hidden on Every Page',
-        artwork: [{ src: 'og-image.png', sizes: '1200x630', type: 'image/png' }]
+        artwork: [{ src: 'og-card.jpg', sizes: '1200x630', type: 'image/jpeg' }]
       });
       navigator.mediaSession.setActionHandler('play', play);
       navigator.mediaSession.setActionHandler('pause', pause);

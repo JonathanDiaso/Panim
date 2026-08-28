@@ -191,14 +191,22 @@
     }, 0);
     var hrs = Math.floor(total / 3600), rem = Math.round((total % 3600) / 60);
 
+    // Measured 2026-08-28 at 1440x900: the contents ran 1225px against an 813px
+    // viewport — one and a half screens of index standing between the jacket and
+    // chapter I, and raising the body size had just made it taller. The standfirsts
+    // are what cost it (113px rows, ~62px without), so they fold rather than go: the
+    // list keeps every title, numeral and running time, and one tap on Descriptions
+    // brings the rest back. js/ui.js remembers the choice.
     return '<section class="section" id="contents">' +
       '<div class="section-inner">' +
         '<div class="toc-head">' +
           '<span class="chapter-num">Contents</span>' +
+          '<button type="button" class="toc-expand" id="toc-expand" ' +
+            'aria-expanded="false" aria-controls="toc-list">Descriptions</button>' +
           '<span class="toc-total">' + chapters.length + ' chapters &middot; ' +
             (hrs ? hrs + ' hr ' : '') + rem + ' min</span>' +
         '</div>' +
-        '<nav class="toc" aria-label="Table of contents">' + rows + '</nav>' +
+        '<nav class="toc" id="toc-list" aria-label="Table of contents">' + rows + '</nav>' +
       '</div></section>';
   }
 
