@@ -1,6 +1,7 @@
 // PANIM_IMAGES — author image manifest (11-website-plan.md §10).
-// Empty slots (null) render as a styled-empty frame; a chapter whose FIRST slot is
-// filled gets that photo as a full-bleed frontispiece behind its title (render.js).
+// Empty slots (null) render NOTHING (changed 2026-08-28 — they used to draw a frame
+// with the words "Image forthcoming" in it, on a published page). A chapter whose
+// FIRST slot is filled gets that photo as its opening plate (render.js).
 // Adding an image is a one-line edit:
 //   { src: "art/ch01-tomb.webp", alt: "descriptive alt text", caption: "optional caption" }
 
@@ -27,9 +28,14 @@ window.PANIM_IMAGES = {
     caption: "The oldest words we have.",
     ref: "Numbers 6:24–26 · c. 600 BC"
   },
-  // ⚠️ PLACEHOLDER — still golden and lush on the coldest page in the book, and the
-  // figures read as modern (long wavy auburn hair) and are nude rather than in the
-  // fig leaves of Gen 3:7. Better than the previous frame, still not right.
+  // 🔴 PLACEHOLDER, AND NOW THE WORST FRAME IN THE SET — re-examined 2026-08-28.
+  // Golden and sunbeamed on the coldest page in the book. Both figures nude rather
+  // than in the fig leaves of Gen 3:7. The woman's hair is long, wavy and light
+  // auburn — Northern European, which the prompt's never-list forbids by name. There
+  // are CUT STONE STEPS in a garden that predates masonry. And the frame is full of
+  // GOD RAYS, also forbidden by name. Two of those four faults were things the prompt
+  // explicitly said not to do, which is evidence about how the prompts are written
+  // (see art/PROMPTS.md §6) as much as about this picture.
   // Replace against art/PROMPTS.md `ch02-trees`.
   "ch02-trees": {
     src: "art/ch02-trees.webp",
@@ -47,6 +53,11 @@ window.PANIM_IMAGES = {
     caption: "The LORD hurled a great wind onto the sea.",
     ref: "Jonah 1:4"
   },
+  // 🟡 Closer than the notes recorded — it has the night, the fire, the crowd and the
+  // tents. Three things short: no STONE BOUNDARY LINE, which is the chapter's hinge
+  // ("they stood far off" across a line nobody crossed); the summit reads as a
+  // VOLCANIC ERUPTION with a lava plume, and Sinai's fire is not volcanic; and there
+  // is a second light source at upper left where the fire should be the only one.
   "ch03-mountain": {
     src: "art/ch03-mountain.webp",
     alt: "A mountain under a night sky, its summit burning under smoke and lightning while a crowd of small robed figures stands far back on the plain below, facing it, not moving closer.",
@@ -73,6 +84,11 @@ window.PANIM_IMAGES = {
     caption: "Then Moses hid his face, for he was afraid to look at God.",
     ref: "Exodus 3:6"
   },
+  // 🟠 PLACEHOLDER — re-examined 2026-08-28 and worse than previously recorded. The
+  // cloth reads as a HOOD or cowl, not the masveh (a flat unhemmed square laid over
+  // the face and tucked at the temples). It is also set in a GREEN DECIDUOUS FOREST
+  // with visible BOKEH ORBS, where the scene is Late Bronze Age Sinai — both forbidden
+  // by name in the prompt's never-list, and both present anyway.
   "ch06-shine": {
     src: "art/ch06-shine.webp",
     alt: "A figure standing with a heavy cloth drawn over the head and face, sun directly behind, light burning around the edge of the covering so the face itself cannot be seen.",
@@ -105,6 +121,15 @@ window.PANIM_IMAGES = {
     ref: "Luke 24:31 · Emmaus"
   },
   "ch10-veil-lift": null,
+  // ⚠️ THE "MODERN STUDIO PORTRAIT" NOTE ON THIS PLATE WAS WRONG — corrected 2026-08-28
+  // after looking at the file rather than at the note about it. She is sun-lined and
+  // freckled, brows unshaped, no cosmetics, head covered in coarse undyed cloth, and
+  // she is plainly not a 2020s portrait. Three things DO diverge from art/PROMPTS.md:
+  // it is an interior with a window, not the garden the brief asks for; there is a
+  // second figure (a blurred bearded man in a pale robe, his hand on her cheek) where
+  // the brief says none; and she is faintly smiling where the brief says steady, not
+  // smiling. Whether those are faults is an editorial call, not an error — the picture
+  // may be better than its brief. It is still 1408×768, which is the real problem.
   "ch10-morning": {
     src: "art/ch10-morning.webp",
     alt: "Full morning light on a woman's face, eyes open and calm, tears at the edge of joy, a hand resting against her cheek. The first full face of the book.",

@@ -185,12 +185,16 @@ content/
   images.js         photo manifest. one line per slot: {src, alt, caption, ref}
   audio-manifest.js durations + music offsets (source of truth for run times)
   HOOKS-original.json  the chapter hooks as they were before the rewrite
+  marks.js          each chapter's own word, pointed and source-verified
+  thread.js         the thirteen plants and payoffs, rendered after ch. X
+  lexicon.js        the closing lexicon — derives from marks.js, adds nothing
 css/  site.css (tokens, grid, arc) · components.css · player.css · room.css · polish.css
 js/   render.js (DOM) · motion.js (scroll, arc, progress) · sync.js (cues)
       player.js · room.js · ui.js
-art/  *.webp published · originals/ source JPGs · incoming/ staged · PROMPTS.md · archive/
+art/  *.webp published plates · PROMPTS.md · archive/ (notes + direction studies)
+      sources, candidates and superseded frames live on the T7 — see
+      art/archive/WHERE-THE-SOURCES-WENT.md
 cues/ chNN.json — [{t, id}] on the voice timeline
-art/incoming/  new photographs staged and named, not yet wired into images.js
 tools/ build-chapters.py · gen-cues.py · check-coverage.py · tape-vs-page.py
       cue-marker.html
 ```
@@ -313,25 +317,35 @@ check its own comment had promised but never implemented.
 
 ## 6. Not done
 
-1. **Twelve new photographs are staged in `art/incoming/`** with descriptive
-   names, deduplicated from `~/Downloads`. Nothing is wired into `images.js`
-   yet — the mapping needs the author's call, in particular whether chapters
-   III and IV take the day or the night version, which is really a question
-   about the dawn arc (§3).
+1. **The candidate frames are no longer in this repo.** `art/incoming/`,
+   `art/originals/` and `art/archive/superseded-2026-08-27/` moved to the T7 on
+   2026-08-28 — 37 MB that was published to a public site and never served to a
+   reader. See `art/archive/WHERE-THE-SOURCES-WENT.md`. All 47 files were verified
+   by MD5 before removal and every one is still in git history.
 2. **Six of fifteen slots still empty** — prompts ready in `art/PROMPTS.md`.
 3. **Source images are 1408 px**, the new ones included; plates want 2400 px+.
    They soften on a large display.
-4. **Two plates are still wrong pictures**, flagged by the author 2026-08-27. Neither is
-   a wiring problem — these are the frames themselves:
-   - `ch02-trees` — the placeholder already flagged in `content/images.js`: golden and
-     lush on the coldest page in the book, figures reading as modern and nude rather
-     than in fig leaves. (The author's `Newch2Hiding.jpeg` is the *same image*; it is
-     filed as `art/incoming/02-trees--same-as-published.jpeg` to record that.)
-   - `ch03-mountain` — the night volcano. Already the newer of the two on disk; the
-     day version (`art/incoming/03-mountain--day-golden.jpeg`) is from the superseded
-     golden-hour direction, so this needs a *new* generation, not a swap.
+4. **Three plates are wrong pictures**, re-examined 2026-08-28 by looking at the files
+   rather than at the notes about them. None is a wiring problem:
+   - `ch02-trees` 🔴 — the worst in the set. Golden and sunbeamed on the coldest page;
+     both figures nude rather than in fig leaves; the woman's hair is long, wavy and
+     light auburn; there are cut stone steps in a garden that predates masonry; and the
+     frame is full of god rays. **Two of those were forbidden by name in the prompt and
+     came back anyway** — see `art/PROMPTS.md` §6.
+   - `ch06-shine` 🟠 — a hood, not the flat square masveh, and set in a green deciduous
+     forest with bokeh orbs, where the scene is Late Bronze Age Sinai.
+   - `ch03-mountain` 🟡 — closer than recorded: it has the night, the fire, the crowd and
+     the tents. Missing the stone boundary line, which is the chapter's hinge; and the
+     summit reads as a volcanic eruption, which Sinai's fire is not.
 
-   Prompts for all three are in `art/PROMPTS.md`.
+   **`ch10-morning` is NOT on this list any more.** It was queued first for a year on
+   the claim that it "came back a modern studio portrait." It did not: she is sun-lined,
+   freckled, unshaped brows, no cosmetics, coarse head covering. What actually diverges
+   from the brief is that it is an interior rather than a garden, there is a second
+   figure where the brief says none, and she is faintly smiling. Whether those are
+   faults is an editorial call.
+
+   Prompts for all of them are in `art/PROMPTS.md`.
 5. **Chapter titles** — reconcile site vs manuscript vs audio (§2).
 6. `hanging-punctuation` is Safari-only; no clean cross-browser equivalent.
 7. `tools/validate.mjs` is referenced in older notes but does not exist.
