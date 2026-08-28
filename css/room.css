@@ -24,6 +24,13 @@
            env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 #room.is-open { opacity: 1; }
+/* `display: flex` above beats the `hidden` attribute's UA `display: none`, so a
+   CLOSED room stayed in the layout: a full-viewport panel at z-index 920, opacity 0,
+   pointer-events auto, sitting over the entire page and swallowing every click on
+   the site. Nothing looked wrong, so nothing pointed at the room. Every other
+   overlay in this build carries the same guard — .modal[hidden], .sheet[hidden],
+   #lightbox[hidden], .nav-toc[hidden]. This one was missed. */
+#room[hidden] { display: none; }
 body.room-open { overflow: hidden; }
 /* belt and braces: the page chrome is also faded out, so nothing bleeds through a
    translucent frame during the cross-fade */
@@ -74,6 +81,10 @@ body.room-open .player { opacity: 0; pointer-events: none; }
   width: 10px; height: 10px; border-radius: 50%;
   box-shadow: inset -3px -1px 0 0 currentColor;
 }
+/* same miss as #room above: js/room.js sets .hidden when no timer is running, and
+   `display: flex` overrode it — the moon sat in the Room's top-left corner always,
+   announcing a sleep timer nobody had set */
+.room-sleep-badge[hidden] { display: none; }
 
 .room-stack {
   position: relative; z-index: 1; text-align: center;
