@@ -12,9 +12,9 @@ subtracts — the model's first answer is always too pretty, too full, too evenl
 > **Every plate was opened and graded against its own brief** — the files, not the notes
 > about them. That produced the priority table below and corrected five wrong entries.
 >
-> ✅ **Round five landed six replacements and filled one empty slot.** Two Tier 1 faults
-> remain (`ch08-veil`, `ch02-trees`) and one slot has still never been generated
-> (`ch07-gate`). The previous sheet is in `archive/PROMPTS-2026-08-27-pre-rewrite.md`.
+> ✅ **ROUND SEVEN, 2026-08-28 — `ch07-gate` IS FILLED. EVERY CHAPTER NOW HAS A PLATE, AND
+> THERE ARE NO EMPTY SLOTS LEFT ON THE SITE.** What remains is optional Tier 3 polish only.
+> The previous sheet is in `archive/PROMPTS-2026-08-27-pre-rewrite.md`.
 
 ---
 
@@ -85,16 +85,14 @@ them as positive descriptions fixed both on the first try. §6 is now carrying s
 | 8 | `ch10-morning` | ⚪ **Keep.** The "modern studio portrait" claim was wrong; the prompt below now describes this picture so a reroll cannot lose it. |
 | 9 | `hero` | ⚪ Strong. The door has **strap hinges on the jamb** where the brief asks for a pivot post in a socket, and the floor is dressed flagstone rather than beaten earth. Optional. |
 
-### The one slot that has still never existed
+### ✅ There are no empty slots left
 
-`images.js` has it as `null`, so the slot renders **nothing** and the chapter has no plate.
-That is a different job from replacing a bad frame, and it is arguably more urgent than
-anything in Tier 2.
+Both slots that had never been generated are now filled: `ch10-veil-lift` in round five and
+**`ch07-gate` in round seven, 2026-08-28.** Every chapter opens on a photograph, and
+`content/images.js` has no `null` left in it except `og-image`, which is deliberate — the
+share card is wired directly in `index.html`.
 
-- **`ch07-gate`** — **chapter VII has no plate at all.** The only empty slot left.
-
-`ch10-veil-lift` was the other one and it was **filled in round five** — see the table above.
-After round six, **`ch07-gate` is the only picture work left on the whole site.**
+Everything below this line is optional Tier 3 polish. **Nothing on the site is missing.**
 
 ---
 
@@ -637,7 +635,22 @@ Keep the light strictly behind.
 
 ---
 
-### `ch07-gate` — the glory backs out · ⬛ **STILL never generated — THE ONLY PICTURE WORK LEFT**
+### `ch07-gate` — the glory backs out · ✅ **DELIVERED, round seven 2026-08-28**
+
+> ✅ **The prompt below is the one that worked, kept verbatim.** It got the gate seen from
+> inside the court, the flat lintels, the cedar jambs with **cherubim and palm trees
+> alternating** per 1 Kings 6:29, the tarnished rather than gleaming gold, the empty passage,
+> the ridge beyond, and the thread of altar smoke still going up on schedule.
+>
+> ⚠️ **Three things it did not get, all accepted:** it is bright and sunlit rather than the
+> flat overcast asked for; the far colonnade at left has **columns**, which were on the
+> never-list, with a balustrade of turned balusters under them — the one anachronistic object
+> in the frame; and the cherubim read Byzantine-angelic rather than as the composite ANE
+> creature, the same fault accepted on `ch08-veil`.
+>
+> ⭐ **Another data point for §6.** The two things the never-list alone was asked to prevent —
+> columns and overcast — are the two that arrived wrong. Everything stated positively in the
+> prompt body arrived correct. Negation is still weak; describe what you want.
 
 > 🔁 **A different picture from the old prompt, on purpose.** The old one asked for a bare
 > undecorated stone hall and then said to *"strip all decoration from the stone."* Solomon's
@@ -1028,3 +1041,20 @@ the single most reliable finding this project has about how these models read a 
 It was cropped to 1232×672 with the fire biased to ~0.58 of the width — so it survives the 4:3
 centre crop a plate takes below the 900px breakpoint — then resized to 1408×768. The uncropped
 original is on the drive.
+
+---
+
+### 2026-08-28 — round seven, the last empty slot
+
+One frame delivered and wired: **`ch07-gate`**. The site now has a plate for all ten
+chapters and no empty slot anywhere.
+
+| slot | what it needed | what arrived |
+|---|---|---|
+| `ch07-gate` | chapter VII had **no plate at all** across six rounds | the east gate from inside the court, flat lintels, cedar jambs carved with cherubim and palm trees alternating, tarnished gold, empty passage, ridge beyond, altar smoke still rising |
+
+**Accepted faults:** sunlit rather than overcast; columns and a turned balustrade in the far
+left colonnade (on the never-list); Byzantine-angelic cherubim. None is falsifiable at plate
+size and none was worth a reroll on the last hole in the site.
+
+Original at `site-art-2026-08-28/incoming-round-seven-2026-08-28/ch7gate.jpeg`, MD5-verified.

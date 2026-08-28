@@ -106,7 +106,12 @@
 .seekbar-marks { position: absolute; inset: 0; }
 .seek-mark {
   position: absolute; top: 0; width: 2px; height: 6px; padding: 0;
-  background: color-mix(in srgb, var(--ink) 30%, transparent);
+  /* WCAG 1.4.11 — these ticks are a graphical object required to understand the
+     book index (unread vs. read vs. current), so the mark itself needs 3:1, not
+     just the invisible hit area below it. 30% measured 1.92:1 against the
+     darkest paper stock (#EBE6E1, chapter VIII); 48% clears 3:1 there (3.08:1)
+     with the same ink and no new colour. */
+  background: color-mix(in srgb, var(--ink) 48%, transparent);
   transition: background var(--dur-fast) var(--ease);
 }
 .seek-mark::before {

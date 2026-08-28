@@ -30,6 +30,18 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *a, **kw):
         super().__init__(*a, directory=ROOT, **kw)
 
+    # GitHub Pages serves this project from the SUBPATH /Panim/, and two standalone
+    # pages hardcode that prefix on their own assets: accessibility.html and 404.html
+    # both ask for /Panim/fonts/fonts.css. Served from the root here, those 404 and
+    # the pages render unstyled — so the only two pages that carry their own copy of
+    # the tokens were also the only two nobody could check locally. Found 2026-08-28
+    # while verifying the accessibility statement. Alias the prefix away so what you
+    # see locally is what Pages serves.
+    def translate_path(self, path):
+        if path == '/Panim' or path.startswith('/Panim/'):
+            path = path[len('/Panim'):] or '/'
+        return super().translate_path(path)
+
     def guess_type(self, path):
         ext = os.path.splitext(path)[1].lower()
         return TYPES.get(ext) or super().guess_type(path)

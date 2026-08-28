@@ -83,3 +83,31 @@ copy. `art/` is **1.9 MB**.
 call it "the T7" and give T7 paths; the volume label is **MAS**. Same disk, and
 `/Volumes/MAS/Panim-archive/` is the real path. Nothing is lost — the notes are just wrong
 about the name.
+
+---
+
+## Round seven, 2026-08-28 — the last empty slot, and the app icon
+
+| folder on the drive | what it holds |
+|---|---|
+| `site-art-2026-08-28/incoming-round-seven-2026-08-28/` | `ch7gate.jpeg`, 906 KB, the original as supplied |
+| `site-art-2026-08-28/site-assets-superseded-2026-08-28/icons-wordmark-superseded-2026-08-28/` | the four PNG app icons the cover photograph replaced |
+
+MD5-verified in both directions before anything was removed from the working copy.
+
+**`ch07-gate` is filled**, which was the last `null` in `content/images.js` apart from
+`og-image`. Every chapter now opens on a photograph. Converted at WebP quality 82, method 6,
+1408x768 as supplied — no crop was needed, which is a first.
+
+**The app icons are now the cover photograph**, per the author's round-five answer
+(*"use as app icon and such"* about `ShinePossible Cover.jpeg`). Two crops off the same
+1024x1024 source: a tight one at 700 px for `icon-180`, `icon-192` and `icon-512`, and a
+wider 940 px one for `icon-512-maskable`, so the head still clears the 80% safe circle an
+adaptive launcher masks to. All four quantised to 192 colours — a photograph saved as a
+flat PNG was 455 KB for the 512 and is 144 KB quantised, with no visible difference at
+icon size.
+
+⚠️ **Noted, not acted on.** The wordmark icons they replace were more legible at 48 px than
+a photograph is; a veiled face at launcher size reads as a warm blob. The author's call
+stands. The originals are on the drive at the path above and in git history, so reverting
+is one `git checkout` away if it looks wrong on a home screen.

@@ -6,10 +6,14 @@
 <title>PANIM — The Invitation Hidden on Every Page</title>
 <meta name="description" content="An audiobook of light. The Hebrew word for face — panim — followed across the whole Bible, narrated by the author. By Jonathan Diaso.">
 <meta name="theme-color" content="#EDE9DF">
+<link rel="canonical" href="https://jonathandiaso.github.io/Panim/">
 
 <meta property="og:type" content="book">
 <meta property="og:title" content="PANIM — The Invitation Hidden on Every Page">
 <meta property="og:description" content="An audiobook of light. The Hebrew word for face, followed across the whole Bible — listen free, read along, night into morning.">
+<meta property="og:url" content="https://jonathandiaso.github.io/Panim/">
+<meta property="og:site_name" content="PANIM">
+<meta property="og:locale" content="en_US">
 <!-- The share card is the PHOTOGRAPH, nothing else. It used to be a split panel: half
      picture, half title + standfirst + byline, set in Fraunces. Every unfurl already
      prints og:title and og:description as text directly under the image, so the card
@@ -31,10 +35,64 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="A sun-lined, freckled woman in a coarse woven head covering looks straight ahead with tears on her cheek, a hand resting against the side of her face.">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="A sun-lined, freckled woman in a coarse woven head covering looks straight ahead with tears on her cheek, a hand resting against the side of her face.">
 
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
+
+<!-- Structured data for the book itself. Every value below is sourced from this
+     repo — title/description/og:image from the meta above, author and narrator
+     from the About sheet ("Written and narrated by Jonathan Diaso"), chapter
+     titles and order from content/chapters.js, and duration summed from the
+     ten voiceDur figures in content/audio-manifest.js (19248.98s = the same
+     "5 hr 21 min" the hero already states, rounded the same way). No ISBN,
+     publisher or publication date exists anywhere in this repo, so Book
+     properties that would need one are omitted rather than guessed. A
+     BreadcrumbList is skipped: this is a single page with in-page fragment
+     anchors, not a hierarchy of pages, so there is no real trail to mark up. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Audiobook",
+      "@id": "https://jonathandiaso.github.io/Panim/#audiobook",
+      "name": "PANIM — The Invitation Hidden on Every Page",
+      "url": "https://jonathandiaso.github.io/Panim/",
+      "description": "An audiobook of light. The Hebrew word for face — panim — followed across the whole Bible, narrated by the author. By Jonathan Diaso.",
+      "inLanguage": "en",
+      "image": "https://jonathandiaso.github.io/Panim/og-card-face.jpg",
+      "author": { "@id": "https://jonathandiaso.github.io/Panim/#author" },
+      "readBy": { "@id": "https://jonathandiaso.github.io/Panim/#author" },
+      "duration": "PT5H20M49S",
+      "hasPart": [
+        { "@type": "Chapter", "position": 1, "name": "The God Who Sees", "url": "https://jonathandiaso.github.io/Panim/#ch01", "duration": "PT22M17S" },
+        { "@type": "Chapter", "position": 2, "name": "The Hiding", "url": "https://jonathandiaso.github.io/Panim/#ch02", "duration": "PT24M23S" },
+        { "@type": "Chapter", "position": 3, "name": "The Face They Fled", "url": "https://jonathandiaso.github.io/Panim/#ch03", "duration": "PT27M2S" },
+        { "@type": "Chapter", "position": 4, "name": "The Word He Kept Rehearsing", "url": "https://jonathandiaso.github.io/Panim/#ch04", "duration": "PT24M" },
+        { "@type": "Chapter", "position": 5, "name": "Mouth to Mouth", "url": "https://jonathandiaso.github.io/Panim/#ch05", "duration": "PT35M20S" },
+        { "@type": "Chapter", "position": 6, "name": "Borrowed Light", "url": "https://jonathandiaso.github.io/Panim/#ch06", "duration": "PT26M37S" },
+        { "@type": "Chapter", "position": 7, "name": "The Glory Backs Out", "url": "https://jonathandiaso.github.io/Panim/#ch07", "duration": "PT37M15S" },
+        { "@type": "Chapter", "position": 8, "name": "The Face Set Like Flint", "url": "https://jonathandiaso.github.io/Panim/#ch08", "duration": "PT29M41S" },
+        { "@type": "Chapter", "position": 9, "name": "Eyes Opened", "url": "https://jonathandiaso.github.io/Panim/#ch09", "duration": "PT35M31S" },
+        { "@type": "Chapter", "position": 10, "name": "Face to Face", "url": "https://jonathandiaso.github.io/Panim/#ch10", "duration": "PT58M44S" }
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://jonathandiaso.github.io/Panim/#author",
+      "name": "Jonathan Diaso"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://jonathandiaso.github.io/Panim/#website",
+      "url": "https://jonathandiaso.github.io/Panim/",
+      "name": "PANIM"
+    }
+  ]
+}
+</script>
 
 <!-- The browser cannot see a @font-face src until it has parsed fonts.css, so the
      three files needed for the FIRST paint are named here: Literata roman latin
@@ -45,12 +103,12 @@
 <link rel="preload" href="fonts/l04.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/g02.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/h00.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts/fonts.css?v=27">
-<link rel="stylesheet" href="css/site.css?v=27">
-<link rel="stylesheet" href="css/components.css?v=27">
-<link rel="stylesheet" href="css/player.css?v=27">
-<link rel="stylesheet" href="css/room.css?v=27">
-<link rel="stylesheet" href="css/polish.css?v=27">
+<link rel="stylesheet" href="fonts/fonts.css?v=28">
+<link rel="stylesheet" href="css/site.css?v=28">
+<link rel="stylesheet" href="css/components.css?v=28">
+<link rel="stylesheet" href="css/player.css?v=28">
+<link rel="stylesheet" href="css/room.css?v=28">
+<link rel="stylesheet" href="css/polish.css?v=28">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -302,18 +360,18 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=27"></script>
-<script src="content/images.js?v=27"></script>
-<script src="content/audio-manifest.js?v=27"></script>
-<script src="content/marks.js?v=27"></script>
-<script src="content/thread.js?v=27"></script>
-<script src="content/lexicon.js?v=27"></script>
-<script src="js/render.js?v=27"></script>
-<script src="js/ui.js?v=27"></script>
-<script src="js/motion.js?v=27"></script>
-<script src="js/sync.js?v=27"></script>
-<script src="js/player.js?v=27"></script>
-<script src="js/room.js?v=27"></script>
+<script src="content/chapters.js?v=28"></script>
+<script src="content/images.js?v=28"></script>
+<script src="content/audio-manifest.js?v=28"></script>
+<script src="content/marks.js?v=28"></script>
+<script src="content/thread.js?v=28"></script>
+<script src="content/lexicon.js?v=28"></script>
+<script src="js/render.js?v=28"></script>
+<script src="js/ui.js?v=28"></script>
+<script src="js/motion.js?v=28"></script>
+<script src="js/sync.js?v=28"></script>
+<script src="js/player.js?v=28"></script>
+<script src="js/room.js?v=28"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });
