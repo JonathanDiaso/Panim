@@ -188,6 +188,14 @@ match. The `?v=` query is what actually defeats the browser's own HTTP cache —
 bumping `SHELL` alone re-fills the cache from whatever the browser already had.
 The service worker now precaches with `cache: 'reload'` for the same reason.
 
+> 🔁 **Checking a deploy takes TWO reloads, and this looks exactly like a failed
+> deploy.** The worker that answers the first load after a push is the *old* one —
+> it serves its cached shell, then fetches the new `sw.js`, installs, `skipWaiting`s
+> and claims the page. Only the second load is the new build. Confirm with
+> `caches.keys()` in the console: `panim-shell-v<N>` is the version you are actually
+> looking at, whatever the server has. Verified 2026-08-27 — a v13 worker was still
+> serving v13 to a browser being answered v18 by Pages.
+
 ---
 
 ### The read-along, and why it stopped working
