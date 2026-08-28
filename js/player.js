@@ -105,19 +105,42 @@
     renderSeekMarks();
 
     var resumeAt = opts.seekTo != null ? opts.seekTo : LS.get('pos:' + chapterId, 0); // voice timeline
-    els.audio.addEventListener('loadedmetadata', function onReady() {
+
+    // Both listeners come off together, whichever fires. They used to remove only
+    // themselves, so a chapter that errored left its `loadedmetadata` handler behind
+    // and every later load stacked another one — each closing over a stale resumeAt
+    // and a stale autoplay flag, which is how switching chapters could seek or start
+    // somewhere nobody asked for.
+    function cleanup() {
       els.audio.removeEventListener('loadedmetadata', onReady);
-      setPlayerState(state.playing ? 'playing' : 'paused');
+      els.audio.removeEventListener('error', onErr);
+    }
+    function onReady() {
+      cleanup();
       if (resumeAt > 1 && resumeAt < voiceDur() - 2) {
         try { els.audio.currentTime = resumeAt + offset(); } catch (e) {}
       }
-      if (opts.autoplay) play();
-    });
-    els.audio.addEventListener('error', function onErr() {
-      els.audio.removeEventListener('error', onErr);
+      // leave 'loading' — set the bar directly, because reflectPlaying() is a no-op
+      // when the flag already agrees and would strand data-state on "loading".
+      setPlayerState(els.audio.paused ? 'paused' : 'playing');
+      syncPlayState();
+    }
+    function onErr() {
+      cleanup();
       setPlayerState('error');
       announce('This chapter could not be loaded. Check your connection and try again.');
-    });
+    }
+    els.audio.addEventListener('loadedmetadata', onReady);
+    els.audio.addEventListener('error', onErr);
+
+    // ⚠️ iOS SAFARI: play() is only honoured inside the user gesture that asked for it.
+    // This call used to live in `onReady` above — a network round trip later, because
+    // the <audio> is preload="none" — so on a phone the gesture had already expired and
+    // Safari rejected every play(). The rejection was swallowed and state.playing was
+    // set anyway, so the button showed ❚❚ over silence and the next tap "paused"
+    // nothing that was playing. That is the phone play/pause bug. Start it in the same
+    // tick as the tap; the seek above does not need a gesture and can wait for metadata.
+    if (opts.autoplay) play();
   }
 
   function setEdition(ed, opts) {
@@ -141,27 +164,42 @@
   }
 
   // ---------- transport ----------
+  // THE AUDIO ELEMENT IS THE SOURCE OF TRUTH, not state.playing. The old play() and
+  // pause() each wrote the flag, the button glyph and the data-state by hand, so the
+  // UI recorded what we had *asked* for rather than what happened. Anything that moved
+  // the audio without going through them — a rejected play(), an incoming call, the
+  // lock-screen controls, headphones pulled out, another app taking audio focus — left
+  // the bar claiming to play over silence. Now the element's own play/pause events
+  // drive everything, and state.playing is a mirror of els.audio.paused.
+  function reflectPlaying(playing) {
+    if (state.playing === playing) return;
+    state.playing = playing;
+    els.playBtn.textContent = playing ? '❚❚' : '▶';
+    els.playBtn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+    setPlayerState(playing ? 'playing' : 'paused');
+    updateHoldVisibility();
+    emit('panim:play-state', { playing: playing });
+  }
+  function syncPlayState() { reflectPlaying(!els.audio.paused && !els.audio.ended); }
+
   function play() {
     if (!state.chapterId) { loadChapter(CHAPTER_IDS[0], { autoplay: true }); return; }
     var p = els.audio.play();
-    if (p && p.catch) p.catch(function () {});
-    state.playing = true;
-    els.playBtn.textContent = '❚❚';
-    els.playBtn.setAttribute('aria-label', 'Pause');
-    setPlayerState('playing');
-    updateHoldVisibility();
-    emit('panim:play-state', { playing: true });
+    if (p && p.catch) {
+      p.catch(function (err) {
+        // Rejected: autoplay policy on a phone, or the source failed underneath us.
+        // Either way the bar must show the truth — the previous code swallowed this
+        // and asserted "playing" regardless.
+        syncPlayState();
+        if (err && err.name === 'NotAllowedError') announce('Tap play to start the audio.');
+      });
+    }
   }
-  function pause() {
-    els.audio.pause();
-    state.playing = false;
-    els.playBtn.textContent = '▶';
-    els.playBtn.setAttribute('aria-label', 'Play');
-    setPlayerState('paused');
-    updateHoldVisibility();
-    emit('panim:play-state', { playing: false });
+  function pause() { els.audio.pause(); }
+  function togglePlay() {
+    if (!state.chapterId) { loadChapter(CHAPTER_IDS[0], { autoplay: true }); return; }
+    els.audio.paused ? play() : pause();
   }
-  function togglePlay() { state.playing ? pause() : play(); }
   function skip(seconds) {
     if (!els.audio.duration) return;
     els.audio.currentTime = Math.max(0, Math.min(els.audio.duration, els.audio.currentTime + seconds));
@@ -177,11 +215,21 @@
   function setVolume(v) { state.volume = Math.max(0, Math.min(1, v)); els.audio.volume = state.volume; }
 
   // ---------- seek UI ----------
+  // The book index, on its own rail (see index.html #chapter-rail). Evenly spaced
+  // because these are ten chapters, not ten timestamps — which is exactly the reading
+  // that was impossible while they were drawn on the position track.
   function renderSeekMarks() {
+    var r = window.PANIM_RENDERED;
     els.seekMarks.innerHTML = CHAPTER_IDS.map(function (id, i) {
       var pct = (i / (CHAPTER_IDS.length - 1)) * 100;
       var cls = 'seek-mark' + (state.completed[id] ? ' is-complete' : '') + (id === state.chapterId ? ' is-current' : '');
-      return '<span class="' + cls + '" style="left:' + pct + '%" data-mark-chapter="' + id + '" title="' + chapterTitle(id).replace(/"/g, '') + '"></span>';
+      var roman = r ? r.romanFor((MAN[id] || {}).num || (i + 1)) : (i + 1);
+      return '<button type="button" class="' + cls + '" style="left:' + pct + '%"' +
+             ' data-mark-chapter="' + id + '"' +
+             ' aria-label="' + chapterTitle(id).replace(/"/g, '') + '"' +
+             ' title="' + chapterTitle(id).replace(/"/g, '') + '">' +
+             '<i class="seek-mark-label" aria-hidden="true">' + roman + '</i>' +
+             '</button>';
     }).join('');
   }
 
@@ -191,6 +239,9 @@
     els.seekFill.style.width = pct + '%';
     els.seekHandle.style.left = pct + '%';
     els.seekbar.setAttribute('aria-valuenow', Math.round(pct));
+    // Without this a screen reader announces the bare percentage — "37" — which is not
+    // a position in a 35-minute chapter. valuetext wins over valuenow where it exists.
+    els.seekbar.setAttribute('aria-valuetext', fmtTime(cur) + ' of ' + fmtTime(dur));
     els.metaTime.textContent = fmtTime(cur) + ' / ' + fmtTime(dur);
     if (els.audio.buffered && els.audio.buffered.length && dur) {
       var end = els.audio.buffered.end(els.audio.buffered.length - 1);
@@ -212,12 +263,30 @@
       var x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
       return Math.max(0, Math.min(1, x / r.width));
     }
-    els.seekbar.addEventListener('pointerdown', function (e) { dragging = true; seekToRatio(ratioFromEvent(e)); });
-    window.addEventListener('pointermove', function (e) { if (dragging) seekToRatio(ratioFromEvent(e)); });
-    window.addEventListener('pointerup', function () { dragging = false; });
+    // Pointer capture keeps the drag alive when the finger leaves the 3px track, and
+    // guarantees the matching up/cancel lands back here. Without it a drag interrupted
+    // by a system gesture (iOS edge swipe, notification) never cleared `dragging`, and
+    // the next stray pointermove anywhere on the page scrubbed the audio.
+    els.seekbar.addEventListener('pointerdown', function (e) {
+      dragging = true;
+      try { els.seekbar.setPointerCapture(e.pointerId); } catch (err) {}
+      seekToRatio(ratioFromEvent(e));
+    });
+    els.seekbar.addEventListener('pointermove', function (e) { if (dragging) seekToRatio(ratioFromEvent(e)); });
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      try { els.seekbar.releasePointerCapture(e.pointerId); } catch (err) {}
+    }
+    els.seekbar.addEventListener('pointerup', endDrag);
+    els.seekbar.addEventListener('pointercancel', endDrag);
     els.seekbar.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); skip(5); }
       else if (e.key === 'ArrowLeft') { e.preventDefault(); e.stopPropagation(); skip(-5); }
+      else if (e.key === 'Home') { e.preventDefault(); e.stopPropagation(); seekToRatio(0); }
+      else if (e.key === 'End' && els.audio.duration) { e.preventDefault(); e.stopPropagation(); els.audio.currentTime = Math.max(0, els.audio.duration - 1); }
+      else if (e.key === 'PageUp') { e.preventDefault(); e.stopPropagation(); skip(60); }
+      else if (e.key === 'PageDown') { e.preventDefault(); e.stopPropagation(); skip(-60); }
     });
     els.seekMarks.addEventListener('click', function (e) {
       var mark = e.target.closest('[data-mark-chapter]');
@@ -351,6 +420,11 @@
     try { var a = new Audio(); a.preload = 'auto'; a.src = src(next, state.edition); } catch (e) {}
   }
   function wireAudio() {
+    // The only two places the transport UI is allowed to change. Everything else —
+    // our own play()/pause(), the lock screen, a phone call, an unplugged headphone —
+    // reaches the UI through the element, so the bar cannot disagree with the audio.
+    els.audio.addEventListener('play', syncPlayState);
+    els.audio.addEventListener('pause', syncPlayState);
     els.audio.addEventListener('timeupdate', function () {
       updateSeekUI();
       // sync.js and the dawn arc consume VOICE-timeline time
@@ -360,8 +434,10 @@
     els.audio.addEventListener('ended', function () {
       markComplete(state.chapterId);
       emit('panim:narration-stopped');
+      // `ended` does not reliably fire `pause` alongside it, so the mirror is set here
+      // by hand rather than left showing ❚❚ on a finished chapter.
+      syncPlayState();
       if (state.sleepMode === 'chapter') { setSleep('off'); pause(); showCompletion('sleep'); return; }
-      pause();
       showCompletion('chapter-end');
     });
   }

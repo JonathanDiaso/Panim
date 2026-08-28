@@ -17,12 +17,12 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
 
-<link rel="stylesheet" href="fonts/fonts.css?v=18">
-<link rel="stylesheet" href="css/site.css?v=18">
-<link rel="stylesheet" href="css/components.css?v=18">
-<link rel="stylesheet" href="css/player.css?v=18">
-<link rel="stylesheet" href="css/room.css?v=18">
-<link rel="stylesheet" href="css/polish.css?v=18">
+<link rel="stylesheet" href="fonts/fonts.css?v=20">
+<link rel="stylesheet" href="css/site.css?v=20">
+<link rel="stylesheet" href="css/components.css?v=20">
+<link rel="stylesheet" href="css/player.css?v=20">
+<link rel="stylesheet" href="css/room.css?v=20">
+<link rel="stylesheet" href="css/polish.css?v=20">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -253,10 +253,17 @@
     </div>
   </div>
   <div class="player-seek">
-    <div class="seekbar" id="seekbar" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+    <!-- TWO RAILS, TWO MEANINGS. The chapter marks used to sit inside .seekbar, spread
+         evenly across a track that measures position in the CURRENT chapter — so the
+         fill said "55% through chapter I" while the tick at that same 55% meant
+         "chapter V", and tapping it jumped chapters. The book index is its own axis
+         and now has its own rail. -->
+    <nav class="chapter-rail" id="chapter-rail" aria-label="Jump to chapter">
+      <div class="seekbar-marks" id="seekbar-marks"></div>
+    </nav>
+    <div class="seekbar" id="seekbar" role="slider" aria-label="Position in this chapter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
       <div class="seekbar-buffered" id="seekbar-buffered"></div>
       <div class="seekbar-fill" id="seekbar-fill"></div>
-      <div class="seekbar-marks" id="seekbar-marks"></div>
       <div class="seek-handle" id="seek-handle"></div>
     </div>
   </div>
@@ -266,16 +273,16 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=18"></script>
-<script src="content/images.js?v=18"></script>
-<script src="content/audio-manifest.js?v=18"></script>
-<script src="content/marks.js?v=18"></script>
-<script src="js/render.js?v=18"></script>
-<script src="js/ui.js?v=18"></script>
-<script src="js/motion.js?v=18"></script>
-<script src="js/sync.js?v=18"></script>
-<script src="js/player.js?v=18"></script>
-<script src="js/room.js?v=18"></script>
+<script src="content/chapters.js?v=20"></script>
+<script src="content/images.js?v=20"></script>
+<script src="content/audio-manifest.js?v=20"></script>
+<script src="content/marks.js?v=20"></script>
+<script src="js/render.js?v=20"></script>
+<script src="js/ui.js?v=20"></script>
+<script src="js/motion.js?v=20"></script>
+<script src="js/sync.js?v=20"></script>
+<script src="js/player.js?v=20"></script>
+<script src="js/room.js?v=20"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

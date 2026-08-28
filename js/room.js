@@ -272,9 +272,22 @@
       var x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
       return Math.max(0, Math.min(1, x / r.width));
     }
-    els.seek.addEventListener('pointerdown', function (e) { dragging = true; P.seekToRatio(ratioFromEvent(e)); });
-    window.addEventListener('pointermove', function (e) { if (dragging) P.seekToRatio(ratioFromEvent(e)); });
-    window.addEventListener('pointerup', function () { dragging = false; });
+    // Captured, and cancel-aware — see the same fix in js/player.js wireSeekbar(). This
+    // matters more here: the Room is the phone-in-the-dark surface, where an interrupted
+    // touch is the normal case rather than the edge one.
+    els.seek.addEventListener('pointerdown', function (e) {
+      dragging = true;
+      try { els.seek.setPointerCapture(e.pointerId); } catch (err) {}
+      P.seekToRatio(ratioFromEvent(e));
+    });
+    els.seek.addEventListener('pointermove', function (e) { if (dragging) P.seekToRatio(ratioFromEvent(e)); });
+    function endRoomDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      try { els.seek.releasePointerCapture(e.pointerId); } catch (err) {}
+    }
+    els.seek.addEventListener('pointerup', endRoomDrag);
+    els.seek.addEventListener('pointercancel', endRoomDrag);
     els.seek.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); P.skip(15); }
       else if (e.key === 'ArrowLeft') { e.preventDefault(); e.stopPropagation(); P.skip(-15); }
