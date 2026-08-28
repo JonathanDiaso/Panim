@@ -33,34 +33,54 @@
 
 :root {
   /* ---- type -------------------------------------------------------------
-     Fraunces for everything read (a text serif with real character — the old
-     Cormorant/Cinzel pairing was the Trajan-and-Garamond combination that
-     appears on every wedding invitation). Archivo for apparatus only: labels,
-     captions, numbers, chrome. Frank Ruhl Libre for Hebrew, which is the
+     Literata for everything read: a face drawn for long-form reading on screens,
+     with an italic that is a genuine text italic. Archivo for apparatus only:
+     labels, captions, numbers, chrome. Frank Ruhl Libre for Hebrew, which is the
      classic Hebrew book face and the only one here that can carry פָּנִים at
-     display size without looking like a fallback. */
-  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --ui: 'Archivo', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
-  --heb: 'Frank Ruhl Libre', 'Fraunces', Georgia, serif;
+     display size without looking like a fallback.
 
-  /* Fraunces is variable on optical size and "softness". Pinning SOFT/WONK to 0
-     keeps it from drifting into the novelty end of its own design space. */
-  /* Setting font-variation-settings silently disables font-optical-sizing:auto, so
-     every size on the site was being rendered in ONE optical cut. A 19px standfirst
-     was getting the DISPLAY cut of Fraunces — high contrast, mannered, and the
-     reason the italics looked wrong. opsz must therefore be stated explicitly
-     everywhere it matters: 14 for text, 72 for mid, 144 for display. */
-  --fr-normal: 'SOFT' 0, 'WONK' 0, 'opsz' 14;
-  --fr-mid:    'SOFT' 0, 'WONK' 0, 'opsz' 72;
-  --fr-display:'SOFT' 0, 'WONK' 0, 'opsz' 144;
+     LITERATA REPLACED FRAUNCES, 2026-08-27 — the italic. Fraunces' italic at text
+     optical sizes is much darker in colour than its own roman, so every <em> in
+     running prose read as bold italic. Measured, not assumed: the same line
+     rendered with the weight stated explicitly, and with no font-variation-settings
+     at all, came out identical. The weight was never the problem. See the note at
+     the top of fonts/fonts.css, and the old build in fonts/archive/. */
+  --serif: 'Literata', Georgia, 'Times New Roman', serif;
+  --ui: 'Archivo', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --heb: 'Frank Ruhl Libre', 'Literata', Georgia, serif;
+
+  /* Setting font-variation-settings disables font-optical-sizing:auto, so opsz has
+     to be stated by hand everywhere it matters, or every size renders in one cut.
+     Literata's axis runs 7–72 (Fraunces' ran to 144, which is why these numbers
+     changed with the face — 144 is off the end of this axis and would be clamped).
+       text 12 · mid 28 · display 60
+     There is no SOFT and no WONK here. Those two tags were in the old Fraunces
+     declarations and did nothing at all: that download was cut with `opsz,wght`
+     only, so both axes had been instanced out of the files. Check a font's fvar
+     before writing an axis name into this file. */
+  --lit-normal:  'opsz' 12;
+  --lit-mid:     'opsz' 28;
+  --lit-display: 'opsz' 60;
+
+  /* Old names kept as aliases so nothing that still says --fr-* silently loses its
+     optical size. Prefer --lit-* in new rules. */
+  --fr-normal: var(--lit-normal);
+  --fr-mid: var(--lit-mid);
+  --fr-display: var(--lit-display);
 
   /* ---- paper + ink ------------------------------------------------------
      Default is chapter I's stock. Per-chapter values are set further down and
      mirrored in js/motion.js, which interpolates between them on scroll. */
   --paper: #F1EDE4;
   --ink: #191510;
-  --ink-soft: #6B6357;
-  --ink-faint: #9A9184;
+  /* Three tiers, all AA against the DARKEST stock (#F1EDE4, chapter I) and therefore
+     against all ten: 15.5 : 6.4 : 4.5. --ink-faint used to be #9A9184, which is
+     2.66:1 — a fail, and it carries real text in eleven places (verse translations,
+     plate labels, contents meta, apparatus captions), most of it 10–11px caps, which
+     is the worst case there is. Anything added to this scale gets checked against
+     #F1EDE4 before it ships, not against the warm stocks where everything passes. */
+  --ink-soft: #5C5449;
+  --ink-faint: #726B60;
   --rule: rgba(25, 21, 16, .14);
   --rule-strong: rgba(25, 21, 16, .28);
   --accent: #9A4B2A;          /* clay — taken from the pots, not from a palette */
@@ -104,7 +124,7 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--serif);
-  font-variation-settings: var(--fr-normal);
+  font-variation-settings: var(--lit-normal);
   font-weight: 400;
   font-size: var(--body-size);
   line-height: var(--body-leading);
@@ -206,12 +226,15 @@ main { position: relative; }
 .block-p em, .prose em { font-style: italic; }
 .block-p:last-child { margin-bottom: 0; }
 
-/* Fraunces' optical-size axis: display sizes want a tighter, higher-contrast
+/* Literata's optical-size axis: display sizes want a tighter, higher-contrast
    cut than text does. Setting opsz by hand is the difference between a serif
-   that looks typeset and one that looks scaled. */
+   that looks typeset and one that looks scaled.
+   Weight is 400, not the 300 this rule carried under Fraunces: Literata's light
+   end is thinner than Fraunces' was, and 300 left a 3.7rem chapter title looking
+   underinked against the warm stocks late in the book. */
 .chapter-title, .hero-title, .fivewords-text {
-  font-variation-settings: var(--fr-display);
-  font-weight: 300;
+  font-variation-settings: var(--lit-display);
+  font-weight: 400;
   letter-spacing: -.018em;
   line-height: 1.03;
   text-wrap: balance;
@@ -233,7 +256,7 @@ main { position: relative; }
    as a slightly smaller first paragraph, and the reader starts the chapter twice.
    The sans says plainly that this line is about the chapter rather than part of
    it, and it makes the drop cap below the first real sentence in the book's face.
-   Never italic: Fraunces' italic is a display cut and turns fussy at this size. */
+   Never italic: this line is apparatus, and the sans has no italic in play here. */
 .chapter-hook {
   font-family: var(--ui);
   font-weight: 400;

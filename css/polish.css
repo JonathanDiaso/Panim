@@ -59,7 +59,7 @@
    TYPESETTING DETAIL
    ============================================================================ */
 
-/* Fraunces ships proper oldstyle figures and small caps. Numbers inside running
+/* Literata ships proper oldstyle figures. Numbers inside running
    prose should be oldstyle so they sit on the x-height and stop shouting; numbers
    in the apparatus (times, chapter counts) should be lining and tabular so columns
    of them line up. */
@@ -89,7 +89,7 @@
   float: left;
   padding: .04em .09em 0 0;
   font-weight: 400;
-  font-variation-settings: var(--fr-display);
+  font-variation-settings: var(--lit-display);
   /* ink, not accent. A coloured initial reads decorative; classic book setting
      lets the size do the work and keeps the colour for the apparatus. */
   color: var(--ink);

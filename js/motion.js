@@ -384,7 +384,7 @@
     window.addEventListener('resize', remeasure);
 
     // measureSections() ran ONCE, at render, against a page set in the fallback
-    // fonts and with nothing decoded. Fraunces then swapped in and 209,000px of
+    // fonts and with nothing decoded. Literata then swapped in and 209,000px of
     // prose reflowed underneath a section table that was never rebuilt — so every
     // boundary was wrong for the rest of the session. Standing in the middle of
     // chapter IV, the running head read VII, the paper was the closing section's
