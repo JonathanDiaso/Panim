@@ -109,6 +109,28 @@ transliteration under it, and **the chosen word's article in columns 10–12** �
 apparatus column the verse notes moved into on the same day. **One system, used twice.**
 Measured: **1,179px, 1.2 screens**, 2.7 on a phone.
 
+**And it has two axes (2026-08-29, v38).** `Show` filters by chapter **or by language**
+(Hebrew 41 · Greek 8 · Akkadian 1); `Order` sorts by chapter or **A–Z** on the
+transliteration. Chapter order stays the default, because this is the back of *this book*
+before it is a dictionary. **The section is still 1,179px** — the controls row was already
+there for the chapter filter and the second group fits beside it.
+
+> 🛑 **The sort MOVES DOM NODES. It must never set flexbox `order`.** The wall is fifty
+> focusable buttons: `order` repaints them A, B, C while **Tab still walks chapter I, II,
+> III**, which is WCAG 2.4.3 on a surface whose whole job is lookup. Moving nodes into a
+> fragment costs one layout per tap, focus survives it, and every `#lex-…` id travels with
+> its node.
+
+**The 31 entries with no root say why they have none (v38).** Not one line — **four**,
+because "no root" is true of a Greek verb and of a six-word Hebrew clause for unrelated
+reasons: 14 phrases (a space or a **maqqef**), 8 Greek, 8 unconfirmed Hebrew, 1 Akkadian.
+**19 rooted + 31 explained = 50.**
+
+> 🛑 `.lex-root-note` sits at `opacity: 0` until `js/ui.js` adds `.is-rooted`, and that
+> class only ever lands on a plate that **has** a root. The new sentences carry
+> `.is-absent`, which opts out of the reveal — otherwise a line written to close a gap
+> would have printed **invisibly, in the gap**.
+
 > 🛑 **`panim` is selected on load**, and every chip carries its slug as an `id`, so the
 > hero's פָּנִים (`href="#lex-panim"`) **opens** the entry instead of parking beside it.
 > A `hashchange` handler does the selecting, so every `#lex-…` link in the book works.
@@ -378,8 +400,10 @@ frame that never lands means focus never enters the dialog. Both are synchronous
 
 ## 6. Testing this site in a headless browser
 
-🛑 **Six traps, every one of which produced a wrong conclusion at least once on
-2026-08-29.** Traps 5 and 6 each produced a *reported site fault that was not there*. Read this before reporting anything visual as broken.
+🛑 **Eight traps, every one of which produced a wrong conclusion at least once on
+2026-08-29.** Traps 5, 6 and 7 each produced a *reported fault that was not there* — and
+trap 7's fault was in the harness's own conclusion about trap 4. Read this before reporting
+anything visual as broken.
 
 1. **The headless viewport has a 500px floor.** `--window-size=402,844` renders the page
    at **500px wide and crops it** — it does not narrow the layout. Measured:
@@ -408,13 +432,31 @@ frame that never lands means focus never enters the dialog. Both are synchronous
    `document.visibilityState` before believing any timing result out of headless**, and
    note that `Page.startScreencast` does *not* fix it.
 
+7. 🆕 **A `file://` harness cannot reach into an `http://localhost` iframe (2026-08-29).**
+   Different origins, so `contentDocument` is **null**, the `load` handler throws on its
+   first property access, and **nothing in the harness runs** — no dismiss, no scroll, no
+   measurement. The screenshot comes back looking *wrong* (the onboarding modal, the top of
+   the page) rather than broken, so it reads as a site fault. **Serve the harness from the
+   same origin — `http://localhost:8899/`, beside the site.**
+   > 🛑 **It disguises itself as trap 4.** From the outside this is indistinguishable from
+   > *"`setInterval` is starved under `--virtual-time-budget`"*, and that is exactly the
+   > conclusion round fourteen reached and nearly wrote into its invariants — **while trap 4
+   > above already said the opposite.** Re-tested same-origin: **the interval ticks nine
+   > times in a ten-second budget.** Trap 4 is correct and stands. **The contradiction with
+   > this file is what caught it**, which is the argument for reading §6 before adding to it.
+8. ⚠️ **Deep sections do not paint in a headless screenshot at all**, because they carry
+   `content-visibility`. Scrolling to `#lexicon` or `#scripture` and shooting gives a blank
+   frame however long the virtual-time budget is. **Measure with `getBoundingClientRect` and
+   dump the numbers — do not try to photograph them.** That is this project's standing rule
+   anyway: the section height is *measured* after every layout change, not looked at.
+
 ⚠️ **And one that is not the browser: a contrast probe must composite alpha.** Walking up
 for a background colour and stopping at the first non-transparent one reads
 `rgba(25,21,16,.03)` — a 3% tint — as near-black, and turns a **4.91:1 pass into a 2.92:1
 failure that is not there.** Composite every translucent layer down to the opaque one
 underneath.
 
-> 🛑 **The rule under all seven: a measurement that says something is broken is a claim
+> 🛑 **The rule under all nine: a measurement that says something is broken is a claim
 > about the MEASUREMENT until the measurement has itself been checked.** Three separate
 > "faults" were reported by the harness in one evening on 2026-08-29 — a contrast
 > failure, a dead Enter key, and every overlay losing focus — and **all three were the
@@ -450,22 +492,25 @@ this is the only thing left that can find what is wrong · `hanging-punctuation`
 Safari-only · `tools/validate.mjs` is referenced in older notes but doesn't exist —
 `check-coverage.py` and the builder's parity assertion are the checks now.
 
-**The Lexicon is no longer on this list.** It was eight and a half screens of cards; it
-is a wall of words and an article, 1.2 screens. What it raised instead are two small
-open questions: **31 of the 50 entries have no root to show** (the matcher fails safe and
-never guesses, which is right — but now that one word fills the column the silence is
-visible, and one quiet line saying *"no single root: this is a phrase"* would turn a gap
-into a fact), and **the wall sorts by chapter and only by chapter** — by language (41
-Hebrew, 8 Greek, 1 Akkadian) and alphabetically are both in the data already.
+**The Lexicon is no longer on this list, and neither are the two questions it raised.**
+Both shipped 2026-08-29 (v38): the wall **filters by language and sorts A–Z** as well as by
+chapter, and the **31 entries with no root now say why they have none** — in four sentences,
+not one, because "no root" is true of a Greek verb and of a six-word Hebrew clause for
+unrelated reasons. §3 has both.
 
 **Newly measured 2026-08-29, and the biggest thing left that a reader would feel:**
 **chapter VI runs 47 paragraphs — 5,127px, about seven laptop screens — with no verse,
 picture, divider or break in any of them.** Every rhythm device the book owns stops at
 once. It is one editorial decision, not a code job · **chapters III and IV have no inline
-picture at all**, only their opening plate, then 143 and 84 paragraphs · **neither
-contents surface says how long a chapter is**, and chapter X is 40,677px against chapter
-IV's 15,459px — a 2.6× spread. The per-chapter running times are already in
-`content/audio-manifest.js`; this is the cheapest real improvement left.
+picture at all**, only their opening plate, then 143 and 84 paragraphs.
+
+> 🛑 **A third item stood here for three rounds and was never true.** It read *"neither
+> contents surface says how long a chapter is"* and asked for work that had already
+> shipped: **both** surfaces have carried per-chapter minutes since before it was written —
+> `js/render.js` renderContents draws `.toc-dur`, `js/ui.js` buildNavToc draws `.ntr-dur`,
+> both off `content/audio-manifest.js`. It survived because each round copied the line
+> forward instead of opening the file, and **the author caught it by asking**. Removed
+> 2026-08-29. **A backlog item is a claim about the code until it is re-read.**
 
 **Measured and NOT worth a round**, so nobody spends one: the whole site is **218 KB
 gzipped** including the complete text of the book (`content/chapters.js` is 93 KB of
@@ -481,9 +526,9 @@ levels, 24 selectors measured for contrast (worst **4.63:1**), zero axe violatio
 everywhere. **That is a floor, not a pass**, and `/accessibility.html` still says in
 public that the player and the Listening Room have never been driven with a screen
 reader — because they have not. The remaining hour is six steps, in
-`next-steps-2026-09-02-round-thirteen.md` §8.
+`next-steps-2026-09-03-round-fourteen.md` §8.
 
 All five design calls are answered and archived
 (`panim-book/handoffs/archive/decisions-2026-08-29-design-answered-2026-08-29.md`); four
 are built and live. What's blocked on the author vs. ready to build: the site handoff
-linked at the top of this file, and `next-steps-2026-09-02-round-thirteen.md` §7–9.
+linked at the top of this file, and `next-steps-2026-09-03-round-fourteen.md` §7–9.
