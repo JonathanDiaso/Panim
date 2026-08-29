@@ -261,20 +261,34 @@
     }, { threshold: 0.4 });
     document.querySelectorAll('.chapter-mark').forEach(function (el) { markObserver.observe(el); });
 
-    // THE LEXICON: each word draws itself in ink as its card comes up.
-    // The sweep is pure CSS (an animatable @property driving a feathered mask); all
-    // this does is decide WHEN, and it fires once per card and then lets go. The
-    // threshold is high on purpose — the word should not have started before the
-    // reader is looking at it, which is the whole difference between "it is being
-    // written" and "it was already there".
+    // THE LEXICON: each word draws itself in ink, and then loses everything that
+    // is not its root.
+    //
+    // Both effects are pure CSS (an animatable @property driving a feathered mask,
+    // then a colour transition per letter); all this does is decide WHEN, and it
+    // fires once per plate and then lets go. The threshold is high on purpose — the
+    // word should not have started before the reader is looking at it, which is the
+    // whole difference between "it is being written" and "it was already there".
+    //
+    // INK_MS MUST MATCH the --lex-ink transition in css/components.css. The root
+    // must not start dimming until the nib has finished the last letter, or the
+    // reader watches a word being written and taken apart at the same time.
+    var INK_MS = 2600;
+    var ROOT_HOLD_MS = 900;      // the beat the finished word gets to itself
     var inkObserver = new IntersectionObserver(function (entries, obs) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-drawn');
-        obs.unobserve(entry.target);
+        var plate = entry.target;
+        plate.classList.add('is-drawn');
+        // Nothing to strip back on a plate whose word has no recoverable root —
+        // render.js left the marker off, and this leaves it alone.
+        if (plate.querySelector('.lex-g.is-root')) {
+          setTimeout(function () { plate.classList.add('is-rooted'); }, INK_MS + ROOT_HOLD_MS);
+        }
+        obs.unobserve(plate);
       });
-    }, { threshold: 0.55 });
-    document.querySelectorAll('.lex-card').forEach(function (el) { inkObserver.observe(el); });
+    }, { threshold: 0.35 });
+    document.querySelectorAll('.lex-plate').forEach(function (el) { inkObserver.observe(el); });
 
     var hairlineObserver = new IntersectionObserver(function (entries, obs) {
       entries.forEach(function (entry) {
@@ -329,6 +343,13 @@
         setTimeout(function () {
           var ref = document.getElementById('fivewords-ref');
           if (ref) ref.classList.add('is-visible');
+          // THE LIGHT CROSSES THE LINE. Once, slowly, after the last word has
+          // landed and the citation is up — never on a loop. The book ends on
+          // light arriving on a face; a light that keeps arriving is a barber's
+          // pole. CSS does the sweep (.is-lit in components.css) and removes
+          // itself when it is finished, so the line is left as plain ink.
+          var line = document.getElementById('fivewords-text');
+          if (line && !reduceMotion) line.classList.add('is-lit');
         }, reduceMotion ? 0 : words.length * 90 + 300);
       }, delay);
     }

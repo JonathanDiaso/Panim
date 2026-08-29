@@ -7,7 +7,7 @@
 <meta name="description" content="What this site aims for on accessibility, what has been measured, what has not been done yet, and how to report a problem.">
 <link rel="canonical" href="https://jonathandiaso.github.io/Panim/accessibility.html">
 <link rel="icon" type="image/svg+xml" href="/Panim/favicon.svg">
-<link rel="stylesheet" href="/Panim/fonts/fonts.css?v=28">
+<link rel="stylesheet" href="/Panim/fonts/fonts.css?v=29">
 <style>
   /* Standalone page, same pattern as 404.html: the tokens are copied rather than
      imported so this page renders correctly even if the main stylesheet fails.
@@ -28,6 +28,7 @@
     --ink-faint: #6B6459;
     --rule: rgba(25, 21, 16, .14);
     --rule-strong: rgba(25, 21, 16, .28);
+    --control-edge: rgba(25, 21, 16, .50);
     --accent: #32506B;
     --ap-sm: .64rem;
     --ap-md: .72rem;
@@ -198,6 +199,21 @@
         <li><strong>The chapter ticks on the seek bar</strong> were raised from 1.9:1 to
             3.1:1. They carry read/unread state, so they are a graphic that has to meet
             the same 3:1 floor a control does.</li>
+        <li><strong>The outline on a button now clears 3:1</strong> (2026-08-28). It was
+            1.8:1 &#8212; and because the buttons on this site carry no fill, that
+            hairline was the only thing drawing them. The line was darkened and the
+            buttons were given a 3&#8239;% ink wash at the same time, so a control reads
+            as a soft filled chip rather than as a harder empty box. Measured 3.25:1
+            against the darkest paper stock and 3.08:1 against the wash. Containers
+            &#8212; cards, sheets, dialogs &#8212; are not controls and keep the lighter
+            frame.</li>
+        <li><strong>The chapter links in the closing section clear the 24&#8239;px target
+            floor</strong> (2026-08-28). They were about 22&#8239;px tall, in a row of
+            roman numerals whose shared baseline could not take padding. That section is
+            now a set of expandable entries: the numerals stayed in the summary as text
+            and the links moved down into the body, where they are ordinary links at a
+            full 44&#8239;px. The accessibility fix and the reading improvement were the
+            same change.</li>
       </ul>
 
       <h2>What has not been done yet</h2>
@@ -218,14 +234,6 @@
 
       <h2>Known limitations</h2>
       <ul>
-        <li><strong>Two measured failures are open, and both are named here rather than
-            quietly fixed.</strong> The outline on a button, before you hover or focus it,
-            is 1.8:1 against the paper where 3:1 is required &#8212; the buttons on this
-            site have no fill, so that hairline is the only thing drawing them, and
-            darkening it would change the look of every control on the page. And the
-            chapter links in the closing Thread section are about 22&#8239;px tall where
-            24&#8239;px is the floor. Both are one-line changes with a visible cost, and
-            neither is being made without the author looking at it.</li>
         <li>The book is a long single reading surface. It is navigable by keyboard, but a
             screen reader user has not yet confirmed the experience end to end.</li>
         <li>Audio is the primary medium here. Every chapter has a full read-along text on

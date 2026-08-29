@@ -12,13 +12,13 @@
   display: inline-flex; align-items: center; justify-content: center; gap: .6em;
   min-height: 44px;
   padding: .72em 1.25em;
-  border: 1px solid var(--rule-strong);
+  border: 1px solid var(--control-edge);
   color: var(--ink);
   font-family: var(--ui);
   font-size: .8rem; font-weight: 600;
   letter-spacing: .01em;   /* sentence case: uppercase + wide tracking is the
                               stock "premium" button and reads as template chrome */
-  background: transparent;
+  background: var(--control-wash);
   transition: border-color var(--dur-fast) var(--ease),
               background-color var(--dur-fast) var(--ease),
               color var(--dur-fast) var(--ease);
@@ -524,18 +524,42 @@
 }
 .thread-standfirst p {
   font-style: italic; color: var(--ink-soft);
-  font-size: 1rem; line-height: 1.55; max-width: 52ch; margin: 0;
+  font-size: 1rem; line-height: 1.55; max-width: 58ch; margin: 0;
 }
+.thread-hint { display: block; margin-top: .5em; font-style: normal; color: var(--ink-faint); }
 
+/* Each entry is a native <details>. Native rather than scripted because the
+   keyboard behaviour, the ARIA and the find-in-page expansion are all free and
+   all correct, and because a closing section is the last place to be shipping
+   bespoke disclosure logic. */
 .thread-item {
   grid-column: 1 / -1;
   display: grid; grid-template-columns: subgrid;
-  padding: clamp(1.5rem, 3vw, 2.2rem) 0;
   border-bottom: 1px solid var(--rule);
 }
 @supports not (grid-template-columns: subgrid) {
   .thread-item { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
 }
+
+/* display:grid takes the summary out of list-item display, which removes the
+   default triangle in every engine; Safari needs its own pseudo killed too. The
+   +/− lives on .thread-name::after instead, in the type rather than beside it. */
+.thread-summary {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: subgrid;
+  align-items: start;
+  padding: clamp(1.1rem, 2.4vw, 1.6rem) 0;
+  min-height: 44px;
+  cursor: pointer;
+  list-style: none;
+}
+@supports not (grid-template-columns: subgrid) {
+  .thread-summary { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
+}
+.thread-summary::-webkit-details-marker { display: none; }
+.thread-summary::marker { content: ''; }
+.thread-summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
 .thread-span {
   grid-column: 1 / 3;
   display: flex; align-items: baseline; gap: .5em;
@@ -545,14 +569,29 @@
   color: var(--accent);
   padding-top: .35em;
 }
-.thread-span a { color: inherit; text-decoration: none; border-bottom: 1px solid transparent; }
-.thread-span a:hover, .thread-span a:focus-visible { border-bottom-color: currentColor; }
 .thread-arrow { color: var(--ink-faint); }
-.thread-body { grid-column: 3 / 10; }
+.thread-head-body { grid-column: 3 / 11; }
 .thread-name {
   font-variation-settings: var(--lit-mid);
   font-weight: 400; font-size: clamp(1.15rem, 2vw, 1.45rem);
-  line-height: 1.16; letter-spacing: -.012em; margin: 0 0 .5em;
+  line-height: 1.16; letter-spacing: -.012em; margin: 0;
+  transition: color var(--dur-fast) var(--ease);
+}
+.thread-name::after {
+  content: '+';
+  margin-left: .5em;
+  font-family: var(--ui); font-weight: 400; font-size: .8em;
+  color: var(--ink-faint);
+}
+.thread-item[open] .thread-name::after { content: '\2212'; }   /* − */
+.thread-summary:hover .thread-name, .thread-summary:focus-visible .thread-name { color: var(--accent); }
+
+.thread-detail {
+  grid-column: 3 / 11;
+  padding-bottom: clamp(1.2rem, 2.6vw, 1.8rem);
+}
+@supports not (grid-template-columns: subgrid) {
+  .thread-detail { grid-column: 3 / 11; }
 }
 .thread-note {
   font-size: 1rem; line-height: 1.62; color: var(--ink-soft);
@@ -565,13 +604,30 @@
   font-size: var(--ap-sm); font-weight: 500;
   letter-spacing: .14em; text-transform: uppercase; color: var(--accent);
 }
+/* The two chapter links used to live in the numeral row at ~22px tall, under the
+   24px WCAG 2.2 target-size floor, in a row whose shared baseline could not take
+   padding. Down here they are ordinary links and can be a full 44px. */
+.thread-jump {
+  margin: .9em 0 0;
+  display: flex; flex-wrap: wrap; gap: 1.4em;
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-sm); font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+.thread-jump a {
+  color: var(--ink-faint);
+  border-bottom: 1px solid currentColor;
+  min-height: 44px; display: inline-flex; align-items: center;
+}
+.thread-jump a:hover, .thread-jump a:focus-visible { color: var(--ink); }
+
 @media (max-width: 900px) {
   .thread-head { grid-template-columns: repeat(6, 1fr); }
   .thread-head .chapter-num { grid-column: 1 / 7; padding-top: 0; margin-bottom: .6rem; }
   .thread-standfirst { grid-column: 1 / 7; }
-  .thread-item { grid-template-columns: repeat(6, 1fr); }
+  .thread-item, .thread-summary { grid-template-columns: repeat(6, 1fr); }
   .thread-span { grid-column: 1 / 7; padding-top: 0; margin-bottom: .5rem; }
-  .thread-body { grid-column: 1 / 7; }
+  .thread-head-body, .thread-detail { grid-column: 1 / 7; }
 }
 
 .modal {
@@ -617,7 +673,7 @@
 }
 .toast:not([hidden]).is-shown { opacity: 1; transform: none; }
 .toast[hidden] { display: none; }
-.toast .btn { border-color: rgba(255,255,255,.35); color: var(--paper); min-height: 34px; padding: .45em .9em; }
+.toast .btn { border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.06); color: var(--paper); min-height: 34px; padding: .45em .9em; }
 .toast .btn:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
 .toast .btn-icon { color: rgba(255,255,255,.7); }
 
@@ -662,6 +718,35 @@
   transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
 }
 .fivewords-text .fw-word.is-visible { opacity: 1; transform: none; }
+
+/* THE LIGHT CROSSES THE LINE.
+   The book's last sentence is a face being lit, so the line is lit — once, slowly,
+   left to right, after every word has landed. A band of the chapter accent travels
+   across the letterforms and leaves.
+
+   It is clipped to the TEXT, so nothing moves and no box glows: the ink itself
+   changes colour under a passing light. `color` stays set underneath and is only
+   given up inside @supports, so a browser without background-clip:text renders the
+   line in plain ink and loses nothing but the effect. It runs ONCE — forwards, no
+   iteration count — because a light that keeps arriving is a barber's pole, and
+   this one is supposed to have arrived. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .fivewords-text.is-lit .fw-word {
+    background-image: linear-gradient(100deg,
+      var(--ink) 0 42%,
+      color-mix(in srgb, var(--accent) 85%, #fff) 50%,
+      var(--ink) 58% 100%);
+    background-size: 320% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+    animation: fw-light 4200ms cubic-bezier(.35, .1, .3, 1) 1 forwards;
+  }
+}
+@keyframes fw-light {
+  from { background-position: 100% 0; }
+  to   { background-position: 0 0; }
+}
 .fivewords-ref {
   grid-column: 3 / 11;
   display: block; margin-top: 1.6em;
@@ -674,6 +759,11 @@
 @media (prefers-reduced-motion: reduce) {
   .fivewords-text .fw-word { opacity: 1; transform: none; transition: none; }
   .fivewords-ref { opacity: 1; transition: none; }
+  /* belt and braces: motion.js already declines to add .is-lit here */
+  .fivewords-text.is-lit .fw-word {
+    background-image: none; -webkit-text-fill-color: currentColor;
+    color: var(--ink); animation: none;
+  }
 }
 @media (max-width: 900px) { .fivewords-text, .fivewords-ref { grid-column: 1 / 7; } }
 
@@ -756,10 +846,17 @@
 .toc-title { transition: color var(--dur-fast) var(--ease); }
 .toc-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
+/* THE CONTENTS NUMERALS ARE BOOK, NOT MACHINERY. They were Archivo at 600 with
+   .16em tracking — a UI label sitting beside a Literata title, and the one thing in
+   the contents that read as chrome. A chapter numeral is furniture of the book, the
+   same call already made for the numerals in the running head. The running time
+   beside it stays in Archivo, because a running time genuinely IS machinery. */
 .toc-num {
   grid-column: 1 / 3;
-  font-family: var(--ui); font-size: var(--ap-md); font-weight: 600;
-  letter-spacing: .16em; color: var(--accent);
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-lg); font-weight: 500;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: .1em; color: var(--accent);
 }
 .toc-body { grid-column: 3 / 10; }
 .toc-title {
@@ -924,7 +1021,7 @@
 }
 .nav-toc-toggle:hover, .nav-toc-toggle:focus-visible { color: var(--ink); }
 .nav-toc-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.nav-toc-toggle[aria-expanded="true"] { color: var(--accent); border-color: var(--rule-strong); }
+.nav-toc-toggle[aria-expanded="true"] { color: var(--accent); border-color: var(--control-edge); }
 
 /* the chip: the roman numeral you are inside, with the same filling hairline the
    numerals carry, so the head means the same thing at both sizes */
@@ -1017,25 +1114,42 @@ body.nav-toc-open #site-nav {
 }
 
 /* ============================================================================
-   THE LEXICON — the words, laid down in ink
+   THE LEXICON — the words, laid down in ink, then stripped back to their roots
    ============================================================================
-   Ten words set as LIVE TEXT in Frank Ruhl Libre, not as pictures. A Hebrew
+   Every word here is LIVE TEXT in Frank Ruhl Libre, not a picture. A Hebrew
    letterform is already a drawing: set at this size it is sharper than any image
    of it, it weighs nothing on top of a font the site already ships, it can be
    selected and copied, a screen reader can read it, and it never needs a second
    file for a retina screen. An image of a Hebrew word is a worse Hebrew word.
 
+   THE PLATE. This was one long column of rows divided by hairlines, and it read
+   as a list — thirty-six paragraphs to scroll past. Every word now sits on its own
+   plate, in its own frame, with room around it, and the plates flow into as many
+   columns as the screen has room for. A word you can see the edges of is a word
+   you look at; a word in a list is a row you skim.
+
    THE INK. @property makes a percentage animatable, so a mask can be swept across
-   live type. The gradient has a soft leading edge (the 7% feather) rather than a
+   live type. The gradient has a soft leading edge (the 9% feather) rather than a
    hard one, which is the difference between a wipe and a nib laying ink down. It
    sweeps RIGHT TO LEFT, the direction Hebrew is written; .is-greek reverses it,
    because Greek is written the other way and a word that draws itself backwards
    is worse than one that just appears.
 
-   Browsers without @property (older Safari, older Firefox) cannot interpolate the
-   custom property, so --lex-ink jumps rather than sweeps. The @supports block
-   below catches that and gives them a plain fade, which is why the base state is
-   never left invisible: nothing here is required to read the page.
+   2600ms, NOT THE 1500ms THIS SHIPPED AT. A sweep short enough to miss is a
+   transition; the whole point is that you watch the word being written. The
+   feather widened with it, because a fast nib and a slow nib do not lay the same
+   edge.
+
+   THE ROOT. 900ms after the word lands, every letter that is not a root consonant
+   goes from the accent to --ink-faint, and the root is left burning. The dimmed
+   letters stay at a colour that CLEARS AA on its own (4.7:1) rather than being
+   faded toward the paper — this is real text, not chrome, and a reader must still
+   be able to read the whole word after the effect has run. js/render.js decides
+   which letters are root letters and fails safe; see the note over renderLexicon.
+
+   Browsers without @property cannot interpolate the custom property, so --lex-ink
+   would jump rather than sweep. The @supports block below catches that and gives
+   them a plain fade. Nothing here is required to read the page.
    ============================================================================ */
 @property --lex-ink {
   syntax: '<percentage>';
@@ -1065,77 +1179,128 @@ body.nav-toc-open #site-nav {
   font-style: italic; color: var(--ink-soft);
   font-size: 1rem; line-height: 1.55; max-width: 52ch; margin: 0;
 }
+.lex-legend { margin-top: .8em; }
 
-.lex-card {
+/* THE GRID. auto-fit rather than a fixed count, so the plates decide the columns:
+   one on a phone, two on a tablet, three on a wide desk, without a breakpoint per
+   case. min(100%, 21rem) keeps a single plate from overflowing a narrow screen. */
+.lex-plates {
   grid-column: 1 / -1;
-  display: grid; grid-template-columns: subgrid;
-  align-items: start;
-  padding: clamp(2.2rem, 5vw, 3.6rem) 0;
-  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+  gap: clamp(1rem, 2vw, 1.6rem);
+  margin-top: clamp(1.8rem, 4vw, 3rem);
 }
-@supports not (grid-template-columns: subgrid) {
-  .lex-card { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
+
+.lex-plate {
+  display: flex; flex-direction: column;
+  padding: clamp(1.5rem, 3vw, 2.2rem);
+  background: color-mix(in srgb, var(--ink) 2.5%, var(--paper));
+  border: 1px solid var(--rule);
+  transition: border-color var(--dur-med) var(--ease);
+}
+.lex-plate.is-drawn { border-color: var(--rule-strong); }
+/* the chapter's own word is the plate the chapter is named for — it gets the
+   accent edge, and nothing else, so the set still reads as one material */
+.lex-plate[data-kind="mark"] { border-left: 2px solid var(--accent); }
+
+.lex-tag {
+  margin: 0 0 .9em;
+  font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint);
 }
 
 /* the word itself */
 .lex-word {
-  grid-column: 1 / 7;
   font-family: var(--heb); font-weight: 300;
-  font-size: clamp(3.2rem, 9vw, 7rem);
-  line-height: 1.12;
+  font-size: clamp(2.8rem, 6vw, 4.4rem);
+  line-height: 1.18;
   color: var(--accent);
   overflow: visible;
+  margin-bottom: .35em;
+  min-height: 1.18em;
 }
 .lex-word.is-greek {
   font-family: var(--serif);
   font-variation-settings: var(--lit-display);
   font-style: italic; font-weight: 300;
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(1.7rem, 3.4vw, 2.7rem);
+}
+/* the one Akkadian row: a Latin transliteration, and it says so by being set as one
+   — roman, not italic, letterspaced, the way a transliteration is set in a lexicon */
+.lex-word.is-roman {
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-display);
+  font-style: normal; font-weight: 300;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  letter-spacing: .04em;
+}
+.lex-word.is-roman .lex-ink {
+  -webkit-mask-image: linear-gradient(to right,
+    #000 0, #000 calc(var(--lex-ink) - 9%), transparent var(--lex-ink), transparent 100%);
+  mask-image: linear-gradient(to right,
+    #000 0, #000 calc(var(--lex-ink) - 9%), transparent var(--lex-ink), transparent 100%);
 }
 
 .lex-ink {
   display: inline-block;
   --lex-ink: 0%;
-  /* the nib: a soft warm smear riding the leading edge, painted BEHIND the glyphs
-     so it reads as wet ink rather than as a highlight over the letter */
   -webkit-mask-image: linear-gradient(to left,
-    #000 0, #000 calc(var(--lex-ink) - 7%), transparent var(--lex-ink), transparent 100%);
+    #000 0, #000 calc(var(--lex-ink) - 9%), transparent var(--lex-ink), transparent 100%);
   mask-image: linear-gradient(to left,
-    #000 0, #000 calc(var(--lex-ink) - 7%), transparent var(--lex-ink), transparent 100%);
-  transition: --lex-ink 1500ms cubic-bezier(.16, .68, .28, 1);
+    #000 0, #000 calc(var(--lex-ink) - 9%), transparent var(--lex-ink), transparent 100%);
+  transition: --lex-ink 2600ms cubic-bezier(.22, .61, .25, 1);
 }
 .lex-word.is-greek .lex-ink {
   -webkit-mask-image: linear-gradient(to right,
-    #000 0, #000 calc(var(--lex-ink) - 7%), transparent var(--lex-ink), transparent 100%);
+    #000 0, #000 calc(var(--lex-ink) - 9%), transparent var(--lex-ink), transparent 100%);
   mask-image: linear-gradient(to right,
-    #000 0, #000 calc(var(--lex-ink) - 7%), transparent var(--lex-ink), transparent 100%);
+    #000 0, #000 calc(var(--lex-ink) - 9%), transparent var(--lex-ink), transparent 100%);
 }
-.lex-card.is-drawn .lex-ink { --lex-ink: 112%; }
+.lex-plate.is-drawn .lex-ink { --lex-ink: 112%; }
+
+/* one written letter with its own points. Inline, so the word still shapes and
+   line-breaks as a word; a screen reader reads the letters back in order. */
+.lex-g { transition: color 1100ms var(--ease); }
+.lex-plate.is-rooted .lex-g { color: var(--ink-faint); }
+.lex-plate.is-rooted .lex-g.is-root { color: var(--accent); }
+
+.lex-root-note {
+  margin: 0 0 .8em;
+  font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint);
+  opacity: 0; transition: opacity 900ms var(--ease);
+}
+.lex-plate.is-rooted .lex-root-note { opacity: 1; }
+.lex-root-word {
+  font-family: var(--heb); font-weight: 400;
+  font-size: 1.5em; letter-spacing: .08em; text-transform: none;
+  color: var(--accent); vertical-align: -.12em; margin-inline-start: .5em;
+}
 
 /* No @property: the percentage cannot interpolate, so the mask would snap. Drop the
    mask entirely there and fade instead — the word still arrives, just plainly. */
 @supports not (background: paint(x)) {
   @supports not (--lex-probe: 1%) {
     .lex-ink { -webkit-mask-image: none; mask-image: none; opacity: 0; transition: opacity 900ms var(--ease); }
-    .lex-card.is-drawn .lex-ink { opacity: 1; }
+    .lex-plate.is-drawn .lex-ink { opacity: 1; }
   }
 }
 
 /* the reading side */
-.lex-body { grid-column: 7 / 12; padding-top: .8em; }
 .lex-translit {
   font-family: var(--serif); font-variation-settings: var(--lit-mid);
   font-style: italic; font-weight: 400;
-  font-size: clamp(1.15rem, 2vw, 1.5rem); line-height: 1.2;
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem); line-height: 1.2;
   margin: 0 0 .55em; color: var(--ink);
 }
 .lex-gloss {
-  font-size: 1rem; line-height: 1.6; color: var(--ink-soft);
-  max-width: 46ch; margin: 0;
+  font-size: .98rem; line-height: 1.62; color: var(--ink-soft);
+  max-width: 46ch; margin: 0 0 auto;
 }
 .lex-where {
-  margin: .9em 0 0;
-  display: flex; flex-wrap: wrap; gap: .9em;
+  margin: 1.2em 0 0;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .9em;
   font-family: var(--serif); font-variation-settings: var(--lit-normal);
   font-size: var(--ap-sm); font-weight: 500;
   letter-spacing: .14em; text-transform: uppercase; color: var(--accent);
@@ -1151,16 +1316,19 @@ body.nav-toc-open #site-nav {
   .lex-head { grid-template-columns: repeat(6, 1fr); }
   .lex-head .chapter-num { grid-column: 1 / 7; padding-top: 0; margin-bottom: .6rem; }
   .lex-standfirst { grid-column: 1 / 7; }
-  .lex-card { grid-template-columns: repeat(6, 1fr); }
-  .lex-word { grid-column: 1 / 7; }
-  .lex-body { grid-column: 1 / 7; padding-top: 1.1rem; }
 }
 
-/* The whole effect is decoration on top of text that is already legible. Turned off,
-   the word is simply there. */
+/* The sweep and the dimming are decoration on top of text that is already legible.
+   Turned off, the word is simply there — and its root is lit from the start, because
+   the root highlight is INFORMATION, not motion, and it is the one thing in this
+   section a reader would actually lose. */
 @media (prefers-reduced-motion: reduce) {
   .lex-ink {
     -webkit-mask-image: none; mask-image: none;
     transition: none; --lex-ink: 112%;
   }
+  .lex-g, .lex-root-note { transition: none; }
+  .lex-plate .lex-g { color: var(--ink-faint); }
+  .lex-plate .lex-g.is-root { color: var(--accent); }
+  .lex-plate .lex-root-note { opacity: 1; }
 }
