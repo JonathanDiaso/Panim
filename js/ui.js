@@ -600,9 +600,74 @@
     if (moveFocus) chip.focus();
     return true;
   }
+  // THE WALL WRITES ITSELF ONCE, ON FIRST ARRIVAL — 2026-08-30 (D15-C).
+  //
+  // 🛑 ONCE PER VISIT, AND THEN THE MASK IS TAKEN OFF. The whole argument for this
+  // effect is that it is an INTRODUCTION: the page assembles itself as the reader
+  // gets there, and from then on a word drawing means "here is the answer you asked
+  // for". Running it twice would spend the second meaning to repeat the first. It
+  // is not persisted to storage — a reader who comes back next week is arriving
+  // again, and the wall is the thing they came back to look at.
+  //
+  // The stagger is a WASH, not a queue: 12ms per chip spreads fifty words over
+  // 600ms against a 2600ms draw, so they are all writing at once and the ink simply
+  // reaches the far corner last. A per-chip sequence would be a loading bar.
+  //
+  // ⚠️ THE CLASS IS REMOVED WHEN IT FINISHES, and that is not tidiness. The mask on
+  // .lex-chip-word is a live compositing layer on fifty elements; left on, the sort
+  // (which MOVES DOM NODES) and the filter would both reflow through it for the rest
+  // of the session. Off, the wall is plain type again.
+  var LEX_WALL_STAGGER_MS = 12, LEX_WALL_DRAW_MS = 2600, LEX_WALL_TAIL_MS = 700;
+  function inkTheWall(wall) {
+    if (!wall || wall.dataset.inked === '1') return;
+    wall.dataset.inked = '1';
+    var chips = $all('.lex-chip', wall);
+    if (!chips.length) return;
+    chips.forEach(function (c, i) {
+      c.querySelector('.lex-chip-word').style.setProperty('--lex-delay', (i * LEX_WALL_STAGGER_MS) + 'ms');
+      c.style.setProperty('--lex-delay', (i * LEX_WALL_STAGGER_MS) + 'ms');
+      c.querySelector('.lex-chip-t').style.setProperty('--lex-delay', (i * LEX_WALL_STAGGER_MS) + 'ms');
+    });
+    wall.classList.add('is-inking');
+    // a frame between "masked at 0" and "told to go to 112" so the transition has
+    // two values to interpolate, rather than both landing in one style recalc.
+    // 🛑 A DOUBLE rAF, not one. document.visibilityState can flip to hidden and
+    // starve rAF entirely (see README §6), so the timeout is the floor, not a
+    // belt-and-braces: whichever fires first wins and the other is a no-op.
+    var started = false;
+    function go() {
+      if (started) return; started = true;
+      wall.classList.add('is-drawn');
+      var total = LEX_WALL_DRAW_MS + (chips.length * LEX_WALL_STAGGER_MS) + LEX_WALL_TAIL_MS;
+      setTimeout(function () {
+        wall.classList.remove('is-inking', 'is-drawn');
+        chips.forEach(function (c) {
+          c.style.removeProperty('--lex-delay');
+          c.querySelector('.lex-chip-word').style.removeProperty('--lex-delay');
+          c.querySelector('.lex-chip-t').style.removeProperty('--lex-delay');
+        });
+      }, total);
+    }
+    requestAnimationFrame(function () { requestAnimationFrame(go); });
+    setTimeout(go, 120);
+  }
+
   function wireLexiconWall() {
     var wall = document.getElementById('lex-wall');
     if (!wall) return;
+    // First arrival only. The section carries content-visibility, so it is not
+    // painted until the reader is near it anyway — the observer is what tells us
+    // the reader actually GOT here rather than deep-linking past.
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (rows) {
+        rows.forEach(function (r) {
+          if (!r.isIntersecting) return;
+          io.disconnect();
+          inkTheWall(wall);
+        });
+      }, { rootMargin: '0px 0px -20% 0px' });
+      io.observe(wall);
+    }
     wall.addEventListener('click', function (e) {
       var chip = e.target.closest('.lex-chip');
       if (chip) selectLexWord(chip.getAttribute('data-lex'), false);

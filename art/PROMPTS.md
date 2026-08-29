@@ -85,12 +85,25 @@ them as positive descriptions fixed both on the first try. §6 is now carrying s
 | 8 | `ch10-morning` | ⚪ **Keep.** The "modern studio portrait" claim was wrong; the prompt below now describes this picture so a reroll cannot lose it. |
 | 9 | `hero` | ⚪ Strong. The door has **strap hinges on the jamb** where the brief asks for a pivot post in a socket, and the floor is dressed flagstone rather than beaten earth. Optional. |
 
-### ✅ There are no empty slots left
+### ✅ There are no empty slots left — and the two new ones are NOT slots yet
 
 Both slots that had never been generated are now filled: `ch10-veil-lift` in round five and
 **`ch07-gate` in round seven, 2026-08-28.** Every chapter opens on a photograph, and
 `content/images.js` has no `null` left in it except `og-image`, which is deliberate — the
 share card is wired directly in `index.html`.
+
+> 🆕 **Round fifteen, 2026-08-30 — two NEW inline prompts are written and neither is wired.**
+>
+> 🆕 **Round fifteen, 2026-08-30 — ONE new inline prompt is written, and it is not wired.**
+> `ch03-hallway` is the surviving half of the author's *"ok create prompts"*. It is written in
+> full below and **deliberately not added to `content/images.js` or to the manuscript**: a slot
+> with no file behind it is an empty slot. It says where it goes. **Wire it the day the frame
+> exists, not before.**
+>
+> 🛑 **`ch04-droves` was written and then WITHDRAWN on the same day.** The author did not like
+> it, and measuring the chapter showed he was right — chapter IV's dense stretch is its opening,
+> which already sits between a plate and a verse. The reasoning is kept rather than deleted:
+> *why a picture was not added* is worth as much in this file as why one was.
 
 Everything below this line is optional Tier 3 polish. **Nothing on the site is missing.**
 
@@ -524,6 +537,91 @@ the piled stone boundary line clearly visible in front of it. Kill every light e
 inside the smoke. More smoke, less rock. Keep the summit solid — no opening, no glow running
 down it.
 ```
+
+---
+
+### `ch03-hallway` — the other room · 🆕 **NEW INLINE SLOT, written 2026-08-30 (round fifteen) — not generated**
+
+The author asked what a picture in chapter III would be. **Not a landscape.** Chapter III
+already opens on one (`ch03-mountain`), and every plate in this book is a place. What the
+chapter is about is *not being in the room when the news lands* — so the picture is the
+thing you hide behind.
+
+**It is the chapter's own image, not an invented one.** The autobiographical passage is the
+centre of chapter III: *"I stayed in the hallway, close enough to hear everything and far
+enough that I would not have to watch."* A door ajar, warm light from the room beyond, the
+hall dark. Nobody's face. That is the whole argument of the chapter in one object — Israel
+asking for a man in the middle, and a boy sending his brother in.
+
+⬜ **ONE RULING NEEDED — the period.** This is the only frame in the set outside the ancient
+world, and there is a precedent for that (`ch01-tomb` is a 1979 excavation). Prompt 1 below is
+the **modern hallway**, which is what the chapter actually describes. If you would rather keep
+the whole set ancient, say so and the alternative is a Late Bronze Age doorway at the camp's
+edge — same composition, same light, mudbrick jamb and a hanging goat-hair curtain instead of
+a painted door. **The modern one is the better picture and it is what the prose says.**
+
+**Prompt 1**
+
+```text
+A panelled interior door standing about a third open at the end of a dark, narrow domestic
+hallway, seen from inside the hallway at the height of a twelve-year-old boy. Mexico City, mid
+1980s, an ordinary middle-class apartment. The room beyond is the only light source: a warm
+low tungsten lamp, out of frame, throwing one hard wedge of amber across the hall floor and up
+the opposite wall, everything outside that wedge falling to near black. In the lit gap, only
+fragments — the corner of a table, the edge of a chair leg, a section of patterned floor tile.
+No people are visible in the room and no face appears anywhere in the frame. Against the near
+jamb, in the dark, a boy's shoulder and forearm only, pressed to the wall, turned away from
+the opening; cotton short sleeve, no logo, no watch. 35mm, camera low and close to the wall,
+the door and its gap slightly right of centre, deep shadow filling the foreground. The picture
+is about listening to something from the one place where you will not have to watch it.
+Never: no faces, no figures in the lit room, no overhead light, no window, no reflections in
+glass, no toys or clutter that date it cheaply.
+```
+
+**Prompt 2**
+
+```text
+Same hallway, same door. Narrow the opening further and push the boy deeper into the black so
+he is barely readable — a shoulder and nothing else. Take the amber down and let more of the
+frame go to true black. Remove any object in the lit gap that reads as a specific decade.
+Keep only the wedge of light on the floor.
+```
+
+**Where it goes.** Immediately before *"I remember being glad I was not in the room."* — the
+line the picture is a caption for. That is `ch03`, in the run that begins *"I was twelve, in
+Mexico City."*
+
+---
+
+### ~~`ch04-droves`~~ — **WITHDRAWN 2026-08-30. The author was right and the idea was wrong.**
+
+His note: *"i thought i made these all good before. i dont like your suggestuon though idk if i
+like what we have hahaha."*
+
+**He was right on the first half, and here is the measurement that proves it.** Chapter IV's
+longest unbroken stretch is **blocks 1–12 — 680 words, 57 words a paragraph** — and it is the
+**opening** of the chapter. Which means:
+
+- **It already opens on a plate.** `ch04-river` sits at the top of the chapter, immediately
+  before that stretch. A second picture twelve paragraphs later would be **two photographs in
+  the first seven hundred words** of a chapter that has one.
+- **It already resolves into a verse.** Genesis 32:20 lands at block 13, at the end of the run.
+  The stretch is bracketed by a picture and a verse; it is not unbroken, it is *framed*.
+- **And the dense part is not where a picture would have gone anyway.** The rest of chapter IV
+  is the wrestling — 8 of its 16 paragraphs are under fifteen words, the fastest dialogue in
+  the book. **A photograph dropped into the climax of that fight would interrupt the one scene
+  that must not be interrupted.**
+
+🛑 **The round-fourteen sheet asked "what would I add to III and IV" on a SYMMETRY argument** —
+both chapters have one plate and no inline picture — **and never checked whether either chapter
+had a pacing problem.** Chapter III does (661 words; `ch03-hallway` above answers it).
+**Chapter IV does not.** The prompt written for it on 2026-08-30 was answering a question the
+manuscript had not asked, and it is withdrawn rather than left here to be built later.
+
+⬜ **The second half of his note is still open** — *"idk if i like what we have."* `ch04-river`
+is marked author-approved from round five, and the entry below records its two divergences
+(painterly rather than photographic; faint shafts at top right). **If it has stopped being
+approved, say so and it gets a reroll prompt.**
 
 ---
 

@@ -462,6 +462,66 @@
     return 'lex-' + e.t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   }
 
+  // THE WALL CARRIES THE BOOK'S OWN WEIGHTING, 2026-08-30 (D15-B). The author asked
+  // for the words to be sized by how often the book uses them. Measured first, and
+  // the raw count turned out to be the wrong instrument — so this is the measurement
+  // it was replaced with, and the reason is worth keeping next to the code:
+  //
+  // 🛑 RAW FREQUENCY WOULD HAVE PRINTED A LIE. Ten of the fifty entries are PHRASES
+  // the book quotes in English and never transliterates — ya'er YHWH panav, baqqeshu
+  // panai, ka-chalamish. They score ZERO against the prose. Sizing by the raw count
+  // would have set ten of the book's load-bearing lines as the smallest type on the
+  // wall, which is the opposite of true. The distribution is also not a gradient:
+  // panim 45, ehyeh 11, then a flat field of 3s and 1s. Fifty sizes off that spread
+  // is a tag cloud, which is the risk the design sheet flagged.
+  //
+  // THREE WEIGHTS, from two things the data already knows:
+  //   3  panim — the word the whole book follows, and 45 mentions to one other word's 11
+  //   2  a chapter's own mark (kind: 'mark'), or a word the prose says five or more times
+  //   1  everything else
+  // Five is measured, not guessed: it is the gap in the actual distribution — ehyeh
+  // (11), ra'ah (6) and metamorphoo (6) sit above it and the next word down is 4.
+  //
+  // Multi-word entries take their weight from `kind` alone. A phrase has no token to
+  // count and the marks among them are already weight 2, which is the right answer.
+  var LEX_OFTEN = 5;
+  function lexWeights(entries) {
+    var counts = Object.create(null);
+    var chapters = window.PANIM_CHAPTERS || [];
+    // one walk, one tokenise, then fifty map reads — rather than fifty scans of the
+    // whole manuscript. Measured at 9ms over the 362KB of prose.
+    var prose = [];
+    (function walk(v) {
+      if (v == null) return;
+      if (typeof v === 'string') { prose.push(v); return; }
+      if (typeof v !== 'object') return;
+      if (Array.isArray(v)) { for (var i = 0; i < v.length; i++) walk(v[i]); return; }
+      for (var k in v) if (Object.prototype.hasOwnProperty.call(v, k)) walk(v[k]);
+    })(chapters);
+    var flat = lexNorm(prose.join(' ').replace(/<[^>]+>/g, ' '));
+    var toks = flat.split(/[^a-z\u0370-\u03ff\u05d0-\u05ea]+/);
+    for (var j = 0; j < toks.length; j++) {
+      if (toks[j]) counts[toks[j]] = (counts[toks[j]] || 0) + 1;
+    }
+    var w = {};
+    entries.forEach(function (e) {
+      var t = lexNorm(e.t);
+      var weight = 1;
+      if (e.kind === 'mark') weight = 2;
+      if (!/[\s-]/.test(t) && (counts[t] || 0) >= LEX_OFTEN) weight = 2;
+      if (t === 'panim') weight = 3;
+      w[lexSlug(e)] = weight;
+    });
+    return w;
+  }
+  // lower-cased, decomposed, marks stripped, apostrophes dropped — so ra'ah in the
+  // lexicon and ra'ah in the prose are the same token whichever quote glyph is used.
+  function lexNorm(s) {
+    return String(s).toLowerCase().normalize('NFD')
+      .replace(/[\u0300-\u036f\u0591-\u05c7]/g, '')
+      .replace(/[\u2019\u2018'`]/g, '');
+  }
+
   function renderLexicon() {
     var entries = window.PANIM_LEXICON || [];
     if (!entries.length) return '';
@@ -470,6 +530,8 @@
     var defaultSlug = null;
     entries.forEach(function (e) { if (e.t === 'panim') defaultSlug = lexSlug(e); });
     if (!defaultSlug) defaultSlug = lexSlug(entries[0]);
+
+    var weights = lexWeights(entries);
 
     var chips = entries.map(function (e) {
       var heb = e.lang === 'he';
@@ -486,6 +548,7 @@
       return '<button type="button" class="lex-chip' + (on ? ' is-on' : '') + '"' +
         ' id="' + esc(slug) + '" data-lex="' + esc(slug) + '" data-ch="' + esc(e.ch) + '"' +
         ' data-lang="' + esc(e.lang) + '" data-t="' + esc(String(e.t).toLowerCase()) + '"' +
+        ' data-weight="' + (weights[slug] || 1) + '"' +
         ' aria-pressed="' + (on ? 'true' : 'false') + '" aria-controls="lex-article">' +
         // 🛑 The space between the two spans is load-bearing. They are flex column
         // children so it collapses to nothing on screen, and without it the control's
@@ -495,7 +558,12 @@
           (heb ? ' dir="rtl"' : '') + '>' + esc(e.w) + '</span> ' +
         '<span class="lex-chip-t">' + esc(e.t) + '</span>' +
       '</button>';
-    }).join('');
+    // 🛑 JOINED ON A NEWLINE, NOT ON ''. The wall is justified type from 2026-08-30
+    // (D15-A) and `text-align: justify` stretches the WHITE SPACE between inline
+    // boxes. With the chips joined edge to edge there is no white space on the line,
+    // so every line sets flush left and the justification silently does nothing.
+    // The gap between words is this character, not a flex `gap`.
+    }).join('\n');
 
     var articles = entries.map(function (e) {
       var heb = e.lang === 'he';
@@ -694,6 +762,198 @@
       '</div></section>';
   }
 
+  // NAMES AND PLACES — the index a reader has and cannot do, 2026-08-30 (D15-F).
+  //
+  // There was an index of verses and an index of words, and no way to find MOSES.
+  // Search covers it, but search is a thing you have to think to open; an index is a
+  // thing you browse, and browsing is how you find the entry you did not know to
+  // look for.
+  //
+  // 🛑 THE OCCURRENCES ARE MEASURED, NOT TYPED. content/names.js says who and where
+  // the index covers and nothing else; the chapter numerals below come from scanning
+  // the real blocks. A name whose forms appear nowhere renders nothing at all rather
+  // than an entry pointing at a page that does not exist — the same fail-safe the
+  // lexicon's root matcher uses, and the reason this index cannot drift from the
+  // manuscript the way a hand-kept list would.
+  //
+  // ONE LINK PER CHAPTER, not one per mention. Moses is in 103 paragraphs; an entry
+  // listing 103 links is a wall, and the reader's real question is "which chapters
+  // is he in, and take me to the first one." So each chapter contributes one numeral
+  // and it lands on the FIRST block in that chapter that names him.
+  function nameOccurrences(chapters, entry) {
+    var forms = entry.forms || [];
+    if (!forms.length) return [];
+    // longest form first, so "Ketef Hinnom" wins over "Hinnom" on the same block
+    var ordered = forms.slice().sort(function (a, b) { return b.length - a.length; });
+    var res = ordered.map(function (f) {
+      // \b would not fire after an apostrophe, and the possessive is handled here
+      // rather than being listed twice in the data
+      return new RegExp('(^|[^A-Za-z])' + f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') +
+        '(\u2019s|\u2019|\'s|\'|)(?![A-Za-z])');
+    });
+    var hits = [];
+    chapters.forEach(function (c) {
+      var found = null;
+      c.blocks.some(function (b) {
+        if (b.type !== 'p' && b.type !== 'verse') return false;
+        if (!b.id) return false;
+        // 🛑 A VERSE BLOCK HAS NO `html`. tools/build-chapters.py stores a verse as
+        // `lines: []` and a paragraph as `html: ''` — two different shapes, and the
+        // first version of this read `b.html` only, so every name that stands in a
+        // QUOTED VERSE and nowhere else in that chapter was invisible to the index.
+        // Found 2026-08-30 while converting a paragraph in ch. VI into a verse: the
+        // block went quiet on the same day it changed type, which is what surfaced it.
+        var t = (b.html || (b.lines ? b.lines.join(' ') : '')).replace(/<[^>]+>/g, ' ');
+        var any = res.some(function (r) { return r.test(t); });
+        if (any) { found = b.id; return true; }
+        return false;
+      });
+      if (found) hits.push({ num: c.num, id: found });
+    });
+    return hits;
+  }
+
+  function renderNames(chapters) {
+    var entries = window.PANIM_NAMES || [];
+    if (!entries.length) return '';
+
+    var live = [];
+    entries.forEach(function (e) {
+      var hits = nameOccurrences(chapters, e);
+      if (hits.length) live.push({ e: e, hits: hits });
+    });
+    if (!live.length) return '';
+
+    live.sort(function (a, b) { return a.e.name.localeCompare(b.e.name); });
+
+    // grouped by initial, the way an index is read — you go to the letter first
+    var byLetter = {};
+    live.forEach(function (r) {
+      var L = r.e.name.charAt(0).toUpperCase();
+      (byLetter[L] = byLetter[L] || []).push(r);
+    });
+
+    var people = live.filter(function (r) { return r.e.kind === 'person'; }).length;
+    var places = live.length - people;
+
+    var rows = Object.keys(byLetter).sort().map(function (L) {
+      var items = byLetter[L].map(function (r) {
+        var cites = r.hits.map(function (h) {
+          return '<li class="ni-cite"><a href="#' + esc(h.id) + '">' +
+            '<span class="ni-num" aria-hidden="true">' + (ROMAN[h.num] || h.num) + '</span>' +
+            '<span class="visually-hidden">Chapter ' + (ROMAN[h.num] || h.num) + '</span>' +
+          '</a></li>';
+        }).join('');
+        return '<div class="ni-entry">' +
+          '<h4 class="ni-name">' + esc(r.e.name) +
+            '<span class="ni-kind" aria-hidden="true">' +
+              (r.e.kind === 'place' ? 'place' : 'person') + '</span>' +
+          '</h4>' +
+          (r.e.note ? '<p class="ni-note">' + esc(r.e.note) + '</p>' : '') +
+          '<ul class="ni-list">' + cites + '</ul>' +
+        '</div>';
+      }).join('');
+      return '<div class="ni-letter">' +
+        '<h3 class="si-book-name">' + L + '</h3>' +
+        '<div class="ni-entries">' + items + '</div>' +
+      '</div>';
+    }).join('');
+
+    return '<section class="section" id="names" data-ch="fw" aria-labelledby="names-heading">' +
+      '<div class="section-inner">' +
+        '<div class="si-head">' +
+          '<span class="chapter-num">Names and Places</span>' +
+          '<div class="si-standfirst">' +
+            '<h2 id="names-heading">' + live.length + ' names, in the order a reader looks them up.</h2>' +
+            '<p>' + people + ' people and ' + places + ' places. The numerals after a ' +
+            'name are the chapters it stands in; following one lands on the first ' +
+            'place in that chapter it is named. God is not indexed here, and neither ' +
+            'are the Hebrew and Greek words \u2014 one is on nearly every page, and the ' +
+            'others have an index of their own.</p>' +
+          '</div>' +
+        '</div>' +
+        '<div class="ni-body">' + rows + '</div>' +
+      '</div></section>';
+  }
+
+  // WHERE THESE CAME FROM — the sources page, 2026-08-30 (D15-D).
+  //
+  // 🛑 THE SECTION EXISTS TO CLOSE A GAP THE LEXICON OPENED. Its standfirst claims
+  // "not one character was typed from memory" and then names no source. A claim that
+  // cannot be checked is decoration; this is the check. It is also, of the four
+  // back-matter candidates on the round-fourteen sheet, the one that buys the most
+  // for a sceptical reader — it is the thing that makes the rest of the apparatus
+  // worth trusting.
+  //
+  // ⚠️ A ROW MARKED `status: 'unconfirmed'` PRINTS ITS CLAIM AND WITHHOLDS ITS
+  // CITATION, and says so on the page. That is deliberate and it is the whole ethic
+  // of the section: a page built to prove nothing was typed from memory must not
+  // itself contain a citation typed from memory. The gap is visible, in the reader's
+  // sight, rather than papered over with a plausible volume number.
+  function renderSources() {
+    var groups = window.PANIM_SOURCES || [];
+    if (!groups.length) return '';
+
+    var total = 0;
+    groups.forEach(function (g) { total += (g.items || []).length; });
+
+    var open = 0;
+    groups.forEach(function (g) {
+      (g.items || []).forEach(function (it) { if (it.status === 'unconfirmed') open++; });
+    });
+
+    var body = groups.map(function (g) {
+      var items = (g.items || []).map(function (it) {
+        var unconfirmed = it.status === 'unconfirmed';
+        return '<article class="src-item' + (unconfirmed ? ' is-open' : '') + '">' +
+          '<h4 class="src-title">' + esc(it.title) + '</h4>' +
+          '<p class="src-who">' + esc(it.who) + '</p>' +
+          '<p class="src-what">' + esc(it.what) + '</p>' +
+          (it.where
+            ? '<p class="src-where">' + esc(it.where) + '</p>'
+            : '') +
+          (unconfirmed
+            // said outright, in the reader's sight. The alternative is a citation
+            // nobody checked, which is the thing this page is against.
+            ? '<p class="src-flag">Citation not yet filled in here. The excavation and ' +
+              'the objects are published; this page will not print a volume or a page ' +
+              'number it has not read.</p>'
+            : '') +
+        '</article>';
+      }).join('');
+      return '<div class="src-group">' +
+        '<h3 class="src-group-head">' + esc(g.group) + '</h3>' +
+        (g.note ? '<p class="src-group-note">' + esc(g.note) + '</p>' : '') +
+        '<div class="src-items">' + items + '</div>' +
+      '</div>';
+    }).join('');
+
+    return '<section class="section" id="sources" data-ch="fw" aria-labelledby="sources-heading">' +
+      '<div class="section-inner">' +
+        '<div class="lex-head">' +
+          // 🛑 .chapter-num, the component every other back-matter head uses — NOT a
+          // new class. The first draft invented .section-label, which was defined
+          // nowhere, so the label fell out of the margin column and set as body serif.
+          // The margin label is SHORT ("The Sources"); the long name lives in
+          // BACK_MATTER, where the contents and the nav read it.
+          '<span class="chapter-num">The Sources</span>' +
+          '<div class="lex-standfirst">' +
+            '<h2 id="sources-heading">' + total + ' works, and what each one supplied.</h2>' +
+            '<p>The Lexicon says that not one character in it was typed from memory. ' +
+            'This is the list that sentence is standing on \u2014 the text the Hebrew was ' +
+            'read out of, the dictionaries the meanings came from, and the translation ' +
+            'the quotations are in.</p>' +
+            (open
+              ? '<p class="lex-legend">' + open + ' of them ' + (open === 1 ? 'is' : 'are') +
+                ' listed with the citation still open, and marked as such below. ' +
+                'A page built to show its working does not get to guess at its own.</p>'
+              : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="src-body">' + body + '</div>' +
+      '</div></section>';
+  }
+
   // Ch.8's tearing hairline (§8.4): the paragraph whose text contains "torn in two" gets a
   // .tear-line sibling that motion.js animates once, on scroll-into-view.
   function maybeTearLine(chapterId, plainText) {
@@ -754,7 +1014,9 @@
   var BACK_MATTER = [
     { id: 'thread',    title: 'What Comes Back',   note: 'what each chapter planted, and where it paid off' },
     { id: 'lexicon',   title: 'The Lexicon',       note: 'every word the book turns on, in its own language' },
-    { id: 'scripture', title: 'Index of Scripture', note: 'every verse quoted, in the order a Bible keeps them' }
+    { id: 'scripture', title: 'Index of Scripture', note: 'every verse quoted, in the order a Bible keeps them' },
+    { id: 'names',     title: 'Names and Places', note: 'every person and place the book names, and where to find them' },
+    { id: 'sources',   title: 'Where These Came From', note: 'the texts, the lexica and the translation this book stands on' }
   ];
 
   function backMatter() {
@@ -767,7 +1029,16 @@
     var counts = {
       thread: t ? t + ' threads' : '',
       lexicon: l ? l + ' words' : '',
-      scripture: v ? v + ' verses' : ''
+      scripture: v ? v + ' verses' : '',
+      names: (function () {
+        var n = (window.PANIM_NAMES || []).length;
+        return n ? n + ' names' : '';
+      })(),
+      sources: (function () {
+        var n = 0;
+        (window.PANIM_SOURCES || []).forEach(function (g) { n += (g.items || []).length; });
+        return n ? n + ' works' : '';
+      })()
     };
     return BACK_MATTER.map(function (b) {
       var o = { id: b.id, title: b.title, note: b.note, count: counts[b.id] || '' };
@@ -1013,6 +1284,8 @@
     html.push(renderThread());
     html.push(renderLexicon());
     html.push(renderScripture(chapters));
+    html.push(renderNames(chapters));
+    html.push(renderSources());
 
     var root = document.getElementById('chapters-root');
     root.innerHTML = html.join('');
