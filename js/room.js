@@ -110,23 +110,31 @@
     room.addEventListener(ev, armIdle, { passive: true });
   });
 
-  // ---------- the light follows playback ----------
-  function hexToRgb(h) { var n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
-  function lerpHex(a, b, t) {
-    var ca = hexToRgb(a), cb = hexToRgb(b);
-    return 'rgb(' + [0, 1, 2].map(function (i) { return Math.round(ca[i] + (cb[i] - ca[i]) * t); }).join(',') + ')';
-  }
-  function tokensFor(num) {
-    var T = window.PANIM_TOKENS || {};
-    return T[String(num)] || { bg: '#050409', accent: '#d9a441', text: '#f0edf4' };
-  }
-  function paintProgress(ratio) {
-    var num = P.manifest[P.state.chapterId] ? P.manifest[P.state.chapterId].num : 1;
-    var here = tokensFor(num), next = tokensFor(Math.min(10, num + 1));
-    var bg = reduceMotion ? here.bg : lerpHex(here.bg, next.bg, Math.max(0, Math.min(1, ratio)) * 0.6);
-    room.style.setProperty('--room-bg', bg);
-    room.style.setProperty('--room-accent', here.accent);
-  }
+  // ---------- the light used to "follow playback", and it was painting the Room CREAM
+  // REMOVED 2026-08-29, and this is a bug fix, not a feature cut. Read this before
+  // putting it back.
+  //
+  // This block read window.PANIM_TOKENS — the dawn arc in js/motion.js — and wrote
+  // `here.bg` onto the Room as an inline --room-bg. When it was written, TOKENS was the
+  // old NIGHT table, which is still visible in the fallback it carried:
+  // { bg: '#050409', accent: '#d9a441', text: '#f0edf4' }. TOKENS became the PAPER arc
+  // when the site moved to Direction B, and nothing here changed. So from that day on,
+  // opening the Listening Room set --room-bg to #EDE9DF and up — measured live at
+  // rgb(237,233,223) — and an inline style beats the #0C0B0A in css/room.css. The room
+  // that every comment in this build describes as "a phone on a nightstand at 1 a.m."
+  // was painting itself in daylight cream underneath its own backdrop and grade.
+  // It survived because .room-backdrop is filtered to brightness(.15) and .room-grade
+  // lays three dark radials over the middle, so the cream only ever showed at the edges.
+  //
+  // 🛑 THIS IS W5 — the arc table kept in two places with nothing enforcing it — with a
+  // second consumer that reads the wrong table. Do not re-point it at PANIM_TOKENS.
+  //
+  // TO BRING THE FEATURE BACK the Room needs its OWN ten-stop ramp, and it is an
+  // author decision, not a derivation: the page's accents (#32506B, #A8391B, #7E5A20)
+  // are picked for contrast on cream and none of them clears 4.5:1 on #0C0B0A. Until
+  // that ramp exists the Room holds the tokens in css/room.css, and its light already
+  // follows playback in two other ways — the backdrop plate changes per chapter
+  // (paintBackdrop) and the arc fills as the chapter runs.
 
   // ---------- backdrop image (frontispiece if the author has supplied one) ----------
   var FRONTIS = { ch01:'ch01-tomb', ch02:'ch02-trees', ch03:'ch03-mountain', ch04:'ch04-river',
@@ -209,7 +217,6 @@
     els.arcFill.style.strokeDashoffset = String(100 - ratio * 100);
     els.seekFill.style.width = (ratio * 100) + '%';
     els.seek.setAttribute('aria-valuenow', Math.round(ratio * 100));
-    paintProgress(ratio);
     var rem = P.sleepRemaining();
     if (rem === null) { els.sleepBadge.hidden = true; }
     else {

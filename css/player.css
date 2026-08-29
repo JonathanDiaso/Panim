@@ -30,18 +30,11 @@
    happened to have: two different weights on two different platforms, a vertical
    centring that drifted, and no relation to the Listening Room's transport, which
    was always SVG. These are the room's own two paths and the room's own class
-   switch (js/player.js reflectPlaying). */
-#play-btn {
-  min-width: 46px; min-height: 46px;
-  display: grid; place-items: center;
-  border: 1px solid var(--ink); border-radius: 50%;
-  color: var(--ink);
-}
-#play-btn svg { width: 21px; height: 21px; fill: currentColor; display: block; }
-#play-btn .ico-pause { display: none; }
-#play-btn.is-playing .ico-pause { display: block; }
-#play-btn.is-playing .ico-play { display: none; }
-#play-btn:hover, #play-btn:focus-visible { background: var(--ink); color: var(--paper); }
+   switch (js/player.js reflectPlaying).
+
+   ONE COMPONENT, 2026-08-29. The rules that used to sit here are now
+   .transport-play in components.css, shared with the Listening Room's play button.
+   This bar's instance is the default size, so it declares nothing at all. */
 
 /* The Listening Room button. A crescent, stroked in the current ink so it inherits
    the chapter's paper like every other control on the bar. */
@@ -57,12 +50,25 @@
   font-size: var(--ap-lg); letter-spacing: .06em;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
+/* 🛑 --ink-soft, NOT `opacity: .6`. Measured 2026-08-29: ink at .6 composites to
+   4.31:1 on the ch II stock against a 4.5:1 requirement, and axe caught it at 4.45:1
+   on the jacket. The token is 6.01:1 at its worst stock and is the vocabulary the rest
+   of the site already uses for quiet text — an opacity is an unmeasured colour. */
 .player-meta .meta-time {
-  font-size: var(--ap-md); opacity: .6; letter-spacing: .04em;
+  font-size: var(--ap-md); color: var(--ink-soft); letter-spacing: .04em;
 }
 .player-meta .meta-status {
   font-size: var(--ap-md); opacity: .7; font-style: italic; font-family: var(--serif);
 }
+
+/* FOLLOW HAD NO SIGHTED STATE AT ALL until 2026-08-29. js/player.js has always
+   toggled .is-active on this button and nothing in any stylesheet matched it, so
+   Follow-on and Follow-off were the same button — while .is-suspended, which is a
+   sub-state of ON, was styled. A sighted reader could see the degraded state and not
+   the state it degraded from. --accent is what .is-active means everywhere else on
+   this site (.nav-chapters a.is-active, .ntr.is-active), and it is on .btn-icon so the
+   Room's own Follow button (#room-follow) gets it from the same rule. */
+.btn-icon.is-active { color: var(--accent); }
 
 .player-secondary { display: flex; align-items: center; gap: .25rem; }
 .player-secondary .btn-icon { min-width: 44px; min-height: 44px; font-size: .85rem; }
@@ -73,7 +79,9 @@
    off, the reader loses the state they are actually in. So it goes quiet and carries
    a hollow marker — still active, not currently driving. Tapping returns to the voice.
    No new colour: this is the apparatus rule, a rule doing the job. */
-#follow-btn.is-suspended { opacity: .55; }
+/* --ink-faint (4.72:1 at the worst stock), not `opacity: .55`, which composited to
+   3.69:1 on the ch VII stock. Quieter than the base .btn-icon --ink-soft, and legal. */
+#follow-btn.is-suspended { color: var(--ink-faint); }
 #follow-btn.is-suspended::after {
   content: ''; display: block; height: 1px; margin-top: 2px;
   background: currentColor; opacity: .5;
@@ -105,6 +113,23 @@
   width: 0%;
   pointer-events: none;
 }
+/* ---------------------------------------------------------------------------
+   THE ROOM'S SEEK IS THIS SEEK
+   The Listening Room used to carry its own bar — .room-seek / .room-seek-fill, its
+   own track, its own fill, its own focus ring, its own 2px geometry — which is the
+   same quantity drawn twice in two idioms. It is the same component now, pinned to
+   the bottom edge of the screen instead of sitting inside a bar, and it inherits
+   the invisible 44px hit area from .seekbar::before rather than declaring a second
+   one. The Room's colours arrive from its own --ink / --accent (css/room.css).
+   --------------------------------------------------------------------------- */
+.seekbar-edge {
+  position: absolute; left: 0; right: 0;
+  bottom: max(0px, env(safe-area-inset-bottom));
+  margin: 0; height: 2px; z-index: 2;
+  /* 20%, not the bar's 14%: this track lies over a photograph, not over paper */
+  background: color-mix(in srgb, var(--ink) 20%, transparent);
+}
+.seekbar-edge:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
 /* ---------------------------------------------------------------------------
    THE CHAPTER RAIL — the book index, on its own axis
    These ten marks used to live INSIDE .seekbar. That track measures position in the

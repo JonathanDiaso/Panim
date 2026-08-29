@@ -103,12 +103,12 @@
 <link rel="preload" href="fonts/l04.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/g02.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/h00.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts/fonts.css?v=33">
-<link rel="stylesheet" href="css/site.css?v=33">
-<link rel="stylesheet" href="css/components.css?v=33">
-<link rel="stylesheet" href="css/player.css?v=33">
-<link rel="stylesheet" href="css/room.css?v=33">
-<link rel="stylesheet" href="css/polish.css?v=33">
+<link rel="stylesheet" href="fonts/fonts.css?v=35">
+<link rel="stylesheet" href="css/site.css?v=35">
+<link rel="stylesheet" href="css/components.css?v=35">
+<link rel="stylesheet" href="css/player.css?v=35">
+<link rel="stylesheet" href="css/room.css?v=35">
+<link rel="stylesheet" href="css/polish.css?v=35">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -158,6 +158,13 @@
          aria-label="Panim — the Hebrew word for face. Open its entry in the lexicon.">פָּנִים</a>
       <h1 class="hero-title">The Invitation Hidden on Every Page</h1>
       <p class="hero-subtitle">One Hebrew word for <em>face</em>, followed from the first page of the Bible to the last, until it becomes the whole story.</p>
+      <!-- THE PULL LINE MOVED HERE FROM THE MODAL, 2026-08-29 (decision D2-C).
+           It is the best sentence on the jacket and it was behind a dismiss button.
+           The modal is now the doorway — epigraph, running time, two buttons — and
+           the page underneath is where the reader is paid for opening it. -->
+      <p class="hero-pull">Between the first page and the last the face hides, shines,
+      bleeds and comes home. It is a love story — the oldest one still running — and
+      before it is over you will find your own face in it.</p>
       <div class="hero-meta">
         <b>Jonathan Diaso</b>
         Ten chapters<br>
@@ -176,42 +183,38 @@
 
 <!-- ================= sheets / modals ================= -->
 
-<!-- The first thing anyone sees. It used to be a keyboard-shortcut legend, which is
-     product onboarding, not a book. It now does what a jacket does.
-     CUT FROM 185 WORDS TO 88, 2026-08-28. Two and a half phone screens stood between
-     the epigraph and the button, and the two lines that actually make someone stay were
-     at the bottom of them. Song of Songs leads; the pull line closes; everything that
-     was explanation moved into About. -->
+<!-- THE DOORWAY, not a second jacket.  Rebuilt 2026-08-29 (decision D2-C).
+     It used to open with פָּנִים, a headline, and a paragraph explaining that panim
+     is the Hebrew word for face — and then the hero underneath said all three again
+     in the same order. The book opened by saying its opening twice.
+     It now carries ONLY what the hero cannot: the Song of Songs epigraph the whole
+     book answers, what this thing actually IS (a book read aloud), the running time,
+     and the two doors. No mark, no second headline, no restatement of the thesis.
+     The pull line went to the hero. The keyboard legend is on the About sheet.
+     🛑 Do not re-add a headline here. If it belongs on the jacket it belongs in the
+     hero, which has the photograph and is where the reader ends up anyway. -->
 <div class="modal" id="onboarding-modal" hidden>
-  <div class="modal-card modal-invite" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
-    <div class="invite-mark" lang="he" dir="rtl" aria-hidden="true">פָּנִים</div>
+  <div class="modal-card modal-invite" role="dialog" aria-modal="true" aria-label="An invitation">
 
     <blockquote class="invite-epigraph">
       <p>Let me see your face; let me hear your voice.</p>
       <cite>Song of Songs 2:14</cite>
     </blockquote>
 
-    <h2 id="onboarding-title">The invitation hidden on every page</h2>
-
-    <p><em>Panim</em> is the Hebrew word for <em>face</em>. It is in your Bible more than
-    two thousand times, hidden under a word as ordinary as this one.</p>
-
-    <p class="invite-pull">Between the first page and the last the face hides, shines,
-    bleeds and comes home. It is a love story — the oldest one still running — and before
-    it is over you will find your own face in it.</p>
+    <p class="invite-lede">A book read aloud, end to end, by the man who wrote it. Follow
+    the page as it is spoken, or close your eyes and just listen — it keeps your place
+    either way.</p>
 
     <div class="invite-actions">
       <button class="btn btn-solid" id="onboarding-begin">Begin listening</button>
       <button class="btn" id="onboarding-read">Read instead</button>
     </div>
 
-    <p class="invite-meta">Ten chapters · 5 hr 21 min · free · your place is saved
-      <span class="invite-keys"><kbd>Space</kbd> play · <kbd>←</kbd><kbd>→</kbd> skip ·
-      <kbd>S</kbd> sleep · <kbd>F</kbd> follow · <kbd>L</kbd> listening room</span></p>
+    <p class="invite-meta">Ten chapters · 5 hr 21 min · free · no account</p>
   </div>
 </div>
 
-<aside class="sheet" id="about-sheet" hidden role="dialog" aria-label="About">
+<div class="sheet" id="about-sheet" hidden role="dialog" aria-label="About">
   <div class="sheet-inner">
     <button class="btn btn-icon sheet-close" data-close-sheet="about-sheet" aria-label="Close">×</button>
     <h2>About this book</h2>
@@ -233,11 +236,25 @@
       <button class="btn" id="share-btn">Share this book</button>
     </div>
 
+    <!-- THE KEYBOARD LEGEND, moved here 2026-08-29 (decision D2-C).
+         🛑 It was on the onboarding modal and NOWHERE ELSE. The decision sheet said
+         it already lived on this sheet; it did not. Cutting the modal down to a
+         doorway would have deleted the only place the shortcuts were ever named,
+         so they landed here, where a reader goes to look something up. -->
+    <h3 class="about-sub">Keys</h3>
+    <ul class="legend about-keys">
+      <li><kbd>Space</kbd> play or pause</li>
+      <li><kbd>←</kbd><kbd>→</kbd> skip back and forward</li>
+      <li><kbd>F</kbd> follow the narration down the page</li>
+      <li><kbd>S</kbd> sleep timer</li>
+      <li><kbd>L</kbd> the Listening Room</li>
+    </ul>
+
     <!-- The accessibility statement lives in About rather than in a footer because this
          site has no footer other than the player, which is chrome. -->
     <p class="about-fineprint"><a href="accessibility.html">Accessibility</a></p>
   </div>
-</aside>
+</div>
 
 <!-- SEARCH. Fifty thousand words about one word, and until now no way to find a
      word. The index is built in the browser from content/chapters.js the first time
@@ -245,7 +262,7 @@
      no server and keeps working offline like the rest of the site.
      role="dialog" and the sheet plumbing are the same as every other sheet; the
      results are a live region so a screen reader is told how many there are. -->
-<aside class="sheet sheet-search" id="search-sheet" hidden role="dialog" aria-label="Search the book">
+<div class="sheet sheet-search" id="search-sheet" hidden role="dialog" aria-label="Search the book">
   <div class="sheet-inner">
     <button class="btn btn-icon sheet-close" data-close-sheet="search-sheet" aria-label="Close">×</button>
     <h2>Search the book</h2>
@@ -257,9 +274,9 @@
     <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
     <div class="search-results" id="search-results"></div>
   </div>
-</aside>
+</div>
 
-<aside class="sheet" id="sleep-sheet" hidden role="dialog" aria-label="Sleep timer">
+<div class="sheet" id="sleep-sheet" hidden role="dialog" aria-label="Sleep timer">
   <div class="sheet-inner">
     <button class="btn btn-icon sheet-close" data-close-sheet="sleep-sheet" aria-label="Close">×</button>
     <h2>Sleep timer</h2>
@@ -273,15 +290,15 @@
     </div>
     <p class="sheet-note">The audio fades out over the last 30 seconds. Your place is saved.</p>
   </div>
-</aside>
+</div>
 
-<aside class="sheet" id="chapters-sheet" hidden role="dialog" aria-label="Chapters">
+<div class="sheet" id="chapters-sheet" hidden role="dialog" aria-label="Chapters">
   <div class="sheet-inner">
     <button class="btn btn-icon sheet-close" data-close-sheet="chapters-sheet" aria-label="Close">×</button>
     <h2>Chapters</h2>
     <div id="chapters-sheet-list"><!-- js/room.js populates --></div>
   </div>
-</aside>
+</div>
 
 <div class="modal" id="completion-modal" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="completion-title">
@@ -331,7 +348,7 @@
     </div>
     <div class="room-transport">
       <button class="btn btn-icon room-btn" id="room-back" aria-label="Skip back 15 seconds">−15</button>
-      <button class="room-play" id="room-play" aria-label="Play">
+      <button class="transport-play room-play" id="room-play" aria-label="Play">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path class="ico-play" d="M8 5.5v13l11-6.5z"/><g class="ico-pause"><rect x="7" y="5" width="3.4" height="14" rx="1"/><rect x="13.6" y="5" width="3.4" height="14" rx="1"/></g></svg>
       </button>
       <button class="btn btn-icon room-btn" id="room-fwd" aria-label="Skip forward 30 seconds">+30</button>
@@ -343,8 +360,8 @@
       <button class="btn btn-icon" id="room-chapters" title="Chapters">Chapters</button>
     </div>
   </div>
-  <div class="room-seek" id="room-seek" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
-    <div class="room-seek-fill" id="room-seek-fill"></div>
+  <div class="seekbar seekbar-edge" id="room-seek" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+    <div class="seekbar-fill" id="room-seek-fill"></div>
   </div>
 </section>
 
@@ -353,7 +370,7 @@
   <div class="player-controls">
     <div class="player-transport">
       <button class="btn btn-icon" id="skip-back-btn" title="Back 15s" aria-label="Skip back 15 seconds">−15</button>
-      <button class="btn btn-icon" id="play-btn" title="Play" aria-label="Play">
+      <button class="transport-play" id="play-btn" title="Play" aria-label="Play">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="ico-play" d="M8 5.5v13l11-6.5z"/><g class="ico-pause"><rect x="7" y="5" width="3.4" height="14" rx="1"/><rect x="13.6" y="5" width="3.4" height="14" rx="1"/></g></svg>
       </button>
       <button class="btn btn-icon" id="skip-fwd-btn" title="Forward 30s" aria-label="Skip forward 30 seconds">+30</button>
@@ -396,20 +413,21 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=33"></script>
-<script src="content/images.js?v=33"></script>
-<script src="content/audio-manifest.js?v=33"></script>
-<script src="content/marks.js?v=33"></script>
-<script src="content/thread.js?v=33"></script>
-<script src="content/lexicon.js?v=33"></script>
-<script src="content/verse-notes.js?v=33"></script>
-<script src="js/render.js?v=33"></script>
-<script src="js/ui.js?v=33"></script>
-<script src="js/motion.js?v=33"></script>
-<script src="js/sync.js?v=33"></script>
-<script src="js/search.js?v=33"></script>
-<script src="js/player.js?v=33"></script>
-<script src="js/room.js?v=33"></script>
+<script src="content/chapters.js?v=35"></script>
+<script src="content/images.js?v=35"></script>
+<script src="content/audio-manifest.js?v=35"></script>
+<script src="content/marks.js?v=35"></script>
+<script src="content/thread.js?v=35"></script>
+<script src="content/lexicon.js?v=35"></script>
+<script src="content/verse-notes.js?v=35"></script>
+<script src="content/derivatives.js?v=35"></script>
+<script src="js/render.js?v=35"></script>
+<script src="js/ui.js?v=35"></script>
+<script src="js/motion.js?v=35"></script>
+<script src="js/sync.js?v=35"></script>
+<script src="js/search.js?v=35"></script>
+<script src="js/player.js?v=35"></script>
+<script src="js/room.js?v=35"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

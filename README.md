@@ -67,11 +67,71 @@ apparatus in 1–2 and 10–12) · **a photograph is never a backdrop** (type ne
 sits on a picture; plates own the full width alone) · **no decoration
 pretending to be material** — no gradient text, no gold, no glow, no glass.
 
+**The apparatus columns are real now, not aspirational (2026-08-29, decision D1-B).**
+Until v35 the book set **all 1,911 of its text elements in columns 3–9** and left 10–12
+empty on every screen. At **≥1100px** a verse now lays out across the whole width:
+citation hung in **1–2**, quotation in **3–8**, and the verse note in **10–12** —
+`.verse-box` spans `3 / 13` as a subgrid and places its three children into it. It reads
+as a printed critical edition and the prose resumes under the quotation instead of over
+the top of a footnote. Below 1100px nothing changed: note under verse, citation under
+note. Measured: 375 elements in 10–12 where there were none, and the book is 9,961px
+shorter.
+
+> 🛑 **The rule lives on the quotation, not on the box.** The grid row is as tall as the
+> taller of its two columns, so `border-left` on `.verse-box` drew an accent rule sized
+> to the *note* — a one-line verse got a 100px rule with nothing beside it. On
+> `.verse-text` it measures the quote, which is the thing it marks.
+
+> 🛑 **A pair of media blocks that share a breakpoint needs the sub-pixel on the
+> max-width side** — `min-width: 1100px` against `max-width: 1099.98px`. Both apply at
+> exactly 1100, and at 1100 the citation's static fallback landed in the same grid cell
+> as the quotation it names. Silent, and found only by measuring at the breakpoint.
+
+**A citation is set in two voices.** `SONG OF SONGS` tracked and uppercase in the
+chapter accent, a hairline across the margin column, then `2:14` in tabular lining
+figures with no tracking. Uppercase tracking on digits opens a gap between the numeral
+and the colon and the reference stops reading as one address. The split is a regex over
+`ref`, verified against all 124 references in `content/chapters.js` — and there is a
+**literal space** between the two spans, because below 1100px they are inline and
+without it the citation reads and is announced as "Numbers6:24-26".
+
+**The two index-shaped sections speak one language (D4-B).** *What Comes Back* and the
+*Index of Scripture* are both **name · dotted leader · number, hard right**. The thread
+rail stays in the margin drawing the distance; the numerals moved to the far end of the
+row, which is also what removed the `VIIVIII` collision — hard-right numerals cannot
+collide with ticks they are no longer under.
+
+**The onboarding modal is a doorway, not a second jacket (D2-C).** It carries only what
+the hero cannot: the Song of Songs epigraph, one line saying what the thing *is*, the
+running time, and two buttons. 🛑 **Do not re-add a headline, the Hebrew mark, or the
+thesis to it** — the hero says all three, better, with the photograph. The pull line
+lives in `.hero-pull` now.
+
 The **dawn arc** is carried by *paper temperature*: ch. I is cool grey-bone, ch.
 X is bright warm white. The table in `css/site.css` `.section[data-ch]` **must
-stay identical** to `TOKENS` in `js/motion.js`. Night palette (Direction C) is
-the Listening Room's own — deliberately dark, a phone-on-a-nightstand read,
-with a 6s idle dim (correct, not a bug). **Standfirsts are option C
+stay identical** to `TOKENS` in `js/motion.js`.
+
+> 🛑 **That duplication has already cost one live bug.** `js/room.js` read `TOKENS`
+> for the Listening Room's background, and `TOKENS` became the *paper* arc when the
+> site moved to Direction B. From then until 2026-08-29 opening the Room painted it
+> `#EDE9DF` — daylight cream — under its own backdrop and grade. Generating both
+> tables from one source is still the fix; until then, **check every consumer**.
+
+> 🛑 **A `grid-column` that ends past line 7 needs a range in the `max-width: 900px`
+> block too.** Below 900px the grid is six columns, so `3 / 9` asks for a line that does
+> not exist and the browser creates two implicit tracks to reach it — after which
+> `grid-column: 1 / -1`, which counts back from the end of the *explicit* grid, stops
+> reaching the page edge. Measured 2026-08-29: 88 dividers did this, plates rendered
+> 374px wide in a 402px viewport, and every paragraph in the book was 28px narrow on
+> every phone. **It does not look like a bug. It looks like a margin.**
+
+**The Listening Room is a paper stop, not a second theme** (2026-08-29). It declares
+the same seven tokens the page does — `--paper` `--ink` `--ink-soft` `--ink-faint`
+`--accent` `--control-edge` `--control-wash` — at dark values, and inherits every
+shared component unchanged. There are **no `--room-*` colour tokens any more**, and
+there is no `#room .btn` rule. 🛑 **If a control looks wrong in the Room, the token is
+wrong, not the component.** Deliberately dark, a phone-on-a-nightstand read, with a 6s
+idle dim (correct, not a bug). **Standfirsts are option C
 everywhere** — the apparatus sans, both in contents and at chapter openings.
 
 **Type:** **Literata** (book), Archivo (apparatus), Frank Ruhl Libre (Hebrew),
@@ -97,17 +157,21 @@ content/
   lexicon.js        the closing lexicon — derives from marks.js, adds nothing
   verse-notes.js    the 113 verse notes. KEYED BY CHAPTER + CITATION, not by
                     block id — ids move on every rebuild, a citation does not.
+  derivatives.js    GENERATED by tools/make-derivatives.sh — never hand-edit.
+                    slot id -> [{w, src}], the AVIF srcset for every plate.
 c/NN/index.html     GENERATED share stubs, one per chapter. See below.
 art/cards/*.jpg     GENERATED 1200x630 JPEG cuts of the plates, for og:image only
+art/d/*.avif        GENERATED responsive cuts, 640 / 940 / source width. See below.
 css/  site.css (tokens, grid, arc) · components.css · player.css · room.css · polish.css
-js/   render.js (DOM) · motion.js (scroll, arc, progress) · sync.js (cues)
-      player.js · room.js · ui.js · search.js
+js/   render.js (DOM; also BUILDS the contents, the thread, the lexicon and the
+      Index of Scripture — none of those are checked-in files) · motion.js (scroll,
+      arc, progress) · sync.js (cues) · player.js · room.js · ui.js · search.js
 art/  *.webp published plates · PROMPTS.md · archive/ (notes + direction studies)
       sources/candidates/superseded frames live on the T7 — see
       art/archive/WHERE-THE-SOURCES-WENT.md
 cues/ chNN.json — [{t, id}] on the voice timeline
 tools/ build-chapters.py · gen-cues.py · check-coverage.py · tape-vs-page.py · serve.py
-       gen-chapter-stubs.py · make-cards.sh
+       gen-chapter-stubs.py · make-cards.sh · make-derivatives.sh
 ```
 
 Local: **`python3 tools/serve.py`** then `localhost:8899`.
@@ -126,6 +190,52 @@ release behind.
 > 🔁 **A deploy check takes TWO reloads** — the worker answering the first load
 > after a push is the *old* one; it serves its cached shell, then fetches and
 > installs the new `sw.js`. Confirm with `caches.keys()` in the console.
+
+### The back of the book — and the one list that feeds both contents
+
+After chapter X the site has three apparatus sections: **What Comes Back** (`#thread`),
+**The Lexicon** (`#lexicon`) and the **Index of Scripture** (`#scripture`, added
+2026-08-29). Until that date **neither contents surface listed any of them** — the running
+head's panel and the contents section both stopped at chapter X — so all three were
+reachable only by scrolling a page that is 262,798px tall.
+
+🛑 **`BACK_MATTER` in `js/render.js` is the single definition, and `js/ui.js` reads it off
+`window.PANIM_RENDERED.backMatter`.** Do not give the running head its own copy. Two
+hand-kept copies of one list is exactly how `js/room.js` came to paint the Listening Room
+cream from the wrong table.
+
+**The Index of Scripture** is built at render time from `PANIM_CHAPTERS` — 113 citations,
+26 books, canonical order.
+
+- 🛑 **Never turn this into a checked-in `content/scripture.js`.** It links to block ids,
+  and block ids MOVE on every rebuild — that is why `content/verse-notes.js` keys on
+  chapter + citation instead. It is safe here *only* because the anchor and the link are
+  produced from the same array in the same pass. A generated file would go stale silently.
+- The two quotations in chapter V that carry no reference on purpose are correctly absent.
+- It is the one section that runs `grid-column: 1 / -1` for its body. Prose keeps its
+  measure in columns 3–9; an index is a lookup and wants columns.
+
+### The plates are responsive — `srcset` + AVIF
+
+Every plate used to go out at its full width to every device: a 402px phone
+downloaded a 1408px WebP and painted it at 402. **1.9 MB of art on a full read,
+`srcset` on zero of seventeen images.** `tools/make-derivatives.sh` cuts each plate
+to 640 / 940 / its own source width in AVIF and writes `content/derivatives.js`;
+`js/render.js` wraps every image in a `<picture>` with an AVIF `<source>`. Measured
+after: **a phone pulls ~292 KB instead of 1916 KB.**
+
+- 🛑 **The `<img src>` stays the original WebP.** It is the fallback for a browser
+  with no AVIF, and `js/ui.js`'s lightbox reads that attribute to show the picture
+  full size. Point it at a derivative and the lightbox shows a thumbnail.
+- 🛑 **The top tier is the SOURCE's own width, never a hard-coded 1408.** Two plates
+  are 1376 wide and one is 1536. Hard-coding 1408 would either upscale them or leave
+  a 1376 plate with no tier above 940, which makes *desktop* worse than before.
+- 🛑 **`sips` is the whole toolchain** — it reads WebP and writes AVIF, and ships with
+  macOS. `cwebp`, `avifenc` and ImageMagick are **not** on this machine.
+- The `sizes` attributes in `render.js` (`PLATE_SIZES`, `SLOT_SIZES`) are the widths
+  the CSS actually gives the figure. **Change the grid, change them.**
+
+**Replace a plate → re-run `make-derivatives.sh` AND `make-cards.sh`.**
 
 ### Sharing a chapter — the `/c/NN/` stubs
 
@@ -173,18 +283,109 @@ Phone play/pause race (iOS only honours `play()` inside its own gesture, so the
 one rail (position vs. chapter ticks — split) · pointer capture +
 `pointercancel` on seek drags · stale `loadedmetadata`/`error` listeners
 stacking across chapter loads · `--ink-faint` failed WCAG AA at 2.66:1 (ink
-tiers now 15.5:6.4:4.5) · Fraunces → Literata (§3) · `--player-h` = 134px/92px.
+tiers now 15.5:6.4:4.5) · Fraunces → Literata (§3) · `--player-h` = 134px/92px ·
+**the Listening Room painted itself cream** (`js/room.js` read the page's paper table
+— see §3) · **`opacity` on text is a colour nobody measured**: four separate AA
+failures found on 2026-08-29 by compositing rather than eyeballing —
+`.chapter-mark` at `.62` (2.58–2.95:1, all ten chapters), `.meta-time` at `.6`
+(4.31:1), `#follow-btn.is-suspended` at `.55` (3.69:1), `.sheet-note` at `.65`
+(2.91:1). All four now use `--ink-soft`/`--ink-faint`/`--accent`, which are measured
+against every paper stock · 113 verse notes were 113 `<aside>` **landmarks** flooding
+the screen-reader rotor (now `role="note"`) · `role="dialog"` on `<aside>` is not
+allowed by ARIA (the four sheets are `<div>` now) · **Follow had no sighted state at
+all** — `js/player.js` toggled `.is-active` and no stylesheet matched it ·
+**every phone paragraph in all ten chapters was set 28px narrow and no plate was
+full-bleed** — `.divider-beat`/`.divider-swell` were `grid-column: 3 / 9` with no mobile
+range (see the grid note in §3) · **Literata GREEK was never precached** — `l00` is
+greek-*ext*, so offline every Greek word broke across two faces mid-word ·
+**the reduced-motion rule for the plates had never applied** — it said `.reveal` (0,1,0)
+against `.plate.reveal` (0,2,0) and lost the cascade every time ·
+**every expanded thread note in *What Comes Back* was setting 88px wide** — two words to
+a line, thirteen times, in the section the book closes on. Chrome 131 wraps `<details>`
+content in a UA pseudo-element, **`::details-content`**, and *that* is the grid item, so
+`.thread-detail`'s `grid-column: 3 / 11` was resolving inside a plain block. 🛑 **A
+`<details>` that is a grid container must place `::details-content` too, and must never
+override its `content-visibility`** — the UA uses it to hide the closed state ·
+**five inline pictures announced themselves as figures** — `<figure tabindex="0"
+role="button">`, and `<figure>` has an implicit role that cannot be overridden, so the
+role was silently discarded (axe `aria-allowed-role`). Each is a real `<button>` wrapping
+the picture now, **not** the `<figcaption>`, and the synthetic Enter/Space handler in
+`js/ui.js` is gone because a button already fires click on both keys.
 
-## 6. Not done
+> 🛑 **"Zero automated violations" has a date on it.** Round eleven ran axe and reported
+> zero everywhere; a current axe found five the next day, on a page that had not changed,
+> because the rules moved. **Re-run it every round.** Current state: zero violations at
+> 402/900/1100/1440px with the Room, all four sheets, all thirteen threads and the
+> lightbox forced open — and the screen-reader claim on `/accessibility.html` is still
+> the honest one, because nothing here has been driven with one.
+
+## 6. Testing this site in a headless browser
+
+🛑 **Four traps, every one of which produced a wrong conclusion at least once on
+2026-08-29.** Read this before reporting anything visual as broken.
+
+1. **The headless viewport has a 500px floor.** `--window-size=402,844` renders the page
+   at **500px wide and crops it** — it does not narrow the layout. Measured:
+   `documentElement.clientWidth` returned 500 at requested widths of 402, 375 *and* 320.
+   **Phone testing must use a same-origin iframe sized in CSS pixels**, with the outer
+   window at 500 or more.
+2. **A first visit opens `#onboarding-modal` over everything**, so a screenshot of "the
+   site" is a screenshot of the modal. Set `localStorage['panim:onboarded'] = '1'` from a
+   script in `<head>`, before `js/ui.js` runs.
+3. **The chapters are rendered by `js/render.js` after load.** Waiting for any `[data-ch]`
+   matches the *static* hero and fires before the book exists. Wait for
+   `.section[data-ch="1"]`.
+4. **`--screenshot` races an `addEventListener('load')` handler**, but
+   `--virtual-time-budget` genuinely does advance timers — verified with a page that
+   repaints after 2s. Do the work on a short `setInterval` inside the harness.
+
+**Measuring, not eyeballing, is what found every fault in §5.** The three that a
+screenshot could never have shown:
+
+```js
+// which grid items overflow the six-column mobile grid (finds the 3/9-with-no-range bug)
+getComputedStyle(section).gridTemplateColumns.split(/\s+/).length   // must be 6 at ≤900px
+
+// which font subsets are actually reached (diff this against the precache list in sw.js)
+performance.getEntriesByType('resource').filter(r => /woff2/.test(r.name))
+
+// what a translucent ink really composites to — an opacity on text is an unmeasured colour
+```
+
+Reduced motion is checked with `--force-prefers-reduced-motion=reduce`, and an override
+must be written at the **specificity of the rule it overrides**.
+
+## 7. Not done
 
 `ch02-trees` is the wrong picture and it is chapter II's **opening** plate — a
-fantasy-art woodland with tulips, ferns and a figure in a leaf dress, which is the
-worst single frame on the site and the first plate after chapter I · **no
-`srcset`, no AVIF, no LQIP** — every plate is served at 1408px to every device,
-1.9 MB of art on a full read · source images are 1408px, plates want 2400px+
-(accepted for now — a plate is never asked to fill a wide screen at full
-bleed) · chapter titles need reconciling, site vs. manuscript vs. audio (§2) ·
-`hanging-punctuation` is Safari-only · `tools/validate.mjs` is referenced in
-older notes but doesn't exist — `check-coverage.py` and the builder's parity
-assertion are the checks now. Full detail, and what's blocked on the author vs.
-ready to build: the site handoff linked at the top of this file.
+fantasy-art woodland with tulips, ferns and a figure in a leaf dress, the worst single
+frame on the site and the first plate after chapter I · **no LQIP**, and no genuine 2×
+on a wide screen — source images are 1408px and plates want 2400px+ (the *delivery* half
+shipped 2026-08-29, §4) · **the dawn arc is still a hand-kept table in two files**, and
+that duplication has already cost one live bug (§3) · chapter titles need reconciling,
+site vs. manuscript vs. audio (§2) · **the player and the Listening Room have still never
+been driven with a screen reader** — automated checking is green, which is exactly why
+this is the only thing left that can find what is wrong · `hanging-punctuation` is
+Safari-only · `tools/validate.mjs` is referenced in older notes but doesn't exist —
+`check-coverage.py` and the builder's parity assertion are the checks now.
+
+**Newly measured 2026-08-29, and the biggest thing left that a reader would feel:**
+**chapter VI runs 47 paragraphs — 5,127px, about seven laptop screens — with no verse,
+picture, divider or break in any of them.** Every rhythm device the book owns stops at
+once. It is one editorial decision, not a code job · **chapters III and IV have no inline
+picture at all**, only their opening plate, then 143 and 84 paragraphs · **neither
+contents surface says how long a chapter is**, and chapter X is 40,677px against chapter
+IV's 15,459px — a 2.6× spread. The per-chapter running times are already in
+`content/audio-manifest.js`; this is the cheapest real improvement left.
+
+**Measured and NOT worth a round**, so nobody spends one: the whole site is **218 KB
+gzipped** including the complete text of the book (`content/chapters.js` is 93 KB of
+that — do **not** split it per chapter) · first contentful paint **76 ms**, DOM
+interactive **47 ms**, load complete **221 ms**, 6,085 nodes, cold cache, uncompressed
+HTTP · the seek-bar chapter marks look 9×16px and carry a 44px invisible `::before`,
+so they already pass.
+
+All five design calls are answered and archived
+(`panim-book/handoffs/archive/decisions-2026-08-29-design-answered-2026-08-29.md`); four
+are built and in v35. What's blocked on the author vs. ready to build: the site handoff
+linked at the top of this file, and `next-steps-2026-09-01-round-twelve.md` §9–10.

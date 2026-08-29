@@ -41,6 +41,21 @@
         '<span class="ntr-dur">' + mins + '</span>' +
       '</a>';
     }).join('');
+
+    // The back of the book, from the SAME list the contents section uses
+    // (js/render.js BACK_MATTER, handed over on PANIM_RENDERED). Before this the
+    // panel stopped at chapter X and the three apparatus sections had no way in.
+    var back = (window.PANIM_RENDERED && window.PANIM_RENDERED.backMatter) || [];
+    if (back.length) {
+      host.innerHTML += '<span class="ntr-sep" aria-hidden="true"></span>' +
+        back.map(function (b) {
+          return '<a class="ntr ntr-back" href="#' + b.id + '">' +
+            '<span class="ntr-num" aria-hidden="true">&middot;</span>' +
+            '<span class="ntr-title">' + b.title + '</span>' +
+            '<span class="ntr-dur">' + (b.count || '') + '</span>' +
+          '</a>';
+        }).join('');
+    }
   }
 
   function navTocOpen() { return document.body.classList.contains('nav-toc-open'); }
@@ -284,11 +299,10 @@
       var slot = e.target.closest && e.target.closest('.img-slot.is-filled');
       if (slot) open(slot);
     });
-    document.addEventListener('keydown', function (e) {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      var slot = e.target.closest && e.target.closest('.img-slot.is-filled');
-      if (slot) { e.preventDefault(); open(slot); }
-    });
+    // THE ENTER/SPACE HANDLER IS GONE, 2026-08-29. The slot is a real <button>
+    // now (js/render.js — role="button" on a <figure> is not allowed by ARIA), and
+    // a button already fires click on both keys. Keeping this would have opened the
+    // lightbox twice on Enter and fought the browser's own Space behaviour.
     $('#lightbox-close').addEventListener('click', close);
     box.addEventListener('click', function (e) { if (e.target === box) close(); });
     document.addEventListener('keydown', function (e) {

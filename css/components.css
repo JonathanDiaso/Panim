@@ -39,6 +39,46 @@
 }
 .btn-icon:hover, .btn-icon:focus-visible { background: none; color: var(--ink); }
 
+/* ============================================================================
+   THE TRANSPORT BUTTON — one component, two sizes
+   The player bar's play button and the Listening Room's were two separate builds
+   of the same object: two circles, two borders, two icon-swap rules, two focus
+   treatments, one 46px and one 74px. They already shared their SVG paths and their
+   `.is-playing` class switch (2026-08-28); this makes them share everything else.
+   An instance changes --transport-size and --transport-glyph and nothing else.
+   ============================================================================ */
+.transport-play {
+  --transport-size: 46px;
+  --transport-glyph: 21px;
+  width: var(--transport-size); height: var(--transport-size);
+  min-width: var(--transport-size); min-height: var(--transport-size);
+  padding: 0;
+  display: grid; place-items: center;
+  border: 1px solid var(--ink); border-radius: 50%;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease),
+              color var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease),
+              transform 80ms var(--ease);
+}
+.transport-play svg {
+  width: var(--transport-glyph); height: var(--transport-glyph);
+  fill: currentColor; display: block;
+}
+/* the state switch is a class, not textContent: the button holds both glyphs and
+   shows one. js/player.js reflectPlaying and js/room.js both toggle .is-playing. */
+.transport-play .ico-pause { display: none; }
+.transport-play.is-playing .ico-pause { display: block; }
+.transport-play.is-playing .ico-play { display: none; }
+/* the same inversion every other control on the site uses. In the Room --ink and
+   --paper are swapped by the token block in room.css, so the gesture is identical
+   and the result is correctly the other way round. */
+.transport-play:hover, .transport-play:focus-visible { background: var(--ink); color: var(--paper); }
+.transport-play:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.transport-play:active { transform: scale(.96); }
+
 /* the one emphatic action on the page */
 .btn-solid { border-color: var(--ink); background: var(--ink); color: var(--paper); }
 .btn-solid:hover, .btn-solid:focus-visible { background: var(--accent); border-color: var(--accent); color: #fff; }
@@ -163,6 +203,22 @@
   font-size: clamp(1.05rem, 1.5vw, 1.28rem);
   margin: 1.1rem 0 0; max-width: 48ch;
 }
+/* THE PULL LINE. It came off the onboarding modal on 2026-08-29 (decision D2-C),
+   where it was the best sentence on the jacket and was sitting behind a dismiss
+   button. It is set a step up from the subtitle and a step down from the title:
+   the subtitle states the thesis, this one makes the promise. Rule above, because
+   it is a change of voice and the book marks those with a rule everywhere else. */
+.hero-pull {
+  grid-column: 3 / 9;
+  font-variation-settings: var(--lit-mid);
+  font-weight: 350;
+  font-size: clamp(1.14rem, 1.75vw, 1.46rem);
+  line-height: 1.44; letter-spacing: -.01em;
+  color: var(--ink);
+  max-width: 40ch;
+  margin: 1.5rem 0 0; padding-top: 1.3rem;
+  border-top: 1px solid var(--rule);
+}
 .hero-meta {
   grid-column: 10 / 13;
   font-family: var(--ui); font-size: var(--ap-md); letter-spacing: .1em;
@@ -183,7 +239,7 @@
   @supports not (grid-template-columns: subgrid) {
     .hero-block { grid-template-columns: repeat(6, 1fr); }
   }
-  .hero-hebrew, .hero-title, .hero-subtitle, .hero-meta, .hero-actions { grid-column: 1 / 7; }
+  .hero-hebrew, .hero-title, .hero-subtitle, .hero-pull, .hero-meta, .hero-actions { grid-column: 1 / 7; }
   .hero-hebrew { padding-top: 0; margin-bottom: .4rem; }
   .hero-meta { margin-top: 1.4rem; }
 }
@@ -259,13 +315,23 @@
   font-size: clamp(1.45rem, 2.5vw, 2.35rem);
   line-height: 1.12;
   color: var(--accent);
-  opacity: .62;
   margin-top: .55em;
   user-select: none;
   cursor: help;
-  transition: opacity var(--dur-fast) var(--ease);
+  transition: color var(--dur-fast) var(--ease);
 }
-.chapter-mark:hover, .chapter-mark:focus-visible { opacity: 1; }
+/* 🛑 THE OPACITY IS GONE, 2026-08-29, AND IT WAS AN AA FAILURE IN ALL TEN CHAPTERS.
+   This was `opacity: .62` (.7 on phones) over `color: var(--accent)`, and the round
+   seven audit measured the accent — which passes everywhere — without compositing the
+   opacity over the paper underneath it. Measured across all eleven paper stocks the
+   composite lands between 2.58:1 and 2.95:1 against a 4.5:1 requirement, and this is
+   TEXT: the comment above this block says so itself ("It is content now: the word each
+   chapter turns on"). Nothing passed. The opacity that would have passed every stock is
+   .92, which is not a fade, so the fade goes and the accent stands at full strength —
+   5.19:1 at the worst stock (ch VIII) and 7.07:1 at the best.
+   The hover affordance survives and is now the site's own idiom rather than a private
+   one: quiet in the accent, ink on hover, exactly like .btn-icon and .nav-chapters a. */
+.chapter-mark:hover, .chapter-mark:focus-visible { color: var(--ink); }
 .chapter-mark:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 /* Greek is left-to-right and is set in the book serif, not the Hebrew face */
 .chapter-mark.is-greek {
@@ -285,7 +351,7 @@
 /* It used to be hidden on phones because it was ornament. It is content now:
    the word each chapter turns on. Kept, smaller, above the title. */
 @media (max-width: 900px) {
-  .chapter-mark { font-size: 1.3rem; opacity: .7; margin-top: .25em; }
+  .chapter-mark { font-size: 1.3rem; margin-top: .25em; }   /* the .7 went with the .62 above */
   .chapter-mark.is-greek { font-size: 1.05rem; }
 }
 
@@ -341,15 +407,56 @@
   text-align: right;
   margin-top: 0;
 }
-.verse-ref .verse-translation { display: block; margin-left: 0; color: var(--ink-faint); font-weight: 400; }
-/* the prayer zone, and every viewport too narrow for a margin, keep it underneath */
+/* THE CITATION SET AS A CITATION, 2026-08-29.
+   It was one tracked-uppercase run, name and number together, and the tracking
+   that makes SONG OF SONGS read as a running head put a gap between the 2 and the
+   colon in 2:14. It is two spans now, in two voices, on two lines: the book name
+   tracked and in the accent, the location under it in tabular lining figures with
+   no tracking at all, and a hairline between them that sits on the verse's own
+   left rule so the apparatus and the quotation share one horizon.
+   The rule is 1px of --rule-strong, which is the only rule weight in the book. */
+.verse-ref-text { display: block; }
+.vr-book {
+  display: block;
+  font-size: var(--ap-sm);
+  letter-spacing: .13em;
+  line-height: 1.3;
+}
+.vr-loc {
+  display: block;
+  margin-top: .42em; padding-top: .42em;
+  border-top: 1px solid var(--rule-strong);
+  font-size: var(--ap-md);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-weight: 400; letter-spacing: 0; text-transform: none;
+  color: var(--ink-soft);
+}
+.verse-ref .verse-translation { display: block; margin-top: .5em; margin-left: 0; color: var(--ink-faint); font-weight: 400; font-size: var(--ap-sm); }
+/* the prayer zone, and every viewport too narrow for a margin, keep it underneath —
+   and underneath, a stacked two-line citation with a rule through it is apparatus
+   where a single line is wanted, so it collapses back to one run. */
 .prayer-zone .verse-ref,
 .section[data-ch="10"] .prayer-zone .verse-ref {
   position: static; width: auto; text-align: left; margin-top: 1.1em;
 }
-@media (max-width: 1100px) {
+.prayer-zone .verse-ref .vr-book,
+.prayer-zone .verse-ref .vr-loc { display: inline; }
+.prayer-zone .verse-ref .vr-loc {
+  margin: 0 0 0 .5em; padding: 0; border-top: 0; font-size: var(--ap-sm);
+}
+/* 🛑 1099.98, NOT 1100. The apparatus block below opens at min-width:1100 and this
+   one used to close at max-width:1100, so at EXACTLY 1100px both applied: the box
+   was a grid and the citation was static, which dropped a static .verse-ref into
+   the same grid cell as the quotation it names and set the two on top of each
+   other. Caught at 1100px in the browser, not by reading. Any pair of blocks that
+   share a breakpoint needs the sub-pixel on the max-width side. */
+@media (max-width: 1099.98px) {
   .verse-ref { position: static; width: auto; text-align: left; margin-top: 1.1em; }
-  .verse-ref .verse-translation { display: inline; margin-left: .6em; }
+  .verse-ref .verse-translation { display: inline; margin-top: 0; margin-left: .6em; }
+  .verse-ref .vr-book, .verse-ref .vr-loc { display: inline; }
+  .verse-ref .vr-loc {
+    margin: 0 0 0 .5em; padding: 0; border-top: 0; font-size: var(--ap-sm);
+  }
 }
 .verse-quotemark { display: none; }   /* removed: decoration pretending to be typography */
 
@@ -367,8 +474,14 @@
    separates it from the verse above is SIZE, MEASURE and INK, which is how a set
    book separates a footnote from its text.
 
-   <aside> rather than <div>: a screen reader gets a complementary landmark it can
-   skip, which matters when there are a hundred and thirteen of them.
+   🛑 role="note" ON A DIV, NOT <aside>. It WAS an <aside>, and the reasoning written
+   here was that a screen reader gets a complementary landmark it can skip — which
+   matters when there are a hundred and thirteen of them. That is backwards, and axe
+   caught it (landmark-complementary-is-top-level, 2026-08-29): a landmark is not
+   skipped one at a time, it is listed, so 113 of them turn the rotor into a wall of
+   identical "complementary" entries and bury the six landmarks that mean something.
+   role="note" is the ancillary-content role, announces the apparatus as a note, and
+   adds no landmark at all. Do not put <aside> back.
    --------------------------------------------------------------------------- */
 .verse-note {
   margin: 1.15em 0 0;
@@ -437,6 +550,90 @@
 
 @media (max-width: 900px) { .verse-box { grid-column: 1 / 7; } }
 
+/* ---------------------------------------------------------------------------
+   THE APPARATUS COLUMN — the note moves beside the verse, ≥1100px
+   DECISION D1-B, 2026-08-29. The note was a block BETWEEN the quotation and the
+   sentence that answers it: eight lines and ~210px of philology standing in the
+   path of the prose. Measured at 1440px, columns 10–12 were empty for the entire
+   book — 507px of every screen, all 1911 text elements set in columns 3–9 — while
+   the citation was already hung out in the LEFT margin. The page was half doing
+   this already.
+   It reads as a printed critical edition now: citation in the left margin,
+   quotation in the measure, apparatus in the right margin, and the prose resumes
+   immediately instead of over the top of a footnote. The editorial call underneath
+   it is that a verse note is AVAILABLE reading, not REQUIRED reading — the author's
+   answer on the sheet. Put it back under the verse only if that answer changes.
+
+   🛑 THE RULE MOVED OFF THE BOX AND ONTO THE QUOTATION. The row is as tall as the
+   taller of its two columns, so with border-left on .verse-box a one-line verse
+   with a full note got a 100px accent rule with nothing beside it — "Jesus wept."
+   is the worst case in the book. On .verse-text the rule measures the quote, which
+   is the thing it is marking. Do not move it back to the box.
+
+   Phones and tablets below 1100px keep exactly what they had: note under verse,
+   citation under note. There is no margin down there to move anything into, and
+   1100px is the same breakpoint the citation already uses to leave the margin.
+   --------------------------------------------------------------------------- */
+@media (min-width: 1100px) {
+  .verse-box {
+    /* 3 / 13 spans the reading measure AND the aside column (.col-aside is 10/13),
+       and subgrid re-inherits the page's own tracks so nothing is re-derived. */
+    grid-column: 3 / 13;
+    display: grid;
+    grid-template-columns: subgrid;
+    column-gap: var(--step);
+    align-items: start;
+    border-left: 0;
+    padding-left: 0;
+  }
+  /* subgrid line 1 is page line 3, so 1/7 is the reading measure and 8/11 is
+     page columns 10–12 — the aside column, unchanged. */
+  .verse-box > .verse-text {
+    grid-column: 1 / 7;
+    grid-row: 1;
+    padding-left: clamp(1rem, 1.6vw, 1.6rem);
+    border-left: 2px solid var(--accent);
+    transition: border-color var(--dur-med) var(--ease);
+  }
+  /* absolutely positioned, so its grid placement only sets the box it hangs off:
+     one step left of the reading measure, which is where it already hung. */
+  .verse-box > .verse-ref { grid-column: 1 / 7; grid-row: 1; }
+  .verse-box > .verse-note {
+    grid-column: 8 / 11;
+    grid-row: 1;
+    margin: 0;
+    padding-top: .3em;
+    border-top: 0;
+    max-width: none;
+    /* --ap-lg, NOT --ap-md. css/site.css's own scale says --ap-md is for captions
+       and running times and that "anything carrying a sentence takes --ap-md or
+       --ap-lg"; a verse note is two sentences of the author's prose. It went to
+       --ap-md on the first pass of this block purely because the column is narrow,
+       which is the wrong reason to drop a step. The column is 313px at 1440px and
+       carries 13px at 1.66 comfortably. */
+    font-size: var(--ap-lg);
+    line-height: 1.66;
+  }
+  /* the narration state follows the rule wherever the rule is */
+  .verse-box.is-live { border-left-color: transparent; }
+  .verse-box.is-live > .verse-text { border-left-color: var(--ink); }
+  /* the prayer takes no notes and wants none of this: chapter X cites after almost
+     every line, and a ten-track row per citation would set the prayer as a table. */
+  .prayer-zone .verse-box {
+    grid-column: 3 / 9;
+    display: block;
+    padding-left: clamp(1rem, 1.6vw, 1.6rem);
+    border-left: 2px solid var(--accent);
+  }
+  .prayer-zone .verse-box > .verse-text { padding-left: 0; border-left: 0; }
+  .prayer-zone .verse-box.is-live { border-left-color: var(--ink); }
+}
+@supports not (grid-template-columns: subgrid) {
+  @media (min-width: 1100px) {
+    .verse-box { grid-template-columns: repeat(10, 1fr); }
+  }
+}
+
 /* ============================================================================
    PLATES AND FIGURES
    Two kinds. A full-bleed plate breaks the grid entirely and carries its caption
@@ -460,7 +657,9 @@
   .plate-frame { height: auto; aspect-ratio: 4 / 3; }
   .hero-plate img { height: auto; aspect-ratio: 4 / 3; }
 }
-.plate-frame > img {
+/* descendant, not child: the image sits inside a <picture> since 2026-08-29 (AVIF
+   srcset), so `.plate-frame > img` stopped matching and the plates lost their crop. */
+.plate-frame img {
   width: 100%; height: 100%; object-fit: cover;
   /* the base scale lives here, not only in js/motion.js. Without it a plate that
      has not yet been on screen sits at scale(1) and visibly snaps to 1.07 the
@@ -489,7 +688,15 @@
 
 /* inline figure inside the reading flow */
 .img-slot { grid-column: 3 / 9; margin: 2rem 0; position: relative; }
-.img-slot.is-filled { cursor: zoom-in; }
+/* the control is the picture, and it is a real <button> — it must not look like
+   one. Everything a UA gives a button is stripped; the focus ring is the site's. */
+.slot-open {
+  display: block; width: 100%;
+  padding: 0; margin: 0; border: 0; background: none;
+  font: inherit; color: inherit; text-align: inherit;
+  cursor: zoom-in;
+}
+.slot-open:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .img-slot img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
 .img-slot figcaption {
   font-family: var(--ui); font-size: var(--ap-md); line-height: 1.6;
@@ -515,6 +722,120 @@
 }
 @media (max-width: 900px) { .aside-note { grid-column: 1 / 7; } }
 
+/* the back of the book, in both contents surfaces. It is set quieter than a chapter
+   because it is apparatus, not narrative — a reader scanning for chapter VII should
+   not have to step over three rows that look like chapters. */
+.toc-row.toc-back .toc-num { color: var(--ink-faint); font-size: .9em; }
+.toc-row.toc-back .toc-title { font-style: italic; }
+.toc-row.toc-back .toc-dur { font-variant-numeric: normal; }
+.ntr-sep {
+  display: block; height: 1px; margin: .6rem 0;
+  background: var(--rule-strong);
+}
+.ntr.ntr-back .ntr-title { font-style: italic; color: var(--ink-soft); }
+.ntr.ntr-back:hover .ntr-title, .ntr.ntr-back:focus-visible .ntr-title { color: var(--accent); }
+.ntr.ntr-back .ntr-num { color: var(--ink-faint); }
+
+/* ============================================================================
+   THE INDEX OF SCRIPTURE
+   Built at render time from content/chapters.js (js/render.js renderScripture).
+
+   THIS IS THE ONE PLACE THE PAGE USES ITS OWN WIDTH. Measured 2026-08-29: at
+   1440px the book set every one of its 1911 text elements in columns 3–9 and left
+   columns 1–2 and 10–12 completely empty — 507px of the page, on every screen, for
+   the whole book. That is right for prose, because a measure is a measure. It is
+   wrong for an index: an index is a lookup, it is read by scanning and not by the
+   line, and the one thing it wants is columns. So this section runs 1 / -1 and lets
+   the entries pack into as many columns as the screen can hold.
+   ============================================================================ */
+.si-head {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: subgrid;
+  padding-bottom: clamp(1.6rem, 3vw, 2.6rem);
+  border-bottom: 1px solid var(--rule-strong);
+}
+@supports not (grid-template-columns: subgrid) {
+  .si-head { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
+}
+.si-head .chapter-num { grid-column: 1 / 3; padding-top: .55em; }
+.si-standfirst { grid-column: 3 / 10; }
+.si-standfirst h2 {
+  font-variation-settings: var(--lit-mid);
+  font-weight: 350; font-size: clamp(1.5rem, 3vw, 2.1rem);
+  line-height: 1.12; letter-spacing: -.016em; margin: 0 0 .6em;
+}
+.si-standfirst p {
+  font-style: italic; color: var(--ink-soft);
+  font-size: 1rem; line-height: 1.55; max-width: 52ch; margin: 0;
+}
+@media (max-width: 900px) {
+  .si-head .chapter-num { grid-column: 1 / 7; }
+  .si-standfirst { grid-column: 1 / 7; }
+}
+
+/* columns rather than a breakpoint per case, the same reasoning as .lex-plates:
+   the content decides how many columns fit. A book never breaks across columns. */
+.si-books {
+  grid-column: 1 / -1;
+  margin-top: clamp(1.8rem, 3vw, 2.8rem);
+  columns: 4 15rem;
+  column-gap: clamp(1.6rem, 3vw, 3rem);
+}
+.si-book { break-inside: avoid; margin: 0 0 1.6rem; }
+.si-book-name {
+  font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 .5em; padding-bottom: .35em;
+  border-bottom: 1px solid var(--rule-strong);
+}
+.si-list { list-style: none; margin: 0; padding: 0; }
+.si-cite { margin: 0; }
+/* the reference on the left, the chapter numeral hard right, and a rule between —
+   which is what the page number does in the index of a printed book, and the reason
+   the row is worth the full column width instead of hugging its text. */
+.si-cite a {
+  display: flex; align-items: baseline; gap: .5em;
+  min-height: 32px; padding: .18em 0;
+  color: var(--ink-soft); text-decoration: none;
+  transition: color var(--dur-fast) var(--ease);
+}
+.si-ref {
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: .92rem; line-height: 1.35;
+}
+/* the leader: the dotted run a printed index uses to carry the eye to the number */
+.si-cite a::after {
+  content: ''; flex: 1 1 auto; align-self: center;
+  height: 1px; min-width: .8em;
+  background: repeating-linear-gradient(to right,
+    var(--rule-strong) 0 1px, transparent 1px 4px);
+  opacity: .7;
+}
+.si-ch {
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-size: .78rem; letter-spacing: .04em;
+  color: var(--ink-faint);
+  flex: 0 0 auto;
+  /* the leader is a ::after and is therefore the LAST flex item by default, which put
+     the dots after the numeral instead of between it and the reference. One step of
+     order puts the numeral last, where a page number goes. */
+  order: 1;
+}
+.si-cite a:hover, .si-cite a:focus-visible { color: var(--ink); }
+.si-cite a:hover .si-ch, .si-cite a:focus-visible .si-ch { color: var(--accent); }
+.si-cite a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* a citation is a 32px row, under the 44px target minimum, and it is deliberate:
+   WCAG 2.2 SC 2.5.8 exempts targets in a sentence or a dense list of links where
+   spacing them out would change the meaning of the list. An index IS that list.
+   The offset spacing below keeps adjacent rows from being mis-tapped. */
+.si-cite + .si-cite { border-top: 1px solid color-mix(in srgb, var(--rule) 60%, transparent); }
+@media (max-width: 640px) {
+  .si-books { columns: 1; }
+  .si-cite a { min-height: 44px; }   /* one column, so there is room to be generous */
+}
+
 /* ============================================================================
    LIGHTBOX
    ============================================================================ */
@@ -538,7 +859,10 @@
   border-left: 1px solid var(--rule-strong);
   transition: transform var(--dur-med) var(--ease);
   box-shadow: -24px 0 60px -30px rgba(0,0,0,.35);
-  /* NOTE: .sheet here is the slide-over panel (index.html <aside class="sheet">).
+  /* NOTE: .sheet here is the slide-over panel (index.html <div class="sheet"
+     role="dialog">). It was an <aside> until 2026-08-29: ARIA does not allow
+     role="dialog" on <aside>, whose complementary role is not overridable, so a
+     screen reader could announce a modal as a complementary landmark instead.
      site.css uses .sheet for the page grid; these never appear on the same
      element, but keep that in mind before adding a bare .sheet rule anywhere. */
   display: block;
@@ -698,24 +1022,42 @@
   width: calc((var(--to) - var(--from)) / 9 * 100%);
   background: var(--accent);
 }
-/* The numerals name what the rail shapes. They sit UNDER the rail on their own
-   line rather than under their own ticks: hung from the ticks they collided
-   outright whenever a thread ran between neighbouring chapters — VII → VIII set
-   as VIIVIII — and there is no positioning rule that fixes that for a scale this
-   narrow. Here the rail carries the distance and this carries the names. */
+/* The numerals name what the rail shapes, and they name it from the FAR END of the
+   row — decision D4-B, 2026-08-29. Hung from their own ticks they collided outright
+   on neighbouring chapters (VII → VIII set as VIIVIII); stacked under the rail they
+   left the row's other 900px empty. Hard right they cannot collide with ticks they
+   are no longer under, and the row reads the way an index reads: name, leader, span.
+   .si-cite in the Index of Scripture is the same three parts in the same order — the
+   leader below is that leader, and the two sections are deliberately one language. */
 .thr-legend {
-  display: block; margin-top: .45em;
+  flex: 0 0 auto;
   font-family: var(--serif); font-variation-settings: var(--lit-normal);
-  font-size: var(--ap-sm); font-weight: 600;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-size: var(--ap-md); font-weight: 600;
   letter-spacing: .12em; line-height: 1;
   color: var(--accent);
+  white-space: nowrap;
 }
 .thr-legend .thr-to {
   font-style: normal; color: var(--ink-faint);
   margin: 0 .45em; letter-spacing: 0;
 }
+/* the dotted run that carries the eye from the thread's name to its span. Identical
+   in build to .si-cite a::after; it is an element rather than a pseudo because the
+   +/− already owns .thread-name::after. */
+.thread-leader {
+  flex: 1 1 auto; align-self: center;
+  min-width: 1.2em; height: 1px;
+  background: repeating-linear-gradient(to right,
+    var(--rule-strong) 0 1px, transparent 1px 4px);
+  opacity: .7;
+}
 
-.thread-head-body { grid-column: 3 / 11; }
+/* the row's full remaining width, not a third of it: name left, leader, span right */
+.thread-head-body {
+  grid-column: 3 / 13;
+  display: flex; align-items: baseline; gap: .75em;
+}
 .thread-name {
   font-variation-settings: var(--lit-mid);
   font-weight: 400; font-size: clamp(1.15rem, 2vw, 1.45rem);
@@ -731,6 +1073,27 @@
 .thread-item[open] .thread-name::after { content: '\2212'; }   /* − */
 .thread-summary:hover .thread-name, .thread-summary:focus-visible .thread-name { color: var(--accent); }
 
+/* 🛑 ::details-content, ADDED 2026-08-29. Chrome 131 gave <details> a UA wrapper
+   pseudo around its open content, and Chrome is what this was measured in. That
+   wrapper — not .thread-detail — is the grid item, so .thread-detail's
+   `grid-column: 3 / 11` was being resolved inside a plain block and the thread
+   notes were setting in an 88px ribbon, two words to a line, in the section the
+   book closes with. Measured at 1440px: 88px where 745 was intended.
+   The pseudo re-inherits the tracks and hands them down, so .thread-detail's own
+   placement below is the rule that runs again. Nothing sets content-visibility
+   here: the UA uses it to hide the closed state and overriding it would open every
+   thread at once. Engines without the pseudo simply never match this rule and
+   .thread-detail is the grid item directly, which is the old behaviour intact. */
+.thread-item::details-content {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+@supports not (grid-template-columns: subgrid) {
+  .thread-item::details-content {
+    grid-template-columns: repeat(12, 1fr); column-gap: var(--step);
+  }
+}
 .thread-detail {
   grid-column: 3 / 11;
   padding-bottom: clamp(1.2rem, 2.6vw, 1.8rem);
@@ -773,7 +1136,16 @@
   .thread-item, .thread-summary { grid-template-columns: repeat(6, 1fr); }
   .thread-span { grid-column: 1 / 7; padding-top: 0; margin-bottom: .7rem; }
   .thread-rail { max-width: 220px; }
+  .thread-item::details-content { grid-template-columns: subgrid; }
+  @supports not (grid-template-columns: subgrid) {
+    .thread-item::details-content { grid-template-columns: repeat(6, 1fr); }
+  }
   .thread-head-body, .thread-detail { grid-column: 1 / 7; }
+  /* on a phone the row is 362px wide and a leader between a wrapping title and the
+     span is two dots; the span drops to its own line under the name instead. */
+  .thread-head-body { flex-wrap: wrap; gap: .5em .75em; }
+  .thread-leader { display: none; }
+  .thr-legend { flex-basis: 100%; }
 }
 
 .modal {
@@ -1051,32 +1423,31 @@
 }
 
 /* ============================================================================
-   THE INVITATION  (onboarding modal)
-   Not a settings dialog. A jacket: what this is, why it's worth an evening, and
-   the book quoted in its own words. Keyboard shortcuts demoted to one line.
+   THE INVITATION  (onboarding modal) — a doorway, not a second jacket
+   REBUILT 2026-08-29, decision D2-C. It carried a Hebrew mark, a headline and a
+   thesis paragraph, and the hero underneath carried the same three in the same
+   order. Everything the hero already says is gone; what is left is the epigraph
+   the book answers, one line saying what this thing is, the running time and the
+   two doors. Four elements, one screen, on a phone as well as a laptop.
+   🛑 .invite-mark, .modal-invite h2, .invite-pull and .invite-keys were deleted
+   with the markup that used them. The pull line is .hero-pull now; the keys are
+   the About sheet's .about-keys. Do not restore these rules without their markup.
    ============================================================================ */
 .modal-invite {
-  max-width: 620px;
+  max-width: 560px;
   padding: clamp(1.8rem, 3.4vw, 3rem) clamp(1.6rem, 3vw, 2.8rem) clamp(1.4rem, 2.4vw, 2rem);
   max-height: 92vh; overflow-y: auto;
 }
-.invite-mark {
-  /* dir="rtl" right-aligns the block, which left the mark stranded away from the
-     left-aligned card. Glyph order still comes from dir; only the box is realigned. */
-  text-align: left;
-  font-family: var(--heb); font-weight: 400;
-  font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1;
-  color: var(--accent); opacity: .85;
-  margin-bottom: 1.4rem;
-}
+/* The epigraph leads, and with the mark and the headline gone it is now the first
+   thing in the book a reader reads. Set one step larger than it was for that. */
 .invite-epigraph {
   border-left: 2px solid var(--accent);
-  padding-left: 1.1rem; margin: 0 0 1.6rem;
+  padding-left: 1.1rem; margin: 0 0 1.5rem;
 }
 .invite-epigraph p {
   font-variation-settings: var(--lit-mid);
-  font-weight: 300; font-size: 1.3rem; line-height: 1.34;
-  letter-spacing: -.012em; color: var(--ink); margin: 0 0 .5em;
+  font-weight: 300; font-size: clamp(1.32rem, 3vw, 1.56rem); line-height: 1.3;
+  letter-spacing: -.014em; color: var(--ink); margin: 0 0 .55em;
 }
 .invite-epigraph cite {
   font-family: var(--serif); font-style: normal;
@@ -1084,37 +1455,28 @@
   font-size: var(--ap-md); font-weight: 500; letter-spacing: .14em;
   text-transform: uppercase; color: var(--accent);
 }
-.modal-invite h2 {
-  font-variation-settings: var(--lit-display);
-  font-weight: 300; font-size: clamp(1.7rem, 3.4vw, 2.4rem);
-  line-height: 1.06; letter-spacing: -.018em;
-  margin-bottom: .8em;
+/* The one sentence the hero does not say: what the thing IS, not what it is about. */
+.invite-lede {
+  font-size: 1.02rem; line-height: 1.6; margin: 0;
+  color: var(--ink-soft);
 }
-.modal-invite p { font-size: .98rem; line-height: 1.62; margin-bottom: .95em; color: var(--ink-soft); }
-.modal-invite p em { font-style: italic; color: var(--ink); }
-.invite-pull {
-  color: var(--ink) !important;
-  font-size: 1.06rem !important;
-  border-top: 1px solid var(--rule);
-  padding-top: 1.1em; margin-top: 1.3em;
-}
+.invite-lede em { font-style: italic; color: var(--ink); }
 .invite-actions { display: flex; gap: .7rem; flex-wrap: wrap; margin: 1.6rem 0 1.2rem; }
 .invite-meta {
-  font-family: var(--ui) !important;
-  font-size: var(--ap-md) !important; line-height: 1.9 !important;
-  letter-spacing: .04em; color: var(--ink-faint) !important;
-  border-top: 1px solid var(--rule); padding-top: .9em; margin: 0 !important;
+  font-family: var(--ui);
+  font-size: var(--ap-md); line-height: 1.9;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint);
+  border-top: 1px solid var(--rule); padding-top: .9em; margin: 0;
   font-variant-numeric: lining-nums tabular-nums;
-}
-.invite-keys { display: block; margin-top: .2em; }
-.invite-keys kbd {
-  font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
-  border: 1px solid var(--rule-strong); color: var(--ink-soft);
-  padding: .15em .4em; margin-right: .15em; letter-spacing: .04em;
 }
 @media (max-width: 560px) {
   .invite-actions .btn { flex: 1 1 100%; }
 }
+
+/* The keys, on the About sheet. .legend does the work; this only stops a five-item
+   list of shortcuts from reading as heavily as the two paragraphs above it. */
+.about-keys { margin-bottom: 1.6em; }
+.about-keys li { font-size: .88rem; }
 
 /* the inline slot's reference — same idea as .plate-ref, one step quieter because
    an inline figure is not a plate and should not shout the way a frontispiece does. */

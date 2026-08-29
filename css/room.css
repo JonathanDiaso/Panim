@@ -15,9 +15,36 @@
      rendered stacked. It now sits above them, but below the sheets (960) which are
      opened FROM the room and must appear over it. */
   position: fixed; inset: 0; z-index: 920;
-  --room-bg: #0C0B0A; --room-accent: #C98A4B;
-  background: var(--room-bg);
-  color: #f0edf4;
+
+  /* ---- THE ROOM IS A PAPER STOP, NOT A SECOND THEME (cohesion pass, 2026-08-29) ----
+     This block used to declare two private tokens (--room-bg, --room-accent) and then
+     REPAINT the shared components underneath it — `#room .btn`, `#room .btn-icon`, and
+     a colour re-statement for every piece of room type — because --ink-soft and friends
+     are paper values and resolved to dark grey on near-black.
+     The page already re-declares --paper/--ink/--accent per chapter (the dawn arc,
+     .section[data-ch] in site.css). The Room is simply the darkest stop on that arc, so
+     it declares the same seven tokens and inherits every component unchanged. Roughly
+     forty lines of override deleted with this; nothing here restyles a .btn any more. */
+  --paper: #0C0B0A;
+  --ink: #EFEAE1;
+  /* Brighter than the page's soft ink, and the reason is the idle dim below: .btn-icon
+     takes --ink-soft, and #room[data-idle] fades the controls to .45, which composites.
+     #A9A196 (what this used to be) lands at 2.39:1 once dimmed — under the 3:1 floor for
+     a control. #CBC4B9 is 11.36:1 at rest and 3.06:1 dimmed. Measured, not chosen. */
+  --ink-soft: #CBC4B9;
+  --ink-faint: #A9A196;
+  --accent: #C98A4B;
+  --rule-strong: rgba(239, 234, 225, .22);
+  --control-edge: rgba(239, 234, 225, .46);   /* 4.09:1 on room paper; the floor is 3:1 */
+  --control-wash: rgba(239, 234, 225, .05);
+
+  /* 🛑 THERE ARE NO --room-* TOKENS ANY MORE. There used to be three, and js/room.js
+     overwrote two of them inline on every tick from the page's PAPER table, which is
+     how the Room came to paint itself cream (see the long note in js/room.js). One
+     name per thing: the Room's colours are --paper / --ink / --accent, above. */
+
+  background: var(--paper);
+  color: var(--ink);
   opacity: 0; transition: opacity var(--dur-med) var(--ease);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
@@ -60,7 +87,7 @@ body.room-open .player { opacity: 0; pointer-events: none; }
   position: absolute; inset: 0;
   background:
     radial-gradient(120% 90% at 50% 110%,
-      color-mix(in srgb, var(--room-accent) 16%, transparent) 0%, transparent 60%),
+      color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 60%),
     /* a soft pool of dark directly behind the control stack, so the transport always
        has something to sit on whatever the photograph is doing underneath */
     radial-gradient(46% 42% at 50% 50%, rgba(0,0,0,.72) 0%, rgba(0,0,0,.34) 60%, transparent 100%),
@@ -75,7 +102,7 @@ body.room-open .player { opacity: 0; pointer-events: none; }
   position: absolute; top: max(1.2rem, env(safe-area-inset-top)); left: 1.2rem; z-index: 2;
   display: flex; align-items: center; gap: .5em;
   font-family: var(--ui); font-size: var(--ap-md); letter-spacing: .15em;
-  color: color-mix(in srgb, var(--room-accent) 80%, white);
+  color: color-mix(in srgb, var(--accent) 80%, white);
 }
 .room-sleep-badge .moon {
   width: 10px; height: 10px; border-radius: 50%;
@@ -91,10 +118,10 @@ body.room-open .player { opacity: 0; pointer-events: none; }
   display: flex; flex-direction: column; align-items: center; gap: .9rem;
   max-width: min(92vw, 30rem);
 }
-.room-hebrew { font-size: 1rem; color: var(--room-accent); opacity: .8; letter-spacing: .1em; }
+.room-hebrew { font-size: 1rem; color: var(--accent); opacity: .8; letter-spacing: .1em; }
 .room-chnum {
   font-family: var(--ui); font-size: var(--ap-lg); letter-spacing: .45em;
-  color: var(--room-accent); margin-top: .4rem;
+  color: var(--accent); margin-top: .4rem;
 }
 .room-title {
   font-family: var(--serif); font-weight: 300;
@@ -105,55 +132,40 @@ body.room-open .player { opacity: 0; pointer-events: none; }
   font-size: clamp(2.2rem, 9vw, 3.4rem); letter-spacing: .06em; line-height: 1;
   padding: .2em .4em; border-radius: 6px;
 }
-.room-clock:focus-visible { outline: 2px solid var(--room-accent); outline-offset: 3px; }
+.room-clock:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
 .room-arc { width: min(64vw, 300px); margin: -0.4rem 0; }
 .room-arc svg { width: 100%; height: auto; overflow: visible; }
 .room-arc path { fill: none; stroke-width: 1.4; stroke-linecap: round; }
 .arc-track { stroke: color-mix(in srgb, currentColor 18%, transparent); }
 .arc-fill {
-  stroke: var(--room-accent);
+  stroke: var(--accent);
   stroke-dasharray: 100; stroke-dashoffset: 100;
   transition: stroke-dashoffset .5s linear;
 }
 
 .room-transport { display: flex; align-items: center; gap: 1.4rem; margin-top: .4rem; }
 .room-btn { min-width: 52px; min-height: 52px; font-size: .9rem; }
+/* An instance of .transport-play (components.css), not a second build of it. The
+   circle, the icon swap, the inversion on hover/focus and the press are all shared;
+   what is genuinely the Room's own is the size, the clay edge, and the blur — this
+   button sits over a photograph and the bar's does not. */
 .room-play {
-  width: 74px; height: 74px; border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--room-accent) 65%, transparent);
-  background: color-mix(in srgb, var(--room-accent) 10%, transparent);
+  --transport-size: 74px;
+  --transport-glyph: 30px;
+  border-color: color-mix(in srgb, var(--accent) 65%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  display: flex; align-items: center; justify-content: center;
-  transition: transform 80ms var(--ease), background var(--dur-fast) var(--ease);
 }
-.room-play:active { transform: scale(.96); }
-.room-play:focus-visible { outline: 2px solid var(--room-accent); outline-offset: 3px; }
-.room-play svg { width: 30px; height: 30px; fill: currentColor; }
-.room-play .ico-pause { display: none; }
-.room-play.is-playing .ico-pause { display: block; }
-.room-play.is-playing .ico-play { display: none; }
 
 .room-secondary { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem; margin-top: .3rem; }
 .room-secondary .btn-icon { min-width: 60px; min-height: 44px; font-size: var(--ap-md); }
 
-.room-seek {
-  position: absolute; left: 0; right: 0;
-  bottom: max(0px, env(safe-area-inset-bottom));
-  height: 28px; cursor: pointer; z-index: 2;
-}
-.room-seek::before {
-  content: ''; position: absolute; left: 0; right: 0; top: 13px; height: 2px;
-  background: color-mix(in srgb, currentColor 18%, transparent);
-}
-.room-seek-fill {
-  position: absolute; left: 0; top: 13px; height: 2px; width: 0;
-  background: var(--room-accent);
-}
-.room-seek:focus-visible { outline: 2px solid var(--room-accent); outline-offset: -4px; }
+/* The Room's seek bar is .seekbar .seekbar-edge now (css/player.css) — the same
+   component the transport bar uses, pinned to the bottom edge. Nothing left here. */
 
 /* idle dim — the room recedes while you listen */
-#room .room-stack, #room .room-close, #room .room-seek { transition: opacity 1.2s var(--ease); }
+#room .room-stack, #room .room-close, #room .seekbar-edge { transition: opacity 1.2s var(--ease); }
 /* Measured against the room's own base (#0C0B0A, text #f0edf4): .38 composited to
    3.20:1 — under the 4.5:1 AA floor for text — and .25 composited to 2.04:1, which
    is under even the 3:1 minimum for UI controls (WCAG 1.4.11). The close button and
@@ -161,7 +173,7 @@ body.room-open .player { opacity: 0; pointer-events: none; }
    backdrop photograph (brightness .15) there is headroom left for the bright patches.
    Receding is the intent; vanishing was the bug. */
 #room[data-idle="true"] .room-stack { opacity: .55; }
-#room[data-idle="true"] .room-close, #room[data-idle="true"] .room-seek { opacity: .45; }
+#room[data-idle="true"] .room-close, #room[data-idle="true"] .seekbar-edge { opacity: .45; }
 @media (prefers-reduced-motion: reduce) {
   #room, .room-backdrop, .arc-fill { transition: none; }
   .room-backdrop { animation: none; transform: scale(1.04); }
@@ -182,39 +194,30 @@ body.room-open .player { opacity: 0; pointer-events: none; }
 .chapter-row .cr-dl.is-cached { color: var(--accent); opacity: 1; }
 .chapter-row .cr-num { font-family: var(--ui); font-size: var(--ap-md); letter-spacing: .3em; color: var(--accent); min-width: 2.4em; }
 .chapter-row .cr-title { font-family: var(--serif); font-size: 1.05rem; flex: 1; }
-.chapter-row .cr-dur { font-family: var(--ui); font-size: var(--ap-md); opacity: .6; font-variant-numeric: tabular-nums; }
+/* --ink-soft, not `opacity: .6` — same measurement as .meta-time in player.css: ink
+   at .6 is 4.31:1 on the ch II stock. This row renders on paper in the Chapters sheet
+   and on near-black in the Room, and the token is correct in both because the Room
+   redeclares it. An opacity would have been wrong in both. */
+.chapter-row .cr-dur { font-family: var(--ui); font-size: var(--ap-md); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 .chapter-row.is-current .cr-title { color: var(--accent); }
 .chapter-row.is-complete .cr-num::after { content: ' ✓'; letter-spacing: 0; }
 
-.sheet-note { font-size: .85rem; opacity: .65; margin-top: 1rem; }
+/* This inherits --ink-soft from the sheet, so `opacity: .65` was dimming an already
+   quiet ink: measured 2.91:1 on the jacket stock. --ink-faint is the site's token for
+   the quietest legal text (4.72:1 at its worst stock). Third instance of the same
+   mistake found on 2026-08-29 — an opacity on text is a colour nobody measured. */
+.sheet-note { font-size: .85rem; color: var(--ink-faint); margin-top: 1rem; }
 
-/* ---------- the room's own control colours ----------
-   components.css sets `.btn-icon { color: var(--ink-soft) }`, and --ink-soft is a
-   DARK token because the page is paper. Inside the room that resolved to dark grey
-   on near-black and every control — −15, +30, Sleep, Read, I–X — was effectively
-   invisible. The room is a dark surface and has to state its own values. */
-#room { --room-ink: #EFEAE1; --room-dim: #A9A196; }
-
-#room .btn,
-#room .btn-icon { color: var(--room-ink); font-family: var(--ui); }
-#room .btn-icon { opacity: .8; transition: opacity var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease); }
-#room .btn-icon:hover,
-#room .btn-icon:focus-visible { opacity: 1; color: #fff; background: none; }
-#room .btn { border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.04); }
-#room .btn:hover, #room .btn:focus-visible {
-  background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.6); color: #fff;
-}
-#room .btn:focus-visible, #room .btn-icon:focus-visible {
-  outline: 2px solid var(--room-accent); outline-offset: 3px;
-}
-
-.room-title { color: var(--room-ink); }
-.room-clock { color: var(--room-ink); }
-.room-chnum { color: var(--room-accent); opacity: 1; }
-.room-hebrew { color: var(--room-accent); opacity: .9; }
+/* ---------- what is left of the room's own styling ----------
+   Everything that used to sit here — `#room .btn`, `#room .btn-icon`, and a colour
+   re-statement for .room-title / .room-clock / .room-chnum / .room-hebrew — is GONE,
+   2026-08-29. The token block at the top of this file redeclares --paper / --ink /
+   --ink-soft / --accent / --control-edge / --control-wash, so every shared component
+   arrives already dressed for a dark surface. Do not add a `#room .btn` rule back:
+   if a control looks wrong in the Room, the token is wrong, not the component.
+   These three are real differences of KIND, not of colour, and stay. */
 .room-secondary .btn-icon { font-size: var(--ap-md); letter-spacing: .06em; }
 .room-btn { font-variant-numeric: lining-nums tabular-nums; }
-
-/* the seek bar has to read against a photograph, not just against black */
-.room-seek { background: rgba(255,255,255,.16); }
-.room-seek-fill { background: var(--room-accent); }
+/* the room's controls sit over a photograph, so the focus ring is offset further out
+   than the page's 2px — it has to clear a bright patch, not just a flat paper */
+#room .btn:focus-visible, #room .btn-icon:focus-visible { outline-offset: 3px; }
