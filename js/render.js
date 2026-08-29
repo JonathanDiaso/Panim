@@ -400,31 +400,70 @@
     '</div>';
   }
 
+  // THE WALL, 2026-08-29. Fifty plates in a card grid was 8,439px — EIGHT AND A HALF
+  // SCREENS of scrolling to look up one word — and a lexicon is a lookup, not a
+  // reading. It is now what the closing page of a book about one word should be: a
+  // page OF words. All fifty are set as type in one block, each one a real control,
+  // and choosing one opens its entry BESIDE the wall in the apparatus column — the
+  // same columns 10–12 the verse notes moved into on the same day. Two panels, the
+  // shape a printed dictionary has: the headwords, and the article.
+  //
+  // 🛑 THE ENTRIES ARE ALL RENDERED, NOT TEMPLATED ON CLICK. Fifty small articles
+  // cost nothing, and it means the ink-and-root animation is still plain CSS on live
+  // type with markup built once — no string-building in an event handler, and every
+  // entry keeps its own id so #lex-panim (the hero's word links to it) still lands.
+  //
+  // 🛑 THE DEFAULT SELECTION IS panim. An empty apparatus column beside a wall of
+  // words reads as broken, and the one word the whole book is about is the right
+  // thing to be showing when the reader arrives.
+  function lexSlug(e) {
+    return 'lex-' + e.t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+
   function renderLexicon() {
     var entries = window.PANIM_LEXICON || [];
     if (!entries.length) return '';
-    var plates = entries.map(function (e) {
+
+    // the default: the book's own word if it is here, otherwise the first entry
+    var defaultSlug = null;
+    entries.forEach(function (e) { if (e.t === 'panim') defaultSlug = lexSlug(e); });
+    if (!defaultSlug) defaultSlug = lexSlug(entries[0]);
+
+    var chips = entries.map(function (e) {
       var heb = e.lang === 'he';
-      // Three scripts, three treatments. Hebrew is set in Frank Ruhl Libre and draws
-      // itself right to left; Greek is set in the book's serif and draws left to
-      // right; the one Akkadian row is a Latin transliteration and is set as such —
-      // there is no cuneiform on this site, and a word in Latin letters pretending
-      // to be Greek would be a lie told in type.
+      var slug = lexSlug(e);
+      var wordCls = heb ? '' : (e.lang === 'grc' ? ' is-greek' : ' is-roman');
+      var on = slug === defaultSlug;
+      // The word is the control's label and the transliteration rides under it, so a
+      // reader who cannot read the script still has a way in — which is the whole
+      // reason the wall works as an index rather than as fifty shapes.
+      return '<button type="button" class="lex-chip' + (on ? ' is-on' : '') + '"' +
+        ' id="' + esc(slug) + '" data-lex="' + esc(slug) + '" data-ch="' + esc(e.ch) + '"' +
+        ' aria-pressed="' + (on ? 'true' : 'false') + '" aria-controls="lex-article">' +
+        // 🛑 The space between the two spans is load-bearing. They are flex column
+        // children so it collapses to nothing on screen, and without it the control's
+        // accessible name is the two runs jammed together — "אֵל רֳאִיEl Ro'i".
+        // Exactly the trap the verse citation hit on 2026-08-29.
+        '<span class="lex-chip-word' + wordCls + '" lang="' + esc(e.lang) + '"' +
+          (heb ? ' dir="rtl"' : '') + '>' + esc(e.w) + '</span> ' +
+        '<span class="lex-chip-t">' + esc(e.t) + '</span>' +
+      '</button>';
+    }).join('');
+
+    var articles = entries.map(function (e) {
+      var heb = e.lang === 'he';
+      var slug = lexSlug(e);
       var wordCls = heb ? '' : (e.lang === 'grc' ? ' is-greek' : ' is-roman');
       var lit = heb ? inkGlyphs(e.w, e.root) : esc(e.w);
       var roman = ROMAN[e.num] || e.num;
-      // A word that has a root to show says so, because the dimming is the point
-      // and a reader who does not know what they just watched has been shown a
-      // decoration rather than an argument.
       var rootLine = (heb && rootFlags(hebClusters(e.w), e.root))
         ? '<p class="lex-root-note">root <span class="lex-root-word" lang="he" dir="rtl">' +
             esc(e.root) + '</span></p>'
         : '';
-      // A word you can link to. #lex-panim opens the book at that plate, which is
-      // what makes the lexicon usable as a reference and not only as a finale.
-      // Slug off the transliteration, which is already unique across the fifty.
-      var slug = 'lex-' + e.t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-      return '<article class="lex-plate" id="' + esc(slug) + '" data-ch="' + esc(e.ch) + '" data-kind="' + esc(e.kind) + '">' +
+      var on = slug === defaultSlug;
+      return '<article class="lex-plate" data-lex-entry="' + esc(slug) + '"' +
+        ' data-ch="' + esc(e.ch) + '" data-kind="' + esc(e.kind) + '"' +
+        (on ? '' : ' hidden') + '>' +
         '<p class="lex-tag">' + (e.kind === 'mark'
             ? 'Chapter ' + roman + ' · its own word'
             : 'Chapter ' + roman) + '</p>' +
@@ -437,6 +476,7 @@
           '<a href="#' + esc(e.ch) + '">Chapter ' + roman + '</a></p>' +
       '</article>';
     }).join('');
+
     return '<section class="section" id="lexicon" data-ch="fw" aria-labelledby="lexicon-heading">' +
       '<div class="section-inner">' +
         '<div class="lex-head">' +
@@ -444,18 +484,22 @@
           '<div class="lex-standfirst">' +
             '<h2 id="lexicon-heading">' + entries.length +
               ' words, in the language they were written in.</h2>' +
-            '<p>Each chapter’s own word first, then the terms that chapter turns on. ' +
+            '<p>Each chapter\u2019s own word first, then the terms that chapter turns on. ' +
             'Every vowel point and every accent here was read out of a published source ' +
-            '— the Masoretic text, BDB, Klein, Jastrow, BibleHub, and for the one ' +
-            'Akkadian word the Chicago Assyrian Dictionary — and pasted in by a ' +
+            '\u2014 the Masoretic text, BDB, Klein, Jastrow, BibleHub, and for the one ' +
+            'Akkadian word the Chicago Assyrian Dictionary \u2014 and pasted in by a ' +
             'script. Not one character was typed from memory.</p>' +
-            '<p class="lex-legend">Scroll a word into view and it draws itself, right to ' +
-            'left, the way it is written. Then everything that is not a root consonant ' +
-            'dims, and what is left lit is the three letters the word is built from.</p>' +
+            '<p class="lex-legend">Choose any word and it draws itself beside the wall, ' +
+            'right to left, the way it is written. Then everything that is not a root ' +
+            'consonant dims, and what is left lit is the letters the word is built from.</p>' +
           '</div>' +
         '</div>' +
         filterRow(entries) +
-        '<div class="lex-plates" id="lex-plates">' + plates + '</div>' +
+        '<div class="lex-body">' +
+          '<div class="lex-wall" id="lex-wall" role="group" ' +
+            'aria-label="The fifty words. Choose one to read its entry.">' + chips + '</div>' +
+          '<div class="lex-article" id="lex-article" aria-live="polite">' + articles + '</div>' +
+        '</div>' +
       '</div></section>';
   }
 

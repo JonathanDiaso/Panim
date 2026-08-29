@@ -135,10 +135,17 @@
     lastFocused = document.activeElement;
     if (triggerEl) { sheetTriggers[id] = triggerEl; triggerEl.setAttribute('aria-expanded', 'true'); }
     el.hidden = false;
-    requestAnimationFrame(function () {
-      var closeBtn = $('.sheet-close', el);
-      if (closeBtn) closeBtn.focus();
-    });
+    // 🛑 NOT requestAnimationFrame, 2026-08-29. rAF is a RENDERING callback and the
+    // browser suspends it whenever the document is not being painted — a background
+    // tab, a blanked screen, an automation context. If the frame never lands, focus
+    // never enters the dialog and a keyboard user is left standing outside an open
+    // modal with no announcement that it opened. js/room.js has always focused
+    // synchronously; this was the only overlay in the site that did not, and two
+    // implementations of one pattern is how this project keeps getting bitten.
+    // Diagnosed 2026-08-29 by measuring: document.visibilityState went 'hidden' and
+    // every scheduled rAF stopped firing while the sheet was open and visible.
+    var closeBtn = $('.sheet-close', el);
+    if (closeBtn) closeBtn.focus();
     document.addEventListener('keydown', onSheetKeydown);
   }
   function closeSheet(id) {
@@ -442,6 +449,7 @@
     wireShare();
     wireChapterShare();
     wireLexiconFilter();
+    wireLexiconWall();
   }
 
   // ---------- the lexicon filter ----------
@@ -460,8 +468,8 @@
   // is searching, not being introduced.
   function wireLexiconFilter() {
     var row = document.querySelector('.lex-filter');
-    var grid = document.getElementById('lex-plates');
-    if (!row || !grid) return;
+    var wall = document.getElementById('lex-wall');
+    if (!row || !wall) return;
     row.addEventListener('click', function (e) {
       var btn = e.target.closest('.lex-filter-btn');
       if (!btn) return;
@@ -471,14 +479,87 @@
         b.classList.toggle('is-on', on);
         b.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
-      if (want === 'all') grid.removeAttribute('data-filter');
-      else grid.setAttribute('data-filter', want);
-      $all('.lex-plate', grid).forEach(function (p) {
-        if (p.classList.contains('is-drawn')) return;
-        p.classList.add('is-drawn');
-        if (p.querySelector('.lex-g.is-root')) p.classList.add('is-rooted');
-      });
+      if (want === 'all') wall.removeAttribute('data-filter');
+      else wall.setAttribute('data-filter', want);
+      // If the word currently open in the apparatus column has just been filtered
+      // out of the wall, the article is describing a word the reader can no longer
+      // see. Move to the first word the filter DID leave standing.
+      var open = document.querySelector('.lex-plate:not([hidden])');
+      var stillShown = open && document.querySelector(
+        '.lex-chip[data-lex="' + open.getAttribute('data-lex-entry') + '"]');
+      if (stillShown && stillShown.offsetParent === null) {
+        var first = $all('.lex-chip', wall).filter(function (c) { return c.offsetParent !== null; })[0];
+        if (first) selectLexWord(first.getAttribute('data-lex'), false);
+      }
     });
+  }
+
+  // ---------- the lexicon wall ----------
+  //
+  // Fifty words set as one block of type; choosing one opens its entry in the
+  // apparatus column beside it. The animation used to be a first-encounter effect
+  // driven by an IntersectionObserver as each plate scrolled past; there is only one
+  // entry visible now, so the trigger moves here — the word draws itself at the
+  // moment the reader asks for it, which is when they are actually looking at it.
+  //
+  // 🛑 INK_MS AND ROOT_HOLD_MS ARE THE SAME TWO NUMBERS AS js/motion.js, and both
+  // must match the --lex-ink transition in css/components.css. If the root starts
+  // dimming before the nib has finished, the reader watches a word being written and
+  // taken apart at once.
+  var LEX_INK_MS = 2600, LEX_ROOT_HOLD_MS = 900;
+  function drawLexEntry(entry) {
+    if (!entry || entry.classList.contains('is-drawn')) return;
+    // a frame between "shown" and "drawn" so the mask animates from 0 rather than
+    // being painted at 0 and 100 in the same style recalculation
+    entry.classList.remove('is-rooted');
+    setTimeout(function () {
+      entry.classList.add('is-drawn');
+      if (entry.querySelector('.lex-g.is-root')) {
+        setTimeout(function () { entry.classList.add('is-rooted'); },
+          LEX_INK_MS + LEX_ROOT_HOLD_MS);
+      }
+    }, 20);
+  }
+  function selectLexWord(slug, moveFocus) {
+    var article = document.getElementById('lex-article');
+    var wall = document.getElementById('lex-wall');
+    if (!article || !wall || !slug) return false;
+    var entry = article.querySelector('[data-lex-entry="' + slug + '"]');
+    var chip = wall.querySelector('.lex-chip[data-lex="' + slug + '"]');
+    if (!entry || !chip) return false;
+    $all('.lex-plate', article).forEach(function (p) { p.hidden = p !== entry; });
+    $all('.lex-chip', wall).forEach(function (c) {
+      var on = c === chip;
+      c.classList.toggle('is-on', on);
+      c.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    drawLexEntry(entry);
+    // Below 900px the article is UNDER the wall, not beside it, so choosing a word
+    // can otherwise change something the reader cannot see. The breakpoint is the
+    // same 900 the .lex-body grid uses; matchMedia rather than an innerWidth read so
+    // it is the one the stylesheet is actually applying.
+    if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches) {
+      entry.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+    if (moveFocus) chip.focus();
+    return true;
+  }
+  function wireLexiconWall() {
+    var wall = document.getElementById('lex-wall');
+    if (!wall) return;
+    wall.addEventListener('click', function (e) {
+      var chip = e.target.closest('.lex-chip');
+      if (chip) selectLexWord(chip.getAttribute('data-lex'), false);
+    });
+    // The hero's פָּנִים is a link to #lex-panim, and every chip carries its slug as
+    // an id, so the browser scrolls there on its own. This is what makes the link
+    // OPEN the word rather than merely park beside it.
+    function fromHash() {
+      var h = (location.hash || '').replace('#', '');
+      if (h.indexOf('lex-') === 0) selectLexWord(h, false);
+    }
+    window.addEventListener('hashchange', fromHash);
+    fromHash();
   }
 
   document.addEventListener('panim:rendered', init);
