@@ -1332,3 +1332,63 @@ body.nav-toc-open #site-nav {
   .lex-plate .lex-g.is-root { color: var(--accent); }
   .lex-plate .lex-root-note { opacity: 1; }
 }
+
+/* ============================================================================
+   THE LEXICON FILTER
+   ============================================================================
+   Fifty plates is a lot to scroll if you came looking for one word. One attribute
+   does the work: .lex-plates[data-filter="ch03"] hides every plate that is not
+   chapter III's. No per-element display juggling, and the grid reflows itself.
+
+   The buttons are numerals in the book's typeface with a small count beside them,
+   because "III · 5" answers a question the bare numeral does not. They are real
+   <button>s carrying aria-pressed — the state is "which one of these is on", which
+   is exactly what aria-pressed says, and it is why this is not a row of links.
+   ============================================================================ */
+.lex-filter {
+  grid-column: 1 / -1;
+  display: flex; flex-wrap: wrap; gap: .4rem;
+  margin-top: clamp(1.4rem, 3vw, 2.2rem);
+}
+.lex-filter-btn {
+  display: inline-flex; align-items: baseline; gap: .45em;
+  min-height: 44px; padding: .5em .85em;
+  border: 1px solid var(--control-edge);
+  background: var(--control-wash);
+  color: var(--ink);
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-md); font-weight: 500;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: .08em;
+  transition: background-color var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease),
+              color var(--dur-fast) var(--ease);
+}
+.lex-filter-btn:hover { border-color: var(--ink); }
+.lex-filter-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lex-filter-btn.is-on {
+  background: var(--accent); border-color: var(--accent); color: var(--paper);
+}
+.lex-filter-n {
+  font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
+  color: var(--ink-faint);
+}
+.lex-filter-btn.is-on .lex-filter-n { color: var(--paper); opacity: .8; }
+
+/* the filter itself */
+.lex-plates[data-filter="ch01"] .lex-plate:not([data-ch="ch01"]),
+.lex-plates[data-filter="ch02"] .lex-plate:not([data-ch="ch02"]),
+.lex-plates[data-filter="ch03"] .lex-plate:not([data-ch="ch03"]),
+.lex-plates[data-filter="ch04"] .lex-plate:not([data-ch="ch04"]),
+.lex-plates[data-filter="ch05"] .lex-plate:not([data-ch="ch05"]),
+.lex-plates[data-filter="ch06"] .lex-plate:not([data-ch="ch06"]),
+.lex-plates[data-filter="ch07"] .lex-plate:not([data-ch="ch07"]),
+.lex-plates[data-filter="ch08"] .lex-plate:not([data-ch="ch08"]),
+.lex-plates[data-filter="ch09"] .lex-plate:not([data-ch="ch09"]),
+.lex-plates[data-filter="ch10"] .lex-plate:not([data-ch="ch10"]) { display: none; }
+
+/* on paper there is no filter, so nothing may be hidden by one */
+@media print {
+  .lex-filter { display: none !important; }
+  .lex-plates .lex-plate { display: flex !important; }
+}
