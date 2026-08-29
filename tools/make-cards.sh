@@ -10,6 +10,10 @@
 # steps are deliberate: --resampleWidth scales the 1408x768 plate to 1200 wide
 # (654 tall) and -c crops the centre band to 630, which is a crop rather than a
 # squash. Run it, then re-run tools/gen-chapter-stubs.py.
+#
+# 🛑 REPLACE A PLATE AND YOU RUN TWO SCRIPTS: this one for the og:image card, and
+# tools/make-derivatives.sh for the responsive AVIF cuts the page itself serves.
+# Neither notices that the other is stale.
 set -e
 cd "$(dirname "$0")/.."
 mkdir -p art/cards

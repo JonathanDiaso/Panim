@@ -119,10 +119,26 @@
   .section { padding-block: 0; display: block; max-width: none; }
   .section-inner { display: block; }
   .block-p, .verse-box, .img-slot, .plate { max-width: none; grid-column: auto; }
+  /* 🛑 THE APPARATUS COLUMN DOES NOT PRINT, 2026-08-29. On screen at ≥1100px the
+     verse note sits BESIDE its quotation in a subgrid (css/components.css). Print
+     media queries resolve against the page box, and a wide page box matches
+     min-width:1100 — which would set a two-column grid inside a one-column sheet.
+     On paper the note goes back under its verse, which is where a footnote goes. */
+  .verse-box { display: block !important; padding-left: 1rem; border-left: 2px solid #999; }
+  .verse-box > .verse-text { padding-left: 0 !important; border-left: 0 !important; }
+  .verse-box > .verse-note { grid-column: auto; margin-top: 1.15em !important; padding-top: .85em !important; }
+  .verse-ref { position: static !important; width: auto !important; text-align: left !important; }
+  .verse-ref .vr-book, .verse-ref .vr-loc { display: inline !important; }
+  .verse-ref .vr-loc { margin-left: .5em; padding-top: 0 !important; border-top: 0 !important; }
+  /* the thread rows are an index and print as one: the leader is a screen device,
+     the numerals are the entry. <details> content must be forced open on paper. */
+  .thread-item::details-content { display: block; content-visibility: visible; }
+  .thread-leader { display: none; }
+  .thread-head-body { display: block; }
   .chapter { break-before: page; }
   .plate, .img-slot { break-inside: avoid; }
   .plate-frame { height: auto; overflow: visible; }
-  .plate-frame > img { height: auto; max-height: 4in; }
+  .plate-frame img { height: auto; max-height: 4in; }
   .reveal { opacity: 1 !important; transform: none !important; }
 }
 

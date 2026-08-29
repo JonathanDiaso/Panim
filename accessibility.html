@@ -7,7 +7,7 @@
 <meta name="description" content="What this site aims for on accessibility, what has been measured, what has not been done yet, and how to report a problem.">
 <link rel="canonical" href="https://jonathandiaso.github.io/Panim/accessibility.html">
 <link rel="icon" type="image/svg+xml" href="/Panim/favicon.svg">
-<link rel="stylesheet" href="/Panim/fonts/fonts.css?v=33">
+<link rel="stylesheet" href="/Panim/fonts/fonts.css?v=35">
 <style>
   /* Standalone page, same pattern as 404.html: the tokens are copied rather than
      imported so this page renders correctly even if the main stylesheet fails.
@@ -146,7 +146,12 @@
 </head>
 <body>
   <div class="wrap">
-    <a class="back" href="/Panim/">&#8592;&nbsp;&nbsp;Back to the book</a>
+    <!-- in a <header> so the link sits inside a landmark: bare, it was the one piece
+         of content on this page a screen reader's landmark navigation could not reach
+         (axe `region`, 2026-08-29). -->
+    <header>
+      <a class="back" href="/Panim/">&#8592;&nbsp;&nbsp;Back to the book</a>
+    </header>
 
     <main>
       <h1>Accessibility</h1>
@@ -221,11 +226,35 @@
             there is exactly one implementation of it. The result count is announced
             in a live region. A result is a real link to a real fragment, so it
             survives being middle-clicked or copied.</li>
-        <li><strong>The verse notes are complementary landmarks.</strong> There are a
-            hundred and thirteen of them, one under each quotation. Each is an
-            <code>&lt;aside&gt;</code> so a screen reader can step over the apparatus
-            and keep reading the book, which is what a reader skipping footnotes on
-            paper does. The two labels are text, not icons.</li>
+        <li><strong>The verse notes are notes, not landmarks &#8212; corrected 29 August
+            2026.</strong> There are a hundred and thirteen of them, one under each
+            quotation. This page said yesterday that each one is an
+            <code>&lt;aside&gt;</code> &#8220;so a screen reader can step over the
+            apparatus&#8221;, and that was the wrong way round: a landmark is not stepped
+            over one at a time, it is <em>listed</em>, so a hundred and thirteen of them
+            turned the landmark rotor into a wall of identical &#8220;complementary&#8221;
+            entries and buried the six landmarks that mean something. They carry
+            <code>role="note"</code> now, which announces the apparatus as a note and adds
+            no landmark at all. The two labels are text, not icons.</li>
+        <li><strong>Four contrast failures were found on 29 August 2026, and all four were
+            an <code>opacity</code> on text.</strong> A ratio can only be measured on the
+            colour that actually reaches the screen, and a translucent ink over paper is a
+            colour nobody had calculated. Composited against all eleven paper stocks:
+            the chapter mark &#8212; the Hebrew or Greek word above each chapter title,
+            which is content &#8212; ran 2.58:1 to 2.95:1 in <em>every</em> chapter; the
+            player's running time 4.31:1; the suspended Follow button 3.69:1; the sheet
+            footnote 2.91:1. All four now take a measured ink token instead
+            (<code>--accent</code>, <code>--ink-soft</code>, <code>--ink-faint</code>),
+            and the lowest of them is 4.72:1 at its worst stock.</li>
+        <li><strong>Follow now has a state you can see.</strong> The button was given an
+            <code>is-active</code> class in script that no stylesheet ever matched, so
+            Follow-on and Follow-off were the same button &#8212; while the <em>degraded</em>
+            state was styled. Sighted readers could see the fault and not the mode.</li>
+        <li><strong>The overlays are dialogs the whole way down.</strong> The four sheets
+            declared <code>role="dialog"</code> on an <code>&lt;aside&gt;</code>, which ARIA
+            does not allow &#8212; an <code>&lt;aside&gt;</code>'s complementary role cannot
+            be overridden, so a modal could be announced as a landmark. They are
+            <code>&lt;div role="dialog"&gt;</code> now.</li>
         <li><strong>Everything added on 2026-08-28 was measured</strong> against every
             one of the twelve paper stocks in the dawn arc, not against one. The
             accent used by the note labels, the search result kinds and the closing
@@ -282,6 +311,15 @@
             a single reference background.</li>
         <li>Layout and type sizes measured at a 402&#8239;px viewport &#8212; a real phone
             width, not a desktop window narrowed down.</li>
+        <li>An automated <a href="https://github.com/dequelabs/axe-core">axe-core</a> pass
+            over the whole page &#8212; with the Listening Room, all four sheets and the
+            lightbox forced open, so the overlays are audited and not just the page behind
+            them &#8212; at 402&#8239;px, 900&#8239;px and 1440&#8239;px, plus this page and
+            the 404. It reports <strong>zero violations</strong> as of 29 August 2026.
+            <strong>That is a floor, not a pass.</strong> Automated checking cannot hear
+            whether a state is announced, whether a label makes sense, or whether the
+            reading order is the order the book is in &#8212; which is exactly why the
+            screen-reader item above is still on the not-done list.</li>
         <li>A full WCAG 2.2 AA audit, finding by finding, is in progress; this page will
             be updated with its results rather than replaced.</li>
       </ul>
@@ -289,7 +327,7 @@
 
     <footer>
       <p class="meta">
-        Statement first published 28 August 2026. Last reviewed 28 August 2026.<br>
+        Statement first published 28 August 2026. Last reviewed 29 August 2026.<br>
         Measured against WCAG 2.2 Level AA.
       </p>
     </footer>

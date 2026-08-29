@@ -172,6 +172,10 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 html { scroll-padding-top: var(--nav-h, 59px); scroll-padding-bottom: var(--player-h, 134px); }
 body, h1, h2, h3, p, figure, blockquote, dl, dd { margin: 0; }
 img, svg { display: block; max-width: 100%; }
+/* <picture> wraps every plate (AVIF srcset, 2026-08-29). It is an inline box by
+   default, which would sit between .plate-frame and its image and eat the
+   height/object-fit rules; display:contents takes it back out of the layout. */
+picture { display: contents; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 a { color: inherit; }
 ul { list-style: none; margin: 0; padding: 0; }
@@ -214,7 +218,7 @@ body {
    Children claim a column range. There is no auto-centring anywhere.
 
    NOTE ON NAMING: the obvious name for this was .sheet, but index.html already
-   uses <aside class="sheet"> for the slide-over panels. Two unrelated meanings
+   uses <div class="sheet" role="dialog"> for the slide-over panels. Two unrelated meanings
    on one class name means a `position: fixed` panel rule silently applies to
    every band of the page. Hence .row.
    ============================================================================ */
@@ -397,10 +401,37 @@ main { position: relative; }
    the site that was easy to miss; there are ninety-seven now. */
 .divider-beat  { grid-column: 3 / 9; margin: 2.2rem 0; }
 .divider-swell { grid-column: 3 / 9; margin: 3.8rem 0; }
+/* 🛑 THESE TWO NEEDED THE MOBILE RANGE AND DID NOT HAVE IT, AND IT COST THE WHOLE
+   PHONE LAYOUT. Below 900px the grid is six columns, so `3 / 9` asks for a line 9
+   that does not exist and the browser creates TWO IMPLICIT TRACKS to reach it.
+   `grid-column: 1 / -1` counts back from the end of the EXPLICIT grid, so from that
+   moment every full-bleed element spanned six tracks of an eight-track grid and came
+   up 28px short: measured 2026-08-29, plates rendered 374px wide in a 402px viewport
+   instead of 402 (so a "full-bleed" plate had a 28px gutter down one side), chapter
+   headers 334 instead of 362, and every paragraph in all ten chapters was set to a
+   narrower measure than the design asks for. 88 dividers, ten chapters, one missing
+   media query.
+   ⚠️ Any new `grid-column` that ends past line 7 needs a range here too — the failure
+   is silent, and it does not look like a bug, it looks like a margin. */
+@media (max-width: 900px) {
+  .divider-beat, .divider-swell { grid-column: 1 / 7; }
+}
 .divider-swell.is-drawn { width: 9rem; }
 
+/* 🛑 THIS BLOCK HAD NEVER ONCE APPLIED TO A PLATE. It said `.reveal` — one class,
+   specificity (0,1,0) — while the rule it is trying to switch off is `.plate.reveal`
+   at (0,2,0), so the plain selector lost the cascade every time and every plate went
+   on sliding 10px up the screen for a reader who had asked the operating system to
+   stop exactly that. Measured 2026-08-29 with --force-prefers-reduced-motion=reduce:
+   ten elements still carrying `opacity, transform 0.62s`.
+   ⚠️ A reduced-motion override has to be written at the specificity of the rule it
+   overrides. Adding a selector above without adding it here is a silent regression:
+   the page looks right to whoever is testing it, because they do not have the setting
+   on. The parallax in js/motion.js was always correct — this was CSS only. */
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .reveal,
+  .plate.reveal, .plate.reveal.is-visible,
+  .fivewords-text .fw-word, .fivewords-ref { opacity: 1; transform: none; transition: none; }
   .hairline { width: 5rem; transition: none; }
 }
 

@@ -383,7 +383,7 @@
   // happening. 7% of the frame, transform only, skipped entirely off-screen.
   var plates = [];
   function wirePlates() {
-    plates = Array.prototype.slice.call(document.querySelectorAll('.plate-frame > img, .hero-plate > img'));
+    plates = Array.prototype.slice.call(document.querySelectorAll('.plate-frame img, .hero-plate img'));
     if (!plates.length || reduceMotion) return;
     // no blanket will-change: promoting fifteen full-width photographs to their own
     // compositor layers costs more memory than the parallax saves. Each plate is

@@ -8,7 +8,7 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v33';
+var SHELL = 'panim-shell-v35';
 var AUDIO = 'panim-audio-v1';
 
 // index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
@@ -22,23 +22,32 @@ var AUDIO = 'panim-audio-v1';
 //      accessibility.html — both are standalone pages with their own copy, and
 //      neither is reached by the index.html sweep. 404.html was left on v24 for
 //      a whole release because of exactly this.
-var ASSET_V = '33';
+var ASSET_V = '35';
 var VERSIONED = /\.(css|js)$/;
 var PRECACHE = [
   './', 'index.html', 'accessibility.html', 'favicon.svg', 'og-card-face.jpg', 'manifest.webmanifest',
   'fonts/fonts.css',
   // The font FILES, not just the stylesheet. Precaching fonts.css alone meant an
   // installed, offline copy of the book named three typefaces it could not fetch and
-  // rendered the whole thing in Georgia. These six are every subset the site actually
-  // reaches: Literata roman + italic latin, Literata greek-ext (ἀνθρακιά, ch. IX),
-  // Archivo latin, Frank Ruhl Libre Hebrew + its latin fallback. ~300KB, once.
-  'fonts/l04.woff2', 'fonts/l09.woff2', 'fonts/l00.woff2',
+  // rendered the whole thing in Georgia. These SEVEN are every subset the site actually
+  // reaches: Literata roman + italic latin, Literata greek-ext AND greek, Archivo latin,
+  // Frank Ruhl Libre Hebrew + its latin fallback. ~345KB, once.
+  //
+  // 🛑 l01 (Literata GREEK, U+0370–03FF) was missing until 2026-08-29, and the list said
+  // "six ... every subset the site actually reaches". It was not. l00 is greek-EXT
+  // (U+1F00–1FFF) and only covers the polytonic accented forms: in ἀνθρακιά the initial
+  // ἀ comes from l00 and ν θ ρ α κ ι come from l01. So an offline reader got every Greek
+  // word broken across two faces, one glyph in Literata and the rest in a system serif.
+  // VERIFY BY MEASUREMENT, not by reading the CSS: load the site and diff
+  // performance.getEntriesByType('resource') filtered to woff2 against this list.
+  'fonts/l04.woff2', 'fonts/l09.woff2', 'fonts/l00.woff2', 'fonts/l01.woff2',
   'fonts/g02.woff2', 'fonts/h00.woff2', 'fonts/h02.woff2',
   'css/site.css', 'css/components.css', 'css/player.css', 'css/room.css', 'css/polish.css',
   'js/render.js', 'js/ui.js', 'js/motion.js', 'js/sync.js', 'js/search.js',
   'js/player.js', 'js/room.js',
   'content/chapters.js', 'content/images.js', 'content/audio-manifest.js', 'content/marks.js',
   'content/thread.js', 'content/lexicon.js', 'content/verse-notes.js',
+  'content/derivatives.js',
   'cues/ch01.json', 'cues/ch02.json', 'cues/ch03.json', 'cues/ch04.json', 'cues/ch05.json',
   'cues/ch06.json', 'cues/ch07.json', 'cues/ch08.json', 'cues/ch09.json', 'cues/ch10.json'
   // NOT HERE, and asked and answered 2026-08-28: sitemap.xml and robots.txt. This list
