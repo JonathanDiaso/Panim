@@ -170,6 +170,20 @@
   /* the reading measure, not the screen grid */
   .section-inner { max-width: 34em; margin: 0 auto; }
 
+  /* THE VERSE NOTES PRINT. They are the apparatus of the book, and a printed
+     chapter without them is the chapter with its footnotes cut off. Set a shade
+     lighter than the text and kept off a page break, which is what a set book
+     does with a note. */
+  .verse-note {
+    color: #333 !important;
+    border-top: 1px solid #bbb !important;
+    break-inside: avoid;
+    max-width: none;
+  }
+  .vn-label { color: #000 !important; }
+  /* the chapter-head actions and the search sheet are machinery */
+  .chapter-actions, .sheet-search { display: none !important; }
+
   a { text-decoration: none; color: inherit; }
   /* a link to a chapter is meaningless on paper; a scripture reference is not,
      and it is already printed as text beside the verse */

@@ -104,7 +104,35 @@
     return '';
   }
 
-  function renderVerse(b) {
+  // THE VERSE NOTE — the apparatus under a quotation.
+  //
+  // Looked up by CHAPTER + CITATION, never by block id: ids are assigned in
+  // manuscript order by tools/build-chapters.py and move whenever a paragraph is
+  // added or cut, which is the same reason cues have to be rebuilt after the
+  // chapters are. A citation does not move. See content/verse-notes.js.
+  //
+  // It renders under the verse, in the reading column, not in the margin the
+  // citation hangs in — that column is six steps wide and a sixty-word note set
+  // in it is a ribbon, not a note. There is one apparatus system here and this
+  // joins it rather than opening a second one.
+  //
+  // No entry, no note. That is deliberate: some quotations in the book are the
+  // book echoing a verse it has already cited, and an apparatus line under those
+  // would undo the echo.
+  function renderVerseNote(chapterId, ref) {
+    var all = window.PANIM_VERSE_NOTES;
+    var n = all && all[chapterId] && ref ? all[chapterId][ref] : null;
+    if (!n || (!n.where && !n.worth)) return '';
+    // `where` and `worth` carry <em> for transliterations and quoted words, which
+    // is authored content in a file that is not generated — so it is inserted as
+    // markup, exactly as content/thread.js's notes already are.
+    return '<aside class="verse-note">' +
+      (n.where ? '<p class="vn-line"><b class="vn-label">Where you are</b> ' + n.where + '</p>' : '') +
+      (n.worth ? '<p class="vn-line"><b class="vn-label">Worth knowing</b> ' + n.worth + '</p>' : '') +
+    '</aside>';
+  }
+
+  function renderVerse(b, chapterId) {
     var lines = b.lines.map(function (l) { return '<span class="verse-line">' + esc(l) + '</span>'; }).join('');
     // Two quotations in ch. V carry no reference on purpose: they are the book
     // echoing a verse it has already cited, printed bare so the sentence lands
@@ -120,6 +148,7 @@
       '<span class="verse-quotemark" aria-hidden="true">&#8220;</span>' +
       '<div class="verse-text">' + lines + '</div>' +
       apparatus +
+      renderVerseNote(chapterId, b.ref) +
       '</div>';
   }
 
@@ -160,15 +189,33 @@
     var entries = window.PANIM_THREAD || [];
     if (!entries.length) return '';
     var rows = entries.map(function (t) {
-      var from = ROMAN[+t.from.slice(2)] || t.from;
-      var to = ROMAN[+t.to.slice(2)] || t.to;
+      var fromN = +t.from.slice(2), toN = +t.to.slice(2);
+      var from = ROMAN[fromN] || t.from, to = ROMAN[toN] || t.to;
+      var lo = Math.min(fromN, toN), hi = Math.max(fromN, toN);
+      // THE RAIL. Ten ticks, one per chapter, with the span drawn between the two
+      // this entry connects. The whole point of the section is distance — planted
+      // here, paid off there — and a rail says it at a glance where "IV → VI" made
+      // you do the arithmetic. Every row's rail is on the same scale, so the eye
+      // reads the shape of the book: the early plants reach further than the late.
+      var ticks = '';
+      for (var n = 1; n <= 10; n++) {
+        var cls = 'thr-tick' +
+          (n === fromN ? ' is-plant' : '') +
+          (n === toN ? ' is-payoff' : '') +
+          (n > lo && n < hi ? ' is-under' : '');
+        ticks += '<i class="' + cls + '" style="--n:' + n + '"></i>';
+      }
+      var rail =
+        '<span class="thread-rail" aria-hidden="true" style="--from:' + lo + ';--to:' + hi + '">' +
+          '<span class="thr-bar"></span>' + ticks +
+        '</span>' +
+        '<span class="thr-legend" aria-hidden="true">' + from +
+          '<i class="thr-to">&#8594;</i>' + to + '</span>' +
+        '<span class="visually-hidden">Planted in chapter ' + from +
+          ', paid off in chapter ' + to + '. </span>';
       return '<details class="thread-item reveal">' +
         '<summary class="thread-summary">' +
-          '<span class="thread-span">' +
-            '<span class="thread-num">' + from + '</span>' +
-            '<span class="thread-arrow" aria-hidden="true">→</span>' +
-            '<span class="thread-num">' + to + '</span>' +
-          '</span>' +
+          '<span class="thread-span">' + rail + '</span>' +
           '<span class="thread-head-body">' +
             '<h3 class="thread-name">' + t.label + '</h3>' +
           '</span>' +
@@ -183,17 +230,17 @@
         '</div>' +
       '</details>';
     }).join('');
+    // THE STANDFIRST IS GONE, 2026-08-28. It carried a headline — "Nothing in this
+    // book was set down once." — and three lines explaining that a thread only
+    // reads as a thread once you have walked its whole length. Both were the
+    // section apologising for itself at the end of a book the reader has just
+    // finished. The section name is the heading now, and the rails do the
+    // explaining the paragraph was doing.
     return '<section class="section" id="thread" data-ch="fw" aria-labelledby="thread-heading">' +
       '<div class="section-inner">' +
         '<div class="thread-head">' +
-          '<span class="chapter-num">What Comes Back</span>' +
-          '<div class="thread-standfirst">' +
-            '<h2 id="thread-heading">Nothing in this book was set down once.</h2>' +
-            '<p>Every one of these was planted in an early chapter and left alone until a ' +
-            'later one came back for it. They are listed here rather than earlier because ' +
-            'a thread only reads as a thread once you have walked its whole length. ' +
-            '<span class="thread-hint">Open one to see where it was planted and where it lands.</span></p>' +
-          '</div>' +
+          '<h2 class="chapter-num" id="thread-heading">What Comes Back</h2>' +
+          '<p class="thread-count">' + entries.length + ' threads</p>' +
         '</div>' +
         rows +
       '</div></section>';
@@ -507,7 +554,17 @@
     if (!hookDuplicatesOpening(chapter)) {
       out.push('<p class="chapter-hook">' + esc(chapter.hook) + '</p>');
     }
+    // TWO ACTIONS AT A CHAPTER HEAD, and the second one is why /c/NN/ exists.
+    // Sharing #ch07 from this page unfurls as the whole book — one HTML file has
+    // one set of Open Graph tags and cannot say anything else. /c/07/ is a stub
+    // carrying chapter VII's own title, standfirst and plate that redirects into
+    // the book (tools/gen-chapter-stubs.py). A free book moves by being sent to
+    // people, so the link has to survive being sent.
+    out.push('<div class="chapter-actions">');
     out.push('<button class="btn listen-from-here" data-listen-chapter="' + chapter.id + '">Listen from here</button>');
+    out.push('<button type="button" class="btn btn-quiet share-chapter" data-share-chapter="' +
+      esc(chapter.id) + '" data-share-num="' + chapter.num + '">Share this chapter</button>');
+    out.push('</div>');
     out.push('</div>');
     out.push('</header>');
 
@@ -537,7 +594,7 @@
         }
         html = '<p class="' + cls + '" id="' + esc(b.id) + '" data-cue-id="' + esc(b.id) + '">' + b._html + tear + '</p>';
       } else if (b.type === 'verse') {
-        html = renderVerse(b);
+        html = renderVerse(b, chapter.id);
       } else if (b.type === 'ref') {
         // A citation the manuscript sets on its own line, under the line it
         // cites — the prayer in ch. X is written this way throughout. It is

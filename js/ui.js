@@ -149,6 +149,17 @@
     });
     document.addEventListener('keydown', trapOverlayTab);
     // nav Listen opens the Listening Room (js/room.js also listens on this button)
+
+    // js/search.js owns the search sheet's contents but not the sheet plumbing —
+    // opening, the focus trap, Escape and the aria-expanded bookkeeping all live
+    // here and there is exactly one implementation of them. It asks by event.
+    document.addEventListener('panim:open-sheet', function (e) {
+      var id = e.detail && e.detail.id;
+      if (id) openSheet(id, document.getElementById(id.replace('-sheet', '-btn')));
+    });
+    document.addEventListener('panim:close-sheet', function (e) {
+      if (e.detail && e.detail.id) closeSheet(e.detail.id);
+    });
   }
 
   // ---------- the invitation (first visit only) ----------
@@ -344,6 +355,40 @@
     });
   }
 
+  // ---------- share a single chapter ----------
+  // The URL is NOT location.href + '#chNN'. That link unfurls as the whole book,
+  // because index.html is one file with one set of Open Graph tags. It is
+  // /c/NN/ — a generated stub carrying that chapter's own title, standfirst and
+  // plate, which redirects a reader into the book (tools/gen-chapter-stubs.py).
+  //
+  // The base is derived from location, not hardcoded, so it is right on
+  // localhost, on the Pages subpath and anywhere else the site is served.
+  function chapterShareUrl(num) {
+    var base = location.href.split('#')[0].replace(/(index\.html)?$/, '');
+    if (base.charAt(base.length - 1) !== '/') base += '/';
+    return base + 'c/' + (num < 10 ? '0' + num : num) + '/';
+  }
+  function wireChapterShare() {
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest && e.target.closest('[data-share-chapter]');
+      if (!b) return;
+      var id = b.getAttribute('data-share-chapter');
+      var num = +b.getAttribute('data-share-num');
+      var ch = (window.PANIM_CHAPTERS || []).filter(function (c) { return c.id === id; })[0] || {};
+      var url = chapterShareUrl(num);
+      var label = b.textContent;
+      var data = { title: 'PANIM — ' + (ch.title || ''), text: ch.hook || '', url: url };
+      if (navigator.share) {
+        navigator.share(data).catch(function () {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function () {
+          b.textContent = 'Link copied';
+          setTimeout(function () { b.textContent = label; }, 2000);
+        }, function () {});
+      }
+    });
+  }
+
   // ---------- contents: the standfirsts fold ----------
   // The list ran 1225px against an 813px viewport, so the descriptions are folded by
   // default and the choice is remembered. Nothing is removed: every title, numeral and
@@ -381,6 +426,7 @@
     wireLightbox();
     wireListenButtons();
     wireShare();
+    wireChapterShare();
     wireLexiconFilter();
   }
 
