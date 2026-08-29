@@ -27,9 +27,14 @@
 .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .btn[disabled] { opacity: .35; cursor: not-allowed; }
 
-/* an icon button is chrome, not a control surface — no border at all */
+/* An icon button is chrome, not a control surface — no border at all, and no wash
+   either. It inherited `background: var(--control-wash)` from .btn, so every one of
+   them drew a grey chip: the player bar was a row of eight boxes with one outlined
+   circle among them, which is exactly the "three unrelated button treatments" the
+   cohesion note complains about. Chrome is ink on paper; the control surface belongs
+   to .btn and .btn-solid, which is what makes those two read as controls at all. */
 .btn-icon {
-  border: 0; padding: .5em; min-width: 44px;
+  border: 0; background: none; padding: .5em; min-width: 44px;
   color: var(--ink-soft);
 }
 .btn-icon:hover, .btn-icon:focus-visible { background: none; color: var(--ink); }
@@ -131,7 +136,16 @@
   font-size: clamp(1.6rem, 3vw, 2.6rem); line-height: 1;
   color: var(--accent);
   padding-top: .18em;
+  /* it is a link now (index.html) — it must not pick up the site's underline */
+  display: inline-block; justify-self: start;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease);
 }
+.hero-hebrew:hover, .hero-hebrew:focus-visible {
+  border-bottom-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.hero-hebrew:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 /* Retuned for Literata, 2026-08-27. Literata sets wider than Fraunces did, so the
    old clamp(…, 5.1rem) pushed the title from two lines to three and the jacket
    started to shout. Smaller, and a notch lighter than the 400 the shared display
@@ -190,7 +204,26 @@
 }
 .chapter-header .chapter-margin { grid-column: 1 / 3; }
 .chapter-header .chapter-titleblock { grid-column: 3 / 11; }
-.listen-from-here { margin-top: 1.5rem; }
+/* Two actions at the chapter head. "Listen from here" is the control; "Share this
+   chapter" is quieter, because sending a chapter is a thing a reader chooses to do
+   and not the thing the page is for. .btn-quiet drops the control surface — no
+   edge, no wash — and keeps the 44px target, so it reads as a link that happens to
+   be a button, which is what it is. */
+.chapter-actions {
+  margin-top: 1.5rem;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem;
+}
+.listen-from-here { margin-top: 0; }
+.btn-quiet {
+  border-color: transparent; background: none;
+  color: var(--ink-faint);
+  padding-inline: .2em;
+}
+.btn-quiet:hover, .btn-quiet:focus-visible {
+  background: none; color: var(--ink);
+  border-color: transparent;
+  text-decoration: underline; text-underline-offset: .3em;
+}
 
 /* subgrid fallback: lay the header out on its own 12-column grid at the same
    gutter. Alignment is then within a pixel rather than exact, which is fine. */
@@ -319,6 +352,67 @@
   .verse-ref .verse-translation { display: inline; margin-left: .6em; }
 }
 .verse-quotemark { display: none; }   /* removed: decoration pretending to be typography */
+
+/* ---------------------------------------------------------------------------
+   THE VERSE NOTE — two lines of apparatus under a quotation
+   Shape approved in round two: WHERE YOU ARE, then WORTH KNOWING. It sits in the
+   reading column under the verse it belongs to, NOT in the margin the citation
+   hangs in — that column is six steps wide and a sixty-word note set in it is a
+   ribbon. One apparatus system, two jobs: the margin names the source, the note
+   under the verse says what the source is doing.
+
+   It is set in the book's own face at apparatus scale rather than in Archivo. The
+   rule on this site is that the serif is the book and the sans is the machine, and
+   a note about Hebrew grammar written by the author is not machinery. What
+   separates it from the verse above is SIZE, MEASURE and INK, which is how a set
+   book separates a footnote from its text.
+
+   <aside> rather than <div>: a screen reader gets a complementary landmark it can
+   skip, which matters when there are a hundred and thirteen of them.
+   --------------------------------------------------------------------------- */
+.verse-note {
+  margin: 1.15em 0 0;
+  padding-top: .85em;
+  border-top: 1px solid var(--rule);
+  max-width: 46ch;
+  color: var(--ink-soft);
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-lg);
+  line-height: 1.62;
+  letter-spacing: .002em;
+}
+.verse-note .vn-line { margin: 0; }
+.verse-note .vn-line + .vn-line { margin-top: .7em; }
+.verse-note em { font-style: italic; color: var(--ink); }
+/* The two labels are the only thing here that is signage, so they are the only
+   thing set in the apparatus sans — tracked, small, and in the chapter's accent so
+   the eye can find the second line without reading the first. */
+.vn-label {
+  font-family: var(--ui);
+  font-size: .82em; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent);
+  margin-right: .7em;
+  white-space: nowrap;
+}
+/* The full stop is set OUTSIDE the label. Inside it, the uppercase tracking put a
+   letter-space between the last letter and the period and it read as a gap. */
+.vn-label::after {
+  content: '.';
+  letter-spacing: 0;
+}
+/* Chapter X's prayer cites after almost every line; a hundred-word note between
+   two lines of a prayer would break it into paragraphs. The prayer keeps its
+   citations and takes no notes — content/verse-notes.js has none for those
+   blocks, and this is the belt to that file's braces. */
+.prayer-zone .verse-note { display: none; }
+
+@media (max-width: 640px) {
+  .verse-note { max-width: none; }
+  .vn-label { display: block; margin-bottom: .2em; }
+}
+
 
 /* A citation standing alone under the line it belongs to, in the apparatus
    voice. It stays in the text column rather than hanging in the margin: the
@@ -515,18 +609,19 @@
 @supports not (grid-template-columns: subgrid) {
   .thread-head { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
 }
-.thread-head .chapter-num { grid-column: 1 / 3; padding-top: .55em; }
-.thread-standfirst { grid-column: 3 / 10; }
-.thread-standfirst h2 {
-  font-variation-settings: var(--lit-mid);
-  font-weight: 350; font-size: clamp(1.5rem, 3vw, 2.1rem);
-  line-height: 1.12; letter-spacing: -.016em; margin: 0 0 .6em;
+.thread-head .chapter-num { grid-column: 1 / 3; padding-top: .55em; margin: 0; }
+/* The head is now the section's name and a count, nothing else. What was here — a
+   headline plus three italic lines of preamble — is in the git history and in the
+   note above renderThread(); it explained the section to a reader who had just
+   read the book it was explaining. */
+.thread-count {
+  grid-column: 3 / 10; margin: 0;
+  align-self: start; padding-top: .55em;
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-sm); font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink-faint);
 }
-.thread-standfirst p {
-  font-style: italic; color: var(--ink-soft);
-  font-size: 1rem; line-height: 1.55; max-width: 58ch; margin: 0;
-}
-.thread-hint { display: block; margin-top: .5em; font-style: normal; color: var(--ink-faint); }
 
 /* Each entry is a native <details>. Native rather than scripted because the
    keyboard behaviour, the ARIA and the find-in-page expansion are all free and
@@ -560,16 +655,63 @@
 .thread-summary::marker { content: ''; }
 .thread-summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-.thread-span {
-  grid-column: 1 / 3;
-  display: flex; align-items: baseline; gap: .5em;
-  font-family: var(--serif); font-variation-settings: var(--lit-normal);
-  font-size: var(--ap-lg); font-weight: 500;
-  font-variant-numeric: lining-nums tabular-nums;
-  color: var(--accent);
-  padding-top: .35em;
+/* ---------------------------------------------------------------------------
+   THE SPAN RAIL — the margin column stops saying "IV → VI" and draws it
+   Ten ticks on one scale, the same scale in every row, with the span between this
+   entry's two chapters inked in. The section is about distance, and a rail is what
+   distance looks like; the arrow made the reader subtract. Every tick is positioned
+   from --n (1…10) so the geometry is one formula and cannot drift between the bar
+   and the marks it connects.
+   It is aria-hidden and a visually-hidden sentence carries the same fact in words —
+   ten absolutely-positioned <i>s are not something to make a screen reader parse.
+   --------------------------------------------------------------------------- */
+.thread-span { grid-column: 1 / 3; padding-top: .5em; }
+.thread-rail {
+  position: relative; display: block;
+  height: 13px;
+  margin-right: .8em;
 }
-.thread-arrow { color: var(--ink-faint); }
+.thread-rail .thr-tick, .thread-rail .thr-bar { position: absolute; }
+/* (n − 1) / 9 puts tick 1 at 0% and tick 10 at 100%, so the bar and the marks it
+   connects are one formula and cannot drift apart. */
+.thr-tick {
+  top: 2px; left: calc((var(--n) - 1) / 9 * 100%);
+  width: 1px; height: 7px; margin-left: -.5px;
+  background: var(--rule-strong);
+}
+.thr-tick.is-under { background: color-mix(in srgb, var(--accent) 45%, transparent); }
+.thr-tick.is-plant, .thr-tick.is-payoff {
+  top: 0; height: 11px; width: 1.5px; background: var(--accent);
+}
+/* the payoff is the end the book arrives at, so it is the end that is filled in */
+.thr-tick.is-payoff::after {
+  content: ''; position: absolute; left: 50%; top: 3px;
+  width: 5px; height: 5px; margin-left: -2.5px;
+  border-radius: 50%; background: var(--accent);
+}
+.thr-bar {
+  top: 5px; height: 1.5px;
+  left: calc((var(--from) - 1) / 9 * 100%);
+  width: calc((var(--to) - var(--from)) / 9 * 100%);
+  background: var(--accent);
+}
+/* The numerals name what the rail shapes. They sit UNDER the rail on their own
+   line rather than under their own ticks: hung from the ticks they collided
+   outright whenever a thread ran between neighbouring chapters — VII → VIII set
+   as VIIVIII — and there is no positioning rule that fixes that for a scale this
+   narrow. Here the rail carries the distance and this carries the names. */
+.thr-legend {
+  display: block; margin-top: .45em;
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-sm); font-weight: 600;
+  letter-spacing: .12em; line-height: 1;
+  color: var(--accent);
+}
+.thr-legend .thr-to {
+  font-style: normal; color: var(--ink-faint);
+  margin: 0 .45em; letter-spacing: 0;
+}
+
 .thread-head-body { grid-column: 3 / 11; }
 .thread-name {
   font-variation-settings: var(--lit-mid);
@@ -624,9 +766,10 @@
 @media (max-width: 900px) {
   .thread-head { grid-template-columns: repeat(6, 1fr); }
   .thread-head .chapter-num { grid-column: 1 / 7; padding-top: 0; margin-bottom: .6rem; }
-  .thread-standfirst { grid-column: 1 / 7; }
+  .thread-count { grid-column: 1 / 7; margin-bottom: .4rem; }
   .thread-item, .thread-summary { grid-template-columns: repeat(6, 1fr); }
-  .thread-span { grid-column: 1 / 7; padding-top: 0; margin-bottom: .5rem; }
+  .thread-span { grid-column: 1 / 7; padding-top: 0; margin-bottom: .7rem; }
+  .thread-rail { max-width: 220px; }
   .thread-head-body, .thread-detail { grid-column: 1 / 7; }
 }
 
@@ -1391,4 +1534,79 @@ body.nav-toc-open #site-nav {
 @media print {
   .lex-filter { display: none !important; }
   .lex-plates .lex-plate { display: flex !important; }
+}
+
+
+/* ============================================================================
+   SEARCH — js/search.js, #search-sheet
+   The sheet chrome is the shared .sheet; everything below is the field and the
+   result list. A result is one link, not a card: a rule between rows, the kind
+   and the place in the apparatus voice, and the matching line of the book in the
+   book's own face. Nothing here is a new component — it is the same margin
+   apparatus and the same reading measure the chapters use.
+   ============================================================================ */
+.sheet-search .sheet-inner { max-width: 46rem; }
+.search-field { margin: 1.2rem 0 .4rem; }
+#search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: .8em .9em;
+  border: 1px solid var(--control-edge);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-normal);
+  font-size: 1.05rem;
+  min-height: 48px;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+#search-input::placeholder { color: var(--ink-faint); }
+#search-input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.search-status {
+  margin: 0 0 .4rem;
+  font-family: var(--ui); font-size: var(--ap-md);
+  letter-spacing: .06em; color: var(--ink-faint);
+  min-height: 1.2em;
+}
+/* The list is scrollable inside the sheet rather than growing it, so the field
+   stays put while the reader reads down the results. */
+.search-results { max-height: min(56vh, 32rem); overflow-y: auto; }
+.sr-hit {
+  display: block;
+  padding: .85rem 0;
+  border-top: 1px solid var(--rule);
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.sr-hit:hover, .sr-hit:focus-visible { color: var(--ink); }
+.sr-hit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sr-meta {
+  display: flex; gap: .8em; align-items: baseline; flex-wrap: wrap;
+  margin-bottom: .3em;
+  font-family: var(--ui); font-size: var(--ap-sm);
+  letter-spacing: .12em; text-transform: uppercase;
+}
+.sr-kind { color: var(--accent); font-weight: 600; }
+.sr-where { color: var(--ink-faint); }
+.sr-text {
+  display: block;
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-lg); line-height: 1.55;
+}
+/* The match is marked by INK, not by a highlighter block. A yellow band is
+   product chrome and it is unreadable on eight different paper stocks; weight and
+   a hairline underneath say the same thing and survive the dawn arc. */
+.sr-text mark {
+  background: none;
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: inset 0 -1px 0 var(--accent);
+}
+#search-btn svg { width: 17px; height: 17px; display: block; }
+#search-btn { display: grid; place-items: center; }
+
+@media (max-width: 640px) {
+  .search-results { max-height: 50vh; }
 }

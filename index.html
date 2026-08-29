@@ -103,12 +103,12 @@
 <link rel="preload" href="fonts/l04.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/g02.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/h00.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts/fonts.css?v=32">
-<link rel="stylesheet" href="css/site.css?v=32">
-<link rel="stylesheet" href="css/components.css?v=32">
-<link rel="stylesheet" href="css/player.css?v=32">
-<link rel="stylesheet" href="css/room.css?v=32">
-<link rel="stylesheet" href="css/polish.css?v=32">
+<link rel="stylesheet" href="fonts/fonts.css?v=33">
+<link rel="stylesheet" href="css/site.css?v=33">
+<link rel="stylesheet" href="css/components.css?v=33">
+<link rel="stylesheet" href="css/player.css?v=33">
+<link rel="stylesheet" href="css/room.css?v=33">
+<link rel="stylesheet" href="css/polish.css?v=33">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -126,6 +126,9 @@
       <span class="ntt-here" id="ntt-here">I</span>
     </button>
     <div class="nav-actions">
+      <button class="btn btn-icon" id="search-btn" aria-haspopup="dialog" aria-controls="search-sheet" title="Search the book (press /)" aria-label="Search the book">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="6.25"/><path d="M15.6 15.6 20 20"/></svg>
+      </button>
       <button class="btn btn-icon" id="about-btn" aria-haspopup="dialog" aria-controls="about-sheet" title="About">About</button>
       <button class="btn" id="listen-btn" title="Open the Listening Room">Listen</button>
     </div>
@@ -147,7 +150,12 @@
        laid on top of it; the title block below sits on paper. -->
   <section id="hero" class="section" data-ch="0">
     <div class="hero-block">
-      <div class="hero-hebrew" lang="he" dir="rtl">פָּנִים</div>
+      <!-- The book's own word, and the one thing on the page a reader is most
+           likely to try to click. It goes to that word's plate in the closing
+           lexicon (#lex-panim), which is the only place on the site that answers
+           "what does this say and what does it mean". -->
+      <a class="hero-hebrew" href="#lex-panim" lang="he" dir="rtl"
+         aria-label="Panim — the Hebrew word for face. Open its entry in the lexicon.">פָּנִים</a>
       <h1 class="hero-title">The Invitation Hidden on Every Page</h1>
       <p class="hero-subtitle">One Hebrew word for <em>face</em>, followed from the first page of the Bible to the last, until it becomes the whole story.</p>
       <div class="hero-meta">
@@ -228,6 +236,26 @@
     <!-- The accessibility statement lives in About rather than in a footer because this
          site has no footer other than the player, which is chrome. -->
     <p class="about-fineprint"><a href="accessibility.html">Accessibility</a></p>
+  </div>
+</aside>
+
+<!-- SEARCH. Fifty thousand words about one word, and until now no way to find a
+     word. The index is built in the browser from content/chapters.js the first time
+     this opens — the whole text is already on the page, so a client-side index needs
+     no server and keeps working offline like the rest of the site.
+     role="dialog" and the sheet plumbing are the same as every other sheet; the
+     results are a live region so a screen reader is told how many there are. -->
+<aside class="sheet sheet-search" id="search-sheet" hidden role="dialog" aria-label="Search the book">
+  <div class="sheet-inner">
+    <button class="btn btn-icon sheet-close" data-close-sheet="search-sheet" aria-label="Close">×</button>
+    <h2>Search the book</h2>
+    <div class="search-field">
+      <label class="visually-hidden" for="search-input">Search the book</label>
+      <input type="search" id="search-input" autocomplete="off" autocapitalize="off"
+             spellcheck="false" placeholder="a word, a name, a reference&#8230;">
+    </div>
+    <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
+    <div class="search-results" id="search-results"></div>
   </div>
 </aside>
 
@@ -312,7 +340,7 @@
       <button class="btn btn-icon" id="room-speed" title="Playback speed">1×</button>
       <button class="btn btn-icon" id="room-sleep" title="Sleep timer">Sleep</button>
       <button class="btn btn-icon" id="room-follow" title="Read along — drop to the page at the live paragraph">Read</button>
-      <button class="btn btn-icon" id="room-chapters" title="Chapters">I–X</button>
+      <button class="btn btn-icon" id="room-chapters" title="Chapters">Chapters</button>
     </div>
   </div>
   <div class="room-seek" id="room-seek" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
@@ -325,7 +353,9 @@
   <div class="player-controls">
     <div class="player-transport">
       <button class="btn btn-icon" id="skip-back-btn" title="Back 15s" aria-label="Skip back 15 seconds">−15</button>
-      <button class="btn btn-icon" id="play-btn" title="Play" aria-label="Play">▶</button>
+      <button class="btn btn-icon" id="play-btn" title="Play" aria-label="Play">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="ico-play" d="M8 5.5v13l11-6.5z"/><g class="ico-pause"><rect x="7" y="5" width="3.4" height="14" rx="1"/><rect x="13.6" y="5" width="3.4" height="14" rx="1"/></g></svg>
+      </button>
       <button class="btn btn-icon" id="skip-fwd-btn" title="Forward 30s" aria-label="Skip forward 30 seconds">+30</button>
     </div>
     <div class="player-meta">
@@ -336,7 +366,13 @@
       <button class="btn btn-icon" id="speed-btn" title="Playback speed" aria-label="Playback speed">1×</button>
       <button class="btn btn-icon" id="follow-btn" title="Follow the narration" aria-label="Follow the narration" aria-pressed="false">Follow</button>
       <button class="btn btn-icon" id="sleep-btn" title="Sleep timer" aria-haspopup="dialog" aria-controls="sleep-sheet">Sleep</button>
-      <button class="btn btn-icon" id="room-btn" title="Listening room" aria-label="Open the listening room">◉</button>
+      <!-- The Listening Room is the night edition: lights down, phone on a nightstand.
+           A crescent is the one shape that says that without a label. It replaced a
+           bullseye glyph (◉) that meant nothing and rendered differently on every
+           platform, because it was a text character and not a drawing. -->
+      <button class="btn btn-icon" id="room-btn" title="Listening room" aria-label="Open the listening room">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.2 15.1A8.4 8.4 0 0 1 9 3.9a8.4 8.4 0 1 0 11.2 11.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </button>
     </div>
   </div>
   <div class="player-seek">
@@ -360,18 +396,20 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=32"></script>
-<script src="content/images.js?v=32"></script>
-<script src="content/audio-manifest.js?v=32"></script>
-<script src="content/marks.js?v=32"></script>
-<script src="content/thread.js?v=32"></script>
-<script src="content/lexicon.js?v=32"></script>
-<script src="js/render.js?v=32"></script>
-<script src="js/ui.js?v=32"></script>
-<script src="js/motion.js?v=32"></script>
-<script src="js/sync.js?v=32"></script>
-<script src="js/player.js?v=32"></script>
-<script src="js/room.js?v=32"></script>
+<script src="content/chapters.js?v=33"></script>
+<script src="content/images.js?v=33"></script>
+<script src="content/audio-manifest.js?v=33"></script>
+<script src="content/marks.js?v=33"></script>
+<script src="content/thread.js?v=33"></script>
+<script src="content/lexicon.js?v=33"></script>
+<script src="content/verse-notes.js?v=33"></script>
+<script src="js/render.js?v=33"></script>
+<script src="js/ui.js?v=33"></script>
+<script src="js/motion.js?v=33"></script>
+<script src="js/sync.js?v=33"></script>
+<script src="js/search.js?v=33"></script>
+<script src="js/player.js?v=33"></script>
+<script src="js/room.js?v=33"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

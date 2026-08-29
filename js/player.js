@@ -174,8 +174,12 @@
   function reflectPlaying(playing) {
     if (state.playing === playing) return;
     state.playing = playing;
-    els.playBtn.textContent = playing ? '❚❚' : '▶';
+    // The glyphs ▶ / ❚❚ were text, so the transport was set in whatever the font
+    // stack happened to have and did not match the Listening Room's own transport,
+    // which has always been drawn. Same two paths, same class switch as room.js.
+    els.playBtn.classList.toggle('is-playing', playing);
     els.playBtn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+    els.playBtn.setAttribute('title', playing ? 'Pause' : 'Play');
     setPlayerState(playing ? 'playing' : 'paused');
     updateHoldVisibility();
     emit('panim:play-state', { playing: playing });

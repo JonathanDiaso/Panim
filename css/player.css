@@ -25,12 +25,28 @@
 
 .player-transport { display: flex; align-items: center; gap: .25rem; }
 .player-transport .btn-icon { min-width: 44px; min-height: 44px; font-size: 1rem; }
+/* THE TRANSPORT IS DRAWN, NOT TYPED, 2026-08-28.
+   Play and pause were the text characters ▶ and ❚❚, set in whatever the font stack
+   happened to have: two different weights on two different platforms, a vertical
+   centring that drifted, and no relation to the Listening Room's transport, which
+   was always SVG. These are the room's own two paths and the room's own class
+   switch (js/player.js reflectPlaying). */
 #play-btn {
   min-width: 46px; min-height: 46px;
+  display: grid; place-items: center;
   border: 1px solid var(--ink); border-radius: 50%;
   color: var(--ink);
 }
+#play-btn svg { width: 21px; height: 21px; fill: currentColor; display: block; }
+#play-btn .ico-pause { display: none; }
+#play-btn.is-playing .ico-pause { display: block; }
+#play-btn.is-playing .ico-play { display: none; }
 #play-btn:hover, #play-btn:focus-visible { background: var(--ink); color: var(--paper); }
+
+/* The Listening Room button. A crescent, stroked in the current ink so it inherits
+   the chapter's paper like every other control on the bar. */
+#room-btn { display: grid; place-items: center; }
+#room-btn svg { width: 19px; height: 19px; display: block; }
 
 .player-meta {
   flex: 1 1 auto; min-width: 0;
@@ -104,42 +120,50 @@
   margin: 0 0 6px;
 }
 .seekbar-marks { position: absolute; inset: 0; }
+
+/* THE NUMERAL IS THE MARK, 2026-08-28.
+   The rail used to draw a 2px tick AND hang a numeral under it — two marks for one
+   chapter, the tick carrying the state and the label carrying the name, so the eye
+   had to assemble them. The numeral alone does both jobs and is the thing you were
+   going to read anyway. It is also now set in LITERATA: the contents numerals and
+   the running head moved out of Archivo months ago (README §3) and this rail was the
+   one place left still setting a roman numeral in the apparatus sans, where V and X
+   are drawn as capital letters of a grotesk and read as text rather than as number.
+
+   CONTRAST. The label is real text, so the bar is 4.5:1, not the 3:1 a graphical
+   tick needed — --ink-faint is exactly 4.5:1 against the darkest paper stock
+   (see css/site.css). Read chapters step up to --ink-soft and the current one takes
+   --accent plus a hairline, so the three states are ink weight, not colour alone. */
 .seek-mark {
-  position: absolute; top: 0; width: 2px; height: 6px; padding: 0;
-  /* WCAG 1.4.11 — these ticks are a graphical object required to understand the
-     book index (unread vs. read vs. current), so the mark itself needs 3:1, not
-     just the invisible hit area below it. 30% measured 1.92:1 against the
-     darkest paper stock (#EBE6E1, chapter VIII); 48% clears 3:1 there (3.08:1)
-     with the same ink and no new colour. */
-  background: color-mix(in srgb, var(--ink) 48%, transparent);
-  transition: background var(--dur-fast) var(--ease);
+  position: absolute; top: 0;
+  transform: translateX(-50%);
+  padding: 0 .18em 3px;
+  background: none; border: 0; cursor: pointer;
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-normal);
+  font-size: .72rem; font-weight: 500; font-style: normal;
+  letter-spacing: .05em; line-height: 1;
+  color: var(--ink-faint);
+  border-bottom: 1px solid transparent;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
 }
 .seek-mark::before {
-  /* 44px-square invisible tap target centred on the 2px visual tick */
+  /* 44px-square invisible tap target centred on the numeral */
   content: "";
-  position: absolute; top: 50%; left: 50%; width: 44px; height: 44px;
+  position: absolute; top: 50%; left: 50%;
+  width: 44px; height: 44px; min-width: 100%;
   transform: translate(-50%, -50%);
 }
-.seek-mark:hover, .seek-mark:focus-visible { background: var(--ink); }
-.seek-mark.is-complete { background: var(--accent); }
-.seek-mark.is-current { background: var(--ink); height: 10px; }
-
-/* The label was authored and then hidden, so the rail asked the reader to know what
-   ten unlabelled ticks meant. Roman numerals, matching the running head and contents. */
-.seek-mark-label {
-  position: absolute; top: 8px; left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--ui); font-style: normal;
-  font-size: var(--ap-sm); font-weight: 600; letter-spacing: .08em;
-  color: var(--ink-faint);
-  line-height: 1;
+.seek-mark-label { font-style: normal; }
+.seek-mark:hover, .seek-mark:focus-visible { color: var(--ink); }
+.seek-mark.is-complete { color: var(--ink-soft); }
+.seek-mark.is-current {
+  color: var(--accent); font-weight: 600;
+  border-bottom-color: var(--accent);
 }
-.seek-mark:hover .seek-mark-label,
-.seek-mark:focus-visible .seek-mark-label { color: var(--ink); }
-.seek-mark.is-current .seek-mark-label { color: var(--accent); }
-/* the end marks sit at 0% and 100%, so a centred label would hang off the bar */
-.seek-mark:first-child .seek-mark-label { left: 0; transform: none; }
-.seek-mark:last-child .seek-mark-label { left: 100%; transform: translateX(-100%); }
+/* the end marks sit at 0% and 100%, so a centred numeral would hang off the bar */
+.seek-mark:first-child { transform: none; }
+.seek-mark:last-child { transform: translateX(-100%); }
 
 .seek-handle {
   position: absolute; top: 50%; width: 11px; height: 11px; margin-left: -5.5px;
