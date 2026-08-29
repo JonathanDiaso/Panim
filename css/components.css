@@ -1462,12 +1462,24 @@
   font-size: var(--ap-md); font-weight: 500; letter-spacing: .14em;
   text-transform: uppercase; color: var(--accent);
 }
-/* The one sentence the hero does not say: what the thing IS, not what it is about. */
+/* THE LEDE, three paragraphs since 2026-08-29 (D14-A). It was one sentence naming
+   the format. It now opens with the discovery, pays the reader two reasons, and only
+   then says what the thing is — so the paragraphs are graded rather than uniform:
+   the hook is set in the reading ink at full size, the middle carries the argument,
+   and the closing logistics line drops to the quiet ink the old single sentence used.
+   🛑 The grade is the point. Flattening all three to one colour puts "ten chapters,
+   start to finish" at the same weight as the sentence that has to earn the evening. */
 .invite-lede {
-  font-size: 1.02rem; line-height: 1.6; margin: 0;
-  color: var(--ink-soft);
+  font-size: 1.06rem; line-height: 1.62; margin: 0 0 .85em;
+  color: var(--ink);
 }
-.invite-lede em { font-style: italic; color: var(--ink); }
+.invite-lede:first-of-type {
+  font-size: 1.16rem; line-height: 1.5; letter-spacing: -.008em;
+}
+.invite-lede-last {
+  font-size: 1rem; color: var(--ink-soft); margin-bottom: 0;
+}
+.invite-lede em { font-style: italic; color: var(--accent); }
 .invite-actions { display: flex; gap: .7rem; flex-wrap: wrap; margin: 1.6rem 0 1.2rem; }
 .invite-meta {
   font-family: var(--ui);
@@ -1899,6 +1911,19 @@ body.nav-toc-open #site-nav {
   opacity: 0; transition: opacity 900ms var(--ease);
 }
 .lex-plate.is-rooted .lex-root-note { opacity: 1; }
+/* 🛑 THE ABSENT-ROOT LINE IS NOT ANIMATED, added 2026-08-29 (D14-F). The rule above
+   holds .lex-root-note at opacity 0 until js/ui.js adds .is-rooted, and .is-rooted is
+   only ever added to a plate that HAS a root to dim to. An entry with no root would
+   therefore have printed its explanation at opacity 0 — a sentence written to close a
+   gap, invisible, in the gap. It is shown outright, in the faint ink, because it is a
+   statement of fact and not the payoff of an animation. */
+.lex-root-note.is-absent {
+  opacity: 1; transition: none;
+  letter-spacing: .1em; text-transform: none;
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-weight: 400; font-style: italic; font-size: var(--ap-md);
+  color: var(--ink-faint);
+}
 .lex-root-word {
   font-family: var(--heb); font-weight: 400;
   font-size: 1.5em; letter-spacing: .08em; text-transform: none;
@@ -1972,14 +1997,43 @@ body.nav-toc-open #site-nav {
    <button>s carrying aria-pressed — the state is "which one of these is on", which
    is exactly what aria-pressed says, and it is why this is not a row of links.
    ============================================================================ */
-.lex-filter {
+/* TWO GROUPS, ONE ROW, since 2026-08-29 (D14-E). "Show" selects a chapter or a
+   language; "Order" selects chapter order or A–Z. They are different questions, so
+   they are different groups with their own labels rather than one undifferentiated
+   run of fourteen buttons the reader has to parse by reading all of them.
+   The row wraps to two lines below ~900px on its own; nothing is hidden. */
+.lex-controls {
   grid-column: 1 / -1;
-  display: flex; flex-wrap: wrap; gap: .4rem;
+  display: flex; flex-wrap: wrap; gap: .4rem 1.6rem;
+  align-items: center;
   margin-top: clamp(1.4rem, 3vw, 2.2rem);
 }
+.lex-controls-label {
+  font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint);
+  margin-inline-end: .2rem;
+}
+.lex-filter, .lex-sort {
+  display: flex; flex-wrap: wrap; gap: .4rem;
+  align-items: center;
+}
+.lex-filter { flex: 1 1 24rem; }
+/* the hairline between the ten chapter numerals and the three languages: one filter
+   row, two kinds of thing in it, and no second border or heading to say so */
+.lex-filter-sep {
+  width: 1px; align-self: stretch; margin: .3rem .35rem;
+  background: var(--rule);
+}
+/* 🛑 min-WIDTH as well as min-height, from 2026-08-29 (D14-E). Measured, not
+   guessed: Chapter I, Chapter V and Chapter X came out 34px wide against a 44px
+   floor, because a roman numeral of one narrow letter plus a two-digit count is
+   simply not as wide as "Chapter VIII". Only three of sixteen failed, which is
+   exactly why it survived — the row LOOKS even, and the three that are wrong are
+   the three a thumb is most likely to miss.
+   It predates the sort row; the measurement pass that added the sort found it. */
 .lex-filter-btn {
-  display: inline-flex; align-items: baseline; gap: .45em;
-  min-height: 44px; padding: .5em .85em;
+  display: inline-flex; align-items: baseline; justify-content: center; gap: .45em;
+  min-height: 44px; min-width: 44px; padding: .5em .85em;
   border: 1px solid var(--control-edge);
   background: var(--control-wash);
   color: var(--ink);
@@ -2013,12 +2067,23 @@ body.nav-toc-open #site-nav {
 .lex-wall[data-filter="ch08"] .lex-chip:not([data-ch="ch08"]),
 .lex-wall[data-filter="ch09"] .lex-chip:not([data-ch="ch09"]),
 .lex-wall[data-filter="ch10"] .lex-chip:not([data-ch="ch10"]) { display: none; }
+/* …and the same mechanism on the second axis. Three more rules rather than a
+   JS class toggle, so both axes stay one attribute on one element — which is the
+   reason the wall reflows without a single per-element write. */
+.lex-wall[data-filter="lang:he"]  .lex-chip:not([data-lang="he"]),
+.lex-wall[data-filter="lang:grc"] .lex-chip:not([data-lang="grc"]),
+.lex-wall[data-filter="lang:akk"] .lex-chip:not([data-lang="akk"]) { display: none; }
 
 /* On paper there is no filter and no chosen word, so the wall goes and ALL FIFTY
    ENTRIES PRINT. A printed lexicon that showed one article and forty-nine hidden
    ones would be a lexicon with one word in it. */
 @media print {
-  .lex-filter, .lex-wall { display: none !important; }
+  /* .lex-controls, not .lex-filter — the row gained a second group (the sort) on
+     2026-08-29 and hiding only the first would have printed a stray "Order /
+     Chapter order / A–Z" above a lexicon that has neither. Paper has no controls.
+     The printed entries stay in the book's order whatever the screen was sorted to,
+     which is right: on paper this is the back of THIS book, not a dictionary. */
+  .lex-controls, .lex-wall { display: none !important; }
   .lex-article .lex-plate { display: flex !important; }
   .lex-article .lex-plate[hidden] { display: flex !important; }
   .lex-article { display: block !important; }

@@ -449,6 +449,7 @@
     wireShare();
     wireChapterShare();
     wireLexiconFilter();
+    wireLexiconSort();
     wireLexiconWall();
   }
 
@@ -491,6 +492,61 @@
         var first = $all('.lex-chip', wall).filter(function (c) { return c.offsetParent !== null; })[0];
         if (first) selectLexWord(first.getAttribute('data-lex'), false);
       }
+    });
+  }
+
+  // ---------- the lexicon sort ----------
+  //
+  // Chapter order is the book's order and it is the default, because the lexicon is
+  // the back of THIS book before it is a dictionary. A–Z by transliteration is the
+  // other half of what the page is for: it is how you look a word up when you only
+  // half-remember it.
+  //
+  // 🛑 IT MOVES THE NODES. It does NOT set flexbox `order`.
+  // `order` was written first and thrown away, and the reason is worth keeping: the
+  // wall is fifty focusable <button>s, and `order` repaints them without touching the
+  // DOM — so the eye would read A, B, C while Tab walked chapter I, II, III. That is
+  // WCAG 2.4.3 exactly, and on a wall whose entire job is lookup it is not a
+  // technicality: a keyboard reader would tab into apparent nonsense.
+  // Moving nodes costs one layout, into a fragment, once per tap. Focus survives it —
+  // a focused element that is re-appended keeps focus — and every id travels with its
+  // node, so `#lex-panim` and every other deep link still land.
+  // The alphabetical rank is computed ONCE, on the first tap, off data-t — the same
+  // string the chip already shows.
+  function wireLexiconSort() {
+    var row = document.querySelector('.lex-sort');
+    var wall = document.getElementById('lex-wall');
+    if (!row || !wall) return;
+    var bookOrder = $all('.lex-chip', wall);          // the order the render produced
+    var azOrder = null;
+
+    function alphabetical() {
+      if (azOrder) return azOrder;
+      // localeCompare, not <, so the apostrophe in El Ro'i and the hyphen in
+      // mi-yitten sort where a reader expects them and not where a byte does.
+      azOrder = bookOrder.slice().sort(function (a, b) {
+        return String(a.getAttribute('data-t')).localeCompare(String(b.getAttribute('data-t')));
+      });
+      return azOrder;
+    }
+
+    function lay(list) {
+      var frag = document.createDocumentFragment();
+      list.forEach(function (c) { frag.appendChild(c); });
+      wall.appendChild(frag);
+    }
+
+    row.addEventListener('click', function (e) {
+      var btn = e.target.closest('.lex-filter-btn');
+      if (!btn) return;
+      var want = btn.getAttribute('data-sort');
+      $all('.lex-filter-btn', row).forEach(function (b) {
+        var on = b === btn;
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      lay(want === 'az' ? alphabetical() : bookOrder);
+      wall.setAttribute('data-sort', want);
     });
   }
 

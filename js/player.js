@@ -334,6 +334,20 @@
       state.sleepEndsAt = Date.now() + ms;
       state.sleepTimer = setTimeout(fadeOutAndPause, Math.max(0, ms - SLEEP_FADE_MS));
     }
+    // THE BAR'S SLEEP CONTROL BECAME A DRAWING ON 2026-08-29 (D14-B), so it has to
+    // carry its own state. As the word "Sleep" it was stateless too, but a word at
+    // least names itself; a crescent that looks identical armed and disarmed tells a
+    // reader nothing at all. --accent via .is-active is what "on" means everywhere
+    // else on this site, and the label says which timer, because "Sleep timer, on"
+    // is not a useful thing to hear when six options set it.
+    if (els.sleepBtn) {
+      var armed = mode !== 'off';
+      els.sleepBtn.classList.toggle('is-active', armed);
+      els.sleepBtn.setAttribute('aria-label',
+        !armed ? 'Sleep timer' :
+        mode === 'chapter' ? 'Sleep timer: end of this chapter' :
+        'Sleep timer: ' + mode + ' minutes');
+    }
     emit('panim:sleep-change', { mode: mode, endsAt: state.sleepEndsAt });
     if (mode !== 'off') announce(mode === 'chapter' ? 'Sleeping at the end of this chapter.' : 'Sleep in ' + mode + ' minutes.');
   }
