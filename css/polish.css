@@ -175,3 +175,34 @@
      and it is already printed as text beside the verse */
   a[href^="#"]::after { content: ''; }
 }
+
+/* ============================================================================
+   TAP A PARAGRAPH, HEAR IT — the affordance
+   ============================================================================
+   The behaviour is in js/sync.js; this is the only thing that tells a reader it
+   is there. .can-tap-to-listen is set by that file, and only where a pointer
+   exists — a keyboard-only session never gets a hover cue for a thing it cannot
+   do.
+
+   The mark is a hairline in the margin, on hover, in the chapter's accent. NOT a
+   background tint and NOT a cursor change on the text itself: a paragraph that
+   highlights under the pointer reads as selected, and this book already uses a
+   glow on a paragraph to mean "this is the line being read aloud right now".
+   Two different meanings on one signal is worse than no signal.
+   ============================================================================ */
+@media (hover: hover) {
+  .can-tap-to-listen [data-cue-id] { position: relative; }
+  .can-tap-to-listen [data-cue-id]::before {
+    content: '';
+    position: absolute; left: -.85em; top: .35em; bottom: .35em;
+    width: 2px; background: var(--accent);
+    opacity: 0; transition: opacity var(--dur-fast) var(--ease);
+    pointer-events: none;
+  }
+  .can-tap-to-listen [data-cue-id]:hover::before { opacity: .55; }
+  /* the live paragraph already says something with the accent; do not say it twice */
+  .can-tap-to-listen [data-cue-id].is-live::before { opacity: 0 !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .can-tap-to-listen [data-cue-id]::before { transition: none; }
+}
