@@ -701,7 +701,7 @@ window.PANIM_CHAPTERS = [
   "num": 2,
   "id": "ch02",
   "title": "The Hiding",
-  "hook": "The first thing that goes wrong is not a rule broken. It is a face avoided.",
+  "hook": "Shame never waits to find out whether God has turned away. It turns first, and assumes He has.",
   "glossary": [
    {
     "term": "satar",
@@ -1585,7 +1585,7 @@ window.PANIM_CHAPTERS = [
   "num": 3,
   "id": "ch03",
   "title": "The Face They Fled",
-  "hook": "A nation is offered the thing every other nation wanted, and asks to be spared it.",
+  "hook": "A whole nation washes its clothes for two days to meet God face to face, and then asks to be excused from it.",
   "glossary": [
    {
     "term": "panim el panim",
@@ -2918,7 +2918,7 @@ window.PANIM_CHAPTERS = [
   "num": 5,
   "id": "ch05",
   "title": "Mouth to Mouth",
-  "hook": "A fire that will not consume the bush it burns in, and a man who will not look at it.",
+  "hook": "The fire never shouted at him. It burned, and waited, and only said his name once he had turned his face toward it.",
   "glossary": [
    {
     "term": "Ehyeh asher Ehyeh",
@@ -3989,7 +3989,7 @@ window.PANIM_CHAPTERS = [
   "num": 6,
   "id": "ch06",
   "title": "Borrowed Light",
-  "hook": "Moses comes down the mountain lit up, and is the only person who cannot see it.",
+  "hook": "His face is burning, the whole camp has backed away from him, and nobody will come tell him why. The lamp is the last to know it is lit.",
   "glossary": [
    {
     "term": "masveh",
@@ -4891,7 +4891,7 @@ window.PANIM_CHAPTERS = [
   "num": 7,
   "id": "ch07",
   "title": "The Glory Backs Out",
-  "hook": "Ezekiel watches the light leave the temple one slow, deliberate step at a time.",
+  "hook": "The light leaves the temple one slow, deliberate step at a time, and the building goes on gleaming as if nothing has happened.",
   "glossary": [
    {
     "term": "haster astir",
@@ -6311,7 +6311,7 @@ window.PANIM_CHAPTERS = [
   "num": 8,
   "id": "ch08",
   "title": "The Face Set Like Flint",
-  "hook": "A face lit like the sun on one mountain, and set like flint toward another.",
+  "hook": "Moses was told he could not see the face of God and live. On this mountain he is standing in front of it.",
   "glossary": [
    {
     "term": "metamorphoo",
@@ -7654,7 +7654,7 @@ window.PANIM_CHAPTERS = [
   "num": 9,
   "id": "ch09",
   "title": "Eyes Opened",
-  "hook": "Two men walk with Him for seven miles and do not know Him until the bread breaks.",
+  "hook": "Seven miles beside Him, arguing about Him, and it is the way He breaks the bread that gives Him away.",
   "glossary": [
    {
     "term": "lechem ha-panim",
@@ -8656,7 +8656,7 @@ window.PANIM_CHAPTERS = [
   "num": 10,
   "id": "ch10",
   "title": "Face to Face",
-  "hook": "Philip asks for the one thing no one has ever been given. He is already looking at it.",
+  "hook": "Every veil in this book was hung to hide a face. The last one is hung to promise one, and it does not tear — it lifts.",
   "glossary": [
    {
     "term": "prosagoge",

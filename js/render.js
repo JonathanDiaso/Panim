@@ -134,38 +134,65 @@
       '</div></section>';
   }
 
-  // THE THREAD — the closing section, after the five words.
+  // WHAT COMES BACK — the closing section, after the five words.
+  //
   // It used to be a sheet behind a button in the running head: thirteen bare labels
   // and two chapter links, opened by a control that competed with About and Listen
   // before a first-time reader had read a sentence. At the end of the book the same
   // thirteen entries change job — they stop being navigation and become the argument.
   // Data and every claim in it live in content/thread.js.
+  //
+  // IT IS NOT CALLED "THE THREAD" ANY MORE. That was a working title borrowed from
+  // the build brief and it named the mechanism rather than the thing: a reader who
+  // has just finished the book does not need to be told there is a thread, they need
+  // to be told what came back. The id stays `thread` — anchors, the stylesheet and
+  // content/thread.js all key off it, and renaming an id to match a heading is how
+  // links rot.
+  //
+  // EACH ENTRY IS A <details>, and that is not only for length. The thirteen notes
+  // are a wall of thirteen paragraphs if they are all open, and — the reason it is
+  // native rather than scripted — the summary now carries the numerals as TEXT and
+  // the two chapter links have moved down into the body. Those links used to be
+  // ~22px tall in a row whose baseline could not take padding, which failed WCAG 2.2
+  // target size. In the body they are ordinary links with room to be 44px. The fix
+  // and the feature are the same change.
   function renderThread() {
     var entries = window.PANIM_THREAD || [];
     if (!entries.length) return '';
     var rows = entries.map(function (t) {
-      return '<article class="thread-item reveal">' +
-        '<div class="thread-span">' +
-          '<a href="#' + esc(t.from) + '">' + (ROMAN[+t.from.slice(2)] || t.from) + '</a>' +
-          '<span class="thread-arrow" aria-hidden="true">\u2192</span>' +
-          '<a href="#' + esc(t.to) + '">' + (ROMAN[+t.to.slice(2)] || t.to) + '</a>' +
-        '</div>' +
-        '<div class="thread-body">' +
-          '<h3 class="thread-name">' + t.label + '</h3>' +
+      var from = ROMAN[+t.from.slice(2)] || t.from;
+      var to = ROMAN[+t.to.slice(2)] || t.to;
+      return '<details class="thread-item reveal">' +
+        '<summary class="thread-summary">' +
+          '<span class="thread-span">' +
+            '<span class="thread-num">' + from + '</span>' +
+            '<span class="thread-arrow" aria-hidden="true">→</span>' +
+            '<span class="thread-num">' + to + '</span>' +
+          '</span>' +
+          '<span class="thread-head-body">' +
+            '<h3 class="thread-name">' + t.label + '</h3>' +
+          '</span>' +
+        '</summary>' +
+        '<div class="thread-detail">' +
           '<p class="thread-note">' + t.note + '</p>' +
           (t.refs ? '<p class="thread-refs">' + esc(t.refs) + '</p>' : '') +
+          '<p class="thread-jump">' +
+            '<a href="#' + esc(t.from) + '">Chapter ' + from + '</a>' +
+            '<a href="#' + esc(t.to) + '">Chapter ' + to + '</a>' +
+          '</p>' +
         '</div>' +
-      '</article>';
+      '</details>';
     }).join('');
     return '<section class="section" id="thread" data-ch="fw" aria-labelledby="thread-heading">' +
       '<div class="section-inner">' +
         '<div class="thread-head">' +
-          '<span class="chapter-num">The Thread</span>' +
+          '<span class="chapter-num">What Comes Back</span>' +
           '<div class="thread-standfirst">' +
             '<h2 id="thread-heading">Nothing in this book was set down once.</h2>' +
             '<p>Every one of these was planted in an early chapter and left alone until a ' +
             'later one came back for it. They are listed here rather than earlier because ' +
-            'a thread only reads as a thread once you have walked its whole length.</p>' +
+            'a thread only reads as a thread once you have walked its whole length. ' +
+            '<span class="thread-hint">Open one to see where it was planted and where it lands.</span></p>' +
           '</div>' +
         '</div>' +
         rows +
@@ -173,27 +200,108 @@
   }
 
   // THE LEXICON — the closing plate, after the Thread.
+  //
   // The words are set as REAL TEXT in Frank Ruhl Libre, not as images. A Hebrew
   // letterform is already a drawing; a picture of one is heavier, blurrier at the
   // size this wants, unselectable, invisible to a screen reader and needs a retina
-  // twin. The ink effect is done in CSS on live type (css/components.css, LEXICON):
-  // a mask sweeps right-to-left — the direction Hebrew is actually written — with a
-  // feathered leading edge and a nib travelling on it, so the word appears to be laid
-  // down rather than faded in. Greek sweeps left-to-right, because Greek does.
+  // twin. Everything below is done in CSS on live type.
+  //
+  // TWO THINGS HAPPEN TO EVERY WORD, in order, and they are the whole section:
+  //
+  //   1. IT DRAWS ITSELF. A feathered mask sweeps across the letters — right to
+  //      left for Hebrew, the direction Hebrew is actually written; left to right
+  //      for Greek, because Greek is — so the word is laid down by a nib rather
+  //      than faded in. It runs at 2.6s, not the 1.5s it shipped at: a sweep fast
+  //      enough to miss is just a transition, and the point is to watch it happen.
+  //
+  //   2. THE ROOT STAYS LIT. A beat after the word lands, everything that is not
+  //      a root consonant dims — the vowel points, the prefixes, the vowel letters
+  //      — and the root is left burning on the page. In a book about one word's
+  //      biography this is the most on-theme move available, and it is why
+  //      content/lexicon.js carries a `root` field at all.
+  //
+  // 🛑 THE ROOT MATCH FAILS SAFE. `root` holds the letters of the root ACTUALLY
+  // PRESENT in this form, in order. hebClusters splits the word into base letters
+  // with their points attached, then matches `root` as a subsequence of the base
+  // letters only. No match, no highlight — a wrong root highlight in a book about
+  // a Hebrew word is worse than none, so this never guesses.
+
+  // Combining marks that belong to the letter before them: nikkud, dagesh, the
+  // shin/sin dots, the rafe. NOT U+05BE maqaf, which is a hyphen and a character
+  // in its own right, and not U+05C0/U+05C3 which are punctuation.
+  function isHebMark(cp) {
+    return (cp >= 0x0591 && cp <= 0x05BD) || cp === 0x05BF ||
+           cp === 0x05C1 || cp === 0x05C2 || cp === 0x05C4 ||
+           cp === 0x05C5 || cp === 0x05C7;
+  }
+  function isHebLetter(cp) { return cp >= 0x05D0 && cp <= 0x05EA; }
+
+  // -> [{ base: 'פ', text: 'פְּ' }, ...] — one entry per written letter, each
+  // carrying its own points, so a letter can be lit or dimmed as a single object.
+  function hebClusters(word) {
+    var out = [];
+    for (var i = 0; i < word.length; i++) {
+      var cp = word.charCodeAt(i);
+      if (isHebMark(cp) && out.length) { out[out.length - 1].text += word[i]; continue; }
+      out.push({ base: word[i], text: word[i] });
+    }
+    return out;
+  }
+
+  // Greedy left-to-right subsequence match. The string is in logical order, which
+  // for Hebrew is the order the letters are written, so a root always appears in
+  // order if it appears at all. Returns null unless EVERY root letter was found.
+  function rootFlags(clusters, root) {
+    if (!root) return null;
+    var flags = new Array(clusters.length), r = 0;
+    for (var i = 0; i < clusters.length && r < root.length; i++) {
+      if (!isHebLetter(clusters[i].base.charCodeAt(0))) continue;
+      if (clusters[i].base === root[r]) { flags[i] = true; r++; }
+    }
+    return r === root.length ? flags : null;
+  }
+
+  function inkGlyphs(word, root) {
+    var clusters = hebClusters(word);
+    var flags = rootFlags(clusters, root);
+    return clusters.map(function (c, i) {
+      if (c.text === ' ') return ' ';
+      var cls = 'lex-g' + (flags && flags[i] ? ' is-root' : '');
+      return '<span class="' + cls + '">' + esc(c.text) + '</span>';
+    }).join('');
+  }
+
   function renderLexicon() {
     var entries = window.PANIM_LEXICON || [];
     if (!entries.length) return '';
-    var cards = entries.map(function (e) {
+    var plates = entries.map(function (e) {
       var heb = e.lang === 'he';
-      return '<article class="lex-card" data-ch="' + esc(e.ch) + '">' +
-        '<div class="lex-word' + (heb ? '' : ' is-greek') + '" lang="' + esc(e.lang) + '"' +
-          (heb ? ' dir="rtl"' : '') + '><span class="lex-ink">' + esc(e.w) + '</span></div>' +
-        '<div class="lex-body">' +
-          '<p class="lex-translit">' + esc(e.t) + '</p>' +
-          '<p class="lex-gloss">' + esc(e.g) + '</p>' +
-          '<p class="lex-where">' + esc(e.r) +
-            '<a href="#' + esc(e.ch) + '">Chapter ' + (ROMAN[e.num] || e.num) + '</a></p>' +
-        '</div>' +
+      // Three scripts, three treatments. Hebrew is set in Frank Ruhl Libre and draws
+      // itself right to left; Greek is set in the book's serif and draws left to
+      // right; the one Akkadian row is a Latin transliteration and is set as such —
+      // there is no cuneiform on this site, and a word in Latin letters pretending
+      // to be Greek would be a lie told in type.
+      var wordCls = heb ? '' : (e.lang === 'grc' ? ' is-greek' : ' is-roman');
+      var lit = heb ? inkGlyphs(e.w, e.root) : esc(e.w);
+      var roman = ROMAN[e.num] || e.num;
+      // A word that has a root to show says so, because the dimming is the point
+      // and a reader who does not know what they just watched has been shown a
+      // decoration rather than an argument.
+      var rootLine = (heb && rootFlags(hebClusters(e.w), e.root))
+        ? '<p class="lex-root-note">root <span class="lex-root-word" lang="he" dir="rtl">' +
+            esc(e.root) + '</span></p>'
+        : '';
+      return '<article class="lex-plate" data-ch="' + esc(e.ch) + '" data-kind="' + esc(e.kind) + '">' +
+        '<p class="lex-tag">' + (e.kind === 'mark'
+            ? 'Chapter ' + roman + ' · its own word'
+            : 'Chapter ' + roman) + '</p>' +
+        '<div class="lex-word' + wordCls + '" lang="' + esc(e.lang) + '"' +
+          (heb ? ' dir="rtl"' : '') + '><span class="lex-ink">' + lit + '</span></div>' +
+        '<p class="lex-translit">' + esc(e.t) + '</p>' +
+        rootLine +
+        '<p class="lex-gloss">' + esc(e.g) + '</p>' +
+        '<p class="lex-where"><span>' + esc(e.r) + '</span>' +
+          '<a href="#' + esc(e.ch) + '">Chapter ' + roman + '</a></p>' +
       '</article>';
     }).join('');
     return '<section class="section" id="lexicon" data-ch="fw" aria-labelledby="lexicon-heading">' +
@@ -203,13 +311,17 @@
           '<div class="lex-standfirst">' +
             '<h2 id="lexicon-heading">' + entries.length +
               ' words, in the language they were written in.</h2>' +
-            '<p>Each chapter\u2019s own word first, then the terms that chapter turns on. ' +
+            '<p>Each chapter’s own word first, then the terms that chapter turns on. ' +
             'Every vowel point and every accent here was read out of a published source ' +
-            '\u2014 the Masoretic text, BDB, Klein, Jastrow, BibleHub \u2014 and pasted in ' +
-            'by a script. Not one character was typed from memory.</p>' +
+            '— the Masoretic text, BDB, Klein, Jastrow, BibleHub, and for the one ' +
+            'Akkadian word the Chicago Assyrian Dictionary — and pasted in by a ' +
+            'script. Not one character was typed from memory.</p>' +
+            '<p class="lex-legend">Scroll a word into view and it draws itself, right to ' +
+            'left, the way it is written. Then everything that is not a root consonant ' +
+            'dims, and what is left lit is the three letters the word is built from.</p>' +
           '</div>' +
         '</div>' +
-        cards +
+        '<div class="lex-plates">' + plates + '</div>' +
       '</div></section>';
   }
 

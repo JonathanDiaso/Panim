@@ -91,6 +91,24 @@
   --ink-faint: #6B6459;
   --rule: rgba(25, 21, 16, .14);
   --rule-strong: rgba(25, 21, 16, .28);
+  /* --control-edge: THE LINE THAT DRAWS A CONTROL, and it is a different job from
+     --rule-strong even though it used to be the same value.
+     WCAG 2.2 SC 1.4.11 wants 3:1 for the visual boundary of a control. --rule-strong
+     measures 1.84:1 against the darkest paper stock (#EBE6E1) — a real fail on every
+     button on the site, and the buttons have no fill, so that hairline is the only
+     thing drawing them.
+     The author asked whether it could be solved stylistically instead of by darkening.
+     It cannot: at 1px there is no arrangement of a .28 line that reaches 3:1, the
+     alpha has to go up. What CAN be done stylistically is change what the darker line
+     READS as — .btn now carries a 3% ink wash, so the control is a soft filled chip
+     with an edge rather than an empty box drawn in a harder outline. Measured at
+     alpha .50: 3.25:1 against the darkest paper and 3.08:1 against the button's own
+     wash, so both edges of the line clear the floor.
+     CONTAINERS KEEP --rule-strong. A card, a sheet and a dialog are not controls;
+     1.4.11 does not apply to them and darkening their frames would coarsen the page
+     for nothing. Only things you can press use this token. */
+  --control-edge: rgba(25, 21, 16, .50);
+  --control-wash: rgba(25, 21, 16, .03);
   --accent: #32506B;          /* night — the default before any section claims the page */
 
   /* ---- the apparatus scale -----------------------------------------------

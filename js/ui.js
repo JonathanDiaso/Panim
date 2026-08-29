@@ -7,7 +7,8 @@
 (function () {
   'use strict';
 
-  // The Thread — seed→payoff map (11-website-plan.md §3 / build-brief "Thread panel").
+  // What Comes Back — seed→payoff map (11-website-plan.md §3 / build-brief "Thread panel").
+  // Rendered by js/render.js as a set of native <details>; nothing is wired here.
   // Hardcoded per the book's seed-map (00-gameplan.md); each entry deep-links both anchors.
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
@@ -149,8 +150,6 @@
     document.addEventListener('keydown', trapOverlayTab);
     // nav Listen opens the Listening Room (js/room.js also listens on this button)
   }
-
-  // ---------- The Thread panel ----------
 
   // ---------- the invitation (first visit only) ----------
   function wireOnboarding() {
