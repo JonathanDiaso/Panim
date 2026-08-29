@@ -489,9 +489,11 @@
             '\u2014 the Masoretic text, BDB, Klein, Jastrow, BibleHub, and for the one ' +
             'Akkadian word the Chicago Assyrian Dictionary \u2014 and pasted in by a ' +
             'script. Not one character was typed from memory.</p>' +
-            '<p class="lex-legend">Choose any word and it draws itself beside the wall, ' +
-            'right to left, the way it is written. Then everything that is not a root ' +
-            'consonant dims, and what is left lit is the letters the word is built from.</p>' +
+            // "beside the wall" was wrong below 900px, where the article is UNDER it.
+            // The sentence says what happens, not where — true at every width.
+            '<p class="lex-legend">Choose any word and it draws itself, right to left, ' +
+            'the way it is written. Then everything that is not a root consonant dims, ' +
+            'and what is left lit is the letters the word is built from.</p>' +
           '</div>' +
         '</div>' +
         filterRow(entries) +
