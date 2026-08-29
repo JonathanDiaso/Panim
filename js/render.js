@@ -386,17 +386,59 @@
   //
   // Chapters with no words are not rendered as dead buttons. Every chapter has some
   // today, but the lexicon is data and that can change.
+  // LANGUAGE IS A SECOND WAY IN, added 2026-08-29 (D14-E). The wall is short enough
+  // to read now, which raises a question the eight-and-a-half-screen version could
+  // not: chapter order is only ONE of the orders somebody wants. Two more were
+  // already sitting in the data.
+  // 🛑 STILL ONE FILTER AT A TIME. Chapter and language are both "which one of these
+  // is on", so they share a single data-filter on the wall and a single pressed
+  // button across both groups. Crossing them (chapter VII ∩ Greek) would need a
+  // second state, a second empty case, and a reason — and there is no reason: the
+  // Greek is only in the New Testament chapters anyway, so the cross is the language.
+  var LANG_NAME = { he: 'Hebrew', grc: 'Greek', akk: 'Akkadian' };
+
   function filterRow(entries) {
     var seen = {}, order = [];
     entries.forEach(function (e) { if (!seen[e.ch]) { seen[e.ch] = 0; order.push(e); } seen[e.ch]++; });
     var btns = order.map(function (e) {
       return '<button type="button" class="lex-filter-btn" data-filter="' + esc(e.ch) + '"' +
-        ' aria-pressed="false">' + (ROMAN[e.num] || e.num) +
+        ' aria-pressed="false"><span class="visually-hidden">Chapter </span>' +
+        (ROMAN[e.num] || e.num) +
         '<span class="lex-filter-n">' + seen[e.ch] + '</span></button>';
     }).join('');
-    return '<div class="lex-filter" role="group" aria-label="Filter the lexicon by chapter">' +
-      '<button type="button" class="lex-filter-btn is-on" data-filter="all" aria-pressed="true">' +
-        'All<span class="lex-filter-n">' + entries.length + '</span></button>' + btns +
+
+    var langSeen = {}, langOrder = [];
+    entries.forEach(function (e) {
+      if (!langSeen[e.lang]) { langSeen[e.lang] = 0; langOrder.push(e.lang); }
+      langSeen[e.lang]++;
+    });
+    var langBtns = langOrder.map(function (l) {
+      return '<button type="button" class="lex-filter-btn" data-filter="lang:' + esc(l) + '"' +
+        ' aria-pressed="false">' + esc(LANG_NAME[l] || l) +
+        '<span class="lex-filter-n">' + langSeen[l] + '</span></button>';
+    }).join('');
+
+    return '<div class="lex-controls">' +
+      '<div class="lex-filter" role="group" aria-label="Show one chapter, or one language">' +
+        '<span class="lex-controls-label" aria-hidden="true">Show</span>' +
+        '<button type="button" class="lex-filter-btn is-on" data-filter="all" aria-pressed="true">' +
+          'All<span class="lex-filter-n">' + entries.length + '</span></button>' +
+        btns +
+        '<span class="lex-filter-sep" aria-hidden="true"></span>' +
+        langBtns +
+      '</div>' +
+      // THE SORT. Chapter order is the book's order and stays the default, because
+      // the lexicon is the back of THIS book before it is a dictionary. A–Z is how
+      // you use a dictionary when you half-remember a word, which is the other half
+      // of what this page is for. Two options, so two buttons — a <select> for a
+      // binary choice opens a modal wheel on a phone for a one-tap decision.
+      '<div class="lex-sort" role="group" aria-label="Order the words">' +
+        '<span class="lex-controls-label" aria-hidden="true">Order</span>' +
+        '<button type="button" class="lex-filter-btn is-on" data-sort="book" aria-pressed="true">' +
+          'Chapter order</button>' +
+        '<button type="button" class="lex-filter-btn" data-sort="az" aria-pressed="false">' +
+          'A\u2013Z</button>' +
+      '</div>' +
     '</div>';
   }
 
@@ -437,8 +479,13 @@
       // The word is the control's label and the transliteration rides under it, so a
       // reader who cannot read the script still has a way in — which is the whole
       // reason the wall works as an index rather than as fifty shapes.
+      // data-lang and data-t are the two axes added 2026-08-29 (D14-E): the filter
+      // row can now select a language, and the sort row can order the wall by
+      // transliteration. Both read off the chip, so neither needs a second copy of
+      // the array — the thing that gave the Listening Room a cream paper.
       return '<button type="button" class="lex-chip' + (on ? ' is-on' : '') + '"' +
         ' id="' + esc(slug) + '" data-lex="' + esc(slug) + '" data-ch="' + esc(e.ch) + '"' +
+        ' data-lang="' + esc(e.lang) + '" data-t="' + esc(String(e.t).toLowerCase()) + '"' +
         ' aria-pressed="' + (on ? 'true' : 'false') + '" aria-controls="lex-article">' +
         // 🛑 The space between the two spans is load-bearing. They are flex column
         // children so it collapses to nothing on screen, and without it the control's
@@ -456,10 +503,35 @@
       var wordCls = heb ? '' : (e.lang === 'grc' ? ' is-greek' : ' is-roman');
       var lit = heb ? inkGlyphs(e.w, e.root) : esc(e.w);
       var roman = ROMAN[e.num] || e.num;
-      var rootLine = (heb && rootFlags(hebClusters(e.w), e.root))
-        ? '<p class="lex-root-note">root <span class="lex-root-word" lang="he" dir="rtl">' +
-            esc(e.root) + '</span></p>'
-        : '';
+      // THE ROOT LINE, AND — SINCE 2026-08-29 (D14-F) — THE LINE THAT REPLACES IT.
+      // Only 19 of the 50 entries carry a `root` the matcher can confirm against the
+      // pointed form, and the matcher FAILS SAFE: a wrong root in a book about a
+      // Hebrew word is worse than no root. That was correct and it stayed correct.
+      // What changed is that one word now fills the apparatus column on its own, so
+      // the absence is a hole the reader can see, and a hole invites the wrong guess
+      // — that the entry is unfinished. It is not unfinished; the root is either not
+      // the right idea for that word or it was never confirmed twice.
+      // 🛑 Four different reasons, four different sentences. One catch-all line would
+      // be a worse lie than silence: "no root" is true of a Greek verb and of a
+      // six-word Hebrew clause for completely unrelated reasons.
+      var rootLine;
+      if (heb && rootFlags(hebClusters(e.w), e.root)) {
+        rootLine = '<p class="lex-root-note">root <span class="lex-root-word" lang="he" dir="rtl">' +
+          esc(e.root) + '</span></p>';
+      } else if (heb && /[\s\u05be]/.test(e.w)) {
+        // a space, or a maqqef (־) — the Hebrew hyphen that binds a phrase into one
+        // accentual word. Either way it is more than one word and has more than one root.
+        rootLine = '<p class="lex-root-note is-absent">No single root \u2014 this is a phrase.</p>';
+      } else if (e.lang === 'grc') {
+        rootLine = '<p class="lex-root-note is-absent">Greek builds from stems, not from a ' +
+          'three-letter root.</p>';
+      } else if (e.lang === 'akk') {
+        rootLine = '<p class="lex-root-note is-absent">Akkadian, not Hebrew \u2014 no root ' +
+          'is given here.</p>';
+      } else {
+        rootLine = '<p class="lex-root-note is-absent">No root shown \u2014 it was not ' +
+          'confirmed in two sources, and a guess would be worse than a gap.</p>';
+      }
       var on = slug === defaultSlug;
       return '<article class="lex-plate" data-lex-entry="' + esc(slug) + '"' +
         ' data-ch="' + esc(e.ch) + '" data-kind="' + esc(e.kind) + '"' +
@@ -499,7 +571,8 @@
         filterRow(entries) +
         '<div class="lex-body">' +
           '<div class="lex-wall" id="lex-wall" role="group" ' +
-            'aria-label="The fifty words. Choose one to read its entry.">' + chips + '</div>' +
+            'aria-label="The ' + entries.length + ' words. Choose one to read its entry.">' +
+            chips + '</div>' +
           '<div class="lex-article" id="lex-article" aria-live="polite">' + articles + '</div>' +
         '</div>' +
       '</div></section>';
@@ -601,10 +674,20 @@
         '<div class="si-head">' +
           '<span class="chapter-num">Index of Scripture</span>' +
           '<div class="si-standfirst">' +
-            '<h2 id="scripture-heading">' + total + ' citations, ' + books.length + ' books.</h2>' +
-            '<p>Every verse the book quotes, in the order a Bible keeps them. ' +
-            'The numeral after a reference is the chapter of this book it is quoted in; ' +
-            'following it lands on the quotation itself, and on the note underneath it.</p>' +
+            // THE TITLE WAS A STAT LINE UNTIL 2026-08-29 (D14-D). It read
+            // "113 citations, 26 books." — two numbers and a full stop, next to a
+            // Lexicon whose title reads "50 words, in the language they were written
+            // in." One of the two said what its section was FOR; the other read like
+            // the top of a spreadsheet. The count keeps its place at the front,
+            // because that is the pattern, and the phrase after it now does the same
+            // work the Lexicon's does: it says what the ordering means.
+            // The 26 books did not get cut — it moved one line down into the
+            // standfirst, where a second number does not have to fight the first.
+            '<h2 id="scripture-heading">' + total + ' verses, in the order a Bible keeps them.</h2>' +
+            '<p>Every verse the book quotes, drawn from ' + books.length + ' books of the ' +
+            'Bible. The numeral after a reference is the chapter of this book it is ' +
+            'quoted in; following it lands on the quotation itself, and on the note ' +
+            'underneath it.</p>' +
           '</div>' +
         '</div>' +
         '<div class="si-books">' + rows + '</div>' +

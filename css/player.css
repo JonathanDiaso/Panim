@@ -36,18 +36,30 @@
    .transport-play in components.css, shared with the Listening Room's play button.
    This bar's instance is the default size, so it declares nothing at all. */
 
-/* The Listening Room button. A crescent, stroked in the current ink so it inherits
-   the chapter's paper like every other control on the bar. */
-#room-btn { display: grid; place-items: center; }
-#room-btn svg { width: 19px; height: 19px; display: block; }
+/* THE TWO DRAWN MARKS ON THE BAR. Both stroked in the current ink so they inherit
+   the chapter's paper like every other control here, and both on the same 19px box
+   so they sit on one optical line beside the 1x and the word Follow.
+   The crescent is the Sleep timer and the lamp is the Listening Room — swapped
+   2026-08-29 (D14-B), because the moon had been pointing at the wrong one. */
+#sleep-btn, #room-btn { display: grid; place-items: center; }
+#sleep-btn svg, #room-btn svg { width: 19px; height: 19px; display: block; }
 
 .player-meta {
   flex: 1 1 auto; min-width: 0;
   display: flex; flex-direction: column; justify-content: center;
   font-family: var(--ui);
 }
+/* THE ONE PLACE THE BAR SAYS WHERE YOU ARE, and until 2026-08-29 (D14-C) it was set
+   at --ap-lg: 13.1px, the apparatus size meant for a caption you lean in to read.
+   The player is chrome that has to be legible at arm's length, at night, on a
+   nightstand, by somebody who is not looking at it so much as glancing at it — and
+   it was the smallest legible type on the page. The title now takes its own step
+   above the apparatus scale and the running time follows it up one.
+   🛑 These two deliberately do NOT use --ap-*. The apparatus scale is for type set
+   inside the reading column, where the measure and the reading distance are the
+   book's. A player bar is furniture and is read from further away. */
 .player-meta .meta-title {
-  font-size: var(--ap-lg); letter-spacing: .06em;
+  font-size: .95rem; font-weight: 500; letter-spacing: .02em; color: var(--ink);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 /* 🛑 --ink-soft, NOT `opacity: .6`. Measured 2026-08-29: ink at .6 composites to
@@ -55,10 +67,10 @@
    on the jacket. The token is 6.01:1 at its worst stock and is the vocabulary the rest
    of the site already uses for quiet text — an opacity is an unmeasured colour. */
 .player-meta .meta-time {
-  font-size: var(--ap-md); color: var(--ink-soft); letter-spacing: .04em;
+  font-size: .82rem; color: var(--ink-soft); letter-spacing: .02em;
 }
 .player-meta .meta-status {
-  font-size: var(--ap-md); opacity: .7; font-style: italic; font-family: var(--serif);
+  font-size: .82rem; color: var(--ink-soft); font-style: italic; font-family: var(--serif);
 }
 
 /* FOLLOW HAD NO SIGHTED STATE AT ALL until 2026-08-29. js/player.js has always

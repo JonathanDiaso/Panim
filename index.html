@@ -103,12 +103,12 @@
 <link rel="preload" href="fonts/l04.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/g02.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/h00.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts/fonts.css?v=37">
-<link rel="stylesheet" href="css/site.css?v=37">
-<link rel="stylesheet" href="css/components.css?v=37">
-<link rel="stylesheet" href="css/player.css?v=37">
-<link rel="stylesheet" href="css/room.css?v=37">
-<link rel="stylesheet" href="css/polish.css?v=37">
+<link rel="stylesheet" href="fonts/fonts.css?v=38">
+<link rel="stylesheet" href="css/site.css?v=38">
+<link rel="stylesheet" href="css/components.css?v=38">
+<link rel="stylesheet" href="css/player.css?v=38">
+<link rel="stylesheet" href="css/room.css?v=38">
+<link rel="stylesheet" href="css/polish.css?v=38">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -201,9 +201,24 @@
       <cite>Song of Songs 2:14</cite>
     </blockquote>
 
-    <p class="invite-lede">A book read aloud, end to end, by the man who wrote it. Follow
-    the page as it is spoken, or close your eyes and just listen — it keeps your place
-    either way.</p>
+    <!-- THE LEDE, rewritten 2026-08-29 (round fourteen, decision D14-A).
+         It used to read "A book read aloud, end to end, by the man who wrote it" —
+         accurate, and written about the author rather than by him. It described a
+         format to a reader who had not yet been given one reason to want it.
+         It now leads with the discovery, gives two reasons the book is worth an
+         evening, and handles the format last, in one line, where format belongs.
+         🛑 The first paragraph is the hook and must stay first. A doorway that opens
+         with logistics is a doorway nobody walks through. -->
+    <p class="invite-lede">There is one Hebrew word for <em>face</em>. It is on nearly
+    every page of the Bible, and almost nobody sees it.</p>
+
+    <p class="invite-lede">I followed it from the first page to the last. It changed what
+    I thought the book was about, and it changed what I thought God had been asking me
+    for the whole time.</p>
+
+    <p class="invite-lede invite-lede-last">It is my book, and that is my voice reading
+    it — ten chapters, start to finish. Read along, or close your eyes and just listen.
+    It keeps your place either way.</p>
 
     <div class="invite-actions">
       <button class="btn btn-solid" id="onboarding-begin">Begin listening</button>
@@ -382,13 +397,27 @@
     <div class="player-secondary">
       <button class="btn btn-icon" id="speed-btn" title="Playback speed" aria-label="Playback speed">1×</button>
       <button class="btn btn-icon" id="follow-btn" title="Follow the narration" aria-label="Follow the narration" aria-pressed="false">Follow</button>
-      <button class="btn btn-icon" id="sleep-btn" title="Sleep timer" aria-haspopup="dialog" aria-controls="sleep-sheet">Sleep</button>
-      <!-- The Listening Room is the night edition: lights down, phone on a nightstand.
-           A crescent is the one shape that says that without a label. It replaced a
-           bullseye glyph (◉) that meant nothing and rendered differently on every
-           platform, because it was a text character and not a drawing. -->
-      <button class="btn btn-icon" id="room-btn" title="Listening room" aria-label="Open the listening room">
+      <!-- THE MOON MEANS SLEEP, 2026-08-29 (round fourteen, decision D14-B).
+           🛑 It used to mean the Listening Room, and the Sleep timer sat beside it as
+           the bare word "Sleep". So the bar carried the single most universal symbol
+           for sleep on this planet, pointed at the one control that is not the sleep
+           timer, immediately next to the control that is. The crescent has moved to
+           the timer it always looked like. Do not give it back to the Room.
+           It lights (.is-active, --accent) whenever a timer is armed — an icon with
+           no state is worse than a word with no state, because a word at least says
+           what it is. js/player.js reflectSleep drives it. -->
+      <button class="btn btn-icon" id="sleep-btn" title="Sleep timer" aria-label="Sleep timer" aria-haspopup="dialog" aria-controls="sleep-sheet">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.2 15.1A8.4 8.4 0 0 1 9 3.9a8.4 8.4 0 1 0 11.2 11.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </button>
+      <!-- The Listening Room is the night edition: lights down, phone on a nightstand.
+           It is now a reading lamp — a shade, a stem, a base. A lamp is the object in
+           the room rather than the hour outside it, which is the honest distinction:
+           the Room is a place you go, the moon beside it is a time you stop.
+           It replaced the crescent (2026-08-29), which itself replaced a bullseye
+           glyph (◉) that meant nothing and rendered differently on every platform,
+           because it was a text character and not a drawing. -->
+      <button class="btn btn-icon" id="room-btn" title="Listening room" aria-label="Open the listening room">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 11h14l-3.6-7H8.6L5 11Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 11v8M9 19.4h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
       </button>
     </div>
   </div>
@@ -413,21 +442,21 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=37"></script>
-<script src="content/images.js?v=37"></script>
-<script src="content/audio-manifest.js?v=37"></script>
-<script src="content/marks.js?v=37"></script>
-<script src="content/thread.js?v=37"></script>
-<script src="content/lexicon.js?v=37"></script>
-<script src="content/verse-notes.js?v=37"></script>
-<script src="content/derivatives.js?v=37"></script>
-<script src="js/render.js?v=37"></script>
-<script src="js/ui.js?v=37"></script>
-<script src="js/motion.js?v=37"></script>
-<script src="js/sync.js?v=37"></script>
-<script src="js/search.js?v=37"></script>
-<script src="js/player.js?v=37"></script>
-<script src="js/room.js?v=37"></script>
+<script src="content/chapters.js?v=38"></script>
+<script src="content/images.js?v=38"></script>
+<script src="content/audio-manifest.js?v=38"></script>
+<script src="content/marks.js?v=38"></script>
+<script src="content/thread.js?v=38"></script>
+<script src="content/lexicon.js?v=38"></script>
+<script src="content/verse-notes.js?v=38"></script>
+<script src="content/derivatives.js?v=38"></script>
+<script src="js/render.js?v=38"></script>
+<script src="js/ui.js?v=38"></script>
+<script src="js/motion.js?v=38"></script>
+<script src="js/sync.js?v=38"></script>
+<script src="js/search.js?v=38"></script>
+<script src="js/player.js?v=38"></script>
+<script src="js/room.js?v=38"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });
