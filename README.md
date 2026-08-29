@@ -101,6 +101,36 @@ rail stays in the margin drawing the distance; the numerals moved to the far end
 row, which is also what removed the `VIIVIII` collision — hard-right numerals cannot
 collide with ticks they are no longer under.
 
+**The Lexicon is a wall of words, not a scroll (2026-08-29).** Fifty plates in a
+three-column card grid was **8,439px — eight and a half screens** to look up one word,
+and a lexicon is a lookup. It is the shape a printed dictionary has now: **all fifty
+words set as one block of type in the reading measure**, each a real `<button>` with its
+transliteration under it, and **the chosen word's article in columns 10–12** — the same
+apparatus column the verse notes moved into on the same day. **One system, used twice.**
+Measured: **1,179px, 1.2 screens**, 2.7 on a phone.
+
+> 🛑 **`panim` is selected on load**, and every chip carries its slug as an `id`, so the
+> hero's פָּנִים (`href="#lex-panim"`) **opens** the entry instead of parking beside it.
+> A `hashchange` handler does the selecting, so every `#lex-…` link in the book works.
+> Both the chips and the articles are built in one pass over `PANIM_LEXICON`, which is
+> why the anchor and the target cannot drift — the same rule as the Index of Scripture.
+
+> 🛑 **The ink-and-root animation fires on SELECTION now, not on scroll.** There is one
+> entry visible instead of fifty, so `js/ui.js` drives it and `js/motion.js`'s observer
+> only ever catches the one that is open when the reader arrives. `LEX_INK_MS` and
+> `LEX_ROOT_HOLD_MS` in `js/ui.js` are the same two numbers as `js/motion.js` and both
+> must match the `--lex-ink` transition, or the word is written and taken apart at once.
+
+> 🛑 **The article is not a card.** It was one when there were fifty of them and the box
+> was what separated one from the next. Beside a wall of bare type a tinted bordered box
+> is decoration pretending to be material. It takes what the verse note takes in that
+> column: paper, one rule on the reading side, nothing else.
+
+> 🛑 **No nested scroller on a phone.** The first build capped the wall at `46vh` with
+> `overflow-y` to keep the article on screen. A scrolling box inside a scrolling page is
+> worse on touch than a long page — the wrong thing scrolls and words leave the screen
+> silently. `js/ui.js` scrolls the entry into view below 900px instead.
+
 **The onboarding modal is a doorway, not a second jacket (D2-C).** It carries only what
 the hero cannot: the Song of Songs epigraph, one line saying what the thing *is*, the
 running time, and two buttons. 🛑 **Do not re-add a headline, the Hebrew mark, or the
@@ -197,7 +227,8 @@ After chapter X the site has three apparatus sections: **What Comes Back** (`#th
 **The Lexicon** (`#lexicon`) and the **Index of Scripture** (`#scripture`, added
 2026-08-29). Until that date **neither contents surface listed any of them** — the running
 head's panel and the contents section both stopped at chapter X — so all three were
-reachable only by scrolling a page that is 262,798px tall.
+reachable only by scrolling a page that was then 262,798px tall. **It is 245,577px now**
+— the verse apparatus and the Lexicon each gave a chunk of that back.
 
 🛑 **`BACK_MATTER` in `js/render.js` is the single definition, and `js/ui.js` reads it off
 `window.PANIM_RENDERED.backMatter`.** Do not give the running head its own copy. Two
@@ -214,6 +245,14 @@ cream from the wrong table.
 - The two quotations in chapter V that carry no reference on purpose are correctly absent.
 - It is the one section that runs `grid-column: 1 / -1` for its body. Prose keeps its
   measure in columns 3–9; an index is a lookup and wants columns.
+
+**All three of these sections now speak the same language, which was not true a day ago.**
+*What Comes Back* and the *Index of Scripture* are both **name · dotted leader · number,
+hard right** — the leader is literally the same three CSS declarations in both. The
+Lexicon is the wall-and-article pair described in §3, and its article stands in the same
+columns 10–12 the verse notes do. 🛑 **Before adding a fourth apparatus section, use one
+of these two shapes.** The back of the book was three sections in three idioms and that
+is what made it feel like an appendix.
 
 ### The plates are responsive — `srcset` + AVIF
 
@@ -312,6 +351,24 @@ role was silently discarded (axe `aria-allowed-role`). Each is a real `<button>`
 the picture now, **not** the `<figcaption>`, and the synthetic Enter/Space handler in
 `js/ui.js` is gone because a button already fires click on both keys.
 
+**Three more from 2026-08-29, and the first one is a rule worth more than the bug.**
+🛑 **`[hidden]` LOSES TO AN AUTHOR `display` RULE.** `hidden` is `display:none` in the UA
+stylesheet and any author `display` on the same element beats it outright. `.lex-plate`
+is `display:flex`, so all forty-nine closed lexicon entries painted and the section
+measured **22,564px — three times what it replaced** — while looking merely long. Three
+elements on this site toggle with `hidden` and carry `display`: `.lex-plate`, `.sheet`
+and `.modal`. **All three now restate `[hidden] { display: none }`, and that is why.**
+· **Thirteen headings announced a stray "plus"** — `content: '+'` on
+`.thread-name::after` is in the accessibility tree, so every *What Comes Back* row read
+as «"Lift up my face" plus», on a `<summary>` that already announces its own state. It is
+`content: '+' / ''` now — **generated-content alt text**. Found by diffing
+`Accessibility.getFullAXTree`; axe reported zero violations before *and* after, because a
+name with a stray character in it is not a violation, it is just wrong ·
+**`openSheet` focused inside a `requestAnimationFrame`** and `js/room.js` never did. rAF
+is a rendering callback the browser suspends whenever the document is not painting, so a
+frame that never lands means focus never enters the dialog. Both are synchronous now —
+**one pattern, one implementation.**
+
 > 🛑 **"Zero automated violations" has a date on it.** Round eleven ran axe and reported
 > zero everywhere; a current axe found five the next day, on a page that had not changed,
 > because the rules moved. **Re-run it every round.** Current state: zero violations at
@@ -321,8 +378,8 @@ the picture now, **not** the `<figcaption>`, and the synthetic Enter/Space handl
 
 ## 6. Testing this site in a headless browser
 
-🛑 **Four traps, every one of which produced a wrong conclusion at least once on
-2026-08-29.** Read this before reporting anything visual as broken.
+🛑 **Six traps, every one of which produced a wrong conclusion at least once on
+2026-08-29.** Traps 5 and 6 each produced a *reported site fault that was not there*. Read this before reporting anything visual as broken.
 
 1. **The headless viewport has a 500px floor.** `--window-size=402,844` renders the page
    at **500px wide and crops it** — it does not narrow the layout. Measured:
@@ -338,6 +395,30 @@ the picture now, **not** the `<figcaption>`, and the synthetic Enter/Space handl
 4. **`--screenshot` races an `addEventListener('load')` handler**, but
    `--virtual-time-budget` genuinely does advance timers — verified with a page that
    repaints after 2s. Do the work on a short `setInterval` inside the harness.
+5. **`Input.dispatchKeyEvent` needs `text` before Enter or Space will activate
+   anything.** Without `text: '\r'` (and `unmodifiedText`) Chrome delivers `keydown` but
+   never generates the `keypress` that runs a control's default action. `rawKeyDown` does
+   not work either; the type must be `keyDown`. **Every button on the site looked broken
+   and every one of them worked in a browser.** Tab is unaffected, which is what makes
+   this convincing — the tab order comes back correct while nothing activates.
+6. **`document.visibilityState` can flip to `hidden` mid-session, which correctly
+   suspends every `requestAnimationFrame`.** For ten minutes it looked as though every
+   overlay after the first one failed to take focus — reproducible six times running. It
+   was rAF, suspended, because the page had gone hidden. **Read
+   `document.visibilityState` before believing any timing result out of headless**, and
+   note that `Page.startScreencast` does *not* fix it.
+
+⚠️ **And one that is not the browser: a contrast probe must composite alpha.** Walking up
+for a background colour and stopping at the first non-transparent one reads
+`rgba(25,21,16,.03)` — a 3% tint — as near-black, and turns a **4.91:1 pass into a 2.92:1
+failure that is not there.** Composite every translucent layer down to the opaque one
+underneath.
+
+> 🛑 **The rule under all seven: a measurement that says something is broken is a claim
+> about the MEASUREMENT until the measurement has itself been checked.** Three separate
+> "faults" were reported by the harness in one evening on 2026-08-29 — a contrast
+> failure, a dead Enter key, and every overlay losing focus — and **all three were the
+> harness.**
 
 **Measuring, not eyeballing, is what found every fault in §5.** The three that a
 screenshot could never have shown:
@@ -369,6 +450,14 @@ this is the only thing left that can find what is wrong · `hanging-punctuation`
 Safari-only · `tools/validate.mjs` is referenced in older notes but doesn't exist —
 `check-coverage.py` and the builder's parity assertion are the checks now.
 
+**The Lexicon is no longer on this list.** It was eight and a half screens of cards; it
+is a wall of words and an article, 1.2 screens. What it raised instead are two small
+open questions: **31 of the 50 entries have no root to show** (the matcher fails safe and
+never guesses, which is right — but now that one word fills the column the silence is
+visible, and one quiet line saying *"no single root: this is a phrase"* would turn a gap
+into a fact), and **the wall sorts by chapter and only by chapter** — by language (41
+Hebrew, 8 Greek, 1 Akkadian) and alphabetically are both in the data already.
+
 **Newly measured 2026-08-29, and the biggest thing left that a reader would feel:**
 **chapter VI runs 47 paragraphs — 5,127px, about seven laptop screens — with no verse,
 picture, divider or break in any of them.** Every rhythm device the book owns stops at
@@ -385,7 +474,16 @@ interactive **47 ms**, load complete **221 ms**, 6,085 nodes, cold cache, uncomp
 HTTP · the seek-bar chapter marks look 9×16px and carry a 44px invisible `::before`,
 so they already pass.
 
+**The screen-reader position, stated honestly.** Everything a machine can check is green
+and measured: the full accessibility tree at four widths, a keyboard walkthrough with
+real key events, **111 controls all named**, 7 named landmarks, no skipped heading
+levels, 24 selectors measured for contrast (worst **4.63:1**), zero axe violations
+everywhere. **That is a floor, not a pass**, and `/accessibility.html` still says in
+public that the player and the Listening Room have never been driven with a screen
+reader — because they have not. The remaining hour is six steps, in
+`next-steps-2026-09-02-round-thirteen.md` §8.
+
 All five design calls are answered and archived
 (`panim-book/handoffs/archive/decisions-2026-08-29-design-answered-2026-08-29.md`); four
-are built and in v35. What's blocked on the author vs. ready to build: the site handoff
-linked at the top of this file, and `next-steps-2026-09-01-round-twelve.md` §9–10.
+are built and live. What's blocked on the author vs. ready to build: the site handoff
+linked at the top of this file, and `next-steps-2026-09-02-round-thirteen.md` §7–9.
