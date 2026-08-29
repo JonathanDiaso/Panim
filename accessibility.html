@@ -214,6 +214,30 @@
             and the links moved down into the body, where they are ordinary links at a
             full 44&#8239;px. The accessibility fix and the reading improvement were the
             same change.</li>
+        <li><strong>Search is a dialog, not a widget</strong> (2026-08-28). It opens
+            from the running head or from <kbd>/</kbd>, moves focus into the field,
+            holds focus while open, closes on <kbd>Esc</kbd> and hands focus back —
+            the same sheet plumbing every other overlay on this site uses, because
+            there is exactly one implementation of it. The result count is announced
+            in a live region. A result is a real link to a real fragment, so it
+            survives being middle-clicked or copied.</li>
+        <li><strong>The verse notes are complementary landmarks.</strong> There are a
+            hundred and thirteen of them, one under each quotation. Each is an
+            <code>&lt;aside&gt;</code> so a screen reader can step over the apparatus
+            and keep reading the book, which is what a reader skipping footnotes on
+            paper does. The two labels are text, not icons.</li>
+        <li><strong>Everything added on 2026-08-28 was measured</strong> against every
+            one of the twelve paper stocks in the dawn arc, not against one. The
+            accent used by the note labels, the search result kinds and the closing
+            section's numerals runs 5.19:1 at its worst (chapter VIII) and 7.07:1 at
+            its best; the note body and the result text sit on <code>--ink-soft</code>
+            at 6.01:1 and the quieter apparatus on <code>--ink-faint</code> at 4.72:1.
+            All clear AA for normal text.</li>
+        <li><strong>The closing section's span rail is decoration with a caption.</strong>
+            The ten ticks are <code>aria-hidden</code> and a visually-hidden sentence
+            carries the same fact in words — <em>planted in chapter IV, paid off in
+            chapter VI</em> — because ten absolutely-positioned elements are not
+            something to make a screen reader assemble.</li>
       </ul>
 
       <h2>What has not been done yet</h2>

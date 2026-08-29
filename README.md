@@ -95,14 +95,19 @@ content/
   marks.js          each chapter's own word, pointed and source-verified
   thread.js         the thirteen plants and payoffs, rendered after ch. X
   lexicon.js        the closing lexicon — derives from marks.js, adds nothing
+  verse-notes.js    the 113 verse notes. KEYED BY CHAPTER + CITATION, not by
+                    block id — ids move on every rebuild, a citation does not.
+c/NN/index.html     GENERATED share stubs, one per chapter. See below.
+art/cards/*.jpg     GENERATED 1200x630 JPEG cuts of the plates, for og:image only
 css/  site.css (tokens, grid, arc) · components.css · player.css · room.css · polish.css
 js/   render.js (DOM) · motion.js (scroll, arc, progress) · sync.js (cues)
-      player.js · room.js · ui.js
+      player.js · room.js · ui.js · search.js
 art/  *.webp published plates · PROMPTS.md · archive/ (notes + direction studies)
       sources/candidates/superseded frames live on the T7 — see
       art/archive/WHERE-THE-SOURCES-WENT.md
 cues/ chNN.json — [{t, id}] on the voice timeline
 tools/ build-chapters.py · gen-cues.py · check-coverage.py · tape-vs-page.py · serve.py
+       gen-chapter-stubs.py · make-cards.sh
 ```
 
 Local: **`python3 tools/serve.py`** then `localhost:8899`.
@@ -111,14 +116,47 @@ Local: **`python3 tools/serve.py`** then `localhost:8899`.
 > ignores Range requests, so `readyState` stays 0 and **no MediaError is ever
 > raised**. `serve.py` sends `audio/mp4` + `accept-ranges: bytes` + `no-store`.
 
-**After any CSS/JS/content change, bump the version in three places, together:**
-`SHELL` and `ASSET_V` in `sw.js`, and every `?v=` in `index.html` — the `?v=`
-query is what defeats the browser's HTTP cache; bumping `SHELL` alone re-fills
-the cache from whatever the browser already had.
+**After any CSS/JS/content change, bump the version in FOUR files, together:**
+`SHELL` **and** `ASSET_V` in `sw.js`, every `?v=` in `index.html`, and the `?v=`
+in **both** `404.html` and `accessibility.html`. The `?v=` query is what defeats
+the browser's HTTP cache; bumping `SHELL` alone re-fills the cache from whatever
+the browser already had. It has been half-done before and `404.html` sat a whole
+release behind.
 
 > 🔁 **A deploy check takes TWO reloads** — the worker answering the first load
 > after a push is the *old* one; it serves its cached shell, then fetches and
 > installs the new `sw.js`. Confirm with `caches.keys()` in the console.
+
+### Sharing a chapter — the `/c/NN/` stubs
+
+index.html is one file, so it carries **one** set of Open Graph tags. A link to
+`#ch07` unfurls as the whole book and cannot say anything else. `c/07/index.html`
+is a generated stub carrying chapter VII's own title, standfirst and plate that
+redirects a reader into the book; the *Share this chapter* button at each chapter
+head copies that URL. Regenerate after any title, hook or plate change:
+
+```
+python3 tools/gen-chapter-stubs.py     # reads chapters.js + images.js via node
+sh tools/make-cards.sh                 # only when a PLATE changed
+```
+
+> 🛑 **`og:image` is a JPEG, never the `.webp` plate.** Several unfurlers —
+> iMessage and the Facebook/Instagram crawler among them — drop a WebP card
+> **silently**, with no error and no image. `art/cards/*.jpg` exists only for
+> this. Replace a plate, remake its card.
+
+### Search
+
+`js/search.js`. The index is built **lazily, in the browser, on first open** from
+data already parsed — building it at load would put a pass over fifty thousand
+words in front of the first paint for every visitor, and most visitors never
+search. Five kinds of record, weighted, because a lexicon plate is a better answer
+to "where is *masveh*" than the ninth paragraph containing it. Hebrew is indexed
+pointed **and** stripped, so `פנים` finds `פָּנִים`. `/` opens it.
+
+> 🛑 **Not stemmed, on purpose.** Stemming would make *faces* find *face* and
+> *facing*, and in a book that turns on one noun that returns the whole book.
+> Prefix matching on the final term covers typing.
 
 ### The read-along
 
@@ -139,8 +177,11 @@ tiers now 15.5:6.4:4.5) · Fraunces → Literata (§3) · `--player-h` = 134px/9
 
 ## 6. Not done
 
-`ch07-gate` (empty plate slot, prompt in `art/PROMPTS.md`) · `ch08-veil` and
-`ch02-trees` are wrong pictures · source images are 1408px, plates want 2400px+
+`ch02-trees` is the wrong picture and it is chapter II's **opening** plate — a
+fantasy-art woodland with tulips, ferns and a figure in a leaf dress, which is the
+worst single frame on the site and the first plate after chapter I · **no
+`srcset`, no AVIF, no LQIP** — every plate is served at 1408px to every device,
+1.9 MB of art on a full read · source images are 1408px, plates want 2400px+
 (accepted for now — a plate is never asked to fill a wide screen at full
 bleed) · chapter titles need reconciling, site vs. manuscript vs. audio (§2) ·
 `hanging-punctuation` is Safari-only · `tools/validate.mjs` is referenced in

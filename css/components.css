@@ -677,7 +677,10 @@
 .thr-tick {
   top: 2px; left: calc((var(--n) - 1) / 9 * 100%);
   width: 1px; height: 7px; margin-left: -.5px;
-  background: var(--rule-strong);
+  /* --rule-strong is .28 alpha and measures 1.8:1 on the darkest paper stock; the
+     scale disappeared on chapters II and VIII. 48% is the same mix the player's
+     chapter rail already uses for the same reason and clears 3:1 there. */
+  background: color-mix(in srgb, var(--ink) 48%, transparent);
 }
 .thr-tick.is-under { background: color-mix(in srgb, var(--accent) 45%, transparent); }
 .thr-tick.is-plant, .thr-tick.is-payoff {
