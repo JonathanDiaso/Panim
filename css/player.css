@@ -171,6 +171,19 @@
    tick needed — --ink-faint is exactly 4.5:1 against the darkest paper stock
    (see css/site.css). Read chapters step up to --ink-soft and the current one takes
    --accent plus a hairline, so the three states are ink weight, not colour alone. */
+/* 🛑 UNDER 44px, AND DOCUMENTED RATHER THAN FIXED — 2026-08-30 (D16-A). The
+   full-page touch-target audit flags these ten and they are the last ten on the
+   site; every other sub-44px target is either fixed or is the Index of Scripture's
+   citation row, which carries its own note.
+   These are exempt under WCAG 2.2 SC 2.5.8 for the same reason that list is:
+   **their POSITION is the information.** Each mark sits at its chapter's exact time
+   offset along the scrub bar, so growing the box to 44px would (a) overlap its
+   neighbours at the chapter boundaries and (b) put the tick somewhere other than
+   the moment it names — which changes what the control means rather than making it
+   easier to hit. The scrub bar itself is the full-width primary target and it is
+   well over the floor; these are a convenience on top of it.
+   ⚠️ If they ever stop being decorative shortcuts to a control that is already
+   reachable, this exemption stops applying. */
 .seek-mark {
   position: absolute; top: 0;
   transform: translateX(-50%);

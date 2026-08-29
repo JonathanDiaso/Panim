@@ -4159,6 +4159,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch06-p27"
    },
    {
+    "type": "swell"
+   },
+   {
     "type": "p",
     "html": "But the ancient world would not have laughed at the shining itself. The ancient world had a word for it. In Babylon they called it <em>melammu</em>: the terrifying radiance the gods wore like armor and kings claimed at coronation — conferred in a ceremony, stripped from you when you fell, transferred to your rival. A crown made of light. Like every crown, it marked rank.",
     "id": "ch06-p28"
@@ -4209,69 +4212,73 @@ window.PANIM_CHAPTERS = [
     "id": "ch06-p37"
    },
    {
-    "type": "p",
-    "html": "“The LORD bless you and keep you. The LORD make His face shine on you.”",
-    "id": "ch06-p38"
+    "type": "verse",
+    "lines": [
+     "The LORD bless you and keep you. The LORD make His face shine on you."
+    ],
+    "ref": "Numbers 6:24–25",
+    "translation": "NASB",
+    "id": "ch06-v2"
    },
    {
     "type": "p",
     "html": "The oldest known biblical text, buried with the dead.",
-    "id": "ch06-p39"
+    "id": "ch06-p38"
    },
    {
     "type": "p",
     "html": "What the tomb could not tell you is where those words came from.",
-    "id": "ch06-p40"
+    "id": "ch06-p39"
    },
    {
     "type": "p",
     "html": "It is here.",
-    "id": "ch06-p41"
+    "id": "ch06-p40"
    },
    {
     "type": "p",
     "html": "Though the first priest in the Bible was not an Israelite, and he blessed somebody centuries before Aaron was born.",
-    "id": "ch06-p42"
+    "id": "ch06-p41"
    },
    {
     "type": "p",
     "html": "Long before the wilderness — before there was a nation, or a law, or a priesthood — a man walks out of nowhere to meet Abram. Genesis gives him three verses and never says where he came from. He brings out bread and wine. And he blesses.",
-    "id": "ch06-p43"
+    "id": "ch06-p42"
    },
    {
     "type": "p",
     "html": "He is a priest and a king, and the city he is king of is Salem — the city that will one day be called Jerusalem.",
-    "id": "ch06-p44"
+    "id": "ch06-p43"
    },
    {
     "type": "p",
     "html": "Salem. <em>Shalom.</em> The letter to the Hebrews reads his title twice over: king of righteousness, and then king of peace.",
-    "id": "ch06-p45"
+    "id": "ch06-p44"
    },
    {
     "type": "p",
     "html": "The first priest in the Bible was the king of peace, and the blessing God is about to dictate in the wilderness ends on his word. It begins on his too. Both ends of that blessing belong to a man who was not even an Israelite.",
-    "id": "ch06-p46"
+    "id": "ch06-p45"
    },
    {
     "type": "p",
     "html": "And in those three verses, there is no altar.",
-    "id": "ch06-p47"
+    "id": "ch06-p46"
    },
    {
     "type": "p",
     "html": "Every priest who comes after him will be defined by one. The fire, the knife, the blood, the smoke, the curtain standing behind him. This one has none of it. He walks out of nowhere with food in his hands, says a blessing, and goes.",
-    "id": "ch06-p48"
+    "id": "ch06-p47"
    },
    {
     "type": "p",
     "html": "Hebrews builds a whole argument out of what Genesis leaves out about him: no father, no mother, no genealogy, no beginning of days. It reads the silences on purpose. And the loudest one is the altar.",
-    "id": "ch06-p49"
+    "id": "ch06-p48"
    },
    {
     "type": "p",
     "html": "He was not a barrier. He was a meal.",
-    "id": "ch06-p50"
+    "id": "ch06-p49"
    },
    {
     "type": "beat"
@@ -4279,27 +4286,27 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "In the wilderness, in the aftermath of the shine, God dictates the words Himself and hands them to Aaron and his sons with orders attached: what soaked into one man’s face at the summit is to be prayed down onto every face in the camp, forever.",
-    "id": "ch06-p51"
+    "id": "ch06-p50"
    },
    {
     "type": "p",
     "html": "And He builds it to open as it goes. In Hebrew the first line is three words. The second is five. The third is seven. Every line is longer than the one before it, so the blessing widens in the mouth of the man saying it.",
-    "id": "ch06-p52"
+    "id": "ch06-p51"
    },
    {
     "type": "p",
     "html": "And every word of it is singular.",
-    "id": "ch06-p53"
+    "id": "ch06-p52"
    },
    {
     "type": "p",
     "html": "The priest stands in front of a nation and says <em>you</em>, and the <em>you</em> he says is the one Hebrew keeps for one person. Not all of you. You. The blessing widens as it goes and it never once turns plural.",
-    "id": "ch06-p54"
+    "id": "ch06-p53"
    },
    {
     "type": "p",
     "html": "Thousands of people standing in that camp, and the grammar is aimed at one face at a time.",
-    "id": "ch06-p55"
+    "id": "ch06-p54"
    },
    {
     "type": "beat"
@@ -4307,12 +4314,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "The middle line, the five-word one, is the face.",
-    "id": "ch06-p56"
+    "id": "ch06-p55"
    },
    {
     "type": "p",
     "html": "The blessing is fifteen words in Hebrew. Three, then five, then seven, opening as it goes — which means it has a middle. One word with seven in front of it and seven behind. And on either side of that one word, a face: His face shining, two words before it; His face lifting, three words after.",
-    "id": "ch06-p57"
+    "id": "ch06-p56"
    },
    {
     "type": "verse",
@@ -4322,67 +4329,67 @@ window.PANIM_CHAPTERS = [
     ],
     "ref": "Numbers 6:26",
     "translation": "NASB",
-    "id": "ch06-v2"
+    "id": "ch06-v3"
    },
    {
     "type": "p",
     "html": "Countenance is a Sunday word, and underneath it is <em>panim</em>. The LORD lift up His face toward you. And in Israel, that phrase had a rap sheet. Lifting someone’s face is courtroom language, and in the law of Moses it is the crooked kind: it is what a bought judge does. “You shall not be partial,” God orders Israel’s courts — and the Hebrew beneath partial says, <em>you shall not lift up faces</em>. Do not let the verdict tilt because you like the man standing in front of you.",
-    "id": "ch06-p58"
+    "id": "ch06-p57"
    },
    {
     "type": "p",
     "html": "And God holds His own bench to His own rule, in the same courtroom Hebrew: <em>the great, the mighty, and the awesome God, who does not lift up faces and does not take a bribe</em>.",
-    "id": "ch06-p59"
+    "id": "ch06-p58"
    },
    {
     "type": "p",
     "html": "You cannot charm Him, pay Him, or network your way past Him. His courtroom is incorruptible, which is wonderful news, right up until you remember that you are the defendant.",
-    "id": "ch06-p60"
+    "id": "ch06-p59"
    },
    {
     "type": "p",
     "html": "Then God writes the priestly blessing and commands the priests of that same incorruptible courtroom to stand in front of the entire nation, hands raised, and say to every person present: the LORD lift up His face toward you.",
-    "id": "ch06-p61"
+    "id": "ch06-p60"
    },
    {
     "type": "p",
     "html": "The one thing God’s own law forbids a judge to do, God now orders spoken over His people as a blessing.",
-    "id": "ch06-p62"
+    "id": "ch06-p61"
    },
    {
     "type": "p",
     "html": "That is a change of rooms.",
-    "id": "ch06-p63"
+    "id": "ch06-p62"
    },
    {
     "type": "p",
     "html": "In court, His face does not turn for the powerful or away from the weak.",
-    "id": "ch06-p64"
+    "id": "ch06-p63"
    },
    {
     "type": "p",
     "html": "But the blessing is spoken over family.",
-    "id": "ch06-p65"
+    "id": "ch06-p64"
    },
    {
     "type": "p",
     "html": "And inside the family, the Judge stands up, takes off the robe, and turns His face toward everyone at once.",
-    "id": "ch06-p66"
+    "id": "ch06-p65"
    },
    {
     "type": "p",
     "html": "And one man saw it coming. A frightened schemer at a river ford, face-down in the dark before the brother he had wronged, begging for exactly this: <em>perhaps he will lift up my face</em>. It was a long shot when Jacob prayed it.",
-    "id": "ch06-p67"
+    "id": "ch06-p66"
    },
    {
     "type": "p",
     "html": "Now the priests of Israel are under standing orders to promise Jacob’s long shot to every face in the nation, every time they bless.",
-    "id": "ch06-p68"
+    "id": "ch06-p67"
    },
    {
     "type": "p",
     "html": "And then the blessing gives us its own interpretation.",
-    "id": "ch06-p69"
+    "id": "ch06-p68"
    },
    {
     "type": "verse",
@@ -4391,67 +4398,67 @@ window.PANIM_CHAPTERS = [
     ],
     "ref": "Numbers 6:27",
     "translation": "ESV",
-    "id": "ch06-v3"
+    "id": "ch06-v4"
    },
    {
     "type": "p",
     "html": "The blessing carries the name.",
-    "id": "ch06-p70"
+    "id": "ch06-p69"
    },
    {
     "type": "p",
     "html": "Speak these words over the people, God says, and My name is placed on them: pressed in like a seal on a document, given like a family name to a child.",
-    "id": "ch06-p71"
+    "id": "ch06-p70"
    },
    {
     "type": "p",
     "html": "And you already know, from a burning bush, what that name is.",
-    "id": "ch06-p72"
+    "id": "ch06-p71"
    },
    {
     "type": "p",
     "html": "I AM.",
-    "id": "ch06-p73"
+    "id": "ch06-p72"
    },
    {
     "type": "p",
     "html": "Presence itself. The name that is a promise to be with.",
-    "id": "ch06-p74"
+    "id": "ch06-p73"
    },
    {
     "type": "p",
     "html": "To carry it is to walk around marked: His, addressed as His, spoken for.",
-    "id": "ch06-p75"
+    "id": "ch06-p74"
    },
    {
     "type": "p",
     "html": "For generation after generation, Israel has heard this blessing, and the name has settled on them layer by layer, the way light settles on a face.",
-    "id": "ch06-p76"
+    "id": "ch06-p75"
    },
    {
     "type": "p",
     "html": "God has never issued a recall.",
-    "id": "ch06-p77"
+    "id": "ch06-p76"
    },
    {
     "type": "p",
     "html": "In the synagogue, to this day, when the priests rise to speak this blessing, they lift their hands, palms forward, fingers split, and the congregation looks down.",
-    "id": "ch06-p78"
+    "id": "ch06-p77"
    },
    {
     "type": "p",
     "html": "You do not stare at the priests during the blessing. That is the ancient custom.",
-    "id": "ch06-p79"
+    "id": "ch06-p78"
    },
    {
     "type": "p",
     "html": "The tradition has an answer: the Presence rests on the priests’ hands.",
-    "id": "ch06-p80"
+    "id": "ch06-p79"
    },
    {
     "type": "p",
     "html": "And the rabbis, hunting for where Scripture whispers such a thing, reached into the Song of Songs, into the love poem, and pulled out this verse.",
-    "id": "ch06-p81"
+    "id": "ch06-p80"
    },
    {
     "type": "verse",
@@ -4460,32 +4467,32 @@ window.PANIM_CHAPTERS = [
     ],
     "ref": "Song of Songs 2:9",
     "translation": "NASB",
-    "id": "ch06-v4"
+    "id": "ch06-v5"
    },
    {
     "type": "p",
     "html": "He is behind the wall.",
-    "id": "ch06-p82"
+    "id": "ch06-p81"
    },
    {
     "type": "p",
     "html": "At the window.",
-    "id": "ch06-p83"
+    "id": "ch06-p82"
    },
    {
     "type": "p",
     "html": "Pressing His face to the lattice for a glimpse of the one He loves.",
-    "id": "ch06-p84"
+    "id": "ch06-p83"
    },
    {
     "type": "p",
     "html": "And the lattice, said the rabbis, is the priests’ fingers.",
-    "id": "ch06-p85"
+    "id": "ch06-p84"
    },
    {
     "type": "p",
     "html": "While Israel stands with bowed heads, safely buffered at last, given the distance they asked for, God is on the other side of the mediation, His eye to the gaps, peering between the knuckles of the priests at the faces of His people.",
-    "id": "ch06-p86"
+    "id": "ch06-p85"
    },
    {
     "type": "beat"
@@ -4493,82 +4500,82 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Israel asked for a middleman, and God consented.",
-    "id": "ch06-p87"
+    "id": "ch06-p86"
    },
    {
     "type": "p",
     "html": "But no one at Sinai read the fine print: the middleman would have spaces between his fingers, and the God of Israel would spend the next fifteen hundred years looking through them.",
-    "id": "ch06-p88"
+    "id": "ch06-p87"
    },
    {
     "type": "p",
     "html": "Mediation was supposed to be distance.",
-    "id": "ch06-p89"
+    "id": "ch06-p88"
    },
    {
     "type": "p",
     "html": "He turned it into a lattice.",
-    "id": "ch06-p90"
+    "id": "ch06-p89"
    },
    {
     "type": "p",
     "html": "They could have the buffer.",
-    "id": "ch06-p91"
+    "id": "ch06-p90"
    },
    {
     "type": "p",
     "html": "They could not make Him stop looking.",
-    "id": "ch06-p92"
+    "id": "ch06-p91"
    },
    {
     "type": "p",
     "html": "And the shine He kept looking for was never reserved for clean faces.",
-    "id": "ch06-p93"
+    "id": "ch06-p92"
    },
    {
     "type": "p",
     "html": "It found David in his worst hour.",
-    "id": "ch06-p94"
+    "id": "ch06-p93"
    },
    {
     "type": "p",
     "html": "He has already been anointed king. He is already the most famous soldier in Israel. And the running has grown so desperate that he crosses enemy lines into Gath, Goliath’s own hometown, hoping to disappear into a foreign crowd.",
-    "id": "ch06-p95"
+    "id": "ch06-p94"
    },
    {
     "type": "p",
     "html": "He is recognized before the day is out.",
-    "id": "ch06-p96"
+    "id": "ch06-p95"
    },
    {
     "type": "p",
     "html": "“Is this not David?” the servants ask their king. “The one they sing about, the one the dances say has slain his ten thousands?”",
-    "id": "ch06-p97"
+    "id": "ch06-p96"
    },
    {
     "type": "p",
     "html": "The song that made him famous has followed him behind enemy lines, and it is about to get him killed.",
-    "id": "ch06-p98"
+    "id": "ch06-p97"
    },
    {
     "type": "p",
     "html": "So the anointed of Israel does something no hero in any story wants to do.",
-    "id": "ch06-p99"
+    "id": "ch06-p98"
    },
    {
     "type": "p",
     "html": "He acts insane.",
-    "id": "ch06-p100"
+    "id": "ch06-p99"
    },
    {
     "type": "p",
     "html": "He scrabbles at the doors of the gate. He lets his spit run down into his beard, in public, in front of pagan royalty, until the king of Gath waves him off with a sneer:",
-    "id": "ch06-p101"
+    "id": "ch06-p100"
    },
    {
     "type": "p",
     "html": "“Do I lack madmen, that you bring me this one?”",
-    "id": "ch06-p102"
+    "id": "ch06-p101"
    },
    {
     "type": "ref",
@@ -4577,17 +4584,17 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Ten verses earlier, in that same chapter, a priest had handed him the only bread in the house: the loaves off the golden table that sat all week in front of the face of God.",
-    "id": "ch06-p103"
+    "id": "ch06-p102"
    },
    {
     "type": "p",
     "html": "The man who will write nearly half the book of Psalms shuffles out of that court with his beard wet.",
-    "id": "ch06-p104"
+    "id": "ch06-p103"
    },
    {
     "type": "p",
     "html": "It is hard to imagine a face lower.",
-    "id": "ch06-p105"
+    "id": "ch06-p104"
    },
    {
     "type": "beat"
@@ -4595,12 +4602,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Years later, that man writes a psalm, and the heading names this exact episode: <em>when he feigned madness and was driven away</em>.",
-    "id": "ch06-p106"
+    "id": "ch06-p105"
    },
    {
     "type": "p",
     "html": "Of everything David could have remembered while he wrote, he chose the worst thing his face ever did and set it beside this line:",
-    "id": "ch06-p107"
+    "id": "ch06-p106"
    },
    {
     "type": "verse",
@@ -4610,52 +4617,52 @@ window.PANIM_CHAPTERS = [
     ],
     "ref": "Psalm 34:5",
     "translation": "NASB",
-    "id": "ch06-v5"
+    "id": "ch06-v6"
    },
    {
     "type": "p",
     "html": "Radiant, from the pen of the man whose face once ran with spit in Gath.",
-    "id": "ch06-p108"
+    "id": "ch06-p107"
    },
    {
     "type": "p",
     "html": "Never ashamed, from the man who lived his deepest shame in public.",
-    "id": "ch06-p109"
+    "id": "ch06-p108"
    },
    {
     "type": "p",
     "html": "He is handing Moses’s discovery to anyone willing to turn his face toward God:",
-    "id": "ch06-p110"
+    "id": "ch06-p109"
    },
    {
     "type": "p",
     "html": "the shine is not rank or reward. It is exposure. And no face has ever fallen too far to stand in it.",
-    "id": "ch06-p111"
+    "id": "ch06-p110"
    },
    {
     "type": "p",
     "html": "His signature at the top of the psalm is the proof.",
-    "id": "ch06-p112"
+    "id": "ch06-p111"
    },
    {
     "type": "p",
     "html": "And it had been settled about him long before, on an afternoon when nobody in the room could see it happening.",
-    "id": "ch06-p113"
+    "id": "ch06-p112"
    },
    {
     "type": "p",
     "html": "A prophet comes to Bethlehem to anoint a king out of one family, and the father lines his sons up. The oldest walks in first, tall and striking, and the prophet takes one look at him and is certain.",
-    "id": "ch06-p114"
+    "id": "ch06-p113"
    },
    {
     "type": "p",
     "html": "He has made this mistake before. The last king he anointed was the best-looking man in Israel and stood a head above everybody in it, and that is the king who lost a kingdom watching the crowd. Here he is again, reading a face and calling it a verdict.",
-    "id": "ch06-p115"
+    "id": "ch06-p114"
    },
    {
     "type": "p",
     "html": "God stops him mid-thought.",
-    "id": "ch06-p116"
+    "id": "ch06-p115"
    },
    {
     "type": "verse",
@@ -4664,42 +4671,42 @@ window.PANIM_CHAPTERS = [
     ],
     "ref": "1 Samuel 16:7",
     "translation": "NASB",
-    "id": "ch06-v6"
+    "id": "ch06-v7"
    },
    {
     "type": "p",
     "html": "The Greek translation the synagogues had been reading for generations says it harder than ours does. <em>Man looks at the face. God looks at the heart.</em>",
-    "id": "ch06-p117"
+    "id": "ch06-p116"
    },
    {
     "type": "p",
     "html": "Seven sons pass by that afternoon and God says no to all seven. The one He came for is not in the house. He is out with the animals, the youngest, not worth calling in from the field for.",
-    "id": "ch06-p118"
+    "id": "ch06-p117"
    },
    {
     "type": "p",
     "html": "They have to send for him.",
-    "id": "ch06-p119"
+    "id": "ch06-p118"
    },
    {
     "type": "p",
     "html": "The whole thing was decided about a face that was not in the room.",
-    "id": "ch06-p120"
+    "id": "ch06-p119"
    },
    {
     "type": "p",
     "html": "Which is why what happened to that face in Gath could never touch it.",
-    "id": "ch06-p121"
+    "id": "ch06-p120"
    },
    {
     "type": "p",
     "html": "And centuries later the shine lands on a man nobody had heard of.",
-    "id": "ch06-p122"
+    "id": "ch06-p121"
    },
    {
     "type": "p",
     "html": "The church had an argument about food distribution, so they appointed seven men to wait tables, and one of them was Stephen. Within a few chapters he is dragged in front of the council on a charge that is going to kill him, and Luke stops the scene to record what the men sitting in judgment on him could see.",
-    "id": "ch06-p123"
+    "id": "ch06-p122"
    },
    {
     "type": "verse",
@@ -4708,22 +4715,22 @@ window.PANIM_CHAPTERS = [
     ],
     "ref": "Acts 6:15",
     "translation": "NASB",
-    "id": "ch06-v7"
+    "id": "ch06-v8"
    },
    {
     "type": "p",
     "html": "Moses came down a mountain with it. Stephen got it waiting tables, and wore it into the room where they voted to stone him.",
-    "id": "ch06-p124"
+    "id": "ch06-p123"
    },
    {
     "type": "p",
     "html": "Nobody conferred it. He had been standing near the fire, and it showed up where everyone could read it but him.",
-    "id": "ch06-p125"
+    "id": "ch06-p124"
    },
    {
     "type": "p",
     "html": "That council had seen it once already, and had no word for it then either. Two chapters earlier they had hauled in two fishermen over a healing, men with no schooling and no rank, and what the room could not get past was not the argument.",
-    "id": "ch06-p126"
+    "id": "ch06-p125"
    },
    {
     "type": "verse",
@@ -4732,12 +4739,12 @@ window.PANIM_CHAPTERS = [
     ],
     "ref": "Acts 4:13",
     "translation": "NASB",
-    "id": "ch06-v8"
+    "id": "ch06-v9"
    },
    {
     "type": "p",
     "html": "They could not say what they were looking at. They could only say who put it there.",
-    "id": "ch06-p127"
+    "id": "ch06-p126"
    },
    {
     "type": "beat"
@@ -4745,7 +4752,7 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And three verses below that line, in David’s psalm, sits the invitation.",
-    "id": "ch06-p128"
+    "id": "ch06-p127"
    },
    {
     "type": "verse",
@@ -4754,22 +4761,22 @@ window.PANIM_CHAPTERS = [
     ],
     "ref": "Psalm 34:8",
     "translation": "NASB",
-    "id": "ch06-v9"
+    "id": "ch06-v10"
    },
    {
     "type": "p",
     "html": "He could have written look and see. He wrote taste.",
-    "id": "ch06-p129"
+    "id": "ch06-p128"
    },
    {
     "type": "p",
     "html": "And a whole psalm, Psalm 67, takes the priests’ words out of the priests’ mouths and hands them to everybody.",
-    "id": "ch06-p130"
+    "id": "ch06-p129"
    },
    {
     "type": "p",
     "html": "The congregation prays the blessing over itself, all together:",
-    "id": "ch06-p131"
+    "id": "ch06-p130"
    },
    {
     "type": "verse",
@@ -4779,12 +4786,12 @@ window.PANIM_CHAPTERS = [
     ],
     "ref": "Psalm 67:1",
     "translation": "NASB",
-    "id": "ch06-v10"
+    "id": "ch06-v11"
    },
    {
     "type": "p",
     "html": "Then, mid-prayer, the reason surfaces, and it is not the reason anyone asking for blessing expects:",
-    "id": "ch06-p132"
+    "id": "ch06-p131"
    },
    {
     "type": "verse",
@@ -4794,17 +4801,17 @@ window.PANIM_CHAPTERS = [
     ],
     "ref": "Psalm 67:2",
     "translation": "NASB",
-    "id": "ch06-v11"
+    "id": "ch06-v12"
    },
    {
     "type": "p",
     "html": "The light that lands on your face was never traveling to you.",
-    "id": "ch06-p133"
+    "id": "ch06-p132"
    },
    {
     "type": "p",
     "html": "It was traveling through you.",
-    "id": "ch06-p134"
+    "id": "ch06-p133"
    },
    {
     "type": "beat"
@@ -4812,52 +4819,52 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Moses shone and a nation saw.",
-    "id": "ch06-p135"
+    "id": "ch06-p134"
    },
    {
     "type": "p",
     "html": "Israel shines and the nations see.",
-    "id": "ch06-p136"
+    "id": "ch06-p135"
    },
    {
     "type": "p",
     "html": "It was lit for the ones still out in the dark, steering by whatever light they can find.",
-    "id": "ch06-p137"
+    "id": "ch06-p136"
    },
    {
     "type": "p",
     "html": "This would be the place to stop, in full sunshine: a shining man, a blessing on standing orders, a name settling on a people, a Lover at the lattice.",
-    "id": "ch06-p138"
+    "id": "ch06-p137"
    },
    {
     "type": "p",
     "html": "But there is still the veil.",
-    "id": "ch06-p139"
+    "id": "ch06-p138"
    },
    {
     "type": "p",
     "html": "Moses kept it on among the people and took it off before God, and in between, in the ordinary hours, that square of cloth hung over the most famous face in Israel and kept its counsel.",
-    "id": "ch06-p140"
+    "id": "ch06-p139"
    },
    {
     "type": "p",
     "html": "Everyone assumed they knew what it was hiding.",
-    "id": "ch06-p141"
+    "id": "ch06-p140"
    },
    {
     "type": "p",
     "html": "Brightness.",
-    "id": "ch06-p142"
+    "id": "ch06-p141"
    },
    {
     "type": "p",
     "html": "Too much glory for comfort.",
-    "id": "ch06-p143"
+    "id": "ch06-p142"
    },
    {
     "type": "p",
     "html": "And at first, that was true.",
-    "id": "ch06-p144"
+    "id": "ch06-p143"
    },
    {
     "type": "swell"
@@ -4865,22 +4872,22 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "But glory on a human face is reflected glory, and reflected glory obeys the oldest rule there is: it lasts only as long as the face remains turned toward its source.",
-    "id": "ch06-p145"
+    "id": "ch06-p144"
    },
    {
     "type": "p",
     "html": "Under the cloth, between one meeting with God and the next, something was happening to the shine that no one in Israel ever saw, and the veil made sure no one ever would.",
-    "id": "ch06-p146"
+    "id": "ch06-p145"
    },
    {
     "type": "p",
     "html": "The shine had a secret.",
-    "id": "ch06-p147"
+    "id": "ch06-p146"
    },
    {
     "type": "p",
     "html": "It was fading.",
-    "id": "ch06-p148"
+    "id": "ch06-p147"
    },
    {
     "type": "swell"
