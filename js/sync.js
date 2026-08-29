@@ -214,6 +214,61 @@
     currentIndex = -1;
   });
 
+  // ---------------------------------------------------------------------------
+  // TAP A PARAGRAPH, HEAR IT.
+  //
+  // The audio has always driven the text: as narration moves, the paragraph lights
+  // and the page follows. The reverse did not work — a reader who spotted a line and
+  // wanted to hear it said had no way to ask. Nothing new had to be measured for
+  // this: cues/chNN.json already holds {t, id} for every block, which is the exact
+  // second that block begins on the voice timeline. This reads the same map
+  // backwards.
+  //
+  // ⚠️ IT IS A POINTER ENHANCEMENT, NOT A CONTROL, and that is deliberate. Making
+  // eight hundred paragraphs focusable would put eight hundred stops in the tab
+  // order and announce every one of them as a button — worse for a screen reader
+  // than not having the feature. The keyboard path to the same place already
+  // exists and is unchanged: "Listen from here" at the head of each chapter, then
+  // the seek bar. Nothing here is the only way to do anything.
+  //
+  // THREE THINGS IT MUST NOT DO, all of them found by trying it:
+  //   1. Not steal a click from a link, a button, a glossary term or a <summary>.
+  //   2. Not fire when the reader was selecting text — a drag ends in a click.
+  //   3. Not fire on a block with no cue. A paragraph the aligner never matched
+  //      stays inert rather than seeking to the wrong second.
+
+  function chapterOf(blockId) {
+    var m = /^(ch\d+)/.exec(blockId || '');
+    return m ? m[1] : null;
+  }
+
+  function onBlockClick(e) {
+    if (e.target.closest('a, button, summary, [role="button"], input, label')) return;
+    var sel = window.getSelection && window.getSelection();
+    if (sel && !sel.isCollapsed) return;              // they were selecting, not asking
+    var block = e.target.closest('[data-cue-id]');
+    if (!block) return;
+    var id = block.getAttribute('data-cue-id');
+    var chapterId = chapterOf(id);
+    if (!chapterId) return;
+    fetchCues(chapterId).then(function (cues) {
+      var cue = null;
+      for (var i = 0; i < cues.length; i++) { if (cues[i].id === id) { cue = cues[i]; break; } }
+      if (!cue) return;                                // no cue, no guess
+      setFollow(true);
+      document.dispatchEvent(new CustomEvent('panim:listen-chapter', {
+        detail: { chapterId: chapterId, seekTo: cue.t }
+      }));
+    });
+  }
+
+  // Only where there is a real pointer. A touch device gets it too (coarse), but a
+  // keyboard-only session never binds it and never sees the hover affordance.
+  if (!window.matchMedia || window.matchMedia('(pointer: fine), (pointer: coarse)').matches) {
+    document.addEventListener('click', onBlockClick);
+    document.documentElement.classList.add('can-tap-to-listen');
+  }
+
   // exposed for player.js / debugging
   window.PANIM_SYNC = {
     setChapter: setChapter,
