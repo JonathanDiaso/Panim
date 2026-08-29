@@ -381,6 +381,44 @@
     wireLightbox();
     wireListenButtons();
     wireShare();
+    wireLexiconFilter();
+  }
+
+  // ---------- the lexicon filter ----------
+  //
+  // The filtering itself is one attribute: css/components.css hides every plate whose
+  // data-ch does not match .lex-plates[data-filter]. No display juggling per element,
+  // no layout thrash, and the grid reflows on its own.
+  //
+  // 🛑 THE ONE THING THAT WOULD BREAK IF THIS WERE NAIVE. A lexicon word is invisible
+  // until its plate gets .is-drawn — the ink mask sits at 0% — and js/motion.js
+  // unobserves each plate the moment it fires, once. A plate that was hidden by a
+  // filter before it was ever scrolled past therefore has no observer left to fire,
+  // and filtering back to it would show an empty frame. So on any filter change,
+  // every plate that has not been drawn yet is drawn now. That is also the right call
+  // for the reader: the sweep is a first-encounter effect, and someone using a filter
+  // is searching, not being introduced.
+  function wireLexiconFilter() {
+    var row = document.querySelector('.lex-filter');
+    var grid = document.getElementById('lex-plates');
+    if (!row || !grid) return;
+    row.addEventListener('click', function (e) {
+      var btn = e.target.closest('.lex-filter-btn');
+      if (!btn) return;
+      var want = btn.getAttribute('data-filter');
+      $all('.lex-filter-btn', row).forEach(function (b) {
+        var on = b === btn;
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      if (want === 'all') grid.removeAttribute('data-filter');
+      else grid.setAttribute('data-filter', want);
+      $all('.lex-plate', grid).forEach(function (p) {
+        if (p.classList.contains('is-drawn')) return;
+        p.classList.add('is-drawn');
+        if (p.querySelector('.lex-g.is-root')) p.classList.add('is-rooted');
+      });
+    });
   }
 
   document.addEventListener('panim:rendered', init);

@@ -271,6 +271,27 @@
     }).join('');
   }
 
+  // THE FILTER. Fifty plates is a lot to scroll if you came looking for one word.
+  // Real <button>s with aria-pressed, not links and not a <select> — the state is
+  // "which one of these is on", which is what aria-pressed is for, and a select on
+  // a phone opens a modal wheel for what is a one-tap choice.
+  //
+  // Chapters with no words are not rendered as dead buttons. Every chapter has some
+  // today, but the lexicon is data and that can change.
+  function filterRow(entries) {
+    var seen = {}, order = [];
+    entries.forEach(function (e) { if (!seen[e.ch]) { seen[e.ch] = 0; order.push(e); } seen[e.ch]++; });
+    var btns = order.map(function (e) {
+      return '<button type="button" class="lex-filter-btn" data-filter="' + esc(e.ch) + '"' +
+        ' aria-pressed="false">' + (ROMAN[e.num] || e.num) +
+        '<span class="lex-filter-n">' + seen[e.ch] + '</span></button>';
+    }).join('');
+    return '<div class="lex-filter" role="group" aria-label="Filter the lexicon by chapter">' +
+      '<button type="button" class="lex-filter-btn is-on" data-filter="all" aria-pressed="true">' +
+        'All<span class="lex-filter-n">' + entries.length + '</span></button>' + btns +
+    '</div>';
+  }
+
   function renderLexicon() {
     var entries = window.PANIM_LEXICON || [];
     if (!entries.length) return '';
@@ -325,7 +346,8 @@
             'dims, and what is left lit is the three letters the word is built from.</p>' +
           '</div>' +
         '</div>' +
-        '<div class="lex-plates">' + plates + '</div>' +
+        filterRow(entries) +
+        '<div class="lex-plates" id="lex-plates">' + plates + '</div>' +
       '</div></section>';
   }
 
