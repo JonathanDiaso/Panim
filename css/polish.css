@@ -125,3 +125,53 @@
   .plate-frame > img { height: auto; max-height: 4in; }
   .reveal { opacity: 1 !important; transform: none !important; }
 }
+
+/* ============================================================================
+   PRINT — a book about a book should print like one
+   ============================================================================
+   Added 2026-08-28. There was no print stylesheet, so printing a chapter gave you
+   the running head, the player bar, the contents, a page of dark plate and the
+   whole rest of the book. What a reader wants off a printer is one chapter's text,
+   its verse citations and its plate.
+
+   EVERYTHING THAT IS MACHINERY IS DROPPED, not hidden behind a toggle: the nav,
+   the player, the Listening Room, the invitation, the toast, the lightbox, every
+   dialog. What is left is the reading surface.
+
+   NO REVEAL STATE ON PAPER. .reveal, .fw-word and .lex-ink all start invisible and
+   are turned on by an IntersectionObserver that a print run never fires — without
+   the override below, printing produces blank pages of correctly laid-out nothing.
+   That is the one rule in here that is not taste.
+   ============================================================================ */
+@media print {
+  #site-nav, #player, #room, #onboarding-modal, .toast, .lightbox,
+  [role="dialog"], .btn, .toc-expand, #hold-btn, .skip-link { display: none !important; }
+
+  html, body { background: #fff !important; color: #000 !important; }
+
+  /* the observers never run on paper */
+  .reveal, .fivewords-text .fw-word, .chapter-mark, .hairline {
+    opacity: 1 !important; transform: none !important; transition: none !important;
+  }
+  .lex-ink { -webkit-mask-image: none !important; mask-image: none !important; }
+  .lex-g, .lex-g.is-root { color: #000 !important; }
+  .fivewords-text .fw-word {
+    background: none !important; -webkit-text-fill-color: #000 !important;
+    color: #000 !important; animation: none !important;
+  }
+
+  /* a chapter starts on its own sheet and its plate does not straddle two */
+  .chapter { break-before: page; }
+  .plate, figure, blockquote, .lex-plate, .thread-item { break-inside: avoid; }
+
+  /* every entry open, because a printed page has no disclosure */
+  .thread-item > .thread-detail { display: block !important; }
+
+  /* the reading measure, not the screen grid */
+  .section-inner { max-width: 34em; margin: 0 auto; }
+
+  a { text-decoration: none; color: inherit; }
+  /* a link to a chapter is meaningless on paper; a scripture reference is not,
+     and it is already printed as text beside the verse */
+  a[href^="#"]::after { content: ''; }
+}

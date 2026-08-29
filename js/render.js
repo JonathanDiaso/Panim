@@ -291,7 +291,11 @@
         ? '<p class="lex-root-note">root <span class="lex-root-word" lang="he" dir="rtl">' +
             esc(e.root) + '</span></p>'
         : '';
-      return '<article class="lex-plate" data-ch="' + esc(e.ch) + '" data-kind="' + esc(e.kind) + '">' +
+      // A word you can link to. #lex-panim opens the book at that plate, which is
+      // what makes the lexicon usable as a reference and not only as a finale.
+      // Slug off the transliteration, which is already unique across the fifty.
+      var slug = 'lex-' + e.t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      return '<article class="lex-plate" id="' + esc(slug) + '" data-ch="' + esc(e.ch) + '" data-kind="' + esc(e.kind) + '">' +
         '<p class="lex-tag">' + (e.kind === 'mark'
             ? 'Chapter ' + roman + ' · its own word'
             : 'Chapter ' + roman) + '</p>' +
