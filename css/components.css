@@ -1064,13 +1064,20 @@
   line-height: 1.16; letter-spacing: -.012em; margin: 0;
   transition: color var(--dur-fast) var(--ease);
 }
+/* 🛑 THE ALT TEXT IS NOT OPTIONAL, 2026-08-29. Chrome exposes generated content to
+   the accessibility tree, so `content: '+'` put a stray plus on the END OF THE
+   HEADING NAME: all thirteen threads announced as «"Lift up my face" plus», and
+   «… minus» once open. It is doubly wrong because <summary> already announces its
+   own expanded/collapsed state — the glyph is for eyes only. The `/ ''` is CSS
+   generated-content alt text: it draws the same and names nothing.
+   Verified in the AX tree (Accessibility.getFullAXTree), not by reading. */
 .thread-name::after {
-  content: '+';
+  content: '+' / '';
   margin-left: .5em;
   font-family: var(--ui); font-weight: 400; font-size: .8em;
   color: var(--ink-faint);
 }
-.thread-item[open] .thread-name::after { content: '\2212'; }   /* − */
+.thread-item[open] .thread-name::after { content: '\2212' / ''; }   /* − */
 .thread-summary:hover .thread-name, .thread-summary:focus-visible .thread-name { color: var(--accent); }
 
 /* 🛑 ::details-content, ADDED 2026-08-29. Chrome 131 gave <details> a UA wrapper
@@ -1692,6 +1699,112 @@ body.nav-toc-open #site-nav {
 /* THE GRID. auto-fit rather than a fixed count, so the plates decide the columns:
    one on a phone, two on a tablet, three on a wide desk, without a breakpoint per
    case. min(100%, 21rem) keeps a single plate from overflowing a narrow screen. */
+/* ---------------------------------------------------------------------------
+   THE WALL AND THE ARTICLE, 2026-08-29
+   The lexicon was fifty cards in a three-column grid: 8,439px, eight and a half
+   screens, to look up one word. A lexicon is a LOOKUP. It is now the shape a
+   printed dictionary has — the headwords, and the article — and the article sits
+   in columns 10–12, the apparatus column the verse notes moved into on the same
+   day. One system, used twice.
+   The wall keeps the reading measure so the words set as a block of type rather
+   than as a table; the article takes the aside column and sticks, so scrolling the
+   wall never scrolls the entry off.
+   --------------------------------------------------------------------------- */
+.lex-body {
+  grid-column: 1 / -1;
+  display: grid; grid-template-columns: subgrid;
+  margin-top: clamp(1.8rem, 4vw, 3rem);
+}
+@supports not (grid-template-columns: subgrid) {
+  .lex-body { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
+}
+.lex-wall {
+  grid-column: 3 / 10;
+  display: flex; flex-wrap: wrap;
+  gap: .5rem .55rem;
+  align-content: flex-start;
+}
+/* Every word is a control and none of them may look like a button — a row of
+   fifty buttons is a toolbar, and this is a page of words. The only thing that
+   marks one is a hairline under it, which is what a dictionary uses for a
+   headword, and the chosen one takes the accent. */
+.lex-chip {
+  display: flex; flex-direction: column; align-items: flex-start; gap: .12em;
+  padding: .35em .5em .3em;
+  min-height: 44px;
+  border: 0; border-bottom: 1px solid var(--rule);
+  background: none; color: var(--ink);
+  cursor: pointer; text-align: left;
+  transition: border-color var(--dur-fast) var(--ease),
+              background-color var(--dur-fast) var(--ease);
+}
+.lex-chip-word {
+  font-family: var(--heb); font-weight: 300;
+  font-size: 1.5rem; line-height: 1.25;
+  color: var(--accent);
+}
+.lex-chip-word.is-greek {
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-weight: 400; font-size: 1.28rem;
+}
+.lex-chip-word.is-roman {
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-style: italic; font-weight: 400; font-size: 1.28rem;
+}
+.lex-chip-t {
+  font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+.lex-chip:hover { border-bottom-color: var(--ink); background: var(--control-wash); }
+.lex-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.lex-chip.is-on {
+  border-bottom-color: var(--accent); border-bottom-width: 2px;
+  background: var(--control-wash);
+}
+.lex-chip.is-on .lex-chip-t { color: var(--ink); }
+
+.lex-article {
+  grid-column: 10 / 13;
+  position: sticky; top: clamp(4.5rem, 9vh, 6.5rem);
+  align-self: start;
+}
+/* THE ARTICLE IS NOT A CARD. It was one when there were fifty of them in a grid and
+   the box was what separated one word from the next. There is one now, standing in
+   the apparatus column beside a wall of bare type, and a tinted bordered box there
+   is decoration pretending to be material — which this book does not do. It takes
+   the same treatment the verse note in that column takes: paper, a rule on the side
+   the reading is on, and nothing else. */
+.lex-article .lex-plate {
+  background: none;
+  border: 0;
+  border-left: 1px solid var(--rule);
+  padding: .1rem 0 .2rem clamp(1rem, 1.4vw, 1.4rem);
+}
+.lex-article .lex-plate[data-kind="mark"] { border-left: 2px solid var(--accent); }
+@media (max-width: 900px) {
+  /* under the wall on a phone the rule reads as a left margin, so it goes on top */
+  .lex-article .lex-plate {
+    border-left: 0; border-top: 1px solid var(--rule);
+    padding: 1.2rem 0 0;
+  }
+  .lex-article .lex-plate[data-kind="mark"] { border-left: 0; border-top: 2px solid var(--accent); }
+}
+
+@media (max-width: 900px) {
+  .lex-body { grid-template-columns: repeat(6, 1fr); }
+  /* On a phone the aside column does not exist, so the article goes UNDER the wall.
+     🛑 The wall is NOT a nested scroller. It was capped at 46vh with overflow-y so
+     the article stayed on screen, and a scrolling box inside a scrolling page is one
+     of the few things that is worse on touch than a long page: the wrong thing
+     scrolls, momentum fights the page, and words go off-screen with nothing to say
+     so. js/ui.js scrolls the article into view on selection instead, which is what
+     the reader wanted to happen anyway. */
+  .lex-wall { grid-column: 1 / 7; }
+  .lex-article { grid-column: 1 / 7; position: static; margin-top: 1.6rem; }
+}
+
 .lex-plates {
   grid-column: 1 / -1;
   display: grid;
@@ -1700,6 +1813,12 @@ body.nav-toc-open #site-nav {
   margin-top: clamp(1.8rem, 4vw, 3rem);
 }
 
+/* 🛑 [hidden] LOSES TO AN AUTHOR display RULE. `hidden` is `display:none` in the UA
+   stylesheet and any author `display` on the same element beats it outright, so the
+   forty-nine closed entries all painted and the section measured 22,564px — nearly
+   three times the card grid it replaced. This one line is what makes the article an
+   article. It is the same trap as .sheet[hidden] a few hundred lines up. */
+.lex-plate[hidden] { display: none; }
 .lex-plate {
   display: flex; flex-direction: column;
   padding: clamp(1.5rem, 3vw, 2.2rem);
@@ -1883,22 +2002,27 @@ body.nav-toc-open #site-nav {
 }
 .lex-filter-btn.is-on .lex-filter-n { color: var(--paper); opacity: .8; }
 
-/* the filter itself */
-.lex-plates[data-filter="ch01"] .lex-plate:not([data-ch="ch01"]),
-.lex-plates[data-filter="ch02"] .lex-plate:not([data-ch="ch02"]),
-.lex-plates[data-filter="ch03"] .lex-plate:not([data-ch="ch03"]),
-.lex-plates[data-filter="ch04"] .lex-plate:not([data-ch="ch04"]),
-.lex-plates[data-filter="ch05"] .lex-plate:not([data-ch="ch05"]),
-.lex-plates[data-filter="ch06"] .lex-plate:not([data-ch="ch06"]),
-.lex-plates[data-filter="ch07"] .lex-plate:not([data-ch="ch07"]),
-.lex-plates[data-filter="ch08"] .lex-plate:not([data-ch="ch08"]),
-.lex-plates[data-filter="ch09"] .lex-plate:not([data-ch="ch09"]),
-.lex-plates[data-filter="ch10"] .lex-plate:not([data-ch="ch10"]) { display: none; }
+/* the filter itself — it hides WORDS ON THE WALL now, not plates in a grid */
+.lex-wall[data-filter="ch01"] .lex-chip:not([data-ch="ch01"]),
+.lex-wall[data-filter="ch02"] .lex-chip:not([data-ch="ch02"]),
+.lex-wall[data-filter="ch03"] .lex-chip:not([data-ch="ch03"]),
+.lex-wall[data-filter="ch04"] .lex-chip:not([data-ch="ch04"]),
+.lex-wall[data-filter="ch05"] .lex-chip:not([data-ch="ch05"]),
+.lex-wall[data-filter="ch06"] .lex-chip:not([data-ch="ch06"]),
+.lex-wall[data-filter="ch07"] .lex-chip:not([data-ch="ch07"]),
+.lex-wall[data-filter="ch08"] .lex-chip:not([data-ch="ch08"]),
+.lex-wall[data-filter="ch09"] .lex-chip:not([data-ch="ch09"]),
+.lex-wall[data-filter="ch10"] .lex-chip:not([data-ch="ch10"]) { display: none; }
 
-/* on paper there is no filter, so nothing may be hidden by one */
+/* On paper there is no filter and no chosen word, so the wall goes and ALL FIFTY
+   ENTRIES PRINT. A printed lexicon that showed one article and forty-nine hidden
+   ones would be a lexicon with one word in it. */
 @media print {
-  .lex-filter { display: none !important; }
-  .lex-plates .lex-plate { display: flex !important; }
+  .lex-filter, .lex-wall { display: none !important; }
+  .lex-article .lex-plate { display: flex !important; }
+  .lex-article .lex-plate[hidden] { display: flex !important; }
+  .lex-article { display: block !important; }
+  .lex-plate .lex-ink { opacity: 1 !important; -webkit-mask-image: none !important; mask-image: none !important; }
 }
 
 

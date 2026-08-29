@@ -288,6 +288,11 @@
         obs.unobserve(plate);
       });
     }, { threshold: 0.35 });
+    // Only ever ONE entry is visible now — the lexicon is a wall of words with a
+    // single article beside it (js/render.js, 2026-08-29) — so this observes the one
+    // that is open when the reader arrives, and js/ui.js's selectLexWord drives every
+    // one after that. A hidden [hidden] entry is never intersecting, so the others
+    // are simply never fired by this path and cost nothing.
     document.querySelectorAll('.lex-plate').forEach(function (el) { inkObserver.observe(el); });
 
     var hairlineObserver = new IntersectionObserver(function (entries, obs) {
