@@ -515,10 +515,15 @@ play re-arms it, so following still comes back on its own.
 text we can use a few but around the website theyre trashy."*** The line is his and it is the
 right one: **chrome is not prose.**
 
-**Swept:** `<title>`, the meta and og descriptions, the hero and About copy, the *One Promise*
-title, the running head's share text, the player's edition toggle, the Room's Read button, the
-Lexicon's four root-absence sentences, the source rows, `accessibility.html` and `404.html`.
-**Zero left in any of it.**
+**Swept:** `<title>`, the meta and og descriptions, **the JSON-LD block**, the hero and About
+copy, the *One Promise* title, the running head's share text, the player's edition toggle, the
+Room's Read button, the Lexicon's four root-absence sentences, the source rows,
+`accessibility.html` and `404.html`. **Zero left in any of it.**
+
+> ⚠️ **The JSON-LD is the site's voice too, and it was missed on the first pass** because a
+> visible-text check strips `<script>`. `name` and `description` in the structured data are what
+> Google prints in a result — **externally visible, just not on the page.** Caught by grepping
+> the deployed file rather than the source. Sweep `<script type="application/ld+json">` by hand.
 
 🛑 **NOT swept, deliberately: the author's writing.** 142 em dashes remain and every one is in
 `content/chapters.js` (67), `content/verse-notes.js` (64), `content/lexicon.js` glosses (24) and
