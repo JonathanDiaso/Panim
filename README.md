@@ -3,6 +3,9 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
+**Current: v40** (`?v=40`, `panim-shell-v40`) — the back matter's copy pass and the
+lexicon controls.
+
 Read this first in a new session — the only doc in this repo describing current
 state. 👉 Then read the handoff:
 [`../panim-book/handoffs/site-handoff-2026-08-27.md`](../panim-book/handoffs/site-handoff-2026-08-27.md)
@@ -115,6 +118,32 @@ transliteration. Chapter order stays the default, because this is the back of *t
 before it is a dictionary. **The section is still 1,179px** — the controls row was already
 there for the chapter filter and the second group fits beside it.
 
+**The sixteen controls set as TABS, not as boxes (2026-08-30, v40).** The author's mark was
+*"they look super cheap ... its not pleasant and its cheap"*, and the reason was not the
+colour: each one was a **bordered rectangle with a wash and a boxed count badge** — a form
+widget — sitting six centimetres above a wall of fifty words whose stated principle is
+*"every word is a control and none of them may look like a button."* **The section was
+speaking two languages.** The wall's is the one that comes from print, so the controls
+speak it now: bare type on an always-drawn hairline, and the one that is on takes a **2px
+accent rule** — the same two-state mark `.lex-chip` uses, so choosing a chapter and choosing
+a word are now drawn the same way. The count sets as a **superior figure**, the way a
+dictionary prints a sense number, instead of a box inside a box.
+
+> **What makes it feel pressed is three things and none of them is a shadow:** hover grows
+> the accent mark from the centre to 40% (`transform: scaleX`, so fourteen of them animate
+> without reflowing the row); `:active` drops the tab **1px** and pushes the mark to 70%;
+> the type goes `--ink-soft` → `--ink`, so the tab gains weight rather than a border.
+> `.lex-chip` took the same 1px drop, so both halves of the section answer a finger
+> identically. ⚠️ **The press is the one motion a reader can fire sixteen times in ten
+> seconds**, so it is removed entirely under `prefers-reduced-motion`.
+
+> 🛑 **Removing the box did not remove the WCAG 1.4.11 boundary — it moved it to one edge and
+> made it darker.** The always-drawn rule is `--rule-strong`; the on-state mark is
+> `--accent`. Measured at 1280px and at 402px: **all sixteen clear 44×44 on both axes**
+> (narrowest 44.0), off-state type **6.26:1**, on-state **15.01:1**. `min-width` stays
+> beside `min-height` — that was the D14-E finding, and it is still the only thing keeping
+> Chapter I, V and X off 34px.
+
 **It is JUSTIFIED TYPE in three weights (2026-08-30, v39).** It was a flex row with an even
 gap — a *list that happens to wrap*. It is now `text-align: justify` over an inline run, so
 the block sets **flush to both margins** the way a printed dictionary's headwords do: eight
@@ -148,6 +177,25 @@ was verified by toggling the classes by hand.
 > III**, which is WCAG 2.4.3 on a surface whose whole job is lookup. Moving nodes into a
 > fragment costs one layout per tap, focus survives it, and every `#lex-…` id travels with
 > its node.
+
+**Three standfirsts got shorter, and one paragraph went entirely (2026-08-30, v40).** The
+author's marks were *"we can delete this text"*, *"way too many words"* and *"this is wordy
+and lame"*, and all three were pointing at the same habit: **apparatus explaining itself.**
+
+- **Index of Scripture** — the whole standfirst paragraph is gone. It spent three sentences
+  explaining that a numeral beside a reference is a chapter you can click, which is the one
+  thing on that page a reader works out **by looking at it**. The 26 books did not go with
+  it: the count moved **up into the title**, where it costs two words instead of a line —
+  *"114 verses, from 26 books, in the order a Bible keeps them."*
+- **The Lexicon** — the standfirst named its six sources inline (Masoretic, BDB, Klein,
+  Jastrow, BibleHub, the CAD) and **that list has had a section of its own since v39**.
+  Printing it twice made the head of the Lexicon read like a colophon. Two sentences now,
+  and the clause the paragraph exists for — *not one character was typed from memory* —
+  is still in it.
+- **The lexica group on the sources page** — *"Two independent sources were consulted for
+  every headword rather than one, which is the only reason the next paragraph could be
+  written"* is now **"Every headword was checked in two of these, not one."** Same claim,
+  a third of the length, and it no longer refers to a paragraph by its position.
 
 **The 31 entries with no root say why they have none (v38).** Not one line — **four**,
 because "no root" is true of a Greek verb and of a six-word Hebrew clause for unrelated
@@ -287,6 +335,8 @@ reachable only by scrolling a page that was then 262,798px tall. **It is 245,577
 — the verse apparatus and the Lexicon each gave a chunk of that back.
 
 **Two more joined them 2026-08-30 (v39), and the back matter is now five sections.**
+🆕 **All five were edited down on 2026-08-30 (v40)** — see the standfirst cuts in §3, the
+notes and letters below, and the controls that stopped looking like a form.
 
 - **Names and Places** (`#names`) — 58 entries, 38 people and 20 places. The one lookup a
   reader had and could not do: there was an index of verses and an index of words and **no
@@ -297,6 +347,27 @@ reachable only by scrolling a page that was then 262,798px tall. **It is 245,577
   story and never says his name. One numeral per chapter, landing on the first block that
   names him — Moses is in 103 paragraphs and 103 links would be a wall. God, the Hebrew and
   Greek words, and the books of the Bible are all excluded, each for a stated reason.
+
+  **Every entry says who it is, and the PERSON / PLACE badge is gone (2026-08-30, v40).**
+  The author asked *"why arent all the people described? Do we need to name them people?
+  lol"* — two marks, one cause. **21 of 58 entries carried a note and 37 carried nothing**,
+  so the index described Hagar and left *Moses* as a bare word; and beside a bare word the
+  badge that survived was the one reading **PERSON** under the name **MOSES**. The badge
+  labelled what the reader already knew and put a second piece of type on all 58 entries.
+  It is dropped, `.ni-kind` with it, and **all 58 notes are written** — the split is still
+  counted once, in the standfirst, which is where a count belongs. 🛑 `content/names.js`
+  now treats the note as **required**: a new entry without one renders a bare name, and
+  the header there says so.
+
+  **The letter headings are 46px serif in the accent, not 10px tracked caps (v40).** The
+  author's mark: *"the abc near the people and things place could be bigger its hard to
+  see."* The cause is a component reused for its name rather than its job — it inherited
+  `.si-book-name`, which is right for the Index of Scripture, where the label is a **word**
+  (*Deuteronomy*). Here the label is a **single letter** doing what a thumb-index does in a
+  printed book: it is the thing you aim at from across the page, and at `--ap-sm` it was
+  **the smallest type in the section**. Measured: 10.24px → **46.08px** desktop, **33.6px**
+  at 402px, `--accent` on the back-matter paper at **5.23:1**. On the phone it takes the
+  rule back, because with no entries beside it a bare glyph reads as a dropped capital.
 - **Where These Came From** (`#sources`) — 11 works in four groups. The Lexicon's standfirst
   had always *claimed* its sources (*"not one character was typed from memory"*) and never
   listed them; **a claim nobody can check is decoration.** 🛑 **A row may carry
@@ -398,6 +469,24 @@ with `voiceTime = currentTime − musicOffset` (6.0s, flat across all ten
 chapters). Following is gesture-driven: only a real wheel/touch/key
 **suspends** it, resuming on a still-visible paragraph, 12s hands-off, or a tap
 on Follow. `readableBand()` excludes the running head/player bar from view.
+
+🛑 **A PAUSED PAGE NEVER MOVES ITSELF (2026-08-30, v40).** The 12s idle-resume was gated on
+`followEnabled && !suspended` **and nothing else — and both of those stay true across a
+pause.** So: play a minute, pause, scroll off to read somewhere quietly, and twelve seconds
+after your hand came off the wheel the page **scrolled itself back** to the paragraph the
+voice had stopped on, with nothing playing and nothing asking. The author's words: *"The
+screen moves back when im looking at a section ... its moving even when i dont play it."*
+The snap-back is right and it stays; `js/sync.js` now tracks `playing` off
+**`panim:play-state`** — which player.js emits from the `<audio>` element's own
+play/pause, so a lock-screen tap and a pulled headphone count too — and the resume timer
+**checks it at the moment it FIRES, not when it is set**, because the reader can pause
+during the twelve seconds it is counting. A pause cancels a countdown already running; a
+play re-arms it, so following still comes back on its own.
+
+> ✅ **Verified with virtual time, not by reading it**: play → gesture ⇒ `suspended`; pause
+> ⇒ still suspended after **13s** (the old build unsuspended and scrolled here); play again
+> ⇒ unsuspended after 13s. `PANIM_SYNC.state()` reports `playing` now, which is what makes
+> that testable at all.
 
 ## 5. Known-fixed — don't re-diagnose
 

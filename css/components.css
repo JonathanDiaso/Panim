@@ -1795,9 +1795,15 @@ body.nav-toc-open #site-nav {
   border: 0; border-bottom: 1px solid var(--rule);
   background: none; color: var(--ink);
   cursor: pointer; text-align: left;
+  -webkit-tap-highlight-color: transparent;
   transition: border-color var(--dur-fast) var(--ease),
-              background-color var(--dur-fast) var(--ease);
+              background-color var(--dur-fast) var(--ease),
+              transform var(--dur-fast) var(--ease);
 }
+/* the same 1px drop the filter tabs take (D17-F), so the two halves of the
+   section answer a finger the same way */
+.lex-chip:active { transform: translateY(1px); }
+@media (prefers-reduced-motion: reduce) { .lex-chip:active { transform: none; } }
 /* THE WALL CARRIES THE BOOK'S OWN WEIGHTING — 2026-08-30 (D15-B), the author's
    "do it". Three steps, not fifty: js/render.js explains WHY it is three and why
    it is not the raw mention count. What the reader gets is a wall where the eye
@@ -2155,40 +2161,99 @@ body.nav-toc-open #site-nav {
 /* the hairline between the ten chapter numerals and the three languages: one filter
    row, two kinds of thing in it, and no second border or heading to say so */
 .lex-filter-sep {
-  width: 1px; align-self: stretch; margin: .3rem .35rem;
-  background: var(--rule);
+  width: 1px; align-self: center; height: 1.5em; margin: 0 .55rem;
+  background: var(--rule-strong);
 }
-/* 🛑 min-WIDTH as well as min-height, from 2026-08-29 (D14-E). Measured, not
-   guessed: Chapter I, Chapter V and Chapter X came out 34px wide against a 44px
-   floor, because a roman numeral of one narrow letter plus a two-digit count is
-   simply not as wide as "Chapter VIII". Only three of sixteen failed, which is
-   exactly why it survived — the row LOOKS even, and the three that are wrong are
-   the three a thumb is most likely to miss.
-   It predates the sort row; the measurement pass that added the sort found it. */
+/* ============================================================================
+   THE CONTROLS SET AS TABS, NOT AS BOXES — 2026-08-30 (D17-F)
+   Reader's words: "the all 1 2 3 4 hebrew buttons ... look super cheap right now
+   ... its not pleasant and its cheap."
+   They were right, and the reason is worth writing down because it was not the
+   colours. Every button was a bordered rectangle with a wash inside it and a
+   boxed count badge — a form widget — sitting six centimetres above a WALL OF
+   FIFTY WORDS whose entire design principle is stated in this file already:
+   "Every word is a control and none of them may look like a button ... the only
+   thing that marks one is a hairline under it, which is what a dictionary uses
+   for a headword, and the chosen one takes the accent."
+   The section had two contradictory languages in it. The wall's is the right one
+   — it is the one that comes from print — so the controls now speak it too.
+   A tab is bare type standing on a rule. The rule under EVERY tab is always
+   drawn, which is the affordance: this row is a row of controls, and you can see
+   that without hovering it. The rule under the ONE THAT IS ON is twice as thick
+   and takes the accent. That is the same two-state mark .lex-chip uses, so
+   choosing a chapter up here and choosing a word down there now feel like the
+   same gesture, because they are drawn with the same two marks.
+   WHAT MAKES IT FEEL PRESSED, and it is three things, none of them a shadow:
+     · hover grows the accent mark out from the centre to 40% — a real motion of
+       one transform on one pseudo-element, not a colour swap;
+     · :active drops the whole tab 1px and pushes the mark to 70%, so the press
+       is a movement the finger caused and the release springs back;
+     · the type goes from --ink-soft to --ink, so the tab gains weight under the
+       cursor rather than gaining a border.
+   ⚠️ CONTRAST AND TARGETS ARE UNCHANGED OR BETTER. The 44×44 floor stays — and
+   min-WIDTH stays with it, which was the D14-E finding: Chapter I, V and X came
+   out 34px wide against the height-only check, because one narrow roman letter
+   plus a count is simply not as wide as "Chapter VIII". Three of sixteen failed
+   and the row LOOKED even, which is why it survived a whole round. Both axes,
+   still measured. WCAG 1.4.11 wants 3:1 on the visual boundary of a control:
+   the always-drawn rule is --rule-strong and the on-state mark is --accent
+   (#7E5A20 on #FDFAF3 = 5.98:1), so removing the box did not remove the
+   boundary — it moved it to one edge and made it darker.
+   ============================================================================ */
 .lex-filter-btn {
-  display: inline-flex; align-items: baseline; justify-content: center; gap: .45em;
-  min-height: 44px; min-width: 44px; padding: .5em .85em;
-  border: 1px solid var(--control-edge);
-  background: var(--control-wash);
-  color: var(--ink);
+  position: relative;
+  display: inline-flex; align-items: baseline; justify-content: center; gap: .42em;
+  min-height: 44px; min-width: 44px;
+  padding: .6em .55em .75em;
+  border: 0;
+  background: none;
+  color: var(--ink-soft);
   font-family: var(--serif); font-variation-settings: var(--lit-normal);
-  font-size: var(--ap-md); font-weight: 500;
+  font-size: 1rem; font-weight: 400;
   font-variant-numeric: lining-nums tabular-nums;
-  letter-spacing: .08em;
-  transition: background-color var(--dur-fast) var(--ease),
-              border-color var(--dur-fast) var(--ease),
-              color var(--dur-fast) var(--ease);
+  letter-spacing: .06em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--dur-fast) var(--ease),
+              transform var(--dur-fast) var(--ease);
 }
-.lex-filter-btn:hover { border-color: var(--ink); }
+/* the rule the tab stands on. Always drawn — it is what says "control". */
+.lex-filter-btn::before {
+  content: ''; position: absolute; left: .18em; right: .18em; bottom: .42em;
+  height: 1px; background: var(--rule-strong);
+}
+/* and the mark that answers. Scale, not width: a transform does not reflow the
+   row, and fourteen of these animate at once on a phone. */
+.lex-filter-btn::after {
+  content: ''; position: absolute; left: .18em; right: .18em; bottom: .38em;
+  height: 2px; background: var(--accent);
+  transform: scaleX(0); transform-origin: 50% 50%;
+  transition: transform var(--dur-med) var(--ease);
+}
+.lex-filter-btn:hover { color: var(--ink); }
+.lex-filter-btn:hover::after { transform: scaleX(.4); }
+.lex-filter-btn:active { transform: translateY(1px); }
+.lex-filter-btn:active::after { transform: scaleX(.7); }
 .lex-filter-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.lex-filter-btn.is-on {
-  background: var(--accent); border-color: var(--accent); color: var(--paper);
-}
+.lex-filter-btn.is-on { color: var(--ink); font-weight: 500; }
+.lex-filter-btn.is-on::after,
+.lex-filter-btn.is-on:hover::after,
+.lex-filter-btn.is-on:active::after { transform: scaleX(1); }
+/* the count sets as a superior figure — the way a dictionary prints a sense
+   number — instead of as a badge with its own box inside another box */
 .lex-filter-n {
   font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
   color: var(--ink-faint);
+  align-self: flex-start; transform: translateY(.18em);
 }
-.lex-filter-btn.is-on .lex-filter-n { color: var(--paper); opacity: .8; }
+.lex-filter-btn.is-on .lex-filter-n { color: var(--accent); }
+/* 🛑 The press is the ONE motion here that a reader can trigger sixteen times in
+   ten seconds, so it is the one that must go away entirely under reduce. */
+@media (prefers-reduced-motion: reduce) {
+  .lex-filter-btn,
+  .lex-filter-btn::after { transition: none; }
+  .lex-filter-btn:active { transform: none; }
+}
 
 /* the filter itself — it hides WORDS ON THE WALL now, not plates in a grid */
 .lex-wall[data-filter="ch01"] .lex-chip:not([data-ch="ch01"]),
@@ -2248,11 +2313,29 @@ body.nav-toc-open #site-nav {
 }
 /* the letter stands alone in the margin column, with the entries beside it rather
    than under it — so .si-book-name's underline has nothing to underline and is
-   dropped. Everything else about the component (the tracked uppercase, the ink) is
-   exactly what a letter heading wants. */
+   dropped.
+   🛑 IT IS NO LONGER A .si-book-name IN ANYTHING BUT NAME, from 2026-08-30 (D17-E).
+   It inherited --ap-sm tracked uppercase — 10.24px — because it started life as the
+   Index of Scripture's book heading, where the label is a WORD ("Deuteronomy") and
+   10px of tracked caps is the right size for it. Here the label is a SINGLE LETTER
+   doing the job a thumb-index does in a printed book: it is the thing you aim at
+   from across the page, and at 10px it was the smallest type in the section and the
+   hardest thing on it to see. Reader's words: "the abc ... could be bigger its hard
+   to see."
+   So it sets as a printed index letter instead — serif, large, in the section's
+   accent. Contrast measured, not assumed: #7E5A20 on #FDFAF3 is 5.98:1, which
+   clears AA for body text and is nearly double the 3:1 large-text floor. */
 .ni-letter .si-book-name {
-  grid-column: 1 / 3; padding-top: .5em;
+  grid-column: 1 / 3; padding-top: .05em;
   border-bottom: 0; padding-bottom: 0;
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-normal);
+  font-size: clamp(2.1rem, 3.6vw, 3.2rem);
+  font-weight: 400;
+  line-height: .88;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--accent);
 }
 /* the entries set in columns, so a 60-name index is a page rather than a scroll —
    auto-fill against a real minimum, the same reasoning .lex-plates used */
@@ -2269,10 +2352,7 @@ body.nav-toc-open #site-nav {
   margin: 0 0 .2em;
   display: flex; align-items: baseline; gap: .5em; flex-wrap: wrap;
 }
-.ni-kind {
-  font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
-  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
-}
+/* .ni-kind — the PERSON / PLACE badge — was dropped with its markup (D17-B). */
 .ni-note {
   font-family: var(--serif); font-variation-settings: var(--lit-normal);
   font-style: italic; font-size: var(--ap-lg); line-height: 1.5;
@@ -2306,7 +2386,12 @@ body.nav-toc-open #site-nav {
 
 @media (max-width: 900px) {
   .ni-body, .ni-letter { grid-template-columns: repeat(6, 1fr); }
-  .ni-letter .si-book-name { grid-column: 1 / 7; padding-top: 0; margin-bottom: .4rem; }
+  /* full width now, so the letter gets the rule back: with no entries beside it,
+     a bare glyph on a line reads as a dropped capital rather than as a heading. */
+  .ni-letter .si-book-name {
+    grid-column: 1 / 7; padding-top: 0; margin-bottom: .6rem;
+    padding-bottom: .12em; border-bottom: 1px solid var(--rule-strong);
+  }
   .ni-entries { grid-column: 1 / 7; }
 }
 

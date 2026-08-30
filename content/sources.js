@@ -54,8 +54,7 @@
     },
     {
       group: 'The lexica',
-      note: 'Two independent sources were consulted for every headword rather than ' +
-            'one — which is the only reason the next paragraph could be written.',
+      note: 'Every headword was checked in two of these, not one.',
       items: [
         {
           title: 'A Hebrew and English Lexicon of the Old Testament (BDB)',
