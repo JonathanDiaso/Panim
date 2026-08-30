@@ -203,7 +203,7 @@ window.PANIM_IMAGES = {
   "ch08-veil": {
     src: "art/ch08-veil.webp",
     alt: "A colossal woven temple curtain in blue, purple and scarlet with large winged cherubim worked into the weave and repeated across it, split from the top downward through one of the figures, hard white light bursting through the tear and individual threads snapping and lighting up as they part.",
-    caption: "Torn in two from top to bottom — from the other side.",
+    caption: "Torn in two from top to bottom, from the other side.",
     ref: "parochet · Matthew 27:51"
   },
   // ✅ REPLACED 2026-08-28 (round six) — the one fault that mattered is gone. The previous
