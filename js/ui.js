@@ -590,13 +590,18 @@
       c.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
     drawLexEntry(entry);
-    // Below 900px the article is UNDER the wall, not beside it, so choosing a word
-    // can otherwise change something the reader cannot see. The breakpoint is the
-    // same 900 the .lex-body grid uses; matchMedia rather than an innerWidth read so
-    // it is the one the stylesheet is actually applying.
-    if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches) {
-      entry.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    }
+    // 🛑 NO SCROLL, AT ANY WIDTH — 2026-08-30 (D20-E). This used to scroll the entry
+    // into view below 900px, because the entry sat under a 1,312px wall and choosing
+    // a word otherwise changed something the reader could not see. That was the right
+    // fix for the wrong layout: it meant every tap threw the page 1,587px down and
+    // the reader had to climb back for the next word. The author's words were "it
+    // goes too far up or down ... so it doesnt pull the page all the way down and go
+    // back up and down."
+    // The entry is `position: sticky` at the top of the section on a phone now
+    // (css/components.css, the 900px block), so it is already on screen and updates
+    // in place. Scrolling to something that has not moved is how you get a page that
+    // jumps for no reason. ⚠️ IF THE STICKY EVER COMES OUT, THIS COMES BACK — they
+    // are one change in two files.
     if (moveFocus) chip.focus();
     return true;
   }
