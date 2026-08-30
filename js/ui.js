@@ -347,7 +347,7 @@
     if (place && beginBtn) {
       var rendered = window.PANIM_RENDERED;
       var num = rendered ? rendered.romanFor(parseInt(place.chapterId.replace('ch', ''), 10)) : '';
-      beginBtn.textContent = 'Continue — ' + (num ? num + ', ' : '') + fmt(place.pos);
+      beginBtn.textContent = 'Continue: ' + (num ? num + ', ' : '') + fmt(place.pos);
     }
     if (beginBtn) beginBtn.addEventListener('click', function () {
       var p = savedPlace();
@@ -361,7 +361,7 @@
   function wireShare() {
     $('#share-btn').addEventListener('click', function () {
       var shareData = {
-        title: 'PANIM — The Invitation Hidden on Every Page',
+        title: 'PANIM: The Invitation Hidden on Every Page',
         text: 'An audio-first journey through the Hebrew word for face, across the whole Bible.',
         url: location.href.split('#')[0]
       };
@@ -398,7 +398,7 @@
       var ch = (window.PANIM_CHAPTERS || []).filter(function (c) { return c.id === id; })[0] || {};
       var url = chapterShareUrl(num);
       var label = b.textContent;
-      var data = { title: 'PANIM — ' + (ch.title || ''), text: ch.hook || '', url: url };
+      var data = { title: 'PANIM: ' + (ch.title || ''), text: ch.hook || '', url: url };
       if (navigator.share) {
         navigator.share(data).catch(function () {});
       } else if (navigator.clipboard) {

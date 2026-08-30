@@ -3,8 +3,9 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: v40** (`?v=40`, `panim-shell-v40`) — the back matter's copy pass and the
-lexicon controls.
+**Current: v40** (`?v=40`, `panim-shell-v40`) — two copy passes over the back matter, the
+lexicon controls rebuilt as tabs, the em dashes out of the site's own voice, and a paused page
+that no longer scrolls itself.
 
 Read this first in a new session — the only doc in this repo describing current
 state. 👉 Then read the handoff:
@@ -368,6 +369,26 @@ notes and letters below, and the controls that stopped looking like a form.
   **the smallest type in the section**. Measured: 10.24px → **46.08px** desktop, **33.6px**
   at 402px, `--accent` on the back-matter paper at **5.23:1**. On the phone it takes the
   rule back, because with no entries beside it a bare glyph reads as a dropped capital.
+**And on the same day, all three standfirsts went (v40, second pass).** The author read the
+first pass and cut further: *"delete this"* on Names, *"delete this"* on Sources, and *"delete
+this"* on what was left of the Index of Scripture's head. **All three paragraphs are gone and
+Scripture has no title at all** — it is its margin label and then Genesis, Exodus, Leviticus,
+because an index ordered like a Bible does not need a sentence saying so.
+
+> 🛑 **`.si-head.is-bare`, and the margin label is the `<h2>`.** Deleting that title while
+> leaving `aria-labelledby="scripture-heading"` pointing at nothing would have left the section
+> **unnamed to a screen reader** and put a hole in the heading outline between the Lexicon (h2)
+> and the book names inside the section (h3). So the label that was always in the margin takes
+> the id and the element. **It is the only `.chapter-num` on the site that is a heading**, which
+> is why it is written down rather than left to be found. Verified: outline reads H2 *Index of
+> Scripture* → H3 *Genesis*, and all four back-matter sections still resolve their accessible
+> name.
+
+⚠️ **Three sections are bare and one is not, and that is a live question, not a settled design.**
+The Lexicon, Names and Sources still open with a count (*"50 words, in the language they were
+written in"*); Scripture opens with nothing. It is round seventeen D3 and the recommendation
+there is to make all four match.
+
 - **Where These Came From** (`#sources`) — 11 works in four groups. The Lexicon's standfirst
   had always *claimed* its sources (*"not one character was typed from memory"*) and never
   listed them; **a claim nobody can check is decoration.** 🛑 **A row may carry
@@ -487,6 +508,30 @@ play re-arms it, so following still comes back on its own.
 > ⇒ still suspended after **13s** (the old build unsuspended and scrolled here); play again
 > ⇒ unsuspended after 13s. `PANIM_SYNC.state()` reports `playing` now, which is what makes
 > that testable at all.
+
+### Em dashes are gone from everything the site says in its own voice
+
+**2026-08-30 (v40), the author's *"get rid of em dashes those arent necessary right maybe in the
+text we can use a few but around the website theyre trashy."*** The line is his and it is the
+right one: **chrome is not prose.**
+
+**Swept:** `<title>`, the meta and og descriptions, the hero and About copy, the *One Promise*
+title, the running head's share text, the player's edition toggle, the Room's Read button, the
+Lexicon's four root-absence sentences, the source rows, `accessibility.html` and `404.html`.
+**Zero left in any of it.**
+
+🛑 **NOT swept, deliberately: the author's writing.** 142 em dashes remain and every one is in
+`content/chapters.js` (67), `content/verse-notes.js` (64), `content/lexicon.js` glosses (24) and
+`content/thread.js` + `content/marks.js` (16). **A dash in a gloss may be the site talking and a
+dash in chapter VII is the book talking**, and that line is the author's to draw — it is round
+seventeen D2. **Do not run a global replace over `content/`.**
+
+> ⚠️ **Two of these edits changed meaning and had to be rewritten, not re-punctuated.** An
+> appositive dash pair carries a clause; dropping the dashes and leaving the words makes a
+> run-on. *"hands focus back — the same sheet plumbing every other overlay uses"* became
+> *"hands focus back. It is the same sheet plumbing…"*, and the Lexicon's *"…pasted in by a
+> script — not one character was typed from memory"* became two sentences. **Read the sentence
+> after the dash comes out.**
 
 ## 5. Known-fixed — don't re-diagnose
 
@@ -668,6 +713,13 @@ Reduced motion is checked with `--force-prefers-reduced-motion=reduce`, and an o
 must be written at the **specificity of the rule it overrides**.
 
 ## 7. Not done
+
+🟡 **Ten sub-44px targets at 1280px, found 2026-08-30.** `.nav-chapters a` is
+`min-width: 34px` — the running head's roman numerals measure **34 × 44**. They clear WCAG 2.2
+SC 2.5.8 (24px) and fail the 44px floor this site holds itself to. **The round-sixteen audit
+missed them because it only measured 402px, where the strip is `display: none`.** Round
+seventeen D5; the fix is one declaration and about 100px of head width, which is available at
+1280 and irrelevant below 900.
 
 `ch02-trees` is the wrong picture and it is chapter II's **opening** plate — a
 fantasy-art woodland with tulips, ferns and a figure in a leaf dress, the worst single
