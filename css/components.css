@@ -771,16 +771,39 @@
   .si-head { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
 }
 .si-head .chapter-num { grid-column: 1 / 3; padding-top: .55em; }
-/* 🛑 .is-bare — the head with no standfirst beside it, 2026-08-30 (D18-B).
-   The Index of Scripture's title was deleted and its margin label became the <h2>,
-   so the head is one word in a two-column slot with eight empty columns after it.
-   Left alone it sat at .55em from the top with nothing to align TO, and the books
-   below started level with it — the label read as the first book in the list.
-   It gets the space a standfirst would have occupied instead, so the index still
-   begins below its own name rather than beside it. It is a heading here, so it
-   also stops inheriting the label's baseline nudge. */
-.si-head.is-bare { margin-bottom: clamp(.6rem, 1.4vw, 1.1rem); }
-.si-head.is-bare .chapter-num { padding-top: 0; margin: 0; }
+/* ============================================================================
+   THE BARE HEAD — 🛑 A NAME LEFT STANDING HAS TO BE A TITLE
+   .is-bare began on 2026-08-30 (D18-B) as "the head with no standfirst": the Index
+   of Scripture's title was deleted and its margin label became the <h2>. The Lexicon
+   followed (D19-A) and Names and Places last (D20-A), so all four back-matter heads
+   are one shape now.
+   ⚠️ AND FOR TWO OF THOSE ROUNDS IT WAS WRONG, in a way that only the author caught:
+   *"names and places probably needs a proper title after. bigger text etc."*
+   `.chapter-num` is `--ap-sm`, **10.24px** — right for a label whispering in the
+   margin BESIDE a 34px title, and absurd as the only title a section has. It is the
+   identical mistake this file already records one screen down, where the Names
+   index's letter headings inherited `.si-book-name` and set a single letter at 10px.
+   **Reuse a component for what it does, not for what it is called** — twice now.
+   So a bare head sets as what it is: the section's title, in the book's serif, at
+   the size a chapter standfirst uses. It keeps the accent and the tracking, so it is
+   still recognisably the same family as the labels that are still labels.
+   Contrast: --accent on the back-matter paper, 5.23:1, measured.
+   ============================================================================ */
+.si-head.is-bare, .lex-head.is-bare { margin-bottom: clamp(.6rem, 1.4vw, 1.1rem); }
+.si-head.is-bare .chapter-num,
+.lex-head.is-bare .chapter-num {
+  padding-top: 0; margin: 0;
+  grid-column: 1 / 8;
+  font-family: var(--serif); font-variation-settings: var(--lit-mid);
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  font-weight: 350; line-height: 1.08;
+  letter-spacing: .01em; text-transform: none;
+  color: var(--accent);
+}
+@media (max-width: 900px) {
+  .si-head.is-bare .chapter-num,
+  .lex-head.is-bare .chapter-num { grid-column: 1 / 7; }
+}
 .si-standfirst { grid-column: 3 / 10; }
 .si-standfirst h2 {
   font-variation-settings: var(--lit-mid);
@@ -848,6 +871,48 @@
 }
 .si-cite a:hover, .si-cite a:focus-visible { color: var(--ink); }
 .si-cite a:hover .si-ch, .si-cite a:focus-visible .si-ch { color: var(--accent); }
+.si-ref-bk { /* visible at every width except the phone rule below */ }
+
+/* ============================================================================
+   THE VERSE REFERENCES ON A PHONE — 🛑 STOP PRINTING THE BOOK 151 TIMES
+   2026-08-30 (D20-C), the author: *"the verse references can you redesign those for
+   mobile."* Measured at 402px: `.si-books` collapsed to one column, so each citation
+   became a **362px-wide row** carrying "Genesis 3:7", a dotted leader stretched
+   across most of the screen, and a roman numeral hard right — and Genesis alone ran
+   **521px tall**. The leader is the right device on a 15rem column, where it carries
+   the eye a short distance to a number. Across a whole phone screen it is a rule
+   with two words tied to its ends.
+   And the row was repeating its own heading: **"Genesis" prints under GENESIS**, 151
+   times, using most of the width to do it.
+   So on a phone the list stops being rows and becomes a **wrapped run of chips** —
+   `3:7 IX`, `3:8 II`, `4:5 II` — which is the shape the Names index already uses for
+   the same job one section down, and the shape a printed index uses when the entries
+   are short. Genesis goes from 521px to about a fifth of that.
+   ⚠️ THE BOOK NAME IS HIDDEN, NOT REMOVED. `.si-ref-bk` takes the visually-hidden
+   clip-path, NOT `display:none` — a screen reader moving through this list out of
+   context still hears "Genesis 3:7, chapter IX", which is the whole accessible name
+   of the link. Removing it from the tree to save 60px would be trading a real user
+   for a layout.
+   ============================================================================ */
+@media (max-width: 900px) {
+  .si-books { columns: auto; column-gap: 0; }
+  .si-book { margin-bottom: 1.4rem; }
+  .si-list { display: flex; flex-wrap: wrap; gap: 0 .55rem; }
+  .si-cite a {
+    display: inline-flex; align-items: baseline; gap: .3em;
+    min-height: 44px; padding: 0 .1em;   /* 32px was the dense-list exemption; a
+                                            chip is not a dense row, so it clears */
+  }
+  /* the leader has nothing left to carry the eye across */
+  .si-cite a::after { display: none; }
+  .si-ref-bk {
+    position: absolute; width: 1px; height: 1px;
+    margin: -1px; padding: 0; overflow: hidden;
+    clip-path: inset(50%); white-space: nowrap;
+  }
+  .si-ref { font-size: 1rem; }
+  .si-ch { font-size: .82rem; color: var(--accent); }
+}
 .si-cite a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 /* a citation is a 32px row, under the 44px target minimum, and it is deliberate:
    WCAG 2.2 SC 2.5.8 exempts targets in a sentence or a dense list of links where
@@ -1265,12 +1330,28 @@
 @media (max-width: 900px) { .prayer-zone { grid-column: 1 / 7; } }
 
 #five-words { padding-block: clamp(6rem, 22vh, 14rem); }
+/* 🛑 THE LINE-HEIGHT AND THE PADDING ARE BOTH LOAD-BEARING, 2026-08-30 (D20-B).
+   The author, on a phone: *"i cant see the y well on they will see his face."*
+   He was looking at a CLIPPED DESCENDER, and the cause is the light effect below,
+   not the type. `.is-lit` paints the words with `background-clip: text` and
+   `-webkit-text-fill-color: transparent`, so the glyphs are painted ONLY inside each
+   word's background box. Inherited line-height put that box at 31.3px under a 30.4px
+   font — measured at 402px — which is shorter than the glyph's descender, so the
+   tail of the y in "They" fell outside the paint area and **was not drawn at all**.
+   ⚠️ IT LOOKS LIKE A FONT PROBLEM AND IS A PAINT-BOX PROBLEM. overflow was already
+   `visible` and nothing was clipping; there was simply no gradient down there to
+   paint with. Raising line-height alone does not fix it either — the line box grows
+   but the inline-block's own background box does not. The padding is what extends
+   the paint area past the baseline; the line-height is what stops the next line
+   sitting in it when the sentence wraps. Both, or the bug comes back on one width. */
 .fivewords-text {
   grid-column: 3 / 11;
   font-size: clamp(1.9rem, 5.4vw, 4.1rem);
+  line-height: 1.16;
 }
 .fivewords-text .fw-word {
   display: inline-block; opacity: 0; transform: translateY(8px);
+  padding-bottom: .16em;
   transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
 }
 .fivewords-text .fw-word.is-visible { opacity: 1; transform: none; }
@@ -1734,9 +1815,15 @@ body.nav-toc-open #site-nav {
    cosmetic: the label is a HEADING now, so it stops taking the baseline nudge that
    aligned it to a title that no longer exists; and the legend is the first line in
    the block, so it loses the top margin it carried as a second paragraph. */
-.lex-head.is-bare .chapter-num { padding-top: 0; margin: 0; }
-.lex-head.is-bare .lex-legend { margin-top: 0; }
+/* the Lexicon's bare head keeps ONE thing of its own: it still has a line beside
+   the title, so the legend stops being a second paragraph and the head closes up.
+   Everything about the title itself is the shared rule above — D20-A. */
+.lex-head.is-bare .lex-legend { margin-top: .45em; }
 .lex-head.is-bare { padding-bottom: clamp(1.1rem, 2.2vw, 1.8rem); }
+/* the title takes the margin columns AND the standfirst's, so the legend under it
+   starts at the section's left edge rather than in the aside column */
+.lex-head.is-bare .lex-standfirst { grid-column: 1 / 9; }
+@media (max-width: 900px) { .lex-head.is-bare .lex-standfirst { grid-column: 1 / 7; } }
 .lex-standfirst h2 {
   font-variation-settings: var(--lit-mid);
   font-weight: 350; font-size: clamp(1.5rem, 3vw, 2.1rem);
@@ -1971,7 +2058,67 @@ body.nav-toc-open #site-nav {
   .lex-wall { grid-column: 1 / 7; }
   /* one column below 900px, so the rows are DOM order: wall, controls, article.
      grid-row is cleared or the article would try to sit on the wall. */
-  .lex-article { grid-column: 1 / 7; grid-row: auto; position: static; margin-top: 1.6rem; }
+  /* ==========================================================================
+     🛑 THE ENTRY RIDES AT THE TOP OF THE SCREEN, OVER THE WALL — D20-E
+     2026-08-30, the author: *"the hebrew doesnt work on mobile well it goes too far
+     up or down maybe it can somehow render over? or somewhere unique so it doesnt
+     pull the page all the way down and go back up and down etc."*
+     He was describing a measured fact. At 402px the wall is **1,312px tall** and the
+     entry sat under it, so `js/ui.js` scrolled to the entry on every tap — a
+     **1,587px** journey from the top of the wall. Choose a word, get thrown down the
+     page; want another word, climb back. Fifty words, and the page moves twice for
+     each one.
+     The entry is now `position: sticky` at the top of the section, so it is on
+     screen the whole time the wall is, and choosing a word **changes it in place
+     without moving the page at all.** ui.js stopped scrolling on phones to match.
+
+     THREE THINGS THIS NEEDS, and each one is why it is written down:
+       · **`display: flex` + `order`, not grid.** A sticky element is constrained by
+         its PARENT'S box, not by its own grid area — and in the grid the article's
+         area is exactly its own height, so `position: sticky` had nowhere to travel
+         and did nothing at all. In a flex column the parent is the whole
+         `.lex-body`, 1,900px of it, which is the runway sticky needs.
+       · **`order: -1` is safe HERE and would not be on the wall.** The D14 rule in
+         this file is that visual order must not diverge from tab order — it is why
+         the sort MOVES NODES instead of setting `order`. The wall is fifty focusable
+         buttons; the article is **text with no focusable content in it**, so nothing
+         is reordered for a keyboard at all.
+       · **An opaque background, or the wall reads through it.** `.lex-plate` is
+         deliberately `background: none` beside the wall on desktop; over the wall it
+         has to be paper, with a rule under it to say where it ends.
+     ⚠️ The cap is `55vh` with its own scroll. That is the ONE nested scroller this
+     section allows, and only because the alternative is an entry that covers the
+     wall it is meant to be read against. The wall itself must never become one.
+     ========================================================================== */
+  .lex-body { display: flex; flex-direction: column; }
+  .lex-wall { order: 0; }
+  .lex-controls { order: 1; }
+  .lex-article {
+    order: -1;
+    position: sticky; top: calc(var(--nav-h, 52px) + .4rem);
+    z-index: 5;
+    margin: 0 0 1.2rem;
+    /* 🛑 A FLOOR, OR THE PAGE STILL TWITCHES. The entry sits ABOVE the wall in the
+       flex flow now, so every change in its height shifts everything under it —
+       measured, choosing a word moved the page 19px. Not the 1,587px he reported,
+       but the same fault in miniature and the same thing he would feel.
+       Measured across all fifty entries at 402px: 295px shortest, 378px tallest,
+       351px median. The floor is the tallest, so on a phone this size NO entry can
+       reflow the page. `min()` with 45vh keeps it from eating a shorter phone —
+       there the floor gives way and some entries do reflow, which is the right
+       trade: a box taller than half the screen is worse than a 20px shift. */
+    min-height: min(23.7rem, 45vh);
+    max-height: 55vh; overflow-y: auto;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule-strong);
+    box-shadow: 0 10px 18px -14px rgba(25, 21, 16, .5);
+  }
+  .lex-article .lex-plate { padding: 1rem 0 1.1rem; border-top: 0; }
+  /* ⚠️ MEASURED LIMIT, recorded rather than padded around: sticky travel ends at the
+     container's bottom minus the entry's height, which lands about 120px before the
+     wall's last line. The entry drifts off in that last 8% of the wall, right as the
+     controls arrive. Fixing it needs ~8rem of dead space at the foot of the section,
+     and dead space is a worse bug than a drift the reader meets on the way out. */
 }
 
 .lex-plates {
@@ -2429,6 +2576,25 @@ body.nav-toc-open #site-nav {
 .ni-cite a:focus-visible .ni-num { box-shadow: inset 0 -1px 0 var(--accent); }
 .ni-cite a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
+/* ============================================================================
+   NAMES AND PLACES ON A PHONE — 🛑 A ONE-COLUMN GRID IS NOT A LIST
+   2026-08-30 (D20-D), the author: *"on mobile the names and places are not as
+   clean."* Measured at 402px before the change: `.ni-entries` collapsed to a single
+   362px column of `auto-fill minmax(15rem, 1fr)`, so **58 entries × 112px** of
+   free-floating blocks separated by 1.4rem of air and nothing else. Two things were
+   wrong with it and neither was the type:
+     · **The note was capped at 34ch = 255px inside a 362px column**, so every note
+       broke early and ragged with 107px of empty measure beside it. That cap exists
+       to keep a note readable next to its neighbours in a multi-column grid. There
+       are no neighbours here.
+     · **Air was doing the separating.** A gap says "these are different blocks"; a
+       rule says "these are rows of one list", and an index is a list. Blocks that
+       only differ by 1.4rem of white read as a heap.
+   So on a phone the entry becomes a real row: full measure, a hairline under it, and
+   the numerals pulled up beside the name instead of stacked on a third line. The
+   name and its chapters sit on one baseline the way a printed index sets them, and
+   the note sits under both.
+   ============================================================================ */
 @media (max-width: 900px) {
   .ni-body, .ni-letter { grid-template-columns: repeat(6, 1fr); }
   /* full width now, so the letter gets the rule back: with no entries beside it,
@@ -2437,7 +2603,28 @@ body.nav-toc-open #site-nav {
     grid-column: 1 / 7; padding-top: 0; margin-bottom: .6rem;
     padding-bottom: .12em; border-bottom: 1px solid var(--rule-strong);
   }
-  .ni-entries { grid-column: 1 / 7; }
+  .ni-entries { grid-column: 1 / 7; display: block; }
+
+  .ni-entry {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    column-gap: .6rem;
+    padding: .55rem 0 .7rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .ni-letter:last-child .ni-entry:last-child { border-bottom: 0; }
+  .ni-name { grid-column: 1; margin: 0; font-size: 1.06rem; }
+  /* 🛑 the numerals ride in the second track on the SAME row as the name, so they
+     land hard right where a page number goes. They keep their 44px targets — the
+     row simply got taller than the type, which is what padding is for. */
+  .ni-list { grid-column: 2; grid-row: 1; justify-content: flex-end; }
+  .ni-note {
+    grid-column: 1 / -1; grid-row: 2;
+    max-width: none;          /* 34ch inside a 362px column broke every note early */
+    margin: .1rem 0 0;
+    font-size: .92rem; line-height: 1.45;
+  }
 }
 
 @media print {

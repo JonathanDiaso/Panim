@@ -752,9 +752,19 @@
         seen[k] = 1;
         return true;
       }).map(function (e) {
+        // 🛑 THE BOOK NAME IS ITS OWN SPAN, 2026-08-30 (D20-C), and that is the
+        // whole mobile redesign of this list. Every row printed "Genesis 3:7" under
+        // a heading that already said GENESIS — eight characters of repetition on
+        // each of 151 rows, which on a 362px phone is most of the row.
+        // ⚠️ IT IS HIDDEN VISUALLY, NEVER WITH display:none. A screen reader reading
+        // the citation list out of context needs the book; `display:none` and
+        // `visibility:hidden` both take it out of the accessibility tree, so the
+        // phone rule uses the clip-path visually-hidden pattern instead. The link's
+        // accessible name is "Genesis 3:7, chapter IX" at every width.
         return '<li class="si-cite">' +
           '<a href="#' + esc(e.id) + '">' +
-            '<span class="si-ref">' + esc(e.ref) + '</span>' +
+            '<span class="si-ref"><span class="si-ref-bk">' + esc(book) + ' </span>' +
+              esc(String(e.ref).slice(book.length).replace(/^\s+/, '')) + '</span>' +
             '<span class="si-ch" aria-hidden="true">' + (ROMAN[e.num] || e.num) + '</span>' +
             '<span class="visually-hidden">, chapter ' + (ROMAN[e.num] || e.num) + '</span>' +
           '</a></li>';
@@ -889,19 +899,18 @@
 
     return '<section class="section" id="names" data-ch="fw" aria-labelledby="names-heading">' +
       '<div class="section-inner">' +
-        '<div class="si-head">' +
-          '<span class="chapter-num">Names and Places</span>' +
-          '<div class="si-standfirst">' +
-            // THE STANDFIRST PARAGRAPH IS GONE, 2026-08-30 (D18-A), the author's
-            // "delete this". It carried three separate loads and a reader wanted
-            // none of them: a count already implied by the index under it, an
-            // explanation of what a numeral beside a name does (which a reader
-            // works out by looking), and a defence of three exclusions nobody had
-            // asked about. The reasons for the exclusions have not gone anywhere
-            // \u2014 they are written at the head of content/names.js, which is where
-            // an editorial decision belongs, not on the page.
-            '<h2 id="names-heading">' + live.length + ' names, in the order a reader looks them up.</h2>' +
-          '</div>' +
+        // 🛑 BARE HEAD, 2026-08-30 (D20-A), the author's "delete that title its ugly
+        // and names and places probably needs a proper title after. bigger text."
+        // Third section to do this after Scripture (D18-B) and the Lexicon (D19-A),
+        // and the last of the four — so the back matter is now ONE shape: the
+        // section's name, then the section. That answers round seventeen's D3 by
+        // building it rather than by putting it to him as an option again.
+        // The second half of his note is the part that matters: a bare head is only
+        // good if the name left standing is a TITLE. At --ap-sm it was a 10px margin
+        // label doing a title's job. See .si-head.is-bare .chapter-num in
+        // css/components.css — all three bare heads got the size in one place.
+        '<div class="si-head is-bare">' +
+          '<h2 class="chapter-num" id="names-heading">Names and Places</h2>' +
         '</div>' +
         '<div class="ni-body">' + rows + '</div>' +
       '</div></section>';
@@ -925,9 +934,10 @@
     var groups = window.PANIM_SOURCES || [];
     if (!groups.length) return '';
 
-    var total = 0;
-    groups.forEach(function (g) { total += (g.items || []).length; });
-
+    // the count of works is no longer printed (D20-A cut the title that carried it),
+    // and it is not computed either — an unread variable is a stale one waiting to
+    // happen. The number lives in BACK_MATTER's contents row, which reads the real
+    // groups at render time.
     var open = 0;
     groups.forEach(function (g) {
       (g.items || []).forEach(function (it) { if (it.status === 'unconfirmed') open++; });
@@ -961,26 +971,33 @@
 
     return '<section class="section" id="sources" data-ch="fw" aria-labelledby="sources-heading">' +
       '<div class="section-inner">' +
-        '<div class="lex-head">' +
-          // 🛑 .chapter-num, the component every other back-matter head uses — NOT a
-          // new class. The first draft invented .section-label, which was defined
-          // nowhere, so the label fell out of the margin column and set as body serif.
-          // The margin label is SHORT ("The Sources"); the long name lives in
-          // BACK_MATTER, where the contents and the nav read it.
-          '<span class="chapter-num">The Sources</span>' +
-          '<div class="lex-standfirst">' +
-            // THE STANDFIRST PARAGRAPH IS GONE, 2026-08-30 (D18-A), the author's
-            // "delete this". It said the page was a list of the text, the
-            // dictionaries and the translation, and then printed a list whose four
-            // group headings are The text itself, The lexica, The translation and
-            // The archaeology. The paragraph was a table of contents for a table.
-            '<h2 id="sources-heading">' + total + ' works, and what each one supplied.</h2>' +
-            (open
-              ? '<p class="lex-legend">' + open + ' of them ' + (open === 1 ? 'is' : 'are') +
+        // 🛑 THE FOURTH AND LAST BARE HEAD, 2026-08-30 (D20-A).
+        // The author cut three of these in one evening — Scripture, the Lexicon,
+        // then Names and Places — each time for the same reason, and his words on
+        // the last one were "delete that title its ugly." He did not name this one.
+        // I finished it anyway and it is worth saying why: "11 works, and what each
+        // one supplied" is the SAME CONSTRUCTION as the three he cut, and leaving it
+        // standing would have shipped one section of the back matter with a 10px
+        // label and a count-title beside three with a real title and neither.
+        // ⚠️ IT IS ONE LINE TO PUT BACK. Round seventeen D3 asked him whether all
+        // four should match; three of four now do, so this is finishing a pattern he
+        // set rather than guessing at one. If he wanted the count kept, restoring
+        // this h2 and dropping .is-bare is the whole revert.
+        //
+        // .chapter-num, the component every other back-matter head uses — NOT a
+        // new class. The first draft invented .section-label, which was defined
+        // nowhere, so the label fell out of the margin column and set as body serif.
+        // The margin label is SHORT ("The Sources"); the long name lives in
+        // BACK_MATTER, where the contents and the nav read it.
+        '<div class="lex-head is-bare">' +
+          '<h2 class="chapter-num" id="sources-heading">The Sources</h2>' +
+          (open
+            ? '<div class="lex-standfirst">' +
+                '<p class="lex-legend">' + open + ' of them ' + (open === 1 ? 'is' : 'are') +
                 ' listed with the citation still open, and marked as such below. ' +
-                'A page built to show its working does not get to guess at its own.</p>'
-              : '') +
-          '</div>' +
+                'A page built to show its working does not get to guess at its own.</p>' +
+              '</div>'
+            : '') +
         '</div>' +
         '<div class="src-body">' + body + '</div>' +
       '</div></section>';

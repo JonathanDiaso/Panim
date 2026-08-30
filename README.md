@@ -3,10 +3,12 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: v41** (`?v=41`, `panim-shell-v41`) — the Lexicon opens the back matter now, its head
-is a name and one line, and its controls sit under the words they filter. v40 before it: two
-copy passes over the back matter, the controls rebuilt as tabs, the em dashes out of the site's
-own voice, and a paused page that no longer scrolls itself.
+**Current: v42** (`?v=42`, `panim-shell-v42`) — **all four back-matter heads are one shape and
+the name left standing is a real title**; the phone got the Lexicon entry pinned over the wall,
+the Names index rebuilt as rows and the verse references rebuilt as chips; and the book's last
+sentence stopped losing its descender. v41: the Lexicon moved to the front of the back matter,
+controls under the words. v40: two copy passes, the controls rebuilt as tabs, the em dashes out
+of the site's own voice, and a paused page that no longer scrolls itself.
 
 Read this first in a new session — the only doc in this repo describing current
 state. 👉 Then read the handoff:
@@ -437,11 +439,27 @@ because an index ordered like a Bible does not need a sentence saying so.
 > Scripture* → H3 *Genesis*, and all four back-matter sections still resolve their accessible
 > name.
 
-⚠️ **Two of four are bare now, and the question is half-answered.** Scripture went bare on v40
-and **the Lexicon followed on v41** — both use `.is-bare`, both put the margin label in the
-`<h2>`. Names (*"58 names, in the order a reader looks them up"*) and Sources (*"11 works, and
-what each one supplied"*) still open with a count. Round seventeen D3 asks whether all four
-should match; **two now do, which is the argument for finishing it rather than against.**
+### 🛑 All four back-matter heads are one shape, and the name left standing is a title
+
+**Finished on v42.** Scripture went bare on v40, the Lexicon on v41, **Names and Places on v42
+on the author's *"delete that title its ugly"*, and the Sources with it.** Every one is now
+`.is-bare`: the section's name as the `<h2>`, then the section.
+
+> ⚠️ **The second half of his note is the part that mattered, and I had it wrong for two
+> rounds.** *"names and places probably needs a proper title after. bigger text etc."*
+> `.chapter-num` is `--ap-sm` — **10.24px** — which is right for a label whispering in the margin
+> beside a 34px title and absurd as the only title a section has. **It is the identical mistake
+> this file already records one screen down**, where the Names index's letter headings inherited
+> `.si-book-name` and set a single letter at 10px. *Reuse a component for what it does, not for
+> what it is called* — twice now, same file, same week. A bare head sets at **38.4px** in the
+> book's serif, keeps the accent (5.23:1, measured) and drops the tracked uppercase.
+
+⚠️ **The Sources head is the one he did not ask for.** He cut three in one evening for the same
+reason; *"11 works, and what each one supplied"* is the same construction, and shipping one
+section with a 10px label beside three with a title is the inconsistency the pass existed to
+remove. **It is one line to put back** — restore the `<h2>` and drop `.is-bare`. Round seventeen
+D3 asked whether all four should match; **this finishes a pattern he set rather than guessing at
+one**, and the sheet says so in his words.
 
 - **Where These Came From** (`#sources`) — 11 works in four groups. The Lexicon's standfirst
   had always *claimed* its sources (*"not one character was typed from memory"*) and never
@@ -593,6 +611,72 @@ seventeen D2. **Do not run a global replace over `content/`.**
 > *"hands focus back. It is the same sheet plumbing…"*, and the Lexicon's *"…pasted in by a
 > script — not one character was typed from memory"* became two sentences. **Read the sentence
 > after the dash comes out.**
+
+### The phone pass, v42
+
+Three things the author found on a phone that no desktop measurement would have shown.
+
+**1 · The Lexicon entry rides at the top of the screen, over the wall.** *"the hebrew doesnt
+work on mobile well it goes too far up or down ... so it doesnt pull the page all the way down
+and go back up and down."* At 402px the wall is **1,312px tall** and the entry sat under it, so
+`js/ui.js` scrolled to the entry on every tap — a **1,587px** journey. Choose a word, get thrown
+down the page; want another, climb back. **Fifty words, two page-moves each.** It is
+`position: sticky` at the top of the section now, and ui.js stopped scrolling on phones to match.
+
+> 🛑 **Three things it needs.** **(a)** `display: flex` + `order: -1`, **not grid** — a sticky
+> element is constrained by its *parent's* box, and in the grid the article's area is exactly its
+> own height, so sticky had nowhere to travel and did nothing. **(b)** `order` is safe *here* and
+> would not be on the wall: the D14 rule is that visual order must not diverge from tab order,
+> and the article is **text with nothing focusable in it.** **(c)** An opaque background, or the
+> wall reads straight through it.
+>
+> 🛑 **And a min-height, or the page still twitches.** The entry is above the wall now, so its
+> height change shifts everything below — measured, **19px per tap.** Not the 1,587px he
+> reported, but the same fault in miniature. Measured across all fifty entries at 402px: **295px
+> shortest, 378px tallest, 351px median.** The floor is the tallest, so no entry reflows the
+> page; `min()` with `45vh` keeps it off a shorter phone's screen. **All fifty now render at a
+> constant 379px.**
+>
+> ⚠️ **Measured limit, recorded rather than padded around:** sticky travel ends about **120px
+> before the wall's last line**, so the entry drifts off in the final 8% as the controls arrive.
+> Fixing it needs ~8rem of dead space at the foot of the section, and dead space is a worse bug.
+
+**2 · The verse references are chips on a phone, and the book name is hidden, not removed.**
+*"the verse references can you redesign those for mobile."* At 402px `.si-books` collapsed to one
+column, so each citation became a **362px row** carrying "Genesis 3:7", a dotted leader stretched
+across the screen, and a numeral hard right — **Genesis alone ran 521px.** And every row repeated
+its own heading: **"Genesis" printed under GENESIS, 151 times.** They are a wrapped run of `3:7
+IX` chips now, the same shape the Names index uses one section down. **Genesis: 521px → 180px.**
+
+> 🛑 **`.si-ref-bk` takes the visually-hidden clip-path, NEVER `display:none`.** Both
+> `display:none` and `visibility:hidden` take the book out of the accessibility tree, and a
+> screen reader moving through this list out of context needs it. **The link's accessible name is
+> "Genesis 3:7, chapter IX" at every width.** Trading a real user for 60px is not a redesign.
+
+**3 · Names and Places is a list of rows on a phone, not a one-column grid.** *"on mobile the
+names and places are not as clean."* **58 entries × 112px** of free-floating blocks separated by
+1.4rem of air, and the note capped at **34ch = 255px inside a 362px column** — a cap that exists
+to keep a note readable *beside its neighbours*, and there are no neighbours in one column. The
+entry is a real row now: full measure, a hairline under it, and the numerals pulled up onto the
+name's baseline where a page number goes. **112px → 88px per entry.**
+
+### The book's last sentence was losing its descender
+
+**v42, and it looks like a font problem and is a paint-box problem.** The author, on a phone:
+*"i cant see the y well on they will see his face."*
+
+`.fivewords-text.is-lit` paints the words with `background-clip: text` and
+`-webkit-text-fill-color: transparent`, so each glyph is drawn **only inside its own background
+box.** Inherited line-height put that box at **31.3px under a 30.4px font** — measured at 402px —
+shorter than the glyph's descender, so the tail of the **y** in *They* fell outside the paint
+area and **was not drawn at all.**
+
+> ⚠️ **`overflow` was already `visible` and nothing was clipping.** There was simply no gradient
+> down there to paint with. **Raising `line-height` alone does not fix it** either — the line box
+> grows and the inline-block's background box does not. `padding-bottom` on `.fw-word` extends
+> the paint area past the baseline; the line-height stops the next line sitting in it when the
+> sentence wraps. **Both, or it comes back at one width.** Verified: paint box **40px** against a
+> **31px** glyph box.
 
 ## 5. Known-fixed — don't re-diagnose
 
