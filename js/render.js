@@ -624,16 +624,18 @@
           '<div class="lex-standfirst">' +
             '<h2 id="lexicon-heading">' + entries.length +
               ' words, in the language they were written in.</h2>' +
-            '<p>Each chapter\u2019s own word first, then the terms that chapter turns on. ' +
-            'Every vowel point and every accent here was read out of a published source ' +
-            '\u2014 the Masoretic text, BDB, Klein, Jastrow, BibleHub, and for the one ' +
-            'Akkadian word the Chicago Assyrian Dictionary \u2014 and pasted in by a ' +
-            'script. Not one character was typed from memory.</p>' +
+            // CUT TO TWO SENTENCES, 2026-08-30 (D17-C). The paragraph used to name
+            // its six sources inline — Masoretic, BDB, Klein, Jastrow, BibleHub,
+            // the CAD — and that list has had a section of its own since D15-D.
+            // Printing it twice made the head of the Lexicon read like a colophon.
+            // The claim the paragraph exists to make is its last clause; that stays.
             // "beside the wall" was wrong below 900px, where the article is UNDER it.
             // The sentence says what happens, not where — true at every width.
-            '<p class="lex-legend">Choose any word and it draws itself, right to left, ' +
-            'the way it is written. Then everything that is not a root consonant dims, ' +
-            'and what is left lit is the letters the word is built from.</p>' +
+            '<p>Each chapter’s own word first, then the terms it turns on. Every ' +
+            'vowel point was read out of a published source and pasted in by a script ' +
+            '— not one character was typed from memory.</p>' +
+            '<p class="lex-legend">Choose a word and it draws itself, right to left. ' +
+            'Then everything that is not a root consonant dims.</p>' +
           '</div>' +
         '</div>' +
         filterRow(entries) +
@@ -749,13 +751,14 @@
             // the top of a spreadsheet. The count keeps its place at the front,
             // because that is the pattern, and the phrase after it now does the same
             // work the Lexicon's does: it says what the ordering means.
-            // The 26 books did not get cut — it moved one line down into the
-            // standfirst, where a second number does not have to fight the first.
-            '<h2 id="scripture-heading">' + total + ' verses, in the order a Bible keeps them.</h2>' +
-            '<p>Every verse the book quotes, drawn from ' + books.length + ' books of the ' +
-            'Bible. The numeral after a reference is the chapter of this book it is ' +
-            'quoted in; following it lands on the quotation itself, and on the note ' +
-            'underneath it.</p>' +
+            // THE STANDFIRST PARAGRAPH IS GONE, 2026-08-30 (D17-A). It spent three
+            // sentences explaining that a numeral beside a reference is a chapter you
+            // can click — which is the one thing on this page a reader works out by
+            // looking at it, and the numerals are links with a visually-hidden
+            // "chapter N" on each. The 26 books did not go with it: the count moved
+            // back UP into the title, where it costs two words instead of a line.
+            '<h2 id="scripture-heading">' + total + ' verses, from ' + books.length +
+              ' books, in the order a Bible keeps them.</h2>' +
           '</div>' +
         '</div>' +
         '<div class="si-books">' + rows + '</div>' +
@@ -844,11 +847,15 @@
             '<span class="visually-hidden">Chapter ' + (ROMAN[h.num] || h.num) + '</span>' +
           '</a></li>';
         }).join('');
+        // 🛑 NO PERSON / PLACE BADGE, dropped 2026-08-30 (D17-B). Every entry used to
+        // print its kind in tracked uppercase beside the name, and beside MOSES or
+        // JESUS that badge is comedy: it labels what the reader already knows and
+        // adds a second piece of type to every one of fifty-eight entries. The split
+        // is still stated once, in the standfirst ("N people and M places"), which is
+        // where a count belongs. The note now carries the identification, and every
+        // entry in content/names.js has one — see the header there.
         return '<div class="ni-entry">' +
-          '<h4 class="ni-name">' + esc(r.e.name) +
-            '<span class="ni-kind" aria-hidden="true">' +
-              (r.e.kind === 'place' ? 'place' : 'person') + '</span>' +
-          '</h4>' +
+          '<h4 class="ni-name">' + esc(r.e.name) + '</h4>' +
           (r.e.note ? '<p class="ni-note">' + esc(r.e.note) + '</p>' : '') +
           '<ul class="ni-list">' + cites + '</ul>' +
         '</div>';

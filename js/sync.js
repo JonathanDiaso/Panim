@@ -31,6 +31,16 @@
   var liveEl = null;
   var followEnabled = true;
   var suspended = false;        // reader is reading ahead; following resumes on its own
+  // 🛑 A PAUSED PAGE NEVER MOVES ITSELF, 2026-08-30 (D17-D).
+  // Following was gated on `followEnabled && !suspended` and on nothing else, and
+  // both of those stay true across a pause. So: play a minute, pause, scroll off to
+  // read somewhere quietly — and twelve seconds after your hand comes off the wheel
+  // the idle-resume timer fired, unsuspended, and scrolled the page back to the
+  // paragraph the voice had stopped on. Nothing was playing. Nothing had asked. The
+  // reader's own reported words were "it's moving even when i dont play it".
+  // The snap-back is right and it stays; it is now conditioned on the audio actually
+  // running, which is what "follow the narration" meant all along.
+  var playing = false;
   var lastGestureAt = 0;
   var resumeTimer = null;
   var autoTarget = null;        // the scrollY our own auto-scroll last asked for
@@ -150,8 +160,17 @@
     if (document.body.classList.contains('room-open')) return;
     lastGestureAt = Date.now();
     if (!suspended) setSuspended(true);
+    armResume();
+  }
+
+  // The one timer that can move the page without the reader touching anything, which
+  // is exactly why it checks `playing` at the moment it FIRES rather than at the
+  // moment it is set: the reader can pause during the twelve seconds it is counting.
+  function armResume() {
     if (resumeTimer) clearTimeout(resumeTimer);
     resumeTimer = setTimeout(function () {
+      resumeTimer = null;
+      if (!playing) return;                 // paused: stay where the reader put us
       if (Date.now() - lastGestureAt >= RESUME_IDLE - 50) {
         setSuspended(false);
         if (liveEl) scrollIntoCenterThird(liveEl);
@@ -208,6 +227,16 @@
   });
   document.addEventListener('panim:follow-change', function (e) {
     setFollow(!!e.detail.on);
+  });
+  // player.js emits this from the <audio> element's own play/pause, so it is the
+  // truth for a lock-screen tap and a pulled headphone as much as for the play button.
+  document.addEventListener('panim:play-state', function (e) {
+    var was = playing;
+    playing = !!(e.detail && e.detail.playing);
+    // a pause cancels a snap-back that is already counting down
+    if (!playing && resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
+    // and pressing play again re-arms it, so following still comes back on its own
+    if (playing && !was && suspended) armResume();
   });
   document.addEventListener('panim:narration-stopped', function () {
     clearLive();
@@ -274,7 +303,8 @@
     setChapter: setChapter,
     setFollow: setFollow,
     state: function () {
-      return { follow: followEnabled, suspended: suspended, cues: currentCues.length,
+      return { follow: followEnabled, suspended: suspended, playing: playing,
+               cues: currentCues.length,
                live: liveEl && liveEl.id, chapter: currentChapterId };
     }
   };
