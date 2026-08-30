@@ -3,12 +3,11 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: v42** (`?v=42`, `panim-shell-v42`) — **all four back-matter heads are one shape and
-the name left standing is a real title**; the phone got the Lexicon entry pinned over the wall,
-the Names index rebuilt as rows and the verse references rebuilt as chips; and the book's last
-sentence stopped losing its descender. v41: the Lexicon moved to the front of the back matter,
-controls under the words. v40: two copy passes, the controls rebuilt as tabs, the em dashes out
-of the site's own voice, and a paused page that no longer scrolls itself.
+**Current: v43** (`?v=43`, `panim-shell-v43`) — the phone's Lexicon entry opens **in the middle
+of the words**, the em dashes are out of the apparatus as well as the chrome, the Sources has one
+name, and the running head's numerals follow the 44px rule. v42: all four back-matter heads
+became one shape with real titles, and the phone got its three fixes. v41: the Lexicon moved to
+the front of the back matter.
 
 Read this first in a new session — the only doc in this repo describing current
 state. 👉 Then read the handoff:
@@ -454,6 +453,12 @@ on the author's *"delete that title its ugly"*, and the Sources with it.** Every
 > what it is called* — twice now, same file, same week. A bare head sets at **38.4px** in the
 > book's serif, keeps the accent (5.23:1, measured) and drops the tracked uppercase.
 
+**The Sources has one name now, v43.** The contents and the running head said *Where These Came
+From* while the section's own `<h2>` said *The Sources* — one page, two names, and a reader who
+clicked the first landed on the second. The author: *"we dont need two names for sources."*
+🛑 **`BACK_MATTER`'s `title` must match the `<h2>` `renderSources()` prints.** Change one, change
+the other in the same commit.
+
 ⚠️ **The Sources head is the one he did not ask for.** He cut three in one evening for the same
 reason; *"11 works, and what each one supplied"* is the same construction, and shipping one
 section with a 10px label beside three with a title is the inconsistency the pass existed to
@@ -599,11 +604,18 @@ Room's Read button, the Lexicon's four root-absence sentences, the source rows,
 > Google prints in a result — **externally visible, just not on the page.** Caught by grepping
 > the deployed file rather than the source. Sweep `<script type="application/ld+json">` by hand.
 
-🛑 **NOT swept, deliberately: the author's writing.** 142 em dashes remain and every one is in
-`content/chapters.js` (67), `content/verse-notes.js` (64), `content/lexicon.js` glosses (24) and
-`content/thread.js` + `content/marks.js` (16). **A dash in a gloss may be the site talking and a
-dash in chapter VII is the book talking**, and that line is the author's to draw — it is round
-seventeen D2. **Do not run a global replace over `content/`.**
+**And the apparatus followed on v43**, on the author's *"get rid of unnecessary em dashes"* —
+which is D2 answered as option B, the one the sheet recommended. **45 more gone, every one
+rewritten rather than re-punctuated:** `content/lexicon.js` glosses (24), `content/thread.js`
+(15), `content/marks.js` (5), `content/images.js` (1). *"Glory — and at the root, weight"* is now
+*"Glory, and at the root, weight"*; *"Not absence — a decision"* is *"Not absence. A decision."*
+Verified in the live DOM: **all five back-matter sections read 0.**
+
+🛑 **NOT swept, and this is the line: `content/chapters.js` and `content/verse-notes.js` are the
+BOOK.** ~139 em dashes remain and every one is in the manuscript or its verse notes — attributed
+in the DOM to `.block-p`, `.verse-line`, `.chapter-hook` and `.toc-hook`, which are all his prose.
+**A dash in a gloss is the site talking; a dash in chapter VII is the book talking.** The author
+drew that line himself, twice. **Do not run a global replace over `content/`.**
 
 > ⚠️ **Two of these edits changed meaning and had to be rewritten, not re-punctuated.** An
 > appositive dash pair carries a clause; dropping the dashes and leaving the words makes a
@@ -616,12 +628,29 @@ seventeen D2. **Do not run a global replace over `content/`.**
 
 Three things the author found on a phone that no desktop measurement would have shown.
 
-**1 · The Lexicon entry rides at the top of the screen, over the wall.** *"the hebrew doesnt
+**1 · The Lexicon entry opens in the MIDDLE of the words (v43; it was the top on v42).**
+*"when i click on a hebrew word it can open in the midle of the hebew words not the bottom so i
+dont lose my place."* v42 took it off the bottom and pinned it under the running head, which
+killed the 1,587px scroll. **v43 finishes the thought.** Pinned at the top, the entry has words
+only *below* it, so the block you were reading is pushed off the bottom of the screen and your
+place is still gone, just in the other direction. Centred, there are words above it and words
+below it. Measured at 402px: **232px of wall above, 232px below**, holding through the first ~60%
+of the wall, and the page does not move at all when you choose a word.
+
+> The offset is `max(nav + .4rem, 50vh − 11.85rem)` — half the viewport minus half the entry's
+> own floor, which is what centres a fixed-height box. **Both numbers are measured, not chosen:**
+> 23.7rem is the tallest of the fifty entries, so half of it is 11.85rem, and the `max()` keeps
+> the panel from sliding under the running head on a short screen.
+
+**The v42 note below still applies**, because everything it lists is what makes the centring
+possible at all:
+
+**1a · Why it can be pinned anywhere.** *"the hebrew doesnt
 work on mobile well it goes too far up or down ... so it doesnt pull the page all the way down
 and go back up and down."* At 402px the wall is **1,312px tall** and the entry sat under it, so
 `js/ui.js` scrolled to the entry on every tap — a **1,587px** journey. Choose a word, get thrown
 down the page; want another, climb back. **Fifty words, two page-moves each.** It is
-`position: sticky` at the top of the section now, and ui.js stopped scrolling on phones to match.
+`position: sticky` now, and ui.js stopped scrolling on phones to match.
 
 > 🛑 **Three things it needs.** **(a)** `display: flex` + `order: -1`, **not grid** — a sticky
 > element is constrained by its *parent's* box, and in the grid the article's area is exactly its
@@ -677,6 +706,20 @@ area and **was not drawn at all.**
 > the paint area past the baseline; the line-height stops the next line sitting in it when the
 > sentence wraps. **Both, or it comes back at one width.** Verified: paint box **40px** against a
 > **31px** glyph box.
+
+### The 44px floor, and the audit that missed ten targets at one width
+
+**v43, the author's *"44px rule follow it."*** `.nav-chapters a` was `min-width: 34px`, so the
+running head's ten roman numerals measured **34 × 44** at 1280px — clear of WCAG 2.2 SC 2.5.8
+(24px) and short of the 44px floor this site holds itself to. They are 44 × 44 now. The strip
+grew to **454px in a 1280px shell, no overflow**, and it is `display: none` below 900 so nothing
+else moved.
+
+> ⚠️ **The round-sixteen audit had declared the touch-target work closed**, and it missed these
+> for one reason: **it measured 402px only, where `.nav-chapters` is not rendered.** A check at
+> one width is half a check. The site's other standing exemptions are unaffected and still
+> documented: the Index of Scripture's citation rows (dense list, SC 2.5.8) and the ten player
+> seek marks (their *position* is the information).
 
 ## 5. Known-fixed — don't re-diagnose
 
@@ -858,13 +901,6 @@ Reduced motion is checked with `--force-prefers-reduced-motion=reduce`, and an o
 must be written at the **specificity of the rule it overrides**.
 
 ## 7. Not done
-
-🟡 **Ten sub-44px targets at 1280px, found 2026-08-30.** `.nav-chapters a` is
-`min-width: 34px` — the running head's roman numerals measure **34 × 44**. They clear WCAG 2.2
-SC 2.5.8 (24px) and fail the 44px floor this site holds itself to. **The round-sixteen audit
-missed them because it only measured 402px, where the strip is `display: none`.** Round
-seventeen D5; the fix is one declaration and about 100px of head width, which is available at
-1280 and irrelevant below 900.
 
 `ch02-trees` is the wrong picture and it is chapter II's **opening** plate — a
 fantasy-art woodland with tulips, ferns and a figure in a leaf dress, the worst single

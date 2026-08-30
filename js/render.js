@@ -1068,7 +1068,13 @@
     { id: 'thread',    title: 'What Comes Back',   note: 'what each chapter planted, and where it paid off' },
     { id: 'scripture', title: 'Index of Scripture', note: 'every verse quoted, in the order a Bible keeps them' },
     { id: 'names',     title: 'Names and Places', note: 'every person and place the book names, and where to find them' },
-    { id: 'sources',   title: 'Where These Came From', note: 'the texts, the lexica and the translation this book stands on' }
+    // 🛑 "The Sources", and it must match the <h2> renderSources prints — 2026-08-30
+    // (D21-C), the author's "we dont need two names for sources". This row said
+    // "Where These Came From" while the section called itself "The Sources", so the
+    // contents and the running head sent a reader to a heading with a different name
+    // on it. One thing, one name. If the section's title ever changes, change it here
+    // in the same commit.
+    { id: 'sources',   title: 'The Sources', note: 'the texts, the lexica and the translation this book stands on' }
   ];
 
   function backMatter() {

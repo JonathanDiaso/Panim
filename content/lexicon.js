@@ -83,7 +83,7 @@
     // BDB Augmented Strong headword; attested in Genesis 1:2 (MAM)
     { w: "תֹּהוּ", t: "tohu", lang: "he", root: "תהו", ch: "ch01",
       r: "Genesis 1:2",
-      g: "Formless waste. It sits in the second verse of the Bible, over the dark water before anything had a shape — and again in the song, where God finds His people in a howling wilderness." },
+      g: "Formless waste. It sits in the second verse of the Bible, over the dark water before anything had a shape, and again in the song, where God finds His people in a howling wilderness." },
     // attested form, Genesis 1:2 (MAM)
     { w: "מְרַחֶפֶת", t: "merachefet", lang: "he", root: "רחפ", ch: "ch01",
       r: "Genesis 1:2",
@@ -91,11 +91,11 @@
     // Klein Dictionary headword; attested identically in Genesis 18:22 (MAM)
     { w: "לִפְנֵי", t: "lifnei", lang: "he", root: "פנ", ch: "ch01",
       r: "Genesis 18:22",
-      g: "Before — and built straight out of panim, so literally “to the face of.” Standing before the LORD is standing at His face." },
+      g: "Before. Built straight out of panim, so literally “to the face of.” Standing before the LORD is standing at His face." },
     // attested form, Genesis 22:14 (MAM); lemma ra’ah, BDB
     { w: "יִרְאֶה", t: "yireh", lang: "he", root: "ראה", ch: "ch01",
       r: "Genesis 22:14",
-      g: "He will see. Abraham names the mountain YHWH-yireh, which your Bible translates “the LORD will provide” — and even the English keeps the secret: provide is Latin for to see ahead." },
+      g: "He will see. Abraham names the mountain YHWH-yireh, which your Bible translates “the LORD will provide,” and even the English keeps the secret: provide is Latin for to see ahead." },
     // BDB Augmented Strong headword; attested as yeshacharunani in Hosea 5:15
     { w: "שָׁחַר", t: "shachar", lang: "he", root: "שחר", ch: "ch02",
       r: "Hosea 5:15",
@@ -107,7 +107,7 @@
     // attested form, Deuteronomy 5:26 Heb. = 5:29 Eng. (MAM)
     { w: "מִי־יִתֵּן", t: "mi-yitten", lang: "he", ch: "ch03",
       r: "Deuteronomy 5:29",
-      g: "Literally, “who will give?” Neither a request nor a command — the sound Hebrew makes when it longs for a thing it cannot make happen." },
+      g: "Literally, “who will give?” Neither a request nor a command. The sound Hebrew makes when it longs for a thing it cannot make happen." },
     // BDB Augmented Strong headword; attested as akhapperah in Genesis 32:21 Heb.
     { w: "כָּפַר", t: "kaphar", lang: "he", root: "כפר", ch: "ch04",
       r: "Genesis 32:20",
@@ -115,27 +115,27 @@
     // BDB Augmented Strong headword; attested in Exodus 25:17 (MAM)
     { w: "כַּפֹּרֶת", t: "Kapporet", lang: "he", root: "כפר", ch: "ch04",
       r: "Exodus 25:17",
-      g: "The covering — the one noun that comes off kaphar. It is the gold lid at the centre of everything, and English calls it the mercy seat." },
+      g: "The covering, the one noun that comes off kaphar. It is the gold lid at the centre of everything, and English calls it the mercy seat." },
     // BDB Augmented Strong headword; attested as tzillam in Numbers 14:9
     { w: "צֵל", t: "tzel", lang: "he", root: "צל", ch: "ch05",
       r: "Numbers 14:9",
-      g: "Shade — what a body has over it when the sun can kill. Their shade has turned aside from them, says Caleb. Ours has not." },
+      g: "Shade. What a body has over it when the sun can kill. Their shade has turned aside from them, says Caleb. Ours has not." },
     // BDB Augmented Strong headword, confirmed by Klein and Jastrow; attested as u-temunah in Deuteronomy 4:12
     { w: "תְּמוּנָה", t: "temunah", lang: "he", ch: "ch05",
       r: "Deuteronomy 4:12",
-      g: "Form, shape. You heard a voice and saw no form — the nation’s own protection clause, and the very thing Numbers 12 says Moses was given." },
+      g: "Form, shape. You heard a voice and saw no form: the nation’s own protection clause, and the very thing Numbers 12 says Moses was given." },
     // BDB Augmented Strong headword; attested as kenafekha in Ruth 3:9
     { w: "כָּנָף", t: "kanaph", lang: "he", root: "כנף", ch: "ch05",
       r: "Ruth 3:9",
-      g: "A wing. It also means the edge of a garment — the part of your coat you can throw over somebody." },
+      g: "A wing. It also means the edge of a garment, the part of your coat you can throw over somebody." },
     // BDB Augmented Strong headword; attested as kevodekha in Exodus 33:18
     { w: "כָּבוֹד", t: "kavod", lang: "he", root: "כבד", ch: "ch05",
       r: "Exodus 33:18",
-      g: "Glory — and at the root, weight, heaviness, sheer mass. The same root Moses reached for at the bush to call his own tongue heavy and disqualify himself." },
+      g: "Glory, and at the root, weight, heaviness, sheer mass. The same root Moses reached for at the bush to call his own tongue heavy and disqualify himself." },
     // attested form, Exodus 3:14 (MAM)
     { w: "אֶהְיֶה", t: "ehyeh", lang: "he", root: "היה", ch: "ch05",
       r: "Exodus 3:14",
-      g: "I AM — I will be. God had already spent the word one objection earlier: “Certainly I will be with you.”" },
+      g: "I AM. I will be. God had already spent the word one objection earlier: “Certainly I will be with you.”" },
     // BDB Augmented Strong headword; attested identically in Exodus 34:29
     { w: "קָרַן", t: "qaran", lang: "he", root: "קרן", ch: "ch06",
       r: "Exodus 34:29",
@@ -143,7 +143,7 @@
     // BDB Augmented Strong headword; attested as panu in Jeremiah 2:27
     { w: "פָּנָה", t: "panah", lang: "he", root: "פנה", ch: "ch07",
       r: "Jeremiah 2:27",
-      g: "To turn. Panim comes off this verb — a face, in Hebrew, is the turned-toward part of a person. They have turned to Me the back, and not the face." },
+      g: "To turn. Panim comes off this verb, and a face in Hebrew is the turned-toward part of a person. They have turned to Me the back, and not the face." },
     // BibleHub Strong's 4977; attested as eschisthe in Mark 15:38
     { w: "σχίζω", t: "schizo", lang: "grc", ch: "ch08",
       r: "Mark 15:38",
@@ -151,11 +151,11 @@
     // attested form, Exodus 25:20 (MAM); lemma sakak, Jastrow
     { w: "סֹכְכִים", t: "sakak", lang: "he", root: "סככ", ch: "ch09",
       r: "Exodus 25:20",
-      g: "Covering, screening, spreading something protective overhead. It is what the cherubim do over the lid — and what a palm does over a crack in a mountain while the glory goes past." },
+      g: "Covering, screening, spreading something protective overhead. It is what the cherubim do over the lid, and what a palm does over a crack in a mountain while the glory goes past." },
     // BDB Augmented Strong headword; attested in Psalm 105:4 (MAM)
     { w: "תָּמִיד", t: "tamid", lang: "he", ch: "ch09",
       r: "Psalm 105:4",
-      g: "Continually. Never an empty table — and when the psalms tell Israel to seek His face, they reach for the same word. One standing order, written twice." },
+      g: "Continually. Never an empty table. And when the psalms tell Israel to seek His face, they reach for the same word. One standing order, written twice." },
     // BibleHub Strong's 2435; attested in Hebrews 9:5
     { w: "ἱλαστήριον", t: "hilasterion", lang: "grc", ch: "ch09",
       r: "Hebrews 9:5",
@@ -163,7 +163,7 @@
     // BibleHub Strong's 1799; attested in Acts 2:25
     { w: "ἐνώπιον", t: "enopion", lang: "grc", ch: "ch09",
       r: "Acts 2:25",
-      g: "In front of — built out of the Greek for eye. Before my face." },
+      g: "In front of. Built out of the Greek for eye. Before my face." },
     // BibleHub Strong's 3339; attested as metamorphoumetha in 2 Corinthians 3:18
     { w: "μεταμορφόω", t: "metamorphoo", lang: "grc", ch: "ch09",
       r: "2 Corinthians 3:18",
@@ -171,7 +171,7 @@
     // BibleHub Strong's 4318; attested in Ephesians 2:18
     { w: "προσαγωγή", t: "prosagoge", lang: "grc", ch: "ch10",
       r: "Ephesians 2:18",
-      g: "Access — being brought in. The word for an usher walking you past every guard and into the royal presence." },
+      g: "Access, being brought in. The word for an usher walking you past every guard and into the royal presence." },
     // BibleHub Strong's 3954; attested in Hebrews 4:16
     { w: "παρρησία", t: "parrhesia", lang: "grc", ch: "ch10",
       r: "Hebrews 4:16",
@@ -179,7 +179,7 @@
     // Klein Dictionary headword, confirmed by Jastrow; the verb is attested as vaya’akod in Genesis 22:9
     { w: "עֲקֵדָה", t: "Akedah", lang: "he", root: "עקד", ch: "ch10",
       r: "Genesis 22:9",
-      g: "The Binding. Jewish tradition will not call Moriah the sacrifice of Isaac, because Isaac was not sacrificed — a father bound his son, and the son let himself be bound." },
+      g: "The Binding. Jewish tradition will not call Moriah the sacrifice of Isaac, because Isaac was not sacrificed: a father bound his son, and the son let himself be bound." },
     // Klein Dictionary headword; attested as ha-tefillin in Mishnah Berakhot 3:1 (Torat Emet)
     { w: "תְּפִלִּין", t: "tefillin", lang: "he", ch: "ch10",
       r: "Mishnah Berakhot 3:1",
@@ -197,7 +197,7 @@
     // BDB Augmented Strong headword; confirmed against Genesis 32:31 (MAM)
     { w: "פָּנִים", t: "panim", lang: "he", root: "פנ", ch: "ch01",
       r: "Genesis 32:31",
-      g: "Face. The word this whole book follows — and Hebrew has no singular for it. It is plural every time it is written, as though a face were never one thing at a time." },
+      g: "Face. The word this whole book follows, and Hebrew has no singular for it. It is plural every time it is written, as though a face were never one thing at a time." },
     // BDB Augmented Strong headword; the verse has the inflected רָאִיתִי (MAM)
     { w: "רָאָה", t: "ra'ah", lang: "he", root: "ראה", ch: "ch01",
       r: "Genesis 16:13",
@@ -213,7 +213,7 @@
     // attested phrase, Jonah 1:3 (MAM) — it stands twice in that one verse
     { w: "מִלִּפְנֵי יְהֹוָה", t: "millifnei YHWH", lang: "he", ch: "ch02",
       r: "Jonah 1:3",
-      g: "From before the face of the LORD. What Jonah bought a ticket away from — and the verse says it twice, once at each end, as if it wants you to notice what he is actually running from." },
+      g: "From before the face of the LORD. What Jonah bought a ticket away from, and the verse says it twice, once at each end, as if it wants you to notice what he is actually running from." },
     // attested phrase, Exodus 32:1 (MAM)
     { w: "לְפָנֵינוּ", t: "l'fanenu", lang: "he", ch: "ch03",
       r: "Exodus 32:1",
@@ -221,11 +221,11 @@
     // attested phrase, Exodus 33:14 (MAM)
     { w: "פָּנַי יֵלֵכוּ", t: "panai yelechu", lang: "he", ch: "ch05",
       r: "Exodus 33:14",
-      g: "My face will go. God's answer when Moses refuses to move without Him. Not an escort, not an angel, not a cloud — His own face, on the road, with them." },
+      g: "My face will go. God's answer when Moses refuses to move without Him. Not an escort, not an angel, not a cloud. His own face, on the road, with them." },
     // attested phrase, Exodus 33:20 (MAM)
     { w: "לֹא תוּכַל לִרְאֹת אֶת־פָּנָי", t: "lo tukhal lir'ot et-panai", lang: "he", ch: "ch05",
       r: "Exodus 33:20",
-      g: "You cannot see My face. Said in the same conversation that had just granted everything else, and said gently — a limit described, not a door shut." },
+      g: "You cannot see My face. Said in the same conversation that had just granted everything else, and said gently: a limit described, not a door shut." },
     // attested form, Exodus 32:11 (MAM). The idiom is chillah panim, to soften a
     // face; the verse carries the verb and the noun three words apart, so the row
     // shows the verb the chapter actually quotes.
@@ -235,7 +235,7 @@
     // attested phrase, Numbers 6:26 (MAM). Paseq dropped, as at 6:25 above.
     { w: "יִשָּׂא יְהֹוָה פָּנָיו", t: "yissa YHWH panav", lang: "he", ch: "ch06",
       r: "Numbers 6:26",
-      g: "May the LORD lift up His face toward you. In Israel that phrase had a rap sheet — lifting a face is what a judge did when he took the money — and the blessing takes it back." },
+      g: "May the LORD lift up His face toward you. In Israel that phrase had a rap sheet: lifting a face is what a judge did when he took the money, and the blessing takes it back." },
     // attested phrase, Deuteronomy 31:17 (MAM)
     { w: "וְהִסְתַּרְתִּי פָנַי", t: "ve-histarti panai", lang: "he", ch: "ch07",
       r: "Deuteronomy 31:17",
@@ -243,11 +243,11 @@
     // attested phrase, Deuteronomy 31:17 (MAM) — the same verse, the other mouth
     { w: "אֵין אֱלֹהַי בְּקִרְבִּי", t: "ein elohai be-qirbi", lang: "he", ch: "ch07",
       r: "Deuteronomy 31:17",
-      g: "My God is not among me. What Israel will say in the same verse where God says He will hide — and they will be wrong about the grammar of it. A face turned is not a God gone." },
+      g: "My God is not among me. What Israel will say in the same verse where God says He will hide, and they will be wrong about the grammar of it. A face turned is not a God gone." },
     // attested phrase, I Kings 19:12 (MAM)
     { w: "קוֹל דְּמָמָה דַקָּה", t: "qol demamah daqqah", lang: "he", ch: "ch08",
       r: "1 Kings 19:12",
-      g: "A sound of thin silence. Three words that refuse to settle into English — a voice made of quiet, thin enough to be missed, after the wind and the earthquake and the fire had all been ruled out." },
+      g: "A sound of thin silence. Three words that refuse to settle into English: a voice made of quiet, thin enough to be missed, after the wind and the earthquake and the fire had all been ruled out." },
     // AKKADIAN, and the only third-language row in the file. Added 2026-08-28 on the
     // author's tick. Source discipline is the same as the rest: CAD M/2 (The Assyrian
     // Dictionary of the Oriental Institute of the University of Chicago, vol. M part
@@ -257,7 +257,7 @@
     // discipline again.
     { w: "melammu", t: "melammu", lang: "akk", ch: "ch06",
       r: "Akkadian · CAD M/2",
-      g: "The radiance a king or a god wore — an awe you could see, sitting on the surface of someone. Every empire around Israel had a word for borrowed shine. This is the one chapter VI borrows back." },
+      g: "The radiance a king or a god wore, an awe you could see, sitting on the surface of someone. Every empire around Israel had a word for borrowed shine. This is the one chapter VI borrows back." },
   ];
 
   var out = [];
