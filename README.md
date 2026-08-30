@@ -3,9 +3,10 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: v40** (`?v=40`, `panim-shell-v40`) — two copy passes over the back matter, the
-lexicon controls rebuilt as tabs, the em dashes out of the site's own voice, and a paused page
-that no longer scrolls itself.
+**Current: v41** (`?v=41`, `panim-shell-v41`) — the Lexicon opens the back matter now, its head
+is a name and one line, and its controls sit under the words they filter. v40 before it: two
+copy passes over the back matter, the controls rebuilt as tabs, the em dashes out of the site's
+own voice, and a paused page that no longer scrolls itself.
 
 Read this first in a new session — the only doc in this repo describing current
 state. 👉 Then read the handoff:
@@ -104,6 +105,41 @@ without it the citation reads and is announced as "Numbers6:24-26".
 rail stays in the margin drawing the distance; the numerals moved to the far end of the
 row, which is also what removed the `VIIVIII` collision — hard-right numerals cannot
 collide with ticks they are no longer under.
+
+**The head is the name and one line, and the controls are UNDER the wall (2026-08-30, v41).**
+The author's marks: *"only keep 'Choose a word and it draws itself…' the other lexicon nonsense
+is unnecessary. say the lexicon and then the info. let them feel it"* and *"put the hebrew filter
+roman numerals below the words."*
+
+- **What went:** the count-title (*"50 words, in the language they were written in"*) and the
+  provenance paragraph. Both described the section instead of opening it, over **a wall of fifty
+  words a reader can see and count.** What survives is the only line that says something you
+  cannot get by looking: the word will **draw itself** and then dim to its root. It is an
+  instruction for a thing about to happen, which is why it earns a place two paragraphs of
+  description did not.
+- 🛑 **The claim is off the site entirely, and I got this wrong before I measured it.** I wrote
+  that *"not one character was typed from memory"* had *moved* to the Sources page. It had not:
+  **that page's own standfirst carried the sentence and was deleted on v40**, so cutting the
+  Lexicon's copy on v41 removed the last one. Checked against the live DOM, not assumed —
+  neither section prints it now. ⚠️ **The proof did not go with it.** The Sources page still
+  lists eleven works and what each supplied; the sentence was the boast on top of the evidence.
+  **Do not restore it to the Lexicon.** If it comes back it belongs on the page that can be
+  checked.
+- **The controls sit under the wall, in the wall's own columns** (`3 / 10`, not `1 / -1`).
+  Above it they were the first thing in the section and read as a toolbar to get past; under it
+  they are apparatus for a block you have already seen. ⚠️ **DOM order is tab order**, so a
+  keyboard reader now reaches the fifty words first and the sixteen filters after, instead of
+  tabbing through the controls to reach the thing they control.
+
+> 🛑 **Two layout traps, both measured, both real.**
+> **(1) `.lex-article` needs `grid-row: 1`.** The controls now sit between the wall and the
+> article in DOM order, and grid auto-placement is *sparse* — the cursor had advanced past row 1,
+> so the article named its column but not its row and was placed in **row 2, a full wall-height
+> below the words it describes.**
+> **(2) The phone override must come AFTER the base rule.** `.lex-controls { grid-column: 1/7 }`
+> was first written inside the 900px block beside `.lex-body`, ~200 lines *earlier* in the file.
+> Same specificity, so source order decided it and the base `3 / 10` won: measured at 402px, the
+> row sat at **x=141 w=241 under a wall at x=20 w=362.**
 
 **The Lexicon is a wall of words, not a scroll (2026-08-29).** Fifty plates in a
 three-column card grid was **8,439px — eight and a half screens** to look up one word,
@@ -328,6 +364,19 @@ release behind.
 
 ### The back of the book — and the one list that feeds both contents
 
+**The order changed on 2026-08-30 (v41): the Lexicon comes first, then What Comes Back.**
+The author's mark was *"move greek lexicon above the thread area that outlines the points coming
+back"*, and the reason holds up: **What Comes Back is a rereading.** It only means anything to
+someone who has finished the ten chapters, and it spoils the payoffs for anyone who has not. The
+Lexicon is a **lookup** — you open it mid-book, from a chapter, and the chapter links point into
+it. The thing you reach for while reading now stands before the thing you read after finishing.
+
+> 🛑 **`BACK_MATTER` and `renderAll()` must agree.** The array feeds the contents section AND the
+> running head's panel; the push order builds the page. **Move a section in one, move it in the
+> other, in the same commit** — a contents page listing the back matter in a different order from
+> the page itself is worse than no contents. Verified after the change: page order, contents and
+> nav panel all read Lexicon → What Comes Back → Index of Scripture → Names → Sources.
+
 After chapter X the site has three apparatus sections: **What Comes Back** (`#thread`),
 **The Lexicon** (`#lexicon`) and the **Index of Scripture** (`#scripture`, added
 2026-08-29). Until that date **neither contents surface listed any of them** — the running
@@ -375,23 +424,30 @@ this"* on what was left of the Index of Scripture's head. **All three paragraphs
 Scripture has no title at all** — it is its margin label and then Genesis, Exodus, Leviticus,
 because an index ordered like a Bible does not need a sentence saying so.
 
-> 🛑 **`.si-head.is-bare`, and the margin label is the `<h2>`.** Deleting that title while
+> 🛑 **`.si-head.is-bare` / `.lex-head.is-bare`, and the margin label is the `<h2>`.** Two
+> sections do this now (Scripture v40, the Lexicon v41) and the class is shared, so a third
+> needs no new CSS.
+>
+> **`.si-head.is-bare`, the original note:** Deleting that title while
 > leaving `aria-labelledby="scripture-heading"` pointing at nothing would have left the section
 > **unnamed to a screen reader** and put a hole in the heading outline between the Lexicon (h2)
 > and the book names inside the section (h3). So the label that was always in the margin takes
-> the id and the element. **It is the only `.chapter-num` on the site that is a heading**, which
-> is why it is written down rather than left to be found. Verified: outline reads H2 *Index of
+> the id and the element. **The two `.chapter-num`s that are headings are the only two on the
+> site**, which is why it is written down rather than left to be found. Verified: outline reads H2 *Index of
 > Scripture* → H3 *Genesis*, and all four back-matter sections still resolve their accessible
 > name.
 
-⚠️ **Three sections are bare and one is not, and that is a live question, not a settled design.**
-The Lexicon, Names and Sources still open with a count (*"50 words, in the language they were
-written in"*); Scripture opens with nothing. It is round seventeen D3 and the recommendation
-there is to make all four match.
+⚠️ **Two of four are bare now, and the question is half-answered.** Scripture went bare on v40
+and **the Lexicon followed on v41** — both use `.is-bare`, both put the margin label in the
+`<h2>`. Names (*"58 names, in the order a reader looks them up"*) and Sources (*"11 works, and
+what each one supplied"*) still open with a count. Round seventeen D3 asks whether all four
+should match; **two now do, which is the argument for finishing it rather than against.**
 
 - **Where These Came From** (`#sources`) — 11 works in four groups. The Lexicon's standfirst
   had always *claimed* its sources (*"not one character was typed from memory"*) and never
-  listed them; **a claim nobody can check is decoration.** 🛑 **A row may carry
+  listed them; **a claim nobody can check is decoration.** ⚠️ **Both copies of that sentence were
+  cut by the author on v40–v41 and the page now stands on its rows alone** — which is the
+  stronger version of the same argument. 🛑 **A row may carry
   `status: 'unconfirmed'`, which prints the claim and WITHHOLDS the citation, and says so on
   the page** — a page built to prove nothing was typed from memory must not itself contain a
   citation typed from memory. It shipped with one such row and it has **none now**: the Ketef
