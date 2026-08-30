@@ -1728,6 +1728,15 @@ body.nav-toc-open #site-nav {
 }
 .lex-head .chapter-num { grid-column: 1 / 3; padding-top: .55em; }
 .lex-standfirst { grid-column: 3 / 10; }
+/* 🛑 .is-bare, shared with .si-head — 2026-08-30 (D19-A). The Lexicon's head lost
+   its count-title and its provenance paragraph, so the margin label is the <h2> and
+   one italic line stands beside it. Two things follow from that and neither is
+   cosmetic: the label is a HEADING now, so it stops taking the baseline nudge that
+   aligned it to a title that no longer exists; and the legend is the first line in
+   the block, so it loses the top margin it carried as a second paragraph. */
+.lex-head.is-bare .chapter-num { padding-top: 0; margin: 0; }
+.lex-head.is-bare .lex-legend { margin-top: 0; }
+.lex-head.is-bare { padding-bottom: clamp(1.1rem, 2.2vw, 1.8rem); }
 .lex-standfirst h2 {
   font-variation-settings: var(--lit-mid);
   font-weight: 350; font-size: clamp(1.5rem, 3vw, 2.1rem);
@@ -1906,8 +1915,14 @@ body.nav-toc-open #site-nav {
   .lex-wall.is-inking .lex-chip { border-bottom-color: var(--rule); transition: none; }
 }
 
+/* 🛑 grid-row: 1, and it is REQUIRED as of D19-B. The controls moved under the wall
+   and now sit between the wall and the article in DOM order. Grid auto-placement is
+   sparse: the cursor had already advanced past row 1, so the article — which names
+   its column but not its row — was placed in ROW 2 and dropped a full wall's height
+   below the words it describes. Naming the row pins it beside the wall where it
+   belongs, and `align-self: start` + sticky do the rest. */
 .lex-article {
-  grid-column: 10 / 13;
+  grid-column: 10 / 13; grid-row: 1;
   position: sticky; top: clamp(4.5rem, 9vh, 6.5rem);
   align-self: start;
 }
@@ -1954,7 +1969,9 @@ body.nav-toc-open #site-nav {
      so. js/ui.js scrolls the article into view on selection instead, which is what
      the reader wanted to happen anyway. */
   .lex-wall { grid-column: 1 / 7; }
-  .lex-article { grid-column: 1 / 7; position: static; margin-top: 1.6rem; }
+  /* one column below 900px, so the rows are DOM order: wall, controls, article.
+     grid-row is cleared or the article would try to sit on the wall. */
+  .lex-article { grid-column: 1 / 7; grid-row: auto; position: static; margin-top: 1.6rem; }
 }
 
 .lex-plates {
@@ -2152,11 +2169,29 @@ body.nav-toc-open #site-nav {
    they are different groups with their own labels rather than one undifferentiated
    run of fourteen buttons the reader has to parse by reading all of them.
    The row wraps to two lines below ~900px on its own; nothing is hidden. */
+/* 🛑 THE WALL'S COLUMNS, NOT THE SECTION'S — 2026-08-30 (D19-B). The row moved
+   from above .lex-body to inside it, under the wall, and `grid-column: 1 / -1`
+   came with it. Inside .lex-body that span reaches under the ARTICLE as well, so
+   sixteen controls ran the full width and the entry beside them sat on top of
+   their own right-hand end. It takes the wall's own track (3 / 10) instead, which
+   is what "below the words" means: the same measure, directly under the block it
+   filters. A rule above it separates the two without a heading saying so. */
 .lex-controls {
-  grid-column: 1 / -1;
+  grid-column: 3 / 10;
   display: flex; flex-wrap: wrap; gap: .4rem 1.6rem;
   align-items: center;
-  margin-top: clamp(1.4rem, 3vw, 2.2rem);
+  margin-top: clamp(1.2rem, 2.6vw, 1.9rem);
+  padding-top: clamp(1rem, 2.2vw, 1.6rem);
+  border-top: 1px solid var(--rule);
+}
+/* 🛑 THIS OVERRIDE HAS TO LIVE HERE, not up in the 900px block beside .lex-body.
+   Both selectors are a single class, so the cascade is decided by source order and
+   the .lex-body block is ~200 lines EARLIER in this file — the base 3 / 10 won and
+   the row sat indented two columns under a full-width wall. Measured at 402px:
+   controls at x=141 w=241 against a wall at x=20 w=362. Same-specificity media
+   queries must come after the rule they override. */
+@media (max-width: 900px) {
+  .lex-controls { grid-column: 1 / 7; }
 }
 .lex-controls-label {
   font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;

@@ -1,5 +1,16 @@
 // PANIM_SOURCES — "Where these came from", the sources page.
 //
+// ⚠️ UPDATED 2026-08-30 (D18-A, D19-A): NOBODY MAKES THE CLAIM ANY MORE. "Not one
+// character was typed from memory" was cut from this page's standfirst and then from
+// the Lexicon's, both on the author's "delete this". Verified against the live DOM —
+// the sentence is on neither section now.
+//
+// 🛑 THAT DOES NOT RETIRE THIS FILE, IT PROMOTES IT. The claim is gone and the proof
+// is all that is left: eleven works, and what each one supplied. A reader who wants
+// to know where the pointing came from reads the rows instead of being told they can
+// trust them. Every rule below still binds — above all the unconfirmed-row rule.
+// The original note follows.
+//
 // 🛑 WHY THIS FILE EXISTS. The Lexicon's standfirst has always CLAIMED its sources —
 // "every vowel point and every accent here was read out of a published source … not
 // one character was typed from memory" — and then never listed them. A book that

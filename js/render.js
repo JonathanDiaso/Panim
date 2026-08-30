@@ -619,30 +619,56 @@
 
     return '<section class="section" id="lexicon" data-ch="fw" aria-labelledby="lexicon-heading">' +
       '<div class="section-inner">' +
-        '<div class="lex-head">' +
-          '<span class="chapter-num">The Lexicon</span>' +
+        // 🛑 THE HEAD IS THE NAME AND ONE LINE, 2026-08-30 (D19-A), the author's
+        // "only keep Choose a word and it draws itself ... the other lexicon
+        // nonsense is unnecessary. say the lexicon and then the info. let them
+        // feel it."
+        // What went: the count-title ("50 words, in the language they were written
+        // in") and the provenance paragraph. Both described the section instead of
+        // opening it, and the wall underneath is fifty words a reader can see and
+        // count. The line that survives is the only one that tells you something
+        // you cannot get by looking: that the word will DRAW ITSELF and then dim to
+        // its root. It is an instruction for a thing about to happen, which is why
+        // it earns its place where two paragraphs of description did not.
+        //
+        // ⚠️ THE MARGIN LABEL IS THE <h2>, the second .chapter-num on the site to
+        // be one — the Index of Scripture was the first (D18-B) and the reasoning
+        // is identical: aria-labelledby has to resolve, and the heading outline
+        // cannot skip from the section to its h4 entries. .is-bare is the shared
+        // class, so a third section doing this needs no new CSS.
+        //
+        // 🛑 "NOT ONE CHARACTER WAS TYPED FROM MEMORY" IS OFF THE SITE ENTIRELY, and
+        // that is the right end for it. It went out of the Sources standfirst on
+        // D18-A and out of here on D19-A, both on the author's "delete this", and I
+        // checked the live DOM rather than assuming it had landed somewhere: it is
+        // in neither section now. ⚠️ THE PROOF DID NOT GO WITH IT. The Sources page
+        // still lists eleven works and what each one supplied, which is the evidence;
+        // the sentence was only ever the boast on top of it. Do not restore it here.
+        // If it ever comes back, it belongs on the page that can be checked.
+        '<div class="lex-head is-bare">' +
+          '<h2 class="chapter-num" id="lexicon-heading">The Lexicon</h2>' +
           '<div class="lex-standfirst">' +
-            '<h2 id="lexicon-heading">' + entries.length +
-              ' words, in the language they were written in.</h2>' +
-            // CUT TO TWO SENTENCES, 2026-08-30 (D17-C). The paragraph used to name
-            // its six sources inline — Masoretic, BDB, Klein, Jastrow, BibleHub,
-            // the CAD — and that list has had a section of its own since D15-D.
-            // Printing it twice made the head of the Lexicon read like a colophon.
-            // The claim the paragraph exists to make is its last clause; that stays.
-            // "beside the wall" was wrong below 900px, where the article is UNDER it.
-            // The sentence says what happens, not where — true at every width.
-            '<p>Each chapter’s own word first, then the terms it turns on. Every ' +
-            'vowel point was read out of a published source and pasted in by a ' +
-            'script. Not one character was typed from memory.</p>' +
             '<p class="lex-legend">Choose a word and it draws itself, right to left. ' +
             'Then everything that is not a root consonant dims.</p>' +
           '</div>' +
         '</div>' +
-        filterRow(entries) +
         '<div class="lex-body">' +
           '<div class="lex-wall" id="lex-wall" role="group" ' +
             'aria-label="The ' + entries.length + ' words. Choose one to read its entry.">' +
             chips + '</div>' +
+          // 🛑 THE CONTROLS SIT UNDER THE WALL, 2026-08-30 (D19-B), the author's
+          // "put the hebrew filter roman numerals below the words". They are inside
+          // .lex-body and in the WALL's columns, not the section's, so they land
+          // under the words they filter rather than under the whole two-column
+          // body. Above the wall they were the first thing in the section and read
+          // as a toolbar you had to get past; under it they read as apparatus for a
+          // block of type you have already seen — which is the order a printed
+          // index uses, and the order the reader actually works in.
+          // ⚠️ THE DOM ORDER IS THE TAB ORDER and that is the real reason this is
+          // safe: the wall is what the section is for, so a keyboard reader now
+          // reaches the words first and the filters after, instead of tabbing
+          // through sixteen controls to get to the thing they control.
+          filterRow(entries) +
           '<div class="lex-article" id="lex-article" aria-live="polite">' + articles + '</div>' +
         '</div>' +
       '</div></section>';
@@ -752,8 +778,9 @@
         // would have left the section unnamed to a screen reader AND put a hole
         // in the heading outline between The Lexicon (h2) and the book names
         // inside this section (h3). So the label that was always there takes the
-        // id and the element. It is the only .chapter-num on the site that is a
-        // heading, which is why this is written down rather than left to be found.
+        // id and the element. The Lexicon does the same thing (D19-A) and shares
+        // .is-bare with it; those two are the only .chapter-num on the site that
+        // are headings, which is why it is written down rather than left to be found.
         '<div class="si-head is-bare">' +
           '<h2 class="chapter-num" id="scripture-heading">Index of Scripture</h2>' +
         '</div>' +
@@ -1017,8 +1044,11 @@
   // because two hand-kept copies of a list is how the dawn arc got its cream room.
   // `count` is filled at render time from the real thing, never typed.
   var BACK_MATTER = [
-    { id: 'thread',    title: 'What Comes Back',   note: 'what each chapter planted, and where it paid off' },
+    // 🛑 THIS ORDER IS THE PAGE'S ORDER (D19-C). The Lexicon is first because it is
+    // the one a reader opens mid-book; What Comes Back is a rereading and spoils the
+    // payoffs. If you move a section in renderAll, move it here in the same commit.
     { id: 'lexicon',   title: 'The Lexicon',       note: 'every word the book turns on, in its own language' },
+    { id: 'thread',    title: 'What Comes Back',   note: 'what each chapter planted, and where it paid off' },
     { id: 'scripture', title: 'Index of Scripture', note: 'every verse quoted, in the order a Bible keeps them' },
     { id: 'names',     title: 'Names and Places', note: 'every person and place the book names, and where to find them' },
     { id: 'sources',   title: 'Where These Came From', note: 'the texts, the lexica and the translation this book stands on' }
@@ -1286,8 +1316,18 @@
     var fw = ch10 && ch10.blocks[ch10.blocks.length - 1];
     if (fw && fw.type === 'fivewords') html.push(renderFiveWords(fw));
 
-    html.push(renderThread());
+    // 🛑 THE LEXICON COMES FIRST, 2026-08-30 (D19-C), the author's "move greek
+    // lexicon above the thread area that outlines the points coming back."
+    // What Comes Back is a REREADING of the ten chapters: it only means anything to
+    // someone who has finished them, and it spoils the payoffs for anyone who has
+    // not. The Lexicon is a lookup — you use it mid-book, from a chapter, and the
+    // chapter links point INTO it. So the thing you reach for while reading now
+    // stands before the thing you read after finishing.
+    // ⚠️ BACK_MATTER BELOW MUST MATCH THIS ORDER. It feeds the contents section and
+    // the running head's panel, and a contents page that lists the back matter in a
+    // different order from the page itself is worse than no contents.
     html.push(renderLexicon());
+    html.push(renderThread());
     html.push(renderScripture(chapters));
     html.push(renderNames(chapters));
     html.push(renderSources());
