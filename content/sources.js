@@ -59,8 +59,8 @@
         {
           title: 'A Hebrew and English Lexicon of the Old Testament (BDB)',
           who: 'Brown, Driver and Briggs · Augmented Strong edition, via Sefaria',
-          what: 'The citation form — the shape you would actually look a word up ' +
-                'under — for most of the Hebrew entries.',
+          what: 'The citation form, the shape you would actually look a word up ' +
+                'under, for most of the Hebrew entries.',
           where: 'Sefaria, /api/words'
         },
         {
@@ -81,7 +81,7 @@
           title: 'The Assyrian Dictionary of the Oriental Institute of the ' +
                  'University of Chicago (CAD), vol. M part 2',
           who: 'The Oriental Institute, University of Chicago',
-          what: 'melammu — the one Akkadian word in the book, and the only entry ' +
+          what: 'melammu, the one Akkadian word in the book, and the only entry ' +
                 'in a third language. s.v. melammu, pp. 9–12.',
           where: 'CAD M/2, printed volume'
         },
@@ -95,7 +95,7 @@
       ]
     },
     {
-      group: 'What the quotations are',
+      group: 'The translation',
       note: '',
       items: [
         {
@@ -125,8 +125,8 @@
           title: '"The Amulets from Ketef Hinnom: A New Edition and Evaluation", ' +
                  'BASOR 334 (2004), 41\u201371',
           who: 'Gabriel Barkay, Marilyn J. Lundberg, Andrew G. Vaughn and Bruce Zuckerman',
-          what: 'The two rolled silver scrolls carrying the priestly blessing \u2014 the ' +
-                'oldest known biblical text \u2014 which chapter I opens on. Excavated by ' +
+          what: 'The two rolled silver scrolls carrying the priestly blessing, the ' +
+                'oldest known biblical text, which chapter I opens on. Excavated by ' +
                 'Barkay in 1979 from Chamber 25 of Cave 24, and re-read here from ' +
                 'high-resolution imaging that recovered letters the first reading could ' +
                 'not see.',

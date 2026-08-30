@@ -159,7 +159,7 @@
     if (!els.editionBtn) return;   // single-edition build: the toggle is not in the DOM
     var music = state.edition === 'music';
     els.editionBtn.textContent = music ? '♪' : '¶';
-    els.editionBtn.title = music ? 'Music edition — tap for voice only' : 'Voice only — tap for music';
+    els.editionBtn.title = music ? 'Music edition. Tap for voice only' : 'Voice only. Tap for music';
     els.editionBtn.setAttribute('aria-pressed', String(music));
   }
 

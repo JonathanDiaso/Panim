@@ -589,15 +589,15 @@
       } else if (heb && /[\s\u05be]/.test(e.w)) {
         // a space, or a maqqef (־) — the Hebrew hyphen that binds a phrase into one
         // accentual word. Either way it is more than one word and has more than one root.
-        rootLine = '<p class="lex-root-note is-absent">No single root \u2014 this is a phrase.</p>';
+        rootLine = '<p class="lex-root-note is-absent">No single root. This is a phrase.</p>';
       } else if (e.lang === 'grc') {
         rootLine = '<p class="lex-root-note is-absent">Greek builds from stems, not from a ' +
           'three-letter root.</p>';
       } else if (e.lang === 'akk') {
-        rootLine = '<p class="lex-root-note is-absent">Akkadian, not Hebrew \u2014 no root ' +
+        rootLine = '<p class="lex-root-note is-absent">Akkadian, not Hebrew. No root ' +
           'is given here.</p>';
       } else {
-        rootLine = '<p class="lex-root-note is-absent">No root shown \u2014 it was not ' +
+        rootLine = '<p class="lex-root-note is-absent">No root shown. It was not ' +
           'confirmed in two sources, and a guess would be worse than a gap.</p>';
       }
       var on = slug === defaultSlug;
@@ -632,8 +632,8 @@
             // "beside the wall" was wrong below 900px, where the article is UNDER it.
             // The sentence says what happens, not where — true at every width.
             '<p>Each chapter’s own word first, then the terms it turns on. Every ' +
-            'vowel point was read out of a published source and pasted in by a script ' +
-            '— not one character was typed from memory.</p>' +
+            'vowel point was read out of a published source and pasted in by a ' +
+            'script. Not one character was typed from memory.</p>' +
             '<p class="lex-legend">Choose a word and it draws itself, right to left. ' +
             'Then everything that is not a root consonant dims.</p>' +
           '</div>' +
@@ -741,25 +741,21 @@
 
     return '<section class="section" id="scripture" data-ch="fw" aria-labelledby="scripture-heading">' +
       '<div class="section-inner">' +
-        '<div class="si-head">' +
-          '<span class="chapter-num">Index of Scripture</span>' +
-          '<div class="si-standfirst">' +
-            // THE TITLE WAS A STAT LINE UNTIL 2026-08-29 (D14-D). It read
-            // "113 citations, 26 books." — two numbers and a full stop, next to a
-            // Lexicon whose title reads "50 words, in the language they were written
-            // in." One of the two said what its section was FOR; the other read like
-            // the top of a spreadsheet. The count keeps its place at the front,
-            // because that is the pattern, and the phrase after it now does the same
-            // work the Lexicon's does: it says what the ordering means.
-            // THE STANDFIRST PARAGRAPH IS GONE, 2026-08-30 (D17-A). It spent three
-            // sentences explaining that a numeral beside a reference is a chapter you
-            // can click — which is the one thing on this page a reader works out by
-            // looking at it, and the numerals are links with a visually-hidden
-            // "chapter N" on each. The 26 books did not go with it: the count moved
-            // back UP into the title, where it costs two words instead of a line.
-            '<h2 id="scripture-heading">' + total + ' verses, from ' + books.length +
-              ' books, in the order a Bible keeps them.</h2>' +
-          '</div>' +
+        // 🛑 THE HEAD IS ONE LINE NOW, 2026-08-30 (D18-B), the author's "delete
+        // this" on the title. It ran the whole standfirst pattern — a count, a
+        // second count and a sentence about ordering — over an index whose
+        // ordering is self-evident the moment you look at it: Genesis, Exodus,
+        // Leviticus. The section says its name and then does its job.
+        //
+        // ⚠️ THE MARGIN LABEL IS THE <h2> NOW, NOT A <span>. Deleting the title
+        // and leaving `aria-labelledby="scripture-heading"` pointing at nothing
+        // would have left the section unnamed to a screen reader AND put a hole
+        // in the heading outline between The Lexicon (h2) and the book names
+        // inside this section (h3). So the label that was always there takes the
+        // id and the element. It is the only .chapter-num on the site that is a
+        // heading, which is why this is written down rather than left to be found.
+        '<div class="si-head is-bare">' +
+          '<h2 class="chapter-num" id="scripture-heading">Index of Scripture</h2>' +
         '</div>' +
         '<div class="si-books">' + rows + '</div>' +
       '</div></section>';
@@ -836,8 +832,6 @@
       (byLetter[L] = byLetter[L] || []).push(r);
     });
 
-    var people = live.filter(function (r) { return r.e.kind === 'person'; }).length;
-    var places = live.length - people;
 
     var rows = Object.keys(byLetter).sort().map(function (L) {
       var items = byLetter[L].map(function (r) {
@@ -851,9 +845,9 @@
         // print its kind in tracked uppercase beside the name, and beside MOSES or
         // JESUS that badge is comedy: it labels what the reader already knows and
         // adds a second piece of type to every one of fifty-eight entries. The split
-        // is still stated once, in the standfirst ("N people and M places"), which is
-        // where a count belongs. The note now carries the identification, and every
-        // entry in content/names.js has one — see the header there.
+        // between people and places is no longer stated anywhere on the page, and
+        // does not need to be: the note under each name says which it is by saying
+        // what it is. Every entry in content/names.js has one — see the header there.
         return '<div class="ni-entry">' +
           '<h4 class="ni-name">' + esc(r.e.name) + '</h4>' +
           (r.e.note ? '<p class="ni-note">' + esc(r.e.note) + '</p>' : '') +
@@ -871,12 +865,15 @@
         '<div class="si-head">' +
           '<span class="chapter-num">Names and Places</span>' +
           '<div class="si-standfirst">' +
+            // THE STANDFIRST PARAGRAPH IS GONE, 2026-08-30 (D18-A), the author's
+            // "delete this". It carried three separate loads and a reader wanted
+            // none of them: a count already implied by the index under it, an
+            // explanation of what a numeral beside a name does (which a reader
+            // works out by looking), and a defence of three exclusions nobody had
+            // asked about. The reasons for the exclusions have not gone anywhere
+            // \u2014 they are written at the head of content/names.js, which is where
+            // an editorial decision belongs, not on the page.
             '<h2 id="names-heading">' + live.length + ' names, in the order a reader looks them up.</h2>' +
-            '<p>' + people + ' people and ' + places + ' places. The numerals after a ' +
-            'name are the chapters it stands in; following one lands on the first ' +
-            'place in that chapter it is named. God is not indexed here, and neither ' +
-            'are the Hebrew and Greek words \u2014 one is on nearly every page, and the ' +
-            'others have an index of their own.</p>' +
           '</div>' +
         '</div>' +
         '<div class="ni-body">' + rows + '</div>' +
@@ -945,11 +942,12 @@
           // BACK_MATTER, where the contents and the nav read it.
           '<span class="chapter-num">The Sources</span>' +
           '<div class="lex-standfirst">' +
+            // THE STANDFIRST PARAGRAPH IS GONE, 2026-08-30 (D18-A), the author's
+            // "delete this". It said the page was a list of the text, the
+            // dictionaries and the translation, and then printed a list whose four
+            // group headings are The text itself, The lexica, The translation and
+            // The archaeology. The paragraph was a table of contents for a table.
             '<h2 id="sources-heading">' + total + ' works, and what each one supplied.</h2>' +
-            '<p>The Lexicon says that not one character in it was typed from memory. ' +
-            'This is the list that sentence is standing on \u2014 the text the Hebrew was ' +
-            'read out of, the dictionaries the meanings came from, and the translation ' +
-            'the quotations are in.</p>' +
             (open
               ? '<p class="lex-legend">' + open + ' of them ' + (open === 1 ? 'is' : 'are') +
                 ' listed with the citation still open, and marked as such below. ' +
@@ -1143,7 +1141,7 @@
     var markHtml;
     if (mk && mk.w) {
       var isHeb = mk.lang === 'he';   // anything else is Greek (lang 'grc'), set LTR in the serif
-      var title = mk.t + ' — ' + mk.g + ' (' + mk.r + ')';
+      var title = mk.t + ': ' + mk.g + ' (' + mk.r + ')';
       markHtml =
         '<div class="chapter-mark' + (isHeb ? '' : ' is-greek') + '" lang="' + esc(mk.lang) + '"' +
              (isHeb ? ' dir="rtl"' : '') +
