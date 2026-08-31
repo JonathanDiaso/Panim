@@ -530,10 +530,16 @@
       return azOrder;
     }
 
+    // 🛑 THE ENTRY COMES OUT OF THE WALL FIRST. Since D22-B the open entry is a
+    // block sitting between two chips inside this container, and re-appending every
+    // chip would leave it stranded at the top of the wall, describing whatever word
+    // now happens to be first. Out, sort, back under its own word.
     function lay(list) {
+      lexHome();
       var frag = document.createDocumentFragment();
       list.forEach(function (c) { frag.appendChild(c); });
       wall.appendChild(frag);
+      lexReseat();
     }
 
     row.addEventListener('click', function (e) {
@@ -576,6 +582,61 @@
       }
     }, 20);
   }
+  // ==========================================================================
+  // 🛑 THE ENTRY OPENS INSIDE THE WALL, UNDER THE WORD YOU TAPPED — D22-B
+  // 2026-08-30, the author: *"the thing moving at the top actually hides that ...
+  // is there an alternative design that will allow us to see them load up and will
+  // also not have to scroll up and down to get back to it. the box is also big and
+  // ugly."*
+  //
+  // Three layouts have now been tried against one requirement — choose a word
+  // without losing your place — and the first two both answered it with a panel:
+  //   v42  pinned to the top of the screen. The page stopped moving; the words you
+  //        were reading went off the bottom instead.
+  //   v43  centred in the viewport. Words above and below, and a 379px floor so no
+  //        entry could reflow the page — which is a 379px shutter over a 1,312px
+  //        wall, sitting there from the moment the section arrives.
+  // Both are boxes over the words. The box is the bug. There is no place to float a
+  // panel on a phone that is not on top of the thing it describes.
+  //
+  // So the entry stops floating and joins the type. It is a BLOCK inserted directly
+  // after the chosen word, inside the wall's own inline flow — the line breaks under
+  // that word, the entry sets in the gap, and the wall closes over it again. This is
+  // what a dictionary does with a headword and what an index does with a sub-entry,
+  // and it is the only arrangement where the answer is physically attached to the
+  // question. Nothing is covered, because nothing is on top.
+  //
+  // ⚠️ IT IS THE INSERTION THAT NEEDS THE SCROLL, NOT THE READER. Moving the entry
+  // from a previous word ABOVE the new one shortens everything above the tap, so the
+  // word under the reader's finger would jump up ~350px as it opens. The chip's
+  // viewport-top is therefore measured before the move and restored after it with a
+  // scrollBy — the tapped word ends the interaction on the exact pixel it started on.
+  // This is scroll anchoring done by hand, and it is the whole reason the layout is
+  // allowed to reflow at all.
+  //
+  // Desktop keeps the aside column: there the entry sits BESIDE the wall and covers
+  // nothing, so there is nothing to fix.
+  // ==========================================================================
+  var LEX_INLINE_MQ = window.matchMedia('(max-width: 900px)');
+  function lexInline() { return LEX_INLINE_MQ.matches; }
+  function lexHome() {
+    var article = document.getElementById('lex-article');
+    var body = document.querySelector('.lex-body');
+    if (article && body && article.parentNode !== body) body.appendChild(article);
+  }
+  // Re-seat the entry after any operation that rewrites the wall. The sort MOVES
+  // NODES and the filter can retire the open word, and both would otherwise leave a
+  // block of prose stranded at the top of a wall it no longer belongs to.
+  function lexReseat() {
+    var wall = document.getElementById('lex-wall');
+    var open = document.querySelector('.lex-plate:not([hidden])');
+    if (!wall || !open) { lexHome(); return; }
+    var chip = wall.querySelector('.lex-chip[data-lex="' + open.getAttribute('data-lex-entry') + '"]');
+    var article = document.getElementById('lex-article');
+    if (!chip || !article) { lexHome(); return; }
+    if (!lexInline()) { lexHome(); return; }
+    if (chip.nextSibling !== article) chip.parentNode.insertBefore(article, chip.nextSibling);
+  }
   function selectLexWord(slug, moveFocus) {
     var article = document.getElementById('lex-article');
     var wall = document.getElementById('lex-wall');
@@ -583,6 +644,10 @@
     var entry = article.querySelector('[data-lex-entry="' + slug + '"]');
     var chip = wall.querySelector('.lex-chip[data-lex="' + slug + '"]');
     if (!entry || !chip) return false;
+    // measured FIRST — before the plate swap changes the entry's height and before
+    // the move changes what is above the chip. Both happen below this line.
+    var inline = lexInline();
+    var before = inline ? chip.getBoundingClientRect().top : 0;
     $all('.lex-plate', article).forEach(function (p) { p.hidden = p !== entry; });
     $all('.lex-chip', wall).forEach(function (c) {
       var on = c === chip;
@@ -590,20 +655,30 @@
       c.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
     drawLexEntry(entry);
-    // 🛑 NO SCROLL, AT ANY WIDTH — 2026-08-30 (D20-E). This used to scroll the entry
-    // into view below 900px, because the entry sat under a 1,312px wall and choosing
-    // a word otherwise changed something the reader could not see. That was the right
-    // fix for the wrong layout: it meant every tap threw the page 1,587px down and
-    // the reader had to climb back for the next word. The author's words were "it
-    // goes too far up or down ... so it doesnt pull the page all the way down and go
-    // back up and down."
-    // The entry is `position: sticky` at the top of the section on a phone now
-    // (css/components.css, the 900px block), so it is already on screen and updates
-    // in place. Scrolling to something that has not moved is how you get a page that
-    // jumps for no reason. ⚠️ IF THE STICKY EVER COMES OUT, THIS COMES BACK — they
-    // are one change in two files.
+    if (inline) {
+      if (chip.nextSibling !== article) chip.parentNode.insertBefore(article, chip.nextSibling);
+      var after = chip.getBoundingClientRect().top;
+      // 🛑 `behavior: 'instant'`, SPELLED OUT, and it is not belt and braces.
+      // css/site.css sets `html { scroll-behavior: smooth }`, and a CSS smooth
+      // scroll applies to programmatic scrolls too — so `scrollBy(0, d)` and
+      // `behavior: 'auto'` both ANIMATE this correction over ~300ms. The reader
+      // would watch the page slide back, which is the page moving: the exact thing
+      // the correction exists to prevent. Caught by measurement, 2026-08-30: the
+      // two-argument form left the tapped word 353px off its mark.
+      if (after !== before) window.scrollBy({ top: after - before, behavior: 'instant' });
+    } else {
+      lexHome();
+    }
     if (moveFocus) chip.focus();
     return true;
+  }
+  // A reader who rotates a phone or drags a window across the 900px line changes
+  // which layout is correct, and the entry is a DOM node in one of two places. This
+  // is the only listener that moves it without a reader asking for anything.
+  if (LEX_INLINE_MQ.addEventListener) {
+    LEX_INLINE_MQ.addEventListener('change', function () { lexReseat(); });
+  } else if (LEX_INLINE_MQ.addListener) {
+    LEX_INLINE_MQ.addListener(function () { lexReseat(); });
   }
   // THE WALL WRITES ITSELF ONCE, ON FIRST ARRIVAL — 2026-08-30 (D15-C).
   //
@@ -651,10 +726,28 @@
           c.querySelector('.lex-chip-word').style.removeProperty('--lex-delay');
           c.querySelector('.lex-chip-t').style.removeProperty('--lex-delay');
         });
+        openLexDefault();
       }, total);
     }
     requestAnimationFrame(function () { requestAnimationFrame(go); });
     setTimeout(go, 120);
+  }
+
+  // 🛑 AFTER THE INK, AND ON A WIDE SCREEN ONLY — D22-A.
+  // The section renders with nothing open so the wall can write itself unobstructed
+  // (js/render.js says why). On a wide screen the apparatus column would then stand
+  // empty beside it, so the book's own word opens there once the writing has
+  // finished — which reads as the first answer arriving, not as a panel that was
+  // already up. On a phone the entry lives IN the wall, so opening one uninvited
+  // would shove the words the reader is looking at down the page. There it waits to
+  // be asked. A deep link (#lex-panim) still opens at any width; that is a reader
+  // asking.
+  function openLexDefault() {
+    if (lexInline()) return;
+    var wall = document.getElementById('lex-wall');
+    if (!wall || document.querySelector('.lex-plate:not([hidden])')) return;
+    var slug = wall.getAttribute('data-default');
+    if (slug) selectLexWord(slug, false);
   }
 
   function wireLexiconWall() {
@@ -672,7 +765,20 @@
         });
       }, { rootMargin: '0px 0px -20% 0px' });
       io.observe(wall);
+    } else {
+      // no observer means no ink, so there is no "after the ink" to wait for.
+      openLexDefault();
     }
+    // ⚠️ A BACKSTOP, AND IT IS NOT PARANOIA. The default now opens from inside the
+    // ink's completion callback, so on a wide screen the apparatus column is empty
+    // until the observer fires — and if it never fires, it is empty for the session.
+    // That is a worse failure than the one this change fixed, and it is invisible in
+    // a headless harness (an IntersectionObserver on a content-visibility section
+    // inside an iframe does not fire there, which is how this line got written).
+    // 15s is long past any ink and costs nothing if the wall already opened one:
+    // openLexDefault() returns early when a plate is showing. Phones are excluded
+    // there, so the wall is never interrupted on the screen that matters.
+    setTimeout(openLexDefault, 15000);
     wall.addEventListener('click', function (e) {
       var chip = e.target.closest('.lex-chip');
       if (chip) selectLexWord(chip.getAttribute('data-lex'), false);

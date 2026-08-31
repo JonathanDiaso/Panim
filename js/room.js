@@ -228,6 +228,51 @@
   // ---------- chapters sheet ----------
   function audioUrl(id) { return 'audio/' + P.state.edition + '/' + id + '.m4a'; }
   var sw = null;
+  // ==========================================================================
+  // 🛑 THE WHOLE BOOK, OFFLINE, IN ONE TAP — 2026-08-30 (D22-E)
+  // The author asked whether a reader can play the audio and load the page with no
+  // network. Both halves already worked and neither was findable: sw.js precaches
+  // the text, the fonts, the cues and the scripts on the first visit, so the BOOK
+  // has been offline since v3 — and the audio has been downloadable per chapter
+  // since the Room shipped, behind a ↓ the size of a fingernail on ten separate
+  // rows inside a sheet most readers never open.
+  // A reader packing for a flight does not want ten taps. This is the one tap, and
+  // it also says the number out loud, which is the thing that was missing: 400MB is
+  // a decision and the reader is entitled to make it before it starts.
+  // ⚠️ SEQUENTIAL, NOT Promise.all. Ten parallel 40MB fetches on a phone on hotel
+  // wifi is how you get ten timeouts instead of ten files; the service worker
+  // answers one 'download' message at a time and reports each one back.
+  // ==========================================================================
+  function totalMB() {
+    var mb = 0;
+    P.ids.forEach(function (id) {
+      var m = P.manifest[id] || {};
+      mb += (P.state.edition === 'music' ? m.musicMB : m.voiceMB) || 0;
+    });
+    return Math.round(mb);
+  }
+  var dlQueue = [];
+  function pumpQueue() {
+    if (!dlQueue.length || !sw) { paintSaveAll(); return; }
+    var id = dlQueue[0];
+    var btn = els.sheetList.querySelector('[data-dl-chapter="' + id + '"]');
+    if (btn) { btn.disabled = true; btn.textContent = '…'; }
+    sw.postMessage({ type: 'download', url: audioUrl(id) });
+  }
+  function paintSaveAll() {
+    var b = document.getElementById('save-all-audio');
+    if (!b) return;
+    if (dlQueue.length) {
+      b.disabled = true;
+      b.textContent = 'Saving ' + (P.ids.length - dlQueue.length + 1) + ' of ' + P.ids.length + '…';
+    } else {
+      var have = els.sheetList.querySelectorAll('.cr-dl.is-cached').length;
+      b.disabled = have === P.ids.length;
+      b.textContent = have === P.ids.length
+        ? 'All ' + P.ids.length + ' chapters are saved'
+        : 'Save all ' + P.ids.length + ' for offline (' + totalMB() + ' MB)';
+    }
+  }
   function buildChaptersSheet() {
     var r = window.PANIM_RENDERED;
     els.sheetList.innerHTML = P.ids.map(function (id) {
@@ -244,6 +289,15 @@
         'title="Save for offline (' + (mb || '?') + ' MB)" aria-label="Save chapter for offline">↓</button>' : '') +
         '</div>';
     }).join('');
+    var host = document.getElementById('save-all-row');
+    if (host) {
+      host.innerHTML = sw
+        ? '<button class="btn" id="save-all-audio"></button>' +
+          '<p class="sheet-note">The text of the book is already saved. This adds the ' +
+          'voice, so the whole thing works with no signal.</p>'
+        : '<p class="sheet-note">Offline saving needs a reload before it is available.</p>';
+      paintSaveAll();
+    }
     refreshCachedMarks();
   }
   function refreshCachedMarks() {
@@ -260,10 +314,15 @@
           var btn = els.sheetList.querySelector('[data-dl-chapter="' + id[0] + '"]');
           if (btn && d.cached[i]) { btn.textContent = '✓'; btn.classList.add('is-cached'); }
         });
+        paintSaveAll();
       } else if (d.type === 'downloaded') {
         var id = /ch\d\d/.exec(d.url);
         var btn = id && els.sheetList.querySelector('[data-dl-chapter="' + id[0] + '"]');
         if (btn) { btn.textContent = d.ok ? '✓' : '↓'; btn.classList.toggle('is-cached', d.ok); btn.disabled = false; }
+        // 🛑 THE QUEUE ADVANCES ON FAILURE TOO. One 404 or one dropped connection
+        // must not strand the other nine behind it; the row that failed keeps its ↓
+        // and can be tapped on its own.
+        if (id && dlQueue[0] === id[0]) { dlQueue.shift(); pumpQueue(); }
       }
     });
   }
@@ -292,6 +351,15 @@
       clockMode = clockMode === 'elapsed' ? 'remaining' : 'elapsed'; tick();
     });
     document.addEventListener('click', function (e) {
+      if (e.target.id === 'save-all-audio' && sw) {
+        dlQueue = P.ids.filter(function (id) {
+          var b = els.sheetList.querySelector('[data-dl-chapter="' + id + '"]');
+          return !(b && b.classList.contains('is-cached'));
+        });
+        paintSaveAll();
+        pumpQueue();
+        return;
+      }
       var dl = e.target.closest && e.target.closest('[data-dl-chapter]');
       if (dl && sw) {
         dl.disabled = true; dl.textContent = '…';

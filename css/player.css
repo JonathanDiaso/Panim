@@ -304,3 +304,15 @@ body:has(.player[data-state="idle"]) { --player-h: 0px; }
 
 /* ---------- completion modal ---------- */
 .completion-actions { display: flex; gap: .8em; flex-wrap: wrap; margin-top: 1.4em; }
+
+/* the one-tap offline row at the foot of the chapters sheet — D22-E.
+   js/room.js says why it exists. It is a real button, not a hairline control: it
+   starts a 400MB download and the reader should be able to see that it is a
+   decision. 44px comes from .btn. */
+.save-all-row { margin-top: 1.4em; padding-top: 1.2em; border-top: 1px solid var(--rule); }
+.save-all-row .btn { width: 100%; justify-content: center; }
+.save-all-row .sheet-note {
+  margin: .7em 0 0;
+  font-family: var(--ui); font-size: var(--ap-sm);
+  color: var(--ink-faint); line-height: 1.5;
+}

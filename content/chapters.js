@@ -8847,6 +8847,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p29"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Somebody finally asks it out loud, in a room, to His face. And Jesus does not take the question back.",
     "id": "ch10-p30"
@@ -9224,6 +9227,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "It hangs from His oath.",
     "id": "ch10-p94"
+   },
+   {
+    "type": "swell"
    },
    {
     "type": "p",

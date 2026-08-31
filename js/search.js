@@ -57,7 +57,14 @@
 
   // kind -> how much a hit in it is worth. A lexicon plate for the word you typed
   // is a better answer than the ninth paragraph that happens to contain it.
-  var WEIGHT = { lexicon: 5, note: 3, verse: 3, thread: 2.5, prose: 1 };
+  // 🛑 `name` SITS JUST UNDER `lexicon` — 2026-08-30 (D22-D), the author's "do it"
+  // on round seventeen §4 #4. Searching "Hagar" returned two paragraphs and no offer
+  // of her index entry, which is the one result that answers the question actually
+  // being asked: she is in chapter I and nowhere else. An index entry is a MAP of
+  // the word; a paragraph is one place it happens to appear. So it outranks prose,
+  // verse and note, and stays under the lexicon plate, which is the same thing for
+  // the words this book is built on.
+  var WEIGHT = { lexicon: 5, name: 4.5, note: 3, verse: 3, thread: 2.5, prose: 1 };
 
   function build() {
     var out = [];
@@ -71,6 +78,23 @@
         num: e.num, label: e.t,
         text: [e.t, e.w, e.g, e.r].join(' '),
         snippet: e.g
+      });
+    });
+
+    // The index entries, as found by js/render.js — never re-derived here. It scans
+    // the manuscript for all fifty-eight names at render time and hands the survivors
+    // on; a second scan in this file would be a second answer to the same question.
+    ((window.PANIM_RENDERED || {}).nameHits || []).forEach(function (n) {
+      var where = n.chapters.map(function (c) { return ROMAN[c] || c; });
+      out.push({
+        kind: 'name', href: '#' + n.id,
+        num: n.chapters[0] || 99, label: n.name,
+        text: n.name + ' ' + n.note,
+        // the snippet is the note plus where the book keeps them, because "where"
+        // is the whole reason to offer an index entry instead of a paragraph
+        snippet: n.note + (where.length
+          ? ' \u00b7 ' + (where.length === 1 ? 'Chapter ' : 'Chapters ') + where.join(', ')
+          : '')
       });
     });
 
@@ -161,7 +185,7 @@
     return esc(head) + '<mark>' + esc(mid) + '</mark>' + esc(tail);
   }
 
-  var KIND_LABEL = { lexicon: 'Lexicon', note: 'Note', verse: 'Verse', thread: 'What comes back', prose: 'Text' };
+  var KIND_LABEL = { lexicon: 'Lexicon', name: 'Names and Places', note: 'Note', verse: 'Verse', thread: 'What comes back', prose: 'Text' };
 
   function render(q) {
     var terms = fold(q).split(/[^a-z0-9א-ת]+/).filter(Boolean);
@@ -179,7 +203,13 @@
       return '<a class="sr-hit" href="' + esc(r.href) + '" data-kind="' + esc(r.kind) + '">' +
         '<span class="sr-meta">' +
           '<span class="sr-kind">' + KIND_LABEL[r.kind] + '</span>' +
-          '<span class="sr-where">' + (r.num ? (ROMAN[r.num] || r.num) + ' · ' : '') + esc(r.label) + '</span>' +
+          // ⚠️ A NAME RESULT PRINTS NO ROMAN NUMERAL. Every other kind lives in one
+          // chapter, so the numeral is where it is; an index entry can span four,
+          // and "I · Moses" would be a wrong answer to the question the entry
+          // exists to answer. Its chapters are in the snippet, all of them.
+          '<span class="sr-where">' +
+            (r.kind !== 'name' && r.num ? (ROMAN[r.num] || r.num) + ' · ' : '') +
+            esc(r.label) + '</span>' +
         '</span>' +
         '<span class="sr-text">' + snippet(r.snippet || r.text, terms) + '</span>' +
       '</a>';
