@@ -658,8 +658,23 @@
         '<div class="lex-head is-bare">' +
           '<h2 class="chapter-num" id="lexicon-heading">The Lexicon</h2>' +
           '<div class="lex-standfirst">' +
-            '<p class="lex-legend">Choose a word and it draws itself, right to left. ' +
-            'Then everything that is not a root consonant dims.</p>' +
+            // 🛑 THE LEGEND SAID "right to left" AND IT WAS FALSE FOR SEVEN OF THE
+            // FORTY — 2026-08-30 (D23-A), the author: *"this is not true some draw
+            // left to right."* He is right, and the stylesheet has always known it:
+            // css/components.css masks .is-greek and .is-roman `to right` and Hebrew
+            // `to left`, because a word should be written the way its own language
+            // writes it. The copy was describing the Hebrew case and calling it the
+            // rule. Six Greek entries and one Akkadian draw the other way.
+            // ⚠️ The second sentence was false too, and less visibly: only 18 of the
+            // 40 entries carry a root the matcher will confirm, and the rest print a
+            // line saying why there is none. "Where the root is known" is the whole
+            // fix — it stops promising a dim that three readers in five will not see.
+            // 🛑 DO NOT PUT A COUNT IN THIS SENTENCE. Both halves of it were wrong
+            // because they stated as a rule what was true of most of the list; a
+            // number here would go stale the first time a word is added.
+            '<p class="lex-legend">Choose a word and it draws itself, in the ' +
+            'direction its own language is written. Where the root is known, ' +
+            'everything that is not a root consonant then dims.</p>' +
           '</div>' +
         '</div>' +
         '<div class="lex-body">' +
