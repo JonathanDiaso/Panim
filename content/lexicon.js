@@ -185,6 +185,25 @@
       r: "Mishnah Berakhot 3:1",
       g: "The phylacteries. An observant man winds the leather three times around his middle finger in the morning, once for each I will betroth you, and says the words while he does it." },
 
+    // 🛑 ADDED 2026-08-30 (D23-B). It was missing, and it is the hinge of the most
+    // personal passage in the book: chapter X turns on it and, as of today, so does
+    // chapter VI. Form fetched from Sefaria's Miqra according to the Masorah for
+    // 1 Samuel 1:18 and cross-checked against BDB Augmented Strong's headword, which
+    // gives חֵן, "favour, grace, charm".
+    // ⚠️ `root: "חן"`, NOT "חנן", and that is this file's contract rather than a
+    // compromise: the field holds the letters of the root ACTUALLY PRESENT in this
+    // form, in order, because js/render.js matches it as a subsequence of the written
+    // letters and fails safe on anything else. panim carries "פנ" for the same
+    // reason. The abstract root chanan is named in the gloss, where it can be said
+    // in full without asking the matcher to highlight a letter that is not there.
+    // 🛑 THE GLOSS DOES NOT SPOIL CHAPTER X. The stooping image and the sister both
+    // belong to the payoff, and the Lexicon sits AHEAD of What Comes Back precisely
+    // because it is a lookup that does not give the endings away. Do not "improve"
+    // this line by adding the thing it is carefully not saying.
+    { w: "חֵן", t: "chen", lang: "he", root: "חן", ch: "ch10",
+      r: "1 Samuel 1:18",
+      g: "Grace, in the sense of favour given rather than earned. It comes from the root chanan, and it shares that root with the single word standing at the exact centre of the priestly blessing." },
+
     // ---- 2026-08-28, the second pass: ten to thirty-six to fifty. --------------
     // Every form below was fetched from Sefaria's Miqra according to the Masorah
     // (api/v3/texts, cantillation and meteg stripped, nikkud kept) on 2026-08-28 and

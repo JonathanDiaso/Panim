@@ -3,14 +3,22 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: v44** (`?v=44`, `panim-shell-v44`) — the Lexicon's floating panel is **gone**: the
-entry is a block set into the wall under the word you tapped, nothing is open when the section
-arrives, and the fifty words write themselves with nothing on top of them. Also: 35 index notes
-rewritten, one row of cross-links at the foot of every apparatus section, index entries offered
-in search, one-tap offline for all ten chapters, `tools/check-pacing.py`, and two dividers in
-chapter X. 🛑 `ASSET_V` had drifted to `39` while the page asked for `?v=43` — offline was
-half-broken for four releases. Fixed. v43: the phone's Lexicon entry opened in the middle of the
-words, the em dashes left the apparatus, the Sources got one name, 44px numerals.
+**Current: v46** (`?v=46`, `panim-shell-v46`) — two clauses landed in the manuscript: chapter VI
+now names *vichunecha*, the word at the exact centre of the priestly blessing, and the root *chen*
+under it; chapter X closes the double on the woman at Shiloh. *chen* is in the Lexicon for the
+first time (**51 words**). v45: the Lexicon legend claimed every word draws right to left, which
+was false for nine of the fifty-one, and claimed the root always dims, which is true for twenty.
+v44: the Lexicon's floating panel is **gone** — the entry is a block set into the wall under the
+word you tapped, nothing is open when the section arrives, and the words write themselves with
+nothing on top of them; 35 index notes rewritten; cross-links at the foot of every apparatus
+section; index entries offered in search; one-tap offline; `tools/check-pacing.py`; two dividers
+in chapter X. 🛑 `ASSET_V` had drifted to `39` while the page asked for `?v=43` — offline was
+half-broken for four releases. Fixed.
+
+⚠️ **`ch06-p57` and `ch10-p178` are text with no tape.** Both new clauses are in `chapters.js` and
+not in the recording, so `gen-cues.py` interpolates them and both sit on the review list.
+Following-the-narration walks over them at about the right moment; the voice does not say them.
+Coverage held at 98.8%. **This reverses the moment the two inserts are recorded.**
 
 Read this first in a new session — the only doc in this repo describing current
 state. 👉 Then read the handoff:
