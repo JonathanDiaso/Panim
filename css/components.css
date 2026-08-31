@@ -2067,85 +2067,69 @@ body.nav-toc-open #site-nav {
   /* one column below 900px, so the rows are DOM order: wall, controls, article.
      grid-row is cleared or the article would try to sit on the wall. */
   /* ==========================================================================
-     🛑 THE ENTRY RIDES AT THE TOP OF THE SCREEN, OVER THE WALL — D20-E
-     2026-08-30, the author: *"the hebrew doesnt work on mobile well it goes too far
-     up or down maybe it can somehow render over? or somewhere unique so it doesnt
-     pull the page all the way down and go back up and down etc."*
-     He was describing a measured fact. At 402px the wall is **1,312px tall** and the
-     entry sat under it, so `js/ui.js` scrolled to the entry on every tap — a
-     **1,587px** journey from the top of the wall. Choose a word, get thrown down the
-     page; want another word, climb back. Fifty words, and the page moves twice for
-     each one.
-     The entry is now `position: sticky` at the top of the section, so it is on
-     screen the whole time the wall is, and choosing a word **changes it in place
-     without moving the page at all.** ui.js stopped scrolling on phones to match.
+     🛑 THE ENTRY IS SET INTO THE WALL, NOT FLOATED OVER IT — D22-B
+     2026-08-30, the author: *"i really like when all the hebrew and greek words load
+     up and i see them all written when we have the thing moving at the top it
+     actually hides that ... is there an alternative design that will allow us to see
+     them load up and will also not have to scroll up and down to get back to it. the
+     box is also big and ugly."*
 
-     THREE THINGS THIS NEEDS, and each one is why it is written down:
-       · **`display: flex` + `order`, not grid.** A sticky element is constrained by
-         its PARENT'S box, not by its own grid area — and in the grid the article's
-         area is exactly its own height, so `position: sticky` had nowhere to travel
-         and did nothing at all. In a flex column the parent is the whole
-         `.lex-body`, 1,900px of it, which is the runway sticky needs.
-       · **`order: -1` is safe HERE and would not be on the wall.** The D14 rule in
-         this file is that visual order must not diverge from tab order — it is why
-         the sort MOVES NODES instead of setting `order`. The wall is fifty focusable
-         buttons; the article is **text with no focusable content in it**, so nothing
-         is reordered for a keyboard at all.
-       · **An opaque background, or the wall reads through it.** `.lex-plate` is
-         deliberately `background: none` beside the wall on desktop; over the wall it
-         has to be paper, with a rule under it to say where it ends.
-     ⚠️ The cap is `55vh` with its own scroll. That is the ONE nested scroller this
-     section allows, and only because the alternative is an entry that covers the
-     wall it is meant to be read against. The wall itself must never become one.
+     Two rounds of panel are recorded in js/ui.js and both were the same shape: a box
+     over the words, first at the top of the screen (v42), then centred with a 379px
+     floor so it could not reflow the page (v43). The floor is what he is calling big
+     and ugly, and he is right — it is a 379px shutter standing over a 1,312px wall
+     from the moment the section arrives, which means the wall writing itself, the
+     one thing this section is FOR, happened behind it.
+
+     There is nowhere on a 402px screen to float a panel that is not on top of the
+     thing it describes. So it stops floating. js/ui.js inserts `#lex-article` into
+     the wall's own inline flow directly after the chosen word: the line breaks under
+     that word, the entry sets in the gap, the wall closes over it. Nothing is
+     covered because nothing is on top, and the answer is physically attached to the
+     question — which is what a dictionary sub-entry is.
+
+     WHAT THIS RULE HAS TO DO, and it is short because the layout is doing the work:
+       · `display: block` in an inline formatting context is what BREAKS the line.
+         The wall is inline boxes joined by newlines (see .lex-wall above); a block
+         child splits it into two anonymous blocks and sets between them.
+       · It is paper with a rule top and bottom. No shadow, no radius, no floor, no
+         nested scroller — every one of those existed to manage a box that was over
+         something, and it is not over anything now.
+       · NO min-height. Entries run 295–378px and each one sets to its own height,
+         because a short entry padded out to a tall one's floor is dead space inside
+         a block of type. The page reflowing under the entry is fine: js/ui.js pins
+         the tapped word to its pixel with a scrollBy, so the reflow happens BELOW
+         the reader's eye and they never see it.
+     ⚠️ Order and sticky are both gone. The article is a plain grid/flex child at its
+     home position and a plain block when it is in the wall. If it is ever floated
+     again, this comment is the argument against it.
      ========================================================================== */
   .lex-body { display: flex; flex-direction: column; }
   .lex-wall { order: 0; }
   .lex-controls { order: 1; }
-  .lex-article {
-    order: -1;
-    /* 🛑 IT SITS IN THE MIDDLE OF THE WORDS, NOT AT AN EDGE — 2026-08-30 (D21-A),
-       the author's "when i click on a hebrew word it can open in the midle of the
-       hebew words not the bottom so i dont lose my place."
-       v42 had already taken it off the bottom and pinned it under the running head,
-       which stopped the 1,587px scroll. This finishes the thought: pinned at the TOP
-       the entry has words only BELOW it, so the wall you were reading is pushed off
-       the bottom of the screen and your place is still gone — just in the other
-       direction. Centred, there are words above it and words below it, and the line
-       you tapped is one of them.
-       The offset is half the viewport minus half the entry's own floor (11.85rem of
-       the 23.7rem set below), which is what centres a fixed-height box. Both numbers
-       are measured, not chosen: 379px is the tallest of the fifty entries. */
-    position: sticky; top: max(calc(var(--nav-h, 52px) + .4rem), calc(50vh - 11.85rem));
-    z-index: 5;
-    margin: 0 0 1.2rem;
-    /* rounded and lifted off the page, because it is over the words now rather than
-       above them: a panel floating in the middle of a block of type has to look like
-       it is floating or it reads as a hole in the wall */
-    border-radius: 2px;
-    /* 🛑 A FLOOR, OR THE PAGE STILL TWITCHES. The entry sits ABOVE the wall in the
-       flex flow now, so every change in its height shifts everything under it —
-       measured, choosing a word moved the page 19px. Not the 1,587px he reported,
-       but the same fault in miniature and the same thing he would feel.
-       Measured across all fifty entries at 402px: 295px shortest, 378px tallest,
-       351px median. The floor is the tallest, so on a phone this size NO entry can
-       reflow the page. `min()` with 45vh keeps it from eating a shorter phone —
-       there the floor gives way and some entries do reflow, which is the right
-       trade: a box taller than half the screen is worse than a 20px shift. */
-    min-height: min(23.7rem, 45vh);
-    max-height: 55vh; overflow-y: auto;
+  .lex-article { order: 2; margin: 0; }
+  /* in the wall: a block set into the type */
+  .lex-wall > .lex-article {
+    display: block; width: 100%;
+    margin: .1rem 0 .9rem;
+    padding: 0;
     background: var(--paper);
     border-top: 1px solid var(--rule-strong);
     border-bottom: 1px solid var(--rule-strong);
-    box-shadow: 0 14px 26px -18px rgba(25, 21, 16, .55),
-                0 -10px 20px -18px rgba(25, 21, 16, .4);
   }
-  .lex-article .lex-plate { padding: 1rem 0 1.1rem; border-top: 0; }
-  /* ⚠️ MEASURED LIMIT, recorded rather than padded around: sticky travel ends at the
-     container's bottom minus the entry's height, which lands about 120px before the
-     wall's last line. The entry drifts off in that last 8% of the wall, right as the
-     controls arrive. Fixing it needs ~8rem of dead space at the foot of the section,
-     and dead space is a worse bug than a drift the reader meets on the way out. */
+  /* the wrapper carries the rules in here, so the plate carries none. The accent
+     that marks a chapter's own word moves up onto the wrapper's top rule — one line,
+     not two stacked. :has() is the right selector and its absence costs a colour,
+     not a layout. */
+  .lex-wall > .lex-article .lex-plate,
+  .lex-wall > .lex-article .lex-plate[data-kind="mark"] {
+    padding: 1rem 0 1.1rem; border-top: 0; border-left: 0;
+  }
+  .lex-wall > .lex-article:has(.lex-plate[data-kind="mark"]:not([hidden])) {
+    border-top: 2px solid var(--accent);
+  }
 }
+
 
 .lex-plates {
   grid-column: 1 / -1;
@@ -2824,3 +2808,36 @@ body.nav-toc-open #site-nav {
 @media (max-width: 640px) {
   .search-results { max-height: 50vh; }
 }
+
+/* ---------------------------------------------------------------------------
+   THE BACK MATTER'S SIDEWAYS DOOR — 2026-08-30 (D22-C)
+   One row at the foot of each apparatus section, linking to the other four and to
+   the contents. js/render.js says why it exists and why it is generated.
+   It is a ROW OF TYPE, not a row of buttons — the same rule the lexicon controls
+   live under: nothing in the apparatus may look like a toolbar. A hairline above
+   the row, a hairline under each link on hover, and nothing else.
+   🛑 44px minimum, and the vertical padding is what makes it. A line-height would
+   give the text room without giving the finger any.
+   --------------------------------------------------------------------------- */
+.bm-links {
+  grid-column: 3 / 11;
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 0 clamp(1rem, 2.2vw, 2rem);
+  margin-top: clamp(2.4rem, 5vw, 4rem);
+  border-top: 1px solid var(--rule);
+}
+@media (max-width: 900px) { .bm-links { grid-column: 1 / 7; } }
+.bm-link {
+  display: inline-flex; align-items: center; min-height: 44px;
+  padding: .2rem 0;
+  font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-faint); text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.bm-link:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.bm-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* the way back is the last thing on the row and it says so in the accent */
+.bm-link.is-back { color: var(--accent); margin-left: auto; }
+.bm-link.is-back:hover { border-bottom-color: var(--accent); }
+@media (max-width: 640px) { .bm-link.is-back { margin-left: 0; } }

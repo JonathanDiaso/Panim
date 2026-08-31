@@ -3,11 +3,14 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: v43** (`?v=43`, `panim-shell-v43`) — the phone's Lexicon entry opens **in the middle
-of the words**, the em dashes are out of the apparatus as well as the chrome, the Sources has one
-name, and the running head's numerals follow the 44px rule. v42: all four back-matter heads
-became one shape with real titles, and the phone got its three fixes. v41: the Lexicon moved to
-the front of the back matter.
+**Current: v44** (`?v=44`, `panim-shell-v44`) — the Lexicon's floating panel is **gone**: the
+entry is a block set into the wall under the word you tapped, nothing is open when the section
+arrives, and the fifty words write themselves with nothing on top of them. Also: 35 index notes
+rewritten, one row of cross-links at the foot of every apparatus section, index entries offered
+in search, one-tap offline for all ten chapters, `tools/check-pacing.py`, and two dividers in
+chapter X. 🛑 `ASSET_V` had drifted to `39` while the page asked for `?v=43` — offline was
+half-broken for four releases. Fixed. v43: the phone's Lexicon entry opened in the middle of the
+words, the em dashes left the apparatus, the Sources got one name, 44px numerals.
 
 Read this first in a new session — the only doc in this repo describing current
 state. 👉 Then read the handoff:

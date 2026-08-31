@@ -103,12 +103,12 @@
 <link rel="preload" href="fonts/l04.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/g02.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/h00.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts/fonts.css?v=43">
-<link rel="stylesheet" href="css/site.css?v=43">
-<link rel="stylesheet" href="css/components.css?v=43">
-<link rel="stylesheet" href="css/player.css?v=43">
-<link rel="stylesheet" href="css/room.css?v=43">
-<link rel="stylesheet" href="css/polish.css?v=43">
+<link rel="stylesheet" href="fonts/fonts.css?v=44">
+<link rel="stylesheet" href="css/site.css?v=44">
+<link rel="stylesheet" href="css/components.css?v=44">
+<link rel="stylesheet" href="css/player.css?v=44">
+<link rel="stylesheet" href="css/room.css?v=44">
+<link rel="stylesheet" href="css/polish.css?v=44">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -312,6 +312,8 @@
     <button class="btn btn-icon sheet-close" data-close-sheet="chapters-sheet" aria-label="Close">×</button>
     <h2>Chapters</h2>
     <div id="chapters-sheet-list"><!-- js/room.js populates --></div>
+    <!-- one tap for the whole book's audio; js/room.js fills it and says why -->
+    <div id="save-all-row" class="save-all-row"></div>
   </div>
 </div>
 
@@ -442,23 +444,23 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=43"></script>
-<script src="content/images.js?v=43"></script>
-<script src="content/audio-manifest.js?v=43"></script>
-<script src="content/marks.js?v=43"></script>
-<script src="content/thread.js?v=43"></script>
-<script src="content/lexicon.js?v=43"></script>
-<script src="content/names.js?v=43"></script>
-<script src="content/sources.js?v=43"></script>
-<script src="content/verse-notes.js?v=43"></script>
-<script src="content/derivatives.js?v=43"></script>
-<script src="js/render.js?v=43"></script>
-<script src="js/ui.js?v=43"></script>
-<script src="js/motion.js?v=43"></script>
-<script src="js/sync.js?v=43"></script>
-<script src="js/search.js?v=43"></script>
-<script src="js/player.js?v=43"></script>
-<script src="js/room.js?v=43"></script>
+<script src="content/chapters.js?v=44"></script>
+<script src="content/images.js?v=44"></script>
+<script src="content/audio-manifest.js?v=44"></script>
+<script src="content/marks.js?v=44"></script>
+<script src="content/thread.js?v=44"></script>
+<script src="content/lexicon.js?v=44"></script>
+<script src="content/names.js?v=44"></script>
+<script src="content/sources.js?v=44"></script>
+<script src="content/verse-notes.js?v=44"></script>
+<script src="content/derivatives.js?v=44"></script>
+<script src="js/render.js?v=44"></script>
+<script src="js/ui.js?v=44"></script>
+<script src="js/motion.js?v=44"></script>
+<script src="js/sync.js?v=44"></script>
+<script src="js/search.js?v=44"></script>
+<script src="js/player.js?v=44"></script>
+<script src="js/room.js?v=44"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

@@ -526,10 +526,20 @@
     var entries = window.PANIM_LEXICON || [];
     if (!entries.length) return '';
 
-    // the default: the book's own word if it is here, otherwise the first entry
+    // 🛑 NOTHING IS OPEN WHEN THE PAGE ARRIVES — 2026-08-30 (D22-A), the author's
+    // "i really like when all the hebrew and greek words load up and i see them all
+    // written ... the thing moving at the top actually hides that."
+    // He was describing a fact: the entry was rendered OPEN, and on a phone it is
+    // pinned over the wall, so the one moment the section is built for — fifty words
+    // writing themselves — happened behind a panel. The default selection is now a
+    // slug the wall CARRIES rather than a state it ships in: js/ui.js opens it on a
+    // wide screen once the ink has finished, and never opens it on a phone, where
+    // the entry sits in the wall itself and would push the words it is covering for.
     var defaultSlug = null;
     entries.forEach(function (e) { if (e.t === 'panim') defaultSlug = lexSlug(e); });
     if (!defaultSlug) defaultSlug = lexSlug(entries[0]);
+    // what the chips and plates render WITH. Nothing. The wall keeps the name.
+    var openSlug = null;
 
     var weights = lexWeights(entries);
 
@@ -537,7 +547,7 @@
       var heb = e.lang === 'he';
       var slug = lexSlug(e);
       var wordCls = heb ? '' : (e.lang === 'grc' ? ' is-greek' : ' is-roman');
-      var on = slug === defaultSlug;
+      var on = slug === openSlug;
       // The word is the control's label and the transliteration rides under it, so a
       // reader who cannot read the script still has a way in — which is the whole
       // reason the wall works as an index rather than as fifty shapes.
@@ -600,7 +610,7 @@
         rootLine = '<p class="lex-root-note is-absent">No root shown. It was not ' +
           'confirmed in two sources, and a guess would be worse than a gap.</p>';
       }
-      var on = slug === defaultSlug;
+      var on = slug === openSlug;
       return '<article class="lex-plate" data-lex-entry="' + esc(slug) + '"' +
         ' data-ch="' + esc(e.ch) + '" data-kind="' + esc(e.kind) + '"' +
         (on ? '' : ' hidden') + '>' +
@@ -653,7 +663,7 @@
           '</div>' +
         '</div>' +
         '<div class="lex-body">' +
-          '<div class="lex-wall" id="lex-wall" role="group" ' +
+          '<div class="lex-wall" id="lex-wall" data-default="' + esc(defaultSlug) + '" role="group" ' +
             'aria-label="The ' + entries.length + ' words. Choose one to read its entry.">' +
             chips + '</div>' +
           // 🛑 THE CONTROLS SIT UNDER THE WALL, 2026-08-30 (D19-B), the author's
@@ -849,6 +859,15 @@
     return hits;
   }
 
+  function nameSlug(n) {
+    return 'name-' + String(n).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+  // What renderNames actually found, handed on so js/search.js can offer the index
+  // entry without re-scanning the manuscript for fifty-eight names. It is filled at
+  // render time and read off window.PANIM_RENDERED, which is the same contract
+  // BACK_MATTER uses — one scan, one truth.
+  var NAME_HITS = [];
+
   function renderNames(chapters) {
     var entries = window.PANIM_NAMES || [];
     if (!entries.length) return '';
@@ -861,6 +880,13 @@
     if (!live.length) return '';
 
     live.sort(function (a, b) { return a.e.name.localeCompare(b.e.name); });
+
+    NAME_HITS = live.map(function (r) {
+      return {
+        name: r.e.name, note: r.e.note || '', id: nameSlug(r.e.name),
+        chapters: r.hits.map(function (h) { return h.num; })
+      };
+    });
 
     // grouped by initial, the way an index is read — you go to the letter first
     var byLetter = {};
@@ -885,7 +911,12 @@
         // between people and places is no longer stated anywhere on the page, and
         // does not need to be: the note under each name says which it is by saying
         // what it is. Every entry in content/names.js has one — see the header there.
-        return '<div class="ni-entry">' +
+        // 🛑 THE ENTRY CARRIES AN ID AS OF D22-D, and it is what makes the index
+        // linkable from anywhere. js/search.js offers the index entry as a result
+        // (the author's "do it", round seventeen §4 #4) and it needs somewhere to
+        // send the reader. Built from the name, the same way the lexicon slug is,
+        // and prefixed so it can never collide with a chapter or block id.
+        return '<div class="ni-entry" id="' + esc(nameSlug(r.e.name)) + '">' +
           '<h4 class="ni-name">' + esc(r.e.name) + '</h4>' +
           (r.e.note ? '<p class="ni-note">' + esc(r.e.note) + '</p>' : '') +
           '<ul class="ni-list">' + cites + '</ul>' +
@@ -1320,6 +1351,43 @@
     hero.classList.add('has-hero-plate');
   }
 
+
+  // ============================================================================
+  // ONE QUIET ROW AT THE FOOT OF EACH APPARATUS SECTION — 2026-08-30 (D22-C)
+  // The author's *"probably worth it??"* on round seventeen §4 #5, and his *"do it"*
+  // on §4 #2, which asked for one link from the Lexicon to the page that proves it.
+  // Both are the same missing thing, so this is one answer to two notes.
+  //
+  // Five finished sections, and until now each was a cul-de-sac: the Lexicon does
+  // not mention the Sources, the Names index does not mention Scripture, and none of
+  // them can get you back to the contents. Every way in was the running head or the
+  // contents page, which means going UP through a 266,000px book to move sideways
+  // between two things that are next to each other.
+  //
+  // 🛑 BUILT FROM BACK_MATTER, NOT TYPED. That array is already the one list both
+  // contents surfaces read, and a sixth hand-kept copy of the section names is
+  // exactly the drift D21-C closed. A section never links to itself; the row always
+  // ends at the contents.
+  // ⚠️ 44px, because they are touch targets and this project has a rule (D5). The
+  // padding is what makes the height, so do not swap it for a line-height.
+  // ============================================================================
+  function backMatterLinks(root) {
+    BACK_MATTER.forEach(function (b) {
+      var sec = root.querySelector('#' + b.id);
+      if (!sec) return;
+      var links = BACK_MATTER.filter(function (o) { return o.id !== b.id; })
+        .map(function (o) {
+          return '<a class="bm-link" href="#' + o.id + '">' + esc(o.title) + '</a>';
+        });
+      links.push('<a class="bm-link is-back" href="#contents">Contents</a>');
+      var nav = document.createElement('nav');
+      nav.className = 'bm-links';
+      nav.setAttribute('aria-label', 'The rest of the back matter');
+      nav.innerHTML = links.join('');
+      sec.appendChild(nav);
+    });
+  }
+
   function run() {
     var chapters = window.PANIM_CHAPTERS || [];
     var skippedGlossTerms = [];
@@ -1357,6 +1425,7 @@
 
     var root = document.getElementById('chapters-root');
     root.innerHTML = html.join('');
+    backMatterLinks(root);
 
     mountHero();
 
@@ -1364,6 +1433,7 @@
       chapters: chapters,
       skippedGlossTerms: skippedGlossTerms,
       backMatter: backMatter(),
+      nameHits: NAME_HITS,
       romanFor: function (n) { return ROMAN[n] || String(n); }
     };
 
