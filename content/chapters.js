@@ -4322,6 +4322,11 @@ window.PANIM_CHAPTERS = [
     "id": "ch06-p56"
    },
    {
+    "type": "p",
+    "html": "The word in the middle is <em>vichunecha</em>. And He will be gracious to you. Under it is <em>chen</em>, grace, and in Israel that was also a girl’s name.",
+    "id": "ch06-p57"
+   },
+   {
     "type": "verse",
     "lines": [
      "The LORD lift up His countenance on you,",
@@ -4334,62 +4339,62 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Countenance is a Sunday word, and underneath it is <em>panim</em>. The LORD lift up His face toward you. And in Israel, that phrase had a rap sheet. Lifting someone’s face is courtroom language, and in the law of Moses it is the crooked kind: it is what a bought judge does. “You shall not be partial,” God orders Israel’s courts — and the Hebrew beneath partial says, <em>you shall not lift up faces</em>. Do not let the verdict tilt because you like the man standing in front of you.",
-    "id": "ch06-p57"
-   },
-   {
-    "type": "p",
-    "html": "And God holds His own bench to His own rule, in the same courtroom Hebrew: <em>the great, the mighty, and the awesome God, who does not lift up faces and does not take a bribe</em>.",
     "id": "ch06-p58"
    },
    {
     "type": "p",
-    "html": "You cannot charm Him, pay Him, or network your way past Him. His courtroom is incorruptible, which is wonderful news, right up until you remember that you are the defendant.",
+    "html": "And God holds His own bench to His own rule, in the same courtroom Hebrew: <em>the great, the mighty, and the awesome God, who does not lift up faces and does not take a bribe</em>.",
     "id": "ch06-p59"
    },
    {
     "type": "p",
-    "html": "Then God writes the priestly blessing and commands the priests of that same incorruptible courtroom to stand in front of the entire nation, hands raised, and say to every person present: the LORD lift up His face toward you.",
+    "html": "You cannot charm Him, pay Him, or network your way past Him. His courtroom is incorruptible, which is wonderful news, right up until you remember that you are the defendant.",
     "id": "ch06-p60"
    },
    {
     "type": "p",
-    "html": "The one thing God’s own law forbids a judge to do, God now orders spoken over His people as a blessing.",
+    "html": "Then God writes the priestly blessing and commands the priests of that same incorruptible courtroom to stand in front of the entire nation, hands raised, and say to every person present: the LORD lift up His face toward you.",
     "id": "ch06-p61"
    },
    {
     "type": "p",
-    "html": "That is a change of rooms.",
+    "html": "The one thing God’s own law forbids a judge to do, God now orders spoken over His people as a blessing.",
     "id": "ch06-p62"
    },
    {
     "type": "p",
-    "html": "In court, His face does not turn for the powerful or away from the weak.",
+    "html": "That is a change of rooms.",
     "id": "ch06-p63"
    },
    {
     "type": "p",
-    "html": "But the blessing is spoken over family.",
+    "html": "In court, His face does not turn for the powerful or away from the weak.",
     "id": "ch06-p64"
    },
    {
     "type": "p",
-    "html": "And inside the family, the Judge stands up, takes off the robe, and turns His face toward everyone at once.",
+    "html": "But the blessing is spoken over family.",
     "id": "ch06-p65"
    },
    {
     "type": "p",
-    "html": "And one man saw it coming. A frightened schemer at a river ford, face-down in the dark before the brother he had wronged, begging for exactly this: <em>perhaps he will lift up my face</em>. It was a long shot when Jacob prayed it.",
+    "html": "And inside the family, the Judge stands up, takes off the robe, and turns His face toward everyone at once.",
     "id": "ch06-p66"
    },
    {
     "type": "p",
-    "html": "Now the priests of Israel are under standing orders to promise Jacob’s long shot to every face in the nation, every time they bless.",
+    "html": "And one man saw it coming. A frightened schemer at a river ford, face-down in the dark before the brother he had wronged, begging for exactly this: <em>perhaps he will lift up my face</em>. It was a long shot when Jacob prayed it.",
     "id": "ch06-p67"
    },
    {
     "type": "p",
-    "html": "And then the blessing gives us its own interpretation.",
+    "html": "Now the priests of Israel are under standing orders to promise Jacob’s long shot to every face in the nation, every time they bless.",
     "id": "ch06-p68"
+   },
+   {
+    "type": "p",
+    "html": "And then the blessing gives us its own interpretation.",
+    "id": "ch06-p69"
    },
    {
     "type": "verse",
@@ -4403,62 +4408,62 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "The blessing carries the name.",
-    "id": "ch06-p69"
-   },
-   {
-    "type": "p",
-    "html": "Speak these words over the people, God says, and My name is placed on them: pressed in like a seal on a document, given like a family name to a child.",
     "id": "ch06-p70"
    },
    {
     "type": "p",
-    "html": "And you already know, from a burning bush, what that name is.",
+    "html": "Speak these words over the people, God says, and My name is placed on them: pressed in like a seal on a document, given like a family name to a child.",
     "id": "ch06-p71"
    },
    {
     "type": "p",
-    "html": "I AM.",
+    "html": "And you already know, from a burning bush, what that name is.",
     "id": "ch06-p72"
    },
    {
     "type": "p",
-    "html": "Presence itself. The name that is a promise to be with.",
+    "html": "I AM.",
     "id": "ch06-p73"
    },
    {
     "type": "p",
-    "html": "To carry it is to walk around marked: His, addressed as His, spoken for.",
+    "html": "Presence itself. The name that is a promise to be with.",
     "id": "ch06-p74"
    },
    {
     "type": "p",
-    "html": "For generation after generation, Israel has heard this blessing, and the name has settled on them layer by layer, the way light settles on a face.",
+    "html": "To carry it is to walk around marked: His, addressed as His, spoken for.",
     "id": "ch06-p75"
    },
    {
     "type": "p",
-    "html": "God has never issued a recall.",
+    "html": "For generation after generation, Israel has heard this blessing, and the name has settled on them layer by layer, the way light settles on a face.",
     "id": "ch06-p76"
    },
    {
     "type": "p",
-    "html": "In the synagogue, to this day, when the priests rise to speak this blessing, they lift their hands, palms forward, fingers split, and the congregation looks down.",
+    "html": "God has never issued a recall.",
     "id": "ch06-p77"
    },
    {
     "type": "p",
-    "html": "You do not stare at the priests during the blessing. That is the ancient custom.",
+    "html": "In the synagogue, to this day, when the priests rise to speak this blessing, they lift their hands, palms forward, fingers split, and the congregation looks down.",
     "id": "ch06-p78"
    },
    {
     "type": "p",
-    "html": "The tradition has an answer: the Presence rests on the priests’ hands.",
+    "html": "You do not stare at the priests during the blessing. That is the ancient custom.",
     "id": "ch06-p79"
    },
    {
     "type": "p",
-    "html": "And the rabbis, hunting for where Scripture whispers such a thing, reached into the Song of Songs, into the love poem, and pulled out this verse.",
+    "html": "The tradition has an answer: the Presence rests on the priests’ hands.",
     "id": "ch06-p80"
+   },
+   {
+    "type": "p",
+    "html": "And the rabbis, hunting for where Scripture whispers such a thing, reached into the Song of Songs, into the love poem, and pulled out this verse.",
+    "id": "ch06-p81"
    },
    {
     "type": "verse",
@@ -4472,27 +4477,27 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "He is behind the wall.",
-    "id": "ch06-p81"
-   },
-   {
-    "type": "p",
-    "html": "At the window.",
     "id": "ch06-p82"
    },
    {
     "type": "p",
-    "html": "Pressing His face to the lattice for a glimpse of the one He loves.",
+    "html": "At the window.",
     "id": "ch06-p83"
    },
    {
     "type": "p",
-    "html": "And the lattice, said the rabbis, is the priests’ fingers.",
+    "html": "Pressing His face to the lattice for a glimpse of the one He loves.",
     "id": "ch06-p84"
    },
    {
     "type": "p",
-    "html": "While Israel stands with bowed heads, safely buffered at last, given the distance they asked for, God is on the other side of the mediation, His eye to the gaps, peering between the knuckles of the priests at the faces of His people.",
+    "html": "And the lattice, said the rabbis, is the priests’ fingers.",
     "id": "ch06-p85"
+   },
+   {
+    "type": "p",
+    "html": "While Israel stands with bowed heads, safely buffered at last, given the distance they asked for, God is on the other side of the mediation, His eye to the gaps, peering between the knuckles of the priests at the faces of His people.",
+    "id": "ch06-p86"
    },
    {
     "type": "beat"
@@ -4500,82 +4505,82 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Israel asked for a middleman, and God consented.",
-    "id": "ch06-p86"
-   },
-   {
-    "type": "p",
-    "html": "But no one at Sinai read the fine print: the middleman would have spaces between his fingers, and the God of Israel would spend the next fifteen hundred years looking through them.",
     "id": "ch06-p87"
    },
    {
     "type": "p",
-    "html": "Mediation was supposed to be distance.",
+    "html": "But no one at Sinai read the fine print: the middleman would have spaces between his fingers, and the God of Israel would spend the next fifteen hundred years looking through them.",
     "id": "ch06-p88"
    },
    {
     "type": "p",
-    "html": "He turned it into a lattice.",
+    "html": "Mediation was supposed to be distance.",
     "id": "ch06-p89"
    },
    {
     "type": "p",
-    "html": "They could have the buffer.",
+    "html": "He turned it into a lattice.",
     "id": "ch06-p90"
    },
    {
     "type": "p",
-    "html": "They could not make Him stop looking.",
+    "html": "They could have the buffer.",
     "id": "ch06-p91"
    },
    {
     "type": "p",
-    "html": "And the shine He kept looking for was never reserved for clean faces.",
+    "html": "They could not make Him stop looking.",
     "id": "ch06-p92"
    },
    {
     "type": "p",
-    "html": "It found David in his worst hour.",
+    "html": "And the shine He kept looking for was never reserved for clean faces.",
     "id": "ch06-p93"
    },
    {
     "type": "p",
-    "html": "He has already been anointed king. He is already the most famous soldier in Israel. And the running has grown so desperate that he crosses enemy lines into Gath, Goliath’s own hometown, hoping to disappear into a foreign crowd.",
+    "html": "It found David in his worst hour.",
     "id": "ch06-p94"
    },
    {
     "type": "p",
-    "html": "He is recognized before the day is out.",
+    "html": "He has already been anointed king. He is already the most famous soldier in Israel. And the running has grown so desperate that he crosses enemy lines into Gath, Goliath’s own hometown, hoping to disappear into a foreign crowd.",
     "id": "ch06-p95"
    },
    {
     "type": "p",
-    "html": "“Is this not David?” the servants ask their king. “The one they sing about, the one the dances say has slain his ten thousands?”",
+    "html": "He is recognized before the day is out.",
     "id": "ch06-p96"
    },
    {
     "type": "p",
-    "html": "The song that made him famous has followed him behind enemy lines, and it is about to get him killed.",
+    "html": "“Is this not David?” the servants ask their king. “The one they sing about, the one the dances say has slain his ten thousands?”",
     "id": "ch06-p97"
    },
    {
     "type": "p",
-    "html": "So the anointed of Israel does something no hero in any story wants to do.",
+    "html": "The song that made him famous has followed him behind enemy lines, and it is about to get him killed.",
     "id": "ch06-p98"
    },
    {
     "type": "p",
-    "html": "He acts insane.",
+    "html": "So the anointed of Israel does something no hero in any story wants to do.",
     "id": "ch06-p99"
    },
    {
     "type": "p",
-    "html": "He scrabbles at the doors of the gate. He lets his spit run down into his beard, in public, in front of pagan royalty, until the king of Gath waves him off with a sneer:",
+    "html": "He acts insane.",
     "id": "ch06-p100"
    },
    {
     "type": "p",
-    "html": "“Do I lack madmen, that you bring me this one?”",
+    "html": "He scrabbles at the doors of the gate. He lets his spit run down into his beard, in public, in front of pagan royalty, until the king of Gath waves him off with a sneer:",
     "id": "ch06-p101"
+   },
+   {
+    "type": "p",
+    "html": "“Do I lack madmen, that you bring me this one?”",
+    "id": "ch06-p102"
    },
    {
     "type": "ref",
@@ -4584,17 +4589,17 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Ten verses earlier, in that same chapter, a priest had handed him the only bread in the house: the loaves off the golden table that sat all week in front of the face of God.",
-    "id": "ch06-p102"
-   },
-   {
-    "type": "p",
-    "html": "The man who will write nearly half the book of Psalms shuffles out of that court with his beard wet.",
     "id": "ch06-p103"
    },
    {
     "type": "p",
-    "html": "It is hard to imagine a face lower.",
+    "html": "The man who will write nearly half the book of Psalms shuffles out of that court with his beard wet.",
     "id": "ch06-p104"
+   },
+   {
+    "type": "p",
+    "html": "It is hard to imagine a face lower.",
+    "id": "ch06-p105"
    },
    {
     "type": "beat"
@@ -4602,12 +4607,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Years later, that man writes a psalm, and the heading names this exact episode: <em>when he feigned madness and was driven away</em>.",
-    "id": "ch06-p105"
+    "id": "ch06-p106"
    },
    {
     "type": "p",
     "html": "Of everything David could have remembered while he wrote, he chose the worst thing his face ever did and set it beside this line:",
-    "id": "ch06-p106"
+    "id": "ch06-p107"
    },
    {
     "type": "verse",
@@ -4622,47 +4627,47 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Radiant, from the pen of the man whose face once ran with spit in Gath.",
-    "id": "ch06-p107"
-   },
-   {
-    "type": "p",
-    "html": "Never ashamed, from the man who lived his deepest shame in public.",
     "id": "ch06-p108"
    },
    {
     "type": "p",
-    "html": "He is handing Moses’s discovery to anyone willing to turn his face toward God:",
+    "html": "Never ashamed, from the man who lived his deepest shame in public.",
     "id": "ch06-p109"
    },
    {
     "type": "p",
-    "html": "the shine is not rank or reward. It is exposure. And no face has ever fallen too far to stand in it.",
+    "html": "He is handing Moses’s discovery to anyone willing to turn his face toward God:",
     "id": "ch06-p110"
    },
    {
     "type": "p",
-    "html": "His signature at the top of the psalm is the proof.",
+    "html": "the shine is not rank or reward. It is exposure. And no face has ever fallen too far to stand in it.",
     "id": "ch06-p111"
    },
    {
     "type": "p",
-    "html": "And it had been settled about him long before, on an afternoon when nobody in the room could see it happening.",
+    "html": "His signature at the top of the psalm is the proof.",
     "id": "ch06-p112"
    },
    {
     "type": "p",
-    "html": "A prophet comes to Bethlehem to anoint a king out of one family, and the father lines his sons up. The oldest walks in first, tall and striking, and the prophet takes one look at him and is certain.",
+    "html": "And it had been settled about him long before, on an afternoon when nobody in the room could see it happening.",
     "id": "ch06-p113"
    },
    {
     "type": "p",
-    "html": "He has made this mistake before. The last king he anointed was the best-looking man in Israel and stood a head above everybody in it, and that is the king who lost a kingdom watching the crowd. Here he is again, reading a face and calling it a verdict.",
+    "html": "A prophet comes to Bethlehem to anoint a king out of one family, and the father lines his sons up. The oldest walks in first, tall and striking, and the prophet takes one look at him and is certain.",
     "id": "ch06-p114"
    },
    {
     "type": "p",
-    "html": "God stops him mid-thought.",
+    "html": "He has made this mistake before. The last king he anointed was the best-looking man in Israel and stood a head above everybody in it, and that is the king who lost a kingdom watching the crowd. Here he is again, reading a face and calling it a verdict.",
     "id": "ch06-p115"
+   },
+   {
+    "type": "p",
+    "html": "God stops him mid-thought.",
+    "id": "ch06-p116"
    },
    {
     "type": "verse",
@@ -4676,37 +4681,37 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "The Greek translation the synagogues had been reading for generations says it harder than ours does. <em>Man looks at the face. God looks at the heart.</em>",
-    "id": "ch06-p116"
-   },
-   {
-    "type": "p",
-    "html": "Seven sons pass by that afternoon and God says no to all seven. The one He came for is not in the house. He is out with the animals, the youngest, not worth calling in from the field for.",
     "id": "ch06-p117"
    },
    {
     "type": "p",
-    "html": "They have to send for him.",
+    "html": "Seven sons pass by that afternoon and God says no to all seven. The one He came for is not in the house. He is out with the animals, the youngest, not worth calling in from the field for.",
     "id": "ch06-p118"
    },
    {
     "type": "p",
-    "html": "The whole thing was decided about a face that was not in the room.",
+    "html": "They have to send for him.",
     "id": "ch06-p119"
    },
    {
     "type": "p",
-    "html": "Which is why what happened to that face in Gath could never touch it.",
+    "html": "The whole thing was decided about a face that was not in the room.",
     "id": "ch06-p120"
    },
    {
     "type": "p",
-    "html": "And centuries later the shine lands on a man nobody had heard of.",
+    "html": "Which is why what happened to that face in Gath could never touch it.",
     "id": "ch06-p121"
    },
    {
     "type": "p",
-    "html": "The church had an argument about food distribution, so they appointed seven men to wait tables, and one of them was Stephen. Within a few chapters he is dragged in front of the council on a charge that is going to kill him, and Luke stops the scene to record what the men sitting in judgment on him could see.",
+    "html": "And centuries later the shine lands on a man nobody had heard of.",
     "id": "ch06-p122"
+   },
+   {
+    "type": "p",
+    "html": "The church had an argument about food distribution, so they appointed seven men to wait tables, and one of them was Stephen. Within a few chapters he is dragged in front of the council on a charge that is going to kill him, and Luke stops the scene to record what the men sitting in judgment on him could see.",
+    "id": "ch06-p123"
    },
    {
     "type": "verse",
@@ -4720,17 +4725,17 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Moses came down a mountain with it. Stephen got it waiting tables, and wore it into the room where they voted to stone him.",
-    "id": "ch06-p123"
-   },
-   {
-    "type": "p",
-    "html": "Nobody conferred it. He had been standing near the fire, and it showed up where everyone could read it but him.",
     "id": "ch06-p124"
    },
    {
     "type": "p",
-    "html": "That council had seen it once already, and had no word for it then either. Two chapters earlier they had hauled in two fishermen over a healing, men with no schooling and no rank, and what the room could not get past was not the argument.",
+    "html": "Nobody conferred it. He had been standing near the fire, and it showed up where everyone could read it but him.",
     "id": "ch06-p125"
+   },
+   {
+    "type": "p",
+    "html": "That council had seen it once already, and had no word for it then either. Two chapters earlier they had hauled in two fishermen over a healing, men with no schooling and no rank, and what the room could not get past was not the argument.",
+    "id": "ch06-p126"
    },
    {
     "type": "verse",
@@ -4744,7 +4749,7 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "They could not say what they were looking at. They could only say who put it there.",
-    "id": "ch06-p126"
+    "id": "ch06-p127"
    },
    {
     "type": "beat"
@@ -4752,7 +4757,7 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And three verses below that line, in David’s psalm, sits the invitation.",
-    "id": "ch06-p127"
+    "id": "ch06-p128"
    },
    {
     "type": "verse",
@@ -4766,17 +4771,17 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "He could have written look and see. He wrote taste.",
-    "id": "ch06-p128"
-   },
-   {
-    "type": "p",
-    "html": "And a whole psalm, Psalm 67, takes the priests’ words out of the priests’ mouths and hands them to everybody.",
     "id": "ch06-p129"
    },
    {
     "type": "p",
-    "html": "The congregation prays the blessing over itself, all together:",
+    "html": "And a whole psalm, Psalm 67, takes the priests’ words out of the priests’ mouths and hands them to everybody.",
     "id": "ch06-p130"
+   },
+   {
+    "type": "p",
+    "html": "The congregation prays the blessing over itself, all together:",
+    "id": "ch06-p131"
    },
    {
     "type": "verse",
@@ -4791,7 +4796,7 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Then, mid-prayer, the reason surfaces, and it is not the reason anyone asking for blessing expects:",
-    "id": "ch06-p131"
+    "id": "ch06-p132"
    },
    {
     "type": "verse",
@@ -4806,12 +4811,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "The light that lands on your face was never traveling to you.",
-    "id": "ch06-p132"
+    "id": "ch06-p133"
    },
    {
     "type": "p",
     "html": "It was traveling through you.",
-    "id": "ch06-p133"
+    "id": "ch06-p134"
    },
    {
     "type": "beat"
@@ -4819,52 +4824,52 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Moses shone and a nation saw.",
-    "id": "ch06-p134"
-   },
-   {
-    "type": "p",
-    "html": "Israel shines and the nations see.",
     "id": "ch06-p135"
    },
    {
     "type": "p",
-    "html": "It was lit for the ones still out in the dark, steering by whatever light they can find.",
+    "html": "Israel shines and the nations see.",
     "id": "ch06-p136"
    },
    {
     "type": "p",
-    "html": "This would be the place to stop, in full sunshine: a shining man, a blessing on standing orders, a name settling on a people, a Lover at the lattice.",
+    "html": "It was lit for the ones still out in the dark, steering by whatever light they can find.",
     "id": "ch06-p137"
    },
    {
     "type": "p",
-    "html": "But there is still the veil.",
+    "html": "This would be the place to stop, in full sunshine: a shining man, a blessing on standing orders, a name settling on a people, a Lover at the lattice.",
     "id": "ch06-p138"
    },
    {
     "type": "p",
-    "html": "Moses kept it on among the people and took it off before God, and in between, in the ordinary hours, that square of cloth hung over the most famous face in Israel and kept its counsel.",
+    "html": "But there is still the veil.",
     "id": "ch06-p139"
    },
    {
     "type": "p",
-    "html": "Everyone assumed they knew what it was hiding.",
+    "html": "Moses kept it on among the people and took it off before God, and in between, in the ordinary hours, that square of cloth hung over the most famous face in Israel and kept its counsel.",
     "id": "ch06-p140"
    },
    {
     "type": "p",
-    "html": "Brightness.",
+    "html": "Everyone assumed they knew what it was hiding.",
     "id": "ch06-p141"
    },
    {
     "type": "p",
-    "html": "Too much glory for comfort.",
+    "html": "Brightness.",
     "id": "ch06-p142"
    },
    {
     "type": "p",
-    "html": "And at first, that was true.",
+    "html": "Too much glory for comfort.",
     "id": "ch06-p143"
+   },
+   {
+    "type": "p",
+    "html": "And at first, that was true.",
+    "id": "ch06-p144"
    },
    {
     "type": "swell"
@@ -4872,22 +4877,22 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "But glory on a human face is reflected glory, and reflected glory obeys the oldest rule there is: it lasts only as long as the face remains turned toward its source.",
-    "id": "ch06-p144"
-   },
-   {
-    "type": "p",
-    "html": "Under the cloth, between one meeting with God and the next, something was happening to the shine that no one in Israel ever saw, and the veil made sure no one ever would.",
     "id": "ch06-p145"
    },
    {
     "type": "p",
-    "html": "The shine had a secret.",
+    "html": "Under the cloth, between one meeting with God and the next, something was happening to the shine that no one in Israel ever saw, and the veil made sure no one ever would.",
     "id": "ch06-p146"
    },
    {
     "type": "p",
-    "html": "It was fading.",
+    "html": "The shine had a secret.",
     "id": "ch06-p147"
+   },
+   {
+    "type": "p",
+    "html": "It was fading.",
+    "id": "ch06-p148"
    },
    {
     "type": "swell"
@@ -9746,28 +9751,36 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "One afternoon I took her to the aquarium in Denver.",
+    "html": "Nobody ever told the woman at the tent either. She stood in front of the face of God and asked for the one thing she was already called.",
     "id": "ch10-p178"
    },
    {
+    "type": "swell"
+   },
+   {
     "type": "p",
-    "html": "She had always loved Dory, the blue fish in Finding Nemo who cannot hold on to anything and keeps going anyway. So we went looking until we found one, and my sister stood at the glass in a dark room full of strangers and sang <em>just keep swimming</em> out loud, and made Nemo jokes the rest of the afternoon.",
+    "html": "One afternoon I took her to the aquarium in Denver.",
     "id": "ch10-p179"
    },
    {
     "type": "p",
-    "html": "There is a moment late in that film I did not think about for years. Dory is begging her friend not to leave her, and she is reciting an address at him to prove she can still remember it, and what she finally gets out is this: <em>when I look at you, I can feel it. And I look at you, and I'm home.</em>",
+    "html": "She had always loved Dory, the blue fish in Finding Nemo who cannot hold on to anything and keeps going anyway. So we went looking until we found one, and my sister stood at the glass in a dark room full of strangers and sang <em>just keep swimming</em> out loud, and made Nemo jokes the rest of the afternoon.",
     "id": "ch10-p180"
    },
    {
     "type": "p",
-    "html": "A fish who cannot keep anything keeps it while she is looking at a face. And the word she reaches for is home.",
+    "html": "There is a moment late in that film I did not think about for years. Dory is begging her friend not to leave her, and she is reciting an address at him to prove she can still remember it, and what she finally gets out is this: <em>when I look at you, I can feel it. And I look at you, and I'm home.</em>",
     "id": "ch10-p181"
    },
    {
     "type": "p",
-    "html": "That was the last day I saw her face.",
+    "html": "A fish who cannot keep anything keeps it while she is looking at a face. And the word she reaches for is home.",
     "id": "ch10-p182"
+   },
+   {
+    "type": "p",
+    "html": "That was the last day I saw her face.",
+    "id": "ch10-p183"
    },
    {
     "type": "swell"
@@ -9775,17 +9788,17 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And that is the afternoon God keeps bringing me back to. Of everything I have of her, He picks that one. When He brings me to His face, He takes me to the bad lighting and the tank and my sister singing a cartoon song in public, not caring who heard her.",
-    "id": "ch10-p183"
-   },
-   {
-    "type": "p",
-    "html": "I used to think being near God would feel like the mountain.",
     "id": "ch10-p184"
    },
    {
     "type": "p",
-    "html": "It keeps feeling like that afternoon.",
+    "html": "I used to think being near God would feel like the mountain.",
     "id": "ch10-p185"
+   },
+   {
+    "type": "p",
+    "html": "It keeps feeling like that afternoon.",
+    "id": "ch10-p186"
    },
    {
     "type": "swell"
@@ -9793,52 +9806,52 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And the sentence standing right beside that engraving closes the other long account: the city has no need of lamp or sun, because the Lord God will illumine them. Every borrowed beam — the shine that faded off one man’s face, the glory that backed out of a building — has finally come home to its source. A whole city, lit the way Moses was lit, with no veil and no fading, because the Light is not visiting anymore.",
-    "id": "ch10-p186"
-   },
-   {
-    "type": "p",
-    "html": "The Old Testament had ended five verses from its last page still waiting on a sunrise. A sun of righteousness, the prophet called it, rising with healing in its wings. The city at the end of the Bible does not need one.",
     "id": "ch10-p187"
    },
    {
     "type": "p",
-    "html": "He lives there.",
+    "html": "The Old Testament had ended five verses from its last page still waiting on a sunrise. A sun of righteousness, the prophet called it, rising with healing in its wings. The city at the end of the Bible does not need one.",
     "id": "ch10-p188"
    },
    {
     "type": "p",
-    "html": "And on that same page, standing in the middle of the open street, is the tree.",
+    "html": "He lives there.",
     "id": "ch10-p189"
    },
    {
     "type": "p",
-    "html": "Nobody is guarding it. There is no sword. The cherubim came off the curtain one Friday afternoon and were never posted again.",
+    "html": "And on that same page, standing in the middle of the open street, is the tree.",
     "id": "ch10-p190"
    },
    {
     "type": "p",
-    "html": "The way back to the tree and the sight of His face turn out to be the same address.",
+    "html": "Nobody is guarding it. There is no sword. The cherubim came off the curtain one Friday afternoon and were never posted again.",
     "id": "ch10-p191"
    },
    {
     "type": "p",
-    "html": "That is the other crowd, the one that ran toward the look. Faces bare. Name in place. Nothing left in the middle.",
+    "html": "The way back to the tree and the sight of His face turn out to be the same address.",
     "id": "ch10-p192"
    },
    {
     "type": "p",
-    "html": "The man who wrote the last words of the Bible was at that supper table, leaning against Jesus.",
+    "html": "That is the other crowd, the one that ran toward the look. Faces bare. Name in place. Nothing left in the middle.",
     "id": "ch10-p193"
    },
    {
     "type": "p",
-    "html": "He got old writing letters. And twice he ends one the same way: I have much to write to you, and I will not do it with paper and ink. I want to come and speak with you instead.",
+    "html": "The man who wrote the last words of the Bible was at that supper table, leaning against Jesus.",
     "id": "ch10-p194"
    },
    {
     "type": "p",
-    "html": "<em>Stoma pros stoma</em>, he writes. Mouth to mouth.",
+    "html": "He got old writing letters. And twice he ends one the same way: I have much to write to you, and I will not do it with paper and ink. I want to come and speak with you instead.",
     "id": "ch10-p195"
+   },
+   {
+    "type": "p",
+    "html": "<em>Stoma pros stoma</em>, he writes. Mouth to mouth.",
+    "id": "ch10-p196"
    },
    {
     "type": "beat"
@@ -9846,167 +9859,167 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "The phrase God used about Moses on the mountain, spent by an old man who only wanted to see his friends’ faces.",
-    "id": "ch10-p196"
-   },
-   {
-    "type": "p",
-    "html": "He was exiled to a bare island in the sea. And there, at the far end of his own long road, he saw it again. <em>His face was like the sun shining in its strength.</em>",
     "id": "ch10-p197"
    },
    {
     "type": "p",
-    "html": "The man who had once laid his head on that chest fell at His feet like a dead man.",
+    "html": "He was exiled to a bare island in the sea. And there, at the far end of his own long road, he saw it again. <em>His face was like the sun shining in its strength.</em>",
     "id": "ch10-p198"
    },
    {
     "type": "p",
-    "html": "Then the hand came down on him. <em>Do not be afraid.</em>",
+    "html": "The man who had once laid his head on that chest fell at His feet like a dead man.",
     "id": "ch10-p199"
    },
    {
     "type": "p",
-    "html": "And he was the one shown how the story ends.",
+    "html": "Then the hand came down on him. <em>Do not be afraid.</em>",
     "id": "ch10-p200"
    },
    {
     "type": "p",
-    "html": "Silver in a tomb, wearing a prayer about a shining face.",
+    "html": "And he was the one shown how the story ends.",
     "id": "ch10-p201"
    },
    {
     "type": "p",
-    "html": "A spring in the desert, and a slave girl giving Him the name: the One who sees me.",
+    "html": "Silver in a tomb, wearing a prayer about a shining face.",
     "id": "ch10-p202"
    },
    {
     "type": "p",
-    "html": "Two faces pressed into the leaves in the evening, and a voice asking where.",
+    "html": "A spring in the desert, and a slave girl giving Him the name: the One who sees me.",
     "id": "ch10-p203"
    },
    {
     "type": "p",
-    "html": "A face fallen over an offering, and a man who walked out into a field rather than let it be lifted.",
+    "html": "Two faces pressed into the leaves in the evening, and a voice asking where.",
     "id": "ch10-p204"
    },
    {
     "type": "p",
-    "html": "A prophet sailing west, and a fish appointed before the storm ever rose.",
+    "html": "A face fallen over an offering, and a man who walked out into a field rather than let it be lifted.",
     "id": "ch10-p205"
    },
    {
     "type": "p",
-    "html": "A man in ashes, refusing every answer his friends brought him, asking God why the face was turned away.",
+    "html": "A prophet sailing west, and a fish appointed before the storm ever rose.",
     "id": "ch10-p206"
    },
    {
     "type": "p",
-    "html": "A song that goes down into the dark and never comes back up, kept anyway, and set to music.",
+    "html": "A man in ashes, refusing every answer his friends brought him, asking God why the face was turned away.",
     "id": "ch10-p207"
    },
    {
     "type": "p",
-    "html": "A brother’s face, dreaded for twenty years, wet with tears at sunrise.",
+    "html": "A song that goes down into the dark and never comes back up, kept anyway, and set to music.",
     "id": "ch10-p208"
    },
    {
     "type": "p",
-    "html": "A river in the dark, and a grip that would not quit, and a limp like a wedding ring.",
+    "html": "A brother’s face, dreaded for twenty years, wet with tears at sunrise.",
     "id": "ch10-p209"
    },
    {
     "type": "p",
-    "html": "A bush that would not burn out, and a man hiding his face from the fire that made him.",
+    "html": "A river in the dark, and a grip that would not quit, and a limp like a wedding ring.",
     "id": "ch10-p210"
    },
    {
     "type": "p",
-    "html": "A mountain on fire, a nation stepping backward, a God saying if only.",
+    "html": "A bush that would not burn out, and a man hiding his face from the fire that made him.",
     "id": "ch10-p211"
    },
    {
     "type": "p",
-    "html": "Seventy elders on that same mountain, seeing God and passing the food.",
+    "html": "A mountain on fire, a nation stepping backward, a God saying if only.",
     "id": "ch10-p212"
    },
    {
     "type": "p",
-    "html": "A cloud at a tent door, and a man inside it spoken to the way a man speaks to his friend.",
+    "html": "Seventy elders on that same mountain, seeing God and passing the food.",
     "id": "ch10-p213"
    },
    {
     "type": "p",
-    "html": "A hand over a cleft while the glory went by.",
+    "html": "A cloud at a tent door, and a man inside it spoken to the way a man speaks to his friend.",
     "id": "ch10-p214"
    },
    {
     "type": "p",
-    "html": "A shine on a face that could not feel it, fading under a veil.",
+    "html": "A hand over a cleft while the glory went by.",
     "id": "ch10-p215"
    },
    {
     "type": "p",
-    "html": "A lattice of priests’ fingers, with the Lover’s eye at the gaps.",
+    "html": "A shine on a face that could not feel it, fading under a veil.",
     "id": "ch10-p216"
    },
    {
     "type": "p",
-    "html": "A king out of his robes in the street, dancing at the face of God.",
+    "html": "A lattice of priests’ fingers, with the Lover’s eye at the gaps.",
     "id": "ch10-p217"
    },
    {
     "type": "p",
-    "html": "Glory backing out of its own house, still facing the people, waiting to be called after.",
+    "html": "A king out of his robes in the street, dancing at the face of God.",
     "id": "ch10-p218"
    },
    {
     "type": "p",
-    "html": "A cloak pulled over a face in the mouth of a cave, for a whisper.",
+    "html": "Glory backing out of its own house, still facing the people, waiting to be called after.",
     "id": "ch10-p219"
    },
    {
     "type": "p",
-    "html": "The two who had covered their faces, back on a mountain, with nothing over them now.",
+    "html": "A cloak pulled over a face in the mouth of a cave, for a whisper.",
     "id": "ch10-p220"
    },
    {
     "type": "p",
-    "html": "A face set like flint, wet on a ridge above Jerusalem.",
+    "html": "The two who had covered their faces, back on a mountain, with nothing over them now.",
     "id": "ch10-p221"
    },
    {
     "type": "p",
-    "html": "Spit. A blindfold. A curtain torn from the top.",
+    "html": "A face set like flint, wet on a ridge above Jerusalem.",
     "id": "ch10-p222"
    },
    {
     "type": "p",
-    "html": "A look across a courtyard, and a rooster, and a man undone.",
+    "html": "Spit. A blindfold. A curtain torn from the top.",
     "id": "ch10-p223"
    },
    {
     "type": "p",
-    "html": "A woman in a garden at first light, who did not know His face until He said her name.",
+    "html": "A look across a courtyard, and a rooster, and a man undone.",
     "id": "ch10-p224"
    },
    {
     "type": "p",
-    "html": "Eyes opened over broken bread, and a run back through the dark.",
+    "html": "A woman in a garden at first light, who did not know His face until He said her name.",
     "id": "ch10-p225"
    },
    {
     "type": "p",
-    "html": "A charcoal fire rebuilt on a beach, and the smell of the denial becoming breakfast.",
+    "html": "Eyes opened over broken bread, and a run back through the dark.",
     "id": "ch10-p226"
    },
    {
     "type": "p",
-    "html": "Fire again, in the shape of tongues, on everyone.",
+    "html": "A charcoal fire rebuilt on a beach, and the smell of the denial becoming breakfast.",
     "id": "ch10-p227"
    },
    {
     "type": "p",
-    "html": "A road to Damascus, a light that took a man’s eyes, and the rest of his life spent writing about a face.",
+    "html": "Fire again, in the shape of tongues, on everyone.",
     "id": "ch10-p228"
+   },
+   {
+    "type": "p",
+    "html": "A road to Damascus, a light that took a man’s eyes, and the rest of his life spent writing about a face.",
+    "id": "ch10-p229"
    },
    {
     "type": "beat"
@@ -10014,22 +10027,22 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And now the question comes back to you.",
-    "id": "ch10-p229"
-   },
-   {
-    "type": "p",
-    "html": "Where are you hiding — and who told you that was safer?",
     "id": "ch10-p230"
    },
    {
     "type": "p",
-    "html": "What face have you been rehearsing for, all these years, instead of His?",
+    "html": "Where are you hiding — and who told you that was safer?",
     "id": "ch10-p231"
    },
    {
     "type": "p",
-    "html": "And what would change, starting tonight, if you believed that He is not enduring your gaze — He is asking for it?",
+    "html": "What face have you been rehearsing for, all these years, instead of His?",
     "id": "ch10-p232"
+   },
+   {
+    "type": "p",
+    "html": "And what would change, starting tonight, if you believed that He is not enduring your gaze — He is asking for it?",
+    "id": "ch10-p233"
    },
    {
     "type": "beat"
@@ -10037,12 +10050,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And He had done it once before, in the same poem the dove came out of.",
-    "id": "ch10-p233"
+    "id": "ch10-p234"
    },
    {
     "type": "p",
     "html": "Five verses past the cliff, she is inside and asleep, and there is a sound at the door.",
-    "id": "ch10-p234"
+    "id": "ch10-p235"
    },
    {
     "type": "verse",
@@ -10056,12 +10069,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Same poem. Same dove. He asked to see her face in chapter two, and by chapter five He is standing at her door asking her to open it.",
-    "id": "ch10-p235"
+    "id": "ch10-p236"
    },
    {
     "type": "p",
     "html": "The last invitation in the Bible is not a summons.",
-    "id": "ch10-p236"
+    "id": "ch10-p237"
    },
    {
     "type": "verse",
@@ -10075,12 +10088,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "A door left closed and never locked, and the One outside it asking to be let in to dinner.",
-    "id": "ch10-p237"
+    "id": "ch10-p238"
    },
    {
     "type": "p",
     "html": "And the sentence directly after it is the one Absalom never got.",
-    "id": "ch10-p238"
+    "id": "ch10-p239"
    },
    {
     "type": "verse",
@@ -10094,12 +10107,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "He knocks to be let in for a meal. And once He is in, He gives away the chair He is sitting on.",
-    "id": "ch10-p239"
+    "id": "ch10-p240"
    },
    {
     "type": "p",
     "html": "And what follows is only a road. Walk it in your own voice. His ear is tuned to yours.",
-    "id": "ch10-p240"
+    "id": "ch10-p241"
    },
    {
     "type": "beat"
@@ -10107,25 +10120,25 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Father, I have been hiding.",
-    "id": "ch10-p241",
-    "zone": "prayer"
-   },
-   {
-    "type": "p",
-    "html": "And I have been calling it other things. Busy. Tired. Waiting. Not ready.",
     "id": "ch10-p242",
     "zone": "prayer"
    },
    {
     "type": "p",
-    "html": "You have heard me answer every question except the one You keep asking.",
+    "html": "And I have been calling it other things. Busy. Tired. Waiting. Not ready.",
     "id": "ch10-p243",
     "zone": "prayer"
    },
    {
     "type": "p",
-    "html": "I have known what You wanted for a long time now. It was never complicated. You wanted my face.",
+    "html": "You have heard me answer every question except the one You keep asking.",
     "id": "ch10-p244",
+    "zone": "prayer"
+   },
+   {
+    "type": "p",
+    "html": "I have known what You wanted for a long time now. It was never complicated. You wanted my face.",
+    "id": "ch10-p245",
     "zone": "prayer"
    },
    {
@@ -10135,19 +10148,19 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And You never turned Yours away. I turned mine. I know that now.",
-    "id": "ch10-p245",
-    "zone": "prayer"
-   },
-   {
-    "type": "p",
-    "html": "So here I am.",
     "id": "ch10-p246",
     "zone": "prayer"
    },
    {
     "type": "p",
-    "html": "This is my face — the one I manage, the one I arrange, the one I have kept from You. The one You call lovely.",
+    "html": "So here I am.",
     "id": "ch10-p247",
+    "zone": "prayer"
+   },
+   {
+    "type": "p",
+    "html": "This is my face — the one I manage, the one I arrange, the one I have kept from You. The one You call lovely.",
+    "id": "ch10-p248",
     "zone": "prayer"
    },
    {
@@ -10158,7 +10171,7 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And I am only now seeing what the hiding cost. All those years I called it safe, You were standing there with Your hands full.",
-    "id": "ch10-p248",
+    "id": "ch10-p249",
     "zone": "prayer"
    },
    {
@@ -10168,13 +10181,13 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And I am not asking You to look past what You will see. I am asking for the harder thing.",
-    "id": "ch10-p249",
+    "id": "ch10-p250",
     "zone": "prayer"
    },
    {
     "type": "p",
     "html": "Create in me a clean heart. Make in me the very thing You keep asking me to bring.",
-    "id": "ch10-p250",
+    "id": "ch10-p251",
     "zone": "prayer"
    },
    {
@@ -10185,7 +10198,7 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "I am done hiding.",
-    "id": "ch10-p251",
+    "id": "ch10-p252",
     "zone": "prayer"
    },
    {
@@ -10195,7 +10208,7 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "You are real. Not an idea I inherited. The Living One who sees me.",
-    "id": "ch10-p252",
+    "id": "ch10-p253",
     "zone": "prayer"
    },
    {
@@ -10206,7 +10219,7 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And I am not praying to You through a curtain. That veil is already torn — top to bottom, and the tearing was Yours. So I am coming all the way in.",
-    "id": "ch10-p253",
+    "id": "ch10-p254",
     "zone": "prayer"
    },
    {
@@ -10217,22 +10230,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Nothing in this room is a surprise to You. You saw all of it before I walked in.",
-    "id": "ch10-p254",
+    "id": "ch10-p255",
     "zone": "prayer"
    },
    {
     "type": "p",
     "html": "So whatever I am carrying, I am choosing to look at You.",
-    "id": "ch10-p255",
-    "zone": "prayer"
-   },
-   {
-    "type": "beat",
-    "zone": "prayer"
-   },
-   {
-    "type": "p",
-    "html": "Jesus, You set Your face toward me when I was the cost of it. You saw my worst night, and You came back at dawn and built a fire anyway. What You did for Peter, do for me: walk me back onto the ground where I failed, and give me new lines to say there.",
     "id": "ch10-p256",
     "zone": "prayer"
    },
@@ -10242,14 +10245,24 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Holy Spirit, come.",
+    "html": "Jesus, You set Your face toward me when I was the cost of it. You saw my worst night, and You came back at dawn and built a fire anyway. What You did for Peter, do for me: walk me back onto the ground where I failed, and give me new lines to say there.",
     "id": "ch10-p257",
+    "zone": "prayer"
+   },
+   {
+    "type": "beat",
+    "zone": "prayer"
+   },
+   {
+    "type": "p",
+    "html": "Holy Spirit, come.",
+    "id": "ch10-p258",
     "zone": "prayer"
    },
    {
     "type": "p",
     "html": "You are how the face comes back — so come. Rest on me the way You rested on every head in that house. Fill this room. Fill me. I am not asking for a feeling. I am asking for You.",
-    "id": "ch10-p258",
+    "id": "ch10-p259",
     "zone": "prayer"
    },
    {
@@ -10264,16 +10277,6 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And I will hold still now, and expect You, because I know how You pursue. You came walking in the evening, calling for the ones in the trees. You sent a storm after a runaway, with the rescue appointed before he ever boarded the ship. You backed out of Your own house still facing the family You were losing. You did not chase my face this far to go quiet the moment I finally look up.",
-    "id": "ch10-p259",
-    "zone": "prayer"
-   },
-   {
-    "type": "beat",
-    "zone": "prayer"
-   },
-   {
-    "type": "p",
-    "html": "And the thing You have been asking me to do — the one I keep pretending not to hear — I will do it. You know the one.",
     "id": "ch10-p260",
     "zone": "prayer"
    },
@@ -10283,14 +10286,24 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Then take this face You asked for and put it to work. The light was never traveling to me; it was traveling through me. Send me to the ones still hiding. Let me be the voice at the edge of somebody else’s trees.",
+    "html": "And the thing You have been asking me to do — the one I keep pretending not to hear — I will do it. You know the one.",
     "id": "ch10-p261",
+    "zone": "prayer"
+   },
+   {
+    "type": "beat",
+    "zone": "prayer"
+   },
+   {
+    "type": "p",
+    "html": "Then take this face You asked for and put it to work. The light was never traveling to me; it was traveling through me. Send me to the ones still hiding. Let me be the voice at the edge of somebody else’s trees.",
+    "id": "ch10-p262",
     "zone": "prayer"
    },
    {
     "type": "p",
     "html": "I have not seen You. I love You anyway.",
-    "id": "ch10-p262",
+    "id": "ch10-p263",
     "zone": "prayer"
    },
    {
@@ -10301,13 +10314,13 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "So bind me to You — like the bride who bound herself to a face she had never seen, and gave the only answer that matters:",
-    "id": "ch10-p263",
+    "id": "ch10-p264",
     "zone": "prayer"
    },
    {
     "type": "p",
     "html": "I will go.",
-    "id": "ch10-p264",
+    "id": "ch10-p265",
     "zone": "prayer"
    },
    {
@@ -10322,25 +10335,25 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And make my waiting a bridal veil — hung not to hide my face, but to promise it.",
-    "id": "ch10-p265",
-    "zone": "prayer"
-   },
-   {
-    "type": "p",
-    "html": "Turn me toward You and keep me turned, until the veil lifts and I see what I have loved.",
     "id": "ch10-p266",
     "zone": "prayer"
    },
    {
     "type": "p",
-    "html": "Face to face.",
+    "html": "Turn me toward You and keep me turned, until the veil lifts and I see what I have loved.",
     "id": "ch10-p267",
     "zone": "prayer"
    },
    {
     "type": "p",
-    "html": "Amen.",
+    "html": "Face to face.",
     "id": "ch10-p268",
+    "zone": "prayer"
+   },
+   {
+    "type": "p",
+    "html": "Amen.",
+    "id": "ch10-p269",
     "zone": "prayer"
    },
    {
@@ -10349,7 +10362,7 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "One more thing, and it is not mine. It was never written to be read. It was written to be said out loud, over somebody.",
-    "id": "ch10-p269"
+    "id": "ch10-p270"
    },
    {
     "type": "beat"
@@ -10357,12 +10370,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "You heard it at the start of this book, coming up out of a grave on a piece of silver.",
-    "id": "ch10-p270"
+    "id": "ch10-p271"
    },
    {
     "type": "p",
     "html": "Listen to the last line.",
-    "id": "ch10-p271"
+    "id": "ch10-p272"
    },
    {
     "type": "beat"
@@ -10386,12 +10399,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Every hiding and every seeking, every veil and every tearing, every psalm sent up at a silent sky. All of it has been traveling, the whole time, toward five words.",
-    "id": "ch10-p272"
+    "id": "ch10-p273"
    },
    {
     "type": "p",
     "html": "Nothing comes after them. When they come true, every other longing you have ever had will turn out to have been this one, wearing a disguise.",
-    "id": "ch10-p273"
+    "id": "ch10-p274"
    },
    {
     "type": "swell"
