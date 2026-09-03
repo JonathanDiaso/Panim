@@ -418,7 +418,18 @@
         title: chapterTitle(id),
         artist: 'Jonathan Diaso',
         album: 'PANIM — The Invitation Hidden on Every Page',
-        artwork: [{ src: 'og-card-face.jpg', sizes: '1200x630', type: 'image/jpeg' }]
+        // Lock-screen / Now Playing art must be SQUARE. og-card-face.jpg was here and it
+        // is 1200x630 — iOS letterboxes a wide image into the square slot, so the cover
+        // rendered as a thin band floating in cream and looked broken. Every tier below
+        // is 1:1. The ladder is not decoration: Android's notification shade, Auto, Wear
+        // and Bluetooth head units each pick by size, and a single entry makes them all
+        // upscale or downscale the same file.
+        artwork: [
+          { src: 'art/cover-moses-96.jpg', sizes: '96x96', type: 'image/jpeg' },
+          { src: 'art/cover-moses-256.jpg', sizes: '256x256', type: 'image/jpeg' },
+          { src: 'art/cover-moses-512.jpg', sizes: '512x512', type: 'image/jpeg' },
+          { src: 'art/cover-moses-1024.jpg', sizes: '1024x1024', type: 'image/jpeg' }
+        ]
       });
       navigator.mediaSession.setActionHandler('play', play);
       navigator.mediaSession.setActionHandler('pause', pause);
