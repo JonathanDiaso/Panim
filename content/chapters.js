@@ -320,6 +320,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch01-p48"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Live your whole life turned toward Me. Genesis 17:1.",
     "id": "ch01-p49"
@@ -470,6 +473,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "She gives God a name.",
     "id": "ch01-p77"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "verse",
@@ -1702,6 +1708,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch03-p14"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "When Hebrew says that anywhere else, it says <em>panim el panim</em>, face to face. But what Moses says about Sinai is stranger, and closer: <em>panim be-panim</em>, face in face, a construction that appears nowhere else in Scripture.",
     "id": "ch03-p15"
@@ -1804,6 +1813,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "God’s face is His presence.",
     "id": "ch03-p33"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -2472,6 +2484,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch04-p8"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "The scheme had a single requirement, and it is the requirement Jacob’s whole life has been built on: a face that could not be checked. His first blessing came out of a darkness where no one could see who he was. And when the truth surfaced, his brother consoled himself out loud with a schedule: their father would die soon, and then so would Jacob.",
     "id": "ch04-p9"
@@ -2844,6 +2859,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Jacob lives a long time after the Jabbok, and the night never wears off. The limp sees to that, every step, for the rest of his story.",
     "id": "ch04-p73"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -5121,6 +5139,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch07-p34"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Then from the threshold to the east gate of the courtyard.",
     "id": "ch07-p35"
@@ -5272,6 +5293,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "That song is the one about the eagle.",
     "id": "ch07-p59"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -5679,6 +5703,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "The wind did not make him move.",
     "id": "ch07-p128"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -6521,6 +6548,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch08-p29"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Moses is standing on a mountain talking through an exodus one last time. And this time he is not leading it; he is looking at the One who will: an exodus not out of Egypt but out of the grave, with a whole enslaved race behind Him.",
     "id": "ch08-p30"
@@ -7273,6 +7303,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch08-p162"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "David’s how long.",
     "id": "ch08-p163"
@@ -7841,6 +7874,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch09-p22"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "One of them, Cleopas, manages the bitter little joke of the shattered:",
     "id": "ch09-p23"
@@ -8140,6 +8176,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch09-p75"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "That same night in Jerusalem, when the whole room decided He was a ghost, He did not argue the point. He asked whether there was anything to eat, and He ate a piece of broiled fish while they watched Him do it. The proof that He had a body you could look at was a meal, eaten in front of your face.",
     "id": "ch09-p76"
@@ -8403,6 +8442,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "And his terror had a name.",
     "id": "ch09-p119"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -8961,6 +9003,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p43"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Something is missing from that throne room, and it went missing in the tabernacle first.",
     "id": "ch10-p44"
@@ -9221,6 +9266,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch10-p86"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Your voice is pleasant. Your face is lovely. It is the face He crosses the mountains to look at. Eden’s question and the Song’s request are the same sentence at two temperatures. <em>Where are you?</em> was the winter of it. <em>Let me see your face</em> is the spring.",
     "id": "ch10-p87"
@@ -9302,6 +9350,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "And you said yes before your eyes ever could.",
     "id": "ch10-p102"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
