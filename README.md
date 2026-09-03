@@ -732,6 +732,59 @@ else moved.
 > documented: the Index of Scripture's citation rows (dense list, SC 2.5.8) and the ten player
 > seek marks (their *position* is the information).
 
+### The lock screen — Now Playing covers, and why nothing is printed on them
+
+**Done 2026-09-03 (v49).** Ten square plates, one per chapter, driven by
+`js/player.js` `artworkFor()` and built by **`tools/gen-nowplaying.py`** from the
+author's 1:1 sources in `art/np-src/`. Regenerate with `python3 tools/gen-nowplaying.py`
+from `Panim-site/`; it is deterministic and costs nothing.
+
+| ch | plate | source |
+|---|---|---|
+| I | the Ketef Hinnom chamber, a hand on the incised stone | `np-src/ch01.jpg` |
+| II | the garden, the two of them among the trees | `np-src/ch02.jpg` |
+| III | Sinai burning, the camp standing far off with its back turned | `np-src/ch03.jpg` |
+| IV | the Jabbok, two figures locked in the shallows | `np-src/ch04.jpg` |
+| V | the bush alight, sandals off on the rock | `np-src/ch05.jpg` |
+| VI | the veiled face against the sunrise | `np-src/ch06.jpg` |
+| VII | ⚠️ **placeholder — ch06's veil** | — |
+| VIII | ⚠️ **placeholder — ch06's veil** | — |
+| IX | the charcoal fire on the shore, bread on the coals | `np-src/ch09.jpg` |
+| X | her face, and the hand that turned it | `np-src/ch10.jpg` |
+
+Three tiers each — **96/256/512** — because Android's notification shade, Auto, Wear and
+Bluetooth head units each pick by size, and a single entry makes all of them rescale one
+file. ~976 KB for all thirty. **Not precached**, same rule as `art/*.webp`: the plates are
+weight and the text is the product.
+
+> 🛑 **Nothing is printed on these plates, and v48 got this wrong.** That version burned a
+> roman numeral into all ten to fill the compact Dynamic Island, which iOS draws with no
+> text slot of any kind. The author's instruction is that the photographs carry nothing
+> printed on them, and it holds even where the system leaves text nowhere else to go. The
+> number is in `metadata.title` — *"VII. The Glory Backs Out"* — which is what the
+> **expanded** island, the lock screen and Control Center display. The pill shows the
+> photograph alone, by design, not by omission.
+
+**Two source plates are square but were still wrong at 96px, and only measurement showed
+it.** `ch06` was a wide sunrise with a small head in it and read as a beige smudge; `ch09`
+put the charcoal fire small in a beach landscape and lost the bread entirely. Both carry a
+crop in `CROPS`. Every other source is used whole. **Do not add a crop by eye** — render
+the tier, look at it at 96px, then decide.
+
+**`previoustrack` / `nexttrack` are deliberately `null`.** iOS fills its three transport
+slots with the track arrows whenever those handlers exist, so registering both is not a
+request, it is a competition, and prev/next wins — which is why ⟲15 never appeared. Cleared,
+the lock screen and expanded island give **⟲15 / ⟳30**, and `seekOffset` from the system is
+honoured instead of hardcoded numbers. Auto-advance still walks I → X on its own.
+`playbackState` is set on every transition; without it a pause from CarPlay or an unplugged
+headphone left a ▶ sitting over stopped audio.
+
+**`art/np-src/unused-rebekah.jpg` is archived, not wired.** Isaac's field at evening, the
+camels, the veil — Genesis 24, and chapter IV's text does carry Rebekah going to ask God
+herself. It was measured at 96px against `ch04`'s Jabbok and lost: small figures against a
+sunset go to mush at pill size. It is a candidate for an **inline** plate in chapter IV,
+where size is not the constraint, not for this.
+
 ## 5. Known-fixed — don't re-diagnose
 
 Phone play/pause race (iOS only honours `play()` inside its own gesture, so the
@@ -913,7 +966,7 @@ must be written at the **specificity of the rule it overrides**.
 
 ## 7. Not done
 
-`ch02-trees` is the wrong picture and it is chapter II's **opening** plate — a
+**Chapters VII and VIII have no Now Playing plate of their own** and fall back to chapter VI's veil on the lock screen — Ezekiel's temple and the Transfiguration are the two the author has not made a 1:1 frame for yet (§4) · `ch02-trees` is the wrong picture and it is chapter II's **opening** plate — a
 fantasy-art woodland with tulips, ferns and a figure in a leaf dress, the worst single
 frame on the site and the first plate after chapter I · **no LQIP**, and no genuine 2×
 on a wide screen — source images are 1408px and plates want 2400px+ (the *delivery* half

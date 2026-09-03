@@ -447,11 +447,17 @@
     } catch (e) {}
   }
 
-  // The compact Dynamic Island pill is drawn by iOS and holds no text — the artwork
-  // thumbnail is the whole of what a web page controls there. So the chapter number is
-  // painted into the plate (tools/gen-nowplaying.py) rather than left to metadata.title,
-  // which only surfaces once the island is expanded. Ten plates, three tiers each,
-  // because Android's shade, Auto, Wear and Bluetooth head units all pick by size.
+  // One square plate per chapter, built by tools/gen-nowplaying.py. Three tiers because
+  // Android's shade, Auto, Wear and Bluetooth head units each pick by size.
+  //
+  // 🛑 Nothing is printed on these plates. v48 burned a roman numeral into every one of
+  // them to fill the compact Dynamic Island, which iOS draws with no text slot at all —
+  // the author's instruction is that the photographs stay clean, and it holds even there.
+  // The number is in metadata.title, which is what the expanded island, the lock screen
+  // and Control Center display. The pill shows the photograph and nothing else, by design.
+  //
+  // ch07 (Ezekiel) and ch08 (the Transfiguration) have no plate of their own yet and fall
+  // back to ch06's veil inside the generator, so this function stays uniform.
   function artworkFor(id) {
     var n = (MAN[id] || {}).num || parseInt(String(id).slice(2), 10) || 1;
     var stem = 'art/np-ch' + (n < 10 ? '0' : '') + n + '-';

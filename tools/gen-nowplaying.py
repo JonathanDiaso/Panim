@@ -1,91 +1,75 @@
 #!/usr/bin/env python3
-"""Build the Now Playing / lock-screen covers — one per chapter, roman numeral burned in.
+"""Build the Now Playing / lock-screen covers — one square plate per chapter, three tiers.
 
-Why this exists, and why the numeral is IN the image rather than in the metadata:
+WHAT THESE ARE. iOS draws the Dynamic Island's compact pill itself: artwork on the left,
+its own waveform on the right, and no text slot at any point. metadata.title is set and
+correct, but it only surfaces in the EXPANDED island, on the lock screen, and in Control
+Center. So the artwork is the entire pixel budget a web page gets in the pill.
 
-iOS draws the Dynamic Island's compact pill itself. A web page gets exactly one
-pixel budget there — the artwork thumbnail — and no text at all. MediaMetadata.title
-("VII. The Glory Backs Out") only surfaces in the EXPANDED island, the lock screen and
-Control Center. So for the chapter number to be visible in the pill the author actually
-looks at, it has to be painted onto the plate.
+🛑 NO TEXT ON THE PLATE. A previous pass (v48) burned a roman numeral into every cover to
+fill that gap. The author's instruction is that the photographs carry nothing printed on
+them, and it stands even where the system gives text nowhere else to go. The number lives
+in metadata.title ("VII. The Glory Backs Out"), which is where the system will show it.
 
-The crop matters as much as the numeral. The full 1024 square is a wide desert with a
-small head in it; at 96px that reads as a beige smudge. CROP zooms to the veil so the
-face fills the thumbnail. Measured, not guessed — compare tiers at 96px before changing it.
+Sources are art/np-src/chNN.jpg, already 1:1 and composed as squares by the author, so
+the default is a straight resize with NO crop. CROPS below is the exception list, and each
+entry is there because the plate was measured at 96px and failed:
+  ch06 — a wide sunrise with a small head in it; at 96px it read as a beige smudge.
+  ch09 — the charcoal fire sat small in a beach landscape; the bread vanished.
+Do not add a crop by eye. Render the tier, look at it at 96px, then decide.
 
-Source: art/cover-moses-1024.jpg (MOSES NEW.jpg, 1024x1024).
-Output: art/np-chNN-{96,256,512}.jpg, consumed by js/player.js updateMediaSession().
+Output: art/np-chNN-{96,256,512}.jpg, consumed by js/player.js artworkFor().
+Three tiers because Android's notification shade, Auto, Wear and Bluetooth head units each
+pick by size, and a single entry makes all of them rescale one file.
 
 Run from Panim-site/:  python3 tools/gen-nowplaying.py
 """
 import os
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC = os.path.join(HERE, 'art', 'cover-moses-1024.jpg')
 ART = os.path.join(HERE, 'art')
+SRC = os.path.join(ART, 'np-src')
 
 S = 1024
-# Zoom on the veil. Left/top/right/bottom in source pixels; square, or the plate skews.
-CROP = (168, 60, 888, 780)
 TIERS = (512, 256, 96)
-ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X']
 
-# Georgia Bold, not Didot or Baskerville: at 96px the high-contrast faces lose their
-# hairlines entirely and "VIII" turns into a picket fence. Sturdy slabs survive.
-FONT = '/System/Library/Fonts/Supplemental/Georgia Bold.ttf'
-CREAM = (240, 236, 226)          # the site's #EDE9DF, a shade brighter to hold at 96px
-CAP_FRAC = 0.15                  # numeral cap height as a fraction of the plate
-BASELINE = 0.92                  # baseline position, top-down
-SCRIM_START, SCRIM_ALPHA = 0.62, 150
-
-
-def scrim(img):
-    """Darken the bottom so cream type holds over the sunlit robe. Eased, not linear —
-    a linear ramp leaves a visible horizontal seam where it starts."""
-    mask = Image.new('L', (S, S), 0)
-    d = ImageDraw.Draw(mask)
-    for y in range(S):
-        t = (y / S - SCRIM_START) / (1 - SCRIM_START)
-        d.line([(0, y), (S, y)], fill=0 if t < 0 else int(SCRIM_ALPHA * (t ** 1.6)))
-    return Image.composite(Image.new('RGB', (S, S), (0, 0, 0)), img, mask)
-
-
-def fit_font(draw, text):
-    """Grow the point size until the cap height hits CAP_FRAC. Point size is not cap
-    height and the ratio differs per glyph string, so measure rather than assume."""
-    size = 10
-    while True:
-        f = ImageFont.truetype(FONT, size)
-        bb = draw.textbbox((0, 0), text, font=f)
-        if bb[3] - bb[1] >= S * CAP_FRAC:
-            return f
-        size += 4
-
-
-def plate(numeral, base):
-    img = scrim(base.copy())
-    d = ImageDraw.Draw(img)
-    f = fit_font(d, numeral)
-    bb = d.textbbox((0, 0), numeral, font=f)
-    w, h = bb[2] - bb[0], bb[3] - bb[1]
-    x, y = (S - w) // 2 - bb[0], int(S * BASELINE) - h - bb[1]
-    # Offset black passes, not a blur: PIL's blur on a 1024 plate costs more than it buys
-    # and the numeral only has to clear a scrim it is already sitting on.
-    for ox, oy in ((0, 5), (4, 4), (-4, 4), (4, -3), (-4, -3)):
-        d.text((x + ox, y + oy), numeral, font=f, fill=(0, 0, 0))
-    d.text((x, y), numeral, font=f, fill=CREAM)
-    return img
+# Chapter -> source stem in art/np-src/. Chapters absent from this map fall back to
+# FALLBACK and are listed as outstanding in README.md.
+SOURCES = {
+    1: 'ch01',   # the Ketef Hinnom chamber — a hand on the incised stone
+    2: 'ch02',   # the garden, and the two of them among the trees
+    3: 'ch03',   # Sinai burning, the camp standing far off with its back turned
+    4: 'ch04',   # the Jabbok, two figures locked in the shallows
+    5: 'ch05',   # the bush alight, sandals off on the rock
+    6: 'ch06',   # the veiled face against the sunrise
+    9: 'ch09',   # the charcoal fire on the shore, bread on the coals
+    10: 'ch10',  # her face, and the hand that turned it
+}
+FALLBACK = 'ch06'          # ch07 (Ezekiel) and ch08 (the Transfiguration) have no plate yet
+CROPS = {6: (168, 60, 888, 780), 9: (230, 370, 850, 990)}
 
 
 def main():
-    base = Image.open(SRC).crop(CROP).resize((S, S), Image.LANCZOS)
+    missing = []
     for n in range(1, 11):
-        p = plate(ROMAN[n], base)
+        stem = SOURCES.get(n)
+        if stem is None:
+            stem, missing = FALLBACK, missing + [n]
+        path = os.path.join(SRC, stem + '.jpg')
+        im = Image.open(path).convert('RGB')
+        box = CROPS.get(n if stem != FALLBACK or n in SOURCES else 6)
+        if box:
+            im = im.crop(box)
+        if im.width != im.height:
+            raise SystemExit('%s is %dx%d — plates must be square' % (path, im.width, im.height))
+        im = im.resize((S, S), Image.LANCZOS)
         for t in TIERS:
-            out = os.path.join(ART, 'np-ch%02d-%d.jpg' % (n, t))
-            p.resize((t, t), Image.LANCZOS).save(out, quality=88, optimize=True, progressive=False)
-    print('wrote %d plates (%d chapters x %d tiers)' % (10 * len(TIERS), 10, len(TIERS)))
+            im.resize((t, t), Image.LANCZOS).save(
+                os.path.join(ART, 'np-ch%02d-%d.jpg' % (n, t)), quality=88, optimize=True)
+    print('wrote %d plates for 10 chapters' % (10 * len(TIERS)))
+    if missing:
+        print('placeholder (using %s): %s' % (FALLBACK, ', '.join('ch%02d' % n for n in missing)))
 
 
 if __name__ == '__main__':

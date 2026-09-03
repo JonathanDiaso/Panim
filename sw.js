@@ -8,7 +8,7 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v48';
+var SHELL = 'panim-shell-v49';
 var AUDIO = 'panim-audio-v1';
 
 // index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
@@ -22,7 +22,7 @@ var AUDIO = 'panim-audio-v1';
 //      accessibility.html — both are standalone pages with their own copy, and
 //      neither is reached by the index.html sweep. 404.html was left on v24 for
 //      a whole release because of exactly this.
-var ASSET_V = '48';
+var ASSET_V = '49';
 var VERSIONED = /\.(css|js)$/;
 var PRECACHE = [
   './', 'index.html', 'accessibility.html', 'favicon.svg', 'og-card-face.jpg', 'manifest.webmanifest',
