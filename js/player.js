@@ -184,7 +184,16 @@
     updateHoldVisibility();
     emit('panim:play-state', { playing: playing });
   }
-  function syncPlayState() { reflectPlaying(!els.audio.paused && !els.audio.ended); }
+  function syncPlayState() {
+    var playing = !els.audio.paused && !els.audio.ended;
+    reflectPlaying(playing);
+    // Without this the lock screen keeps whatever glyph it inferred at the last
+    // interaction, so a pause from CarPlay or an unplugged headphone leaves a ▶ showing
+    // over stopped audio. Cheap, and it is the only way the system learns the truth.
+    if ('mediaSession' in navigator) {
+      try { navigator.mediaSession.playbackState = playing ? 'playing' : 'paused'; } catch (e) {}
+    }
+  }
 
   function play() {
     if (!state.chapterId) { loadChapter(CHAPTER_IDS[0], { autoplay: true }); return; }
@@ -418,33 +427,37 @@
         title: chapterTitle(id),
         artist: 'Jonathan Diaso',
         album: 'PANIM — The Invitation Hidden on Every Page',
-        // Lock-screen / Now Playing art must be SQUARE. og-card-face.jpg was here and it
-        // is 1200x630 — iOS letterboxes a wide image into the square slot, so the cover
-        // rendered as a thin band floating in cream and looked broken. Every tier below
-        // is 1:1. The ladder is not decoration: Android's notification shade, Auto, Wear
-        // and Bluetooth head units each pick by size, and a single entry makes them all
-        // upscale or downscale the same file.
-        artwork: [
-          { src: 'art/cover-moses-96.jpg', sizes: '96x96', type: 'image/jpeg' },
-          { src: 'art/cover-moses-256.jpg', sizes: '256x256', type: 'image/jpeg' },
-          { src: 'art/cover-moses-512.jpg', sizes: '512x512', type: 'image/jpeg' },
-          { src: 'art/cover-moses-1024.jpg', sizes: '1024x1024', type: 'image/jpeg' }
-        ]
+        artwork: artworkFor(id)
       });
       navigator.mediaSession.setActionHandler('play', play);
       navigator.mediaSession.setActionHandler('pause', pause);
-      navigator.mediaSession.setActionHandler('seekbackward', function () { skip(-15); });
-      navigator.mediaSession.setActionHandler('seekforward', function () { skip(30); });
+      navigator.mediaSession.setActionHandler('seekbackward', function (d) { skip(-((d && d.seekOffset) || 15)); });
+      navigator.mediaSession.setActionHandler('seekforward', function (d) { skip((d && d.seekOffset) || 30); });
       navigator.mediaSession.setActionHandler('seekto', function (d) { if (d.seekTime != null) els.audio.currentTime = d.seekTime; });
-      navigator.mediaSession.setActionHandler('previoustrack', function () {
-        var i = CHAPTER_IDS.indexOf(state.chapterId);
-        if (i > 0) loadChapter(CHAPTER_IDS[i - 1], { autoplay: true });
-      });
-      navigator.mediaSession.setActionHandler('nexttrack', function () {
-        var i = CHAPTER_IDS.indexOf(state.chapterId);
-        if (i >= 0 && i < CHAPTER_IDS.length - 1) loadChapter(CHAPTER_IDS[i + 1], { autoplay: true });
-      });
+      // 🛑 previoustrack/nexttrack are deliberately NULL, and this is not an oversight.
+      // iOS gives the lock screen three transport slots and fills them with the track
+      // arrows whenever those handlers exist — so registering both meant the author got
+      // chapter skip and never the 15-second jump. On an audiobook that is backwards:
+      // you lose a sentence constantly and jump chapters almost never, and auto-advance
+      // already walks I -> X on its own. Clearing them yields ⟲15 / ⟳30. Setting them
+      // to null rather than omitting matters — a handler registered by an earlier
+      // updateMediaSession call survives until something overwrites it.
+      navigator.mediaSession.setActionHandler('previoustrack', null);
+      navigator.mediaSession.setActionHandler('nexttrack', null);
     } catch (e) {}
+  }
+
+  // The compact Dynamic Island pill is drawn by iOS and holds no text — the artwork
+  // thumbnail is the whole of what a web page controls there. So the chapter number is
+  // painted into the plate (tools/gen-nowplaying.py) rather than left to metadata.title,
+  // which only surfaces once the island is expanded. Ten plates, three tiers each,
+  // because Android's shade, Auto, Wear and Bluetooth head units all pick by size.
+  function artworkFor(id) {
+    var n = (MAN[id] || {}).num || parseInt(String(id).slice(2), 10) || 1;
+    var stem = 'art/np-ch' + (n < 10 ? '0' : '') + n + '-';
+    return [96, 256, 512].map(function (t) {
+      return { src: stem + t + '.jpg', sizes: t + 'x' + t, type: 'image/jpeg' };
+    });
   }
   function updatePositionState() {
     if (!('mediaSession' in navigator) || !navigator.mediaSession.setPositionState) return;
