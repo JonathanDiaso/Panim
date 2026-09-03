@@ -22,10 +22,14 @@ Coverage held at 98.8%. **This reverses the moment the two inserts are recorded.
 
 Read this first in a new session — the only doc in this repo describing current
 state. 👉 Then read the handoff:
-[`../panim-book/handoffs/site-handoff-2026-08-27.md`](../panim-book/handoffs/site-handoff-2026-08-27.md)
-(decided / blocked-on-author / ready-to-build). 🛑 It lives in the **private**
-`panim-book` repo, not here — **this repo is public** and the handoff quotes the
-author directly. Put session notes there, not here.
+[`../panim-book/handoffs/NEXT.md`](../panim-book/handoffs/NEXT.md) — **the one
+hand-written sheet**, carrying decided / waiting-on-you / ready-to-build for the
+whole project. Its name never changes. 🛑 It lives in the **private** `panim-book`
+repo, not here — **this repo is public** and the sheet quotes the author directly.
+Put session notes there, not here.
+
+🗄 The dated site handoff it replaced is
+`../panim-book/handoffs/archive/site-handoff-2026-08-27-folded-into-next.md`.
 
 ## 1. Where everything lives — THREE folders, not one
 
@@ -1058,9 +1062,9 @@ levels, 24 selectors measured for contrast (worst **4.63:1**), zero axe violatio
 everywhere. **That is a floor, not a pass**, and `/accessibility.html` still says in
 public that the player and the Listening Room have never been driven with a screen
 reader — because they have not. The remaining hour is six steps, in
-`next-steps-2026-09-03-round-fourteen.md` §8.
+`round-14-next-steps.md` §8.
 
 All five design calls are answered and archived
 (`panim-book/handoffs/archive/decisions-2026-08-29-design-answered-2026-08-29.md`); four
 are built and live. What's blocked on the author vs. ready to build: the site handoff
-linked at the top of this file, and `next-steps-2026-09-03-round-fourteen.md` §7–9.
+linked at the top of this file, and `round-14-next-steps.md` §7–9.
