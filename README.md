@@ -744,7 +744,7 @@ quietly shipping a neighbour's frame the way v49 did for VII and VIII.
 | ch | title | plate | source |
 |---|---|---|---|
 | I | The God Who Sees | the Ketef Hinnom chamber, a hand on the incised stone | `ch01.jpg` |
-| II | The Hiding | the storm off Joppa, the ship running for Tarshish | `ch02.jpg` |
+| II | The Hiding | the garden, the two of them hiding in the trees from the face | `ch02.jpg` |
 | III | The Face They Fled | Sinai burning, the camp standing far off with its back turned | `ch03.jpg` |
 | IV | The Word He Kept Rehearsing | the Jabbok, two figures locked in the shallows | `ch04.jpg` |
 | V | Mouth to Mouth | the bush alight, sandals off on the rock | `ch05.jpg` |
@@ -754,14 +754,21 @@ quietly shipping a neighbour's frame the way v49 did for VII and VIII.
 | IX | Eyes Opened | the Emmaus table, bread broken, the window still burning | `ch09.jpg` |
 | X | Face to Face | her face, and the hand that turned it | `ch10.jpg` |
 
-**Chapter II is the storm, not the garden, and the reason is on the record.** The author
-supplied both. `Addamandeve.jpeg` is **byte-for-byte the same frame as `art/ch02-trees.webp`**
-squared off — the plate §7 has called *"the worst single frame on the site"* since
-2026-08-29, fantasy-art woodland with tulips, ferns and a figure in a leaf dress. Promoting
-it to the lock screen would have put the site's weakest picture on the one surface a
-listener stares at for thirty-five minutes. Jonah at Joppa is the chapter's other half —
-*millifnei YHWH*, fleeing the face, Jonah 1:3 — and it is a hard silhouette against
-lightning, which is what survives 96px. The garden is archived as `alt-ch02-garden.jpg`.
+**Chapter II is the garden, and it is the author's ruling, not an inference.** Both frames
+were supplied and v50 shipped the storm, on the argument that the garden is the same frame
+as `art/ch02-trees.webp` — fantasy-art woodland, tulips, ferns, a figure in a leaf dress —
+and that promoting it would put the site's weakest picture on the surface a listener stares
+at for thirty-five minutes. **The author overruled that on 2026-09-03:** *"i honestly dont
+care if it looks like fantasy land … use that pic."* It is now the plate, and the storm is
+archived as `alt-ch02-storm.jpg`. Two things follow and both are deliberate:
+
+- **The lock screen and the chapter's opening plate are now the same scene.** That is
+  coherence, not duplication — chapter II's identity picture is the garden on the page and
+  in the pill. The storm still appears in the chapter as `ch02-storm`, its second plate.
+- **It needed a crop, and the crop is measured, not eyeballed.** Rendered whole at 96px the
+  root litter across the bottom third ate the frame and both figures shrank into the trees.
+  `CROPS[2] = (380, 100, 1024, 744)` takes the light shaft and the two of them; at 96px she
+  reads as a bowed figure against a lit trunk, which is the chapter.
 
 **Chapter IX is Emmaus, not the charcoal fire.** Both are in the chapter; *"their eyes were
 opened"* is the Emmaus table, and that is the chapter's title. The shore is archived as
@@ -771,7 +778,7 @@ opened"* is the Emmaus table, and that is the chapter's title. The shore is arch
 
 | file | what it is |
 |---|---|
-| `alt-ch02-garden.jpg` | = `ch02-trees.webp`, the frame §7 wants replaced. **Not a candidate for anything.** |
+| `alt-ch02-storm.jpg` | Jonah at Joppa — the v50 plate, kept after the author ruled for the garden |
 | `alt-ch04-rebekah.jpg` | Isaac's field at evening, Genesis 24 — an inline candidate for chapter IV |
 | `alt-ch08-tornveil.jpg` | the veil torn, light through the cherubim — an inline candidate for chapter VIII |
 | `alt-ch09-charcoal.jpg` | the shore fire, John 21 — an inline candidate for chapter IX |
@@ -790,10 +797,10 @@ weight and the text is the product.
 > **expanded** island, the lock screen and Control Center display. The pill shows the
 > photograph alone, by design, not by omission.
 
-**One source is square and was still wrong at 96px, and only measurement showed it.**
-`ch06` is a wide sunrise with a small head in it and read as a beige smudge, so it carries
-the only entry in `CROPS`. Every other source is used whole — the author composes them as
-squares and they do not need help. **Do not add a crop by eye** — render the tier, look at
+**Two sources are square and were still wrong at 96px, and only measurement showed it.**
+`ch06` is a wide sunrise with a small head in it and read as a beige smudge; `ch02` is a
+full forest scene whose bottom third is root litter. Both carry entries in `CROPS`. Every
+other source is used whole — the author composes them as squares and they do not need help. **Do not add a crop by eye** — render the tier, look at
 it at 96px, then decide. (`ch09` carried a crop at v49 when it was the shore fire; Emmaus
 replaced it and the crop went with it.)
 
@@ -992,11 +999,7 @@ must be written at the **specificity of the rule it overrides**.
 
 ## 7. Not done
 
-`ch02-trees` is the wrong picture and it is chapter II's **opening** plate — a
-fantasy-art woodland with tulips, ferns and a figure in a leaf dress, the worst single
-frame on the site and the first plate after chapter I. **A square recrop of this same frame
-arrived 2026-09-03 as `Addamandeve.jpeg` and was declined for the lock screen** (§4) — the
-replacement still has to be a different picture, not a different crop · **no LQIP**, and no genuine 2×
+**no LQIP**, and no genuine 2×
 on a wide screen — source images are 1408px and plates want 2400px+ (the *delivery* half
 shipped 2026-08-29, §4) · **the dawn arc is still a hand-kept table in two files**, and
 that duplication has already cost one live bug (§3) · chapter titles need reconciling,
@@ -1011,6 +1014,12 @@ Both shipped 2026-08-29 (v38): the wall **filters by language and sorts A–Z** 
 chapter, and the **31 entries with no root now say why they have none** — in four sentences,
 not one, because "no root" is true of a Greek verb and of a six-word Hebrew clause for
 unrelated reasons. §3 has both.
+
+✅ **`ch02-trees` is off this list, by ruling and not by replacement.** It sat here from
+2026-08-29 as *"the worst single frame on the site"* and three rounds looked for a
+different picture. On 2026-09-03 the author closed it: *"i honestly dont care if it looks
+like fantasy land lol it will be ok."* The frame stays, and its square crop is now the
+chapter II lock-screen plate as well (§4). **Do not reopen it as an art task.**
 
 ✅ **Chapter VI is FIXED, and the item it was replaced by is a different chapter.** The
 2026-08-29 note here read *"chapter VI runs 47 paragraphs with no verse, picture, divider or
