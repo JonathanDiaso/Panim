@@ -411,12 +411,19 @@
   }
 
   // ---------- contents: the standfirsts fold ----------
-  // The list ran 1225px against an 813px viewport, so the descriptions are folded by
-  // default and the choice is remembered. Nothing is removed: every title, numeral and
-  // running time stays visible in either state, which is why this is a disclosure and
-  // not a filter.
+  // The list ran 1225px against an 813px viewport, so the descriptions are folded.
+  // Nothing is removed: every title, numeral and running time stays visible in either
+  // state, which is why this is a disclosure and not a filter.
+  //
+  // 🛑 IT ALWAYS STARTS CLOSED, AND THE CHOICE IS DELIBERATELY NOT REMEMBERED.
+  // It used to persist in localStorage['panim:tocOpen']. The author's instruction
+  // (2026-09-03) is that the contents must be closed every time so the reader is the
+  // one who opens it. This book is shared by link to people opening it for the first
+  // time, and the first screen has one job: the chapter, not an index of ten of them.
+  // A remembered open state meant the ONE reader who had expanded it once — the
+  // author, on the device he checks it from — saw a page no first-time visitor ever
+  // sees, which is the worst possible person to be blind to it.
   function wireContentsToggle() {
-    var KEY = 'panim:tocOpen';
     var btn = document.getElementById('toc-expand');
     var section = document.getElementById('contents');
     if (!btn || !section) return;
@@ -426,14 +433,10 @@
       btn.setAttribute('aria-expanded', String(open));
       btn.textContent = open ? 'Close the contents' : 'Table of Contents';
     }
-    var saved = false;
-    try { saved = localStorage.getItem(KEY) === '1'; } catch (e) {}
-    apply(saved);
+    apply(false);
 
     btn.addEventListener('click', function () {
-      var open = btn.getAttribute('aria-expanded') !== 'true';
-      apply(open);
-      try { localStorage.setItem(KEY, open ? '1' : '0'); } catch (e) {}
+      apply(btn.getAttribute('aria-expanded') !== 'true');
     });
   }
 
