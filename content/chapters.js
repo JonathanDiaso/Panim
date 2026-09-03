@@ -870,6 +870,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch02-p26"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "He goes out to the field.",
     "id": "ch02-p27"
@@ -1016,6 +1019,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch02-p49"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "Nineveh was not a blank slate waiting politely for a sermon. That world bowed to the fish-god Dagon, and Mesopotamia told an old story of a man-headed fish that rose out of the sea to bring wisdom to mankind. And up from the beach walks a prophet of the living God, delivered onto dry land out of the mouth of a fish, carrying the word of the God Dagon was supposed to be.",
     "id": "ch02-p50"
@@ -1099,6 +1105,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Tronick needed a lab to prove it.",
     "id": "ch02-p66"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -3014,6 +3023,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch05-p10"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "His hands come up before he decides anything. That is what a body does. But the Torah writes the moment down and never forgets it, because it is the first sentence Scripture ever puts between this man and the face of God: Moses hid his face, afraid to look.",
     "id": "ch05-p11"
@@ -3090,6 +3102,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "God answers the heavy mouth with a question that has a whole country behind it.",
     "id": "ch05-p22"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "verse",
@@ -3364,6 +3379,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch05-p74"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "verse",
     "lines": [
      "And He said, “My presence shall go with you, and I will give you rest.”",
@@ -3463,6 +3481,9 @@ window.PANIM_CHAPTERS = [
     "id": "ch05-p90"
    },
    {
+    "type": "beat"
+   },
+   {
     "type": "p",
     "html": "A psalm would say it in five words and never explain them.",
     "id": "ch05-p91"
@@ -3535,6 +3556,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "Slow to anger.",
     "id": "ch05-p103"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "p",
@@ -3802,6 +3826,9 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "They went anyway.",
     "id": "ch05-p148"
+   },
+   {
+    "type": "beat"
    },
    {
     "type": "verse",
