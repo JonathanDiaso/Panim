@@ -46,7 +46,12 @@ window.PANIM_IMAGES = {
     caption: "The oldest words we have.",
     ref: "Numbers 6:24–26 · c. 600 BC"
   },
-  // 🟠 PARTLY REPLACED 2026-08-28 (round five). STILL ON THE REROLL LIST — read this.
+  // ✅ ACCEPTED 2026-09-03. NOT ON THE REROLL LIST — read this before proposing a reroll.
+  // The author closed it twice: "we can assume God is in the light and they are hiding"
+  // (round six) and "i honestly dont care if it looks like fantasy land lol it will be ok"
+  // (2026-09-03). Its square crop is ALSO the chapter II lock-screen plate now, so the
+  // page and the pill show the same scene on purpose. Do not reroll without asking.
+  // The three faults below are kept as a record, not as a worklist.
   // The author supplied two versions of the same frame, a 1376x768 and a 1952x544
   // panorama. The 1376 is the one wired here: at 3.59:1 the panorama is outside the
   // shape the page crops to, and the site centres its subject, so the wide one loses
@@ -62,8 +67,7 @@ window.PANIM_IMAGES = {
   //   4. NEW: they are no longer HIDING. The caption is "they hid themselves ... among
   //      the trees" and this frame has them kneeling and standing in the open. The old
   //      frame at least had them pressed behind trunks.
-  // Net: two faults fixed, one introduced. Wired because it is the better picture, but
-  // it is not final. See art/PROMPTS.md `ch02-trees`.
+  // Net: two faults fixed, one introduced. See art/PROMPTS.md `ch02-trees` §1.
   "ch02-trees": {
     src: "art/ch02-trees.webp",
     alt: "A wooded garden in low light; two figures covered in large stitched leaves stand and kneel among mossy trunks and exposed roots, faces turned down and away.",

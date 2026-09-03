@@ -69,7 +69,7 @@ them as positive descriptions fixed both on the first try. §6 is now carrying s
 
 | # | slot | what is actually in the frame |
 | --- | --- | --- |
-| 1 | `ch02-trees` | 🟠 **Author has accepted this frame as it stands** (round five, §2): *"we can assume God is in the light and they are hiding."* That reading takes the warm light as the presence they are hiding **from**, which resolves the light and the hiding together. Left on the list only as a record of the three unfixed faults — warm golden hour on the coldest page, god rays, and Northern European hair — in case it is ever rerolled for another reason. **Do not reroll without asking.** |
+| 1 | `ch02-trees` | 🟠 **Author has accepted this frame as it stands** (round five, §2): *"we can assume God is in the light and they are hiding."* That reading takes the warm light as the presence they are hiding **from**, which resolves the light and the hiding together. Left on the list only as a record of the three unfixed faults — warm golden hour on the coldest page, god rays, and Northern European hair — in case it is ever rerolled for another reason. **Do not reroll without asking.** **Closed 2026-09-03** — the author accepted it a second time and it is now the chapter II lock-screen plate too. |
 
 ### Still open — Tier 2
 
@@ -1109,6 +1109,7 @@ Open the file. Do not grade from the note about the file — every stale claim c
 | 2026-08-28 | **Every prompt is now one fenced block, copied once.** Casting, dress, period, light, optics and nevers are inside the block. Nothing is assembled from another section any more. §2 kept as the source of truth for writing a new slot. |
 | 2026-08-28 | **Never-lists trimmed from twelve boilerplate clauses to three-to-five per slot**, chosen for that frame, per §6 — a long list repeated everywhere is mostly irrelevant clauses, and each one is a chance to summon what it names. |
 | 2026-08-28 | §6 expanded from two documented negation failures to **six**. Added `ch02-trees`' ring, `ch09-charcoal`'s flames and `ch09-emmaus`' stool. |
+| 2026-09-03 | **`ch02-trees` closed for good, and promoted.** The author: *"i honestly dont care if it looks like fantasy land lol it will be ok … use that pic."* The frame is accepted on the page and its square crop is now the chapter II **lock-screen plate** as well — the storm that held that slot at v50 is archived as `art/np-src/alt-ch02-storm.jpg`. The three faults in §1 stay as a record only. **Do not reroll, and do not reopen it in the site README's Not-done list.** |
 | 2026-08-28 | `ch10-morning`'s prompt **rewritten to describe the delivered picture** rather than the brief it diverged from, so a future reroll cannot lose it. The "modern studio portrait" claim about this plate was false and is retracted here and in `content/images.js`. |
 | 2026-08-28 | Resolution: **accept 1408 px**, at the author's decision. Do not full-bleed a plate. |
 | 2026-08-28 | `og-image` cut from `ch10-morning` as `og-card-face.jpg` and wired in. |

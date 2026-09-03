@@ -13,8 +13,11 @@ in metadata.title ("VII. The Glory Backs Out"), which is where the system will s
 
 Sources are art/np-src/chNN.jpg, already 1:1 and composed as squares by the author, so
 the default is a straight resize with NO crop. CROPS below is the exception list, and the
-one entry is there because the plate was measured at 96px and failed:
+entries below are there because the plate was measured at 96px and failed:
   ch06 — a wide sunrise with a small head in it; at 96px it read as a beige smudge.
+  ch02 — a full forest scene; at 96px the root litter across the bottom third ate the
+         frame and both figures shrank into the trees. Cropped to the light shaft and
+         the two of them.
 Do not add a crop by eye. Render the tier, look at it at 96px, then decide.
 
 art/np-src/ also holds frames that are NOT wired, and the generator ignores anything not
@@ -42,7 +45,7 @@ TIERS = (512, 256, 96)
 # FALLBACK and are listed as outstanding in README.md.
 SOURCES = {
     1: 'ch01',   # the Ketef Hinnom chamber — a hand on the incised stone
-    2: 'ch02',   # the storm off Joppa, the ship running for Tarshish
+    2: 'ch02',   # the garden, the two of them hiding in the trees from the face
     3: 'ch03',   # Sinai burning, the camp standing far off with its back turned
     4: 'ch04',   # the Jabbok, two figures locked in the shallows
     5: 'ch05',   # the bush alight, sandals off on the rock
@@ -53,7 +56,7 @@ SOURCES = {
     10: 'ch10',  # her face, and the hand that turned it
 }
 FALLBACK = None            # every chapter has its own frame as of v50
-CROPS = {6: (168, 60, 888, 780)}
+CROPS = {2: (380, 100, 1024, 744), 6: (168, 60, 888, 780)}
 
 
 def main():
