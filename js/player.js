@@ -456,8 +456,8 @@
   // The number is in metadata.title, which is what the expanded island, the lock screen
   // and Control Center display. The pill shows the photograph and nothing else, by design.
   //
-  // ch07 (Ezekiel) and ch08 (the Transfiguration) have no plate of their own yet and fall
-  // back to ch06's veil inside the generator, so this function stays uniform.
+  // All ten chapters have their own frame as of v50; the generator refuses to run if one
+  // is missing rather than quietly shipping a duplicate.
   function artworkFor(id) {
     var n = (MAN[id] || {}).num || parseInt(String(id).slice(2), 10) || 1;
     var stem = 'art/np-ch' + (n < 10 ? '0' : '') + n + '-';
