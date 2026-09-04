@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The Plates — the turn</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+/* ══════════════════════════════════════════════════════════════════════════
+   THE TURN — ten plates you can pick up and read the back of.
+
+   Everything here is adapted from four real techniques, not copied from a
+   card-flip snippet. What each one buys, and why the cheap version fails:
+
+   1 · A CARD CANNOT ROTATE INTO THE TABLE.  The tell of every cheap flip is
+       rotateY(180deg) and nothing else — the card sinks through the surface
+       it is lying on. A real hand LIFTS the print, turns it, and sets it
+       back down. That is a three-stage keyframe, never a transition.
+   2 · A PRINT HAS STOCK.  A zero-thickness plane is a texture, not an object.
+       Two edge faces at --stock give it a spine you catch at the halfway
+       point, which is the single frame that sells the whole gesture.
+   3 · ONE CAMERA, NOT TEN.  perspective lives on the WALL, so every plate
+       shares a vanishing point and the ones at the edges lean away from it.
+       Per-card perspective renders ten head-on cards and reads flat and free.
+   4 · WEIGHT COMES FROM LERP, NOT FROM THE EVENT.  The idle tilt is eased
+       toward the pointer in a rAF loop. Writing the pointer delta straight
+       to the transform is what makes a tilt feel twitchy instead of heavy.
+
+   🛑 AND ONE THING DELIBERATELY NOT TAKEN. The state of the art here is the
+   holographic trading card — iridescent conic foil, colour-dodge sheen. It
+   is technically gorgeous and it would be tasteless on this book. What is
+   kept is the specular idea; what it is tuned to is a warm raking light on
+   a photographic print. One highlight, no rainbow.
+
+   ⭐ AND THE PART THAT IS THIS BOOK'S ALONE: the back of each plate is
+   printed on ITS OWN CHAPTER'S PAPER STOCK, straight out of css/site.css.
+   Chapter I is the dark of the tomb; chapter X is full morning. Turning the
+   ten of them walks a stranger through the light of the whole book before
+   they have read a word. That is the intro doing its job.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* tokens lifted from css/site.css. Nothing invented. */
+:root{
+  --serif:'Literata',Georgia,'Times New Roman',serif;
+  --ui:'Archivo',system-ui,-apple-system,'Helvetica Neue',sans-serif;
+  --lit-normal:'opsz' 12; --lit-mid:'opsz' 28; --lit-display:'opsz' 60;
+  --paper:#F1EDE4; --ink:#191510; --ink-soft:#5C5449; --ink-faint:#6B6459;
+  --rule:rgba(25,21,16,.14); --rule-strong:rgba(25,21,16,.28);
+  --control-edge:rgba(25,21,16,.50); --control-wash:rgba(25,21,16,.04);
+  --accent:#32506B;
+  --ap-sm:.64rem; --ap-md:.72rem; --ap-lg:.82rem;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --dur-fast:140ms; --dur-med:320ms; --dur-slow:620ms;
+  /* new to this page, and only these: the physics of one printed plate */
+  --stock:3px;            /* the thickness of the card */
+  --lift:78px;            /* how far off the page a hand raises it to turn it */
+  --turn:860ms;
+  --ease-lift:cubic-bezier(.32,.02,.44,1);
+  --ease-set:cubic-bezier(.36,.04,.24,1);
+}
+
+/* ⭐ @property, and it is not decoration. Without a registered syntax the
+   browser stores a custom property as a STRING and refuses to interpolate it,
+   so the tilt would jump home the instant the pointer left instead of easing.
+   Registered, these are typed values the compositor can animate. */
+@property --tx { syntax:'<angle>';      inherits:false; initial-value:0deg }
+@property --ty { syntax:'<angle>';      inherits:false; initial-value:0deg }
+@property --gx { syntax:'<percentage>'; inherits:false; initial-value:50% }
+@property --gy { syntax:'<percentage>'; inherits:false; initial-value:0% }
+@property --glow { syntax:'<number>';   inherits:false; initial-value:0 }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-variation-settings:var(--lit-normal);
+  -webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+picture{display:block;width:100%;height:100%}
+a{color:inherit;text-decoration:none}
+.visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ── page furniture ───────────────────────────────────────────────────── */
+.wrap{max-width:1340px;margin:0 auto;padding:0 clamp(1rem,4vw,3rem)}
+.head{padding:clamp(3.5rem,8vw,6.5rem) 0 clamp(2rem,4vw,3rem);max-width:62ch}
+.kick{font-family:var(--ui);font-size:var(--ap-sm);font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--accent);margin:0 0 .8rem}
+.h{font-size:clamp(2.2rem,5.4vw,3.9rem);font-variation-settings:var(--lit-display);
+  font-weight:400;line-height:1.02;letter-spacing:-.028em;margin:0 0 1.1rem}
+.sub{color:var(--ink-soft);font-size:clamp(1.02rem,1.35vw,1.16rem);line-height:1.58;margin:0}
+.sub b{color:var(--ink);font-weight:600}
+
+/* ══════════════════════════════════════════════════════════════════════
+   THE WALL — one camera over ten plates
+   ══════════════════════════════════════════════════════════════════════ */
+.pt-wall{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:clamp(1rem,2.1vw,2rem);
+  /* 🛑 THE PERSPECTIVE LIVES HERE, ONCE. Ten cards each with their own
+     perspective are ten head-on cards; one perspective over the wall gives
+     them a shared vanishing point, so the outer plates lean away from the
+     centre the way prints on a real table do. */
+  perspective:1900px;perspective-origin:50% 36%;
+  grid-auto-rows:1fr;align-items:stretch;
+  padding:clamp(1rem,2vw,2rem) 0 clamp(2rem,4vw,3.5rem);
+}
+.pt{position:relative;transform-style:preserve-3d;height:100%}
+
+/* the cast shadow is a separate ellipse on the page, NOT a filter on the
+   card — a drop-shadow() on a rotating 3D element re-rasterises every frame */
+.pt-cast{
+  position:absolute;left:8%;right:8%;bottom:-10px;height:22px;border-radius:50%;
+  background:rgba(25,21,16,.30);filter:blur(13px);
+  opacity:0;transform:scale(.82);
+  transition:opacity var(--dur-med) var(--ease),transform var(--dur-med) var(--ease);
+  pointer-events:none;
+}
+
+/* the tilt layer and the turn layer are SEPARATE, because they both want to
+   write `transform` and the last one to speak would win */
+.pt-tilt{
+  display:block;height:100%;transform-style:preserve-3d;
+  transform:translateY(var(--hover-y,0)) rotateX(var(--tx)) rotateY(var(--ty));
+  transition:transform var(--dur-med) var(--ease);
+}
+/* 🛑 NO aspect-ratio HERE, AND THAT IS THE FIX FOR A REAL BUG.
+   A guessed ratio clipped the longest blurb: measured, chapter VI's back needs
+   a height/width of 1.56 at a 1440 window and 2.49 at 950, because a narrower
+   card wraps the paragraph into more lines. No single ratio satisfies both.
+   So the BACK is in normal flow and sets the height, and the front picture is
+   the absolute one that fills it. grid-auto-rows:1fr then levels every card to
+   the tallest back on the page. Nothing can clip at any width, ever, and the
+   card simply gets slimmer on a narrow screen instead of breaking. */
+.pt-turnable{
+  display:block;position:relative;transform-style:preserve-3d;height:100%;
+}
+.pt-face{overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.pt-front{position:absolute;inset:0;transform:translateZ(calc(var(--stock) / 2));background:var(--rule)}
+/* ⭐ the back is printed on THIS chapter's paper stock, out of css/site.css */
+.pt-back{
+  position:relative;min-height:100%;
+  transform:rotateY(180deg) translateZ(calc(var(--stock) / 2));
+  background:var(--stock-paper);color:var(--ink-ch);
+  border:1px solid rgba(25,21,16,.16);
+  padding:clamp(.9rem,1.5vw,1.3rem);
+  display:flex;flex-direction:column;
+}
+/* two edge faces give the plate a spine. Only the left and right ones are
+   ever seen in a rotateY, so the top and bottom are not built. */
+.pt-edge{position:absolute;top:0;bottom:0;width:var(--stock);
+  background:linear-gradient(to right,#cdc7bb,#efeae0);pointer-events:none}
+.pt-edge-r{right:0;transform-origin:100% 50%;transform:rotateY(90deg)}
+.pt-edge-l{left:0;transform-origin:0 50%;transform:rotateY(-90deg)}
+
+.pt-front img{width:100%;height:100%;object-fit:cover;
+  filter:saturate(.88) contrast(1.02);
+  transition:filter var(--dur-slow) var(--ease),scale 900ms var(--ease)}
+
+/* ⭐ ONE WARM HIGHLIGHT, TRACKING THE POINTER — not a foil, not a rainbow.
+   This is light raking across a photographic print, which is what these are. */
+.pt-sheen{
+  position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;
+  background:radial-gradient(58% 46% at var(--gx) var(--gy),
+             rgba(255,247,232,calc(.55 * var(--glow))) 0%,
+             rgba(255,247,232,calc(.16 * var(--glow))) 42%,
+             transparent 72%);
+}
+/* the plaque is the same scrim the strip already uses. White on the .70 stop
+   over a white sky measures 7.4:1 — do not thin it to let the picture through */
+.pt-plaque{
+  position:absolute;left:0;right:0;bottom:0;padding:2.6rem .85rem .85rem;
+  background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.68) 46%,rgba(0,0,0,0) 100%);
+  display:flex;align-items:baseline;gap:.55rem;pointer-events:none;
+}
+.pt-plaque .n{font-family:var(--serif);font-size:.86rem;font-weight:500;
+  letter-spacing:.14em;color:rgba(255,255,255,.9);
+  font-variant-numeric:lining-nums tabular-nums}
+.pt-plaque .t{font-variation-settings:var(--lit-mid);font-weight:350;
+  font-size:clamp(.98rem,1.15vw,1.1rem);line-height:1.14;letter-spacing:-.012em;color:#fff}
+
+/* the whole front face is the control. It carries the accessible name, so the
+   plaque underneath can stay decorative and is never announced twice. */
+.pt-hit{position:absolute;inset:0;width:100%;height:100%;
+  background:none;border:0;padding:0;cursor:pointer;font:inherit;color:inherit}
+.pt-hit:focus-visible,.pt-close:focus-visible,.pt-open:focus-visible{
+  outline:2px solid var(--accent-ch,var(--accent));outline-offset:-3px}
+
+/* ── the back's copy ──────────────────────────────────────────────────── */
+.pt-nb{font-family:var(--serif);font-variation-settings:var(--lit-display);
+  font-size:1.42rem;font-weight:400;letter-spacing:.08em;color:var(--accent-ch);
+  margin:0;font-variant-numeric:lining-nums tabular-nums;line-height:1}
+/* ⚠️ THE BACK CARRIES THE NAME. The first build printed the numeral and the
+   blurb and no title, so turning a plate over lost the one word you turned it
+   over to read about. */
+.pt-bt{display:block;font-variation-settings:var(--lit-mid);font-weight:400;
+  font-size:clamp(1.02rem,1.25vw,1.22rem);line-height:1.1;letter-spacing:-.018em;
+  color:var(--ink-ch);margin:.35rem 0 .7rem;text-wrap:balance}
+.pt-brule{display:block;height:1px;background:currentColor;color:var(--accent-ch);
+  opacity:.34;margin:0 0 .7rem;
+  transform:scaleX(0);transform-origin:left;transition:transform 700ms var(--ease) 300ms}
+.pt.is-turned .pt-brule{transform:scaleX(1)}
+.pt-hook{font-size:clamp(.82rem,.96vw,.92rem);line-height:1.52;
+  color:var(--ink-ch);opacity:.88;margin:0}
+.pt-ref{font-family:var(--ui);font-size:.58rem;font-weight:600;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--accent-ch);margin:.7rem 0 0}
+.pt-len{font-family:var(--ui);font-size:.6rem;font-weight:500;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-ch);opacity:.78;margin:.9rem 0 0;
+  font-variant-numeric:lining-nums tabular-nums}
+/* the runtime is a LENGTH. 22 min and 59 min read identical as words. */
+.pt-bar{display:block;height:2px;background:rgba(25,21,16,.16);margin-top:.35rem;position:relative}
+.pt-bar::after{content:'';position:absolute;inset:0 auto 0 0;width:var(--pct);
+  background:var(--accent-ch);opacity:.6}
+.pt-foot{margin-top:auto;padding-top:.9rem;display:flex;align-items:center;
+  justify-content:space-between;gap:.5rem}
+.pt-open{display:inline-flex;align-items:center;gap:.35rem;min-height:44px;
+  font-family:var(--ui);font-size:.76rem;font-weight:700;letter-spacing:.03em;
+  color:var(--ink-ch)}
+.pt-open::after{content:'→';transition:translate var(--dur-med) var(--ease)}
+.pt-open:hover::after{translate:.28rem 0}
+.pt-close{background:none;border:0;cursor:pointer;min-width:44px;min-height:44px;
+  font-family:var(--ui);font-size:.58rem;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-ch);opacity:.78;padding:0;
+  transition:opacity var(--dur-fast) var(--ease)}
+.pt-close:hover{opacity:1}
+
+/* ══════════════════════════════════════════════════════════════════════
+   THE TURN ITSELF — three stages, because a hand lifts before it turns
+   ══════════════════════════════════════════════════════════════════════ */
+@keyframes pt-turn{
+  0%   {transform:translateZ(0) rotateY(0deg);      animation-timing-function:var(--ease-lift)}
+  44%  {transform:translateZ(var(--lift)) rotateY(-86deg); animation-timing-function:var(--ease-set)}
+  100% {transform:translateZ(0) rotateY(-180deg)}
+}
+@keyframes pt-return{
+  0%   {transform:translateZ(0) rotateY(-180deg);   animation-timing-function:var(--ease-lift)}
+  44%  {transform:translateZ(var(--lift)) rotateY(-94deg); animation-timing-function:var(--ease-set)}
+  100% {transform:translateZ(0) rotateY(0deg)}
+}
+/* the shadow answers the lift: it spreads and fades as the plate leaves the page */
+@keyframes pt-cast{
+  0%,100% {opacity:.30;transform:scale(1)}
+  44%     {opacity:.10;transform:scale(1.5)}
+}
+/* and the print catches the light hardest at the edge, which is the one frame
+   that sells the whole gesture */
+@keyframes pt-catch{ 0%,100%{--glow:0} 38%{--glow:1.35} 52%{--glow:.5} }
+
+.pt.is-turned  .pt-turnable{animation:pt-turn   var(--turn) both}
+.pt.is-untur   .pt-turnable{animation:pt-return var(--turn) both}
+.pt.is-turned .pt-cast,.pt.is-untur .pt-cast{animation:pt-cast var(--turn) both}
+.pt.is-turned .pt-sheen,.pt.is-untur .pt-sheen{animation:pt-catch var(--turn) both}
+/* a face that has been turned away must not be clickable OR reachable by tab */
+.pt.is-turned .pt-front{pointer-events:none}
+
+@media (hover:hover){
+  .pt:hover .pt-cast{opacity:.34;transform:scale(1.04)}
+  .pt:hover .pt-front img{filter:saturate(1) contrast(1);scale:1.035}
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   THE ARC — the reason this is an intro and not a menu
+   Ten stops of the book's own paper stock, night to full morning.
+   ══════════════════════════════════════════════════════════════════════ */
+.arc{border-top:1px solid var(--rule);padding-top:1.1rem;margin-top:.5rem}
+.arc-cap{font-family:var(--ui);font-size:var(--ap-sm);font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-faint);margin:0 0 .9rem}
+.arc-rail{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;list-style:none;padding:0;margin:0}
+.arc-stop{display:block;width:100%;background:none;border:0;padding:0 0 .5rem;cursor:pointer;
+  font:inherit;text-align:center}
+.arc-swatch{display:block;height:30px;background:var(--stock-paper);
+  border:1px solid rgba(25,21,16,.12);border-bottom:2px solid var(--accent-ch);
+  transition:height var(--dur-med) var(--ease)}
+.arc-stop:hover .arc-swatch,.arc-stop:focus-visible .arc-swatch{height:40px}
+.arc-n{display:block;margin-top:.4rem;font-family:var(--serif);font-size:.62rem;
+  letter-spacing:.1em;color:var(--ink-faint)}
+.arc-stop:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* the plate the rail is pointing at answers from across the page */
+.pt.is-cued .pt-cast{opacity:.34;transform:scale(1.06)}
+.pt.is-cued .pt-tilt{--hover-y:-9px}
+
+/* ── the once-only arrival, the site's own gesture ────────────────────── */
+.pt{opacity:0;transform:translateY(26px)}
+.pt.is-in{opacity:1;transform:none;
+  transition:opacity 720ms var(--ease) calc(var(--i) * 55ms),
+             transform 720ms var(--ease) calc(var(--i) * 55ms)}
+
+/* ── phones ───────────────────────────────────────────────────────────── */
+@media (max-width:900px){
+  .pt-wall{grid-template-columns:repeat(2,1fr);perspective:1100px}
+  .arc-rail{grid-template-columns:repeat(5,1fr);row-gap:.6rem}
+}
+/* 🛑 REDUCED MOTION IS A FULL STOP, NOT A SLOWER TURN. There is no flip at
+   all: the two faces cross-fade, which is a state change. The tilt, the lift,
+   the sheen and the arrival are simply gone. */
+@media (prefers-reduced-motion:reduce){
+  .pt{opacity:1;transform:none}
+  .pt-tilt{transform:none}
+  .pt-turnable{animation:none!important}
+  .pt-face{backface-visibility:visible;transition:opacity var(--dur-med) var(--ease)}
+  .pt-front{transform:none} .pt-back{transform:none;opacity:0;pointer-events:none}
+  .pt.is-turned .pt-front{opacity:0} .pt.is-turned .pt-back{opacity:1;pointer-events:auto}
+  .pt-cast,.pt-sheen,.pt-edge{display:none}
+}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+  <header class="head">
+    <p class="kick">The plates</p>
+    <h1 class="h">Ten pictures, and the back of each one.</h1>
+    <p class="sub">Turn a plate over and it tells you what its chapter is about, where it opens,
+      and how long it runs. <b>Each back is printed on its own chapter's paper</b> — the first is
+      the dark of the tomb, the last is full morning. <b>Turning all ten walks you through the
+      light of the whole book</b> before you have read a word of it.</p>
+  </header>
+
+  <div class="pt-wall" id="wall"></div>
+
+  <section class="arc">
+    <p class="arc-cap">The light, chapter by chapter</p>
+    <div class="arc-rail" id="rail"></div>
+  </section>
+</main>
+
+<!-- the REAL content files, so nothing here can drift from the book -->
+<script src="../content/images.js"></script>
+<script src="../content/derivatives.js"></script>
+<script src="../content/audio-manifest.js"></script>
+<script src="../content/chapters.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var ROMAN = ['','I','II','III','IV','V','VI','VII','VIII','IX','X'];
+
+  /* ⭐ THE DAWN ARC, COPIED EXACTLY FROM css/site.css .section[data-ch=n].
+     These are not new colours — they are the paper stocks the chapters
+     themselves are already printed on, in order, night to morning. */
+  var STOCK = [
+    null,
+    { paper:'#EDE9DF', ink:'#191510', accent:'#32506B' },  /* I    the tomb */
+    { paper:'#E7E7E4', ink:'#16181A', accent:'#32506B' },  /* II   the hiding */
+    { paper:'#EDE6DB', ink:'#1A1510', accent:'#32506B' },  /* III  the mountain */
+    { paper:'#E6E8EA', ink:'#15181B', accent:'#32506B' },  /* IV   the ford at night */
+    { paper:'#F0E9DC', ink:'#1A1510', accent:'#A8391B' },  /* V    the bush */
+    { paper:'#F2ECE0', ink:'#1A1610', accent:'#A8391B' },  /* VI   borrowed light */
+    { paper:'#E9E9E7', ink:'#17191B', accent:'#A8391B' },  /* VII  the glory backs out */
+    { paper:'#EBE6E1', ink:'#181412', accent:'#A8391B' },  /* VIII flint */
+    { paper:'#F4EEE1', ink:'#1A1610', accent:'#7E5A20' },  /* IX   the second fire */
+    { paper:'#FBF7EE', ink:'#1A1712', accent:'#7E5A20' }   /* X    full morning */
+  ];
+
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  var AUDIO = window.PANIM_AUDIO || {}, LONGEST = 0;
+
+  /* the same read js/render.js makes: a chapter's plate is its own first block */
+  var CH = (window.PANIM_CHAPTERS || []).map(function (c) {
+    var b0 = c.blocks[0];
+    var verse = c.blocks.find(function (b) { return b.type === 'verse'; });
+    var a = AUDIO[c.id], mins = a && a.voiceDur ? Math.round(a.voiceDur / 60) : 0;
+    if (mins > LONGEST) LONGEST = mins;
+    return { num:c.num, id:c.id, title:c.title, hook:c.hook, mins:mins,
+             slot:(b0 && b0.type === 'slot') ? b0.slot : null,
+             ref: verse ? verse.ref : '' };
+  });
+
+  function pic(slot) {
+    var d = (window.PANIM_DERIVATIVES || {})[slot];
+    var f = (window.PANIM_IMAGES || {})[slot];
+    if (!f || !f.src) return '';
+    return '<picture>' +
+      (d ? '<source type="image/avif" sizes="(max-width:900px) 46vw, 20vw" srcset="' +
+            d.map(function (x) { return '../' + x.src + ' ' + x.w + 'w'; }).join(', ') + '">' : '') +
+      '<img src="../' + esc(f.src) + '" alt="" loading="lazy" decoding="async"></picture>';
+  }
+
+  document.getElementById('wall').innerHTML = CH.map(function (c, i) {
+    var s = STOCK[c.num], bid = 'back-' + c.id;
+    return '<article class="pt" style="--i:' + i + ';--stock-paper:' + s.paper +
+             ';--ink-ch:' + s.ink + ';--accent-ch:' + s.accent + '" data-n="' + c.num + '">' +
+      '<span class="pt-cast" aria-hidden="true"></span>' +
+      '<span class="pt-tilt"><span class="pt-turnable">' +
+        '<span class="pt-face pt-front">' + pic(c.slot) +
+          '<span class="pt-sheen" aria-hidden="true"></span>' +
+          '<span class="pt-plaque" aria-hidden="true">' +
+            '<span class="n">' + ROMAN[c.num] + '</span>' +
+            '<span class="t">' + esc(c.title) + '</span></span>' +
+          // the whole face is the control, and it carries the only accessible
+          // name — so the plaque above stays decorative and is never read twice
+          '<button class="pt-hit" type="button" aria-expanded="false" aria-controls="' + bid + '">' +
+            '<span class="visually-hidden">Turn over Chapter ' + ROMAN[c.num] + ', ' +
+              esc(c.title) + '</span></button>' +
+        '</span>' +
+        '<span class="pt-face pt-back" id="' + bid + '">' +
+          '<span class="pt-nb">' + ROMAN[c.num] + '</span>' +
+          '<span class="pt-bt">' + esc(c.title) + '</span>' +
+          '<span class="pt-brule" aria-hidden="true"></span>' +
+          '<p class="pt-hook">' + esc(c.hook) + '</p>' +
+          (c.ref ? '<p class="pt-ref">Opens at ' + esc(c.ref) + '</p>' : '') +
+          '<p class="pt-len">' + c.mins + ' min<span class="pt-bar" style="--pct:' +
+            Math.round(c.mins / LONGEST * 100) + '%"></span></p>' +
+          '<span class="pt-foot">' +
+            '<a class="pt-open" href="#' + c.id + '">Open chapter</a>' +
+            '<button class="pt-close" type="button">Turn back</button>' +
+          '</span>' +
+        '</span>' +
+        '<span class="pt-edge pt-edge-l" aria-hidden="true"></span>' +
+        '<span class="pt-edge pt-edge-r" aria-hidden="true"></span>' +
+      '</span></span>' +
+    '</article>';
+  }).join('');
+
+  var wall = document.getElementById('wall');
+  var cards = [].slice.call(wall.querySelectorAll('.pt'));
+
+  /* the face that has been turned away is inert: not clickable, not tabbable,
+     not read out. backface-visibility hides it from the eye and nothing else. */
+  function setFaces(card, turned) {
+    card.querySelector('.pt-front').inert = turned;
+    card.querySelector('.pt-back').inert  = !turned;
+    card.querySelector('.pt-hit').setAttribute('aria-expanded', turned ? 'true' : 'false');
+  }
+  cards.forEach(function (c) { setFaces(c, false); });
+
+  wall.addEventListener('click', function (e) {
+    if (e.target.closest('.pt-open')) return;            // the link out is the link out
+    var hit = e.target.closest('.pt-hit, .pt-close');
+    if (!hit) return;
+    var card = hit.closest('.pt'), turned = card.classList.contains('is-turned');
+    card.classList.toggle('is-turned', !turned);
+    card.classList.toggle('is-untur', turned);           // drives the return keyframes
+    setFaces(card, !turned);
+    (turned ? card.querySelector('.pt-hit') : card.querySelector('.pt-open')).focus({preventScroll:true});
+  });
+
+  /* ── the idle tilt ──────────────────────────────────────────────────────
+     🛑 THE POINTER DELTA IS NEVER WRITTEN STRAIGHT TO THE TRANSFORM. Every
+     card holds a current angle and a target angle, and one rAF loop walks
+     current toward target by 18% a frame. That lag IS the weight — writing
+     the raw delta is exactly what makes a tilt feel twitchy and cheap. */
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var coarse = matchMedia('(hover: none)').matches;
+  if (!reduce && !coarse) {
+    var MAX = 4.2, live = null, raf = 0;
+    cards.forEach(function (c) { c._c = {x:0,y:0,gx:50,gy:0,glow:0}; c._t = {x:0,y:0,gx:50,gy:0,glow:0}; });
+
+    wall.addEventListener('pointermove', function (e) {
+      var card = e.target.closest('.pt'); if (!card) return;
+      var r = card.getBoundingClientRect();
+      var u = (e.clientX - r.left) / r.width, v = (e.clientY - r.top) / r.height;
+      card._t = { x:(0.5 - v) * 2 * MAX, y:(u - 0.5) * 2 * MAX,
+                  gx:u * 100, gy:v * 100, glow:1 };
+      live = card; kick();
+    }, { passive:true });
+
+    wall.addEventListener('pointerleave', function () {
+      cards.forEach(function (c) { c._t = {x:0,y:0,gx:50,gy:0,glow:0}; });
+      kick();
+    }, { passive:true });
+    wall.addEventListener('pointerout', function (e) {
+      var card = e.target.closest('.pt');
+      if (card && !card.contains(e.relatedTarget)) {
+        card._t = {x:0,y:0,gx:50,gy:0,glow:0}; kick();
+      }
+    }, { passive:true });
+
+    function kick(){ if (!raf) raf = requestAnimationFrame(step); }
+    function step() {
+      raf = 0; var moving = false;
+      for (var i = 0; i < cards.length; i++) {
+        var c = cards[i], a = c._c, b = c._t, d = 0;
+        for (var k in b) { var n = a[k] + (b[k] - a[k]) * 0.18; d += Math.abs(n - a[k]); a[k] = n; }
+        if (d < 0.004) continue;
+        moving = true;
+        var el = c.querySelector('.pt-tilt');
+        // a turned plate keeps its lift and its light but must not counter-tilt
+        el.style.setProperty('--tx', a.x.toFixed(3) + 'deg');
+        el.style.setProperty('--ty', a.y.toFixed(3) + 'deg');
+        el.style.setProperty('--hover-y', (a.glow * -9).toFixed(2) + 'px');
+        c.style.setProperty('--gx', a.gx.toFixed(2) + '%');
+        c.style.setProperty('--gy', a.gy.toFixed(2) + '%');
+        if (!c.classList.contains('is-turned') && !c.classList.contains('is-untur'))
+          c.style.setProperty('--glow', a.glow.toFixed(3));
+      }
+      if (moving) raf = requestAnimationFrame(step);
+    }
+  }
+
+  /* ── the arc rail ─────────────────────────────────────────────────────── */
+  document.getElementById('rail').innerHTML = CH.map(function (c) {
+    var s = STOCK[c.num];
+    return '<button class="arc-stop" type="button" data-n="' + c.num + '"' +
+      ' style="--stock-paper:' + s.paper + ';--accent-ch:' + s.accent + '">' +
+      '<span class="arc-swatch" aria-hidden="true"></span>' +
+      '<span class="arc-n">' + ROMAN[c.num] + '</span>' +
+      '<span class="visually-hidden">Point out Chapter ' + ROMAN[c.num] + ', ' +
+        esc(c.title) + '</span></button>';
+  }).join('');
+
+  var rail = document.getElementById('rail');
+  function cue(n, on) {
+    var card = wall.querySelector('.pt[data-n="' + n + '"]');
+    if (card) card.classList.toggle('is-cued', on);
+  }
+  ['pointerover','focusin'].forEach(function (ev) {
+    rail.addEventListener(ev, function (e) {
+      var s = e.target.closest('.arc-stop'); if (s) cue(s.dataset.n, true);
+    });
+  });
+  ['pointerout','focusout'].forEach(function (ev) {
+    rail.addEventListener(ev, function (e) {
+      var s = e.target.closest('.arc-stop'); if (s) cue(s.dataset.n, false);
+    });
+  });
+  rail.addEventListener('click', function (e) {
+    var s = e.target.closest('.arc-stop'); if (!s) return;
+    var card = wall.querySelector('.pt[data-n="' + s.dataset.n + '"]');
+    if (card) card.querySelector('.pt-hit').click();
+  });
+
+  /* the once-only arrival — the same gesture .hairline.is-drawn already uses */
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+    });
+  }, { rootMargin:'0px 0px -8% 0px' });
+  cards.forEach(function (c) { io.observe(c); });
+})();
+</script>
+</body>
+</html>

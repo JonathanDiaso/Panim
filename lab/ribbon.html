@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The ribbon — at the photographs' own shape</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+/* ══════════════════════════════════════════════════════════════════════════
+   THE RIBBON — the concept you connected with, rebuilt around one measurement.
+
+   🔴 THE FAULT YOU FELT AND NAMED "the shape of the photos doesnt fit".
+      Every one of the ten plates is 1408x768 — 1.833:1, wide landscape.
+      Measured in a real browser, here is how much of each photograph each
+      concept was actually showing:
+
+        lab/turn.html  @402   0.506  ->  28% of the picture
+        lab/turn.html  @1440  0.637  ->  35%
+        plates.html B  (ribbon, 2:3)  ->  36%
+        plates.html D  (wall, 3:4)    ->  41%
+        plates.html A  (proof, 3:2)   ->  82%
+        plates.html C  (list, 16:9)   ->  97%   <- the only one that fit
+
+      The turn was throwing away three quarters of every plate and then asking
+      you to admire it. That is the whole complaint, and it is arithmetic, not
+      taste. THIS PAGE FRAMES AT 11:6, the negative's own ratio — the whole width
+      of every plate, and about 9% off the height to buy the drift.
+      That is also why you kept saying it should look "a little like the list":
+      the list was the one that was showing you the pictures.
+
+   ⭐ WHAT IS KEPT FROM THE RIBBON: vertical intent, horizontal travel; the
+      plate the ribbon is holding lighting up and naming itself while the rest hold back;
+      every picture drifting inside its own frame as the strip moves.
+
+   🛑 WHAT IS DROPPED, AND WHY: THE PIN. Concept B pinned the section and spent
+      340vh of page height — about 2,700px — before chapter I. The standing
+      objection of 2026-08-28 was to ~700px of index in that same gap, so the
+      pin was four times the thing already ruled against, and it scroll-jacks,
+      which is the one scrolling pattern accessibility guidance is unanimous on.
+      The travel is now the reader's own thumb on a native scroller. Same
+      gesture, none of the cost, and it works identically on a phone.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* tokens lifted from css/site.css. Nothing invented. */
+:root{
+  --serif:'Literata',Georgia,'Times New Roman',serif;
+  --ui:'Archivo',system-ui,-apple-system,'Helvetica Neue',sans-serif;
+  --lit-normal:'opsz' 12; --lit-mid:'opsz' 28; --lit-display:'opsz' 60;
+  --paper:#F1EDE4; --ink:#191510; --ink-soft:#5C5449; --ink-faint:#6B6459;
+  --rule:rgba(25,21,16,.14); --rule-strong:rgba(25,21,16,.28);
+  --control-edge:rgba(25,21,16,.50); --control-wash:rgba(25,21,16,.04);
+  --accent:#32506B;
+  --ap-sm:.64rem; --ap-md:.72rem; --ap-lg:.82rem;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --dur-fast:140ms; --dur-med:320ms; --dur-slow:620ms;
+  /* new to this page, and only these */
+  --gutter:clamp(1rem,4vw,3rem);   /* the page margin the first plate aligns to */
+  --plate:min(78vw,340px);          /* one plate's width — phone first */
+  --drift:3.7%;                     /* how far a picture travels inside its frame */
+}
+@media (min-width:901px){ :root{ --plate:min(31vw,400px) } }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-variation-settings:var(--lit-normal);
+  -webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ── page furniture, lab only ─────────────────────────────────────────── */
+.wrap{max-width:1340px;margin:0 auto;padding:0 var(--gutter)}
+.head{padding:clamp(3.5rem,8vw,6.5rem) 0 clamp(1.6rem,3vw,2.4rem);max-width:64ch}
+.kick{font-family:var(--ui);font-size:var(--ap-sm);font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--accent);margin:0 0 .8rem}
+.h{font-size:clamp(2.2rem,5.4vw,3.9rem);font-variation-settings:var(--lit-display);
+  font-weight:400;line-height:1.02;letter-spacing:-.028em;margin:0 0 1.1rem}
+.sub{color:var(--ink-soft);font-size:clamp(1.02rem,1.35vw,1.16rem);line-height:1.58;margin:0}
+.sub b{color:var(--ink);font-weight:600}
+.foot{padding:clamp(3rem,6vw,5rem) 0 clamp(4rem,8vw,7rem);max-width:64ch;
+  color:var(--ink-soft);font-size:.95rem;line-height:1.62}
+.foot h2{font-family:var(--ui);font-size:var(--ap-md);font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-faint);margin:0 0 .9rem}
+.foot p{margin:0 0 .9rem}
+.foot b{color:var(--ink);font-weight:600}
+
+/* ══════════════════════════════════════════════════════════════════════
+   THE RAIL — a native scroller. Not a carousel widget.
+
+   🛑 EVERY PART OF THE TRAVEL IS THE BROWSER'S OWN. overflow-x + scroll-snap
+   is Baseline and has been since 2019: it brings momentum, rubber-banding,
+   trackpad gestures, keyboard scrolling, screen-reader scroll-into-view and
+   the platform's own physics. A transform-driven strip re-implements all of
+   that badly, and re-implements it differently on every OS.
+   ══════════════════════════════════════════════════════════════════════ */
+.rb-rail{
+  display:flex;gap:clamp(.7rem,1.4vw,1.1rem);
+  overflow-x:auto;overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;
+  /* the ribbon BLEEDS to the window; only the first plate sits on the text
+     grid, and scroll-padding is what puts it there when a snap lands. */
+  padding-inline:var(--gutter);
+  scroll-padding-inline:var(--gutter);
+  /* vertical room so a focus ring is never clipped by overflow-x — an
+     overflow value on one axis makes the other axis a scroll container too */
+  padding-block:.5rem;
+  scrollbar-width:none;
+  list-style:none;margin:0;
+}
+.rb-rail::-webkit-scrollbar{display:none}
+
+.rb-plate{
+  flex:0 0 var(--plate);scroll-snap-align:start;
+  display:block;min-width:0;
+  transition:opacity var(--dur-med) var(--ease);
+  /* 🔴 position:relative IS LOAD-BEARING AND IT COST AN HOUR TO FIND.
+     Each plate carries a .visually-hidden span, which is position:absolute. With
+     the plate static, that span's containing block is the INITIAL containing
+     block, not the scroller — and an absolutely positioned box is clipped by an
+     ancestor's overflow only when that ancestor is in its containing block chain.
+     So ten screen-reader labels escaped the rail and pushed the DOCUMENT's
+     scrollable width to 2,939px inside a 402px viewport: the whole page slid
+     sideways on a phone. WCAG 1.4.10 Reflow, from a span with width:1px.
+     ⚠️ overflow:hidden on the rail does NOT fix this and that is the tell —
+     only contain:paint did, because it makes the rail a containing block. The
+     honest fix is to make the plate the containing block, which is this line. */
+  position:relative;
+}
+
+/* 🛑 11/6 IS THE NEGATIVE, NOT A CHOICE. 1408x768 reduces to 11:6. Framing at
+   16/9 or 3/2 would be a defensible crop; framing at 2/3 was a mutilation. */
+.rb-frame{
+  position:relative;display:block;overflow:hidden;
+  aspect-ratio:11/6;background:var(--rule);
+  border:1px solid var(--rule);
+}
+.rb-frame picture{display:block;height:100%}
+
+/* ⚠️ THE OVERHANG AND THE DRIFT ARE ONE NUMBER, AND GETTING IT WRONG SHOWS.
+   The first build was 110% wide drifting 5%, and 5% of a 110%-wide image is
+   5.5% of the FRAME — half a percent further than the overhang could cover — so
+   a pale band of the frame's own background appeared down the right edge of
+   every plate. A translate percentage is relative to the element, not its box.
+   110% wide at -5% leaves the picture spanning -5% to 105% of the frame, and
+   3.7% of that image is 4.07% of the frame — so at either extreme there is still
+   0.93% of picture past the edge, about 3px at a desktop plate. Nothing can ever
+   show through, and the margin does not depend on the plate's size because every
+   number in the sum is a percentage.
+
+   🛑 AND THE DRIFT COSTS ABOUT 9% OF THE PICTURE'S HEIGHT — say so rather than
+   pretend otherwise. object-fit:cover in a box 109% as wide as a frame already
+   cut to the photograph's own ratio has to lose the difference somewhere, and it
+   loses it top and bottom. Eight percent off the height of a landscape frame is
+   a different order of thing from the 72% of the WIDTH the turn was cutting: it
+   is a trim, and it buys the only motion inside the frame. */
+.rb-frame img{
+  /* 🛑 max-width:none, AND WITHOUT IT NONE OF THE ABOVE HAPPENS. The page-wide
+     img{max-width:100%} silently clamped the 109% back to the frame's width, so
+     the picture had no overhang at all and the drift dragged it clear of its own
+     right edge — an 18px band of bare frame down every plate. Measured, not
+     guessed: the image element came back 398px wide inside a 400px frame. */
+  max-width:none;
+  position:absolute;top:0;left:-5%;width:110%;height:100%;object-fit:cover;
+  filter:saturate(.80) contrast(1.02);
+  transition:filter var(--dur-slow) var(--ease);
+  translate:var(--dx,0) 0;
+}
+
+/* ── the row under the frame: the list's own grammar ──────────────────────
+   numeral · title · runtime, on paper, separated from the picture by a rule.
+   ⚠️ THE NUMERAL IS UNDER THE FRAME AND NEVER OVER THE PICTURE. That is the
+   v54 ruling and it is worth more here than it was there: with nothing printed
+   on the plate there is no scrim, so no contrast debt and no square inch of
+   the photograph covered up. The type does the labelling; the picture is left
+   alone to be a picture. */
+.rb-row{
+  display:grid;grid-template-columns:2.1rem 1fr auto;align-items:baseline;
+  gap:.7rem;padding:.62rem .1rem 0;
+}
+.rb-n{font-family:var(--serif);font-size:var(--ap-lg);font-weight:500;
+  letter-spacing:.14em;color:var(--accent);
+  font-variant-numeric:lining-nums tabular-nums;
+  transition:color var(--dur-med) var(--ease)}
+.rb-t{font-variation-settings:var(--lit-mid);font-weight:400;
+  font-size:clamp(1.02rem,1.5vw,1.24rem);line-height:1.12;letter-spacing:-.018em;
+  color:var(--ink);text-wrap:balance;
+  transition:transform var(--dur-med) var(--ease)}
+.rb-d{font-family:var(--ui);font-size:var(--ap-md);font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);
+  font-variant-numeric:lining-nums tabular-nums;white-space:nowrap}
+
+/* ── LIT: the plate the ribbon is holding at its centre ───────────────────
+   This is state, not decoration, so it survives prefers-reduced-motion. On a
+   phone it is the only feedback there is — there is no hover to light it. */
+.rb-plate:not(.is-lit) .rb-frame img{filter:saturate(.62) contrast(1.02) brightness(.94)}
+/* ⚠️ BUT NOT BOTH AT ONCE. Under the pointer the rail already drops the other
+   nine to .5 opacity; leaving the held-back filter on top of that dimmed a dark
+   plate twice and chapter I went flat grey against the paper. On a pointer
+   device opacity carries the whole gesture and the filter stands down. */
+@media (hover:hover){
+  .rb-rail:hover .rb-plate:not(.is-lit) .rb-frame img{filter:saturate(.80) contrast(1.02)}
+}
+.rb-plate:not(.is-lit) .rb-t{color:var(--ink-soft)}
+.rb-plate.is-lit .rb-n{color:var(--ink)}
+
+/* ── the pointer, where there is one ─────────────────────────────────────
+   the C-list gesture: point at one and the other nine step back. */
+@media (hover:hover){
+  .rb-rail:hover .rb-plate{opacity:.58}
+  .rb-rail .rb-plate:hover,
+  .rb-rail .rb-plate:focus-visible{opacity:1}
+  .rb-plate:hover .rb-frame img,
+  .rb-plate:focus-visible .rb-frame img{filter:saturate(1) contrast(1)}
+  .rb-plate:hover .rb-t,.rb-plate:focus-visible .rb-t{transform:translateX(.28rem)}
+  .rb-plate:hover .rb-n,.rb-plate:focus-visible .rb-n{color:var(--ink)}
+}
+.rb-plate:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+
+/* ══════════════════════════════════════════════════════════════════════
+   THE DRIFT — every picture counter-travels inside its own frame.
+
+   ⭐ TWO IMPLEMENTATIONS, AND THE CHEAP ONE IS THE FALLBACK, NOT THE DEFAULT.
+   A scroll-driven animation runs on the compositor: the drift keeps its frame
+   rate while the main thread is busy parsing 363KB of chapters.js, which is
+   exactly when a rAF parallax stutters. Chrome 115+, Safari 26+, Edge — about
+   84% of traffic. Firefox still has it behind a flag in stable as of mid-2026,
+   so `view(inline)` cannot be the only path; the rAF below covers the rest.
+   ══════════════════════════════════════════════════════════════════════ */
+@supports (animation-timeline:view(inline)){
+  /* 🔴 THE TIMELINE IS DECLARED ON THE PLATE AND REFERRED TO BY NAME, AND THE
+     OBVIOUS `animation-timeline:view(inline)` ON THE IMAGE IS A TRAP THAT COSTS
+     YOU THE WHOLE EFFECT SILENTLY. A view timeline is measured against the
+     subject's nearest ancestor SCROLL CONTAINER — and .rb-frame has
+     overflow:hidden, which makes it one. So every picture was being measured
+     against the frame it lives in, which never scrolls: measured in Chrome, all
+     ten sat at translate -0.0003% at every scroll position on the rail. No
+     error, no warning, just no motion. Declaring the timeline on .rb-plate —
+     which is outside the frame and inside the rail — resolves it against the
+     rail, which is the thing that actually moves. */
+  html.rb-sda .rb-plate{ view-timeline-name:--rb-plate; view-timeline-axis:inline }
+  html.rb-sda .rb-frame img{
+    translate:none;                       /* the animation owns it now */
+    animation:rb-drift linear both;
+    animation-timeline:--rb-plate;
+    /* the whole traverse of the scrollport, entry edge to exit edge */
+    animation-range:cover 0% cover 100%;
+  }
+  @keyframes rb-drift{
+    from{ translate:calc(var(--drift) * -1) 0 }
+    to  { translate:var(--drift) 0 }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   THE CAPTION — one line of type that keeps pace with the ribbon
+
+   ⭐ THIS IS THE ONE THING WORTH SAVING OUT OF lab/turn.html. The back of each
+   plate carried the chapter's hook, and the hook is the best short copy in the
+   whole book — it is what makes an index an invitation instead of a menu. The
+   turn charged a 3D card flip and 72% of every photograph for it. A ribbon can
+   just print it, once, under the strip, and let it change as you swipe.
+
+   🛑 THE HEIGHT IS RESERVED, NOT FLUID. Ten hooks run 90 to 136 characters, so
+   a caption that sized itself would move the arc up and down under the reader's
+   thumb every time the ribbon snapped. min-height holds the tallest of the ten
+   and the shorter ones simply sit in it.
+   ══════════════════════════════════════════════════════════════════════ */
+.rb-hook{
+  margin:1.1rem 0 0;max-width:58ch;
+  font-size:.92rem;line-height:1.5;color:var(--ink-soft);
+  text-wrap:pretty;
+  min-height:calc(3 * 1.5 * .92rem);
+  transition:opacity var(--dur-med) var(--ease);
+}
+.rb-hook.is-swapping{opacity:0}
+@media (min-width:901px){
+  .rb-hook{font-size:.98rem;min-height:calc(2 * 1.5 * .98rem)}
+}
+@media (prefers-reduced-motion:reduce){ .rb-hook{transition:none} }
+
+/* ══════════════════════════════════════════════════════════════════════
+   THE ARC — all ten, always, and it is the part that answers "show them all"
+
+   Ten plates of a landscape photograph cannot be on one screen at a readable
+   size; that is what made the first strip a row of slivers. So the pictures
+   are big and scrollable and THE INDEX IS COMPLETE: ten stops, each printed in
+   its own chapter's paper stock out of css/site.css, night on the left and
+   full morning on the right. It is a table of contents, a scroll position, and
+   the arc of the book's light in one 40px-tall object.
+   ══════════════════════════════════════════════════════════════════════ */
+.rb-arc{display:flex;gap:2px;margin:1.15rem 0 0;padding:0;list-style:none}
+.rb-stop{flex:1 1 0;min-width:0}
+.rb-dot{
+  display:block;width:100%;background:none;border:0;padding:0;cursor:pointer;
+  font:inherit;text-align:center;
+  /* WCAG 2.5.8: the visible swatch is 30px, the hit area is the full 44 */
+  min-height:44px;
+}
+.rb-sw{display:block;height:26px;background:var(--stock);
+  border:1px solid rgba(25,21,16,.14);
+  border-bottom:2px solid var(--stock-accent);
+  transition:height var(--dur-med) var(--ease),border-bottom-width var(--dur-med) var(--ease)}
+.rb-dot[aria-current="true"] .rb-sw{height:36px;border-bottom-width:3px}
+.rb-dot:hover .rb-sw{height:32px}
+.rb-num{display:block;margin-top:.34rem;font-family:var(--serif);font-size:.62rem;
+  letter-spacing:.1em;color:var(--ink-faint);
+  font-variant-numeric:lining-nums tabular-nums;
+  transition:color var(--dur-fast) var(--ease)}
+.rb-dot[aria-current="true"] .rb-num{color:var(--ink)}
+.rb-dot:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ══════════════════════════════════════════════════════════════════════
+   🛑 THERE ARE NO ARROW BUTTONS, AND THAT IS A DECISION.
+
+   ::scroll-button() was built here and taken out again. The rail bleeds to
+   both window edges, so an arrow has no paper to stand on — it can only sit
+   ON a photograph, which is the exact fault this whole page exists to fix.
+   And it would have been a Chrome-and-Safari-only path to maintain for an
+   affordance the arc below already provides to everyone, in the open, with a
+   name on every stop. A trackpad, a thumb, a keyboard and ten labelled stops
+   are enough. Nothing was lost but a widget.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ══════════════════════════════════════════════════════════════════════
+   THE ARRIVAL — the site's own once-only gesture, and nothing more
+
+   🛑 IT ANIMATES THE FRAME AND THE ROW, NOT THE PLATE, AND THAT IS LOAD-BEARING.
+   The arrival and the hover-dim both want to own opacity on the same element,
+   and a CSS animation's fill outranks every normal declaration — so an arrival
+   that landed on .rb-plate would win the cascade forever and the dim would
+   silently never work again. Animating the two children instead lets the two
+   opacities multiply, which is what they mean anyway.
+   ══════════════════════════════════════════════════════════════════════ */
+/* ⚠️ AND IT IS ARMED FROM SCRIPT, NEVER FROM THE STYLESHEET. `.rb-frame{opacity:0}`
+   written flat would hide all ten plates forever for anyone whose JavaScript did
+   not run — the animation that was going to bring them back is the same script.
+   css/site.css already makes this call: `.reveal{opacity:1}` is its resting state.
+   Nothing on this page is hidden until something has proved it can unhide it. */
+.rb-rail.is-armed .rb-frame,
+.rb-rail.is-armed .rb-row{opacity:0}
+.rb-rail.is-armed.is-in .rb-frame,
+.rb-rail.is-armed.is-in .rb-row{
+  animation:rb-arrive 700ms var(--ease) calc(var(--i) * 55ms) both;
+}
+@keyframes rb-arrive{
+  from{ opacity:0; transform:translateY(22px) }
+  to  { opacity:1; transform:none }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   🛑 REDUCED MOTION IS A FULL STOP ON MOTION AND NOT ON NAVIGATION.
+   The drift, the arrival and the type nudge are gone. Snapping stays, because
+   snapping is how the thing is steered, and the lit state stays, because it is
+   information. Turning off someone's animations must not cost them a control.
+   ══════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion:reduce){
+  .rb-rail{scroll-behavior:auto}
+  .rb-frame,.rb-row{opacity:1!important;transform:none!important;animation:none!important}
+  .rb-frame img{translate:none!important;animation:none!important}
+  .rb-plate:hover .rb-t,.rb-plate:focus-visible .rb-t{transform:none}
+  .rb-sw{transition:none}
+}
+</style>
+</head>
+<body>
+
+<main>
+  <div class="wrap">
+    <header class="head">
+      <p class="kick">The plates · the ribbon, corrected</p>
+      <h1 class="h">Ten plates, at the shape they were photographed.</h1>
+      <p class="sub">You said the shape of the photos didn’t fit, and you were right by a
+        larger margin than it looked. Every plate is <b>1408&#215;768</b>. The turn was
+        showing you <b>28% of each one on a phone</b>. This shows <b>all of it</b> — and the
+        ribbon still runs sideways under your thumb, still lights the plate it is holding,
+        and still drifts every picture inside its own frame as it passes.</p>
+    </header>
+  </div>
+
+  <nav class="rb-rail" id="rail" aria-label="The ten plates"></nav>
+
+  <div class="wrap">
+    <!-- aria-hidden: every hook is already inside its own plate's accessible
+         name, and a caption that announced itself on each snap would talk over
+         a screen-reader user steering the ribbon. -->
+    <p class="rb-hook" id="hook" aria-hidden="true"></p>
+    <ol class="rb-arc" id="arc" aria-label="Jump to a chapter"></ol>
+  </div>
+
+  <div class="wrap">
+    <div class="foot">
+      <h2>What is doing the work</h2>
+      <p><b>The travel is the browser’s.</b> <code>overflow-x</code> plus
+        <code>scroll-snap-type:x mandatory</code> — Baseline since 2019, ~97% of traffic.
+        Momentum, rubber-banding, trackpad, keyboard and screen-reader scrolling all come
+        with it. Nothing here re-implements a carousel.</p>
+      <p><b>The drift is on the compositor where it can be.</b>
+        <code>animation-timeline:view(inline)</code> where it exists (Chrome&nbsp;115+,
+        Safari&nbsp;26+, ~84%), one <code>requestAnimationFrame</code> reading
+        <code>scrollLeft</code> everywhere else. Both write <code>translate</code> only, so
+        neither ever triggers layout.</p>
+      <p><b>There are no arrow buttons.</b> <code>::scroll-button()</code> was built here
+        and taken out: the rail bleeds to both window edges, so an arrow has nowhere to
+        stand except on top of a photograph — the exact fault this page exists to fix. The
+        arc below navigates in the open, with a name on every stop.</p>
+      <p><b>All ten are always present.</b> Not as ten slivers, which is what broke the first
+        strip — as ten stops of the book’s own paper, night to morning.</p>
+    </div>
+  </div>
+</main>
+
+<!-- the REAL content files, so nothing on this page can drift from the book -->
+<script src="../content/images.js"></script>
+<script src="../content/derivatives.js"></script>
+<script src="../content/audio-manifest.js"></script>
+<script src="../content/chapters.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var ROMAN = ['','I','II','III','IV','V','VI','VII','VIII','IX','X'];
+
+  /* ⭐ THE DAWN ARC, COPIED EXACTLY FROM css/site.css .section[data-ch=n].
+     Not new colours: the paper the chapters are already printed on, in order. */
+  var STOCK = [null,
+    { p:'#EDE9DF', a:'#32506B' }, { p:'#E7E7E4', a:'#32506B' },
+    { p:'#EDE6DB', a:'#32506B' }, { p:'#E6E8EA', a:'#32506B' },
+    { p:'#F0E9DC', a:'#A8391B' }, { p:'#F2ECE0', a:'#A8391B' },
+    { p:'#E9E9E7', a:'#A8391B' }, { p:'#EBE6E1', a:'#A8391B' },
+    { p:'#F4EEE1', a:'#7E5A20' }, { p:'#FBF7EE', a:'#7E5A20' }];
+
+  function esc(s){ return String(s).replace(/[&<>"]/g, function (c) {
+    return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); }
+
+  var AUDIO = window.PANIM_AUDIO || {};
+
+  /* the same read js/render.js makes: a chapter's plate is its own first block */
+  var CH = (window.PANIM_CHAPTERS || []).map(function (c) {
+    var b0 = c.blocks[0], a = AUDIO[c.id];
+    return { num:c.num, id:c.id, title:c.title, hook:c.hook || '',
+             mins: a && a.voiceDur ? Math.round(a.voiceDur / 60) + ' min' : '',
+             slot: (b0 && b0.type === 'slot') ? b0.slot : null };
+  });
+
+  /* sizes must describe the IMG, which is 110% of the frame — not the frame */
+  var SIZES = '(max-width:900px) 86vw, 34vw';
+
+  function pic(slot) {
+    var d = (window.PANIM_DERIVATIVES || {})[slot];
+    var f = (window.PANIM_IMAGES || {})[slot];
+    if (!f || !f.src) return '';
+    return '<picture>' +
+      (d ? '<source type="image/avif" sizes="' + SIZES + '" srcset="' +
+            d.map(function (x) { return '../' + x.src + ' ' + x.w + 'w'; }).join(', ') + '">' : '') +
+      '<img src="../' + esc(f.src) + '" alt="" loading="lazy" decoding="async"></picture>';
+  }
+
+  var rail = document.getElementById('rail');
+  var arc  = document.getElementById('arc');
+
+  /* ── the plates ──────────────────────────────────────────────────────────
+     🛑 alt="" ON PURPOSE, and .rb-row is NOT aria-hidden. The row IS the link
+     text here — numeral, title and runtime are real text on paper, so a screen
+     reader reads exactly what a sighted reader sees and there is no duplicate
+     hidden label to keep in sync. The v54 strip needed one only because its
+     caption sat on the picture and had to be hidden. This is the better shape
+     of the same decision, not a departure from it. */
+  rail.innerHTML = CH.map(function (c, i) {
+    return '<a class="rb-plate" href="#' + esc(c.id) + '" style="--i:' + i + '" data-n="' + c.num + '">' +
+      '<span class="visually-hidden">Chapter ' + ROMAN[c.num] + ', ' + esc(c.title) +
+        (c.mins ? '. ' + esc(c.mins) + 'utes' : '') +
+        (c.hook ? '. ' + esc(c.hook) : '') + '</span>' +
+      '<span class="rb-frame">' + pic(c.slot) + '</span>' +
+      '<span class="rb-row" aria-hidden="true">' +
+        '<span class="rb-n">' + ROMAN[c.num] + '</span>' +
+        '<span class="rb-t">' + esc(c.title) + '</span>' +
+        '<span class="rb-d">' + esc(c.mins) + '</span>' +
+      '</span>' +
+    '</a>';
+  }).join('');
+
+  var plates = [].slice.call(rail.querySelectorAll('.rb-plate'));
+
+  /* ── the arc ─────────────────────────────────────────────────────────── */
+  arc.innerHTML = CH.map(function (c) {
+    var s = STOCK[c.num] || STOCK[1];
+    return '<li class="rb-stop">' +
+      '<button class="rb-dot" type="button" data-n="' + c.num + '"' +
+        ' style="--stock:' + s.p + ';--stock-accent:' + s.a + '">' +
+        '<span class="rb-sw" aria-hidden="true"></span>' +
+        '<span class="rb-num" aria-hidden="true">' + ROMAN[c.num] + '</span>' +
+        '<span class="visually-hidden">Chapter ' + ROMAN[c.num] + ', ' + esc(c.title) + '</span>' +
+      '</button></li>';
+  }).join('');
+
+  var dots = [].slice.call(arc.querySelectorAll('.rb-dot'));
+
+  dots.forEach(function (d, i) {
+    d.addEventListener('click', function () {
+      /* scrollIntoView on a snap container lands on the snap point, so this
+         and a thumb-swipe end in exactly the same place. */
+      plates[i].scrollIntoView({ behavior:'smooth', inline:'start', block:'nearest' });
+    });
+  });
+
+  var REDUCED = window.matchMedia &&
+                matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── LIT — which plate the ribbon has parked against the gutter ──────────
+     ⚠️ IT IS MEASURED, NOT OBSERVED, AND THE FIRST BUILD GOT THIS WRONG.
+     An IntersectionObserver over a leading band looks right and is subtly not:
+     at the end of the rail the outgoing plate still has its tail inside the
+     band, so chapter IX stayed lit while chapter X sat at the gutter. And an
+     observer callback only carries the entries that CHANGED, so it can never
+     answer "which of the ten is nearest" from one delivery.
+
+     🛑 SO THE OFFSETS ARE CACHED ONCE AND THE HANDLER IS PURE ARITHMETIC. Each
+     plate's snap position is a constant until the layout changes; after that,
+     finding the leading plate is ten subtractions on numbers already in memory.
+     No getBoundingClientRect, no forced layout, nothing read from the DOM in a
+     scroll handler at all. */
+  var lit = -1, hookEl = document.getElementById('hook'), hookTimer = 0;
+  var snaps = [], pad = 0;
+
+  function measure() {
+    pad = parseFloat(getComputedStyle(rail).scrollPaddingLeft) || 0;
+    var base = rail.getBoundingClientRect().left + rail.scrollLeft;
+    snaps = plates.map(function (p) {
+      return p.getBoundingClientRect().left + rail.scrollLeft - base - pad;
+    });
+  }
+
+  function leading() {
+    var x = rail.scrollLeft, best = 0, bestD = Infinity;
+    for (var i = 0; i < snaps.length; i++) {
+      var d = Math.abs(snaps[i] - x);
+      if (d < bestD) { bestD = d; best = i; }
+    }
+    return best;
+  }
+
+  function setLit(i) {
+    if (i === lit || i < 0) return;
+    if (lit >= 0) { plates[lit].classList.remove('is-lit'); dots[lit].removeAttribute('aria-current'); }
+    lit = i;
+    plates[i].classList.add('is-lit');
+    dots[i].setAttribute('aria-current', 'true');
+    /* fade out, swap the text at the bottom of the fade, fade back in — a hard
+       cut on a 92-character sentence reads as a glitch, and a crossfade of two
+       different paragraphs on top of each other is unreadable. One element. */
+    hookEl.classList.add('is-swapping');
+    clearTimeout(hookTimer);
+    hookTimer = setTimeout(function () {
+      hookEl.textContent = CH[i].hook;
+      hookEl.classList.remove('is-swapping');
+    }, REDUCED ? 0 : 200);
+  }
+
+  /* ── THE DRIFT, fallback path ────────────────────────────────────────────
+     Only builds where view(inline) is missing. `rb-sda` is set on <html> when
+     the CSS path is live and the @supports block is keyed on that class, so
+     exactly one of the two implementations is ever active. */
+  var CSS_DRIFT = window.CSS && CSS.supports &&
+                  CSS.supports('animation-timeline', 'view(inline)');
+  var DRIFT_JS = !CSS_DRIFT && !REDUCED;
+  var imgs = DRIFT_JS ? plates.map(function (p) { return p.querySelector('img'); }) : null;
+  /* 🛑 ONE NUMBER, READ FROM THE STYLESHEET. The first build hard-coded 5 here
+     while the keyframes used --drift, so the two implementations disagreed on
+     both the distance AND the direction — Firefox would have drifted 5% the
+     wrong way while Chrome drifted 3.7% the right way, and nothing would have
+     said so. The fallback now takes its amplitude from the same token. */
+  var DRIFT = DRIFT_JS
+    ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--drift')) || 3.7
+    : 0;
+
+  if (CSS_DRIFT) document.documentElement.classList.add('rb-sda');
+
+  /* ── one rAF-throttled handler for both, and it never touches the DOM to read
+     ── everything it needs was measured once and is arithmetic from here. */
+  var ticking = false;
+  function frame() {
+    ticking = false;
+    setLit(leading());
+    if (!DRIFT_JS) return;
+    var w = rail.clientWidth, x = rail.scrollLeft;
+    /* 🛑 ALL READS, THEN ALL WRITES. clientWidth is read once, outside the loop;
+       interleaving a read with a style write inside it would force one layout
+       per plate, ten times a frame. */
+    for (var i = 0; i < imgs.length; i++) {
+      if (!imgs[i]) continue;
+      var c = snaps[i] + pad + plates[i].offsetWidth / 2 - x;   /* plate centre */
+      var t = Math.max(-1, Math.min(1, (c - w / 2) / (w / 2 + plates[i].offsetWidth / 2)));
+      /* ⚠️ NEGATED, AND THAT IS THE WHOLE POINT OF A COUNTER-PARALLAX. t runs
+         from -1 when the plate is at the left of the scrollport to +1 when it is
+         at the right; the picture has to travel the OTHER way, so that a frame
+         moving left carries a picture drifting right inside it. Positive t with
+         a positive translate is a picture sliding with its own frame, which is
+         no parallax at all — it just looks like a rendering fault. */
+      imgs[i].style.setProperty('--dx', (-t * DRIFT).toFixed(2) + '%');
+    }
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+
+  /* ── THE POINTER OVERRIDES THE SCROLL POSITION, WHERE THERE IS ONE ───────
+     ⚠️ AND IT IS NOT A FLOURISH — IT IS WHAT MAKES ALL TEN HOOKS READABLE ON A
+     DESKTOP. A rail runs out of travel before its last plates can reach the
+     gutter: at 1440 the furthest the ribbon scrolls still leaves chapter VIII
+     parked there, so a caption driven only by scroll position could never show
+     chapters IX or X. Pointing at a plate names it, which is the gesture from
+     the list concept, and it reaches every one of the ten.
+     🛑 A PHONE GETS NONE OF THIS AND LOSES NOTHING: there the rail scrolls far
+     enough for every plate to reach the gutter, so scroll position alone
+     already reaches all ten. Verified at 402: I through X, and the end. */
+  if (window.matchMedia && matchMedia('(hover: hover)').matches) {
+    plates.forEach(function (p, i) {
+      p.addEventListener('pointerenter', function () { setLit(i); });
+      p.addEventListener('focus', function () { setLit(i); });
+    });
+    rail.addEventListener('pointerleave', function () { setLit(leading()); });
+  }
+
+  measure();
+  frame();
+  /* passive: this listener never calls preventDefault, and saying so is what
+     lets the compositor scroll without waiting to find that out */
+  rail.addEventListener('scroll', onScroll, { passive:true });
+  addEventListener('resize', function () { measure(); onScroll(); }, { passive:true });
+
+  /* ── the once-only arrival ───────────────────────────────────────────────
+     🛑 ARM FIRST, THEN OBSERVE. .is-armed is what puts the plates at opacity 0,
+     and it is added here — inside the branch that has an observer to take them
+     back off it — so no reader can ever be left looking at ten empty frames.
+     Fired on the rail rather than on each plate so the --i stagger runs as one
+     gesture instead of ten independent ones. */
+  if ('IntersectionObserver' in window) {
+    if (!REDUCED) rail.classList.add('is-armed');
+    var arrive = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) { rail.classList.add('is-in'); arrive.disconnect(); }
+    }, { rootMargin: '0px 0px -12% 0px' });
+    arrive.observe(rail);
+  }
+})();
+</script>
+</body>
+</html>

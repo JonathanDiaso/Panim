@@ -486,6 +486,7 @@
     wireLexiconFilter();
     wireLexiconSort();
     wireLexiconWall();
+    wirePlateRibbon();
   }
 
   // ---------- the lexicon filter ----------
@@ -827,6 +828,160 @@
     }
     window.addEventListener('hashchange', fromHash);
     fromHash();
+  }
+
+  // ---------- THE PLATES: the ribbon ----------
+  //
+  // The markup is js/render.js renderPlateIndex(); the look is css/components.css.
+  // This is only the three behaviours that cannot be CSS: which plate is lit, the
+  // caption that follows it, and the drift on browsers without scroll-driven
+  // animations. The travel itself is the browser's own scroller and nothing here
+  // touches it.
+  function wirePlateRibbon() {
+    var rail = document.getElementById('pl-rail');
+    var hookEl = document.getElementById('pl-hook');
+    var arc = document.getElementById('pl-arc');
+    if (!rail || !hookEl || !arc) return;
+
+    var plates = [].slice.call(rail.querySelectorAll('.pl-plate'));
+    var dots = [].slice.call(arc.querySelectorAll('.pl-dot'));
+    if (!plates.length || plates.length !== dots.length) return;
+
+    var chapters = window.PANIM_CHAPTERS || [];
+    var hooks = plates.map(function (p) {
+      var n = +p.getAttribute('data-n');
+      for (var i = 0; i < chapters.length; i++) if (chapters[i].num === n) return chapters[i].hook || '';
+      return '';
+    });
+
+    var REDUCED = window.matchMedia &&
+                  matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ⚠️ WHICH PLATE IS LIT IS MEASURED, NOT OBSERVED, AND AN OBSERVER GOT IT
+    // WRONG FIRST. An IntersectionObserver over a leading band looks right and is
+    // subtly not: at the end of the rail the outgoing plate still has its tail in
+    // the band, so chapter IX stayed lit while chapter X sat at the gutter. And an
+    // observer callback carries only the entries that CHANGED, so it can never
+    // answer "which of the ten is nearest" from a single delivery.
+    //
+    // 🛑 SO THE SNAP POSITIONS ARE CACHED ONCE AND THE HANDLER IS ARITHMETIC. Each
+    // plate's snap offset is a constant until the layout changes; after that,
+    // finding the leading plate is ten subtractions on numbers already in memory.
+    // No getBoundingClientRect and nothing read from the DOM in a scroll handler.
+    var snaps = [], pad = 0;
+    function measure() {
+      pad = parseFloat(getComputedStyle(rail).scrollPaddingLeft) || 0;
+      var base = rail.getBoundingClientRect().left + rail.scrollLeft;
+      snaps = plates.map(function (p) {
+        return p.getBoundingClientRect().left + rail.scrollLeft - base - pad;
+      });
+    }
+    function leading() {
+      var x = rail.scrollLeft, best = 0, bestD = Infinity;
+      for (var i = 0; i < snaps.length; i++) {
+        var d = Math.abs(snaps[i] - x);
+        if (d < bestD) { bestD = d; best = i; }
+      }
+      return best;
+    }
+
+    var lit = -1, hookTimer = 0;
+    function setLit(i) {
+      if (i === lit || i < 0) return;
+      if (lit >= 0) { plates[lit].classList.remove('is-lit'); dots[lit].removeAttribute('aria-current'); }
+      lit = i;
+      plates[i].classList.add('is-lit');
+      dots[i].setAttribute('aria-current', 'true');
+      // fade out, swap the text at the bottom of the fade, fade back in. A hard cut
+      // on a 90-character sentence reads as a glitch, and a true crossfade of two
+      // different paragraphs on top of each other is unreadable. One element.
+      hookEl.classList.add('is-swapping');
+      clearTimeout(hookTimer);
+      hookTimer = setTimeout(function () {
+        hookEl.textContent = hooks[i];
+        hookEl.classList.remove('is-swapping');
+      }, REDUCED ? 0 : 200);
+    }
+
+    dots.forEach(function (d, i) {
+      d.addEventListener('click', function () {
+        // scrollIntoView on a snap container lands on the snap point, so this and a
+        // thumb-swipe end in exactly the same place.
+        plates[i].scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', inline: 'start', block: 'nearest' });
+      });
+    });
+
+    // ---------- the drift, fallback path ----------
+    // Only built where the CSS scroll-driven path is missing. `pl-sda` on <html> is
+    // what switches the @supports block in css/components.css on, so exactly one of
+    // the two implementations is ever active and neither knows about the other.
+    var CSS_DRIFT = window.CSS && CSS.supports &&
+                    CSS.supports('animation-timeline', 'view(inline)');
+    var DRIFT_JS = !CSS_DRIFT && !REDUCED;
+    var imgs = DRIFT_JS ? plates.map(function (p) { return p.querySelector('img'); }) : null;
+    // 🛑 ONE NUMBER, AND IT IS THE STYLESHEET'S. The first build hard-coded 5 here
+    // while the keyframes used 3.7, so the two implementations disagreed on both the
+    // distance AND the direction — Firefox would have drifted the wrong way while
+    // Chrome drifted the right way, and nothing would have said so.
+    var DRIFT = 3.7;
+    if (CSS_DRIFT) document.documentElement.classList.add('pl-sda');
+
+    var ticking = false;
+    function frame() {
+      ticking = false;
+      setLit(leading());
+      if (!DRIFT_JS) return;
+      // 🛑 ALL READS, THEN ALL WRITES. clientWidth is read once, outside the loop:
+      // interleaving a read with a style write inside it forces one layout per
+      // plate, ten times a frame.
+      var w = rail.clientWidth, x = rail.scrollLeft;
+      for (var i = 0; i < imgs.length; i++) {
+        if (!imgs[i]) continue;
+        var c = snaps[i] + pad + plates[i].offsetWidth / 2 - x;   // the plate's centre
+        var t = Math.max(-1, Math.min(1, (c - w / 2) / (w / 2 + plates[i].offsetWidth / 2)));
+        // ⚠️ NEGATED, AND THAT IS THE WHOLE POINT OF A COUNTER-PARALLAX. t runs from
+        // -1 at the left of the scrollport to +1 at the right; the picture has to
+        // travel the other way, so a frame moving left carries a picture drifting
+        // right inside it. Same sign as the frame is not a parallax — it just looks
+        // like a rendering fault.
+        imgs[i].style.setProperty('--dx', (-t * DRIFT).toFixed(2) + '%');
+      }
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+
+    measure();
+    frame();
+    // passive: this listener never calls preventDefault, and saying so is what lets
+    // the compositor scroll without waiting to find that out.
+    rail.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', function () { measure(); onScroll(); }, { passive: true });
+
+    // ⚠️ THE POINTER OVERRIDES THE SCROLL POSITION, WHERE THERE IS ONE, AND IT IS
+    // NOT A FLOURISH — IT IS WHAT MAKES ALL TEN HOOKS READABLE ON A DESKTOP. A rail
+    // runs out of travel before its last plates can reach the gutter: at 1440 the
+    // furthest the ribbon scrolls still leaves chapter VIII parked there, so a
+    // caption driven only by scroll position could never show IX or X.
+    // 🛑 A PHONE GETS NONE OF THIS AND LOSES NOTHING: there the rail scrolls far
+    // enough for every plate to reach the gutter. Verified at 402, I through X.
+    if (window.matchMedia && matchMedia('(hover: hover)').matches) {
+      plates.forEach(function (p, i) {
+        p.addEventListener('pointerenter', function () { setLit(i); });
+        p.addEventListener('focus', function () { setLit(i); });
+      });
+      rail.addEventListener('pointerleave', function () { setLit(leading()); });
+    }
+
+    // 🛑 ARM FIRST, THEN OBSERVE. .is-armed is what puts the plates at opacity 0 and
+    // it is added here, inside the branch that has an observer to take them back off
+    // it, so no reader can ever be left looking at ten empty frames. Fired on the
+    // rail rather than on each plate so the --i stagger runs as one gesture.
+    if ('IntersectionObserver' in window) {
+      if (!REDUCED) rail.classList.add('is-armed');
+      var arrive = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) { rail.classList.add('is-in'); arrive.disconnect(); }
+      }, { rootMargin: '0px 0px -12% 0px' });
+      arrive.observe(rail);
+    }
   }
 
   document.addEventListener('panim:rendered', init);

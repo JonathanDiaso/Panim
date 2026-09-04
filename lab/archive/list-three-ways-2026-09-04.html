@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>The list — three ways, with back covers</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+/* tokens lifted from css/site.css. Nothing invented, nothing new. */
+:root{
+  --serif:'Literata',Georgia,'Times New Roman',serif;
+  --ui:'Archivo',system-ui,-apple-system,'Helvetica Neue',sans-serif;
+  --lit-normal:'opsz' 12; --lit-mid:'opsz' 28; --lit-display:'opsz' 60;
+  --paper:#F1EDE4; --ink:#191510; --ink-soft:#5C5449; --ink-faint:#6B6459;
+  --rule:rgba(25,21,16,.14); --rule-strong:rgba(25,21,16,.28);
+  --control-edge:rgba(25,21,16,.50); --control-wash:rgba(25,21,16,.04);
+  --accent:#32506B;
+  --ap-sm:.64rem; --ap-md:.72rem; --ap-lg:.82rem;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --dur-fast:140ms; --dur-med:320ms; --dur-slow:620ms;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-variation-settings:var(--lit-normal);
+  -webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+picture{display:block}
+/* a <picture> inside a fixed-aspect frame must fill it, or the img's height:100%
+   resolves against an auto-height wrapper and the picture collapses to a sliver */
+.l1-plate picture,.l2-peek picture,.l3-front picture{width:100%;height:100%}
+
+/* ── lab chrome, not part of any concept ──────────────────────────────── */
+.bar{position:sticky;top:0;z-index:60;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;
+  padding:.6rem clamp(1rem,4vw,3rem);background:rgba(241,237,228,.93);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  font-family:var(--ui);font-size:var(--ap-md);letter-spacing:.1em;text-transform:uppercase}
+.bar b{font-weight:600;color:var(--ink-faint);margin-right:.6rem;letter-spacing:.12em}
+.bar a{padding:.42rem .7rem;border:1px solid var(--rule-strong);border-radius:2px;
+  color:var(--ink-soft);font-weight:500;min-height:32px;display:flex;align-items:center;
+  transition:background var(--dur-fast) var(--ease),color var(--dur-fast) var(--ease)}
+.bar a:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(1rem,4vw,3rem)}
+.head{padding:clamp(3rem,7vw,5.5rem) 0 1.8rem}
+.kick{font-family:var(--ui);font-size:var(--ap-sm);font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--accent);margin:0 0 .7rem}
+.h{font-size:clamp(1.9rem,4.2vw,3rem);font-variation-settings:var(--lit-display);
+  font-weight:400;line-height:1.06;letter-spacing:-.02em;margin:0 0 .9rem}
+.note{max-width:58ch;color:var(--ink-soft);font-size:1rem;line-height:1.6;margin:0}
+.note b{color:var(--ink);font-weight:600}
+.meta{font-family:var(--ui);font-size:var(--ap-md);color:var(--ink-faint);
+  line-height:1.5;margin:1rem 0 0;max-width:58ch;display:grid;gap:.5rem}
+.meta span{display:grid;grid-template-columns:5.5rem 1fr;gap:.7rem}
+.meta i{font-style:normal;color:var(--ink);font-weight:600;font-size:var(--ap-sm);
+  letter-spacing:.14em;text-transform:uppercase}
+.demo{padding-bottom:clamp(4rem,9vw,7rem);border-bottom:1px solid var(--rule)}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SHARED — the numeral, the runtime meter, the back-cover copy.
+   All three variants below use these, so the difference between them is
+   the INTERACTION, not the typography.
+   ══════════════════════════════════════════════════════════════════════ */
+.n{font-family:var(--serif);font-variation-settings:var(--lit-display);
+  font-weight:400;letter-spacing:.06em;font-variant-numeric:lining-nums tabular-nums;
+  color:var(--accent);transition:color var(--dur-med) var(--ease)}
+.t{display:block;font-variation-settings:var(--lit-mid);font-weight:400;line-height:1.06;
+  letter-spacing:-.024em;text-wrap:balance}
+.dur{font-family:var(--ui);font-size:var(--ap-md);font-weight:500;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint);
+  font-variant-numeric:lining-nums tabular-nums;white-space:nowrap}
+/* ⭐ the runtime is also a LENGTH, so it gets drawn as one. 22 min and 59 min
+   look identical as text and completely different as a bar — and the bar is the
+   one piece of information a stranger deciding where to start actually wants. */
+.bar-len{display:block;height:2px;background:var(--rule);margin-top:.45rem;position:relative}
+.bar-len::after{content:'';position:absolute;inset:0 auto 0 0;width:var(--pct);
+  background:var(--accent);opacity:.55;
+  transform:scaleX(0);transform-origin:left;transition:transform 900ms var(--ease)}
+.is-in .bar-len::after{transform:scaleX(1)}
+.hook{font-variation-settings:var(--lit-normal);color:var(--ink-soft);
+  font-size:1.02rem;line-height:1.55;max-width:52ch;margin:0}
+.ref{font-family:var(--ui);font-size:var(--ap-sm);font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent);margin:.75rem 0 0}
+
+/* ══════════════════════════════════════════════════════════════════════
+   L1 · THE LEDGER — nothing moves, everything answers
+   Fixed row height. Pointing at a row unrolls its plate and fades its
+   hook in over the empty half of the row. No reflow anywhere.
+   ══════════════════════════════════════════════════════════════════════ */
+.l1{border-top:1px solid var(--rule-strong)}
+/* ⚠️ TWO FAULTS FIXED HERE, AND THE SECOND ONE UNDOES THE FIRST FIX.
+   1. The blurb used to run UNDERNEATH the plate. It is now walled off by
+      padding-right on the body — text can never reach the plate's column.
+   2. Giving the plate a real grid column fixed the overlap and made every row
+      200px tall, because a 3:2 plate 250px wide is 167px of row height. So the
+      plate goes back to absolute — but it is a 21:9 LETTERBOX now, which is
+      short enough to live inside a row this height and reads more cinematic
+      than the 3:2 crop did. */
+.l1-row{position:relative;display:grid;
+  grid-template-columns:4.5rem minmax(0,1fr) 6.5rem;align-items:center;gap:1.6rem;
+  padding:1.35rem .2rem;border-bottom:1px solid var(--rule);
+  transition:opacity var(--dur-med) var(--ease),border-color var(--dur-med) var(--ease)}
+.l1-row .n{font-size:clamp(1.1rem,1.6vw,1.45rem)}
+.l1-row .t{font-size:clamp(1.3rem,2.7vw,2rem)}
+/* 🛑 THE TITLE DOES NOT LEAVE. The first build faded it out and slid the blurb
+   into its place, so pointing at a chapter deleted the thing you were pointing
+   at. The blurb gets its own line, and that line RESERVES ITS HEIGHT at rest —
+   two lines, always — so revealing it can never reflow the row. */
+.l1-body{min-width:0;padding-right:clamp(215px,24vw,325px)}
+.l1-copy{display:block;height:2.55em;margin-top:.35rem;
+  opacity:0;transform:translateY(5px);
+  transition:opacity var(--dur-med) var(--ease),transform var(--dur-med) var(--ease)}
+.l1-copy .hook{font-size:.88rem;line-height:1.42;
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.l1-plate{position:absolute;right:8.2rem;top:50%;translate:0 -50%;
+  width:clamp(200px,22vw,300px);aspect-ratio:21/9;overflow:hidden;pointer-events:none;
+  clip-path:inset(50% 0 50% 0);transition:clip-path 560ms var(--ease)}
+.l1-plate img{width:100%;height:100%;object-fit:cover;scale:1.16;
+  transition:scale 900ms var(--ease)}
+@media (hover:hover){
+  .l1:hover .l1-row{opacity:.38}
+  .l1-row:hover,.l1-row:focus-visible,.l1-row.is-open{opacity:1;border-bottom-color:var(--ink)}
+  .l1-row:hover .n,.l1-row.is-open .n{color:var(--ink)}
+  .l1-row:hover .l1-copy,.l1-row.is-open .l1-copy{opacity:1;transform:none}
+  .l1-row:hover .l1-plate,.l1-row.is-open .l1-plate{clip-path:inset(0 0 0 0)}
+  .l1-row:hover .l1-plate img,.l1-row.is-open .l1-plate img{scale:1}
+}
+.l1-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
+/* ══════════════════════════════════════════════════════════════════════
+   L2 · THE BACK COVER — the click opens the jacket
+   Pointing previews the plate small. Clicking opens the row into a panel:
+   the plate at reading size, the hook at reading size, the scripture it
+   opens on, and the two things you can actually do about it.
+   ══════════════════════════════════════════════════════════════════════ */
+.l2{border-top:1px solid var(--rule-strong)}
+.l2-item{border-bottom:1px solid var(--rule)}
+.l2-head{position:relative;width:100%;background:none;border:0;cursor:pointer;text-align:left;
+  display:grid;grid-template-columns:4.5rem minmax(0,1fr) auto 2.5rem;align-items:center;
+  gap:1.4rem;padding:1.5rem .2rem;color:inherit;font:inherit;min-height:44px;
+  transition:opacity var(--dur-med) var(--ease)}
+.l2-head .n{font-size:clamp(1.1rem,1.6vw,1.45rem)}
+.l2-head .t{font-size:clamp(1.4rem,3.1vw,2.3rem);
+  transition:transform var(--dur-med) var(--ease)}
+.l2-peek{position:absolute;right:9.5rem;top:50%;translate:0 -50%;
+  width:clamp(120px,13vw,170px);aspect-ratio:3/2;overflow:hidden;
+  clip-path:inset(50% 0 50% 0);pointer-events:none;transition:clip-path 460ms var(--ease)}
+.l2-peek img{width:100%;height:100%;object-fit:cover;scale:1.14;transition:scale 800ms var(--ease)}
+/* the chevron is the only thing that says "there is more here" at rest */
+.l2-mark{justify-self:end;width:22px;height:22px;position:relative;opacity:.55;
+  transition:opacity var(--dur-med) var(--ease)}
+.l2-mark::before,.l2-mark::after{content:'';position:absolute;background:var(--ink);
+  transition:rotate 420ms var(--ease),opacity var(--dur-med) var(--ease)}
+.l2-mark::before{left:0;right:0;top:10px;height:1px}
+.l2-mark::after{top:0;bottom:0;left:10px;width:1px}
+/* the vertical stroke turns down onto the horizontal one: plus becomes minus */
+.l2-item.is-open .l2-mark{opacity:1}
+.l2-item.is-open .l2-mark::after{rotate:90deg;opacity:0}
+@media (hover:hover){
+  .l2:hover .l2-head{opacity:.4}
+  .l2-head:hover,.l2-head:focus-visible,.l2-item.is-open .l2-head{opacity:1}
+  .l2-head:hover .n{color:var(--ink)}
+  .l2-head:hover .t{transform:translateX(.5rem)}
+  .l2-head:hover .l2-peek{clip-path:inset(0 0 0 0)}
+  .l2-head:hover .l2-peek img{scale:1}
+  .l2-item.is-open .l2-peek{clip-path:inset(50% 0 50% 0)}
+}
+.l2-head:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+/* 🛑 grid-template-rows 0fr -> 1fr, NOT max-height. A max-height guess is either
+   too small (it clips a long hook) or too big (the ease arrives late and the panel
+   snaps). 0fr->1fr animates to the content's own height, exactly. */
+.l2-body{display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows 520ms var(--ease)}
+.l2-item.is-open .l2-body{grid-template-rows:1fr}
+.l2-inner{overflow:hidden}
+.l2-pane{display:grid;grid-template-columns:minmax(0,var(--pane,42%)) minmax(0,1fr);
+  gap:clamp(1.4rem,3vw,2.6rem);padding:.4rem .2rem 2.4rem 5.9rem;
+  opacity:0;transform:translateY(10px);
+  transition:opacity var(--dur-slow) var(--ease) 90ms,transform var(--dur-slow) var(--ease) 90ms}
+.l2-item.is-open .l2-pane{opacity:1;transform:none}
+.l2-pane figure{margin:0;overflow:hidden;background:var(--rule)}
+.l2-pane img{width:100%;aspect-ratio:3/2;object-fit:cover}
+.l2-pane .hook{font-size:clamp(1.02rem,1.35vw,1.18rem)}
+.l2-acts{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.5rem}
+.l2-acts a{display:inline-flex;align-items:center;min-height:44px;padding:.55rem 1.1rem;
+  font-family:var(--ui);font-size:var(--ap-lg);font-weight:600;letter-spacing:.02em;
+  border-radius:2px;transition:background var(--dur-fast) var(--ease),color var(--dur-fast) var(--ease)}
+.l2-acts .solid{background:var(--ink);color:var(--paper)}
+.l2-acts .solid:hover{background:var(--accent)}
+.l2-acts .ring{border:1px solid var(--control-edge);color:var(--ink)}
+.l2-acts .ring:hover{background:var(--control-wash)}
+
+/* ══════════════════════════════════════════════════════════════════════
+   L3 · THE TURN — your card-flip, built honestly
+   The plate is on the page at rest. One click turns it over onto its back,
+   where the blurb is printed. The back carries a NAMED link out, so the
+   second action is a labelled control and never a guess.
+   ══════════════════════════════════════════════════════════════════════ */
+.l3{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  gap:clamp(1rem,2.2vw,1.8rem);padding-top:.5rem}
+.l3-card{display:block;width:100%;perspective:1400px;background:none;border:0;padding:0;cursor:pointer;
+  font:inherit;color:inherit;text-align:left}
+.l3-inner{position:relative;display:block;transform-style:preserve-3d;aspect-ratio:3/4;
+  transition:transform 720ms var(--ease)}
+.l3-card.is-turned .l3-inner{transform:rotateY(180deg)}
+.l3-face{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden}
+.l3-front{background:var(--rule)}
+.l3-front img{width:100%;height:100%;object-fit:cover;filter:saturate(.86)}
+.l3-front figcaption{position:absolute;left:0;right:0;bottom:0;padding:2.2rem .8rem .7rem;
+  background:linear-gradient(to top,rgba(0,0,0,.88),rgba(0,0,0,.7) 44%,rgba(0,0,0,0));
+  color:#fff;display:flex;align-items:baseline;gap:.6rem}
+.l3-front figcaption .n{color:#fff;font-size:.95rem;opacity:.85}
+.l3-front figcaption .t{font-size:1.08rem;color:#fff}
+/* the back is PAPER, not a dark card — a book's back cover is the same stock */
+.l3-back{transform:rotateY(180deg);background:var(--paper);
+  border:1px solid var(--rule-strong);padding:1.2rem 1.1rem;
+  display:flex;flex-direction:column}
+.l3-back .n{font-size:1rem;margin-bottom:.5rem}
+.l3-back .hook{font-size:.93rem;line-height:1.5}
+.l3-back .ref{margin-top:auto;padding-top:.9rem}
+.l3-out{display:inline-flex;align-items:center;gap:.4rem;min-height:44px;margin-top:.5rem;
+  font-family:var(--ui);font-size:var(--ap-lg);font-weight:600;color:var(--ink)}
+.l3-out::after{content:'→';transition:translate var(--dur-med) var(--ease)}
+.l3-out:hover::after{translate:.25rem 0}
+.l3-card:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* ── phones ────────────────────────────────────────────────────────────── */
+@media (max-width:820px),(hover:none){
+  .l1-plate,.l2-peek{display:none}
+  .l1-body{padding-right:0}
+  .l1-copy{opacity:1;transform:none;height:auto}
+  .l1-row,.l2-head{grid-template-columns:2.6rem minmax(0,1fr) auto;gap:.8rem;padding:1.1rem .1rem}
+  .l1-row .dur{align-self:start}
+  .l2-head{grid-template-columns:2.6rem minmax(0,1fr) 2rem}
+  .l2-head .dur{display:none}
+  .l2-pane{grid-template-columns:1fr;padding-left:.1rem}
+  .l3{grid-template-columns:repeat(2,1fr)}
+}
+@media (prefers-reduced-motion:reduce){
+  .l3-inner,.l2-body,.l2-pane,.l1-plate,.l1-copy,.bar-len::after{transition-duration:1ms}
+}
+</style>
+</head>
+<body>
+
+<nav class="bar">
+  <b>List lab</b>
+  <a href="#l1">L1 · Ledger</a>
+  <a href="#l2">L2 · Back cover</a>
+  <a href="#l3">L3 · The turn</a>
+  <a href="plates.html">← four concepts</a>
+</nav>
+
+<main>
+
+<section class="demo" id="l1">
+  <div class="wrap head">
+    <p class="kick">L1 · nothing reflows, everything answers</p>
+    <h1 class="h">The ledger</h1>
+    <p class="note">The list from yesterday, made expensive. <b>The title steps aside and hands its
+      row to the blurb and the plate</b> — so pointing at a chapter gives you the picture
+      <i>and</i> the sentence, in one gesture, with the row never changing height. The runtime is
+      drawn as a length, because <b>22 min and 59 min look identical as text</b>.</p>
+    <p class="meta">
+      <span><i>Reads</i>Title always. Blurb and plate arrive on point; the row never changes height.</span>
+      <span><i>Click</i>Goes to the chapter. One target, one meaning.</span>
+      <span><i>Phone</i>Blurb sits permanently under the title; no plate.</span>
+    </p>
+  </div>
+  <div class="wrap"><nav class="l1" id="l1-list"></nav></div>
+</section>
+
+<section class="demo" id="l2">
+  <div class="wrap head">
+    <p class="kick">L2 · your back-cover idea, and it replaces the contents</p>
+    <h1 class="h">The back cover</h1>
+    <p class="note">Point and the plate peeks. <b>Click and the row opens into a jacket back</b> —
+      the plate at reading size, the blurb at reading size, the scripture the chapter opens on, and
+      the two things you can do about it. One open at a time, like an accordion, so the page never
+      becomes a wall. <b>This is the one that can replace the contents section outright</b>, because
+      it carries everything the contents carried and more.</p>
+    <p class="meta">
+      <span><i>Reads</i>Ten quiet lines. Nothing loud until asked.</span>
+      <span><i>Click</i>Opens the jacket. Going to the chapter is a named button inside it.</span>
+      <span><i>Phone</i>Works unchanged — tap opens, the panel stacks.</span>
+    </p>
+  </div>
+  <div class="wrap"><div class="l2" id="l2-list"></div></div>
+</section>
+
+<section class="demo" id="l3">
+  <div class="wrap head">
+    <p class="kick">L3 · the flip you asked for, built honestly</p>
+    <h1 class="h">The turn</h1>
+    <p class="note">One click <b>turns the plate over onto its back</b>, where the blurb is printed
+      on the same paper stock as the page. The back carries a <b>named</b> way out — <i>Open
+      chapter →</i> — so the second action is a labelled control and never a mystery second tap.</p>
+    <p class="meta">
+      <span><i>Reads</i>Ten pictures. The most immediate of the three.</span>
+      <span><i>Click</i>Turns. The link out is a separate, named target.</span>
+      <span><i>Careful</i>Ten cards is a card grid — the exact pattern the contents rules ban.</span>
+    </p>
+  </div>
+  <div class="wrap"><div class="l3" id="l3-list"></div></div>
+</section>
+
+</main>
+
+<!-- the REAL content files, so nothing in this lab can drift from the book -->
+<script src="../content/images.js"></script>
+<script src="../content/derivatives.js"></script>
+<script src="../content/audio-manifest.js"></script>
+<script src="../content/chapters.js"></script>
+<script>
+(function () {
+  'use strict';
+  var ROMAN = ['','I','II','III','IV','V','VI','VII','VIII','IX','X'];
+  var AUDIO = window.PANIM_AUDIO || {};
+  var LONGEST = 0;
+
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  // the same read js/render.js makes: the plate is the chapter's own first block
+  var CH = (window.PANIM_CHAPTERS || []).map(function (c) {
+    var b0 = c.blocks[0];
+    var slot = (b0 && b0.type === 'slot') ? b0.slot : null;
+    var verse = c.blocks.find(function (b) { return b.type === 'verse'; });
+    var a = AUDIO[c.id];
+    var mins = a && a.voiceDur ? Math.round(a.voiceDur / 60) : 0;
+    if (mins > LONGEST) LONGEST = mins;
+    return { num:c.num, id:c.id, title:c.title, hook:c.hook, slot:slot,
+             ref: verse ? verse.ref : '', mins:mins };
+  });
+
+  function pic(slot, cls) {
+    if (!slot) return '';
+    var d = (window.PANIM_DERIVATIVES || {})[slot];
+    var f = (window.PANIM_IMAGES || {})[slot];
+    if (!f || !f.src) return '';
+    return '<picture' + (cls ? ' class="' + cls + '"' : '') + '>' +
+      (d ? '<source type="image/avif" srcset="' +
+            d.map(function (x) { return '../' + x.src + ' ' + x.w + 'w'; }).join(', ') + '">' : '') +
+      '<img src="../' + esc(f.src) + '" alt="" loading="lazy" decoding="async"></picture>';
+  }
+  function durBar(m) {
+    return '<span class="dur">' + m + ' min<span class="bar-len" style="--pct:' +
+      Math.round(m / LONGEST * 100) + '%"></span></span>';
+  }
+
+  // ── L1 ───────────────────────────────────────────────────────────────
+  document.getElementById('l1-list').innerHTML = CH.map(function (c) {
+    return '<a class="l1-row" href="#' + c.id + '">' +
+      '<span class="n">' + ROMAN[c.num] + '</span>' +
+      '<span class="l1-body">' +
+        '<span class="t">' + esc(c.title) + '</span>' +
+        '<span class="l1-copy"><span class="hook">' + esc(c.hook) + '</span></span>' +
+      '</span>' +
+      '<span class="l1-plate">' + pic(c.slot) + '</span>' +
+      durBar(c.mins) +
+    '</a>';
+  }).join('');
+
+  // ── L2 ───────────────────────────────────────────────────────────────
+  document.getElementById('l2-list').innerHTML = CH.map(function (c, i) {
+    var pid = 'l2p' + i;
+    return '<div class="l2-item">' +
+      '<button class="l2-head" type="button" aria-expanded="false" aria-controls="' + pid + '">' +
+        '<span class="n">' + ROMAN[c.num] + '</span>' +
+        '<span class="t">' + esc(c.title) + '</span>' +
+        durBar(c.mins) +
+        '<span class="l2-mark" aria-hidden="true"></span>' +
+        '<span class="l2-peek" aria-hidden="true">' + pic(c.slot) + '</span>' +
+      '</button>' +
+      '<div class="l2-body" id="' + pid + '" role="region"><div class="l2-inner">' +
+        '<div class="l2-pane">' +
+          '<figure>' + pic(c.slot) + '</figure>' +
+          '<div><p class="hook">' + esc(c.hook) + '</p>' +
+            (c.ref ? '<p class="ref">Opens at ' + esc(c.ref) + '</p>' : '') +
+            '<p class="l2-acts">' +
+              '<a class="solid" href="#' + c.id + '">Listen from the top</a>' +
+              '<a class="ring" href="#' + c.id + '">Read instead</a>' +
+            '</p></div>' +
+        '</div>' +
+      '</div></div>' +
+    '</div>';
+  }).join('');
+
+  // one open at a time, so the page never becomes a wall of ten panels
+  document.getElementById('l2-list').addEventListener('click', function (e) {
+    var head = e.target.closest('.l2-head');
+    if (!head) return;
+    var item = head.parentNode, open = item.classList.contains('is-open');
+    this.querySelectorAll('.l2-item.is-open').forEach(function (n) {
+      n.classList.remove('is-open');
+      n.querySelector('.l2-head').setAttribute('aria-expanded', 'false');
+    });
+    if (!open) { item.classList.add('is-open'); head.setAttribute('aria-expanded', 'true'); }
+  });
+
+  // ── L3 ───────────────────────────────────────────────────────────────
+  document.getElementById('l3-list').innerHTML = CH.map(function (c) {
+    return '<button class="l3-card" type="button" aria-pressed="false">' +
+      '<span class="l3-inner">' +
+        '<figure class="l3-face l3-front">' + pic(c.slot) +
+          '<figcaption><span class="n">' + ROMAN[c.num] + '</span>' +
+            '<span class="t">' + esc(c.title) + '</span></figcaption>' +
+        '</figure>' +
+        '<span class="l3-face l3-back">' +
+          '<span class="n">' + ROMAN[c.num] + '</span>' +
+          '<span class="hook">' + esc(c.hook) + '</span>' +
+          (c.ref ? '<span class="ref">Opens at ' + esc(c.ref) + '</span>' : '') +
+          '<span class="l3-out">Open chapter</span>' +
+        '</span>' +
+      '</span>' +
+    '</button>';
+  }).join('');
+  document.getElementById('l3-list').addEventListener('click', function (e) {
+    var card = e.target.closest('.l3-card');
+    if (!card) return;
+    var on = card.classList.toggle('is-turned');
+    card.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+
+  // the runtime bars draw themselves once, on arrival — the site's own gesture
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+    });
+  }, { rootMargin: '0px 0px -12% 0px' });
+  document.querySelectorAll('.l1-row, .l2-head, .l3-card').forEach(function (n) { io.observe(n); });
+})();
+</script>
+</body>
+</html>

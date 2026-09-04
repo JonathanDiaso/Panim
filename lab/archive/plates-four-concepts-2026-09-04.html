@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Plates — four concepts</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style>
+/* ── tokens, copied from css/site.css. Nothing invented. ───────────────── */
+:root{
+  --serif:'Literata',Georgia,'Times New Roman',serif;
+  --ui:'Archivo',system-ui,-apple-system,'Helvetica Neue',sans-serif;
+  --lit-normal:'opsz' 12; --lit-mid:'opsz' 28; --lit-display:'opsz' 60;
+  --paper:#F1EDE4; --ink:#191510; --ink-soft:#5C5449; --ink-faint:#6B6459;
+  --rule:rgba(25,21,16,.14); --rule-strong:rgba(25,21,16,.28);
+  --control-wash:rgba(25,21,16,.04);
+  --accent:#32506B;
+  --ap-sm:.64rem; --ap-md:.72rem; --ap-lg:.82rem;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --dur-fast:140ms; --dur-med:320ms; --dur-slow:620ms;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-variation-settings:var(--lit-normal);
+  -webkit-font-smoothing:antialiased;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* ── the lab chrome. NOT part of any concept. ──────────────────────────── */
+.lab-bar{
+  position:sticky;top:0;z-index:50;
+  display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;
+  padding:.6rem clamp(1rem,4vw,3rem);
+  background:rgba(241,237,228,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+  font-family:var(--ui);font-size:var(--ap-md);letter-spacing:.1em;text-transform:uppercase;
+}
+.lab-bar b{font-weight:600;color:var(--ink-faint);margin-right:.6rem;letter-spacing:.12em}
+.lab-bar a{
+  padding:.42rem .7rem;border:1px solid var(--rule-strong);border-radius:2px;
+  color:var(--ink-soft);font-weight:500;min-height:32px;display:flex;align-items:center;
+  transition:background var(--dur-fast) var(--ease),color var(--dur-fast) var(--ease);
+}
+.lab-bar a:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.wrap{max-width:1280px;margin:0 auto;padding:0 clamp(1rem,4vw,3rem)}
+.lab-head{padding:clamp(3rem,7vw,5.5rem) 0 1.6rem}
+.lab-kicker{
+  font-family:var(--ui);font-size:var(--ap-sm);font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin:0 0 .7rem;
+}
+.lab-title{
+  font-size:clamp(1.9rem,4.2vw,3rem);font-variation-settings:var(--lit-display);
+  font-weight:400;line-height:1.06;letter-spacing:-.02em;margin:0 0 .9rem;
+}
+.lab-note{
+  max-width:56ch;color:var(--ink-soft);font-size:1rem;line-height:1.6;margin:0 0 .3rem;
+}
+.lab-note b{color:var(--ink);font-weight:600}
+.lab-meta{
+  font-family:var(--ui);font-size:var(--ap-md);color:var(--ink-faint);
+  letter-spacing:.04em;line-height:1.75;margin:.9rem 0 0;max-width:56ch;
+}
+.lab-meta span{display:block}
+.lab-meta i{font-style:normal;color:var(--ink);font-weight:600;
+  font-size:var(--ap-sm);letter-spacing:.14em;text-transform:uppercase;margin-right:.5em}
+.demo{padding:2.2rem 0 clamp(4rem,9vw,7rem);border-bottom:1px solid var(--rule)}
+
+/* ══════════════════════════════════════════════════════════════════════
+   A · THE PROOF SHEET, CORRECTED
+   The v54 build with the three faults fixed: no label, numeral centred,
+   and the picture now drifts against the scroll inside its own frame.
+   ══════════════════════════════════════════════════════════════════════ */
+.a-strip{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+  background:var(--rule);border-block:1px solid var(--rule);overflow:hidden;
+}
+.a-cell{position:relative;min-width:0;display:block;background:var(--paper)}
+.a-frame{position:relative;display:block;overflow:hidden;aspect-ratio:3/2;background:var(--rule)}
+/* the picture is 126% tall so it has room to travel without ever showing paper */
+.a-frame picture{display:block}
+.a-frame img{
+  position:absolute;left:0;top:-13%;width:100%;height:126%;object-fit:cover;
+  filter:saturate(.82) contrast(1.02);
+  transition:filter var(--dur-slow) var(--ease),scale var(--dur-slow) var(--ease);
+  will-change:transform;
+}
+.a-num{
+  display:block;text-align:center;padding:.55rem .5rem .45rem;
+  font-family:var(--serif);font-variation-settings:var(--lit-normal);
+  font-size:var(--ap-lg);font-weight:500;letter-spacing:.14em;color:var(--accent);
+  transition:color var(--dur-fast) var(--ease);
+}
+.a-cap{
+  position:absolute;left:0;right:0;bottom:0;padding:2.4rem .7rem .6rem;
+  background:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.70) 42%,rgba(0,0,0,0) 100%);
+  opacity:0;transform:translateY(6px);pointer-events:none;
+  transition:opacity var(--dur-slow) var(--ease),transform var(--dur-slow) var(--ease);
+}
+.a-cap b{display:block;color:#fff;font-weight:350;font-variation-settings:var(--lit-mid);
+  font-size:clamp(1rem,1.35vw,1.3rem);line-height:1.15;letter-spacing:-.01em}
+.a-cap i{display:block;margin-top:.3em;font-style:normal;font-family:var(--ui);
+  font-size:var(--ap-md);font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.82)}
+@media (hover:hover){
+  .a-strip:hover .a-cell{opacity:.62}
+  .a-cell{transition:opacity var(--dur-slow) var(--ease)}
+  .a-cell:hover,.a-cell:focus-visible{opacity:1}
+  .a-cell:hover .a-cap{opacity:1;transform:none}
+  .a-cell:hover .a-frame img,
+  .a-cell:focus-visible .a-frame img{filter:saturate(1) contrast(1);scale:1.05}
+  .a-cell:hover .a-num{color:var(--ink)}
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   B · THE RIBBON — the section pins and the plates travel sideways
+   Vertical scroll drives horizontal travel. Tall crops, so ten frames
+   fit across without becoming slivers. Full bleed.
+   ══════════════════════════════════════════════════════════════════════ */
+.b-track{height:340vh;position:relative}
+.b-pin{position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden}
+.b-rail{display:flex;gap:1px;background:var(--rule);padding-block:1px;will-change:transform}
+.b-cell{position:relative;flex:0 0 clamp(200px,21vw,280px);background:var(--paper);display:block}
+.b-frame{position:relative;display:block;overflow:hidden;aspect-ratio:2/3;background:var(--rule)}
+.b-frame picture{display:block}
+.b-frame img{
+  position:absolute;top:0;left:-9%;width:118%;height:100%;object-fit:cover;
+  filter:saturate(.62) contrast(1.03) brightness(.72);
+  transition:filter var(--dur-slow) var(--ease);will-change:transform;
+}
+.b-foot{display:flex;align-items:baseline;justify-content:space-between;gap:.6rem;padding:.6rem .7rem .7rem}
+.b-foot b{font-family:var(--serif);font-size:var(--ap-lg);font-weight:500;
+  letter-spacing:.14em;color:var(--accent);transition:color var(--dur-med) var(--ease)}
+.b-cell.is-lit .b-frame img{filter:saturate(1) contrast(1) brightness(1)}
+.b-cell.is-lit .b-foot b{color:var(--ink)}
+.b-foot i{font-style:normal;font-family:var(--ui);font-size:var(--ap-sm);font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+.b-cap{
+  position:absolute;left:0;right:0;bottom:0;padding:2.6rem .8rem .8rem;
+  background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.7) 44%,rgba(0,0,0,0) 100%);
+  color:#fff;font-variation-settings:var(--lit-mid);font-weight:350;
+  font-size:1.05rem;line-height:1.16;letter-spacing:-.01em;
+  opacity:0;transform:translateY(10px);
+  transition:opacity var(--dur-slow) var(--ease),transform var(--dur-slow) var(--ease);
+}
+.b-cell.is-lit .b-cap{opacity:1;transform:none}
+.b-hint{position:absolute;left:50%;bottom:2.4rem;transform:translateX(-50%);
+  font-family:var(--ui);font-size:var(--ap-sm);letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-faint)}
+
+/* ══════════════════════════════════════════════════════════════════════
+   C · THE LIST — the awwwards reference, made a book object
+   Ten typographic rows separated by rules. The picture is not on the page
+   until the row is asked for; then it opens out of the rule.
+   ══════════════════════════════════════════════════════════════════════ */
+.c-list{border-top:1px solid var(--rule)}
+.c-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.c-row{
+  position:relative;display:grid;
+  grid-template-columns:3.2rem 1fr auto;align-items:center;gap:1.2rem;
+  padding:1.15rem .2rem;border-bottom:1px solid var(--rule);
+  transition:opacity var(--dur-med) var(--ease);
+}
+.c-num{font-family:var(--serif);font-size:var(--ap-lg);font-weight:500;
+  letter-spacing:.14em;color:var(--accent);transition:color var(--dur-med) var(--ease)}
+.c-name{font-variation-settings:var(--lit-mid);font-weight:400;
+  font-size:clamp(1.35rem,2.9vw,2.15rem);line-height:1.1;letter-spacing:-.02em;
+  transition:transform var(--dur-med) var(--ease)}
+.c-dur{font-family:var(--ui);font-size:var(--ap-md);font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+/* the plate: a letterbox band that unrolls out of the row itself */
+.c-plate{
+  position:absolute;right:7rem;top:50%;translate:0 -50%;
+  display:block;width:clamp(190px,22vw,300px);aspect-ratio:16/9;overflow:hidden;
+  clip-path:inset(50% 0 50% 0);pointer-events:none;
+  transition:clip-path 520ms var(--ease);
+}
+.c-plate picture{display:block;width:100%;height:100%}
+.c-plate img{width:100%;height:100%;object-fit:cover;
+  scale:1.14;transition:scale 720ms var(--ease)}
+@media (hover:hover){
+  .c-list:hover .c-row{opacity:.42}
+  .c-row:hover,.c-row:focus-visible,.c-row.is-open{opacity:1}
+  .c-row:hover .c-num,
+  .c-row:focus-visible .c-num,
+  .c-row.is-open .c-num{color:var(--ink)}
+  .c-row:hover .c-name,
+  .c-row:focus-visible .c-name,
+  .c-row.is-open .c-name{transform:translateX(.55rem)}
+  .c-row:hover .c-plate,
+  .c-row:focus-visible .c-plate,
+  .c-row.is-open .c-plate{clip-path:inset(0 0 0 0)}
+  .c-row:hover .c-plate img,
+  .c-row:focus-visible .c-plate img,
+  .c-row.is-open .c-plate img{scale:1}
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   D · THE WALL — offset columns, each drifting at its own rate
+   Not a grid of equal cells. Five columns, staggered vertically, moving
+   at five slightly different speeds. Paper between them, not hairlines.
+   ══════════════════════════════════════════════════════════════════════ */
+.d-wall{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(.8rem,1.6vw,1.4rem);
+  padding-block:clamp(2rem,5vw,4rem)}
+.d-col{display:flex;flex-direction:column;gap:clamp(1.6rem,3vw,2.6rem);will-change:transform}
+.d-col:nth-child(2){margin-top:5%}
+.d-col:nth-child(3){margin-top:11%}
+.d-col:nth-child(4){margin-top:4%}
+.d-col:nth-child(5){margin-top:9%}
+.d-cell{display:block}
+.d-frame{position:relative;display:block;overflow:hidden;background:var(--rule);
+  border:1px solid var(--rule);aspect-ratio:3/4}
+.d-col:nth-child(even) .d-frame{aspect-ratio:1/1}
+.d-frame picture{display:block;width:100%;height:100%}
+.d-frame img{width:100%;height:100%;object-fit:cover;filter:saturate(.86) contrast(1.02);
+  transition:filter var(--dur-slow) var(--ease),scale 760ms var(--ease)}
+.d-cap{display:flex;align-items:baseline;gap:.55rem;padding:.6rem .1rem 0}
+.d-cap b{font-family:var(--serif);font-size:var(--ap-lg);font-weight:500;
+  letter-spacing:.14em;color:var(--accent)}
+.d-cap span{font-variation-settings:var(--lit-normal);font-size:.92rem;
+  line-height:1.2;letter-spacing:-.005em;color:var(--ink)}
+.d-cap i{margin-left:auto;font-style:normal;font-family:var(--ui);font-size:var(--ap-sm);
+  font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+@media (hover:hover){
+  .d-cell:hover .d-frame img,
+  .d-cell:focus-visible .d-frame img{filter:saturate(1) contrast(1);scale:1.06}
+}
+
+/* ── phones ────────────────────────────────────────────────────────────── */
+@media (max-width:900px),(hover:none){
+  .a-strip{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .a-strip::-webkit-scrollbar{display:none}
+  .a-cell{flex:0 0 62vw;max-width:320px;scroll-snap-align:start;opacity:1}
+  .a-frame{aspect-ratio:4/3}
+  .a-frame img{filter:none}
+  .a-cap{opacity:1;transform:none}
+  .b-track{height:auto}
+  .b-pin{position:static;height:auto;padding-block:1rem}
+  .b-rail{overflow-x:auto;scroll-snap-type:x mandatory;transform:none!important;scrollbar-width:none}
+  .b-rail::-webkit-scrollbar{display:none}
+  .b-cell{flex:0 0 58vw;max-width:280px;scroll-snap-align:center}
+  .b-cell .b-cap{opacity:1;transform:none}
+  .b-frame img{filter:none}
+  .b-hint{display:none}
+  .c-row{grid-template-columns:2.4rem 1fr auto;gap:.8rem;padding:.9rem .1rem}
+  .c-plate{display:none}
+  .d-wall{grid-template-columns:repeat(2,1fr)}
+  .d-col{transform:none!important}
+  .d-col:nth-child(n){margin-top:0}
+  .d-col:nth-child(2){margin-top:8%}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .a-frame img,.b-frame img,.d-col{transform:none!important}
+  .c-plate{transition:none}
+  *{animation-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="lab-bar">
+  <b>Plates lab</b>
+  <a href="#a">A · Proof sheet</a>
+  <a href="#b">B · Ribbon</a>
+  <a href="#c">C · List</a>
+  <a href="#d">D · Wall</a>
+</nav>
+
+<main>
+
+<section class="demo" id="a">
+  <div class="wrap lab-head">
+    <p class="lab-kicker">Concept A · the built one, corrected</p>
+    <h1 class="lab-title">The proof sheet</h1>
+    <p class="lab-note">What is committed as v54, with your three faults fixed: <b>no “The Plates”
+      heading</b>, <b>numerals centred under their frames</b>, and the pictures now <b>drift against
+      the scroll inside their own windows</b> — the frames never move, so nothing on the page shifts.
+      Hover still dims the sheet and lights one plate.</p>
+    <p class="lab-meta">
+      <span><i>Motion</i>Scroll parallax inside a fixed frame, plus the once-only rise.</span>
+      <span><i>Cost</i>Two CSS rules and one rAF read. No new images, no new observer.</span>
+      <span><i>Risk</i>None. It is the shipped object with its faults removed.</span>
+    </p>
+  </div>
+  <div class="wrap"><nav class="a-strip" id="a-strip"></nav></div>
+</section>
+
+<section class="demo" id="b">
+  <div class="wrap lab-head">
+    <p class="lab-kicker">Concept B · vertical scroll, horizontal travel</p>
+    <h1 class="lab-title">The ribbon</h1>
+    <p class="lab-note">The section <b>pins to the window</b> and your downward scroll pulls the ten
+      plates sideways past you. Tall crops — <b>2:3, not 3:2</b> — which is the honest answer to
+      “vertical or horizontal”: the <i>plates</i> stand vertical so the <i>strip</i> can run
+      horizontal without slivers. The plate at centre lights up and names itself; the rest hold back.</p>
+    <p class="lab-meta">
+      <span><i>Motion</i>Scroll-scrubbed travel. Every frame counter-parallaxes its own picture.</span>
+      <span><i>Cost</i>340vh of page height before chapter I, and all ten images want loading.</span>
+      <span><i>Risk</i>The pin fights the dawn-arc paper lerp in js/motion.js. Needs a real test.</span>
+    </p>
+  </div>
+  <div class="b-track" id="b-track">
+    <div class="b-pin">
+      <div class="b-rail" id="b-rail"></div>
+      <p class="b-hint">Keep scrolling</p>
+    </div>
+  </div>
+</section>
+
+<section class="demo" id="c">
+  <div class="wrap lab-head">
+    <p class="lab-kicker">Concept C · the awwwards reference, made a book object</p>
+    <h1 class="lab-title">The list</h1>
+    <p class="lab-note">This is the Mario Roudil transition you sent. <b>Ten rows of type, separated
+      by rules</b> — no cards, no grid, no pictures on the page at rest. Point at a row and its plate
+      <b>unrolls out of the rule itself</b> as a letterbox band while the other nine fade back. It is
+      the quietest at rest and the most expensive-looking in motion.</p>
+    <p class="lab-meta">
+      <span><i>Motion</i>Pointer-driven clip-path unroll, 520ms, plus a slow scale settle.</span>
+      <span><i>Cost</i>Smallest of the four at rest — nothing renders until asked for.</span>
+      <span><i>Risk</i>It is a table of contents, and the site already has one below it.</span>
+    </p>
+  </div>
+  <div class="wrap"><nav class="c-list" id="c-list"></nav></div>
+</section>
+
+<section class="demo" id="d">
+  <div class="wrap lab-head">
+    <p class="lab-kicker">Concept D · five columns, five speeds</p>
+    <h1 class="lab-title">The wall</h1>
+    <p class="lab-note">Not a grid of equal cells. <b>Five columns, offset vertically and drifting at
+      five slightly different rates</b>, so the field breathes as you pass it. Frames alternate
+      portrait and square. Paper between them instead of hairlines — deliberately a different object
+      from A, and the most <i>designed</i> of the four.</p>
+    <p class="lab-meta">
+      <span><i>Motion</i>True per-column parallax. Titles are always visible; nothing hides.</span>
+      <span><i>Cost</i>Tallest section of the four, and it will not compress to a phone as one object.</span>
+      <span><i>Risk</i>The one furthest from “a book”. It reads gallery, not proof sheet.</span>
+    </p>
+  </div>
+  <div class="wrap"><div class="d-wall" id="d-wall"></div></div>
+</section>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var ROMAN = ['','I','II','III','IV','V','VI','VII','VIII','IX','X'];
+  var CH = [
+    { n:1,  slot:'ch01-tomb',     title:'The God Who Sees',          mins:22 },
+    { n:2,  slot:'ch02-trees',    title:'The Hiding',                mins:24 },
+    { n:3,  slot:'ch03-mountain', title:'The Face They Fled',        mins:27 },
+    { n:4,  slot:'ch04-river',    title:'The Word He Kept Rehearsing',mins:24 },
+    { n:5,  slot:'ch05-bush',     title:'Mouth to Mouth',            mins:35 },
+    { n:6,  slot:'ch06-shine',    title:'Borrowed Light',            mins:27 },
+    { n:7,  slot:'ch07-gate',     title:'The Glory Backs Out',       mins:37 },
+    { n:8,  slot:'ch08-flint',    title:'The Face Set Like Flint',   mins:30 },
+    { n:9,  slot:'ch09-emmaus',   title:'Eyes Opened',               mins:36 },
+    { n:10, slot:'ch10-morning',  title:'Face to Face',              mins:59 }
+  ];
+
+  // same AVIF derivatives content/derivatives.js already carries, WebP fallback
+  function picture(slot, sizes) {
+    return '<picture>' +
+      '<source type="image/avif" sizes="' + sizes + '" srcset="' +
+        '../art/d/' + slot + '-640.avif 640w, ../art/d/' + slot + '-940.avif 940w">' +
+      '<img src="../art/' + slot + '.webp" alt="" loading="lazy" decoding="async">' +
+    '</picture>';
+  }
+
+  function build(id, fn) {
+    var el = document.getElementById(id);
+    if (el) el.innerHTML = CH.map(fn).join('');
+    return el;
+  }
+
+  // ── A ────────────────────────────────────────────────────────────────
+  build('a-strip', function (c, i) {
+    return '<a class="a-cell" href="#" style="--i:' + i + '">' +
+      '<span class="a-frame">' + picture(c.slot, '20vw') +
+        '<span class="a-cap"><b>' + c.title + '</b><i>' + c.mins + ' min</i></span>' +
+      '</span>' +
+      '<span class="a-num">' + ROMAN[c.n] + '</span>' +
+    '</a>';
+  });
+
+  // ── B ────────────────────────────────────────────────────────────────
+  build('b-rail', function (c) {
+    return '<a class="b-cell" href="#">' +
+      '<span class="b-frame">' + picture(c.slot, '22vw') +
+        '<span class="b-cap">' + c.title + '</span>' +
+      '</span>' +
+      '<span class="b-foot"><b>' + ROMAN[c.n] + '</b><i>' + c.mins + ' min</i></span>' +
+    '</a>';
+  });
+
+  // ── C ────────────────────────────────────────────────────────────────
+  build('c-list', function (c) {
+    return '<a class="c-row" href="#">' +
+      '<span class="c-num">' + ROMAN[c.n] + '</span>' +
+      '<span class="c-name">' + c.title + '</span>' +
+      '<span class="c-dur">' + c.mins + ' min</span>' +
+      '<span class="c-plate">' + picture(c.slot, '22vw') + '</span>' +
+    '</a>';
+  });
+
+  // ── D ────────────────────────────────────────────────────────────────
+  // five columns of two, so the offsets and speeds are per column
+  var wall = document.getElementById('d-wall');
+  if (wall) {
+    var cols = '';
+    for (var col = 0; col < 5; col++) {
+      var cells = '';
+      [CH[col], CH[col + 5]].forEach(function (c) {
+        cells += '<a class="d-cell" href="#">' +
+          '<span class="d-frame">' + picture(c.slot, '18vw') + '</span>' +
+          '<span class="d-cap"><b>' + ROMAN[c.n] + '</b>' +
+            '<span>' + c.title + '</span><i>' + c.mins + '</i></span>' +
+        '</a>';
+      });
+      cols += '<div class="d-col" data-rate="' + [0.14, -0.09, 0.2, -0.05, 0.11][col] + '">' + cells + '</div>';
+    }
+    wall.innerHTML = cols;
+  }
+
+  // ── one scroll loop drives all four ──────────────────────────────────
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var narrow = matchMedia('(max-width: 900px), (hover: none)').matches;
+  if (reduce || narrow) return;
+
+  var aImgs  = [].slice.call(document.querySelectorAll('.a-frame img'));
+  var bImgs  = [].slice.call(document.querySelectorAll('.b-frame img'));
+  var bCells = [].slice.call(document.querySelectorAll('.b-cell'));
+  var dCols  = [].slice.call(document.querySelectorAll('.d-col'));
+  var track  = document.getElementById('b-track');
+  var rail   = document.getElementById('b-rail');
+  var queued = false;
+
+  function frame() {
+    queued = false;
+    var vh = innerHeight, vw = innerWidth, mid = vh / 2;
+
+    // A — the picture drifts against the scroll inside a frame that never moves.
+    // 13% of headroom each way, so paper can never show through the top or bottom.
+    aImgs.forEach(function (img) {
+      var r = img.parentNode.getBoundingClientRect();
+      if (r.bottom < -200 || r.top > vh + 200) return;
+      var t = ((r.top + r.height / 2) - mid) / vh;   // -1 .. 1 across the window
+      img.style.transform = 'translate3d(0,' + (t * 9).toFixed(2) + '%,0)';
+    });
+
+    // B — vertical scroll becomes horizontal travel while the section is pinned
+    if (track && rail) {
+      var tr = track.getBoundingClientRect();
+      var span = track.offsetHeight - vh;
+      var p = Math.min(1, Math.max(0, -tr.top / span));
+      var travel = Math.max(0, rail.scrollWidth - vw + 48);
+      rail.style.transform = 'translate3d(' + (24 - p * travel).toFixed(1) + 'px,0,0)';
+
+      // whichever plate is nearest the centre of the window is the lit one
+      var best = null, bestD = 1e9;
+      bCells.forEach(function (cell) {
+        var cr = cell.getBoundingClientRect();
+        var d = Math.abs((cr.left + cr.width / 2) - vw / 2);
+        if (d < bestD) { bestD = d; best = cell; }
+      });
+      bCells.forEach(function (cell) { cell.classList.toggle('is-lit', cell === best); });
+
+      bImgs.forEach(function (img) {
+        var ir = img.parentNode.getBoundingClientRect();
+        if (ir.right < -200 || ir.left > vw + 200) return;
+        var u = ((ir.left + ir.width / 2) - vw / 2) / vw;
+        img.style.transform = 'translate3d(' + (u * 7).toFixed(2) + '%,0,0)';
+      });
+    }
+
+    // D — five columns, five rates
+    dCols.forEach(function (colEl) {
+      var r = colEl.getBoundingClientRect();
+      if (r.bottom < -300 || r.top > vh + 300) return;
+      var t = ((r.top + r.height / 2) - mid) / vh;
+      var rate = parseFloat(colEl.dataset.rate) || 0;
+      colEl.style.transform = 'translate3d(0,' + (t * rate * 120).toFixed(1) + 'px,0)';
+    });
+  }
+
+  function onScroll() { if (!queued) { queued = true; requestAnimationFrame(frame); } }
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', onScroll);
+  frame();
+})();
+</script>
+</body>
+</html>
