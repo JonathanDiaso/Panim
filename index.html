@@ -116,12 +116,12 @@
 <link rel="preload" href="fonts/l04.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/g02.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/h00.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts/fonts.css?v=50">
-<link rel="stylesheet" href="css/site.css?v=50">
-<link rel="stylesheet" href="css/components.css?v=50">
-<link rel="stylesheet" href="css/player.css?v=50">
-<link rel="stylesheet" href="css/room.css?v=50">
-<link rel="stylesheet" href="css/polish.css?v=50">
+<link rel="stylesheet" href="fonts/fonts.css?v=51">
+<link rel="stylesheet" href="css/site.css?v=51">
+<link rel="stylesheet" href="css/components.css?v=51">
+<link rel="stylesheet" href="css/player.css?v=51">
+<link rel="stylesheet" href="css/room.css?v=51">
+<link rel="stylesheet" href="css/polish.css?v=51">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -187,6 +187,18 @@
         <button class="btn btn-solid" id="begin-btn">Begin listening</button>
         <a class="hero-hint" href="#contents">Contents ↓</a>
       </div>
+      <!-- THE SECOND DOOR, 2026-09-04. The page tells a stranger WHAT the book is and
+           never what it DOES to a person. Chapter VII does that in under two minutes,
+           and it sits 24 minutes deep where only finishers reach it.
+           🛑 THE DEEP LINK ALREADY WORKED — js/player.js:563 parses ?t=chNN:MMmSSs and
+           passes it to loadChapter as seekTo. Nothing was built for this; it was
+           already there and nothing on the site used it.
+           ⭐ 24m35s is ten seconds before "Jesus, do You love me?" (cue at 24:41.693),
+           so the run-up is intact. The passage closes on "He answered it wet." at
+           26:14. Found BY TEXT against the canonical transcripts, never by clock. -->
+      <div class="hero-actions hero-second-door">
+        <a class="hero-hint" href="?t=ch07:24m35s">If you only have two minutes, start here ↗</a>
+      </div>
     </div>
   </section>
 
@@ -238,7 +250,13 @@
       <button class="btn" id="onboarding-read">Read instead</button>
     </div>
 
-    <p class="invite-meta">Ten chapters · 5 hr 21 min · free · no account</p>
+    <!-- 🛑 NO RUNTIME HERE. 2026-09-04, the author: "they dont care about the length
+         thats more scary than anything i want to know how it will effect me."
+         This line read "Ten chapters · 5 hr 21 min · free · no account". The doorway
+         is the LAST place to price the commitment — a person who has not started
+         reads 5 hr 21 min as homework. The runtime is still on the About sheet, for
+         somebody who has already decided and wants to plan. Do not put it back. -->
+    <p class="invite-meta">Ten chapters · free · no account · your place is saved</p>
   </div>
 </div>
 
@@ -457,23 +475,23 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=50"></script>
-<script src="content/images.js?v=50"></script>
-<script src="content/audio-manifest.js?v=50"></script>
-<script src="content/marks.js?v=50"></script>
-<script src="content/thread.js?v=50"></script>
-<script src="content/lexicon.js?v=50"></script>
-<script src="content/names.js?v=50"></script>
-<script src="content/sources.js?v=50"></script>
-<script src="content/verse-notes.js?v=50"></script>
-<script src="content/derivatives.js?v=50"></script>
-<script src="js/render.js?v=50"></script>
-<script src="js/ui.js?v=50"></script>
-<script src="js/motion.js?v=50"></script>
-<script src="js/sync.js?v=50"></script>
-<script src="js/search.js?v=50"></script>
-<script src="js/player.js?v=50"></script>
-<script src="js/room.js?v=50"></script>
+<script src="content/chapters.js?v=51"></script>
+<script src="content/images.js?v=51"></script>
+<script src="content/audio-manifest.js?v=51"></script>
+<script src="content/marks.js?v=51"></script>
+<script src="content/thread.js?v=51"></script>
+<script src="content/lexicon.js?v=51"></script>
+<script src="content/names.js?v=51"></script>
+<script src="content/sources.js?v=51"></script>
+<script src="content/verse-notes.js?v=51"></script>
+<script src="content/derivatives.js?v=51"></script>
+<script src="js/render.js?v=51"></script>
+<script src="js/ui.js?v=51"></script>
+<script src="js/motion.js?v=51"></script>
+<script src="js/sync.js?v=51"></script>
+<script src="js/search.js?v=51"></script>
+<script src="js/player.js?v=51"></script>
+<script src="js/room.js?v=51"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });
