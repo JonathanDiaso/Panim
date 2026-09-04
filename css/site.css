@@ -437,3 +437,12 @@ main { position: relative; }
 
 /* legacy hooks kept inert so js/motion.js and js/sync.js keep their contracts */
 .veil-lift::after, .veil-boundary, #ambient-light, #grain { display: none !important; }
+
+
+/* THE SECOND DOOR, 2026-09-04. A quiet second line under the primary actions —
+   it must never compete with "Begin listening". No new tokens: it reuses
+   .hero-hint entirely and only adds the spacing that separates the two rows. */
+.hero-second-door { margin-top: .35rem; }
+.hero-second-door .hero-hint { opacity: .72; }
+.hero-second-door .hero-hint:hover,
+.hero-second-door .hero-hint:focus-visible { opacity: 1; }
