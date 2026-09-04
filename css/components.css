@@ -1423,6 +1423,207 @@
 @media (prefers-reduced-motion: reduce) { .tear-line { transform: scaleY(1); transition: none; } }
 
 /* ============================================================================
+   THE PLATES — a contact sheet, 2026-09-04
+   Ten frames in one strip, under the jacket, above the contents. It is the
+   author's "presentation always showing all", and the object it imitates is a
+   photographer's PROOF SHEET — hairline gutters, no gaps, the roman numeral set
+   underneath the way a plate is captioned in a book.
+
+   🛑 THIS IS NOT THE CONTENTS AND MUST NOT BECOME IT. Two rulings live below:
+   "Rows are separated by rules, not cards" (the contents block), and the contents
+   "ALWAYS STARTS CLOSED, AND THE CHOICE IS DELIBERATELY NOT REMEMBERED" (js/ui.js,
+   the author 2026-09-03). Putting pictures inside #contents would have broken the
+   first and silently reversed the second. This sits above it and touches neither.
+
+   ⭐ WHAT MAKES IT NOT A TEMPLATE: no card, no radius, no shadow, no gap. The
+   cells share hairlines the way columns of an index do, the numerals are Literata
+   and not a UI font, and the ONLY thing that moves is the width of the frame the
+   pointer is over. A strip of rounded rectangles with drop shadows is the exact
+   pattern this book's whole design exists to avoid.
+
+   ⚠️ THE EXPANSION IS flex-grow, WHICH IS A LAYOUT ANIMATION. That is affordable
+   here and nowhere else: ten flex children in ONE row, no text reflow inside them
+   (the caption is absolutely positioned), and it only runs while a pointer is
+   actually over the strip. Do not copy this technique into the book itself.
+   ============================================================================ */
+#plates { padding-block: clamp(2rem, 5vh, 3.4rem); }
+
+/* The label is apparatus, so it takes the apparatus vocabulary already in use by
+   .toc-expand and .toc-total — Archivo, uppercase, --ink-faint, and a rule under
+   the whole strip rather than a heading rule of its own. */
+.pl-label {
+  grid-column: 1 / -1;
+  margin: 0 0 .9rem;
+  font-family: var(--ui); font-size: var(--ap-md); font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
+}
+
+.pl-strip {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: stretch;
+  /* 🛑 A HAIRLINE GUTTER, NOT A GAP. `gap` would leave paper between ten floating
+     pictures and turn the strip into a card row. One pixel of --rule between
+     frames is how a contact sheet is ruled, and it is why this reads as one
+     object instead of ten. */
+  gap: 1px;
+  background: var(--rule);
+  border-block: 1px solid var(--rule);
+  overflow: hidden;
+}
+
+.pl-cell {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: block;
+  text-decoration: none;
+  background: var(--paper);
+  /* the whole expansion, and the only transition on the cell */
+  transition: flex-grow 420ms var(--ease);
+}
+
+/* the frame is the picture's window: the image starts below it and rises in once */
+.pl-frame {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  height: clamp(200px, 26vh, 300px);
+  background: var(--rule);
+}
+.pl-frame img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  /* the strip is a proof sheet, so the frames sit slightly back from the page and
+     come forward under the pointer. Filter, not opacity: a dimmed photograph looks
+     like a disabled control, a cooler one looks like a print not yet chosen. */
+  filter: saturate(.82) contrast(1.02);
+  transform: translateY(101%);
+  transition: transform 760ms var(--ease),
+              filter var(--dur-slow) var(--ease),
+              scale var(--dur-slow) var(--ease);
+}
+/* ⭐ THE ONCE-ONLY RISE. js/motion.js's existing .reveal observer puts .is-visible
+   on the strip; the stagger comes from --i, set per cell in js/render.js. Same
+   gesture as .hairline.is-drawn and the Hebrew watermark: it happens once, on
+   arrival, and is then finished forever. Nothing here loops. */
+.pl-strip.is-visible .pl-frame img { transform: translateY(0); }
+.pl-strip.is-visible .pl-cell:nth-child(n) .pl-frame img {
+  transition-delay: calc(var(--i, 0) * 55ms);
+}
+
+/* the numeral is captioned UNDER the frame, on paper, never over the picture.
+   ⚠️ v49 deliberately took the roman numerals OFF the artwork files; this keeps
+   them off. It is a caption in the UI layer, which is the same call the chapter
+   openings and the running head already make. */
+.pl-num {
+  display: block;
+  padding: .5rem .55rem .3rem;
+  font-family: var(--serif); font-variation-settings: var(--lit-normal);
+  font-size: var(--ap-lg); font-weight: 500;
+  letter-spacing: .1em; color: var(--accent);
+  font-variant-numeric: lining-nums tabular-nums;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+/* THE CAPTION LIVES OVER THE BOTTOM OF THE PLATE AND IS ABSOLUTELY POSITIONED, so
+   the flex-grow above never reflows a line of type. It is hidden until the cell is
+   wide enough to hold it — a title clipped to four characters is worse than no
+   title at all. */
+.pl-caption {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 2.4rem .7rem .6rem;
+  display: block;
+  /* 🛑 THE SCRIM IS WHAT MAKES THE TEXT LEGIBLE OVER AN UNKNOWN PHOTOGRAPH, and it
+     has to be strong enough for the worst case. White on the .70 stop composited
+     over a white sky is 7.4:1; over anything darker it only improves. Do not
+     thin it to "let the picture through" — that trades a WCAG pass for nothing. */
+  background: linear-gradient(to top,
+              rgba(0,0,0,.88) 0%, rgba(0,0,0,.70) 42%, rgba(0,0,0,0) 100%);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
+  pointer-events: none;
+}
+.pl-title {
+  display: block;
+  color: #fff;
+  font-variation-settings: var(--lit-mid);
+  font-weight: 350; font-size: clamp(1rem, 1.35vw, 1.3rem);
+  line-height: 1.15; letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.pl-dur {
+  display: block; margin-top: .3em;
+  font-family: var(--ui); font-size: var(--ap-md); font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.82);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* a chapter with no opening plate still gets a cell, and it is type on paper —
+   never a grey placeholder box. Empty slots render nothing everywhere else here. */
+.pl-cell.is-bare .pl-frame { background: var(--control-wash); }
+.pl-cell.is-bare .pl-caption {
+  opacity: 1; transform: none;
+  background: none;
+  padding: .7rem;
+  position: static;
+}
+.pl-cell.is-bare .pl-title { color: var(--ink); }
+.pl-cell.is-bare .pl-dur { color: var(--ink-faint); }
+
+/* ---------- the expansion, pointer only ---------- */
+/* 🛑 GATED ON (hover: hover). On a touch screen there is no pointer to expand
+   under, and a cell that only reveals its title on tap would hide ten chapter
+   names behind ten taps. The phone gets a different, better shape below. */
+@media (hover: hover) {
+  .pl-strip:hover .pl-cell { flex-grow: .78; }
+  .pl-cell:hover, .pl-cell:focus-visible { flex-grow: 2.6; }
+  .pl-cell:hover .pl-caption,
+  .pl-cell:focus-visible .pl-caption { opacity: 1; transform: none; }
+  .pl-cell:hover .pl-frame img,
+  .pl-cell:focus-visible .pl-frame img { filter: saturate(1) contrast(1); scale: 1.03; }
+  .pl-cell:hover .pl-num, .pl-cell:focus-visible .pl-num { color: var(--ink); }
+}
+.pl-cell:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; z-index: 1; }
+
+/* ---------- touch, and the narrow desktop ---------- */
+/* ⚠️ TEN CELLS ACROSS A PHONE IS 40px EACH, which is not a picture and is not a
+   44px target either. Under 900px the strip becomes what it should be there: a
+   scroll-snapped filmstrip with the captions ALREADY SHOWING, because there is no
+   hover to reveal them with. Still all ten, still one object, still swipeable. */
+@media (max-width: 900px), (hover: none) {
+  .pl-strip {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .pl-strip::-webkit-scrollbar { display: none; }
+  .pl-cell {
+    flex: 0 0 62vw;
+    max-width: 320px;
+    scroll-snap-align: start;
+    transition: none;
+  }
+  .pl-frame { height: clamp(190px, 30vh, 260px); }
+  .pl-frame img { filter: none; }
+  .pl-caption { opacity: 1; transform: none; }
+}
+
+/* 🛑 REDUCED MOTION IS A FULL STOP, NOT A SLOWER VERSION. The pictures are simply
+   already there, the caption still appears on hover — that is a state change, not
+   motion — and the cell still widens, because a width that snaps is information
+   rather than animation. */
+@media (prefers-reduced-motion: reduce) {
+  .pl-frame img { transform: none; transition: filter var(--dur-fast) var(--ease); }
+  .pl-cell { transition: none; }
+  .pl-caption { transform: none; transition: opacity var(--dur-fast) var(--ease); }
+}
+
+/* ============================================================================
    CONTENTS
    A real contents page, on the same grid as everything else: numeral in the
    margin column, title and standfirst in the reading measure, running time in

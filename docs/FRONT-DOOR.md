@@ -1,7 +1,8 @@
 # 🚪 THE FRONT DOOR
 
 **What the top of the site does, why it does it, and what is next.**
-Shipped as **v53**, 2026-09-04. Live on `main`.
+Shipped as **v53**, 2026-09-04, live on `main`. **v54 — The Plates, §2 — is BUILT AND
+COMMITTED BUT NOT PUSHED**, at the author's instruction: *"don't send to site just build."*
 
 > This file is **hand-written and permanent**. `README.md` describes the repo;
 > this describes the one screen a stranger actually sees.
@@ -261,78 +262,149 @@ selector if it needs to happen fast.
 
 ---
 
-# 2 · 🎯 NEXT — the opening as an index
+# 2 · 🖼 THE PLATES — built, v54, not pushed
 
-**The author, 2026-09-04:** *"can we do this??? on the open???? in a way that doesnt bloat
-but looks epic … gameplan the picture layout on the open, a presentation always showing
-all, maybe like a table of contents it would look sick."*
-**Reference:** `awwwards.com/inspiration/list-transition-mario-roudil` → `marioroudil.com`
+**The author, after sending `awwwards.com/inspiration/list-transition-mario-roudil`:**
+*"gameplan the picture layout on the open, a presentation always showing all, maybe like
+a table of contents it would look sick"* — then *"just do whatever's gonna look good…
+super captivating, do not bloat, impress me… don't send to site just build."*
 
-## 2.0 What the reference actually is
+**It is a contact sheet.** Ten frames in one strip, under the jacket and above the
+contents. `#plates` in `index.html`'s `#chapters-root`, rendered by
+`js/render.js renderPlateIndex()`, styled in `css/components.css`.
 
-**Fetched, not assumed.** It is **a numbered index, not a gallery**: rows `00–33`, each
-carrying **title / client / date**, with **two view modes toggling in place — "List" and
-"Slider"** — plus category filters. **No page reload between states.** The effect is the
-*transition between the two modes*, and the reason it reads as expensive is that **the
-list never goes away and never reloads** — it re-forms.
+```
+THE PLATES
+┌──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┐
+│      │      │      │      │      │      │      │      │      │      │
+│  ▓▓  │  ▓▓  │  ▓▓  │  ▓▓  │  ▓▓  │  ▓▓  │  ▓▓  │  ▓▓  │  ▓▓  │  ▓▓  │
+│      │      │      │      │      │      │      │      │      │      │
+├──────┼──────┼──────┼──────┼──────┼──────┼──────┼──────┼──────┼──────┤
+   I      II     III    IV     V      VI    VII    VIII    IX     X
 
-⭐ **The important part for us is what it is NOT.** It is not a hero carousel and it is not
-WebGL. **It is a table of contents that changes shape.** Which is exactly what the author
-described, and **we already have the two things it needs**: ten numbered chapters with
-Roman numerals and runtimes, and **ten plates that already ship** (`art/chNN-*.webp` plus
-`art/d/*.avif` derivatives, and `art/np-chNN-{96,256,512}.jpg` already cut for MediaSession).
+                    ── pointer over VII ──
+┌──┬──┬──┬──┬──┬──┬────────────────────┬──┬──┬──┐
+│  │  │  │  │  │  │                    │  │  │  │
+│▓▓│▓▓│▓▓│▓▓│▓▓│▓▓│  The Glory Backs Out│▓▓│▓▓│▓▓│
+│  │  │  │  │  │  │  37 MIN             │  │  │  │
+└──┴──┴──┴──┴──┴──┴────────────────────┴──┴──┴──┘
+```
 
-## 2.1 Three ways to do it, ranked
+## 2.1 🛑 Why it is NOT inside `#contents` — two rulings
 
-### ① Two-mode contents — **recommended**
+**A plate grid bolted into the contents would have broken one ruling and silently
+reversed another.**
 
-**`#contents` keeps its ten rows and gains a `Plates ⇄ List` toggle.** In **Plates**, each
-row's chapter art fills a cell in a ten-up grid with the numeral and title over it; in
-**List**, it collapses to the typographic index that is there today. **One `<section>`, one
-class on it, CSS Grid doing the shape change; the DOM never changes.**
+| ruling | where it lives |
+|---|---|
+| *"Rows are separated by rules, not cards — **a card grid would be the exact generic pattern this rebuild exists to avoid**"* | `css/components.css`, the contents block |
+| *"It **ALWAYS STARTS CLOSED**, and the choice is **deliberately not remembered**"* — the author, 2026-09-03, because the book is shared by link to first-time readers and the first screen has one job | `js/ui.js wireContentsToggle()` |
 
-* **Always shows all ten** — which is the author's actual ask.
-* **Cost:** ~120 lines CSS, ~25 lines JS, **0 new images** (the derivatives exist).
-* **Bloat:** ten AVIF at 640w ≈ **~250KB**, `loading="lazy"`, below the fold, behind
-  `content-visibility`. **Nothing is added to the critical path.**
-* **Blocker:** none. It is the safest of the three and the closest to the reference.
+**So this sits above the contents and touches neither.** `#contents` still opens closed,
+still has no pictures in it, still separates its rows with rules.
 
-### ② Sticky preview index
+⚠️ **The 2026-08-28 objection was to ~700px of text index between the jacket and chapter I.**
+**This section is `391px` tall, measured** — and it is pictures, not an index.
 
-**Rows on the left, one large plate on the right that cross-fades to the hovered chapter.**
-The most "portfolio" of the three.
+## 2.2 What makes it not a template
 
-* **Cost:** ~90 lines. **Blocker:** 🛑 **hover is the whole interaction, and this book's
-  readers are on phones.** Needs a separate touch design, which is really design ②b.
-  **Do not ship a desktop-only front door.**
+**A proof sheet is a book object.** The whole design follows from that and from nothing
+on Dribbble:
 
-### ③ Full-bleed scroll-snap presentation
+* **No card, no radius, no shadow, and — the one that matters — no `gap`.** The cells
+  share a **1px hairline of `--rule`**, which is how a contact sheet is ruled. `gap`
+  would have left paper between ten floating pictures and made it a card row.
+* **The numeral is captioned UNDER the frame, on paper, never over the picture.**
+  ⚠️ v49 deliberately took roman numerals **off** the artwork files; this keeps them off.
+  It is a caption in the UI layer — the same call the chapter openings and the running
+  head already make. Literata, not a UI font, because a chapter numeral is furniture of
+  the book.
+* **The only thing that moves is the width of the frame the pointer is over.** No pulse,
+  no loop, no ken-burns.
+* **One once-only entrance**: the images rise from `translateY(101%)` inside their frames,
+  staggered `55ms` off `--i`, fired by **`js/motion.js`'s existing `.reveal` observer** —
+  no new observer, no new machinery. Same gesture as `.hairline.is-drawn` and the Hebrew
+  watermark: it happens on arrival and is then finished forever.
 
-Ten viewport-height plates, snap per chapter.
+## 2.3 ⚠️ The expansion is `flex-grow`, which is a layout animation
 
-* **Cost:** ~60 lines. **Blocker:** 🛑 **it does NOT always show all ten** — it shows one
-  at a time, which is the opposite of what he asked for — and it puts ten full-bleed
-  images between a stranger and the book. **Recommend against.**
+**That is affordable HERE and nowhere else, and the reasons are specific:** ten flex
+children in **one row**, **no text reflow inside them** (`.pl-caption` is absolutely
+positioned, so widening a cell never re-wraps a line), and it only runs while a pointer
+is actually over the strip. **Do not copy this technique into the book itself.**
 
-## 2.2 🛑 Rules any of them must obey
+Hovered cell `flex-grow: 2.6`, the other nine `.78` → the open frame takes **~27%** of the
+strip, the rest **~8%** each.
 
-1. **The critical path does not grow.** Everything below the fold, `loading="lazy"`,
-   inside `content-visibility`. **If DCL moves, it is wrong.**
-2. **No new tokens.** If the layout needs one, **stop and propose it** — that is
-   `DESIGN_SYSTEM` discipline, §3 of the global rules.
-3. **`prefers-reduced-motion` is a full stop, not a slower version.** The mode toggle
-   still works; it just does not tween.
-4. **It must not outrank the hero card.** The front door is *begin* and *four minutes*.
-   **A contents that upstages both is a portfolio, not a book.**
-5. **44px targets** on every row, both modes.
-6. **Measure DCL and the `--paper` write before and after.** §1 is the baseline.
+## 2.4 The phone gets a different, better shape
 
-## 2.3 ⚠️ Open questions for the author
+🛑 **Ten cells across a 402px phone is 40px each — not a picture, and not a 44px target.**
+Under `900px`, or wherever `(hover: none)`, the strip becomes **a scroll-snapped filmstrip
+with the captions already showing**, because there is no hover to reveal them with.
+**Still all ten, still one object, still swipeable.** Verified at 402px.
 
-* **Do the plates carry their Roman numerals in the grid**, or stay clean the way the
-  chapter openings do? (v49 deliberately took numerals *off* the artwork.)
-* **Which mode is the default on a cold visit** — plates or list?
-* **Does the toggle persist** in `localStorage` like `edition` does?
+## 2.5 ⭐ The cost, measured — and one false alarm caught
+
+**A/B on a real clock, two cold runs each, same machine and window:**
+
+| | DCL | load | transferred |
+|---|---:|---:|---:|
+| **with the strip** | 339 / 352ms | 351 / 362ms | **1455KB** |
+| without (v53, live) | 340 / 297ms | 369 / 328ms | 1346KB |
+
+**DCL is noise. There is no measurable load regression.**
+**+109KB observed** at a 900×900 window — five of the ten images lazy-load in, the rest
+wait for the scroll. **+179KB** if a reader looks at the whole strip. They are the **same
+AVIF derivatives `content/derivatives.js` already carries** for the chapter openings, at
+`640w`, all `loading="lazy"`, all below the fold. **Nothing was added to the critical path
+and no new image files exist.**
+
+🛑 **A FALSE ALARM, CAUGHT BEFORE IT WAS REPORTED — read this before trusting a byte count.**
+Under `--virtual-time-budget`, the harness showed **all 15 chapter plates loading at first
+paint, 488KB**, which looks exactly like a serious pre-existing bloat bug. **It is the
+harness.** Virtual time defeats Chrome's lazy-load heuristic — it loads every lazy image so
+a screenshot is not blank. **On a real clock, zero chapter plates load.** Same family as
+the iframe-scroll and blank-screenshot traps in §1.5. **Measure bytes with
+`--remote-debugging-port`, never with `--virtual-time-budget`.**
+
+## 2.6 The plate is each chapter's own opening frame
+
+Read from `blocks[0].slot` — **the same block `renderChapter()` consumes** — so the strip
+can never drift from the picture at the top of the chapter it links to.
+`ch01-tomb · ch02-trees · ch03-mountain · ch04-river · ch05-bush · ch06-shine ·
+ch07-gate · ch08-flint · ch09-emmaus · ch10-morning`.
+
+⚠️ **A chapter whose first block is not a slot gets a typographic cell** — title on
+`--control-wash`, caption static, **no placeholder and no grey box.** Empty slots render
+nothing everywhere else on this site and they render nothing here.
+
+## 2.7 Accessibility
+
+* **`.pl-caption` is `aria-hidden`**, and the `.visually-hidden` span is why: both say the
+  chapter title, and without it a screen reader announces every title **twice**. The
+  hidden one wins because it carries *"Chapter VII"* and the visible one does not.
+* **`alt=""` on the strip images on purpose** — the link text already names the target.
+  The descriptive alt lives on the plate at the chapter opening, where the picture is the
+  content rather than the label.
+* **`:focus-visible` expands the cell exactly as hover does**, so the keyboard path shows
+  the same information as the pointer path.
+* **The scrim is sized for the worst case.** White on the `.70` stop composited over a
+  white sky is **7.4:1**; over anything darker it only improves. 🛑 **Do not thin it to
+  "let the picture through" — that trades a WCAG pass for nothing.**
+
+## 2.8 ⚠️ Still unverified, same reason as §1.5
+
+**Hover was verified by injecting the hover styles and screenshotting**, not by a real
+pointer — headless has no cursor. **The 420ms expansion needs one pass with a real mouse**,
+and the scroll-snap needs one real thumb.
+
+## 2.9 Open, for him
+
+* **Is `The Plates` the right label**, or should it have none at all?
+* **Should the strip bleed to the window edges** instead of sitting on the text grid? It
+  currently aligns to the page margin, which reads as *on the page*; full-bleed would echo
+  the hero above it.
+* **Should tapping a cell jump to the chapter (now) or start playing it?**
 
 ---
 
