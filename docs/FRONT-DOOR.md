@@ -1,9 +1,9 @@
 # 🚪 THE FRONT DOOR
 
 **What the top of the site does, why it does it, and what is next.**
-Shipped as **v53**, 2026-09-04, live on `main`. **v55 — The Plates, now a ribbon, §2 — is
-BUILT AND COMMITTED BUT NOT PUSHED**, at the author's instruction: *"don't send to site just
-build."* 🗄 v54's contact sheet is in git history at `d1dc9f9`.
+**v55 is LIVE on `main`**, 2026-09-04 — the plates are a ribbon. The author: *"go ahead
+and push and we can fix later if theres an issue. make sure its pristene. it should not
+look cheap!!!!"* 🗄 v54's contact sheet, which never shipped, is at `d1dc9f9`.
 
 > This file is **hand-written and permanent**. `README.md` describes the repo;
 > this describes the one screen a stranger actually sees.
@@ -287,10 +287,11 @@ selector if it needs to happen fast.
 
 
 
-# 2 · 🖼 THE PLATES — the ribbon, v55, BUILT AND NOT PUSHED
+# 2 · 🖼 THE PLATES — the ribbon, v55, LIVE
 
-**Same standing instruction as v54:** *"don't send to site just build."* v55 is committed
-in `Panim-site` and is **not** on `main`.
+**Pushed 2026-09-04 on the author's word**, after two rounds of his notes: the shape of the
+photographs, then *"can we have motion...... paralex something"* and *"random unnecessary
+numerals"*, then *"make sure its pristene. it should not look cheap!!!!"*
 
 **The author, 2026-09-04, on the versions before this one:**
 
@@ -501,13 +502,52 @@ walking I→X and the caption following it at 402; no document-level horizontal 
 | Tap a cell: jump, or play? | **Still jump.** `href="#ch07"`. Playing from an index is a decision the reader has not made yet. |
 | *"i just want it to look amazing"* | The pictures are whole, they are large, and they move. |
 
+## 2.8a 🔴 THE PRISTINE PASS — four faults found by sweeping eleven widths
+
+**None of these would have thrown an error and all four look almost right.**
+
+**1 · `scroll-padding` percentages resolve against the SCROLLPORT, not the containing
+block.** The rail's full-bleed sum reads `calc((100vw - var(--sbw) - 100%) / 2)`, which is
+correct in `margin` and `padding` — and in `scroll-padding` that same `100%` means 100vw,
+so the whole expression collapsed to **zero**. Measured: `calc(-50% + 960px)` at 1920. Every
+snap landed the first plate flush against the glass and **the ribbon lost its alignment with
+the text grid at every width.** `js/ui.js` now copies the browser's own resolved
+`paddingLeft` into `--pl-snap` rather than re-deriving a second, differently-wrong sum.
+
+**2 · The plates got SMALLER as the window got bigger.** `min(31vw, 400px)` is `279px` at
+901 while the mobile rule it replaces caps at `340` — so dragging a window one pixel past
+the breakpoint shrank every plate by 61px. **Nothing looks cheaper than a layout that goes
+backwards.** It is `clamp(340px, 31vw, 400px)` now, so the two rules meet exactly at 900.
+
+**3 · At 1920 the ribbon dead-ended in blank paper.** `.section` is capped at `--shell`
+(1440px), so a rail pulled back by only `--edge` stopped 240px short of the glass and left
+**a plate sliced off beside a field of empty paper** — which reads as a bug, not as a strip
+continuing. The bleed is a sum now, and `100vw` alone could not do it: it counts the classic
+scrollbar, so `js/ui.js` measures the scrollbar once into `--sbw`. ⚠️ Depending on script
+for layout is safe **here and nowhere else**: `js/render.js` builds this entire page, so a
+reader without JavaScript has no ribbon to mis-lay-out.
+
+**4 · The caption belonged to the wrong thing.** 53px above it and 18 below meant it read as
+a label for the arc rather than a caption for the picture it describes. The strip and its
+caption are one block now; the space is inside it.
+
+**Also caught: the fourth version place.** `sw.js` §3.1 names four and the first pass moved
+three — `404.html` and `accessibility.html` carry their own `?v=` on `fonts.css` and are
+reached by no sweep. **404.html was once left on v24 for a whole release for exactly this.**
+
+**Swept at 360 · 402 · 430 · 600 · 768 · 900 · 901 · 1024 · 1280 · 1440 · 1920:** the frame
+only ever grows, no title clips at any width, the rail bleeds to `0` at every one of them,
+the first plate sits on the text grid at every one, and no width scrolls the document
+sideways.
+
 ## 2.9 ⚠️ Still open
 
 - **`lab/turn.html` is kept, not deleted.** The 3D turn is genuinely good work and its
   **paper-stock backs are what became the arc**. It is not the right object for landscape
   plates, and that is the only reason it lost.
-- **The lab pages are untracked** — `lab/ribbon.html` is the standalone of what shipped into
-  the site, and it is where to iterate before touching `css/components.css` again.
+- **`lab/ribbon.html` is the standalone of what shipped**, and it is where to iterate before
+  touching `css/components.css` again. It is tracked and it is deployed — unlinked and
+  `noindex`, at `/lab/ribbon.html`.
 - **One real pointer and one real thumb.** Everything above was driven by puppeteer, which is
   a real browser with a synthetic cursor. **The mouse must not teleport** — a jump-move
   silently fails to fire `pointerenter`, which cost an hour before it was recognised as the
