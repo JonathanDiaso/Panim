@@ -1486,9 +1486,13 @@
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  /* an overflow value on one axis makes the other axis a scroll container too,
-     so this is the room a focus ring needs in order not to be clipped */
-  padding-block: .5rem;
+  /* ⚠️ THE VERTICAL PADDING IS THE ROOM THE SWAY AND THE ARRIVAL NEED, and
+     overflow-y is pinned because an overflow value on one axis makes the other a
+     scroll container too — left at `auto` a plate riding 14px high would hand the
+     ribbon its own vertical scrollbar. 2rem clears the sway (±14px) and the
+     entrance rise (14px) at once, and it is also the room a focus ring needs. */
+  padding-block: 2rem;
+  overflow-y: hidden;
   scrollbar-width: none;
   margin-bottom: .2rem;
 }
@@ -1647,6 +1651,42 @@
   }
 }
 
+/* ---------- THE SWAY: the page's own scroll, not the rail's ----------
+   The author, 2026-09-04: "can we have motion...... paralex something".
+
+   ⭐ THE HORIZONTAL DRIFT ABOVE ONLY MOVES WHEN THE RIBBON DOES. Scrolling the
+   PAGE past a strip that only answers to sideways swipes leaves it dead on
+   arrival, which is what was missing. So the plates also ride a slow wave as the
+   section crosses the window: each one rises and falls ±14px at its own phase,
+   which is concept D's "five columns at five speeds" turned on its side and given
+   to a row. It is what he pointed at when he said the wall looked better.
+
+   🛑 IT MOVES THE FRAMES AND NOT THE PICTURES, AND THAT IS WHY IT IS FREE. A
+   vertical drift INSIDE the frame would need vertical overhang, and the only
+   place that overhang can come from is a second crop of the photograph — the one
+   thing this whole rebuild exists to stop. Translating the plate costs nothing
+   but paper, and paper is what the padding above is for.
+
+   ⚠️ THE TIMELINE IS ON THE SECTION FOR THE SAME REASON THE DRIFT'S IS ON THE
+   PLATE: .pl-rail has overflow on both axes, so it is a block-axis scroll
+   container too, and `view(block)` on a plate would be measured against the rail
+   — which never scrolls vertically. #plates is outside it and inside the page.
+
+   ⚠️ NOTHING REFLOWS. transform only, ten elements, and the amplitudes are set
+   once at render time. */
+@keyframes pl-sway {
+  from { transform: translateY(var(--amp, 0px)) }
+  to   { transform: translateY(calc(var(--amp, 0px) * -1)) }
+}
+@supports (animation-timeline: view(block)) {
+  html.pl-sda #plates { view-timeline-name: --pl-section; view-timeline-axis: block; }
+  html.pl-sda .pl-plate {
+    animation: pl-sway linear both;
+    animation-timeline: --pl-section;
+    animation-range: cover 0% cover 100%;
+  }
+}
+
 /* ---------- the caption ----------
    ⭐ THIS IS THE ONE THING WORTH SAVING OUT OF THE TURN. The back of each card
    carried its chapter's hook, and the hook is the best short copy in the book —
@@ -1693,8 +1733,16 @@
   display: block; width: 100%;
   background: none; border: 0; padding: 0;
   cursor: pointer; font: inherit; text-align: center;
-  /* the swatch is 26px; the hit area is the full 44 */
+  /* ⚠️ THE SWATCH IS 26px AND THE BUTTON IS 44, AND THE DIFFERENCE IS NOT PADDING
+     LEFT OVER FROM THE NUMERAL THAT USED TO SIT HERE — it is the hit area. WCAG
+     2.5.8 wants 24px and this book's own floor is 44. The ink is not the target. */
+  /* 🛑 BLOCK, NOT FLEX. Making this a flex container to top-align the swatch
+     collapsed .pl-sw to its content width — ten hairline ticks instead of ten
+     colour chips — because a block child of a flex container is sized by its
+     content, and an empty span has none. The swatch sits at the top of a block
+     box and the padding underneath is the rest of the 44. */
   min-height: 44px;
+  padding-bottom: 18px;
 }
 .pl-sw {
   display: block; height: 26px;
@@ -1706,14 +1754,6 @@
 }
 .pl-dot[aria-current="true"] .pl-sw { height: 36px; border-bottom-width: 3px; }
 .pl-dot:hover .pl-sw { height: 32px; }
-.pl-num {
-  display: block; margin-top: .34rem;
-  font-family: var(--serif); font-size: .62rem;
-  letter-spacing: .1em; color: var(--ink-faint);
-  font-variant-numeric: lining-nums tabular-nums;
-  transition: color var(--dur-fast) var(--ease);
-}
-.pl-dot[aria-current="true"] .pl-num { color: var(--ink); }
 .pl-dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* ---------- the arrival ----------
@@ -1735,7 +1775,7 @@
   animation: pl-arrive 700ms var(--ease) calc(var(--i) * 55ms) both;
 }
 @keyframes pl-arrive {
-  from { opacity: 0; transform: translateY(22px) }
+  from { opacity: 0; transform: translateY(14px) }
   to   { opacity: 1; transform: none }
 }
 
@@ -1746,6 +1786,7 @@
 @media (prefers-reduced-motion: reduce) {
   .pl-rail { scroll-behavior: auto; }
   .pl-frame, .pl-row { opacity: 1 !important; transform: none !important; animation: none !important; }
+  .pl-plate { transform: none !important; animation: none !important; }
   .pl-frame img { translate: none !important; animation: none !important; }
   .pl-plate:hover .pl-t, .pl-plate:focus-visible .pl-t { transform: none; }
   .pl-sw, .pl-hook { transition: none; }

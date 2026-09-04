@@ -363,13 +363,46 @@ scroll-into-view with it. **Nothing here re-implements a carousel.**
 
 ## 2.4 The motion, and what runs it
 
+**Two scroll-linked motions, one for each axis, and they answer different scrolls.**
+
 | | |
 |---|---|
-| **the drift** | every picture counter-travels **±4% of its frame** as its plate crosses the scrollport |
-| **where it runs** | `animation-timeline` on a **named view timeline** — the compositor, Chrome 115+/Safari 26+, ~84% |
-| **everywhere else** | one rAF reading `scrollLeft`, in `js/ui.js`. Firefox still has scroll-driven animations behind a flag in stable as of mid-2026 |
-| **the arrival** | the site's own once-only rise, staggered `55ms` off `--i` |
+| **the drift** — the rail's own scroll | every picture counter-travels **±4% of its frame** as its plate crosses the scrollport |
+| **the sway** — the *page's* scroll | every plate rides a wave, **±14px at its own phase**, as the section crosses the window |
+| **where they run** | `animation-timeline` on **named view timelines** — the compositor, Chrome 115+/Safari 26+, ~84% |
+| **everywhere else** | two rAF handlers in `js/ui.js`, one on the rail's `scroll` and one on the window's. Firefox still has scroll-driven animations behind a flag in stable as of mid-2026 |
+| **the arrival** | the site's own once-only rise, `14px`, staggered `55ms` off `--i` |
 | **at rest** | nothing. No pulse, no loop, no ken-burns |
+
+## 2.4a ⭐ THE SWAY, and why it exists
+
+**The author, 2026-09-04:** *"can we have motion...... paralex something"*.
+
+**He was right and the gap was obvious once named: the drift only moves when the RIBBON
+does.** Scrolling the *page* past a strip that answers only to sideways swipes leaves it
+dead on arrival. So the plates also ride a slow wave as the section crosses the window —
+**which is concept D's "five columns at five speeds" turned on its side and given to a
+row**, and concept D is the one he said looked better than the turn.
+
+🛑 **IT MOVES THE FRAMES AND NOT THE PICTURES, AND THAT IS WHY IT IS FREE.** A vertical
+drift *inside* the frame would need vertical overhang, and the only place that overhang can
+come from is **a second crop of the photograph** — the one thing this whole rebuild exists
+to stop. Translating the plate costs nothing but paper, which is what the rail's `2rem` of
+vertical padding is for.
+
+⚠️ **The amplitude is one cosine across the ten**, `cos(i × 1.1) × 14px`, set at render
+time in `js/render.js PLATE_SWAY`. **A single constant moves all ten in lockstep**, which
+reads as the whole strip sliding rather than a field of plates breathing; **ten random
+numbers read as a fault.** The cosine starts at full height on plate I — the one most
+readers see — and crosses zero twice on its way to X.
+
+⚠️ **`overflow-y` is pinned to `hidden` on the rail.** An overflow value on one axis makes
+the other a scroll container too; left at `auto`, a plate riding 14px high would have handed
+the ribbon **its own vertical scrollbar.**
+
+**Measured, real clock, scrolling the page past the section:** `402` median `16.7ms` /
+worst `17.6`; `1440` median `16.7` / worst `19.4`; **zero frames over 33ms on either path at
+either width.**
 
 🔴 **THE TIMELINE IS DECLARED ON THE PLATE AND REFERRED TO BY NAME, AND THE OBVIOUS
 `animation-timeline: view(inline)` ON THE IMAGE IS A TRAP THAT COSTS THE WHOLE EFFECT
@@ -463,6 +496,7 @@ walking I→X and the caption following it at 402; no document-level horizontal 
 | he asked | answered |
 |---|---|
 | Is `The Plates` the right label? | **No label.** The heading is `.visually-hidden` — gone from the page, kept for the landmark. |
+| *"random unnecessary numerals"* (2026-09-04) | **The arc's roman numerals are gone.** Every numeral on that screen was printed twice — once under its own plate, where it is the caption of a picture and a convention of this book, and once under a colour chip that already sits in chapter order. **The arc is a position and the light of the book, not a numbered list.** The name is still on the button for a screen reader. |
 | Should the strip bleed to the window edges? | **Yes**, and it must: a boxed ribbon reads as a carousel widget. ⚠️ It bleeds to `--edge`, **deliberately not to `100vw`** — that trick counts the classic scrollbar and hands Windows a horizontally scrolling document, and the usual patch for *that*, `overflow-x: hidden` on `body`, would kill every `position: sticky` in this book. |
 | Tap a cell: jump, or play? | **Still jump.** `href="#ch07"`. Playing from an index is a decision the reader has not made yet. |
 | *"i just want it to look amazing"* | The pictures are whole, they are large, and they move. |

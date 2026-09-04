@@ -79,12 +79,15 @@ a{color:inherit;text-decoration:none}
   font-weight:400;line-height:1.02;letter-spacing:-.028em;margin:0 0 1.1rem}
 .sub{color:var(--ink-soft);font-size:clamp(1.02rem,1.35vw,1.16rem);line-height:1.58;margin:0}
 .sub b{color:var(--ink);font-weight:600}
-.foot{padding:clamp(3rem,6vw,5rem) 0 clamp(4rem,8vw,7rem);max-width:64ch;
-  color:var(--ink-soft);font-size:.95rem;line-height:1.62}
-.foot h2{font-family:var(--ui);font-size:var(--ap-md);font-weight:600;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--ink-faint);margin:0 0 .9rem}
-.foot p{margin:0 0 .9rem}
-.foot b{color:var(--ink);font-weight:600}
+#ribbon{padding-bottom:clamp(4rem,10vw,8rem)}
+/* ⚠️ THE LAB PAGE NEEDS ROOM TO SCROLL OR IT CANNOT SHOW THE SWAY. This page is
+   about 900px tall, which on a 900px window means there is nothing to scroll and
+   the section never traverses the viewport — the plates sit at one point of the
+   wave forever. In the site the ribbon has a whole book under it. The space is
+   OUTSIDE #ribbon on purpose: padding on the section itself would grow the
+   timeline's own subject box and flatten the very motion it is here to show. */
+main{padding-bottom:90vh}
+.head{padding-bottom:14vh}
 
 /* ══════════════════════════════════════════════════════════════════════
    THE RAIL — a native scroller. Not a carousel widget.
@@ -103,9 +106,12 @@ a{color:inherit;text-decoration:none}
      grid, and scroll-padding is what puts it there when a snap lands. */
   padding-inline:var(--gutter);
   scroll-padding-inline:var(--gutter);
-  /* vertical room so a focus ring is never clipped by overflow-x — an
-     overflow value on one axis makes the other axis a scroll container too */
-  padding-block:.5rem;
+  /* ⚠️ the room the sway and the arrival need, and overflow-y is pinned because
+     an overflow value on one axis makes the other a scroll container too — left
+     at `auto` a plate riding 14px high would hand the ribbon its own vertical
+     scrollbar. It is also the room a focus ring needs. */
+  padding-block:2rem;
+  overflow-y:hidden;
   scrollbar-width:none;
   list-style:none;margin:0;
 }
@@ -254,6 +260,37 @@ a{color:inherit;text-decoration:none}
 }
 
 /* ══════════════════════════════════════════════════════════════════════
+   THE SWAY — the page's own scroll, not the rail's
+
+   ⭐ THE DRIFT ABOVE ONLY MOVES WHEN THE RIBBON DOES. Scrolling the PAGE past a
+   strip that only answers to sideways swipes leaves it dead on arrival, which is
+   what was missing. So the plates also ride a slow wave as the section crosses
+   the window: each rises and falls ±14px at its own phase — concept D's "five
+   columns at five speeds" turned on its side and given to a row.
+
+   🛑 IT MOVES THE FRAMES AND NOT THE PICTURES, AND THAT IS WHY IT IS FREE. A
+   vertical drift inside the frame would need vertical overhang, and the only
+   place that can come from is a second crop of the photograph. Translating the
+   plate costs nothing but paper.
+
+   ⚠️ THE TIMELINE IS ON THE SECTION for the same reason the drift's is on the
+   plate: .rb-rail has overflow on both axes, so `view(block)` on a plate would be
+   measured against the rail, which never scrolls vertically.
+   ══════════════════════════════════════════════════════════════════════ */
+@keyframes rb-sway{
+  from{ transform:translateY(var(--amp,0px)) }
+  to  { transform:translateY(calc(var(--amp,0px) * -1)) }
+}
+@supports (animation-timeline:view(block)){
+  html.rb-sda #ribbon{ view-timeline-name:--rb-section; view-timeline-axis:block }
+  html.rb-sda .rb-plate{
+    animation:rb-sway linear both;
+    animation-timeline:--rb-section;
+    animation-range:cover 0% cover 100%;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
    THE CAPTION — one line of type that keeps pace with the ribbon
 
    ⭐ THIS IS THE ONE THING WORTH SAVING OUT OF lab/turn.html. The back of each
@@ -295,8 +332,11 @@ a{color:inherit;text-decoration:none}
 .rb-dot{
   display:block;width:100%;background:none;border:0;padding:0;cursor:pointer;
   font:inherit;text-align:center;
-  /* WCAG 2.5.8: the visible swatch is 30px, the hit area is the full 44 */
-  min-height:44px;
+  /* 🛑 BLOCK, NOT FLEX. Flex collapsed .rb-sw to its content width — ten hairline
+     ticks instead of ten colour chips. The swatch sits at the top of a block box
+     and the padding under it is the rest of the 44px hit area. The ink is not the
+     target. */
+  min-height:44px;padding-bottom:18px;
 }
 .rb-sw{display:block;height:26px;background:var(--stock);
   border:1px solid rgba(25,21,16,.14);
@@ -304,11 +344,6 @@ a{color:inherit;text-decoration:none}
   transition:height var(--dur-med) var(--ease),border-bottom-width var(--dur-med) var(--ease)}
 .rb-dot[aria-current="true"] .rb-sw{height:36px;border-bottom-width:3px}
 .rb-dot:hover .rb-sw{height:32px}
-.rb-num{display:block;margin-top:.34rem;font-family:var(--serif);font-size:.62rem;
-  letter-spacing:.1em;color:var(--ink-faint);
-  font-variant-numeric:lining-nums tabular-nums;
-  transition:color var(--dur-fast) var(--ease)}
-.rb-dot[aria-current="true"] .rb-num{color:var(--ink)}
 .rb-dot:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* ══════════════════════════════════════════════════════════════════════
@@ -345,7 +380,7 @@ a{color:inherit;text-decoration:none}
   animation:rb-arrive 700ms var(--ease) calc(var(--i) * 55ms) both;
 }
 @keyframes rb-arrive{
-  from{ opacity:0; transform:translateY(22px) }
+  from{ opacity:0; transform:translateY(14px) }
   to  { opacity:1; transform:none }
 }
 
@@ -358,6 +393,7 @@ a{color:inherit;text-decoration:none}
 @media (prefers-reduced-motion:reduce){
   .rb-rail{scroll-behavior:auto}
   .rb-frame,.rb-row{opacity:1!important;transform:none!important;animation:none!important}
+  .rb-plate{transform:none!important;animation:none!important}
   .rb-frame img{translate:none!important;animation:none!important}
   .rb-plate:hover .rb-t,.rb-plate:focus-visible .rb-t{transform:none}
   .rb-sw{transition:none}
@@ -369,46 +405,24 @@ a{color:inherit;text-decoration:none}
 <main>
   <div class="wrap">
     <header class="head">
-      <p class="kick">The plates · the ribbon, corrected</p>
-      <h1 class="h">Ten plates, at the shape they were photographed.</h1>
-      <p class="sub">You said the shape of the photos didn’t fit, and you were right by a
-        larger margin than it looked. Every plate is <b>1408&#215;768</b>. The turn was
-        showing you <b>28% of each one on a phone</b>. This shows <b>all of it</b> — and the
-        ribbon still runs sideways under your thumb, still lights the plate it is holding,
-        and still drifts every picture inside its own frame as it passes.</p>
+      <p class="kick">Lab</p>
+      <h1 class="h">The ribbon</h1>
+      <p class="sub">The standalone of the plate index that is in the site. Same markup, same
+        motion, same content files &mdash; it reads <code>content/chapters.js</code> directly, so
+        nothing here can drift from the book.</p>
     </header>
   </div>
 
-  <nav class="rb-rail" id="rail" aria-label="The ten plates"></nav>
-
-  <div class="wrap">
-    <!-- aria-hidden: every hook is already inside its own plate's accessible
-         name, and a caption that announced itself on each snap would talk over
-         a screen-reader user steering the ribbon. -->
-    <p class="rb-hook" id="hook" aria-hidden="true"></p>
-    <ol class="rb-arc" id="arc" aria-label="Jump to a chapter"></ol>
-  </div>
-
-  <div class="wrap">
-    <div class="foot">
-      <h2>What is doing the work</h2>
-      <p><b>The travel is the browser’s.</b> <code>overflow-x</code> plus
-        <code>scroll-snap-type:x mandatory</code> — Baseline since 2019, ~97% of traffic.
-        Momentum, rubber-banding, trackpad, keyboard and screen-reader scrolling all come
-        with it. Nothing here re-implements a carousel.</p>
-      <p><b>The drift is on the compositor where it can be.</b>
-        <code>animation-timeline:view(inline)</code> where it exists (Chrome&nbsp;115+,
-        Safari&nbsp;26+, ~84%), one <code>requestAnimationFrame</code> reading
-        <code>scrollLeft</code> everywhere else. Both write <code>translate</code> only, so
-        neither ever triggers layout.</p>
-      <p><b>There are no arrow buttons.</b> <code>::scroll-button()</code> was built here
-        and taken out: the rail bleeds to both window edges, so an arrow has nowhere to
-        stand except on top of a photograph — the exact fault this page exists to fix. The
-        arc below navigates in the open, with a name on every stop.</p>
-      <p><b>All ten are always present.</b> Not as ten slivers, which is what broke the first
-        strip — as ten stops of the book’s own paper, night to morning.</p>
+  <section id="ribbon">
+    <nav class="rb-rail" id="rail" aria-label="The ten plates"></nav>
+    <div class="wrap">
+      <!-- aria-hidden: every hook is already inside its own plate's accessible name,
+           and a caption that announced itself on each snap would talk over a screen
+           reader user steering the ribbon. -->
+      <p class="rb-hook" id="hook" aria-hidden="true"></p>
+      <ol class="rb-arc" id="arc" aria-label="Jump to a chapter"></ol>
     </div>
-  </div>
+  </section>
 </main>
 
 <!-- the REAL content files, so nothing on this page can drift from the book -->
@@ -421,6 +435,13 @@ a{color:inherit;text-decoration:none}
   'use strict';
 
   var ROMAN = ['','I','II','III','IV','V','VI','VII','VIII','IX','X'];
+
+  /* ⭐ THE SWAY AMPLITUDE, ONE COSINE ACROSS THE TEN. A single constant moves all
+     ten in lockstep, which reads as the whole strip sliding rather than a field of
+     plates breathing; ten random numbers read as a fault. cos(i * 1.1) * 14 starts
+     at full height on plate I — the one most readers see — and crosses zero twice
+     on its way to X. The stylesheet reads it as --amp. */
+  var SWAY = [14, 6, -8, -14, -4, 10, 13, 2, -11, -12];
 
   /* ⭐ THE DAWN ARC, COPIED EXACTLY FROM css/site.css .section[data-ch=n].
      Not new colours: the paper the chapters are already printed on, in order. */
@@ -468,7 +489,8 @@ a{color:inherit;text-decoration:none}
      caption sat on the picture and had to be hidden. This is the better shape
      of the same decision, not a departure from it. */
   rail.innerHTML = CH.map(function (c, i) {
-    return '<a class="rb-plate" href="#' + esc(c.id) + '" style="--i:' + i + '" data-n="' + c.num + '">' +
+    return '<a class="rb-plate" href="#' + esc(c.id) + '"' +
+      ' style="--i:' + i + ';--amp:' + SWAY[i % SWAY.length] + 'px" data-n="' + c.num + '">' +
       '<span class="visually-hidden">Chapter ' + ROMAN[c.num] + ', ' + esc(c.title) +
         (c.mins ? '. ' + esc(c.mins) + 'utes' : '') +
         (c.hook ? '. ' + esc(c.hook) : '') + '</span>' +
@@ -490,7 +512,6 @@ a{color:inherit;text-decoration:none}
       '<button class="rb-dot" type="button" data-n="' + c.num + '"' +
         ' style="--stock:' + s.p + ';--stock-accent:' + s.a + '">' +
         '<span class="rb-sw" aria-hidden="true"></span>' +
-        '<span class="rb-num" aria-hidden="true">' + ROMAN[c.num] + '</span>' +
         '<span class="visually-hidden">Chapter ' + ROMAN[c.num] + ', ' + esc(c.title) + '</span>' +
       '</button></li>';
   }).join('');
@@ -619,6 +640,33 @@ a{color:inherit;text-decoration:none}
       p.addEventListener('focus', function () { setLit(i); });
     });
     rail.addEventListener('pointerleave', function () { setLit(leading()); });
+  }
+
+  /* ── THE SWAY, fallback path ─────────────────────────────────────────────
+     Where the view timeline does not exist, the same wave is computed from the
+     section's progress across the window. ⚠️ It earns a second scroll listener by
+     doing almost nothing: it returns on the first line unless the section is on
+     screen, and when it runs it reads one rect and writes ten transforms. */
+  var section = document.getElementById('ribbon');
+  var amps = plates.map(function (p) {
+    return parseFloat(getComputedStyle(p).getPropertyValue('--amp')) || 0;
+  });
+  var swayTick = false;
+  function swayFrame() {
+    swayTick = false;
+    var r = section.getBoundingClientRect(), vh = innerHeight;
+    if (r.bottom < 0 || r.top > vh) return;
+    /* cover progress: 0 as the section's top edge enters, 1 as its bottom leaves */
+    var k = 1 - 2 * Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height)));
+    for (var i = 0; i < plates.length; i++) {
+      plates[i].style.transform = 'translateY(' + (amps[i] * k).toFixed(2) + 'px)';
+    }
+  }
+  function onPageScroll() { if (!swayTick) { swayTick = true; requestAnimationFrame(swayFrame); } }
+  if (!CSS_DRIFT && !REDUCED && section) {
+    addEventListener('scroll', onPageScroll, { passive:true });
+    addEventListener('resize', onPageScroll, { passive:true });
+    swayFrame();
   }
 
   measure();
