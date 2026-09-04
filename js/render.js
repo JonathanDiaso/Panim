@@ -1150,6 +1150,84 @@
     });
   }
 
+  // ============================================================================
+  // THE PLATES — a contact sheet, 2026-09-04
+  // The author, after sending awwwards.com/inspiration/list-transition-mario-roudil:
+  // "gameplan the picture layout on the open, a presentation always showing all,
+  //  maybe like a table of contents it would look sick."
+  //
+  // 🛑 IT IS NOT A CARD GRID AND IT IS NOT INSIDE #contents, AND BOTH OF THOSE ARE
+  // RULINGS, NOT TASTE. css/components.css: "Rows are separated by rules, not cards —
+  // a card grid would be the exact generic pattern this rebuild exists to avoid."
+  // js/ui.js: the contents "ALWAYS STARTS CLOSED, AND THE CHOICE IS DELIBERATELY NOT
+  // REMEMBERED" (the author, 2026-09-03). A plate grid bolted into the contents would
+  // have broken one of those and quietly reversed the other. This is its own thing,
+  // above the contents, and it leaves both alone.
+  //
+  // ⭐ A CONTACT SHEET, WHICH IS A BOOK IDEA AND NOT A WEB IDEA. Ten frames in one
+  // strip, hairline gutters, the roman numeral set under each the way a plate is
+  // captioned — the object it imitates is a photographer's proof sheet or a book's
+  // list of plates, not a carousel. That is what keeps it from reading as a
+  // template: the pattern is borrowed from print, and the motion is borrowed from
+  // the rest of this site (the once-only reveal, .hairline.is-drawn's gesture).
+  //
+  // ⚠️ IT SHOWS ALL TEN AT ONCE, WHICH WAS THE ASK. It is a flex strip whose cells
+  // expand under the pointer and shrink their neighbours; nothing is ever hidden and
+  // nothing is one-at-a-time. On touch the expansion is meaningless, so it becomes a
+  // scroll-snap strip with the titles already showing (css/components.css).
+  //
+  // 🛑 IT COSTS ~180KB AND NOT ONE BYTE ON THE CRITICAL PATH. Ten 640w AVIF, the same
+  // derivatives content/derivatives.js already carries for the chapter openings, all
+  // loading="lazy" and all below the fold. The plate is each chapter's OWN opening
+  // frame, read from blocks[0].slot — the same one renderChapter consumes — so this
+  // can never drift from the picture at the top of the chapter it links to.
+  // ⚠️ A chapter whose first block is not a slot simply gets a typographic cell. No
+  // placeholder, no grey box: an empty slot renders nothing here exactly as it does
+  // everywhere else on this site.
+  // ============================================================================
+  var STRIP_SIZES = '(max-width: 900px) 62vw, 26vw';
+
+  function renderPlateIndex(chapters) {
+    var audio = window.PANIM_AUDIO || {};
+    var cells = chapters.map(function (ch, i) {
+      var slot = (ch.blocks.length && ch.blocks[0].type === 'slot') ? ch.blocks[0].slot : null;
+      var img = slot && window.PANIM_IMAGES ? window.PANIM_IMAGES[slot] : null;
+      var a = audio[ch.id];
+      var mins = a && a.voiceDur ? Math.round(a.voiceDur / 60) + ' min' : '';
+      // 🛑 alt="" ON PURPOSE. The link's own text already names the chapter, and a
+      // second description of the same target is noise in a screen reader, not
+      // access. The full alt lives on the plate at the chapter opening, where the
+      // picture is the content rather than the label.
+      var pic = img && img.src
+        ? '<picture>' + avifSource(slot, STRIP_SIZES) +
+          '<img src="' + esc(img.src) + '" alt="" loading="lazy" decoding="async"></picture>'
+        : '';
+      return '<a class="pl-cell' + (pic ? '' : ' is-bare') + '" href="#' + esc(ch.id) + '"' +
+        ' style="--i:' + i + '">' +
+        '<span class="pl-frame">' + pic +
+          // 🛑 aria-hidden, AND THE .visually-hidden SPAN BELOW IS WHY. The caption
+          // and the hidden label say the same two things; without this a screen
+          // reader announces every chapter title twice, once bare and once with its
+          // number. The visible caption is the decorative copy — it is the one that
+          // gets hidden, because the hidden one carries "Chapter VII" and it does not.
+          '<span class="pl-caption" aria-hidden="true">' +
+            '<span class="pl-title">' + esc(ch.title) + '</span>' +
+            '<span class="pl-dur">' + esc(mins) + '</span>' +
+          '</span>' +
+        '</span>' +
+        '<span class="pl-num" aria-hidden="true">' + ROMAN[ch.num] + '</span>' +
+        '<span class="visually-hidden">Chapter ' + ROMAN[ch.num] + ', ' +
+          esc(ch.title) + (mins ? ', ' + esc(mins) : '') + '</span>' +
+      '</a>';
+    }).join('');
+
+    return '<section class="section" id="plates" aria-labelledby="plates-label">' +
+      '<div class="section-inner">' +
+        '<h2 class="pl-label" id="plates-label">The Plates</h2>' +
+        '<nav class="pl-strip reveal" id="pl-strip">' + cells + '</nav>' +
+      '</div></section>';
+  }
+
   function renderContents(chapters) {
     var audio = window.PANIM_AUDIO || {};
     var rows = chapters.map(function (ch) {
@@ -1408,6 +1486,7 @@
     var skippedGlossTerms = [];
     var html = [];
 
+    html.push(renderPlateIndex(chapters));
     html.push(renderContents(chapters));
 
     chapters.forEach(function (chapter) {
