@@ -1151,50 +1151,68 @@
   }
 
   // ============================================================================
-  // THE PLATES — a contact sheet, 2026-09-04
+  // THE PLATES — the ribbon, 2026-09-04 (v55, replacing the v54 contact sheet)
   // The author, after sending awwwards.com/inspiration/list-transition-mario-roudil:
   // "gameplan the picture layout on the open, a presentation always showing all,
   //  maybe like a table of contents it would look sick."
+  // And then, of the versions that followed: "the shape of the photos doesnt fit
+  // the photos that well… i thought it would also look a little like the list…
+  // the ribbon that you created is really exciting to me. it's beautiful."
   //
-  // 🛑 IT IS NOT A CARD GRID AND IT IS NOT INSIDE #contents, AND BOTH OF THOSE ARE
-  // RULINGS, NOT TASTE. css/components.css: "Rows are separated by rules, not cards —
-  // a card grid would be the exact generic pattern this rebuild exists to avoid."
-  // js/ui.js: the contents "ALWAYS STARTS CLOSED, AND THE CHOICE IS DELIBERATELY NOT
-  // REMEMBERED" (the author, 2026-09-03). A plate grid bolted into the contents would
-  // have broken one of those and quietly reversed the other. This is its own thing,
-  // above the contents, and it leaves both alone.
+  // 🔴 THE SHAPE COMPLAINT WAS ARITHMETIC. Every plate is 1408x768 — 1.833:1 —
+  // and the layouts were showing 28% (the turn, on a phone), 36% (a 2:3 ribbon),
+  // 41% (a 3:4 wall), 82% (this file's v54 proof sheet). The frame is now 11:6,
+  // which is 1408:768 reduced, so the whole width of the negative is on the page.
+  // The full measurement table is in css/components.css.
   //
-  // ⭐ A CONTACT SHEET, WHICH IS A BOOK IDEA AND NOT A WEB IDEA. Ten frames in one
-  // strip, hairline gutters, the roman numeral set under each the way a plate is
-  // captioned — the object it imitates is a photographer's proof sheet or a book's
-  // list of plates, not a carousel. That is what keeps it from reading as a
-  // template: the pattern is borrowed from print, and the motion is borrowed from
-  // the rest of this site (the once-only reveal, .hairline.is-drawn's gesture).
+  // 🛑 IT IS STILL NOT INSIDE #contents, AND THAT IS A RULING, NOT TASTE.
+  // css/components.css: "Rows are separated by rules, not cards." js/ui.js: the
+  // contents "ALWAYS STARTS CLOSED, AND THE CHOICE IS DELIBERATELY NOT REMEMBERED"
+  // (the author, 2026-09-03). This sits above the contents and leaves both alone.
   //
-  // ⚠️ IT SHOWS ALL TEN AT ONCE, WHICH WAS THE ASK. It is a flex strip whose cells
-  // expand under the pointer and shrink their neighbours; nothing is ever hidden and
-  // nothing is one-at-a-time. On touch the expansion is meaningless, so it becomes a
-  // scroll-snap strip with the titles already showing (css/components.css).
+  // ⭐ ALL TEN ARE STILL ALWAYS PRESENT, WHICH WAS THE ASK — but as ten stops of
+  // the book's own paper stock rather than ten slivers of photograph. Ten landscape
+  // pictures cannot be on one screen at a readable size; that is what made the
+  // first strip a row of black rectangles. The arc is the complete index and the
+  // ribbon is the pictures.
   //
-  // 🛑 IT COSTS ~180KB AND NOT ONE BYTE ON THE CRITICAL PATH. Ten 640w AVIF, the same
-  // derivatives content/derivatives.js already carries for the chapter openings, all
-  // loading="lazy" and all below the fold. The plate is each chapter's OWN opening
-  // frame, read from blocks[0].slot — the same one renderChapter consumes — so this
-  // can never drift from the picture at the top of the chapter it links to.
-  // ⚠️ A chapter whose first block is not a slot simply gets a typographic cell. No
-  // placeholder, no grey box: an empty slot renders nothing here exactly as it does
-  // everywhere else on this site.
+  // ⚠️ THE PLATE IS EACH CHAPTER'S OWN OPENING FRAME, read from blocks[0].slot —
+  // the same block renderChapter consumes — so the ribbon can never drift from the
+  // picture at the top of the chapter it links to. A chapter whose first block is
+  // not a slot gets a typographic cell: no placeholder and no grey box, exactly as
+  // an empty slot renders nothing everywhere else on this site.
+  //
+  // 🛑 IT IS CHEAPER THAN v54 WAS, NOT DEARER. Measured cold on a real clock at
+  // 1440: the proof sheet pulled ten plates in at rest because all ten were on
+  // screen; the ribbon pulls the two or three that are, and the rest arrive as the
+  // reader swipes. Same AVIF derivatives, same loading="lazy", nothing new on disk
+  // and nothing on the critical path.
   // ============================================================================
-  var STRIP_SIZES = '(max-width: 900px) 62vw, 26vw';
+
+  // ⭐ THE DAWN ARC, COPIED EXACTLY FROM css/site.css .section[data-ch=n]. These
+  // are not new colours — they are the paper the chapters are already printed on,
+  // in order, night to morning. js/motion.js mirrors the same table.
+  // ⚠️ IF THE STOCKS IN css/site.css EVER CHANGE, THIS CHANGES WITH THEM.
+  var PLATE_STOCK = [null,
+    { p: '#EDE9DF', a: '#32506B' }, { p: '#E7E7E4', a: '#32506B' },
+    { p: '#EDE6DB', a: '#32506B' }, { p: '#E6E8EA', a: '#32506B' },
+    { p: '#F0E9DC', a: '#A8391B' }, { p: '#F2ECE0', a: '#A8391B' },
+    { p: '#E9E9E7', a: '#A8391B' }, { p: '#EBE6E1', a: '#A8391B' },
+    { p: '#F4EEE1', a: '#7E5A20' }, { p: '#FBF7EE', a: '#7E5A20' }];
+
+  // the sizes attribute describes the IMG, which is 110% of its frame — not the
+  // frame. Understating it hands a phone a picture it then has to upscale.
+  var STRIP_SIZES = '(max-width: 900px) 86vw, 34vw';
 
   function renderPlateIndex(chapters) {
     var audio = window.PANIM_AUDIO || {};
-    var cells = chapters.map(function (ch, i) {
+
+    var plates = chapters.map(function (ch, i) {
       var slot = (ch.blocks.length && ch.blocks[0].type === 'slot') ? ch.blocks[0].slot : null;
       var img = slot && window.PANIM_IMAGES ? window.PANIM_IMAGES[slot] : null;
       var a = audio[ch.id];
-      var mins = a && a.voiceDur ? Math.round(a.voiceDur / 60) + ' min' : '';
-      // 🛑 alt="" ON PURPOSE. The link's own text already names the chapter, and a
+      var mins = a && a.voiceDur ? Math.round(a.voiceDur / 60) : 0;
+      // 🛑 alt="" ON PURPOSE. The link's own text already names the chapter and a
       // second description of the same target is noise in a screen reader, not
       // access. The full alt lives on the plate at the chapter opening, where the
       // picture is the content rather than the label.
@@ -1202,29 +1220,48 @@
         ? '<picture>' + avifSource(slot, STRIP_SIZES) +
           '<img src="' + esc(img.src) + '" alt="" loading="lazy" decoding="async"></picture>'
         : '';
-      return '<a class="pl-cell' + (pic ? '' : ' is-bare') + '" href="#' + esc(ch.id) + '"' +
-        ' style="--i:' + i + '">' +
-        '<span class="pl-frame">' + pic +
-          // 🛑 aria-hidden, AND THE .visually-hidden SPAN BELOW IS WHY. The caption
-          // and the hidden label say the same two things; without this a screen
-          // reader announces every chapter title twice, once bare and once with its
-          // number. The visible caption is the decorative copy — it is the one that
-          // gets hidden, because the hidden one carries "Chapter VII" and it does not.
-          '<span class="pl-caption" aria-hidden="true">' +
-            '<span class="pl-title">' + esc(ch.title) + '</span>' +
-            '<span class="pl-dur">' + esc(mins) + '</span>' +
-          '</span>' +
+      // 🛑 THE HIDDEN LABEL CARRIES THE WHOLE NAME AND THE VISIBLE ROW IS
+      // aria-hidden — the same call v54's caption made, and for the same reason.
+      // Both say the chapter's title; without this a screen reader announces every
+      // one of them twice. The hidden one wins because it carries "Chapter VII",
+      // the runtime as a word rather than an abbreviation, and the hook.
+      return '<a class="pl-plate' + (pic ? '' : ' is-bare') + '" href="#' + esc(ch.id) + '"' +
+        ' style="--i:' + i + '" data-n="' + ch.num + '">' +
+        '<span class="visually-hidden">Chapter ' + ROMAN[ch.num] + ', ' + esc(ch.title) +
+          (mins ? '. ' + mins + ' minutes' : '') +
+          (ch.hook ? '. ' + esc(ch.hook) : '') + '</span>' +
+        '<span class="pl-frame">' + pic + '</span>' +
+        '<span class="pl-row" aria-hidden="true">' +
+          '<span class="pl-n">' + ROMAN[ch.num] + '</span>' +
+          '<span class="pl-t">' + esc(ch.title) + '</span>' +
+          '<span class="pl-d">' + (mins ? mins + ' min' : '') + '</span>' +
         '</span>' +
-        '<span class="pl-num" aria-hidden="true">' + ROMAN[ch.num] + '</span>' +
-        '<span class="visually-hidden">Chapter ' + ROMAN[ch.num] + ', ' +
-          esc(ch.title) + (mins ? ', ' + esc(mins) : '') + '</span>' +
       '</a>';
+    }).join('');
+
+    var arc = chapters.map(function (ch) {
+      var s = PLATE_STOCK[ch.num] || PLATE_STOCK[1];
+      return '<li class="pl-stop">' +
+        '<button class="pl-dot" type="button" data-n="' + ch.num + '"' +
+          ' style="--stock:' + s.p + ';--stock-accent:' + s.a + '">' +
+          '<span class="pl-sw" aria-hidden="true"></span>' +
+          '<span class="pl-num" aria-hidden="true">' + ROMAN[ch.num] + '</span>' +
+          '<span class="visually-hidden">Chapter ' + ROMAN[ch.num] + ', ' + esc(ch.title) + '</span>' +
+        '</button></li>';
     }).join('');
 
     return '<section class="section" id="plates" aria-labelledby="plates-label">' +
       '<div class="section-inner">' +
-        '<h2 class="pl-label" id="plates-label">The Plates</h2>' +
-        '<nav class="pl-strip reveal" id="pl-strip">' + cells + '</nav>' +
+        // The author, 2026-09-04: "it doesnt need to say the plates". The heading is
+        // gone from the page but NOT from the document — the section is a landmark and
+        // aria-labelledby still points here, so a screen reader keeps its name.
+        '<h2 class="visually-hidden" id="plates-label">The Plates</h2>' +
+        '<nav class="pl-rail" id="pl-rail" aria-label="The ten plates">' + plates + '</nav>' +
+        // aria-hidden: every hook is already inside its own plate's accessible name,
+        // and a caption that announced itself on each snap would talk over a screen
+        // reader user steering the ribbon.
+        '<p class="pl-hook" id="pl-hook" aria-hidden="true"></p>' +
+        '<ol class="pl-arc" id="pl-arc" aria-label="Jump to a chapter">' + arc + '</ol>' +
       '</div></section>';
   }
 

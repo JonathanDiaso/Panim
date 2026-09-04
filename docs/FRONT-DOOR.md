@@ -1,8 +1,9 @@
 # 🚪 THE FRONT DOOR
 
 **What the top of the site does, why it does it, and what is next.**
-Shipped as **v53**, 2026-09-04, live on `main`. **v54 — The Plates, §2 — is BUILT AND
-COMMITTED BUT NOT PUSHED**, at the author's instruction: *"don't send to site just build."*
+Shipped as **v53**, 2026-09-04, live on `main`. **v55 — The Plates, now a ribbon, §2 — is
+BUILT AND COMMITTED BUT NOT PUSHED**, at the author's instruction: *"don't send to site just
+build."* 🗄 v54's contact sheet is in git history at `d1dc9f9`.
 
 > This file is **hand-written and permanent**. `README.md` describes the repo;
 > this describes the one screen a stranger actually sees.
@@ -286,167 +287,199 @@ selector if it needs to happen fast.
 
 
 
-# 2 · 🖼 THE PLATES — built, v54, not pushed
+# 2 · 🖼 THE PLATES — the ribbon, v55, BUILT AND NOT PUSHED
 
-**The author, after sending** `awwwards.com/inspiration/list-transition-mario-roudil`**:**
-*"gameplan the picture layout on the open, a presentation always showing all, maybe like
-a table of contents it would look sick"* — then *"just do whatever's gonna look good…
-super captivating, do not bloat, impress me… don't send to site just build."*
+**Same standing instruction as v54:** *"don't send to site just build."* v55 is committed
+in `Panim-site` and is **not** on `main`.
 
-**It is a contact sheet.** Ten frames in one strip, under the jacket and above the
-contents. `#plates` in `index.html`'s `#chapters-root`, rendered by
-`js/render.js renderPlateIndex()`, styled in `css/components.css`.
+**The author, 2026-09-04, on the versions before this one:**
+
+> *"the shape of the photos doesnt fit the photos that well and i think you can do better…
+> i thought it would also look a little like the list… the ribbon that you created is
+> really exciting to me as well. it's beautiful and i can really connect with it. it's a
+> more fun version of table of contents maybe if we got the pic sizes right."*
+
+## 2.1 🔴 THE SHAPE COMPLAINT WAS ARITHMETIC, NOT TASTE
+
+**Every one of the ten plates is** `1408 × 768` **— 1.833:1, wide landscape.** Measured in a
+real browser, this is how much of each photograph each version was actually showing:
+
+| version | frame ratio | shows |
+|---|---|---|
+| `lab/turn.html` at 402 (the flip cards, on a phone) | `0.506` | **28%** |
+| `lab/turn.html` at 1440 | `0.637` | 35% |
+| `lab/plates.html` **B**, the 2:3 ribbon | `0.667` | 36% |
+| `lab/plates.html` **D**, the 3:4 wall | `0.750` | 41% |
+| **v54, the 3:2 proof sheet — what is committed and unpushed** | `1.500` | 82% |
+| `lab/plates.html` **C**, the 16:9 list | `1.778` | ✅ 97% |
+
+**The turn was throwing away three quarters of every plate and then asking him to admire
+it.** 🛑 **And this is also why he kept saying it should look "a little like the list" — the
+list was the only one that was showing him the pictures.**
+
+⭐ **The frame is now** `11 / 6` **— 1408:768 reduced — so the strip shows the whole width of
+the negative.** About **9% comes off the height** to buy the drift, and §2.4 says why. Nine
+percent off the height of a landscape frame is a trim; 72% off the width was not.
+
+## 2.2 What it is
+
+**A ribbon.** One row of large landscape plates that travels sideways on a native scroller,
+bleeding to the window edges. Under each frame, the **list's own grammar** — numeral, title,
+runtime. Under the whole strip, **one caption printing the hook of whichever chapter the
+ribbon is holding**, and then **the arc**: ten stops in the chapters' own paper stock, night
+on the left and full morning on the right.
 
 ```
-THE PLATES                    ── desktop, 5 x 2, 265x177 a frame ──
-┌────────┬────────┬────────┬────────┬────────┐
-│   ▓▓   │   ▓▓   │   ▓▓   │   ▓▓   │   ▓▓   │
-├────────┼────────┼────────┼────────┼────────┤
-   I         II       III      IV        V
-┌────────┬────────┬────────┬────────┬────────┐
-│   ▓▓   │   ▓▓   │   ▓▓   │   ▓▓   │   ▓▓   │
-├────────┼────────┼────────┼────────┼────────┤
-   VI       VII      VIII      IX        X
+── bleeds to the window ────────────────────────────────────────────────
+┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐  ┌────
+│                  │  │                  │  │                  │  │
+│   ch01-tomb      │  │   ch02-trees     │  │   ch03-mountain  │  │  ch04
+│                  │  │                  │  │                  │  │
+└──────────────────┘  └──────────────────┘  └──────────────────┘  └────
+ I  The God Who Sees   II  The Hiding        III The Face They Fled
+             22 MIN            24 MIN                27 MIN
 
-pointer on VII: the sheet dims to 62%, VII stays lit, its picture pushes
-5% and comes to full colour, its title rises over the scrim, its numeral
-inks to black. NOTHING IN THE GRID MOVES.
+ Two small silver scrolls, a blessing about a face, and the oldest
+ words of the Bible anyone has ever found.
+
+ ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁
+  I   II  III  IV   V   VI  VII VIII IX   X     ← each in its own paper stock
 ```
 
-🛑 **THE FIRST BUILD WAS TEN FRAMES IN ONE ROW AND IT WAS WRONG.** At 1440 that is
-**131px a frame** — a vertical sliver — and measured on the real page **five of the ten
-plates read as black rectangles.** It also looked timid under a full-bleed hero. **A
-contact sheet was never one row**; a proof sheet is a grid of rows, so 5x2 is the honest
-version of the idea as well as the legible one.
+`js/render.js renderPlateIndex()` · `css/components.css` "THE PLATES — the ribbon" ·
+`js/ui.js wirePlateRibbon()`
 
+## 2.3 🛑 IT DOES NOT PIN, AND THAT IS A RULING RATHER THAN A PREFERENCE
 
+**The pinned version — concept B — spent** `340vh` **of page height, about 2,700px, before
+chapter I.** The standing objection of 2026-08-28 was to **~700px** of text index in that
+same gap. **The pin was four times the thing already ruled against**, and it scroll-jacks,
+which is the one scrolling pattern the accessibility guidance is unanimous about.
 
-## idk i just want it to look amazing should it be vertical horizontal and why cant i see it idk here v54 is sitting and how to acces it
+⭐ **The travel is the reader's own thumb on a native scroller instead.** `overflow-x` plus
+`scroll-snap-type: x mandatory` has been Baseline since 2019 — about 97% of traffic — and it
+brings momentum, rubber-banding, trackpad gestures, keyboard scrolling and screen-reader
+scroll-into-view with it. **Nothing here re-implements a carousel.**
 
-## 2.1 🛑 Why it is NOT inside `#contents` — two rulings
+## 2.4 The motion, and what runs it
 
-**A plate grid bolted into the contents would have broken one ruling and silently
-reversed another.**
+| | |
+|---|---|
+| **the drift** | every picture counter-travels **±4% of its frame** as its plate crosses the scrollport |
+| **where it runs** | `animation-timeline` on a **named view timeline** — the compositor, Chrome 115+/Safari 26+, ~84% |
+| **everywhere else** | one rAF reading `scrollLeft`, in `js/ui.js`. Firefox still has scroll-driven animations behind a flag in stable as of mid-2026 |
+| **the arrival** | the site's own once-only rise, staggered `55ms` off `--i` |
+| **at rest** | nothing. No pulse, no loop, no ken-burns |
 
+🔴 **THE TIMELINE IS DECLARED ON THE PLATE AND REFERRED TO BY NAME, AND THE OBVIOUS
+`animation-timeline: view(inline)` ON THE IMAGE IS A TRAP THAT COSTS THE WHOLE EFFECT
+SILENTLY.** A view timeline is measured against the subject's nearest ancestor **scroll
+container** — and `.pl-frame` has `overflow: hidden`, which makes it one. So every picture
+was being measured against the frame it lives in, which never scrolls. **Measured in Chrome:
+all ten sat at `translate: -0.0003%` at every scroll position on the rail. No error, no
+warning, no motion.** `.pl-plate` is outside the frame and inside the rail, so a timeline
+declared there resolves against the thing that actually moves.
 
-| ruling                                                                                                                                                                                                 | where it lives                           |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------- |
-| *"Rows are separated by rules, not cards — **a card grid would be the exact generic pattern this rebuild exists to avoid**"*                                                                           | `css/components.css`, the contents block |
-| *"It **ALWAYS STARTS CLOSED**, and the choice is **deliberately not remembered**"* — the author, 2026-09-03, because the book is shared by link to first-time readers and the first screen has one job | `js/ui.js wireContentsToggle()`          |
+⚠️ **THE OVERHANG AND THE DRIFT ARE ONE SUM.** A translate percentage resolves against the
+element, not its box: `3.7%` of a 110%-wide picture is `4.07%` of the **frame**, and the
+overhang is 5% a side. The first build was 110% drifting 5% — half a percent too far — and a
+pale band of bare frame appeared down the right edge of every plate.
 
+🛑 **AND `max-width: none`, WITHOUT WHICH NONE OF IT HAPPENS.** The site-wide
+`img { max-width: 100% }` silently clamps the 110% back to the frame's width. **Measured
+before the fix: a 398px image in a 400px frame, and an 18px band down every plate.**
 
-**So this sits above the contents and touches neither.** `#contents` still opens closed,
-still has no pictures in it, still separates its rows with rules.
+## 2.5 🔴 THE BUG THAT WOULD HAVE SHIPPED — a 1px span slid the whole page sideways
 
-⚠️ **The 2026-08-28 objection was to ~700px of text index between the jacket and chapter I.**
-**This section is** `391px` **tall, measured** — and it is pictures, not an index.
+**Each plate carries a `.visually-hidden` span, which is `position: absolute`.** With the
+plate `static`, that span's containing block is the **initial containing block** — and an
+absolutely positioned box is clipped by an ancestor's overflow **only when that ancestor is
+in its containing-block chain.**
 
-## 2.2 What makes it not a template
+**So ten screen-reader labels escaped the rail and pushed the DOCUMENT's scrollable width to
+`2,939px` inside a `402px` viewport. The whole page slid sideways on a phone.** WCAG 1.4.10
+Reflow, from a span with `width: 1px`.
 
-**A proof sheet is a book object.** The whole design follows from that and from nothing
-on Dribbble:
+⚠️ **`overflow: hidden` on the rail does NOT fix it, and that is the tell.** Only
+`contain: paint` did, because it makes the rail a containing block. **The honest fix is
+`position: relative` on `.pl-plate`.**
 
-- **No card, no radius, no shadow, and — the one that matters — no** `gap`**.** The cells
-share a **1px hairline of** `--rule`, which is how a contact sheet is ruled. `gap`
-would have left paper between ten floating pictures and made it a card row.
-- **The numeral is captioned UNDER the frame, on paper, never over the picture.**
-⚠️ v49 deliberately took roman numerals **off** the artwork files; this keeps them off.
-It is a caption in the UI layer — the same call the chapter openings and the running
-head already make. Literata, not a UI font, because a chapter numeral is furniture of
-the book.
-- **The only thing that moves is the width of the frame the pointer is over.** No pulse,
-no loop, no ken-burns.
-- **One once-only entrance**: the images rise from `translateY(101%)` inside their frames,
-staggered `55ms` off `--i`, fired by `js/motion.js`**'s existing** `.reveal` **observer** —
-no new observer, no new machinery. Same gesture as `.hairline.is-drawn` and the Hebrew
-watermark: it happens on arrival and is then finished forever.
+## 2.6 Measured, on a real clock, with a real pointer
 
-lets see it wahtever works best i want it to look good and not break the site. I want to improve functionality. n
+**Driven with puppeteer against the live local build — not `--virtual-time-budget`, which
+§1.5's family of false faults made untrustworthy, and not an iframe harness, which turned out
+to fire neither `rAF` nor `scroll` events at all.**
 
-## 2.3 ⚠️ Nothing in the grid moves on hover
+| | 402 (touch) | 1440 |
+|---|---|---|
+| frame times, scrubbing the whole rail | median `16.6ms`, p95 `17.2`, worst `17.4` | median `16.7`, p95 `17.2`, worst `17.3` |
+| same, on the rAF fallback path | — | median `16.6`, p95 `18.2`, worst `18.6` |
+| image bytes at rest, cold | **90KB** | **115KB** |
+| image bytes after seeing all ten | 136KB | 174KB |
+| v54's proof sheet, at rest, for comparison | 98KB | **221KB** |
 
-**Growing a cell in a five-column sheet shoves nine others and the page jumps under the
-cursor.** The frame holds its place and the **picture** comes forward inside it: full
-colour, a 5% push, the caption rises, the rest of the sheet drops to `.62`. **Transform
-and opacity only, nothing reflows** — and it is the more expensive-looking of the two.
+⭐ **Locked 60fps on both paths, and it is *cheaper* than v54 on a desktop, not dearer** —
+the proof sheet pulled all ten plates in at rest because all ten were on screen; the ribbon
+pulls the two or three that are. Same AVIF derivatives, same `loading="lazy"`, nothing new
+on disk.
 
-## 2.4 The phone gets a different, better shape
+**Contrast, composited, every text pair in the component:**
 
-🛑 **Ten cells across a 402px phone is 40px each — not a picture, and not a 44px target.**
-Under `900px`, or wherever `(hover: none)`, the strip becomes **a scroll-snapped filmstrip
-with the captions already showing**, because there is no hover to reveal them with.
-**Still all ten, still one object, still swipeable.** Verified at 402px.
+| | size | ratio | |
+|---|---|---|---|
+| lit title | 19.8px | 15.26:1 | ✅ |
+| dimmed title | 19.8px | 6.26:1 | ✅ |
+| dimmed numeral | 13.1px | 7.07:1 | ✅ |
+| runtime | 11.5px | 4.91:1 | ✅ |
+| hook caption | 15.7px | 6.26:1 | ✅ |
 
-## 2.5 ⭐ The cost, measured — and one false alarm caught
+**Touch targets:** arc stops are `131 × 48`, plates are `400 × 253`. **The arc swatch is 26px
+and the button around it is 44** — the hit area is not the ink.
 
-**A/B on a real clock, two cold runs each, same machine and window:**
-
-
-|                     | DCL         | load        | transferred |
-| ------------------- | ----------- | ----------- | ----------- |
-| **with the strip**  | 339 / 352ms | 351 / 362ms | **1455KB**  |
-| without (v53, live) | 340 / 297ms | 369 / 328ms | 1346KB      |
-
-
-**DCL is noise. There is no measurable load regression.**
-**+109KB observed** at a 900×900 window — five of the ten images lazy-load in, the rest
-wait for the scroll. **+179KB** if a reader looks at the whole strip. They are the **same
-AVIF derivatives** `content/derivatives.js` **already carries** for the chapter openings, at
-`640w`, all `loading="lazy"`, all below the fold. **Nothing was added to the critical path
-and no new image files exist.**
-
-🛑 **A FALSE ALARM, CAUGHT BEFORE IT WAS REPORTED — read this before trusting a byte count.**
-Under `--virtual-time-budget`, the harness showed **all 15 chapter plates loading at first
-paint, 488KB**, which looks exactly like a serious pre-existing bloat bug. **It is the
-harness.** Virtual time defeats Chrome's lazy-load heuristic — it loads every lazy image so
-a screenshot is not blank. **On a real clock, zero chapter plates load.** Same family as
-the iframe-scroll and blank-screenshot traps in §1.5. **Measure bytes with**
-`--remote-debugging-port`**, never with** `--virtual-time-budget`**.**
-
-## 2.6 The plate is each chapter's own opening frame
-
-Read from `blocks[0].slot` — **the same block** `renderChapter()` **consumes** — so the strip
-can never drift from the picture at the top of the chapter it links to.
-`ch01-tomb · ch02-trees · ch03-mountain · ch04-river · ch05-bush · ch06-shine · ch07-gate · ch08-flint · ch09-emmaus · ch10-morning`.
-
-⚠️ **A chapter whose first block is not a slot gets a typographic cell** — title on
-`--control-wash`, caption static, **no placeholder and no grey box.** Empty slots render
-nothing everywhere else on this site and they render nothing here.
+**Also verified:** `prefers-reduced-motion` (drift, arrival and type nudge gone; **snapping
+and the lit state stay, because they are navigation and information, not motion**); keyboard
+Tab through the ten with the rail following focus and the focused plate lighting; the arc
+walking I→X and the caption following it at 402; no document-level horizontal scroll at 402,
+768 or 1440; **zero console errors**.
 
 ## 2.7 Accessibility
 
-- `.pl-caption` **is** `aria-hidden`, and the `.visually-hidden` span is why: both say the
-chapter title, and without it a screen reader announces every title **twice**. The
-hidden one wins because it carries *"Chapter VII"* and the visible one does not.
-- `alt=""` **on the strip images on purpose** — the link text already names the target.
-The descriptive alt lives on the plate at the chapter opening, where the picture is the
-content rather than the label.
-- `:focus-visible` **expands the cell exactly as hover does**, so the keyboard path shows
-the same information as the pointer path.
-- **The scrim is sized for the worst case.** White on the `.70` stop composited over a
-white sky is **7.4:1**; over anything darker it only improves. 🛑 **Do not thin it to
-"let the picture through" — that trades a WCAG pass for nothing.**
+- **The hidden label carries the whole name and the visible row is `aria-hidden`** — the same
+  call v54's caption made, for the same reason: both say the title, and without it a screen
+  reader announces every chapter twice. The hidden one wins because it carries *"Chapter
+  VII"*, the runtime as a word, **and the hook**.
+- `alt=""` **on the strip images on purpose.** The link text already names the target; the
+  descriptive alt lives on the plate at the chapter opening.
+- **The caption is `aria-hidden`** — every hook is already in its own plate's accessible
+  name, and a caption that announced itself on each snap would talk over a screen-reader
+  user steering the ribbon.
+- 🛑 **`.is-armed` is added from script, never from the stylesheet.** A flat `opacity: 0`
+  would hide all ten plates forever for anyone whose JavaScript did not run, because the
+  animation that was going to bring them back is the same script. `css/site.css` already
+  makes this call: `.reveal { opacity: 1 }` is its resting state.
 
+## 2.8 The answers to §2.9's open questions
 
+| he asked | answered |
+|---|---|
+| Is `The Plates` the right label? | **No label.** The heading is `.visually-hidden` — gone from the page, kept for the landmark. |
+| Should the strip bleed to the window edges? | **Yes**, and it must: a boxed ribbon reads as a carousel widget. ⚠️ It bleeds to `--edge`, **deliberately not to `100vw`** — that trick counts the classic scrollbar and hands Windows a horizontally scrolling document, and the usual patch for *that*, `overflow-x: hidden` on `body`, would kill every `position: sticky` in this book. |
+| Tap a cell: jump, or play? | **Still jump.** `href="#ch07"`. Playing from an index is a decision the reader has not made yet. |
+| *"i just want it to look amazing"* | The pictures are whole, they are large, and they move. |
 
-## 2.8 ⚠️ Still unverified, same reason as §1.5
+## 2.9 ⚠️ Still open
 
-**Hover was verified by injecting the hover styles and screenshotting**, not by a real
-pointer — headless has no cursor. **The 420ms expansion needs one pass with a real mouse**,
-and the scroll-snap needs one real thumb.
-
-## 2.9 Open, for him
-
-- **Is** `The Plates` **the right label**, or should it have none at all? 
-- **Should the strip bleed to the window edges** instead of sitting on the text grid? It
-currently aligns to the page margin, which reads as *on the page*; full-bleed would echo
-the hero above it.
-- **Should tapping a cell jump to the chapter (now) or start playing it?**
-- **i just want it to look amazing**
+- **`lab/turn.html` is kept, not deleted.** The 3D turn is genuinely good work and its
+  **paper-stock backs are what became the arc**. It is not the right object for landscape
+  plates, and that is the only reason it lost.
+- **The lab pages are untracked** — `lab/ribbon.html` is the standalone of what shipped into
+  the site, and it is where to iterate before touching `css/components.css` again.
+- **One real pointer and one real thumb.** Everything above was driven by puppeteer, which is
+  a real browser with a synthetic cursor. **The mouse must not teleport** — a jump-move
+  silently fails to fire `pointerenter`, which cost an hour before it was recognised as the
+  harness rather than the page.
 
 ---
-
-
 
 # 3 · Where things live
 

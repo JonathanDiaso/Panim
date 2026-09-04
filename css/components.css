@@ -1423,218 +1423,332 @@
 @media (prefers-reduced-motion: reduce) { .tear-line { transform: scaleY(1); transition: none; } }
 
 /* ============================================================================
-   THE PLATES — a contact sheet, 2026-09-04
-   Ten frames in one strip, under the jacket, above the contents. It is the
-   author's "presentation always showing all", and the object it imitates is a
-   photographer's PROOF SHEET — hairline gutters, no gaps, the roman numeral set
-   underneath the way a plate is captioned in a book.
+   THE PLATES — the ribbon, 2026-09-04 (v55, replacing the v54 contact sheet)
 
-   🛑 THIS IS NOT THE CONTENTS AND MUST NOT BECOME IT. Two rulings live below:
-   "Rows are separated by rules, not cards" (the contents block), and the contents
-   "ALWAYS STARTS CLOSED, AND THE CHOICE IS DELIBERATELY NOT REMEMBERED" (js/ui.js,
-   the author 2026-09-03). Putting pictures inside #contents would have broken the
-   first and silently reversed the second. This sits above it and touches neither.
+   🔴 WHY THE PROOF SHEET WAS REPLACED, AND IT IS ARITHMETIC RATHER THAN TASTE.
+   The author: "the shape of the photos doesnt fit the photos that well". Every
+   one of the ten plates is 1408x768 — 1.833:1, wide landscape — and measured in
+   a real browser, this is what each layout was actually showing of them:
 
-   ⭐ WHAT MAKES IT NOT A TEMPLATE: no card, no radius, no shadow, no gap. The
-   cells share hairlines the way columns of an index do, the numerals are Literata
-   and not a UI font, and the ONLY thing that moves is the width of the frame the
-   pointer is over. A strip of rounded rectangles with drop shadows is the exact
-   pattern this book's whole design exists to avoid.
+        the turn (lab/turn.html)  @402   ratio 0.506  ->  28% of the picture
+        the turn                  @1440  ratio 0.637  ->  35%
+        concept B, the 2:3 ribbon                     ->  36%
+        concept D, the 3:4 wall                       ->  41%
+        v54, this file, the 3:2 proof sheet           ->  82%
+        concept C, the 16:9 list                      ->  97%
 
-   ⚠️ NOTHING IN THE GRID MOVES ON HOVER, and that is the second thing the first
-   build got wrong. Growing a cell in a five-column sheet shoves nine others and the
-   page jumps under the cursor. The frame holds its place; the picture comes forward
-   inside it. Transform and opacity only.
+   The proof sheet was the second best of them and still cut a fifth off every
+   plate; the turn was throwing away three quarters. THE FRAME IS NOW 11:6 —
+   1408:768 reduced — so the strip shows the whole width of the negative. About
+   9% comes off the height to buy the drift, and §the img rule says why.
+
+   ⭐ WHAT SURVIVED FROM v54, BECAUSE IT WAS RIGHT: the numeral is captioned
+   UNDER the frame and never over the picture, the plate is each chapter's own
+   opening slot read from blocks[0], the entrance is the site's once-only rise,
+   and this is still NOT the contents. Two rulings still hold — "rows are
+   separated by rules, not cards" and the contents "ALWAYS STARTS CLOSED" — and
+   this sits above #contents and touches neither.
+
+   ⭐ WHAT IS NEW: the strip is one row that travels sideways instead of two that
+   sit still, so a plate can be big; the row under each frame is the numeral,
+   the title and the runtime, which is the typographic grammar of the list
+   concept the author kept asking for; and one caption under the whole ribbon
+   prints the hook of whichever chapter the ribbon is holding.
+
+   🛑 AND IT DOES NOT PIN. The pinned version spent 340vh — about 2,700px — of
+   page height before chapter I, four times the ~700px of index that was already
+   objected to on 2026-08-28, and it scroll-jacks. The travel is the reader's own
+   thumb on a native scroller instead.
    ============================================================================ */
 #plates { padding-block: clamp(2rem, 5vh, 3.4rem); }
 
-/* The label is apparatus, so it takes the apparatus vocabulary already in use by
-   .toc-expand and .toc-total — Archivo, uppercase, --ink-faint, and a rule under
-   the whole strip rather than a heading rule of its own. */
-.pl-label {
+/* ---------- the rail ----------
+   🛑 EVERY PART OF THE TRAVEL IS THE BROWSER'S OWN. overflow-x plus scroll-snap
+   has been Baseline since 2019 and brings momentum, rubber-banding, trackpad
+   gestures, keyboard scrolling and screen-reader scroll-into-view with it. A
+   transform-driven strip re-implements all of that badly, and differently on
+   every OS. */
+.pl-rail {
   grid-column: 1 / -1;
-  margin: 0 0 .9rem;
-  font-family: var(--ui); font-size: var(--ap-md); font-weight: 500;
-  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
+  /* ⚠️ IT BLEEDS TO --edge AND DELIBERATELY NOT TO 100vw. `width:100vw` with a
+     negative margin is the usual full-bleed trick and it counts the classic
+     scrollbar, so on Windows it hands you a horizontally scrolling document —
+     and the usual patch for THAT, overflow-x:hidden on body, would kill every
+     position:sticky in this book. Pulling back by exactly the page margin runs
+     the ribbon to the window edges on every screen narrower than --shell, which
+     is every phone and most laptops, and to the shell edges on a wide monitor,
+     which is where the rest of the book ends anyway. */
+  margin-inline: calc(-1 * var(--edge));
+  padding-inline: var(--edge);
+  scroll-padding-inline: var(--edge);
+  display: flex;
+  gap: clamp(.7rem, 1.4vw, 1.1rem);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  /* an overflow value on one axis makes the other axis a scroll container too,
+     so this is the room a focus ring needs in order not to be clipped */
+  padding-block: .5rem;
+  scrollbar-width: none;
+  margin-bottom: .2rem;
 }
+.pl-rail::-webkit-scrollbar { display: none; }
 
-.pl-strip {
-  grid-column: 1 / -1;
-  /* 🛑 FIVE ACROSS, TWO DOWN — AND THE FIRST BUILD GOT THIS WRONG.
-     Ten frames in ONE row is 131px a frame at 1440, which is a vertical sliver:
-     measured on the real page, five of the ten plates read as black rectangles at
-     that width and the strip looked timid under a full-bleed hero. A contact sheet
-     was never one row anyway — a proof sheet is a GRID of rows, which is what makes
-     this the honest version of the idea as well as the legible one.
-     265x177 a frame at 1440. The pictures actually read. */
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  align-items: stretch;
-  /* 🛑 A HAIRLINE GUTTER, NOT A GAP. `gap` would leave paper between ten floating
-     pictures and turn the strip into a card row. One pixel of --rule between
-     frames is how a contact sheet is ruled, and it is why this reads as one
-     object instead of ten. */
-  gap: 1px;
-  background: var(--rule);
-  border-block: 1px solid var(--rule);
-  overflow: hidden;
-}
-
-.pl-cell {
-  position: relative;
-  min-width: 0;
+.pl-plate {
+  flex: 0 0 min(78vw, 340px);
+  scroll-snap-align: start;
   display: block;
+  min-width: 0;
+  /* ⚠️ css/site.css sets `a { color: inherit }` and NOT text-decoration, so every
+     component in this file turns the UA underline off for itself. Without this the
+     chapter titles and the runtimes come out underlined, which reads as ten links
+     in a row rather than ten captioned plates — the whole plate is the link. */
   text-decoration: none;
-  background: var(--paper);
+  transition: opacity var(--dur-med) var(--ease);
+  /* 🔴 position:relative IS LOAD-BEARING. Each plate carries a .visually-hidden
+     span, which is position:absolute. With the plate static, that span's
+     containing block is the INITIAL containing block rather than anything inside
+     the scroller — and an absolutely positioned box is clipped by an ancestor's
+     overflow only when that ancestor is in its containing-block chain. Measured:
+     ten 1px labels escaped the rail and pushed the DOCUMENT's scrollable width to
+     2,939px inside a 402px viewport. The whole page slid sideways on a phone,
+     WCAG 1.4.10 Reflow, from a span with width:1px.
+     ⚠️ overflow:hidden on the rail does NOT fix it, and that is the tell. */
+  position: relative;
 }
+@media (min-width: 901px) { .pl-plate { flex-basis: min(31vw, 400px); } }
 
-/* the frame is the picture's window: the image starts below it and rises in once */
+/* 🛑 11/6 IS THE NEGATIVE, NOT A CHOICE. */
 .pl-frame {
   position: relative;
   display: block;
   overflow: hidden;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 11 / 6;
   background: var(--rule);
+  border: 1px solid var(--rule);
 }
+.pl-frame picture { display: block; height: 100%; }
+
 .pl-frame img {
-  display: block;
-  width: 100%; height: 100%;
+  /* 🛑 max-width:none, AND WITHOUT IT NONE OF THE BELOW HAPPENS. The site-wide
+     img { max-width: 100% } silently clamps the 110% back to the frame's width,
+     so the picture has no overhang at all and the drift drags it clear of its
+     own right edge. Measured before the fix: a 398px image in a 400px frame,
+     and an 18px band of bare frame down the right of every plate. */
+  max-width: none;
+  position: absolute; top: 0; left: -5%;
+  width: 110%; height: 100%;
   object-fit: cover;
-  /* the strip is a proof sheet, so the frames sit slightly back from the page and
-     come forward under the pointer. Filter, not opacity: a dimmed photograph looks
-     like a disabled control, a cooler one looks like a print not yet chosen. */
-  filter: saturate(.82) contrast(1.02);
-  transform: translateY(101%);
-  transition: transform 760ms var(--ease),
-              filter var(--dur-slow) var(--ease),
-              scale var(--dur-slow) var(--ease);
+  filter: saturate(.80) contrast(1.02);
+  transition: filter var(--dur-slow) var(--ease);
+  translate: var(--dx, 0) 0;
 }
-/* ⭐ THE ONCE-ONLY RISE. js/motion.js's existing .reveal observer puts .is-visible
-   on the strip; the stagger comes from --i, set per cell in js/render.js. Same
-   gesture as .hairline.is-drawn and the Hebrew watermark: it happens once, on
-   arrival, and is then finished forever. Nothing here loops. */
-.pl-strip.is-visible .pl-frame img { transform: translateY(0); }
-.pl-strip.is-visible .pl-cell:nth-child(n) .pl-frame img {
-  transition-delay: calc(var(--i, 0) * 55ms);
+/* ⚠️ THE OVERHANG AND THE DRIFT ARE ONE SUM AND GETTING IT WRONG SHOWS. A
+   translate percentage resolves against the element, not its box: 3.7% of a
+   110%-wide picture is 4.07% of the FRAME, and the overhang is 5% a side, so at
+   either extreme there is still 0.93% of picture past the edge — about 3px on a
+   desktop plate, and it does not depend on the plate's size because every number
+   in the sum is a percentage.
+   🛑 AND IT COSTS ABOUT 9% OF THE PICTURE'S HEIGHT. object-fit:cover in a box
+   110% as wide as a frame already cut to the photograph's own ratio has to lose
+   the difference somewhere and it loses it top and bottom. Nine percent off the
+   height of a landscape frame is a trim; the 72% of the WIDTH the turn was
+   cutting was not. Say which one this is rather than claim neither. */
+
+/* ---------- the row under the frame: the list's grammar ----------
+   ⚠️ THE NUMERAL IS UNDER THE FRAME AND NEVER OVER THE PICTURE. That is the v54
+   ruling and it is worth more here than it was there: with nothing printed on
+   the plate there is no scrim, so no contrast debt and not one square inch of
+   the photograph covered up. The type does the labelling. */
+.pl-row {
+  display: grid;
+  grid-template-columns: 2.1rem 1fr auto;
+  align-items: baseline;
+  gap: .7rem;
+  padding: .62rem .1rem 0;
+}
+.pl-n {
+  font-family: var(--serif);
+  font-size: var(--ap-lg); font-weight: 500;
+  letter-spacing: .14em; color: var(--accent);
+  font-variant-numeric: lining-nums tabular-nums;
+  transition: color var(--dur-med) var(--ease);
+}
+.pl-t {
+  font-variation-settings: var(--lit-mid); font-weight: 400;
+  font-size: clamp(1.02rem, 1.5vw, 1.24rem);
+  line-height: 1.12; letter-spacing: -.018em;
+  color: var(--ink); text-wrap: balance;
+  transition: transform var(--dur-med) var(--ease);
+}
+.pl-d {
+  font-family: var(--ui); font-size: var(--ap-md); font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint);
+  font-variant-numeric: lining-nums tabular-nums; white-space: nowrap;
 }
 
-/* the numeral is captioned UNDER the frame, on paper, never over the picture.
-   ⚠️ v49 deliberately took the roman numerals OFF the artwork files; this keeps
-   them off. It is a caption in the UI layer, which is the same call the chapter
-   openings and the running head already make. */
+/* a chapter whose first block is not a slot gets a typographic cell — no
+   placeholder and no grey box, exactly as in v54 */
+.pl-plate.is-bare .pl-frame { background: var(--control-wash); }
+
+/* ---------- LIT: the plate the ribbon is holding ----------
+   This is state, not decoration, so it survives prefers-reduced-motion. On a
+   phone it is the only feedback there is: there is no hover to light it with. */
+.pl-plate:not(.is-lit) .pl-frame img { filter: saturate(.62) contrast(1.02) brightness(.94); }
+.pl-plate:not(.is-lit) .pl-t { color: var(--ink-soft); }
+.pl-plate.is-lit .pl-n { color: var(--ink); }
+
+/* ---------- the pointer, where there is one ----------
+   the list's own gesture: point at one and the other nine step back */
+@media (hover: hover) {
+  .pl-rail:hover .pl-plate { opacity: .58; }
+  .pl-rail .pl-plate:hover,
+  .pl-rail .pl-plate:focus-visible { opacity: 1; }
+  .pl-plate:hover .pl-frame img,
+  .pl-plate:focus-visible .pl-frame img { filter: saturate(1) contrast(1); }
+  .pl-plate:hover .pl-t, .pl-plate:focus-visible .pl-t { transform: translateX(.28rem); }
+  .pl-plate:hover .pl-n, .pl-plate:focus-visible .pl-n { color: var(--ink); }
+  /* ⚠️ BUT NOT BOTH AT ONCE. The rail already drops the other nine to .58; the
+     held-back filter on top of that dimmed a dark plate twice and chapter I went
+     flat grey against the paper. Under a pointer, opacity carries the whole
+     gesture and the filter stands down. */
+  .pl-rail:hover .pl-plate:not(.is-lit) .pl-frame img { filter: saturate(.80) contrast(1.02); }
+}
+.pl-plate:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+/* ---------- the drift ----------
+   ⭐ TWO IMPLEMENTATIONS, AND THE CHEAP ONE IS THE FALLBACK RATHER THAN THE
+   DEFAULT. A scroll-driven animation runs on the compositor, so the drift keeps
+   its frame rate while the main thread is busy parsing 363KB of chapters.js —
+   which is exactly when a rAF parallax stutters. Chrome 115+, Safari 26+, about
+   84% of traffic; Firefox still has it behind a flag in stable as of mid-2026,
+   so this cannot be the only path and js/ui.js carries the other one.
+
+   🔴 THE TIMELINE IS DECLARED ON THE PLATE AND REFERRED TO BY NAME, AND THE
+   OBVIOUS `animation-timeline: view(inline)` ON THE IMAGE IS A TRAP THAT COSTS
+   THE WHOLE EFFECT SILENTLY. A view timeline is measured against the subject's
+   nearest ancestor SCROLL CONTAINER, and .pl-frame has overflow:hidden, which
+   makes it one — so every picture was being measured against the frame it lives
+   in, which never scrolls. Measured in Chrome: all ten sat at translate
+   -0.0003% at every scroll position on the rail. No error, no warning, no
+   motion. .pl-plate is outside the frame and inside the rail, so a timeline
+   declared there resolves against the thing that actually moves. */
+@supports (animation-timeline: view(inline)) {
+  html.pl-sda .pl-plate { view-timeline-name: --pl-plate; view-timeline-axis: inline; }
+  html.pl-sda .pl-frame img {
+    translate: none;                     /* the animation owns it now */
+    animation: pl-drift linear both;
+    animation-timeline: --pl-plate;
+    animation-range: cover 0% cover 100%;
+  }
+  @keyframes pl-drift {
+    from { translate: -3.7% 0 }
+    to   { translate:  3.7% 0 }
+  }
+}
+
+/* ---------- the caption ----------
+   ⭐ THIS IS THE ONE THING WORTH SAVING OUT OF THE TURN. The back of each card
+   carried its chapter's hook, and the hook is the best short copy in the book —
+   it is what makes an index an invitation instead of a menu. The turn charged a
+   3D flip and 72% of every photograph for it. A ribbon can just print it.
+
+   🛑 THE HEIGHT IS RESERVED, NOT FLUID. The ten hooks run 90 to 136 characters,
+   so a caption that sized itself would move the arc up and down under the
+   reader's thumb on every snap. min-height holds the tallest of the ten. */
+.pl-hook {
+  /* ⚠️ COLUMN 1, NOT THE READING MEASURE, AND THAT IS DELIBERATE. Prose on this
+     site lives in .col-text (3/9); this is not prose, it is the caption of a
+     full-bleed strip, and a caption that starts two columns in from the plate it
+     describes reads as a stray paragraph. It begins where the first plate begins
+     and stops at a comfortable measure. */
+  grid-column: 1 / 8;
+  margin: 1.1rem 0 0;
+  font-size: .92rem; line-height: 1.5;
+  color: var(--ink-soft); text-wrap: pretty;
+  min-height: calc(3 * 1.5 * .92rem);
+  transition: opacity var(--dur-med) var(--ease);
+}
+.pl-hook.is-swapping { opacity: 0; }
+@media (max-width: 900px) { .pl-hook { grid-column: 1 / 7; } }
+@media (min-width: 901px) { .pl-hook { font-size: .98rem; min-height: calc(2 * 1.5 * .98rem); } }
+
+/* ---------- the arc ----------
+   Ten plates of a landscape photograph cannot be on one screen at a readable
+   size — that is what made v54's first build a row of slivers. So the pictures
+   are big and scrollable and THE INDEX IS COMPLETE: ten stops, each printed in
+   its own chapter's paper stock out of css/site.css, night on the left and full
+   morning on the right. A table of contents, a scroll position and the arc of
+   the book's light, in one 40px object. It is also why there are no arrow
+   buttons: ::scroll-button() was built and taken out, because a bleeding rail
+   gives an arrow nowhere to stand except on top of a photograph. */
+.pl-arc {
+  grid-column: 1 / -1;
+  display: flex; gap: 2px;
+  margin: 1.15rem 0 0; padding: 0;
+  list-style: none;
+}
+.pl-stop { flex: 1 1 0; min-width: 0; }
+.pl-dot {
+  display: block; width: 100%;
+  background: none; border: 0; padding: 0;
+  cursor: pointer; font: inherit; text-align: center;
+  /* the swatch is 26px; the hit area is the full 44 */
+  min-height: 44px;
+}
+.pl-sw {
+  display: block; height: 26px;
+  background: var(--stock);
+  border: 1px solid rgba(25, 21, 16, .14);
+  border-bottom: 2px solid var(--stock-accent);
+  transition: height var(--dur-med) var(--ease),
+              border-bottom-width var(--dur-med) var(--ease);
+}
+.pl-dot[aria-current="true"] .pl-sw { height: 36px; border-bottom-width: 3px; }
+.pl-dot:hover .pl-sw { height: 32px; }
 .pl-num {
-  display: block;
-  padding: .5rem .55rem .3rem;
-  font-family: var(--serif); font-variation-settings: var(--lit-normal);
-  font-size: var(--ap-lg); font-weight: 500;
-  letter-spacing: .1em; color: var(--accent);
+  display: block; margin-top: .34rem;
+  font-family: var(--serif); font-size: .62rem;
+  letter-spacing: .1em; color: var(--ink-faint);
   font-variant-numeric: lining-nums tabular-nums;
   transition: color var(--dur-fast) var(--ease);
 }
+.pl-dot[aria-current="true"] .pl-num { color: var(--ink); }
+.pl-dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-/* THE CAPTION LIVES OVER THE BOTTOM OF THE PLATE AND IS ABSOLUTELY POSITIONED, so
-   nothing here can ever reflow a line of type. It is hidden until the pointer asks
-   for it, because ten titles printed over ten photographs at once is a poster, not
-   a contact sheet. */
-.pl-caption {
-  position: absolute; left: 0; right: 0; bottom: 0;
-  padding: 2.4rem .7rem .6rem;
-  display: block;
-  /* 🛑 THE SCRIM IS WHAT MAKES THE TEXT LEGIBLE OVER AN UNKNOWN PHOTOGRAPH, and it
-     has to be strong enough for the worst case. White on the .70 stop composited
-     over a white sky is 7.4:1; over anything darker it only improves. Do not
-     thin it to "let the picture through" — that trades a WCAG pass for nothing. */
-  background: linear-gradient(to top,
-              rgba(0,0,0,.88) 0%, rgba(0,0,0,.70) 42%, rgba(0,0,0,0) 100%);
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
-  pointer-events: none;
+/* ---------- the arrival ----------
+   🛑 IT ANIMATES THE FRAME AND THE ROW, NOT THE PLATE, AND THAT IS LOAD-BEARING.
+   The arrival and the hover-dim both want to own opacity on the same element,
+   and a CSS animation's fill outranks every normal declaration — so an arrival
+   that landed on .pl-plate would win the cascade forever and the dim would
+   silently never work again. Animating the two children lets the two opacities
+   multiply, which is what they mean anyway.
+   ⚠️ AND .is-armed IS ADDED FROM SCRIPT, NEVER FROM HERE. A flat opacity:0 would
+   hide all ten plates forever for anyone whose JavaScript did not run, because
+   the animation that was going to bring them back is the same script.
+   css/site.css already makes this call: `.reveal { opacity: 1 }` is its resting
+   state. Nothing is hidden until something has proved it can unhide it. */
+.pl-rail.is-armed .pl-frame,
+.pl-rail.is-armed .pl-row { opacity: 0; }
+.pl-rail.is-armed.is-in .pl-frame,
+.pl-rail.is-armed.is-in .pl-row {
+  animation: pl-arrive 700ms var(--ease) calc(var(--i) * 55ms) both;
 }
-.pl-title {
-  display: block;
-  color: #fff;
-  font-variation-settings: var(--lit-mid);
-  font-weight: 350; font-size: clamp(1rem, 1.35vw, 1.3rem);
-  line-height: 1.15; letter-spacing: -.01em;
-  text-wrap: balance;
-}
-.pl-dur {
-  display: block; margin-top: .3em;
-  font-family: var(--ui); font-size: var(--ap-md); font-weight: 500;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: rgba(255,255,255,.82);
-  font-variant-numeric: lining-nums tabular-nums;
+@keyframes pl-arrive {
+  from { opacity: 0; transform: translateY(22px) }
+  to   { opacity: 1; transform: none }
 }
 
-/* a chapter with no opening plate still gets a cell, and it is type on paper —
-   never a grey placeholder box. Empty slots render nothing everywhere else here. */
-.pl-cell.is-bare .pl-frame { background: var(--control-wash); }
-.pl-cell.is-bare .pl-caption {
-  opacity: 1; transform: none;
-  background: none;
-  padding: .7rem;
-  position: static;
-}
-.pl-cell.is-bare .pl-title { color: var(--ink); }
-.pl-cell.is-bare .pl-dur { color: var(--ink-faint); }
-
-/* ---------- the expansion, pointer only ---------- */
-/* 🛑 GATED ON (hover: hover). On a touch screen there is no pointer to expand
-   under, and a cell that only reveals its title on tap would hide ten chapter
-   names behind ten taps. The phone gets a different, better shape below. */
-@media (hover: hover) {
-  /* 🛑 THE GRID DOES NOT MOVE. In a five-column sheet, growing one cell shoves nine
-     others and the whole page jumps under the cursor — the flex version could get
-     away with it in one row and this cannot. So the frame stays exactly where it is
-     and the PICTURE comes forward inside it: full colour, a 5% push, and the caption
-     rises. Transform and opacity only, nothing reflows, nothing else on the sheet
-     twitches. That is also the more expensive-looking of the two. */
-  .pl-strip:hover .pl-cell { opacity: .62; }
-  .pl-cell:hover, .pl-cell:focus-visible { opacity: 1; }
-  .pl-cell:hover .pl-caption,
-  .pl-cell:focus-visible .pl-caption { opacity: 1; transform: none; }
-  .pl-cell:hover .pl-frame img,
-  .pl-cell:focus-visible .pl-frame img { filter: saturate(1) contrast(1); scale: 1.05; }
-  .pl-cell:hover .pl-num, .pl-cell:focus-visible .pl-num { color: var(--ink); }
-  .pl-cell { transition: opacity var(--dur-slow) var(--ease); }
-}
-.pl-cell:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; z-index: 1; }
-
-/* ---------- touch, and the narrow desktop ---------- */
-/* ⚠️ TEN CELLS ACROSS A PHONE IS 40px EACH, which is not a picture and is not a
-   44px target either. Under 900px the strip becomes what it should be there: a
-   scroll-snapped filmstrip with the captions ALREADY SHOWING, because there is no
-   hover to reveal them with. Still all ten, still one object, still swipeable. */
-@media (max-width: 900px), (hover: none) {
-  .pl-strip {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .pl-strip::-webkit-scrollbar { display: none; }
-  .pl-cell {
-    flex: 0 0 62vw;
-    max-width: 320px;
-    scroll-snap-align: start;
-    transition: none;
-    opacity: 1;
-  }
-  .pl-frame { aspect-ratio: 4 / 3; }
-  .pl-frame img { filter: none; }
-  .pl-caption { opacity: 1; transform: none; }
-}
-
-/* 🛑 REDUCED MOTION IS A FULL STOP, NOT A SLOWER VERSION. The pictures are simply
-   already there, the caption still appears on hover — that is a state change, not
-   motion — and the cell still widens, because a width that snaps is information
-   rather than animation. */
+/* 🛑 REDUCED MOTION IS A FULL STOP ON MOTION AND NOT ON NAVIGATION. The drift,
+   the arrival and the type nudge are gone. Snapping stays, because snapping is
+   how the thing is steered, and the lit state stays, because it is information.
+   Turning off someone's animations must not cost them a control. */
 @media (prefers-reduced-motion: reduce) {
-  .pl-frame img { transform: none; transition: filter var(--dur-fast) var(--ease); }
-  .pl-cell { transition: none; }
-  .pl-caption { transform: none; transition: opacity var(--dur-fast) var(--ease); }
+  .pl-rail { scroll-behavior: auto; }
+  .pl-frame, .pl-row { opacity: 1 !important; transform: none !important; animation: none !important; }
+  .pl-frame img { translate: none !important; animation: none !important; }
+  .pl-plate:hover .pl-t, .pl-plate:focus-visible .pl-t { transform: none; }
+  .pl-sw, .pl-hook { transition: none; }
 }
 
 /* ============================================================================

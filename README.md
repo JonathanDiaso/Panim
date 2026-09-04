@@ -3,7 +3,7 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: `v50`** — `ASSET_V = '50'`, `panim-shell-v50`. 🗄 The running log of what
+**Current: `v55`** — `ASSET_V = '55'`, `panim-shell-v55`. 🗄 The running log of what
 each version changed is `archive/version-log-through-v46.md`.
 
 🛑 **`ASSET_V`, `SHELL` and every `?v=` must move together and nothing checks it.**
