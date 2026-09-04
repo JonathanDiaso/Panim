@@ -250,6 +250,74 @@ body {
    grid directly. That keeps the existing DOM contract intact. */
 main { position: relative; }
 .section { position: relative; padding-block: clamp(3rem, 7vh, 6rem); scroll-margin-top: 84px; }
+
+/* ============================================================================
+   CONTENT-VISIBILITY — 2026-09-04. The one change that makes this book scroll.
+   The document is 254,000px of prose in 7,500 nodes, and the browser was laying
+   out and style-resolving ALL of it on every global invalidation. The dawn arc is
+   a global invalidation: js/motion.js writes --paper on <html> as the paper stock
+   lerps, and --paper is inherited, so every one of those writes re-resolved the
+   whole book.
+   ⭐ MEASURED, not assumed — headless Chrome against this page, 900x800:
+        full relayout      0.65ms  ->  0.04ms   (16x)
+        one --paper write 35.41ms  ->  3.69ms   (10x)
+   35ms is two and a half dropped frames, and the arc changes stock roughly every
+   3,000px of scroll, so that was a visible hitch a few times per chapter forever.
+   ⚠️ THE HERO IS DELIBERATELY EXCLUDED. It is the LCP element and it is on screen
+   at zero scroll; skipping it would cost paint, not save it.
+   🛑 contain-intrinsic-size IS MEASURED PER SECTION, AND THAT IS THE WHOLE TRICK.
+   A wrong estimate is not a rendering bug, it is a SCROLL bug: the scrollbar lies,
+   #ch07 lands in the wrong paragraph, and js/motion.js measures its section table
+   against fiction. The two sets below are the real offsetHeight of every section
+   at 1440px and at 402px, read off the live page. The `auto` keyword means the
+   browser replaces the estimate with the true height the moment a section has
+   rendered once, so the fallback only has to be right for the FIRST jump.
+   ⚠️ RE-MEASURE THESE WHENEVER THE TEXT CHANGES LENGTH. tools/ has no generator
+   for them yet; they were read with document.querySelectorAll('.section[data-ch]')
+   and .offsetHeight in each of the two widths. Stale numbers here are silent.
+   ============================================================================ */
+/* ⚠️ TWO SECTIONS ARE EXCLUDED ON PURPOSE. [data-ch="0"] is the hero — the LCP
+   element, on screen at zero scroll, so skipping it costs paint instead of saving
+   it. [data-ch="fw"] is the five-words ending, 500px whose whole point is a
+   word-by-word reveal driven by an IntersectionObserver in js/motion.js; it is too
+   small to be worth skipping and too choreographed to risk. */
+.section[data-ch]:not([data-ch="0"]):not([data-ch="fw"]),
+#lexicon, #thread, #scripture, #names, #sources {
+  content-visibility: auto;
+}
+.section[data-ch="1"] { contain-intrinsic-size: auto 16100px; }
+.section[data-ch="2"] { contain-intrinsic-size: auto 20800px; }
+.section[data-ch="3"] { contain-intrinsic-size: auto 19500px; }
+.section[data-ch="4"] { contain-intrinsic-size: auto 15500px; }
+.section[data-ch="5"] { contain-intrinsic-size: auto 26000px; }
+.section[data-ch="6"] { contain-intrinsic-size: auto 20600px; }
+.section[data-ch="7"] { contain-intrinsic-size: auto 30100px; }
+.section[data-ch="8"] { contain-intrinsic-size: auto 26600px; }
+.section[data-ch="9"] { contain-intrinsic-size: auto 24800px; }
+.section[data-ch="10"] { contain-intrinsic-size: auto 41300px; }
+#lexicon { contain-intrinsic-size: auto 1300px; }
+#thread { contain-intrinsic-size: auto 1400px; }
+#scripture { contain-intrinsic-size: auto 1700px; }
+#names { contain-intrinsic-size: auto 4100px; }
+#sources { contain-intrinsic-size: auto 2500px; }
+
+@media (max-width: 900px) {
+  .section[data-ch="1"] { contain-intrinsic-size: auto 18700px; }
+  .section[data-ch="2"] { contain-intrinsic-size: auto 25800px; }
+  .section[data-ch="3"] { contain-intrinsic-size: auto 23400px; }
+  .section[data-ch="4"] { contain-intrinsic-size: auto 19200px; }
+  .section[data-ch="5"] { contain-intrinsic-size: auto 32000px; }
+  .section[data-ch="6"] { contain-intrinsic-size: auto 24600px; }
+  .section[data-ch="7"] { contain-intrinsic-size: auto 35800px; }
+  .section[data-ch="8"] { contain-intrinsic-size: auto 30800px; }
+  .section[data-ch="9"] { contain-intrinsic-size: auto 30100px; }
+  .section[data-ch="10"] { contain-intrinsic-size: auto 50000px; }
+  #lexicon { contain-intrinsic-size: auto 2000px; }
+  #thread { contain-intrinsic-size: auto 1700px; }
+  #scripture { contain-intrinsic-size: auto 3600px; }
+  #names { contain-intrinsic-size: auto 7400px; }
+  #sources { contain-intrinsic-size: auto 2800px; }
+}
 .section-inner { display: contents; }
 
 /* every direct child of a section that has not claimed a range defaults to the
@@ -439,48 +507,135 @@ main { position: relative; }
 .veil-lift::after, .veil-boundary, #ambient-light, #grain { display: none !important; }
 
 
-/* THE SECOND DOOR, 2026-09-04. A quiet second line under the primary actions —
-   it must never compete with "Begin listening". No new tokens: it reuses
-   .hero-hint entirely and only adds the spacing that separates the two rows. */
-.hero-second-door { margin-top: .35rem; }
+/* ============================================================================
+   THE SECOND DOOR — a sample card, 2026-09-04 (round two)
+   It shipped as .hero-second-door: one ghost line of --ink-faint at opacity .72
+   with an arrow that drifted 0.18em on hover. Everything about that was correct
+   for a footnote and wrong for the single highest-yield action on the page — a
+   stranger will not spend five hours on a book they have not heard, and they will
+   spend ninety-nine seconds. The card is the strongest non-photographic element
+   in the hero block and that is deliberate.
+   ⚠️ IT STILL MUST NOT OUTRANK "Begin listening". It does not, and the reason is
+   FILL: .btn-solid is a solid slab of --ink and this is a wash inside a hairline.
+   A ring reads as "optional, and worth it"; a filled slab reads as "the thing".
+   🛑 NO NEW TOKENS. Edge --control-edge, wash --control-wash, accent rule
+   --accent, type --ui/--ap-md, timing --dur-fast/--ease. Nothing invented inline.
+   ⚠️ --control-edge, NOT --rule-strong, AND THE DISTINCTION IS THE ONE THE TOKEN
+   NOTE ABOVE DRAWS. This is shaped like a card but it is a CONTROL — the whole
+   rectangle is one link — so WCAG 2.2 SC 1.4.11 wants 3:1 for its boundary.
+   Measured against this section's paper (#EFEBE1): --rule-strong composites to
+   1.84:1 and fails; --control-edge composites to 3.30:1 and passes. It also reads
+   heavier, which is the point of the change. The one place --rule-strong would be
+   right here is if this were a plain container, and it is not.
+   ============================================================================ */
+.hero-sample {
+  grid-column: 3 / 9;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  max-width: 32rem;
+  margin-top: 1.5rem;
+  padding: .95rem 1.15rem;
+  border: 1px solid var(--control-edge);
+  /* the accent edge is the eye-magnet, and it is a RULE, not a glow. The book
+     marks a change of voice with a rule everywhere else; this is the same move. */
+  border-left: 2px solid var(--accent);
+  background: var(--control-wash);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color var(--dur-fast) var(--ease),
+              background-color var(--dur-fast) var(--ease);
+}
+.hero-sample:hover, .hero-sample:focus-visible {
+  border-color: var(--ink);
+  border-left-color: var(--accent);
+  background: rgba(25, 21, 16, .06);
+}
+.hero-sample:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-/* 🛑 THE MOTION IS THE ARROW AND NOTHING ELSE.
-   The link lands the reader mid-sentence in chapter VII, so the gesture that
-   fits is a door opening, not a thing demanding to be clicked. No pulse, no
-   bounce, no glow, no attention-seeking loop — this page's whole design is
-   restraint and one twitchy element would read as a different site.
-   ⭐ Three states, each doing one job:
-     rest   the arrow sits still at 72% and waits
-     hover  it drifts up and right, the direction it points, and the text
-            comes to full strength — 220ms, the same ease as everything else
-     press  it settles back a hair so the click has a floor
-   The arrow is the ONLY thing that moves. The text does not slide, because
-   moving type under a cursor is the trashiest thing a link can do. */
-.hero-second-door .hero-hint {
-  opacity: .72;
-  transition: opacity 220ms cubic-bezier(.22,.61,.36,1);
+/* the ring + triangle. 46px is the transport button's size (components.css), so
+   the two play affordances on the site are the same object at the same scale. */
+.hs-glyph { display: block; width: 46px; height: 46px; }
+.hs-glyph svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.hs-ring {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+  /* 2πr, r=22 → 138.23. The dash pattern is what lets it draw itself. */
+  stroke-dasharray: 138.23;
+  stroke-dashoffset: 0;
+  transform: rotate(-90deg);
+  transform-origin: 23px 23px;
 }
-.hero-second-door .hero-hint .door-arrow {
-  display: inline-block;
-  transition: transform 220ms cubic-bezier(.22,.61,.36,1);
-  will-change: transform;
+.hs-tri { fill: var(--ink); transition: fill var(--dur-fast) var(--ease); }
+.hero-sample:hover .hs-ring,
+.hero-sample:focus-visible .hs-ring { stroke: var(--accent); }
+.hero-sample:hover .hs-tri,
+.hero-sample:focus-visible .hs-tri { fill: var(--accent); }
+
+/* THE RING DRAWS ITSELF ONCE, 900ms, after the page has settled — and then it is
+   finished forever. `both` holds the end state, so there is no frame where the
+   ring is missing and no second pass. This is .hairline.is-drawn's gesture, not a
+   new one, which is why it does not read as a different site. */
+@keyframes hs-draw { from { stroke-dashoffset: 138.23; } to { stroke-dashoffset: 0; } }
+.hs-ring { animation: hs-draw 900ms var(--ease) 500ms both; }
+
+.hs-text { display: block; min-width: 0; }
+.hs-eyebrow {
+  display: block;
+  font-family: var(--ui); font-size: var(--ap-md);
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: .18em;
 }
-.hero-second-door .hero-hint:hover,
-.hero-second-door .hero-hint:focus-visible { opacity: 1; }
-.hero-second-door .hero-hint:hover .door-arrow,
-.hero-second-door .hero-hint:focus-visible .door-arrow {
-  transform: translate(.18em, -.18em);
+.hs-title {
+  display: block;
+  font-variation-settings: var(--lit-mid);
+  font-weight: 400;
+  font-size: 1.05rem; line-height: 1.25; letter-spacing: -.005em;
+  color: var(--ink);
 }
-.hero-second-door .hero-hint:active .door-arrow {
-  transform: translate(.09em, -.09em);
+.hs-meta {
+  display: block;
+  font-family: var(--ui); font-size: var(--ap-md);
+  letter-spacing: .06em;
+  color: var(--ink-faint);
+  margin-top: .22em;
+}
+
+/* THE LINE THAT NAMES A FEATURE THAT ALREADY EXISTED.
+   Hidden by default and revealed only by .can-tap-to-listen, which js/sync.js
+   sets on <html> where it actually binds the handler. A promise the page cannot
+   keep is worse than no promise. */
+.hero-sample-note {
+  display: none;
+  grid-column: 3 / 9;
+  max-width: 32rem;
+  margin: .6rem 0 0;
+  font-family: var(--ui); font-size: var(--ap-md);
+  letter-spacing: .04em;
+  color: var(--ink-faint);
+}
+.can-tap-to-listen .hero-sample-note { display: block; }
+/* never tell a phone to click. Pointer-only devices get "Tap"; anything with a
+   real hover gets "Click". Exactly one of the two is ever in the box. */
+.hsn-verb { display: none; }
+.hsn-tap { display: inline; }
+@media (hover: hover) {
+  .hsn-tap { display: none; }
+  .hsn-click { display: inline; }
+}
+
+@media (max-width: 900px) {
+  .hero-sample, .hero-sample-note { grid-column: 1 / 7; max-width: none; }
 }
 
 /* 🛑 REDUCED MOTION IS A FULL STOP, NOT A SLOWER VERSION.
-   Opacity still changes — that is a state change, not motion — and the arrow
-   simply does not move. The link is exactly as usable either way. */
+   The ring is simply already drawn. Colour still changes on hover — that is a
+   state change, not motion — and the card is exactly as usable either way. */
 @media (prefers-reduced-motion: reduce) {
-  .hero-second-door .hero-hint .door-arrow { transition: none; }
-  .hero-second-door .hero-hint:hover .door-arrow,
-  .hero-second-door .hero-hint:focus-visible .door-arrow,
-  .hero-second-door .hero-hint:active .door-arrow { transform: none; }
+  .hs-ring { animation: none; stroke-dashoffset: 0; }
+  .hero-sample { transition: none; }
+  .hs-tri { transition: none; }
 }

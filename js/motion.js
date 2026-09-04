@@ -50,6 +50,9 @@
   var sections = []; // { el, ch, top, height, mid }
   var lastActiveCh = null;
   var ticking = false;
+  // last values actually written to the root/body, so a frame that computes the
+  // same paper stock costs nothing. See the long note in onScrollFrame.
+  var lastBg = null, lastAccent = null, lastInk = null;
 
   function measureSections() {
     sections = Array.prototype.slice.call(document.querySelectorAll('.section[data-ch]')).map(function (el) {
@@ -95,7 +98,6 @@
     var bgA = TOKENS[a.ch] || TOKENS['0'];
     var bgB = TOKENS[b.ch] || bgA;
     var blended = reduceMotion ? bgA.bg : lerpColor(bgA.bg, bgB.bg, t);
-    document.body.style.backgroundColor = blended;
 
     // discrete ink/accent switch per current section. These land on <html> so the
     // FIXED chrome — nav, player, sheets, toast — inherits the current chapter's
@@ -103,10 +105,32 @@
     // stuck on chapter I's stock for the whole book.
     var cur = currentSectionFor(viewportCenter);
     var tok = TOKENS[cur.ch] || TOKENS['0'];
-    document.documentElement.style.setProperty('--accent', tok.accent);
-    document.documentElement.style.setProperty('--paper', blended);
-    document.documentElement.style.setProperty('--ink', tok.text);
-    document.body.style.color = tok.text;
+
+    // 🛑 A CUSTOM PROPERTY ON <html> IS THE MOST EXPENSIVE WRITE ON THIS PAGE, AND
+    // THESE FOUR WERE UNGUARDED ON EVERY SCROLL FRAME.
+    // --accent, --paper and --ink are inherited, so setting one on the root element
+    // invalidates the computed style of EVERY element that could read it — the whole
+    // book, eight hundred paragraphs and change — and the engine does that work again
+    // at 60fps whether or not the value moved. It almost never moves: the arc lerps
+    // between two paper stocks about eight hex steps apart across a whole chapter, so
+    // the overwhelming majority of frames were re-styling the entire document to write
+    // the string it already had. The accent changes THREE TIMES in the book.
+    // ⚠️ Compare-then-write. Never widen this to an unconditional set "for safety" —
+    // safety here costs a full style recalculation of the document, per frame.
+    if (blended !== lastBg) {
+      lastBg = blended;
+      document.body.style.backgroundColor = blended;
+      document.documentElement.style.setProperty('--paper', blended);
+    }
+    if (tok.accent !== lastAccent) {
+      lastAccent = tok.accent;
+      document.documentElement.style.setProperty('--accent', tok.accent);
+    }
+    if (tok.text !== lastInk) {
+      lastInk = tok.text;
+      document.documentElement.style.setProperty('--ink', tok.text);
+      document.body.style.color = tok.text;
+    }
 
     var docHeight = document.documentElement.scrollHeight - window.innerHeight;
     var progress = docHeight > 0 ? window.scrollY / docHeight : 0;
@@ -178,55 +202,96 @@
 
   var lastScrollY = 0;
   var CH_ORDER = ['0','1','2','3','4','5','6','7','8','9','10','fw'];
-  function updateNav(ch, progress, chProgress) {
-    var nav = document.getElementById('site-nav');
-    if (!nav) return;
-    nav.classList.toggle('nav-faded', ch === 'fw');
 
-    // Hide-on-scroll-down, at every width. This used to be gated to <= 900px, which
-    // meant the running head was pinned for the whole book on a desktop window — the
-    // one place there is room for a photograph to run to the top of the viewport.
-    // Reading forward, the bar goes; the moment you scroll back, it returns. The
-    // open contents panel is not affected: body.nav-toc-open pins the nav in CSS.
+  // 🛑 THIS RAN THE WHOLE SWEEP ON EVERY SCROLL FRAME AND ALMOST ALL OF IT WAS
+  // REDOING WORK THAT HAD NOT CHANGED. Two querySelectorAll calls, a getElementById,
+  // and four classList.toggle calls across ~24 anchors, sixty times a second — to
+  // reflect a chapter number that changes TWELVE TIMES in the entire book.
+  // Split by what actually moves:
+  //   every frame   the hide-on-scroll-down test, which is two integers
+  //   on chapter    the class sweep across the running head and the panel
+  //   on progress   two custom-property writes, on the active anchor and the chip
+  // ⚠️ THE CACHES ARE INVALIDATED, NOT ASSUMED. js/ui.js builds #nav-chapters and
+  // the #nav-toc panel from chapter data, and the panel is not necessarily in the
+  // DOM on the first frame — so a cached empty list must never become permanent.
+  // navRefresh() re-queries whenever a list came back empty last time.
+  var navEl = null, navAnchors = null, navRows = null, navChip = null;
+  var navLastCh = null, navLastProg = -1, navActiveAnchor = null;
+
+  function navRefresh() {
+    navEl = navEl || document.getElementById('site-nav');
+    navChip = navChip || document.getElementById('ntt-here');
+    if (!navAnchors || !navAnchors.length) {
+      navAnchors = Array.prototype.slice.call(document.querySelectorAll('#nav-chapters a'));
+    }
+    if (!navRows || !navRows.length) {
+      navRows = Array.prototype.slice.call(document.querySelectorAll('#nav-toc .ntr'));
+    }
+  }
+
+  function updateNav(ch, progress, chProgress) {
+    navRefresh();
+    var nav = navEl;
+    if (!nav) return;
+
+    // ---- every frame: hide-on-scroll-down, at every width ----
+    // This used to be gated to <= 900px, which meant the running head was pinned for
+    // the whole book on a desktop window — the one place there is room for a
+    // photograph to run to the top of the viewport. Reading forward, the bar goes;
+    // the moment you scroll back, it returns. The open contents panel is not
+    // affected: body.nav-toc-open pins the nav in CSS.
     var y = window.scrollY;
     if (y > lastScrollY + 4 && y > 120) nav.classList.add('nav-hidden');
     else if (y < lastScrollY - 4) nav.classList.remove('nav-hidden');
     lastScrollY = y;
 
+    var prog = Math.round((chProgress || 0) * 1000) / 1000;
+    if (ch === navLastCh && prog === navLastProg) return;
+
+    // ---- on a chapter change only: the class sweep ----
     // The running head IS the progress indicator (see css/polish.css): numerals you
     // have read through go to full ink, and the one you are inside carries a
     // hairline that fills. Replaces the old 2px bar across the top of the viewport.
-    var hereIdx = CH_ORDER.indexOf(ch);
-    Array.prototype.forEach.call(document.querySelectorAll('#nav-chapters a'), function (a) {
-      var navCh = a.getAttribute('data-nav-ch') || '';
-      var n = navCh.replace(/^ch0?/, '');
-      var isActive = navCh === 'ch' + (ch.length === 1 ? '0' + ch : ch);
-      var idx = CH_ORDER.indexOf(n);
-      a.classList.toggle('is-active', isActive);
-      a.classList.toggle('is-read', !isActive && idx > -1 && hereIdx > -1 && idx < hereIdx);
-      if (isActive) a.style.setProperty('--ch-progress', (chProgress || 0).toFixed(3));
-      else a.style.removeProperty('--ch-progress');
-    });
-
-    // the head's chip carries the same chapter and the same filling hairline —
-    // under 900px the numerals are display:none and this is the only one there is
-    var chip = document.getElementById('ntt-here');
-    if (chip) {
-      var roman = ROMAN_BY_N[ch];
-      if (roman) {
-        chip.textContent = roman;
-        chip.style.setProperty('--ch-progress', (chProgress || 0).toFixed(3));
+    if (ch !== navLastCh) {
+      navLastCh = ch;
+      nav.classList.toggle('nav-faded', ch === 'fw');
+      var hereIdx = CH_ORDER.indexOf(ch);
+      var want = 'ch' + (ch.length === 1 ? '0' + ch : ch);
+      navActiveAnchor = null;
+      navAnchors.forEach(function (a) {
+        var navCh = a.getAttribute('data-nav-ch') || '';
+        var n = navCh.replace(/^ch0?/, '');
+        var isActive = navCh === want;
+        var idx = CH_ORDER.indexOf(n);
+        a.classList.toggle('is-active', isActive);
+        a.classList.toggle('is-read', !isActive && idx > -1 && hereIdx > -1 && idx < hereIdx);
+        if (isActive) navActiveAnchor = a;
+        else a.style.removeProperty('--ch-progress');
+      });
+      // and the panel marks where you are, so opening it answers "where am I"
+      navRows.forEach(function (a) {
+        var navCh2 = a.getAttribute('data-nav-ch') || '';
+        var n2 = navCh2.replace(/^ch0?/, '');
+        var idx2 = CH_ORDER.indexOf(n2);
+        var act = navCh2 === want;
+        a.classList.toggle('is-active', act);
+        a.classList.toggle('is-read', !act && idx2 > -1 && hereIdx > -1 && idx2 < hereIdx);
+      });
+      // the head's chip carries the same chapter — under 900px the numerals are
+      // display:none and this is the only one there is
+      if (navChip) {
+        var roman = ROMAN_BY_N[ch];
+        if (roman) navChip.textContent = roman;
       }
     }
-    // and the panel marks where you are, so opening it answers "where am I"
-    Array.prototype.forEach.call(document.querySelectorAll('#nav-toc .ntr'), function (a) {
-      var navCh = a.getAttribute('data-nav-ch') || '';
-      var n2 = navCh.replace(/^ch0?/, '');
-      var idx2 = CH_ORDER.indexOf(n2);
-      var act = navCh === 'ch' + (ch.length === 1 ? '0' + ch : ch);
-      a.classList.toggle('is-active', act);
-      a.classList.toggle('is-read', !act && idx2 > -1 && hereIdx > -1 && idx2 < hereIdx);
-    });
+
+    // ---- on progress: two writes, and only two ----
+    if (prog !== navLastProg) {
+      navLastProg = prog;
+      var v = prog.toFixed(3);
+      if (navActiveAnchor) navActiveAnchor.style.setProperty('--ch-progress', v);
+      if (navChip && ROMAN_BY_N[ch]) navChip.style.setProperty('--ch-progress', v);
+    }
   }
 
   var ROMAN_BY_N = { '1':'I','2':'II','3':'III','4':'IV','5':'V',
@@ -399,20 +464,39 @@
     plateFrame();
   }
   var plateTick = false;
+  // 🛑 READ EVERY RECT FIRST, THEN WRITE EVERY TRANSFORM. This loop used to do
+  // both in one pass: getBoundingClientRect(), then style.transform, then the next
+  // getBoundingClientRect(). Each write invalidates layout, so each following read
+  // forced the engine to lay the page out again — FIFTEEN forced synchronous
+  // layouts, of a 266,000px document, on every scroll frame. That is the scroll
+  // stutter; it is not the parallax itself, which is one compositor transform.
+  // Split into a read pass and a write pass the frame costs exactly one layout.
+  // ⚠️ Never put a style write above a rect read in this function. It is the same
+  // number of lines either way and the difference is the whole cost of the feature.
+  var plateBoxes = [];
   function plateFrame() {
     plateTick = false;
     var vh = window.innerHeight;
-    plates.forEach(function (el) {
-      var box = el.parentElement.getBoundingClientRect();
+    var i, el, box;
+    // pass 1 — read only
+    plateBoxes.length = 0;
+    for (i = 0; i < plates.length; i++) {
+      plateBoxes[i] = plates[i].parentElement.getBoundingClientRect();
+    }
+    // pass 2 — write only
+    for (i = 0; i < plates.length; i++) {
+      el = plates[i]; box = plateBoxes[i];
       if (box.bottom < 0 || box.top > vh) {
         if (el.style.willChange) el.style.willChange = '';
-        return;
+        continue;
       }
       if (!el.style.willChange) el.style.willChange = 'transform';
       // −1..1 across the crossing, scaled to a few percent of the frame height
       var p = (box.top + box.height / 2 - vh / 2) / (vh / 2 + box.height / 2);
-      el.style.transform = 'scale(1.07) translateY(' + (p * 3.2).toFixed(2) + '%)';
-    });
+      var next = 'scale(1.07) translateY(' + (p * 3.2).toFixed(2) + '%)';
+      // and do not hand the compositor a string it already has
+      if (el.style.transform !== next) el.style.transform = next;
+    }
   }
   // Ken-Burns wake retired: an image that starts drifting when the narration
   // reaches it is motion for its own sake, and it fought the plate parallax above.
