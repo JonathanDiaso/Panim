@@ -1470,17 +1470,37 @@
    every OS. */
 .pl-rail {
   grid-column: 1 / -1;
-  /* ⚠️ IT BLEEDS TO --edge AND DELIBERATELY NOT TO 100vw. `width:100vw` with a
-     negative margin is the usual full-bleed trick and it counts the classic
-     scrollbar, so on Windows it hands you a horizontally scrolling document —
-     and the usual patch for THAT, overflow-x:hidden on body, would kill every
-     position:sticky in this book. Pulling back by exactly the page margin runs
-     the ribbon to the window edges on every screen narrower than --shell, which
-     is every phone and most laptops, and to the shell edges on a wide monitor,
-     which is where the rest of the book ends anyway. */
-  margin-inline: calc(-1 * var(--edge));
-  padding-inline: var(--edge);
-  scroll-padding-inline: var(--edge);
+  /* ⚠️ IT BLEEDS TO THE WINDOW AT EVERY WIDTH, AND `100vw` ALONE CANNOT DO IT.
+     100vw counts the classic scrollbar, so on Windows the usual full-bleed trick
+     hands you a horizontally scrolling document — and the usual patch for THAT,
+     overflow-x:hidden on body, would kill every position:sticky in this book. So
+     js/ui.js measures the scrollbar once and writes --sbw, and the sum below is
+     exact on every platform. It is safe to depend on script here and nowhere
+     else would be: js/render.js builds this entire page, so a reader without
+     JavaScript has no ribbon to mis-lay-out.
+
+     🛑 AND PULLING BACK BY --edge ALONE WAS NOT ENOUGH, WHICH IS WHY THIS IS A
+     SUM AND NOT A CONSTANT. .section is capped at --shell (1440px), so on a
+     1920 monitor a rail pulled back by only the page margin stopped 240px short
+     of the glass and left a plate sliced off beside a field of blank paper —
+     which reads as a bug rather than as a strip continuing.
+
+     The margin spans the box to the viewport; the padding puts the first plate
+     back on the text grid. Below --shell the two collapse to exactly --edge. */
+  --pl-bleed: calc((100vw - var(--sbw, 0px) - 100%) / 2);
+  margin-inline: calc(-1 * var(--pl-bleed));
+  padding-inline: var(--pl-bleed);
+  /* 🔴 AND scroll-padding CANNOT REUSE THAT SUM, WHICH IS THE SUBTLEST THING ON
+     THIS PAGE. A percentage in margin or padding resolves against the CONTAINING
+     BLOCK; a percentage in scroll-padding resolves against the SCROLLPORT — and
+     the scrollport is now the full window, so `100%` there is 100vw and the whole
+     expression collapses to zero. Measured: scroll-padding-inline computed to
+     `calc(-50% + 960px)` at 1920, i.e. 0, the first plate snapped flush to the
+     glass, and the ribbon lost its alignment with the text grid at every width.
+     No error, and it looks almost right, which is why it nearly shipped.
+     So this is a real length: --edge is correct below --shell and js/ui.js
+     replaces it with the exact resolved padding at every width. */
+  scroll-padding-inline: var(--pl-snap, var(--edge));
   display: flex;
   gap: clamp(.7rem, 1.4vw, 1.1rem);
   overflow-x: auto;
@@ -1520,7 +1540,13 @@
      ⚠️ overflow:hidden on the rail does NOT fix it, and that is the tell. */
   position: relative;
 }
-@media (min-width: 901px) { .pl-plate { flex-basis: min(31vw, 400px); } }
+/* 🛑 clamp() AND NOT min(), BECAUSE THE FIRST VERSION MADE THE PLATES SMALLER AS
+   THE WINDOW GOT BIGGER. `min(31vw, 400px)` is 279px at 901 while the rule it
+   replaces is capped at 340 — so dragging a window one pixel past the breakpoint
+   shrank every plate by 61px. Nothing looks cheaper than a layout that goes
+   backwards. The floor is the mobile cap, so the two rules meet exactly at 900
+   and the plate only ever grows from there. */
+@media (min-width: 901px) { .pl-plate { flex-basis: clamp(340px, 31vw, 400px); } }
 
 /* 🛑 11/6 IS THE NEGATIVE, NOT A CHOICE. */
 .pl-frame {
@@ -1703,7 +1729,12 @@
      describes reads as a stray paragraph. It begins where the first plate begins
      and stops at a comfortable measure. */
   grid-column: 1 / 8;
-  margin: 1.1rem 0 0;
+  /* ⚠️ TIGHT ABOVE, ON PURPOSE. The rail already carries 2rem of padding under
+     the plates for the sway, so a full margin here put 53px between the strip and
+     its own caption while only 18 separated the caption from the arc — the
+     caption read as belonging to the arc rather than to the picture it describes.
+     The pair below the strip is one block; this is the space inside it. */
+  margin: .35rem 0 0;
   font-size: .92rem; line-height: 1.5;
   color: var(--ink-soft); text-wrap: pretty;
   min-height: calc(3 * 1.5 * .92rem);

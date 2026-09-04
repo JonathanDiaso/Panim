@@ -872,8 +872,26 @@
     var CSS_DRIFT = window.CSS && CSS.supports &&
                     CSS.supports('animation-timeline', 'view(inline)');
 
+    // ⚠️ THE CLASSIC SCROLLBAR, MEASURED RATHER THAN ASSUMED. css/components.css
+    // spans the rail to the window with a sum that has to subtract it; macOS and
+    // iOS report 0 here (overlay scrollbars) and Windows reports about 15. It is
+    // written on <html> rather than the rail so the value is resolved once for
+    // the whole document, and re-read on resize because a zoom changes it.
+    function measureScrollbar() {
+      var sbw = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.setProperty('--sbw', (sbw > 0 ? sbw : 0) + 'px');
+      // and the snap line, as a real length — see the scroll-padding note in
+      // css/components.css. The browser has already resolved the padding correctly,
+      // so this copies that answer rather than re-deriving it and risking a
+      // second, differently-wrong sum.
+      rail.style.removeProperty('--pl-snap');
+      rail.style.setProperty('--pl-snap', getComputedStyle(rail).paddingLeft);
+    }
+    measureScrollbar();
+
     var snaps = [], pad = 0;
     function measure() {
+      measureScrollbar();
       pad = parseFloat(getComputedStyle(rail).scrollPaddingLeft) || 0;
       var base = rail.getBoundingClientRect().left + rail.scrollLeft;
       snaps = plates.map(function (p) {
