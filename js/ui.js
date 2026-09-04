@@ -355,6 +355,38 @@
         detail: p ? { chapterId: p.chapterId, seekTo: p.pos } : { chapterId: 'ch01' }
       }));
     });
+
+    // ---------- the second door, intercepted ----------
+    // 🛑 THIS IS THE "GLITCH", AND IT WAS A FULL PAGE RELOAD.
+    // The card is <a href="?t=ch07:24m35s">, which is a real navigation. Clicking
+    // it tore the page down, refetched seventeen scripts — 363KB of chapters.js
+    // among them — re-rendered all ten chapters and the whole apparatus, and only
+    // then did js/player.js maybeDeepLink() call loadChapter(). So the reader got
+    // a white flash and a wait, and at the end of it THE AUDIO DID NOT START:
+    // maybeDeepLink passes seekTo and no autoplay, and even if it did, the user
+    // gesture that permits playback died with the document. A tap that costs two
+    // seconds and then plays nothing reads as a broken button, which is what it was.
+    // Intercepted, it is the exact path the tap-to-listen handler in js/sync.js
+    // already takes: follow on, one event, player seeks and plays inside the gesture.
+    // ⚠️ THE href STAYS AND MUST KEEP WORKING. It is the shareable URL, the
+    // right-click target, and the no-JS path — and a modified click (new tab, new
+    // window, download) must fall through to the browser untouched, which is what
+    // the modifier test below is for. Do not "simplify" it to a <button>.
+    var sample = $('#hero-sample');
+    if (sample) sample.addEventListener('click', function (e) {
+      if (e.defaultPrevented) return;
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var m = /[?&]t=ch(\d+):(?:(\d+)m)?(\d+)s?/.exec(sample.getAttribute('href') || '');
+      if (!m) return;                                   // malformed href: let it navigate
+      e.preventDefault();
+      var chapterId = 'ch' + ('0' + m[1]).slice(-2);
+      var seekTo = parseInt(m[2] || 0, 10) * 60 + parseInt(m[3], 10);
+      // the page has to come with them, and following is how this book moves
+      if (window.PANIM_SYNC) window.PANIM_SYNC.setFollow(true);
+      document.dispatchEvent(new CustomEvent('panim:listen-chapter', {
+        detail: { chapterId: chapterId, seekTo: seekTo }
+      }));
+    });
   }
 
   // ---------- share (About sheet) ----------

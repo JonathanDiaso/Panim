@@ -116,12 +116,27 @@
 <link rel="preload" href="fonts/l04.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/g02.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/h00.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="fonts/fonts.css?v=52">
-<link rel="stylesheet" href="css/site.css?v=52">
-<link rel="stylesheet" href="css/components.css?v=52">
-<link rel="stylesheet" href="css/player.css?v=52">
-<link rel="stylesheet" href="css/room.css?v=52">
-<link rel="stylesheet" href="css/polish.css?v=52">
+
+<!-- THE LCP IMAGE IS INSERTED BY SCRIPT, so the preload scanner cannot see it.
+     js/render.js mountHero() builds the <picture> from content/images.js, which
+     means the opening photograph is not even REQUESTED until seventeen scripts —
+     363KB of chapters.js among them — have downloaded and run. This names the
+     same three AVIF derivatives content/derivatives.js carries for the hero slot,
+     with the same `sizes` render.js uses (PLATE_SIZES), so the file the preload
+     picks is the file the <picture> asks for and neither is fetched twice.
+     🛑 KEEP THE THREE IN STEP: art/d/hero-*.avif, content/derivatives.js["hero"],
+     and PLATE_SIZES at js/render.js:86. type="image/avif" makes a browser without
+     AVIF skip this line entirely and fall back to art/hero.webp exactly as before. -->
+<link rel="preload" as="image" type="image/avif" fetchpriority="high"
+      href="art/d/hero-940.avif"
+      imagesrcset="art/d/hero-640.avif 640w, art/d/hero-940.avif 940w, art/d/hero-1408.avif 1408w"
+      imagesizes="(min-width: 1440px) 1440px, 100vw">
+<link rel="stylesheet" href="fonts/fonts.css?v=53">
+<link rel="stylesheet" href="css/site.css?v=53">
+<link rel="stylesheet" href="css/components.css?v=53">
+<link rel="stylesheet" href="css/player.css?v=53">
+<link rel="stylesheet" href="css/room.css?v=53">
+<link rel="stylesheet" href="css/polish.css?v=53">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -188,17 +203,78 @@
         <a class="hero-hint" href="#contents">Contents ↓</a>
       </div>
       <!-- THE SECOND DOOR, 2026-09-04. The page tells a stranger WHAT the book is and
-           never what it DOES to a person. Chapter VII does that in under two minutes,
-           and it sits 24 minutes deep where only finishers reach it.
-           🛑 THE DEEP LINK ALREADY WORKED — js/player.js:563 parses ?t=chNN:MMmSSs and
+           never what it DOES to a person. Chapter VII does that, and it sits eighteen
+           minutes deep where only finishers reach it.
+           🛑 THE DEEP LINK ALREADY WORKED — js/player.js parses ?t=chNN:MMmSSs and
            passes it to loadChapter as seekTo. Nothing was built for this; it was
            already there and nothing on the site used it.
-           ⭐ 24m35s is ten seconds before "Jesus, do You love me?" (cue at 24:41.693),
-           so the run-up is intact. The passage closes on "He answered it wet." at
-           26:14. Found BY TEXT against the canonical transcripts, never by clock. -->
-      <div class="hero-actions hero-second-door">
-        <a class="hero-hint" href="?t=ch07:24m35s">If you only have two minutes, start here <span class="door-arrow" aria-hidden="true">↗</span></a>
-      </div>
+
+           ⭐ THE TARGET IS ch07-p107, AND THE AUTHOR CHOSE IT BY TEXT, TWICE:
+             "David forgave his son and went on hiding his face for two years,
+              because a hurt human heart can hide indefinitely."
+           Its cue is 17:56.320 (cues/ch07.json). The href says 17m55s — ONE SECOND
+           EARLY ON PURPOSE, so the "D" of David is never clipped by a seek landing a
+           few milliseconds late. Do not "correct" it to 17m56s.
+           ⚠️ IT REPLACED 24m35s, which opened on "Jesus, do You love me?". That was a
+           good passage and this is the author's passage; when the two disagree the
+           author wins.
+
+           ⭐ AND FOUR MINUTES IS THE REAL SHAPE OF IT, not a rounded-up two. Measured
+           forward from 17:55 against cues/ch07.json:
+             +1s    David forgave his son … a hurt human heart can hide indefinitely.
+             +10s   God's cannot.
+             +14s   the prodigal, and the father who leaves his own feast
+             +94s   "David waited two years for Absalom. This father would not wait
+                    through dinner." — the two halves closing on each other
+             +110s  Elijah, Horeb, the wind and the earthquake and the fire
+             +236s  "He knows exactly Who is in the thin silence."
+           That last line is where four minutes lands, and it is an ending. The old
+           copy said "two minutes" and undersold a passage that is twice that long and
+           three stories deep. Found BY TEXT against the canonical transcripts, never
+           by clock. -->
+      <!-- REBUILT AS A CARD, 2026-09-04 (round two). It shipped as a ghost link on
+           one line — .hero-hint, --ink-faint, opacity .72, an ↗ that drifted on
+           hover — sitting under two buttons that both outranked it. The one thing
+           on this page a stranger is most likely to say yes to was the quietest
+           element in the block. The author: "that arrow section line is way too
+           not prominent, that should be a sexy button."
+           ⭐ IT IS STILL AN <a> WITH THE REAL DEEP LINK. The href is what makes it
+           copyable, right-clickable and shareable, and it is the no-JS path. The
+           click is intercepted in js/ui.js so the page does NOT reload — see the
+           long note there; that reload is the whole reason this felt broken.
+           🛑 THE RING DRAWS ITSELF ONCE AND NOTHING LOOPS. Self-drawing hairlines
+           are already this book's motion language (.hairline.is-drawn), so this
+           inherits it rather than inventing a pulse. No glow, no bounce.
+           ⚠️ THE RUNTIME IS THE REAL ONE. 24m35s → 26:14 is 1 min 39 sec, measured
+           against the canonical transcripts, not rounded up to match the eyebrow.
+           Under-promising here is the point. -->
+      <a class="hero-sample" id="hero-sample" href="?t=ch07:17m55s"
+         aria-label="Play the four minutes that do it — chapter seven, about four minutes.">
+        <span class="hs-glyph" aria-hidden="true">
+          <svg viewBox="0 0 46 46" focusable="false">
+            <circle class="hs-ring" cx="23" cy="23" r="22"/>
+            <path class="hs-tri" d="M19 15.4 32 23 19 30.6Z"/>
+          </svg>
+        </span>
+        <span class="hs-text">
+          <span class="hs-eyebrow">If you only have four minutes</span>
+          <span class="hs-title">The four minutes that do it</span>
+          <span class="hs-meta">Chapter VII · about 4 minutes</span>
+        </span>
+      </a>
+      <!-- TAP-TO-LISTEN HAS EXISTED SINCE js/sync.js AND NOTHING EVER SAID SO.
+           The affordance is a hairline in the margin on hover (css/polish.css) —
+           correct, restrained, and completely undiscoverable on a phone, which has
+           no hover at all. This is the sentence that tells a reader the whole book
+           is a play button.
+           🛑 IT IS HIDDEN UNTIL THE FEATURE IS ACTUALLY ON. js/sync.js puts
+           .can-tap-to-listen on <html> only where a pointer exists; a keyboard-only
+           session never binds the handler, so this line must not promise it one.
+           The Click/Tap swap is @media (hover: hover) in css/site.css — never tell
+           a phone to click. -->
+      <p class="hero-sample-note">
+        <span class="hsn-verb hsn-click">Click</span><span class="hsn-verb hsn-tap">Tap</span> any line in the book to hear it read from there.
+      </p>
     </div>
   </section>
 
@@ -256,7 +332,14 @@
          is the LAST place to price the commitment — a person who has not started
          reads 5 hr 21 min as homework. The runtime is still on the About sheet, for
          somebody who has already decided and wants to plan. Do not put it back. -->
-    <p class="invite-meta">Ten chapters · free · no account · your place is saved</p>
+    <!-- 🛑 "free · no account" CAME OUT 2026-09-04, the author: "delete the no account
+         from the intro section and the free thing thats weird." He is right about why.
+         Those two are SaaS pricing chrome — they answer an objection nobody standing in
+         a doorway has yet, and answering it plants it. The line that is left is the only
+         one that is about the reader's evening rather than the site's business model.
+         The runtime is already gone from here for the same reason (see the note below
+         the buttons). Do not put either back. -->
+    <p class="invite-meta">Ten chapters · your place is saved</p>
   </div>
 </div>
 
@@ -475,23 +558,23 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=52"></script>
-<script src="content/images.js?v=52"></script>
-<script src="content/audio-manifest.js?v=52"></script>
-<script src="content/marks.js?v=52"></script>
-<script src="content/thread.js?v=52"></script>
-<script src="content/lexicon.js?v=52"></script>
-<script src="content/names.js?v=52"></script>
-<script src="content/sources.js?v=52"></script>
-<script src="content/verse-notes.js?v=52"></script>
-<script src="content/derivatives.js?v=52"></script>
-<script src="js/render.js?v=52"></script>
-<script src="js/ui.js?v=52"></script>
-<script src="js/motion.js?v=52"></script>
-<script src="js/sync.js?v=52"></script>
-<script src="js/search.js?v=52"></script>
-<script src="js/player.js?v=52"></script>
-<script src="js/room.js?v=52"></script>
+<script src="content/chapters.js?v=53"></script>
+<script src="content/images.js?v=53"></script>
+<script src="content/audio-manifest.js?v=53"></script>
+<script src="content/marks.js?v=53"></script>
+<script src="content/thread.js?v=53"></script>
+<script src="content/lexicon.js?v=53"></script>
+<script src="content/names.js?v=53"></script>
+<script src="content/sources.js?v=53"></script>
+<script src="content/verse-notes.js?v=53"></script>
+<script src="content/derivatives.js?v=53"></script>
+<script src="js/render.js?v=53"></script>
+<script src="js/ui.js?v=53"></script>
+<script src="js/motion.js?v=53"></script>
+<script src="js/sync.js?v=53"></script>
+<script src="js/search.js?v=53"></script>
+<script src="js/player.js?v=53"></script>
+<script src="js/room.js?v=53"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });
