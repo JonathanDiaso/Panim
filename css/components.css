@@ -1441,10 +1441,10 @@
    pointer is over. A strip of rounded rectangles with drop shadows is the exact
    pattern this book's whole design exists to avoid.
 
-   ⚠️ THE EXPANSION IS flex-grow, WHICH IS A LAYOUT ANIMATION. That is affordable
-   here and nowhere else: ten flex children in ONE row, no text reflow inside them
-   (the caption is absolutely positioned), and it only runs while a pointer is
-   actually over the strip. Do not copy this technique into the book itself.
+   ⚠️ NOTHING IN THE GRID MOVES ON HOVER, and that is the second thing the first
+   build got wrong. Growing a cell in a five-column sheet shoves nine others and the
+   page jumps under the cursor. The frame holds its place; the picture comes forward
+   inside it. Transform and opacity only.
    ============================================================================ */
 #plates { padding-block: clamp(2rem, 5vh, 3.4rem); }
 
@@ -1460,7 +1460,15 @@
 
 .pl-strip {
   grid-column: 1 / -1;
-  display: flex;
+  /* 🛑 FIVE ACROSS, TWO DOWN — AND THE FIRST BUILD GOT THIS WRONG.
+     Ten frames in ONE row is 131px a frame at 1440, which is a vertical sliver:
+     measured on the real page, five of the ten plates read as black rectangles at
+     that width and the strip looked timid under a full-bleed hero. A contact sheet
+     was never one row anyway — a proof sheet is a GRID of rows, which is what makes
+     this the honest version of the idea as well as the legible one.
+     265x177 a frame at 1440. The pictures actually read. */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   align-items: stretch;
   /* 🛑 A HAIRLINE GUTTER, NOT A GAP. `gap` would leave paper between ten floating
      pictures and turn the strip into a card row. One pixel of --rule between
@@ -1474,13 +1482,10 @@
 
 .pl-cell {
   position: relative;
-  flex: 1 1 0;
   min-width: 0;
   display: block;
   text-decoration: none;
   background: var(--paper);
-  /* the whole expansion, and the only transition on the cell */
-  transition: flex-grow 420ms var(--ease);
 }
 
 /* the frame is the picture's window: the image starts below it and rises in once */
@@ -1488,7 +1493,7 @@
   position: relative;
   display: block;
   overflow: hidden;
-  height: clamp(200px, 26vh, 300px);
+  aspect-ratio: 3 / 2;
   background: var(--rule);
 }
 .pl-frame img {
@@ -1528,9 +1533,9 @@
 }
 
 /* THE CAPTION LIVES OVER THE BOTTOM OF THE PLATE AND IS ABSOLUTELY POSITIONED, so
-   the flex-grow above never reflows a line of type. It is hidden until the cell is
-   wide enough to hold it — a title clipped to four characters is worse than no
-   title at all. */
+   nothing here can ever reflow a line of type. It is hidden until the pointer asks
+   for it, because ten titles printed over ten photographs at once is a poster, not
+   a contact sheet. */
 .pl-caption {
   position: absolute; left: 0; right: 0; bottom: 0;
   padding: 2.4rem .7rem .6rem;
@@ -1579,13 +1584,20 @@
    under, and a cell that only reveals its title on tap would hide ten chapter
    names behind ten taps. The phone gets a different, better shape below. */
 @media (hover: hover) {
-  .pl-strip:hover .pl-cell { flex-grow: .78; }
-  .pl-cell:hover, .pl-cell:focus-visible { flex-grow: 2.6; }
+  /* 🛑 THE GRID DOES NOT MOVE. In a five-column sheet, growing one cell shoves nine
+     others and the whole page jumps under the cursor — the flex version could get
+     away with it in one row and this cannot. So the frame stays exactly where it is
+     and the PICTURE comes forward inside it: full colour, a 5% push, and the caption
+     rises. Transform and opacity only, nothing reflows, nothing else on the sheet
+     twitches. That is also the more expensive-looking of the two. */
+  .pl-strip:hover .pl-cell { opacity: .62; }
+  .pl-cell:hover, .pl-cell:focus-visible { opacity: 1; }
   .pl-cell:hover .pl-caption,
   .pl-cell:focus-visible .pl-caption { opacity: 1; transform: none; }
   .pl-cell:hover .pl-frame img,
-  .pl-cell:focus-visible .pl-frame img { filter: saturate(1) contrast(1); scale: 1.03; }
+  .pl-cell:focus-visible .pl-frame img { filter: saturate(1) contrast(1); scale: 1.05; }
   .pl-cell:hover .pl-num, .pl-cell:focus-visible .pl-num { color: var(--ink); }
+  .pl-cell { transition: opacity var(--dur-slow) var(--ease); }
 }
 .pl-cell:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; z-index: 1; }
 
@@ -1596,6 +1608,7 @@
    hover to reveal them with. Still all ten, still one object, still swipeable. */
 @media (max-width: 900px), (hover: none) {
   .pl-strip {
+    display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
@@ -1607,8 +1620,9 @@
     max-width: 320px;
     scroll-snap-align: start;
     transition: none;
+    opacity: 1;
   }
-  .pl-frame { height: clamp(190px, 30vh, 260px); }
+  .pl-frame { aspect-ratio: 4 / 3; }
   .pl-frame img { filter: none; }
   .pl-caption { opacity: 1; transform: none; }
 }
