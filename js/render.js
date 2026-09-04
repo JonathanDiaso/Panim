@@ -1200,6 +1200,9 @@
     { p: '#E9E9E7', a: '#A8391B' }, { p: '#EBE6E1', a: '#A8391B' },
     { p: '#F4EEE1', a: '#7E5A20' }, { p: '#FBF7EE', a: '#7E5A20' }];
 
+  // the vertical sway, cos(i * 1.1) * 14px, rounded. css/components.css: --amp
+  var PLATE_SWAY = [14, 6, -8, -14, -4, 10, 13, 2, -11, -12];
+
   // the sizes attribute describes the IMG, which is 110% of its frame — not the
   // frame. Understating it hands a phone a picture it then has to upscale.
   var STRIP_SIZES = '(max-width: 900px) 86vw, 34vw';
@@ -1225,8 +1228,15 @@
       // Both say the chapter's title; without this a screen reader announces every
       // one of them twice. The hidden one wins because it carries "Chapter VII",
       // the runtime as a word rather than an abbreviation, and the hook.
+      // ⭐ THE SWAY AMPLITUDE, ONE COSINE ACROSS THE TEN. A single constant would
+      // move all ten in lockstep, which reads as the whole strip sliding rather
+      // than as a field of plates breathing; ten random numbers would read as a
+      // fault. cos(i * 1.1) gives a wave that starts at full height on plate I —
+      // the one most readers see — and crosses zero twice on its way to X.
+      // css/components.css reads it as --amp.
+      var amp = PLATE_SWAY[i % PLATE_SWAY.length];
       return '<a class="pl-plate' + (pic ? '' : ' is-bare') + '" href="#' + esc(ch.id) + '"' +
-        ' style="--i:' + i + '" data-n="' + ch.num + '">' +
+        ' style="--i:' + i + ';--amp:' + amp + 'px" data-n="' + ch.num + '">' +
         '<span class="visually-hidden">Chapter ' + ROMAN[ch.num] + ', ' + esc(ch.title) +
           (mins ? '. ' + mins + ' minutes' : '') +
           (ch.hook ? '. ' + esc(ch.hook) : '') + '</span>' +
@@ -1245,7 +1255,12 @@
         '<button class="pl-dot" type="button" data-n="' + ch.num + '"' +
           ' style="--stock:' + s.p + ';--stock-accent:' + s.a + '">' +
           '<span class="pl-sw" aria-hidden="true"></span>' +
-          '<span class="pl-num" aria-hidden="true">' + ROMAN[ch.num] + '</span>' +
+          // 🛑 NO ROMAN NUMERAL UNDER THE SWATCH. The author, 2026-09-04: "random
+          // unnecessary numerals". Every numeral on this screen was printed twice —
+          // once under its own plate, where it is the caption of a picture and a
+          // convention of the book, and once here, where it labelled a colour chip
+          // that already sits in chapter order. The arc is a POSITION and the light
+          // of the book, not a numbered list; the name is still on the button.
           '<span class="visually-hidden">Chapter ' + ROMAN[ch.num] + ', ' + esc(ch.title) + '</span>' +
         '</button></li>';
     }).join('');

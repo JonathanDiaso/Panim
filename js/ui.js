@@ -868,6 +868,10 @@
     // plate's snap offset is a constant until the layout changes; after that,
     // finding the leading plate is ten subtractions on numbers already in memory.
     // No getBoundingClientRect and nothing read from the DOM in a scroll handler.
+    // one capability read, used by the drift, the sway and the caption timing
+    var CSS_DRIFT = window.CSS && CSS.supports &&
+                    CSS.supports('animation-timeline', 'view(inline)');
+
     var snaps = [], pad = 0;
     function measure() {
       pad = parseFloat(getComputedStyle(rail).scrollPaddingLeft) || 0;
@@ -915,8 +919,6 @@
     // Only built where the CSS scroll-driven path is missing. `pl-sda` on <html> is
     // what switches the @supports block in css/components.css on, so exactly one of
     // the two implementations is ever active and neither knows about the other.
-    var CSS_DRIFT = window.CSS && CSS.supports &&
-                    CSS.supports('animation-timeline', 'view(inline)');
     var DRIFT_JS = !CSS_DRIFT && !REDUCED;
     var imgs = DRIFT_JS ? plates.map(function (p) { return p.querySelector('img'); }) : null;
     // 🛑 ONE NUMBER, AND IT IS THE STYLESHEET'S. The first build hard-coded 5 here
@@ -925,6 +927,36 @@
     // Chrome drifted the right way, and nothing would have said so.
     var DRIFT = 3.7;
     if (CSS_DRIFT) document.documentElement.classList.add('pl-sda');
+
+    // ---------- the sway, fallback path ----------
+    // The CSS above rides a view timeline on #plates; where that does not exist,
+    // the same wave is computed here from the section's own progress across the
+    // window. ⚠️ IT IS A SECOND LISTENER ON A DOCUMENT THAT ALREADY HAS ONE
+    // (js/motion.js's dawn arc), so it earns its place by doing almost nothing:
+    // it returns on the first line unless the section is actually on screen, and
+    // when it does run it writes ten transforms and reads one rect.
+    var section = document.getElementById('plates');
+    var amps = plates.map(function (p) {
+      return parseFloat(getComputedStyle(p).getPropertyValue('--amp')) || 0;
+    });
+    var swayTick = false;
+    function swayFrame() {
+      swayTick = false;
+      var r = section.getBoundingClientRect(), vh = window.innerHeight;
+      if (r.bottom < 0 || r.top > vh) return;
+      // cover progress: 0 as the section's top edge enters, 1 as its bottom leaves
+      var prog = (vh - r.top) / (vh + r.height);
+      var k = 1 - 2 * Math.max(0, Math.min(1, prog));
+      for (var i = 0; i < plates.length; i++) {
+        plates[i].style.transform = 'translateY(' + (amps[i] * k).toFixed(2) + 'px)';
+      }
+    }
+    function onPageScroll() { if (!swayTick) { swayTick = true; requestAnimationFrame(swayFrame); } }
+    if (!CSS_DRIFT && !REDUCED && section) {
+      window.addEventListener('scroll', onPageScroll, { passive: true });
+      window.addEventListener('resize', onPageScroll, { passive: true });
+      swayFrame();
+    }
 
     var ticking = false;
     function frame() {
