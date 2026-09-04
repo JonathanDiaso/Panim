@@ -443,6 +443,44 @@ main { position: relative; }
    it must never compete with "Begin listening". No new tokens: it reuses
    .hero-hint entirely and only adds the spacing that separates the two rows. */
 .hero-second-door { margin-top: .35rem; }
-.hero-second-door .hero-hint { opacity: .72; }
+
+/* 🛑 THE MOTION IS THE ARROW AND NOTHING ELSE.
+   The link lands the reader mid-sentence in chapter VII, so the gesture that
+   fits is a door opening, not a thing demanding to be clicked. No pulse, no
+   bounce, no glow, no attention-seeking loop — this page's whole design is
+   restraint and one twitchy element would read as a different site.
+   ⭐ Three states, each doing one job:
+     rest   the arrow sits still at 72% and waits
+     hover  it drifts up and right, the direction it points, and the text
+            comes to full strength — 220ms, the same ease as everything else
+     press  it settles back a hair so the click has a floor
+   The arrow is the ONLY thing that moves. The text does not slide, because
+   moving type under a cursor is the trashiest thing a link can do. */
+.hero-second-door .hero-hint {
+  opacity: .72;
+  transition: opacity 220ms cubic-bezier(.22,.61,.36,1);
+}
+.hero-second-door .hero-hint .door-arrow {
+  display: inline-block;
+  transition: transform 220ms cubic-bezier(.22,.61,.36,1);
+  will-change: transform;
+}
 .hero-second-door .hero-hint:hover,
 .hero-second-door .hero-hint:focus-visible { opacity: 1; }
+.hero-second-door .hero-hint:hover .door-arrow,
+.hero-second-door .hero-hint:focus-visible .door-arrow {
+  transform: translate(.18em, -.18em);
+}
+.hero-second-door .hero-hint:active .door-arrow {
+  transform: translate(.09em, -.09em);
+}
+
+/* 🛑 REDUCED MOTION IS A FULL STOP, NOT A SLOWER VERSION.
+   Opacity still changes — that is a state change, not motion — and the arrow
+   simply does not move. The link is exactly as usable either way. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-second-door .hero-hint .door-arrow { transition: none; }
+  .hero-second-door .hero-hint:hover .door-arrow,
+  .hero-second-door .hero-hint:focus-visible .door-arrow,
+  .hero-second-door .hero-hint:active .door-arrow { transform: none; }
+}
