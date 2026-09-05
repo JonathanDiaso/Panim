@@ -343,8 +343,6 @@ on the left and full morning on the right.
  Two small silver scrolls, a blessing about a face, and the oldest
  words of the Bible anyone has ever found.
 
- ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁ ▁▁▁
-  I   II  III  IV   V   VI  VII VIII IX   X     ← each in its own paper stock
 ```
 
 `js/render.js renderPlateIndex()` · `css/components.css` "THE PLATES — the ribbon" ·
@@ -369,7 +367,7 @@ scroll-into-view with it. **Nothing here re-implements a carousel.**
 | | |
 |---|---|
 | **the drift** — the rail's own scroll | every picture counter-travels **±4% of its frame** as its plate crosses the scrollport |
-| **the sway** — the *page's* scroll | every plate rides a wave, **±14px at its own phase**, as the section crosses the window |
+| **the sway** — the *page's* scroll | every plate rides a wave, **±44px at its own phase**, as the section crosses the window |
 | **where they run** | `animation-timeline` on **named view timelines** — the compositor, Chrome 115+/Safari 26+, ~84% |
 | **everywhere else** | two rAF handlers in `js/ui.js`, one on the rail's `scroll` and one on the window's. Firefox still has scroll-driven animations behind a flag in stable as of mid-2026 |
 | **the arrival** | the site's own once-only rise, `14px`, staggered `55ms` off `--i` |
@@ -391,7 +389,7 @@ come from is **a second crop of the photograph** — the one thing this whole re
 to stop. Translating the plate costs nothing but paper, which is what the rail's `2rem` of
 vertical padding is for.
 
-⚠️ **The amplitude is one cosine across the ten**, `cos(i × 1.1) × 14px`, set at render
+⚠️ **The amplitude is one cosine across the ten**, `cos(i × 1.1) × 44px`, set at render
 time in `js/render.js PLATE_SWAY`. **A single constant moves all ten in lockstep**, which
 reads as the whole strip sliding rather than a field of plates breathing; **ten random
 numbers read as a fault.** The cosine starts at full height on plate I — the one most
@@ -540,11 +538,35 @@ only ever grows, no title clips at any width, the rail bleeds to `0` at every on
 the first plate sits on the text grid at every one, and no width scrolls the document
 sideways.
 
+## 2.8b 🔴 THE ARC IS GONE, AND THE SWAY IS THREE TIMES WHAT IT WAS
+
+**The author, 2026-09-04, after v55 went live:** *"it seems lame it still ahs no motion and
+the tabs below the photos should really be gone they are so ugly."*
+
+**Both notes were right and the second one is the harder lesson.**
+
+**1 · The paper-stock arc is deleted.** It was the prettiest idea in the build — ten chips of
+the chapters' own stock, night to morning, doubling as a scroll position — and **on the page
+it read as a row of tabs.** ⚠️ **A concept that has to be explained to be enjoyed has already
+failed**, and this one needed a paragraph. Gone from `render.js`, `components.css` and
+`ui.js`; the row of numerals under each plate is the only index the strip needs, and the
+`--stock` table went with it because nothing else used it.
+
+**2 · `±14px` was invisible and the author was the one who noticed.** Fourteen pixels over a
+1,400px scroll is a fifth of a per-cent of the travel — real in a measurement and **not real
+to an eye.** It is `±44px` now: **88px of travel on plate I**, and adjacent plates swing
+against each other because the phase comes from a cosine. 🛑 **A motion measured but never
+watched is a motion that does not exist.** It was verified by reading `translateY` at five
+scroll positions and never once by looking at two screenshots side by side.
+
+**Still transform-only, still no crop, still 60fps** — `402` median `16.7ms` worst `17.1`,
+`1440` median `16.6` worst `17.7`, zero frames over 33ms on either path. Section is 30px
+shorter than it was with the arc.
+
 ## 2.9 ⚠️ Still open
 
-- **`lab/turn.html` is kept, not deleted.** The 3D turn is genuinely good work and its
-  **paper-stock backs are what became the arc**. It is not the right object for landscape
-  plates, and that is the only reason it lost.
+- **`lab/turn.html` stays** — the author, 2026-09-04: *"if lab turn is good maybe it can
+  stay"*. It is genuinely good work; it is simply the wrong object for landscape plates.
 - **`lab/ribbon.html` is the standalone of what shipped**, and it is where to iterate before
   touching `css/components.css` again. It is tracked and it is deployed — unlinked and
   `noindex`, at `/lab/ribbon.html`.
