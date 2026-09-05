@@ -1230,53 +1230,79 @@
      would touch the interceptor in js/ui.js and twenty selectors in css/site.css
      for no reader-visible gain. It is NOT in the hero. Do not go looking for it there.
 
-     ⭐ THE PASSAGE CHANGED, AND THIS IS THE POINT OF THE ROUND. It pointed at
-     17m55s — David, Absalom, and a hurt human heart that can hide indefinitely.
-     The author, 2026-09-05: "the quote we were using was 'he answered it wet' or
-     something… it should be emotional, deeper than the brother thing."
-     It now opens at 22m49s, one second before ch07-p139 (cue 1369.69 = 22:50) so
-     the "M" of "My sister" is never clipped by a seek landing late. The same
-     one-second lead the old link used, for the same reason. Do not "correct" it.
+     🔴 THE PASSAGE WENT BACK TO 17m55s, 2026-09-05 (round four), AND THE COPY IS
+     WHAT ACTUALLY CHANGES. It was briefly moved to 22m49s — Hannah, the blank page,
+     "He answered it wet" — on a reading of the author that was half right and half
+     wrong. His correction, in full:
+       "sorry i liked the david absalom audio but i didnt think it was a great
+        introduction to that like why would someone click it it should say only have
+        5 minutea and then something els. its a teaser... it used to be good. it was
+        fine before. where the sound startted."
+     ⭐ READ THAT CAREFULLY, BECAUSE THE FIRST READING OF IT COST A ROUND. The
+     complaint was never about the AUDIO. "it was fine before, where the sound
+     started" is an instruction to leave the excerpt alone. The complaint is about
+     the CARD: it described the passage instead of baiting it, so nothing on it
+     answered "why would someone click this". A description is not a teaser.
+     🛑 SO DO NOT MOVE THE href AGAIN TO FIX A COPY PROBLEM. The excerpt is the
+     author's, chosen by text, twice. If the card is not working, the card is wrong.
 
-     ⭐ AND FIVE MINUTES IS NOW LITERALLY TRUE, measured against cues/ch07.json
-     rather than rounded to match the label:
-       22:50  My sister Hannah moved to heaven when she was twenty.
-       23:01  the surprise party she hid behind a scavenger hunt
-       23:33  the pineapple — the old sign for a safe return — hung on a leaving
-       23:55  she was in the stands, including the games that did not matter
-       24:18  "It was whether He had been in the stands."
-       24:42  a pen, a blank sheet, and "Jesus, do You love me?"
-       25:18  the tears he had not cried in years, falling onto the question
-       26:15  "He answered it wet."
-       26:49  "As tears."
-       27:12  "The finding was the gift."
-       27:58  a hiding that puts you outside the face of God — and one that puts
-              you inside it
-     Start to that last line is 5 min 08 s. The old link's four-and-a-bit minutes
-     were the reason "five" had to be the author's word over the measurement; it is
-     now the measurement as well.
+     ⚠️ 17m55s IS ONE SECOND EARLY ON PURPOSE. ch07-p107's cue is 17:56.320; a seek
+     landing a few milliseconds late clips the "D" of "David", and the second of
+     lead-in is the tail of ch07-p106, a complete clause. Do not "correct" it.
 
-     🛑 FOUR ELEMENTS, FOUR DIFFERENT JOBS — the fault this card was rebuilt to fix
-     on 2026-09-05 was three lines all reporting the same number. Locator (where),
-     quote (the book's own voice), standfirst (what the five minutes hold), action
-     (what pressing it does). Nothing here repeats anything else here.
-     ⚠️ THE QUOTE IS ch07-p169 + ch07-p170 VERBATIM from content/chapters.js. If the
-     chapter text is ever re-edited, this is a second copy and it will not follow.
+     ⭐ AND FIVE MINUTES IS THE MEASUREMENT, NOT A ROUNDING — measured forward from
+     17:55 against cues/ch07.json, by text, never by clock:
+       +0m01  David forgave his son … a hurt human heart can hide indefinitely.
+       +0m10  God's cannot.
+       +0m34  the younger son, still a long way off when the father sees him
+       +1m23  the father leaves his own feast and goes out to the door
+       +1m34  "David waited two years for Absalom. This father would not wait
+              through dinner." — the two halves closing on each other
+       +1m50  Elijah, off Carmel, forty days to Horeb
+       +2m42  the wind, the earthquake, the fire — He is not in any of them
+       +3m09  qol demamah daqqah, a voice of thin silence
+       +3m56  "He knows exactly Who is in the thin silence."
+       +4m43  Elijah walks off the mountain with his face still wrapped
+       +4m51  🛑 "The appointment is still on the books."
+     ⭐ +4m51 IS AN ENDING AND IT IS EXACTLY WHERE FIVE MINUTES LANDS. The older
+     note in this file stopped its table at +3m56 and concluded the passage was
+     "four minutes", which is why "five" had to be carried as the author's word
+     over the measurement. It was the table that was short, not the passage. The
+     next line after +4m51 opens a new movement (Hannah), so five minutes is also
+     the last honest place to stop.
+
+     🛑 FOUR ELEMENTS, FOUR DIFFERENT JOBS, AND THE ORDER IS THE AUTHOR'S — "it
+     should say only have 5 minutes and then something els":
+       1 the offer      IF YOU ONLY HAVE FIVE MINUTES     — why you would stop here
+       2 the bait       two sentences out of the book     — why you would press it
+       3 what is inside three stories, named, not summarised
+       4 where it goes  Chapter VII · The Glory Backs Out — the destination
+     ⚠️ "FIVE MINUTES" IS SAID ONCE, IN LINE 1, AND NOWHERE ELSE. The card's oldest
+     and most persistent fault is an eyebrow, a title and a meta line all reporting
+     the same number of minutes — three lines of chrome carrying one fact, which is
+     the most recognisable shape of machine-written UI copy on the page. The action
+     line is the locator now precisely so that number cannot come back twice.
+     ⚠️ THE QUOTE IS ch07-p107 + ch07-p108, ELIDED AT THE FRONT AND MARKED. The full
+     first sentence names David and runs to four lines at display size, which is a
+     paragraph, not bait. The leading ellipsis is the honest way to say so. If the
+     chapter text is ever re-edited this is a second copy and will not follow.
      ========================================================================== */
   var THE_SECOND_DOOR =
-    '<a class="hero-sample" id="hero-sample" href="?t=ch07:22m49s"' +
-      // ⚠️ THE LABEL CARRIES THE QUOTE, and that is deliberate. An aria-label REPLACES
-      // everything inside the element, so the first draft — which named only the
-      // action — handed a screen reader user the one thing on the card that does not
-      // persuade anybody and hid the two sentences that do. This says the same four
-      // things the card says, in the same order, at a length a links list can carry.
-      ' aria-label="Chapter seven, The Glory Backs Out. \'He did not answer the question.' +
-      ' He answered it wet.\' Play five minutes from the book, beginning at twenty-two' +
-      ' minutes fifty.">' +
-      '<span class="hs-eyebrow">Chapter VII <i aria-hidden="true">·</i> The Glory Backs Out</span>' +
-      '<blockquote class="hs-quote"><p>He did not answer the question.<br>He answered it wet.</p></blockquote>' +
-      '<span class="hs-holds">A sister who came to every game, a blank sheet of paper in ' +
-        'Pennsylvania, and an answer that did not arrive in the format it was asked in.</span>' +
+    '<a class="hero-sample" id="hero-sample" href="?t=ch07:17m55s"' +
+      // ⚠️ THE LABEL CARRIES THE BAIT, and that is deliberate. An aria-label REPLACES
+      // everything inside the element, so a label naming only the action would hand a
+      // screen reader user the one line on the card that does not persuade anybody and
+      // hide the two sentences that do. Same four things, same order, at a length a
+      // links list can carry.
+      ' aria-label="If you only have five minutes. ‘A hurt human heart can hide' +
+      ' indefinitely. God’s cannot.’ Play five minutes from chapter seven,' +
+      ' The Glory Backs Out.">' +
+      '<span class="hs-eyebrow">If you only have five minutes</span>' +
+      '<blockquote class="hs-quote"><p>…a hurt human heart can hide indefinitely.' +
+        '<br>God’s cannot.</p></blockquote>' +
+      '<span class="hs-holds">Two years of a father’s hidden face. A father who leaves ' +
+        'his own feast to stand at the door. And a mountain where the wind, the earthquake ' +
+        'and the fire all turn out to be the wrong answer.</span>' +
       '<span class="hs-act">' +
         '<span class="hs-glyph" aria-hidden="true">' +
           '<svg viewBox="0 0 40 40" focusable="false">' +
@@ -1284,7 +1310,7 @@
             '<path class="hs-tri" d="M16.6 13.4 28 20 16.6 26.6Z"/>' +
           '</svg>' +
         '</span>' +
-        '<span class="hs-title">The five minutes that do it</span>' +
+        '<span class="hs-title">Chapter VII <i aria-hidden="true">·</i> The Glory Backs Out</span>' +
       '</span>' +
     '</a>';
 

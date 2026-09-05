@@ -578,7 +578,14 @@ main { position: relative; }
 }
 .hero-sample:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-/* ---------- 1. the locator: WHERE this is ---------- */
+/* ---------- 1. THE OFFER: why you would stop here ----------
+   🔴 IT WAS THE LOCATOR UNTIL round four, 2026-09-05. The author: "it should say
+   only have 5 minutea and then something els. its a teaser."
+   He is right, and the reason is that a card which opens by naming the chapter is
+   answering a question nobody asked — a stranger does not know what Chapter VII is
+   and cannot want it. "If you only have five minutes" is the one sentence on this
+   page that is about the READER. The locator went to the action row, where a play
+   ring wants a destination beside it anyway. */
 .hs-eyebrow {
   display: block;
   font-family: var(--ui); font-size: var(--ap-lg);
@@ -587,8 +594,12 @@ main { position: relative; }
   margin-bottom: .7em;
 }
 /* the separator is an <i> so it can be dimmed without a second colour token, and
-   aria-hidden keeps a middle dot out of the accessible name */
-.hs-eyebrow i { font-style: normal; opacity: .55; padding-inline: .25em; }
+   aria-hidden keeps a middle dot out of the accessible name.
+   ⚠️ IT IS ON .hs-title NOW, NOT .hs-eyebrow — the locator moved to the action row
+   in round four so the eyebrow could carry the offer. Both are listed because the
+   pair swap places whenever the copy is reworked, and a dot at full weight against
+   a dimmed one is a difference nobody notices until it looks cheap. */
+.hs-eyebrow i, .hs-title i { font-style: normal; opacity: .55; padding-inline: .25em; }
 
 /* ---------- 2. the voice: the book's own words, at display size ----------
    ⭐ THIS IS THE ELEMENT THE ROUND WAS FOR. ch07-p169 + ch07-p170 verbatim. It is
