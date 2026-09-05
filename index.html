@@ -131,12 +131,12 @@
       href="art/d/hero-940.avif"
       imagesrcset="art/d/hero-640.avif 640w, art/d/hero-940.avif 940w, art/d/hero-1408.avif 1408w"
       imagesizes="(min-width: 1440px) 1440px, 100vw">
-<link rel="stylesheet" href="fonts/fonts.css?v=56">
-<link rel="stylesheet" href="css/site.css?v=56">
-<link rel="stylesheet" href="css/components.css?v=56">
-<link rel="stylesheet" href="css/player.css?v=56">
-<link rel="stylesheet" href="css/room.css?v=56">
-<link rel="stylesheet" href="css/polish.css?v=56">
+<link rel="stylesheet" href="fonts/fonts.css?v=57">
+<link rel="stylesheet" href="css/site.css?v=57">
+<link rel="stylesheet" href="css/components.css?v=57">
+<link rel="stylesheet" href="css/player.css?v=57">
+<link rel="stylesheet" href="css/room.css?v=57">
+<link rel="stylesheet" href="css/polish.css?v=57">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -213,93 +213,34 @@
              sheet still says free, where somebody who has decided goes to check. -->
         Read and listen
       </div>
+      <!-- 🛑 "Contents ↓" IS GONE, 2026-09-05. The author: "i told you i dont want
+           the clicker that shows content near the button."
+           It was a second, weaker door standing beside the only one that matters,
+           and it pointed at a list the reader reaches by scrolling anyway — the
+           ribbon of ten plates is directly below this block and the contents is
+           directly below that. The running head also carries a Contents button on
+           every screen of the site. Nothing was lost by deleting it; one button
+           now stands alone, which is what makes it read as the thing to press.
+           ⚠️ #contents STILL EXISTS and is still a link target — the nav panel, the
+           back-matter rows and the skip link all point into it. This deleted the
+           hint, not the section. -->
       <div class="hero-actions">
         <button class="btn btn-solid" id="begin-btn">Begin listening</button>
-        <a class="hero-hint" href="#contents">Contents ↓</a>
       </div>
-      <!-- THE SECOND DOOR, 2026-09-04. The page tells a stranger WHAT the book is and
-           never what it DOES to a person. Chapter VII does that, and it sits eighteen
-           minutes deep where only finishers reach it.
-           🛑 THE DEEP LINK ALREADY WORKED — js/player.js parses ?t=chNN:MMmSSs and
-           passes it to loadChapter as seekTo. Nothing was built for this; it was
-           already there and nothing on the site used it.
-
-           ⭐ THE TARGET IS ch07-p107, AND THE AUTHOR CHOSE IT BY TEXT, TWICE:
-             "David forgave his son and went on hiding his face for two years,
-              because a hurt human heart can hide indefinitely."
-           Its cue is 17:56.320 (cues/ch07.json). The href says 17m55s — ONE SECOND
-           EARLY ON PURPOSE, so the "D" of David is never clipped by a seek landing a
-           few milliseconds late. Do not "correct" it to 17m56s.
-           ⚠️ IT REPLACED 24m35s, which opened on "Jesus, do You love me?". That was a
-           good passage and this is the author's passage; when the two disagree the
-           author wins.
-
-           ⭐ AND FOUR MINUTES IS THE REAL SHAPE OF IT, not a rounded-up two. Measured
-           forward from 17:55 against cues/ch07.json:
-             +1s    David forgave his son … a hurt human heart can hide indefinitely.
-             +10s   God's cannot.
-             +14s   the prodigal, and the father who leaves his own feast
-             +94s   "David waited two years for Absalom. This father would not wait
-                    through dinner." — the two halves closing on each other
-             +110s  Elijah, Horeb, the wind and the earthquake and the fire
-             +236s  "He knows exactly Who is in the thin silence."
-           That last line is where four minutes lands, and it is an ending. The old
-           copy said "two minutes" and undersold a passage that is twice that long and
-           three stories deep. Found BY TEXT against the canonical transcripts, never
-           by clock. -->
-      <!-- REBUILT AS A CARD, 2026-09-04 (round two). It shipped as a ghost link on
-           one line — .hero-hint, --ink-faint, opacity .72, an ↗ that drifted on
-           hover — sitting under two buttons that both outranked it. The one thing
-           on this page a stranger is most likely to say yes to was the quietest
-           element in the block. The author: "that arrow section line is way too
-           not prominent, that should be a sexy button."
-           ⭐ IT IS STILL AN <a> WITH THE REAL DEEP LINK. The href is what makes it
-           copyable, right-clickable and shareable, and it is the no-JS path. The
-           click is intercepted in js/ui.js so the page does NOT reload — see the
-           long note there; that reload is the whole reason this felt broken.
-           🛑 THE RING DRAWS ITSELF ONCE AND NOTHING LOOPS. Self-drawing hairlines
-           are already this book's motion language (.hairline.is-drawn), so this
-           inherits it rather than inventing a pulse. No glow, no bounce.
-           ⚠️ THE RUNTIME IS THE REAL ONE. 24m35s → 26:14 is 1 min 39 sec, measured
-           against the canonical transcripts, not rounded up to match the eyebrow.
-           Under-promising here is the point. -->
-      <!-- 🔴 IT SAID "FOUR MINUTES" THREE TIMES IN THREE LINES, 2026-09-05. The
-           author: "the 5 minute button… should be much prettier its ugly and big
-           nott pleasant not attractive."
-           The card was not big because of its padding. It was big because it was
-           an eyebrow, a title and a meta line all reporting the same number:
-             "If you only have four minutes" / "The four minutes that do it" /
-             "Chapter VII · about 4 minutes"
-           Three lines of chrome to carry one fact. That triplet — eyebrow states
-           the offer, title restates it, meta restates it a third time with a
-           digit — is the single most recognisable shape of machine-written UI
-           copy on this page, and it is why the card read as an advert sitting on
-           a book jacket.
-           It is now two lines that say two different things: WHERE it is, and
-           WHAT it does. Nothing is repeated, so the box that holds it can be
-           smaller without anything being lost.
-           ⚠️ FIVE, NOT FOUR, ON THE AUTHOR'S INSTRUCTION: "change from 4 to 5".
-           The href does not move — the passage still opens at 17m55s on the "D"
-           of David — so this is the label changing, not the excerpt. Note that it
-           crosses the old comment's measurement: four minutes is where the
-           passage LANDS ("He knows exactly Who is in the thin silence", +236s).
-           Five is the author's number and the author's call.
-           ⭐ STILL AN <a> WITH THE REAL DEEP LINK. The href is what makes it
-           copyable, right-clickable and shareable, and it is the no-JS path. The
-           click is intercepted in js/ui.js so the page does NOT reload. -->
-      <a class="hero-sample" id="hero-sample" href="?t=ch07:17m55s"
-         aria-label="Play the five minutes that do it — from chapter seven.">
-        <span class="hs-glyph" aria-hidden="true">
-          <svg viewBox="0 0 40 40" focusable="false">
-            <circle class="hs-ring" cx="20" cy="20" r="19"/>
-            <path class="hs-tri" d="M16.6 13.4 28 20 16.6 26.6Z"/>
-          </svg>
-        </span>
-        <span class="hs-text">
-          <span class="hs-eyebrow">Chapter VII</span>
-          <span class="hs-title">The five minutes that do it</span>
-        </span>
-      </a>
+      <!-- ⤵ THE SECOND DOOR MOVED OUT OF THE HERO, 2026-09-05. The author: "we
+           could possibly move that button down a bit so they interact with the
+           pictures first… move this down below photos and add what chapter 7 holds
+           and the quote there so its still super sweet and doesnt miss."
+           It now lives under the ribbon of ten plates, built by renderPlateIndex()
+           in js/render.js — a stranger meets the ten photographs first and is
+           offered the five minutes on the way out of them, which is the order the
+           author asked for and a better one: the card is answering a curiosity the
+           pictures have just created instead of competing with the title.
+           🛑 "Begin listening" STAYED HERE on the author's call ("card only"). A
+           returning reader's "Continue: VII, 37:26" must not be ten plates deep.
+           🛑 DO NOT REBUILD IT HERE. It is one element and it has one home; a copy
+           in the hero would give the page two #hero-sample ids and js/ui.js binds
+           the deep-link interceptor to the first one it finds. -->
       <!-- TAP-TO-LISTEN HAS EXISTED SINCE js/sync.js AND NOTHING EVER SAID SO.
            The affordance is a hairline in the margin on hover (css/polish.css) —
            correct, restrained, and completely undiscoverable on a phone, which has
@@ -614,23 +555,23 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=56"></script>
-<script src="content/images.js?v=56"></script>
-<script src="content/audio-manifest.js?v=56"></script>
-<script src="content/marks.js?v=56"></script>
-<script src="content/thread.js?v=56"></script>
-<script src="content/lexicon.js?v=56"></script>
-<script src="content/names.js?v=56"></script>
-<script src="content/sources.js?v=56"></script>
-<script src="content/verse-notes.js?v=56"></script>
-<script src="content/derivatives.js?v=56"></script>
-<script src="js/render.js?v=56"></script>
-<script src="js/ui.js?v=56"></script>
-<script src="js/motion.js?v=56"></script>
-<script src="js/sync.js?v=56"></script>
-<script src="js/search.js?v=56"></script>
-<script src="js/player.js?v=56"></script>
-<script src="js/room.js?v=56"></script>
+<script src="content/chapters.js?v=57"></script>
+<script src="content/images.js?v=57"></script>
+<script src="content/audio-manifest.js?v=57"></script>
+<script src="content/marks.js?v=57"></script>
+<script src="content/thread.js?v=57"></script>
+<script src="content/lexicon.js?v=57"></script>
+<script src="content/names.js?v=57"></script>
+<script src="content/sources.js?v=57"></script>
+<script src="content/verse-notes.js?v=57"></script>
+<script src="content/derivatives.js?v=57"></script>
+<script src="js/render.js?v=57"></script>
+<script src="js/ui.js?v=57"></script>
+<script src="js/motion.js?v=57"></script>
+<script src="js/sync.js?v=57"></script>
+<script src="js/search.js?v=57"></script>
+<script src="js/player.js?v=57"></script>
+<script src="js/room.js?v=57"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

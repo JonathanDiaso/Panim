@@ -358,7 +358,7 @@
 
     // ---------- the second door, intercepted ----------
     // 🛑 THIS IS THE "GLITCH", AND IT WAS A FULL PAGE RELOAD.
-    // The card is <a href="?t=ch07:24m35s">, which is a real navigation. Clicking
+    // The card is <a href="?t=ch07:22m49s">, which is a real navigation. Clicking
     // it tore the page down, refetched seventeen scripts — 363KB of chapters.js
     // among them — re-rendered all ten chapters and the whole apparatus, and only
     // then did js/player.js maybeDeepLink() call loadChapter(). So the reader got
@@ -372,6 +372,12 @@
     // right-click target, and the no-JS path — and a modified click (new tab, new
     // window, download) must fall through to the browser untouched, which is what
     // the modifier test below is for. Do not "simplify" it to a <button>.
+    // ⚠️ IT IS NOT IN THE HERO ANY MORE, 2026-09-05 — it is built by
+    // renderPlateIndex() in js/render.js and lives under the ribbon of ten plates.
+    // This still works, and the reason is the wiring order: init() runs on
+    // `panim:rendered`, which render.js fires only after root.innerHTML is set, so
+    // the element exists by the time this looks for it. The id and class kept their
+    // hero-* names on purpose; see the note in js/render.js.
     var sample = $('#hero-sample');
     if (sample) sample.addEventListener('click', function (e) {
       if (e.defaultPrevented) return;
