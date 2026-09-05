@@ -1189,8 +1189,27 @@
   // and nothing on the critical path.
   // ============================================================================
 
-  // the vertical sway, cos(i * 1.1) * 44px, rounded. css/components.css: --amp
-  var PLATE_SWAY = [44, 20, -26, -43, -14, 31, 42, 7, -36, -39];
+  // ⭐ THE SWAY, REWRITTEN 2026-09-05. The author: "add more motion for them to
+  // serperate more when scroll happens it looks preety good the new ribbon
+  // component."
+  // 🔴 THE OLD WAVE WAS NOT THE PROBLEM OF AMPLITUDE, IT WAS A PROBLEM OF PHASE.
+  // It was cos(i * 1.1) * 44 → [44, 20, -26, -43, …], and the gap between plate I
+  // and plate II — the pair almost every reader actually has on screen at once —
+  // was 44 minus 20, TWENTY-FOUR PIXELS of separation out of an 88px travel. Two
+  // neighbours drifting the same way at nearly the same speed read as one strip
+  // sliding, which is the thing that made it look still. Raising 44 to 88 would
+  // have doubled the height the section costs and barely changed what that pair
+  // does relative to each other.
+  // So the sign now ALTERNATES and the cosine only sets the magnitude:
+  //     amp[i] = (-1)^i * round(44 + 22 * cos(i * 1.3))
+  // Every plate opposes both its neighbours, which is where separation actually
+  // comes from, and the cosine keeps the magnitudes uneven so ten plates do not
+  // read as a zigzag. Measured against the old wave, plate I to plate II: 24px of
+  // separation becomes 116px, and the largest single amplitude only goes 44 → 66.
+  // 🛑 66 IS WHAT SETS .pl-rail's padding-block. See css/components.css — anything
+  // less clips a plate at the top of its wave, silently, and only on the plates
+  // whose phase happens to be high while the section is entering.
+  var PLATE_SWAY = [66, -50, 25, -28, 54, -65, 45, -23, 32, -58];
 
   // the sizes attribute describes the IMG, which is 110% of its frame — not the
   // frame. Understating it hands a phone a picture it then has to upscale.
@@ -1230,10 +1249,18 @@
           (mins ? '. ' + mins + ' minutes' : '') +
           (ch.hook ? '. ' + esc(ch.hook) : '') + '</span>' +
         '<span class="pl-frame">' + pic + '</span>' +
+        // 🛑 THE RUNTIME CAME OFF THE VISIBLE ROW, 2026-09-05. The author: "we
+        // dont need to list the minutes under chapter just the name and numeral
+        // would suffice in the same text."
+        // ⚠️ IT IS STILL IN THE HIDDEN LABEL ABOVE, AND THAT IS NOT AN OVERSIGHT.
+        // A sighted reader can see the ribbon is ten pictures and can judge the
+        // book's size from the page; a screen reader user steering this rail
+        // hears ten links and nothing else, so the runtime is the only scale
+        // they get. Removing a number from the page is a design call. Removing
+        // it from the accessible name would have been a different, worse one.
         '<span class="pl-row" aria-hidden="true">' +
           '<span class="pl-n">' + ROMAN[ch.num] + '</span>' +
           '<span class="pl-t">' + esc(ch.title) + '</span>' +
-          '<span class="pl-d">' + (mins ? mins + ' min' : '') + '</span>' +
         '</span>' +
       '</a>';
     }).join('');
@@ -1253,24 +1280,28 @@
   }
 
   function renderContents(chapters) {
-    var audio = window.PANIM_AUDIO || {};
+    // 🛑 NO RUNTIMES IN THE CONTENTS, 2026-09-05. The author: "we dont need the
+    // time in length that can be in about not in table of contents nor do we need
+    // it saying 10 chapters they cna scroll to fidn out."
+    // Both were the same fault as the runtime on the share card and the runtime on
+    // the invite: a contents page that prices the commitment before anybody has
+    // decided to make it. "Ten chapters · 5 hr 21 min" over a list a reader has
+    // just chosen to open is five hours of homework in the first line of it, and a
+    // count of ten above a list of ten is the list counting itself out loud.
+    // ⚠️ THE RUNTIME STILL EXISTS, ON THE ABOUT SHEET — "Ten chapters, five and a
+    // half hours, free" — which is where the author put it and where somebody who
+    // has already decided goes to plan an evening. It is not lost, it is placed.
+    // ⚠️ AND window.PANIM_AUDIO IS NO LONGER READ HERE AT ALL. The ribbon above
+    // still reads it for the hidden labels; this function does not need it.
     var rows = chapters.map(function (ch) {
-      var a = audio[ch.id];
-      var mins = a && a.voiceDur ? Math.round(a.voiceDur / 60) + ' min' : '';
       return '<a class="toc-row" href="#' + esc(ch.id) + '">' +
         '<span class="toc-num">' + ROMAN[ch.num] + '</span>' +
         '<span class="toc-body">' +
           '<span class="toc-title">' + esc(ch.title) + '</span>' +
           '<span class="toc-hook">' + esc(ch.hook) + '</span>' +
         '</span>' +
-        '<span class="toc-dur">' + mins + '</span>' +
       '</a>';
     }).join('');
-
-    var total = chapters.reduce(function (n, ch) {
-      var a = audio[ch.id]; return n + (a && a.voiceDur ? a.voiceDur : 0);
-    }, 0);
-    var hrs = Math.floor(total / 3600), rem = Math.round((total % 3600) / 60);
 
     // ONE LINE, 2026-08-28. The section is now the words "Table of Contents" and
     // nothing else until it is tapped: no label, no chapter count, no running time
@@ -1287,8 +1318,6 @@
         '<div class="toc-head">' +
           '<button type="button" class="toc-expand" id="toc-expand" ' +
             'aria-expanded="false" aria-controls="toc-list">Table of Contents</button>' +
-          '<span class="toc-total">' + chapters.length + ' chapters &middot; ' +
-            (hrs ? hrs + ' hr ' : '') + rem + ' min</span>' +
         '</div>' +
         '<nav class="toc" id="toc-list" aria-label="Table of contents">' + rows +
           backMatter().map(function (b) {
