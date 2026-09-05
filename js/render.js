@@ -1215,6 +1215,79 @@
   // frame. Understating it hands a phone a picture it then has to upscale.
   var STRIP_SIZES = '(max-width: 900px) 86vw, 34vw';
 
+  /* ==========================================================================
+     THE SECOND DOOR
+     Moved out of the hero on 2026-09-05, the author: "we could possibly move that
+     button down a bit so they interact with the pictures first… move this down
+     below photos and add what chapter 7 holds and the quote there so its still
+     super sweet and doesnt miss."
+     It is built HERE, inside renderPlateIndex, rather than in index.html, because
+     it belongs to the ribbon now — a reader meets ten photographs and is offered
+     five minutes on the way out of them. js/ui.js's init() runs on `panim:rendered`,
+     which fires after this string is in the DOM, so $('#hero-sample') still finds it.
+     🛑 THE ID AND THE CLASS NAMES ARE STILL hero-*. They are wrong about where it
+     lives and right about what it is — the sample of the book — and renaming them
+     would touch the interceptor in js/ui.js and twenty selectors in css/site.css
+     for no reader-visible gain. It is NOT in the hero. Do not go looking for it there.
+
+     ⭐ THE PASSAGE CHANGED, AND THIS IS THE POINT OF THE ROUND. It pointed at
+     17m55s — David, Absalom, and a hurt human heart that can hide indefinitely.
+     The author, 2026-09-05: "the quote we were using was 'he answered it wet' or
+     something… it should be emotional, deeper than the brother thing."
+     It now opens at 22m49s, one second before ch07-p139 (cue 1369.69 = 22:50) so
+     the "M" of "My sister" is never clipped by a seek landing late. The same
+     one-second lead the old link used, for the same reason. Do not "correct" it.
+
+     ⭐ AND FIVE MINUTES IS NOW LITERALLY TRUE, measured against cues/ch07.json
+     rather than rounded to match the label:
+       22:50  My sister Hannah moved to heaven when she was twenty.
+       23:01  the surprise party she hid behind a scavenger hunt
+       23:33  the pineapple — the old sign for a safe return — hung on a leaving
+       23:55  she was in the stands, including the games that did not matter
+       24:18  "It was whether He had been in the stands."
+       24:42  a pen, a blank sheet, and "Jesus, do You love me?"
+       25:18  the tears he had not cried in years, falling onto the question
+       26:15  "He answered it wet."
+       26:49  "As tears."
+       27:12  "The finding was the gift."
+       27:58  a hiding that puts you outside the face of God — and one that puts
+              you inside it
+     Start to that last line is 5 min 08 s. The old link's four-and-a-bit minutes
+     were the reason "five" had to be the author's word over the measurement; it is
+     now the measurement as well.
+
+     🛑 FOUR ELEMENTS, FOUR DIFFERENT JOBS — the fault this card was rebuilt to fix
+     on 2026-09-05 was three lines all reporting the same number. Locator (where),
+     quote (the book's own voice), standfirst (what the five minutes hold), action
+     (what pressing it does). Nothing here repeats anything else here.
+     ⚠️ THE QUOTE IS ch07-p169 + ch07-p170 VERBATIM from content/chapters.js. If the
+     chapter text is ever re-edited, this is a second copy and it will not follow.
+     ========================================================================== */
+  var THE_SECOND_DOOR =
+    '<a class="hero-sample" id="hero-sample" href="?t=ch07:22m49s"' +
+      // ⚠️ THE LABEL CARRIES THE QUOTE, and that is deliberate. An aria-label REPLACES
+      // everything inside the element, so the first draft — which named only the
+      // action — handed a screen reader user the one thing on the card that does not
+      // persuade anybody and hid the two sentences that do. This says the same four
+      // things the card says, in the same order, at a length a links list can carry.
+      ' aria-label="Chapter seven, The Glory Backs Out. \'He did not answer the question.' +
+      ' He answered it wet.\' Play five minutes from the book, beginning at twenty-two' +
+      ' minutes fifty.">' +
+      '<span class="hs-eyebrow">Chapter VII <i aria-hidden="true">·</i> The Glory Backs Out</span>' +
+      '<blockquote class="hs-quote"><p>He did not answer the question.<br>He answered it wet.</p></blockquote>' +
+      '<span class="hs-holds">A sister who came to every game, a blank sheet of paper in ' +
+        'Pennsylvania, and an answer that did not arrive in the format it was asked in.</span>' +
+      '<span class="hs-act">' +
+        '<span class="hs-glyph" aria-hidden="true">' +
+          '<svg viewBox="0 0 40 40" focusable="false">' +
+            '<circle class="hs-ring" cx="20" cy="20" r="19"/>' +
+            '<path class="hs-tri" d="M16.6 13.4 28 20 16.6 26.6Z"/>' +
+          '</svg>' +
+        '</span>' +
+        '<span class="hs-title">The five minutes that do it</span>' +
+      '</span>' +
+    '</a>';
+
   function renderPlateIndex(chapters) {
     var audio = window.PANIM_AUDIO || {};
 
@@ -1276,6 +1349,7 @@
         // and a caption that announced itself on each snap would talk over a screen
         // reader user steering the ribbon.
         '<p class="pl-hook" id="pl-hook" aria-hidden="true"></p>' +
+        THE_SECOND_DOOR +
       '</div></section>';
   }
 

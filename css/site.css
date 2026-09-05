@@ -519,51 +519,51 @@ main { position: relative; }
 
 
 /* ============================================================================
-   THE SECOND DOOR — a sample card, 2026-09-04 (round two)
-   It shipped as .hero-second-door: one ghost line of --ink-faint at opacity .72
-   with an arrow that drifted 0.18em on hover. Everything about that was correct
-   for a footnote and wrong for the single highest-yield action on the page — a
-   stranger will not spend five hours on a book they have not heard, and they will
-   spend ninety-nine seconds. The card is the strongest non-photographic element
-   in the hero block and that is deliberate.
-   ⚠️ IT STILL MUST NOT OUTRANK "Begin listening". It does not, and the reason is
-   FILL: .btn-solid is a solid slab of --ink and this is a wash inside a hairline.
-   A ring reads as "optional, and worth it"; a filled slab reads as "the thing".
-   🛑 NO NEW TOKENS. Edge --control-edge, wash --control-wash, accent rule
-   --accent, type --ui/--ap-md, timing --dur-fast/--ease. Nothing invented inline.
-   ⚠️ --control-edge, NOT --rule-strong, AND THE DISTINCTION IS THE ONE THE TOKEN
-   NOTE ABOVE DRAWS. This is shaped like a card but it is a CONTROL — the whole
-   rectangle is one link — so WCAG 2.2 SC 1.4.11 wants 3:1 for its boundary.
-   Measured against this section's paper (#EFEBE1): --rule-strong composites to
-   1.84:1 and fails; --control-edge composites to 3.30:1 and passes. It also reads
-   heavier, which is the point of the change. The one place --rule-strong would be
-   right here is if this were a plain container, and it is not.
+   THE SECOND DOOR — the five minutes, offered under the ribbon
+   It shipped 2026-09-04 as .hero-second-door: one ghost line of --ink-faint at
+   opacity .72 with an arrow that drifted 0.18em on hover. Everything about that
+   was correct for a footnote and wrong for the single highest-yield action on the
+   page — a stranger will not spend five hours on a book they have not heard, and
+   they will spend five minutes.
+   ⚠️ IT NO LONGER LIVES IN THE HERO. Markup in js/render.js (THE_SECOND_DOOR),
+   position under the ten plates, full history in the rules below.
    ============================================================================ */
-/* 🔴 SLIMMED 2026-09-05. The author: "its ugly and big nott pleasant not
-   attractive." The copy fix above took a line out of it, and the box then had to
-   stop being sized for three. Measured at 1440: 104px tall becomes 68px, and the
-   width comes in from 32rem to 27rem so it stops running the full reading measure
-   and reading as a banner.
-   🛑 IT DOES NOT GO BACK TO BEING A GHOST LINK. That is the fault it was built to
-   fix on 2026-09-04 ("that arrow section line is way too not prominent, that
-   should be a sexy button"), and "prettier" is not "quieter". The edge, the accent
-   rule and the wash all stay; only the bulk goes.
+/* 🔴 REBUILT AND MOVED, 2026-09-05 (round three). Two author notes landed at once:
+   "move this down below photos and add what chapter 7 holds and the quote there so
+   its still super sweet and doesnt miss", and — of the passage it opened on — "it
+   should be emotional, deeper than the brother thing."
+   So this is no longer a 68px control tucked under two buttons in the hero. It sits
+   below the ribbon of ten plates, it is the last thing before the contents, and it
+   is the only element on the page that prints the book's own voice at display size.
+   🛑 THE MARKUP IS IN js/render.js NOW (THE_SECOND_DOOR, above renderPlateIndex).
+   The names stayed .hero-sample / .hs-* on purpose; see the note there.
+
+   ⚠️ IT STILL MUST NOT OUTRANK "Begin listening", and the reason is unchanged and
+   is FILL: .btn-solid is a solid slab of --ink and this is a wash inside a hairline.
+   The two are also no longer on the same screen, which settles it further.
+   🛑 NO NEW TOKENS. Edge --control-edge, wash --control-wash, accent rule --accent,
+   display voice --lit-mid, apparatus --ui/--ap-lg/--ap-xl, timing --dur-fast/--ease.
    ⚠️ --control-edge, NOT --rule-strong, and the distinction still holds: the whole
    rectangle is one link, so WCAG 2.2 SC 1.4.11 wants 3:1 for its boundary.
-   Against this section's paper (#EFEBE1) --rule-strong composites to 1.84:1 and
-   fails; --control-edge composites to 3.30:1 and passes. */
+   #plates carries no [data-ch] of its own, and MEASURED — not assumed — its paper
+   composites to the same rgb(239,235,225) the jacket sits on, so the edge measures
+   3.30:1 here exactly as it did in the hero and --rule-strong would still fail at
+   1.84:1. Re-measure if #plates ever gains a [data-ch] palette. */
 .hero-sample {
-  grid-column: 3 / 9;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: .85rem;
-  max-width: 27rem;
-  margin-top: 1.5rem;
-  padding: .7rem 1rem;
+  /* ⚠️ COLUMN 1, WITH THE CAPTION, NOT THE READING MEASURE. .pl-hook above it
+     starts where the first plate starts and so does this; the two of them are one
+     left-ranged block hanging under the strip. Putting the door on the prose
+     columns (3/9) would leave it floating two tracks in from the caption it
+     follows, which is the same fault the caption's own note argues against. */
+  grid-column: 1 / 8;
+  display: block;
+  max-width: 42rem;
+  margin: clamp(1.8rem, 3.4vw, 2.8rem) 0 0;
+  padding: clamp(1.1rem, 1.9vw, 1.5rem) clamp(1.2rem, 2.1vw, 1.7rem);
   border: 1px solid var(--control-edge);
-  /* the accent edge is the eye-magnet, and it is a RULE, not a glow. The book
-     marks a change of voice with a rule everywhere else; this is the same move. */
+  /* the accent edge is the eye-magnet, and it is a RULE, not a glow. It is doing
+     double duty now: the book marks a change of voice with a rule everywhere, and
+     the thing directly inside it is a quotation. */
   border-left: 2px solid var(--accent);
   background: var(--control-wash);
   color: var(--ink);
@@ -578,13 +578,65 @@ main { position: relative; }
 }
 .hero-sample:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-/* the ring + triangle. It was 46px, the transport button's size, so that the two
-   play affordances on the site were the same object at the same scale — and at
-   46px beside two lines instead of three the ring was taller than the type it was
-   introducing and the card looked top-heavy. 40px still clears the 24px minimum
-   for a non-text control (WCAG 2.2 SC 2.5.8) many times over, and the CARD is the
-   touch target here anyway: the whole rectangle is the link, and it measures
-   68px tall. */
+/* ---------- 1. the locator: WHERE this is ---------- */
+.hs-eyebrow {
+  display: block;
+  font-family: var(--ui); font-size: var(--ap-lg);
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: .7em;
+}
+/* the separator is an <i> so it can be dimmed without a second colour token, and
+   aria-hidden keeps a middle dot out of the accessible name */
+.hs-eyebrow i { font-style: normal; opacity: .55; padding-inline: .25em; }
+
+/* ---------- 2. the voice: the book's own words, at display size ----------
+   ⭐ THIS IS THE ELEMENT THE ROUND WAS FOR. ch07-p169 + ch07-p170 verbatim. It is
+   set in the display voice — Literata at --lit-mid, weight 350 — because it is not
+   apparatus and not a caption: it is two sentences out of the book, and the page
+   has no other place where that happens outside a chapter. The <br> is the break
+   the book itself uses; the two sentences are separate paragraphs there. */
+.hs-quote { margin: 0; }
+.hs-quote p {
+  margin: 0;
+  font-variation-settings: var(--lit-mid);
+  font-weight: 350;
+  font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+  line-height: 1.22; letter-spacing: -.012em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+/* ---------- 3. WHAT THE FIVE MINUTES HOLD ----------
+   The author asked for "what chapter 7 holds", and this is it: three concrete
+   things from inside the excerpt, none of them the quote above and none of them
+   the action below. Deliberately NOT the chapter's hook — the hook describes the
+   glory leaving the temple, which is the chapter; this describes the passage. */
+.hs-holds {
+  display: block;
+  margin-top: .9em;
+  /* 🛑 NO max-width HERE. The card itself caps at 42rem, and a second cap inside it
+     set this line at 400px inside a 615px box — a narrow ragged column floating in
+     a wide one, which reads as a mistake rather than as a measure. One cap, on the
+     outside, is the rule this page follows everywhere else. */
+  font-family: var(--ui); font-size: var(--ap-xl);
+  line-height: 1.5; letter-spacing: .01em;
+  color: var(--ink-soft);
+}
+
+/* ---------- 4. the action ---------- */
+.hs-act {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: .8rem;
+  margin-top: 1.1em;
+  padding-top: .95em;
+  border-top: 1px solid var(--rule);
+}
+/* the ring + triangle. 40px clears the 24px minimum for a non-text control
+   (WCAG 2.2 SC 2.5.8) many times over, and the CARD is the touch target anyway:
+   the whole rectangle is the link and it measures well over 200px tall. */
 .hs-glyph { display: block; width: 40px; height: 40px; }
 .hs-glyph svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .hs-ring {
@@ -592,7 +644,7 @@ main { position: relative; }
   stroke: var(--ink);
   stroke-width: 1;
   /* 2πr, r=19 → 119.38. The dash pattern is what lets it draw itself.
-     ⚠️ IT MUST TRACK THE RADIUS IN index.html. It was 138.23 for r=22; leaving it
+     ⚠️ IT MUST TRACK THE RADIUS IN js/render.js. It was 138.23 for r=22; leaving it
      there against r=19 leaves 18.85 units of dash the circle never uses, so the
      ring finishes drawing early and then sits still for the last 140ms. Silent. */
   stroke-dasharray: 119.38;
@@ -606,51 +658,48 @@ main { position: relative; }
 .hero-sample:hover .hs-tri,
 .hero-sample:focus-visible .hs-tri { fill: var(--accent); }
 
-/* THE RING DRAWS ITSELF ONCE, 900ms, after the page has settled — and then it is
-   finished forever. `both` holds the end state, so there is no frame where the
-   ring is missing and no second pass. This is .hairline.is-drawn's gesture, not a
-   new one, which is why it does not read as a different site. */
+/* THE RING DRAWS ITSELF ONCE, 900ms, and then it is finished forever. `both` holds
+   the end state, so there is no frame where the ring is missing and no second pass.
+   This is .hairline.is-drawn's gesture, not a new one.
+   🛑 THE 500ms DELAY WENT. In the hero this drew while the reader was still reading
+   the title; down here the element is below the fold and the animation is over long
+   before anybody scrolls to it. A delay now buys nothing and only risks the ring
+   being caught half-drawn. */
 @keyframes hs-draw { from { stroke-dashoffset: 119.38; } to { stroke-dashoffset: 0; } }
-.hs-ring { animation: hs-draw 900ms var(--ease) 500ms both; }
+.hs-ring { animation: hs-draw 900ms var(--ease) both; }
 
-.hs-text { display: block; min-width: 0; }
-.hs-eyebrow {
-  display: block;
-  font-family: var(--ui); font-size: var(--ap-md);
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: .18em;
-}
 .hs-title {
-  display: block;
+  display: block; min-width: 0;
   font-variation-settings: var(--lit-mid);
   font-weight: 400;
-  font-size: 1.08rem; line-height: 1.22; letter-spacing: -.005em;
+  font-size: clamp(1.08rem, 1.35vw, 1.22rem);
+  line-height: 1.22; letter-spacing: -.005em;
   color: var(--ink);
 }
 /* 🛑 .hs-meta WAS DELETED WITH ITS MARKUP, 2026-09-05. It read
    "Chapter VII · about 4 minutes" under a title that already said the number of
-   minutes, under an eyebrow that had said it once before that. The eyebrow above
-   is now the locator and carries "Chapter VII" alone. Do not restore this rule
-   without markup that says something the other two lines do not. */
+   minutes, under an eyebrow that had said it once before that. Do not restore this
+   rule without markup that says something the other four lines do not. */
 
 /* THE LINE THAT NAMES A FEATURE THAT ALREADY EXISTED.
    Hidden by default and revealed only by .can-tap-to-listen, which js/sync.js
    sets on <html> where it actually binds the handler. A promise the page cannot
-   keep is worse than no promise. */
+   keep is worse than no promise.
+   ⚠️ THIS ONE IS STILL IN THE HERO — it is about the whole book, not about the
+   excerpt, and it was never part of the card. See index.html. */
 /* ⚠️ IT WAS 11.5px OF BODY COPY. The author, 2026-09-05: "tap any line that text
    is super small too." --ap-md is .72rem, and the token block's own note says
    "Anything carrying a sentence takes --ap-md or --ap-lg" — this line carries a
    sentence AND is the only thing on its row, which is a third case the scale did
-   not have. It takes the new --ap-xl (.95rem, 15.2px), and the colour comes off
-   --ink-faint (4.51:1, the floor) onto --ink-soft (measured 6.26:1 composited over this stock), because
-   a sentence a stranger is meant to actually read should not be sitting on the
-   contrast minimum. */
+   not have. It takes --ap-xl (.95rem, 15.2px), and the colour comes off
+   --ink-faint (4.51:1, the floor) onto --ink-soft (measured 6.26:1 composited over
+   this stock), because a sentence a stranger is meant to actually read should not
+   be sitting on the contrast minimum. */
 .hero-sample-note {
   display: none;
   grid-column: 3 / 9;
   max-width: 34rem;
-  margin: .75rem 0 0;
+  margin: 1.1rem 0 0;
   font-family: var(--ui); font-size: var(--ap-xl);
   line-height: 1.5; letter-spacing: .01em;
   color: var(--ink-soft);
@@ -666,9 +715,8 @@ main { position: relative; }
 }
 
 @media (max-width: 900px) {
-  .hero-sample, .hero-sample-note { grid-column: 1 / 7; max-width: none; }
-  /* on a phone the card is the width of the column anyway, so the cap that keeps
-     it from spanning the desktop measure has nothing to do here */
+  .hero-sample { grid-column: 1 / 7; max-width: none; }
+  .hero-sample-note { grid-column: 1 / 7; max-width: none; }
 }
 
 /* 🛑 REDUCED MOTION IS A FULL STOP, NOT A SLOWER VERSION.

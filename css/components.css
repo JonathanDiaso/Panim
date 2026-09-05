@@ -173,7 +173,15 @@
   display: grid;
   grid-template-columns: subgrid;
   align-items: start;
-  padding: clamp(2.4rem, 5vw, 4.6rem) 0 clamp(2rem, 4vw, 3.4rem);
+  /* 🔴 TIGHTENED 2026-09-05. The author: "i feel like theres too much space in
+     between sections at the beggining make sure theyre clean not bloated."
+     Measured at 1440 before: 74px of air between the bottom of the photograph and
+     the mark, and 54px between the last line of the jacket and the ribbon below —
+     which then adds 45px of its own. Three separate gaps stacking at the one place
+     on the page where a stranger is deciding whether to stay. After: 50px and 37px.
+     🛑 THE PHONE END BARELY MOVES (38px → 30px). The bloat was a desktop fault: the
+     old clamp's 5vw upper arm grew with the window while the type did not. */
+  padding: clamp(1.9rem, 3.4vw, 3.1rem) 0 clamp(1.5rem, 2.6vw, 2.3rem);
 }
 @supports not (grid-template-columns: subgrid) {
   .hero-block { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
@@ -194,9 +202,27 @@
    🛑 IT IS STILL A LINK to #lex-panim, still not underlined (css/site.css sets
    `a { color: inherit }` and every component turns the UA underline off for
    itself), and still writes itself in right-to-left once (.heb-g, below). */
+/* 🔴 IT CAME OFF THE PAGE'S CENTRE LINE AND ONTO THE TITLE'S, 2026-09-05. The
+   author: "hebrew word should be on top of title it sits on top of not in dead
+   center."
+   Centring it across all twelve tracks (the 2026-09-05 morning change) put the mark
+   356px to the right of the title's left edge at 1440 — measured — so the word and
+   the line it names shared no edge at all and read as two unrelated objects stacked
+   in the same column of air. It now spans the SAME tracks as .hero-title and ranges
+   left with it: the mark sits directly on top of the words it belongs to, which is
+   what the author asked for and what the earlier "why dont you center it" was
+   reaching for. Still full display size — the size was the real complaint that
+   morning and none of it is given back.
+   🛑 THE TRACKS MUST TRACK .hero-title. If the title's 3 / 10 ever changes, this
+   changes with it or the mark silently starts floating again.
+   ⚠️ margin-inline-start UNDOES THE TOUCH-TARGET PADDING BELOW, optically. The .12em
+   of padding is what keeps the word's box over 44px wide; ranged left it would also
+   push the glyph ~6px right of the title's stem, which is the one misalignment the
+   eye actually catches on a title page. */
 .hero-hebrew {
-  grid-column: 1 / -1;
-  justify-self: center;
+  grid-column: 3 / 10;
+  justify-self: start;
+  margin-inline-start: -.12em;
   font-family: var(--heb); font-weight: 400;
   /* ⚠️ IT MUST NOT LAND WITHIN A FEW PIXELS OF THE TITLE. The first pass was
      clamp(2.9rem, 6.4vw, 4.8rem) → 76.8px at 1440 against a 70.4px .hero-title,
@@ -206,7 +232,11 @@
   font-size: clamp(3.1rem, 6.6vw, 5.4rem); line-height: 1;
   color: var(--accent);
   padding-top: 0;
-  margin-bottom: clamp(1.1rem, 2.4vw, 2rem);
+  /* ⚠️ HALVED WITH THE MOVE, 2026-09-05, and it is the same decision as the move.
+     32px of air was right under a centred mark floating free of the title; over a
+     title it now shares a left edge with, it read as a gap rather than as a pair.
+     Measured at 1440: 32px → 17px. The two are one object now. */
+  margin-bottom: clamp(.6rem, 1.2vw, 1.05rem);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color var(--dur-fast) var(--ease);
@@ -220,8 +250,10 @@
    402px. At the new clamp the phone end is 2.9rem, so the word's own box now
    measures about 118 x 46 and clears the floor on its own — but the padding stays,
    because a floor that is only met by accident is a floor that breaks the next
-   time somebody touches the clamp. The padding is symmetric now that the word is
-   centred; the old padding-right alone would have pushed it off centre by 4px. */
+   time somebody touches the clamp. The padding stays SYMMETRIC even though the
+   word is ranged left again — the negative margin-inline-start above cancels the
+   left half optically, which is cleaner than an asymmetric pad that would have to
+   be re-reasoned every time the clamp moves. */
 .hero-hebrew {
   display: inline-flex; align-items: center; justify-content: center;
   min-height: 44px; min-width: 44px;
@@ -268,12 +300,11 @@
 }
 .hero-meta b { display: block; color: var(--ink); font-weight: 600; }
 .hero-actions { grid-column: 3 / 9; display: flex; gap: .8rem; align-items: center; margin-top: 1.8rem; flex-wrap: wrap; }
-.hero-hint {
-  font-family: var(--ui); font-size: var(--ap-md); letter-spacing: .1em;
-  text-transform: uppercase; color: var(--ink-faint);
-  /* was 77x18 — under the 44px target minimum */
-  display: inline-flex; align-items: center; min-height: 44px;
-}
+/* 🛑 .hero-hint IS GONE, 2026-09-05, WITH ITS ONLY MARKUP. It styled the
+   "Contents ↓" link beside the Begin button; the author asked for that link to go
+   ("i told you i dont want the clicker that shows content near the button") and a
+   rule with no markup is a trap for whoever reads this file next. See index.html
+   for the argument. Nothing else on the site used the class — checked. */
 
 @media (max-width: 900px) {
   .hero-block { grid-column: 1 / -1; }
@@ -286,7 +317,12 @@
      same as the desktop. Adding it back to the rule above silently un-centres it
      on every phone while the desktop still looks right — which is the shape of
      bug that ships. */
-  .hero-hebrew { grid-column: 1 / 7; justify-self: center; margin-bottom: 1rem; }
+  /* 🛑 IT RANGES LEFT WITH THE TITLE HERE TOO, 2026-09-05 — same call as the
+     desktop, and the phone is where the two are closest together and a shared left
+     edge matters most. The old rule centred it across the six phone tracks while
+     the title started at track 1; on a 402px screen that was 90px of drift on the
+     single most important pairing on the page. */
+  .hero-hebrew { grid-column: 1 / 7; justify-self: start; margin-bottom: .8rem; }
   .hero-meta { margin-top: 1.4rem; }
 }
 
@@ -1526,7 +1562,13 @@
    same, so the seam was 54.4 + 54.4 = 108.8px of nothing between a caption and
    the line it leads into. Measured after: 48px. The block reads as one thing now
    and the seam to #contents is where the space went. */
-#plates { padding-block: clamp(2rem, 5vh, 3.4rem) clamp(.6rem, 1.4vh, 1rem); }
+/* 🔴 THE TOP CAME IN TOO, 2026-09-05, same note as .hero-block's padding above —
+   "too much space in between sections at the beggining". The jacket's bottom padding
+   and this section's top padding were two gaps doing one job across the page's most
+   important seam: 54 + 45 = 99px of nothing between the last line of the jacket and
+   the first plate. Measured after: 37 + 27 = 64px. The bottom is unchanged and stays
+   tiny — see the 2026-09-05 note above about the caption belonging to the strip. */
+#plates { padding-block: clamp(1.2rem, 2.6vh, 2rem) clamp(.6rem, 1.4vh, 1rem); }
 
 /* ---------- the rail ----------
    🛑 EVERY PART OF THE TRAVEL IS THE BROWSER'S OWN. overflow-x plus scroll-snap
@@ -1873,33 +1915,58 @@
      hooks (they run 90-136 characters) so the section below does not jump under
      the reader's thumb on every snap — recomputed at the new size, or the caption
      starts sizing itself again and the whole point of reserving it is lost. */
-  font-size: clamp(1.12rem, 1.6vw, 1.34rem);
-  line-height: 1.48; letter-spacing: -.006em;
-  color: var(--ink-soft); text-wrap: pretty;
-  /* 🔴 FOUR LINES ON A PHONE, AND THREE WAS WRONG — MEASURED, NOT ESTIMATED. The
-     ten hooks run 90 to 136 characters. At 402px the caption is 362px wide with a
-     26.5px line, and the longest (chapter VI, 136 chars) sets to FOUR lines =
-     106.1px against a three-line reservation of 79.6px. That is 26.5px of the
-     contents page jumping up under the reader's thumb on one snap in ten — the
-     exact fault min-height exists to stop, and it does not show at any width a
-     desktop is ever tested at.
-     🛑 THE LADDER IS MEASURED AT EVERY STEP, so do not collapse it to one value:
-        320px → 5 lines      340px → 4      402px → 4      480px → 3
-        560px → 3            640px → 2      720px → 2      1440px → 2 (larger size)
-     340, 480 and 640 are the widths at which the tallest hook actually loses a
-     line, each one checked rather than interpolated. 320 is in the ladder because
-     it is a real phone (an SE in landscape-lock, and the narrowest width this book
-     claims to support) and it is the ONLY width that needs a fifth line. */
-  min-height: calc(5 * 1.48 * 1.12rem);
+  /* 🔴 LARGER AGAIN, AND IN THE DISPLAY VOICE, 2026-09-05 (round two). The author,
+     of the same line after the first enlargement: "maybe this text should be bigger
+     its still tiny and nt captivating… should we use different font."
+     The first pass took it from .92rem to 1.34rem, which fixed the size relative to
+     body copy and left the VOICE alone — it was still set as prose, in --ink-soft,
+     and prose at 21px under a full-bleed strip still reads as a caption. This is the
+     answer to "different font" that the site can actually give: there is no third
+     family loaded (Literata and Archivo are all of it) and adding one for one line
+     is a webfont on the critical path for a caption. Literata is a VARIABLE face, so
+     the voice changes without the family changing — --lit-mid raises the optical size
+     axis to the setting the chapter titles use, weight drops to 350, and the colour
+     comes off --ink-soft onto full --ink.
+     Measured at 1440: 21.4px → 30.4px, and it now sets like a standfirst rather than
+     like a photo credit. Author's pick, of three options offered. */
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-mid);
+  font-weight: 350;
+  font-size: clamp(1.42rem, 2.15vw, 1.9rem);
+  line-height: 1.3; letter-spacing: -.012em;
+  color: var(--ink); text-wrap: pretty;
+  /* 🔴 THE LADDER IS IN `em` NOW, AND RE-MEASURED FROM SCRATCH, 2026-09-05. Two
+     things forced it: the type got much bigger (see above), and the old ladder was
+     written in `rem` against the clamp's FLOOR, which silently under-reserved at
+     every width where the clamp is not on its floor. At 1440 the tallest hook is
+     119px tall and `calc(3 * 1.3 * 1.42rem)` reserves 89 — thirty pixels of the
+     contents page jumping under the reader's thumb on one snap in ten, which is the
+     exact fault this reservation exists to prevent.
+     ⭐ `1.3em` IS ONE LINE BOX, EXACTLY, AT EVERY CLAMP VALUE, because line-height
+     above is 1.3 and 1em is this element's own computed font-size. So the ladder now
+     only has to carry the LINE COUNT and the clamp can move without breaking it.
+     🛑 EVERY STEP IS MEASURED, not interpolated — the ten hooks run 90 to 136
+     characters and these are the widths at which the tallest of them actually loses
+     or gains a line, checked one by one:
+        320 → 6 lines    340 → 5    480 → 4    560 → 3    760 → 2
+        901 → 4          915 → 3    1440 → 3   1920 → 3
+     ⚠️ 901 GOING BACK UP TO FOUR IS NOT A TYPO. That is the layout breakpoint: below
+     it the caption spans all six phone tracks (828px at 900), above it seven of the
+     desktop's twelve (477px at 901). The caption gets NARROWER as the window gets
+     wider, once, and it costs two lines. 915 is where the desktop grid has grown
+     enough to win them back. */
+  min-height: calc(6 * 1.3em);
   transition: opacity var(--dur-med) var(--ease);
 }
-@media (min-width: 340px) { .pl-hook { min-height: calc(4 * 1.48 * 1.12rem); } }
-@media (min-width: 480px) { .pl-hook { min-height: calc(3 * 1.48 * 1.12rem); } }
-@media (min-width: 640px) { .pl-hook { min-height: calc(2 * 1.48 * 1.12rem); } }
+@media (min-width: 340px) { .pl-hook { min-height: calc(5 * 1.3em); } }
+@media (min-width: 480px) { .pl-hook { min-height: calc(4 * 1.3em); } }
+@media (min-width: 560px) { .pl-hook { min-height: calc(3 * 1.3em); } }
+@media (min-width: 760px) { .pl-hook { min-height: calc(2 * 1.3em); } }
 .pl-hook.is-swapping { opacity: 0; }
 @media (max-width: 900px) { .pl-hook { grid-column: 1 / 7; } }
-/* two lines fit at the desktop measure where three were needed on a phone */
-@media (min-width: 901px) { .pl-hook { min-height: calc(2 * 1.48 * 1.34rem); } }
+/* the caption narrows at the desktop grid — see the note above */
+@media (min-width: 901px) { .pl-hook { min-height: calc(4 * 1.3em); } }
+@media (min-width: 915px) { .pl-hook { min-height: calc(3 * 1.3em); } }
 
 /* ---------- the arrival ----------
    🛑 IT ANIMATES THE FRAME AND THE ROW, NOT THE PLATE, AND THAT IS LOAD-BEARING.
