@@ -1189,19 +1189,8 @@
   // and nothing on the critical path.
   // ============================================================================
 
-  // ⭐ THE DAWN ARC, COPIED EXACTLY FROM css/site.css .section[data-ch=n]. These
-  // are not new colours — they are the paper the chapters are already printed on,
-  // in order, night to morning. js/motion.js mirrors the same table.
-  // ⚠️ IF THE STOCKS IN css/site.css EVER CHANGE, THIS CHANGES WITH THEM.
-  var PLATE_STOCK = [null,
-    { p: '#EDE9DF', a: '#32506B' }, { p: '#E7E7E4', a: '#32506B' },
-    { p: '#EDE6DB', a: '#32506B' }, { p: '#E6E8EA', a: '#32506B' },
-    { p: '#F0E9DC', a: '#A8391B' }, { p: '#F2ECE0', a: '#A8391B' },
-    { p: '#E9E9E7', a: '#A8391B' }, { p: '#EBE6E1', a: '#A8391B' },
-    { p: '#F4EEE1', a: '#7E5A20' }, { p: '#FBF7EE', a: '#7E5A20' }];
-
-  // the vertical sway, cos(i * 1.1) * 14px, rounded. css/components.css: --amp
-  var PLATE_SWAY = [14, 6, -8, -14, -4, 10, 13, 2, -11, -12];
+  // the vertical sway, cos(i * 1.1) * 44px, rounded. css/components.css: --amp
+  var PLATE_SWAY = [44, 20, -26, -43, -14, 31, 42, 7, -36, -39];
 
   // the sizes attribute describes the IMG, which is 110% of its frame — not the
   // frame. Understating it hands a phone a picture it then has to upscale.
@@ -1249,22 +1238,6 @@
       '</a>';
     }).join('');
 
-    var arc = chapters.map(function (ch) {
-      var s = PLATE_STOCK[ch.num] || PLATE_STOCK[1];
-      return '<li class="pl-stop">' +
-        '<button class="pl-dot" type="button" data-n="' + ch.num + '"' +
-          ' style="--stock:' + s.p + ';--stock-accent:' + s.a + '">' +
-          '<span class="pl-sw" aria-hidden="true"></span>' +
-          // 🛑 NO ROMAN NUMERAL UNDER THE SWATCH. The author, 2026-09-04: "random
-          // unnecessary numerals". Every numeral on this screen was printed twice —
-          // once under its own plate, where it is the caption of a picture and a
-          // convention of the book, and once here, where it labelled a colour chip
-          // that already sits in chapter order. The arc is a POSITION and the light
-          // of the book, not a numbered list; the name is still on the button.
-          '<span class="visually-hidden">Chapter ' + ROMAN[ch.num] + ', ' + esc(ch.title) + '</span>' +
-        '</button></li>';
-    }).join('');
-
     return '<section class="section" id="plates" aria-labelledby="plates-label">' +
       '<div class="section-inner">' +
         // The author, 2026-09-04: "it doesnt need to say the plates". The heading is
@@ -1276,7 +1249,6 @@
         // and a caption that announced itself on each snap would talk over a screen
         // reader user steering the ribbon.
         '<p class="pl-hook" id="pl-hook" aria-hidden="true"></p>' +
-        '<ol class="pl-arc" id="pl-arc" aria-label="Jump to a chapter">' + arc + '</ol>' +
       '</div></section>';
   }
 

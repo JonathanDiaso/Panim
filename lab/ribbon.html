@@ -108,9 +108,9 @@ main{padding-bottom:90vh}
   scroll-padding-inline:var(--gutter);
   /* ⚠️ the room the sway and the arrival need, and overflow-y is pinned because
      an overflow value on one axis makes the other a scroll container too — left
-     at `auto` a plate riding 14px high would hand the ribbon its own vertical
+     at `auto` a plate riding 44px high would hand the ribbon its own vertical
      scrollbar. It is also the room a focus ring needs. */
-  padding-block:2rem;
+  padding-block:3.75rem;
   overflow-y:hidden;
   scrollbar-width:none;
   list-style:none;margin:0;
@@ -265,7 +265,7 @@ main{padding-bottom:90vh}
    ⭐ THE DRIFT ABOVE ONLY MOVES WHEN THE RIBBON DOES. Scrolling the PAGE past a
    strip that only answers to sideways swipes leaves it dead on arrival, which is
    what was missing. So the plates also ride a slow wave as the section crosses
-   the window: each rises and falls ±14px at its own phase — concept D's "five
+   the window: each rises and falls ±44px at its own phase — concept D's "five
    columns at five speeds" turned on its side and given to a row.
 
    🛑 IT MOVES THE FRAMES AND NOT THE PICTURES, AND THAT IS WHY IT IS FREE. A
@@ -318,35 +318,6 @@ main{padding-bottom:90vh}
 @media (prefers-reduced-motion:reduce){ .rb-hook{transition:none} }
 
 /* ══════════════════════════════════════════════════════════════════════
-   THE ARC — all ten, always, and it is the part that answers "show them all"
-
-   Ten plates of a landscape photograph cannot be on one screen at a readable
-   size; that is what made the first strip a row of slivers. So the pictures
-   are big and scrollable and THE INDEX IS COMPLETE: ten stops, each printed in
-   its own chapter's paper stock out of css/site.css, night on the left and
-   full morning on the right. It is a table of contents, a scroll position, and
-   the arc of the book's light in one 40px-tall object.
-   ══════════════════════════════════════════════════════════════════════ */
-.rb-arc{display:flex;gap:2px;margin:1.15rem 0 0;padding:0;list-style:none}
-.rb-stop{flex:1 1 0;min-width:0}
-.rb-dot{
-  display:block;width:100%;background:none;border:0;padding:0;cursor:pointer;
-  font:inherit;text-align:center;
-  /* 🛑 BLOCK, NOT FLEX. Flex collapsed .rb-sw to its content width — ten hairline
-     ticks instead of ten colour chips. The swatch sits at the top of a block box
-     and the padding under it is the rest of the 44px hit area. The ink is not the
-     target. */
-  min-height:44px;padding-bottom:18px;
-}
-.rb-sw{display:block;height:26px;background:var(--stock);
-  border:1px solid rgba(25,21,16,.14);
-  border-bottom:2px solid var(--stock-accent);
-  transition:height var(--dur-med) var(--ease),border-bottom-width var(--dur-med) var(--ease)}
-.rb-dot[aria-current="true"] .rb-sw{height:36px;border-bottom-width:3px}
-.rb-dot:hover .rb-sw{height:32px}
-.rb-dot:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-
-/* ══════════════════════════════════════════════════════════════════════
    🛑 THERE ARE NO ARROW BUTTONS, AND THAT IS A DECISION.
 
    ::scroll-button() was built here and taken out again. The rail bleeds to
@@ -396,7 +367,6 @@ main{padding-bottom:90vh}
   .rb-plate{transform:none!important;animation:none!important}
   .rb-frame img{translate:none!important;animation:none!important}
   .rb-plate:hover .rb-t,.rb-plate:focus-visible .rb-t{transform:none}
-  .rb-sw{transition:none}
 }
 </style>
 </head>
@@ -420,7 +390,6 @@ main{padding-bottom:90vh}
            and a caption that announced itself on each snap would talk over a screen
            reader user steering the ribbon. -->
       <p class="rb-hook" id="hook" aria-hidden="true"></p>
-      <ol class="rb-arc" id="arc" aria-label="Jump to a chapter"></ol>
     </div>
   </section>
 </main>
@@ -438,19 +407,10 @@ main{padding-bottom:90vh}
 
   /* ⭐ THE SWAY AMPLITUDE, ONE COSINE ACROSS THE TEN. A single constant moves all
      ten in lockstep, which reads as the whole strip sliding rather than a field of
-     plates breathing; ten random numbers read as a fault. cos(i * 1.1) * 14 starts
+     plates breathing; ten random numbers read as a fault. cos(i * 1.1) * 44 starts
      at full height on plate I — the one most readers see — and crosses zero twice
      on its way to X. The stylesheet reads it as --amp. */
-  var SWAY = [14, 6, -8, -14, -4, 10, 13, 2, -11, -12];
-
-  /* ⭐ THE DAWN ARC, COPIED EXACTLY FROM css/site.css .section[data-ch=n].
-     Not new colours: the paper the chapters are already printed on, in order. */
-  var STOCK = [null,
-    { p:'#EDE9DF', a:'#32506B' }, { p:'#E7E7E4', a:'#32506B' },
-    { p:'#EDE6DB', a:'#32506B' }, { p:'#E6E8EA', a:'#32506B' },
-    { p:'#F0E9DC', a:'#A8391B' }, { p:'#F2ECE0', a:'#A8391B' },
-    { p:'#E9E9E7', a:'#A8391B' }, { p:'#EBE6E1', a:'#A8391B' },
-    { p:'#F4EEE1', a:'#7E5A20' }, { p:'#FBF7EE', a:'#7E5A20' }];
+  var SWAY = [44, 20, -26, -43, -14, 31, 42, 7, -36, -39];
 
   function esc(s){ return String(s).replace(/[&<>"]/g, function (c) {
     return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); }
@@ -479,7 +439,6 @@ main{padding-bottom:90vh}
   }
 
   var rail = document.getElementById('rail');
-  var arc  = document.getElementById('arc');
 
   /* ── the plates ──────────────────────────────────────────────────────────
      🛑 alt="" ON PURPOSE, and .rb-row is NOT aria-hidden. The row IS the link
@@ -504,27 +463,6 @@ main{padding-bottom:90vh}
   }).join('');
 
   var plates = [].slice.call(rail.querySelectorAll('.rb-plate'));
-
-  /* ── the arc ─────────────────────────────────────────────────────────── */
-  arc.innerHTML = CH.map(function (c) {
-    var s = STOCK[c.num] || STOCK[1];
-    return '<li class="rb-stop">' +
-      '<button class="rb-dot" type="button" data-n="' + c.num + '"' +
-        ' style="--stock:' + s.p + ';--stock-accent:' + s.a + '">' +
-        '<span class="rb-sw" aria-hidden="true"></span>' +
-        '<span class="visually-hidden">Chapter ' + ROMAN[c.num] + ', ' + esc(c.title) + '</span>' +
-      '</button></li>';
-  }).join('');
-
-  var dots = [].slice.call(arc.querySelectorAll('.rb-dot'));
-
-  dots.forEach(function (d, i) {
-    d.addEventListener('click', function () {
-      /* scrollIntoView on a snap container lands on the snap point, so this
-         and a thumb-swipe end in exactly the same place. */
-      plates[i].scrollIntoView({ behavior:'smooth', inline:'start', block:'nearest' });
-    });
-  });
 
   var REDUCED = window.matchMedia &&
                 matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -564,10 +502,9 @@ main{padding-bottom:90vh}
 
   function setLit(i) {
     if (i === lit || i < 0) return;
-    if (lit >= 0) { plates[lit].classList.remove('is-lit'); dots[lit].removeAttribute('aria-current'); }
+    if (lit >= 0) plates[lit].classList.remove('is-lit');
     lit = i;
     plates[i].classList.add('is-lit');
-    dots[i].setAttribute('aria-current', 'true');
     /* fade out, swap the text at the bottom of the fade, fade back in — a hard
        cut on a 92-character sentence reads as a glitch, and a crossfade of two
        different paragraphs on top of each other is unreadable. One element. */

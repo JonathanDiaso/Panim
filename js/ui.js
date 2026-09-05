@@ -840,12 +840,10 @@
   function wirePlateRibbon() {
     var rail = document.getElementById('pl-rail');
     var hookEl = document.getElementById('pl-hook');
-    var arc = document.getElementById('pl-arc');
-    if (!rail || !hookEl || !arc) return;
+    if (!rail || !hookEl) return;
 
     var plates = [].slice.call(rail.querySelectorAll('.pl-plate'));
-    var dots = [].slice.call(arc.querySelectorAll('.pl-dot'));
-    if (!plates.length || plates.length !== dots.length) return;
+    if (!plates.length) return;
 
     var chapters = window.PANIM_CHAPTERS || [];
     var hooks = plates.map(function (p) {
@@ -910,10 +908,9 @@
     var lit = -1, hookTimer = 0;
     function setLit(i) {
       if (i === lit || i < 0) return;
-      if (lit >= 0) { plates[lit].classList.remove('is-lit'); dots[lit].removeAttribute('aria-current'); }
+      if (lit >= 0) plates[lit].classList.remove('is-lit');
       lit = i;
       plates[i].classList.add('is-lit');
-      dots[i].setAttribute('aria-current', 'true');
       // fade out, swap the text at the bottom of the fade, fade back in. A hard cut
       // on a 90-character sentence reads as a glitch, and a true crossfade of two
       // different paragraphs on top of each other is unreadable. One element.
@@ -924,14 +921,6 @@
         hookEl.classList.remove('is-swapping');
       }, REDUCED ? 0 : 200);
     }
-
-    dots.forEach(function (d, i) {
-      d.addEventListener('click', function () {
-        // scrollIntoView on a snap container lands on the snap point, so this and a
-        // thumb-swipe end in exactly the same place.
-        plates[i].scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', inline: 'start', block: 'nearest' });
-      });
-    });
 
     // ---------- the drift, fallback path ----------
     // Only built where the CSS scroll-driven path is missing. `pl-sda` on <html> is
