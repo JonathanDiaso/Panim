@@ -1,10 +1,13 @@
 # 🚪 THE FRONT DOOR
 
 **What the top of the site does, why it does it, and what is next.**
-**v57 is LIVE on `main`**, 2026-09-05 — the mark sits on the title, the second door moved
-below the plates and is a teaser now, and the plate caption is set in the display voice.
-🛑 **Read §0.1 before touching the second door's `href`.** 🗄 v55 (the ribbon going live) is
-at `58e2461`; v54's contact sheet, which never shipped, is at `d1dc9f9`.
+**v58 is LIVE on `main`**, 2026-09-05 — night mode, a primary button that is not a black
+slab, a player that keeps going, and a rebuilt Listening Room. **§5 is that round; §4 is
+v57 and every ruling in it still stands.**
+🛑 **Read §0.1 before touching the second door's `href`.**
+🛑 **Every open decision is in `docs/DECISIONS.md` — do not start a second list.**
+🗄 v55 (the ribbon going live) is at `58e2461`; v54's contact sheet, which never shipped,
+is at `d1dc9f9`.
 
 > This file is **hand-written and permanent**. `README.md` describes the repo;
 > this describes the one screen a stranger actually sees.
@@ -787,10 +790,10 @@ shorter than it was with the arc.
 **All four are on** `57`**.**
 ---
 
-# 4 · 🛑 WHERE THIS WAS LEFT — end of 2026-09-05, last session of the night
+# 4 · 🗄 v57 — THE RECORD OF THE PREVIOUS ROUND
 
-**v57 is committed and pushed. The site is live and matches this file.** Nothing is
-half-done, nothing is stubbed, and there is no branch waiting to be merged.
+**Superseded by §5, which is v58.** Kept because every ruling in it still stands and §4.2
+is the most expensive lesson in this file.
 
 ## 4.1 What shipped tonight, in one place
 
@@ -820,22 +823,13 @@ volunteered that quote by name. **If a second door is ever wanted somewhere else
 site, that is the one**, and §0.3's method (measure forward by text against `cues/ch07.json`,
 never by clock) is how to size it.
 
-## 4.3 ⬜ Open, ranked, for whoever picks this up next
+## 4.3 ⬜ Open, ranked → **now in `docs/DECISIONS.md`**
 
-- ⬜ **The plate caption's reserved height is generous on a phone.** At 402 it holds five
-  lines for chapter VI while chapter I only needs three, so up to ~60px of air can sit
-  between the caption and the card. **The reservation is deliberate** — a fluid caption
-  moves the card under the reader's thumb on every snap, which is worse — but there may be
-  a middle version (reserve the *median*, let the two long hooks push). **~1 hr, nothing
-  blocked, and it needs the author's eye on a real phone before it is worth doing.**
-- ⬜ **The card is 42rem wide and the quote only fills about half of it at 1440.** It reads
-  as deliberate short-line setting, but a narrower card (~36rem) would sit tighter under
-  the caption. **~20 min, purely a taste call — do not do it without asking him.**
-- ⬜ **`.hero-meta` still reads "Read and listen".** *"free"* came off it on his instruction;
-  the About sheet still carries the runtime and the price, which is where somebody who has
-  already decided goes to plan an evening. **Left alone on purpose.**
-- ⬜ **One real pointer and one real thumb** on the ribbon — still the standing request from
-  §2.9, still not done. Everything above was measured headlessly.
+🛑 **This list has moved.** Every open call on this site — v57's and v58's — is in one file
+now, `docs/DECISIONS.md`, on the author's instruction: *"ant files that have pending
+decisons to be made combine into one file so ic an tule after we finish this."* **Do not
+re-open a parallel list here.** The four items that were in this section are §C.5, §C.6,
+§B.1 and §F of that file, unchanged.
 
 ## 4.4 How everything above was verified
 
@@ -853,3 +847,212 @@ a perfectly good screenshot of the top of the page every time.
   loses a line.
 - **Horizontal scroll:** `scrollWidth > clientWidth` checked at 320 / 360 / 402 / 480 / 560 /
   640 / 768 / 900 / 901 / 1024 / 1280 / 1440 / 1920. **None.**
+
+---
+
+# 5 · 🌙 v58 — NIGHT MODE, A REAL PRIMARY BUTTON, AND THE PLAYER LEARNED TO KEEP GOING
+
+**2026-09-05, the second session of the day.** One long design review, answered in full.
+**v58 is committed and pushed; the site is live and matches this file.** Nothing is
+half-done and there is no branch waiting.
+
+🛑 **Every open question this round produced is in `docs/DECISIONS.md`, not here.** That
+file is the single sheet the author asked for. **This section is the record of what was
+built and why; that one is the record of what is still his call.**
+
+## 5.1 What shipped, against what he said
+
+| # | his words | what happened |
+|---|---|---|
+| 1 | *"could the resume button be any ugglier? That's so pathethic."* | `#begin-btn` rebuilt as `.btn-begin`: a play ring, a two-line label, and the chapter's own accent instead of a black slab. §5.3 |
+| 2 | *"continue balck buttons are so ugly… maybe i need a night mode that might ahve disappeared"* | **Every** control's hover left black for the accent, and night mode is real and persistent. §5.2, §5.4 |
+| 3 | *"whehether each ch individual clcik shoudl start at the beggining"* | A chapter click starts at `0:00`. **Only Continue resumes.** §5.5 |
+| 4 | *"Should i have an option that doesnt stop at every chapter"* | Continuous play, defaulting **on**, remembered. §5.5 |
+| 5 | *"[the Listening Room] looks cheap and we should ahve more options bigger buttons"* | The room's stack rebuilt: 88px transport, ±15s skips, five chips, a dawn-gradient arc. §5.6 |
+| 6 | *"i wouldnt mind ore movement with the riboon… any way to encourage them to go right?"* | Drift widened to ±4.6%, a lit plate lifts, and the edge fades now follow the rail. §5.7 |
+| 7 | *"titles could prob be bigger under pics and the text under it should be much bigger"* | `.pl-t` and `.pl-hook` both up a step; the reserved-height ladder re-measured from scratch at 37 widths. §5.7 |
+| 8 | *"if we do panimn hebre on the left can we raise up the… big hebrew word"* / *"i guess on mobiel the hebrew woed ends up on the left"* | The chapter mark is bigger and it sits **beside** the numeral, not floating. §5.8 |
+| 9 | *"how is textsize and cohesion looking any weird text that needs to be bigger"* | A type audit at 402 and 1440. **It found a real fault nobody had reported — the nav bar was running off a small phone by 61px.** §5.9 |
+| 10 | *"the chapter explenations… some of them are flat"* | The ten live lines are saved verbatim and four alternatives each are written and **measured**. 🛑 **`docs/DECISIONS.md §A` — it is his call and the measurement changed the question.** |
+
+## 5.2 🌙 NIGHT MODE, AND THE ONE TRAP IN IT
+
+**`html[data-theme="night"]` in `css/site.css`.** A pre-paint boot script in `index.html`
+sets the attribute before the first frame, so there is **no flash of the day palette**; the
+choice is in `localStorage` and the toggle is `#theme-btn` in the nav, beside About.
+
+**Every one of the twelve section palettes is redefined**, not just the root — the dawn arc
+survives into the dark, night blue through fire to a warmer morning, so a reader who turns
+the lights off still gets the book's colour idea rather than a grey wash. Plate images are
+dimmed (`brightness(.86) contrast(1.03)`) because a bright photograph on a dark page is a
+flashlight.
+
+🛑 **`js/motion.js` HAD TO BE TOLD.** The dawn arc writes `--paper` / `--ink` / `--accent`
+as **inline properties on the document**, and it uses a compare-then-write guard so it does
+not touch the DOM sixty times a second. **That guard makes it deaf to a stylesheet change:**
+the day values were already inline and still matched its cache, so night mode would have
+been a night stylesheet with a day palette painted on top of it. **The fix is two parts and
+both are required** — a `TOKENS_NIGHT` table mirroring the CSS, and a `panim:theme` event
+that clears `lastBg` / `lastAccent` / `lastInk` and re-runs the frame. ⚠️ **Anyone adding a
+third theme has to do both, and the failure is silent.**
+
+## 5.3 THE PRIMARY BUTTON IS NOT A BLACK RECTANGLE ANY MORE
+
+**The complaint was aesthetic and the cause was structural.** Every control on the site
+inverted to a slab of `--ink` on hover, which is the default primary button of every
+template on the internet — the one gesture the page shared with none of its own ideas.
+
+**`.btn:hover` is now an accent wash and an accent border**, and the label stays `--ink`,
+**so nothing depends on the accent's contrast against paper.** `.transport-play:hover`
+fills. `.btn-solid` is accent-based.
+
+**`.btn-begin` is a new component:** a ring with a triangle in it, then two lines of type —
+`Continue` / `Chapter VII · 17 min in`, or `Begin listening` / `Chapter I`. ⚠️ **`.bb-place`
+is set in full `--paper`, not a dimmed mix.** A composite toward the accent measured
+**3.75:1 at 78% and only 4.42:1 at 90%** for 11.5px text; the hierarchy is carried by size,
+weight and case instead. **Contrast is not a place to be subtle.**
+
+## 5.4 The resume position moved out of the player
+
+🔴 **`js/player.js` used to fall back to `LS.get('pos:'+chapterId)`** whenever it loaded a
+chapter without an explicit `seekTo`. **That is what made a chapter click resume**, and it
+is why the two questions in §5.5 were the same bug wearing two hats. **The fallback and its
+matching write are both gone.** The Continue button passes `seekTo` explicitly, and it is
+now the only thing on the site that resumes.
+
+## 5.5 The player keeps going, and a chapter starts at its start
+
+**Chapter click → `0:00`.** His ruling, verbatim: *"seems like beggining is realistic unless
+tyou are actually contoinuing from where you left off but switching chapter would be the
+beggining."*
+
+**Continuous play defaults ON.** `state.autoAdvance`, persisted, toggled by `#room-auto`.
+On `ended` the next chapter loads and autoplays, the title is announced to a screen reader,
+and — if follow-along is on — the page scrolls to it. **The default is a judgement:** this
+book's audience is driving, walking or falling asleep, and a tape that stops dead every
+twenty-five minutes waiting to be touched is a tape that gets abandoned in a car.
+⚠️ **The one thing that could not be verified is whether the music beds were mixed to land
+on a full stop.** If they were, playing straight through steps on ten endings. **That is an
+ear question and it is in `DECISIONS.md §D.2`.**
+
+## 5.6 The Listening Room
+
+`.room-stack` at `gap: 0`, so the Hebrew, the numeral and the title read as one block
+instead of three floating rows. **The arc is a dawn gradient** (`#room-arc-dawn`), which is
+the "starts dark and turns to light" half of his note, and `.arc-fill` fades out at zero so
+there is no stray dot on a fresh chapter. **±15s skips** as 62px circles, an **88px**
+transport, and five 48px chips on one wrapping row. `.room-btn` and the old
+`.room-secondary .btn-icon` are deleted — they were a second button system doing what `.btn`
+already did.
+
+## 5.7 The ribbon: more motion, and the fades now mean something
+
+**Drift ±4.6%** with the frame overhang widened to match (`left: -6%; width: 112%`), a lit
+plate lifts 7px, and arrival nudges the rail so the strip shows it can move.
+
+⭐ **The edge fades follow the rail now.** `is-scrolled` turns the left fade on once there is
+something behind the reader; `at-end` turns the right one **off** once there is not — a
+strip that keeps fading on the right after the last plate is a promise it cannot keep.
+🔴 **`reflectEdges()` is called directly from the scroll listener, NOT from inside the
+`requestAnimationFrame` frame.** It was in the frame first and it did not fire under a
+throttled rAF. The fades are the only signal that there is more ribbon; they cannot be the
+one thing that fails in a background tab. **`scrollWidth` is cached in `measure()`** so the
+eager call costs two class toggles and no layout.
+
+🛑 **The clearance-versus-travel trade is real, it was measured twice, and it belongs to the
+author** — `DECISIONS.md §C.4`. Two attempts to reclaim the space under the rail were built,
+measured and **reverted**: biasing the sway freed nothing and cost 23% of visible travel;
+cutting the padding measured safe at 402 and would have clipped 12px off plate I at 1440.
+
+## 5.8 The Hebrew mark stopped floating, and the cause was `dir="rtl"`
+
+**An RTL block right-aligns its inline content.** On desktop that was invisible, because the
+196px margin column it sits in is exactly as wide as the mark. **On a phone the same block
+is the full page width**, so the word flew to the right edge with nothing near it — which is
+what he was seeing and could not name.
+
+**Fixed by structure, not by nudging:** on a phone `.chapter-margin` becomes a baseline flex
+row and the mark and the numeral share it, mark first. The mark is bigger at both ends
+(2.45rem on a phone, up to 3.15rem on desktop). **On the jacket, `.hero-hebrew` centres over
+the title below 900px and stays ranged left above it** — a centred mark on a wide screen
+floats away from the title it belongs to. ⚠️ **That last one was made on a screenshot rather
+than on his word and it reverts in one rule** — `DECISIONS.md §C.2`.
+
+## 5.9 🔴 THE TYPE AUDIT FOUND A LAYOUT FAULT, NOT A TYPE FAULT
+
+**Three sizes were off the scale and one of them was hiding a real bug.**
+
+| what | was | now | why |
+|---|---|---|---|
+| `.chapter-hook` | flat `1rem` — **16px at every width** | `var(--body-size)` | It is a standfirst, and it was **a fifth smaller than the body copy it introduces** past 928px. A standfirst that reads smaller than its own paragraph gets taken for a caption and skipped. |
+| `.btn` | `.8rem` | `var(--ap-lg)` | An off-scale value in the busiest component in the file. |
+| `.plate-caption .plate-text` | `.95rem` | `var(--ap-xl)` | Same number, now on the scale. |
+| `.hero-sample-note` | `var(--ap-lg)` | `var(--ap-xl)` | **`--ap-xl` exists because of this line** — its own comment in `css/site.css` says so, and the declaration had been left a step below it. |
+
+🔴 **AND THE FAULT: THE NAV BAR RAN OFF A SMALL PHONE.** Measured in a real browser, the
+shell's `scrollWidth` beat its `clientWidth` by **61px at 320, 41px at 340, 21px at 360**.
+**Four 44px targets plus a wordmark plus the contents toggle do not fit 320px.** The night
+toggle was the fourth action and the one that pushed it over — **but it was already 17px
+over without it, and nobody had caught it.**
+
+**Nothing was allowed to shrink below a 44px target.** The space came out of the padding
+between the labels and their borders (≤420px), and then out of the wordmark (≤380px), which
+is the one item in the bar that navigates nowhere the page does not already offer: the
+jacket title is a hundred pixels under it and the contents toggle is its neighbour.
+🔴 **AND IT HAD A TWIN AT THE OTHER END.** The ten chapter numerals come back at 901px, and
+the moment they did the bar overflowed by **32px** — the same extra button, the other
+breakpoint. Swept in 10px steps it is **+32 at 901, +22 at 911, +13 at 921, +3 at 931, and 0
+from 941 up**, so the numerals now appear at **941** instead of 901. **They are a convenience
+the running head and the contents both duplicate; a bar running off the screen is not.**
+
+✅ **Re-measured after both fixes: 0px of nav overflow and no document overflow at 320 / 360 /
+380 / 381 / 402 / 420 / 421 / 480 / 640 / 768 / 900 / 901 / 920 / 940 / 941 / 960 / 1024 /
+1280 / 1440 / 1920, no control under 44px at any of them, and no console errors.**
+
+⚠️ **The nav keeps `--ap-md` while `.btn` moved to `--ap-lg`, and that is deliberate.**
+Raising the nav re-breaks 320. Nav labels are chrome consulted at a glance, which is what
+`--ap-md` is for.
+
+**The italics were audited and they are all deliberate:** the five italic contents rows are
+the **back-matter** rows (`.toc-row.toc-back .toc-title`), the Greek chapter mark is italic
+because it is set in the book serif rather than the Hebrew face, and the italic is what keeps
+it reading as a *mark* beside the Hebrew instead of as a second heading; everything else is
+prose `<em>`.
+
+## 5.10 How v58 was verified
+
+**Same-origin harness in `Panim-site/`, served over `http://localhost:8899/`, deleted before
+committing.** ⚠️ **Three headless false faults cost time this round and all three are already
+on record** — worth thirty seconds before anyone re-measures:
+
+- **`--run-all-compositor-stages-before-draw` painted a stale cream tile** over a correct
+  night-mode page. The computed styles were right the whole time (`bodyBg =
+  rgb(20,19,17)`). **Dropping the flag rendered it correctly.** A `position: fixed` nav
+  paints stale in headless for the same reason.
+- **`IntersectionObserver` never fires under `--virtual-time-budget`,** so `.heb-g` stayed at
+  `opacity: 0` and the chapter mark photographed as missing. The harness force-adds
+  `is-visible` / `is-drawn` / `is-in`.
+- **`html { scroll-behavior: smooth }` never completes under virtual time.** Set
+  `scrollBehavior = 'auto'` and pass `behavior: 'instant'`.
+- 🔴 **NEW THIS ROUND, AND IT CRIED WOLF ON NIGHT MODE: CSS TRANSITIONS DO NOT ADVANCE UNDER
+  VIRTUAL TIME.** `body` carries `transition: color var(--dur-med)`, so after the theme flip
+  `getComputedStyle(body).color` came back **frozen at the day ink** — which reads in the
+  numbers as a whole page of dark text on a dark ground, for as long as you care to wait.
+  **The inline style was correct the entire time:** `body.style.color = rgb(239,233,222)`,
+  `--ink = #EFE9DE` on `<html>`, `--ink = #EFE9DE` on the section. **Inject
+  `* { transition: none !important }` before flipping anything and the reading is right.**
+  ⚠️ **Anything measured across a state change on this site is suspect without that line** —
+  the arc, the chips, the lit plate and every `:hover` all transition.
+
+**Measured this round:** the hook ladder re-swept over 37 widths; the nav at eight widths
+before and after; document horizontal scroll at fifteen widths from 320 to 1920 (**none**);
+the edge classes driven through `scrollLeft = 0 → 300 → max → 0` (**`is-scrolled` and
+`at-end` both set and both cleared**); and the four type sizes read back off the live page
+(**body 21.12 / hook 21.12 / plate text 15.2 / sample note 15.2 at 1440**).
+
+## 5.11 🛑 WHERE THIS IS LEFT
+
+**Nothing is half-built.** The open items are decisions and human checks, and they are all
+in **`docs/DECISIONS.md`** — the standfirsts (§A), the copy questions (§B), the design calls
+(§C), the player's default (§D), the carried-over audio and repo work (§E), and the four
+things only a person with the site in their hand can check (§F).

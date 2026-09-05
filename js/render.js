@@ -1300,9 +1300,14 @@
       '<span class="hs-eyebrow">If you only have five minutes</span>' +
       '<blockquote class="hs-quote"><p>…a hurt human heart can hide indefinitely.' +
         '<br>God’s cannot.</p></blockquote>' +
+      // ⚠️ SHORTER, 2026-09-05 (round seven). The author: "keep that shrter."
+      // It was a three-clause sentence with a list inside its third clause — "the
+      // wind, the earthquake and the fire all turn out to be the wrong answer" —
+      // which is four things in a line whose job is to name three. The three
+      // stories are unchanged; the third one is named rather than enumerated.
       '<span class="hs-holds">Two years of a father’s hidden face. A father who leaves ' +
-        'his own feast to stand at the door. And a mountain where the wind, the earthquake ' +
-        'and the fire all turn out to be the wrong answer.</span>' +
+        'his own feast to stand at the door. And a mountain where the fire turns out ' +
+        'to be the wrong answer.</span>' +
       '<span class="hs-act">' +
         '<span class="hs-glyph" aria-hidden="true">' +
           '<svg viewBox="0 0 40 40" focusable="false">' +

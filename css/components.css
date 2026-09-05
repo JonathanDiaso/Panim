@@ -15,7 +15,7 @@
   border: 1px solid var(--control-edge);
   color: var(--ink);
   font-family: var(--ui);
-  font-size: .8rem; font-weight: 600;
+  font-size: var(--ap-lg); font-weight: 600;   /* on the scale, not a loose .8rem */
   letter-spacing: .01em;   /* sentence case: uppercase + wide tracking is the
                               stock "premium" button and reads as template chrome */
   background: var(--control-wash);
@@ -23,7 +23,23 @@
               background-color var(--dur-fast) var(--ease),
               color var(--dur-fast) var(--ease);
 }
-.btn:hover, .btn:focus-visible { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+/* 🔴 HOVER IS THE ACCENT NOW, NOT BLACK, 2026-09-05. The author: "continue balck
+   buttons are so ugly. they need redesign."
+   Every control on this site used to invert to a slab of --ink on hover — a
+   near-black rectangle, which is the default primary button of every template on
+   the internet and the one gesture the page shares with none of its own ideas. The
+   book's colour system is the dawn arc: night, fire, morning, changing where the
+   book turns. A control that lights in the CHAPTER'S OWN accent is the page saying
+   something it already believes; a control that goes black is chrome.
+   ⚠️ IT IS A WASH AND A LINE, NOT A FILL. The label stays --ink, so nothing here
+   depends on the accent's contrast against paper — 12% of any of the three accents
+   moves the background by a hair and the text pair is unchanged at 14.6:1. The
+   emphatic control (.btn-begin) is the one that fills, and it is measured. */
+.btn:hover, .btn:focus-visible {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--ink);
+}
 .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .btn[disabled] { opacity: .35; cursor: not-allowed; }
 
@@ -75,13 +91,103 @@
 /* the same inversion every other control on the site uses. In the Room --ink and
    --paper are swapped by the token block in room.css, so the gesture is identical
    and the result is correctly the other way round. */
-.transport-play:hover, .transport-play:focus-visible { background: var(--ink); color: var(--paper); }
+/* 🔴 THE SAME MOVE AS .btn ABOVE, 2026-09-05: it fills with the accent rather than
+   with black. This one DOES fill, because a 46px circle with a 12% wash reads as
+   nothing at all — so the pair that matters is --paper on --accent, measured at
+   6.79:1 (night), 5.19:1 (fire) and 5.03:1 (morning) on the darkest day stock, and
+   7.9 / 6.2 / 8.1 against the lightest night stock. In the Room --paper and --ink
+   are swapped by the token block in room.css and the gesture comes out correctly
+   the other way round, exactly as it did when this was ink. */
+.transport-play:hover, .transport-play:focus-visible {
+  background: var(--accent); border-color: var(--accent); color: var(--paper);
+}
 .transport-play:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .transport-play:active { transform: scale(.96); }
 
-/* the one emphatic action on the page */
-.btn-solid { border-color: var(--ink); background: var(--ink); color: var(--paper); }
-.btn-solid:hover, .btn-solid:focus-visible { background: var(--accent); border-color: var(--accent); color: #fff; }
+/* THE ONE EMPHATIC ACTION ON THE PAGE.
+   ⚠️ #begin-btn DOES NOT USE THIS ANY MORE — it is .btn-begin below. This class is
+   still worn by the invitation modal's own door and by the completion modal's
+   "next chapter", where a one-line slab is right and there is no place to print.
+   It is painted in the accent rather than in near-black for the reason the .btn
+   hover note above gives at length. Measured: --paper on each of the three accents
+   clears 5:1 on every stock in both themes. */
+.btn-solid { border-color: var(--accent); background: var(--accent); color: var(--paper); }
+.btn-solid:hover, .btn-solid:focus-visible {
+  background: color-mix(in srgb, var(--accent) 84%, var(--ink));
+  border-color: color-mix(in srgb, var(--accent) 84%, var(--ink));
+  color: var(--paper);
+}
+
+/* ============================================================================
+   🔴 .btn-begin — THE JACKET'S ONE DOOR, REBUILT 2026-09-05
+   The author, of the resume state: "could the resume button be any ugglier?
+   That's so pathethic."
+   It was .btn-solid printing `Continue: VII, 37:26` as one string of sans inside a
+   near-black rectangle. Three faults in one object: the colour was the internet's
+   default primary, the shape was a form submit, and the copy ran a verb, a roman
+   numeral and a timecode together on one line as though they were one fact.
+   THEY ARE TWO FACTS AND THEY GET TWO LINES — the verb, and under it the place.
+   That is what a bookmark is, and a bookmark is what this button holds.
+   🛑 THE FILL IS THE ACCENT AND IT MOVES WITH THE BOOK. On the jacket that is the
+   night blue; js/motion.js walks it to fire and then to morning as the reader goes
+   down the page, so the one filled control on the site is always painted in the
+   light of wherever the reader is standing. Measured, --paper on --accent:
+   6.79:1 night · 5.19:1 fire · 5.03:1 morning against the darkest DAY stock, and
+   7.88 / 6.19 / 8.06 against the lightest NIGHT stock. All clear of 4.5.
+   ⚠️ THE RING IS DRAWN, NOT FILLED, and it is the same gesture the second door's
+   .hs-glyph makes — this book's controls point with a hairline circle. Do not give
+   it a solid disc: two filled shapes inside one filled slab is a logo, not a button.
+   ============================================================================ */
+.btn-begin {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--paper);
+  /* the label block is a two-line stack, so the vertical rhythm is set here rather
+     than inherited from .btn's single-line padding */
+  align-items: center;
+  gap: .85em;
+  padding: .85em 1.4em .85em 1.05em;
+  min-height: 60px;
+  text-align: left;
+}
+.btn-begin:hover, .btn-begin:focus-visible {
+  background: color-mix(in srgb, var(--accent) 84%, var(--ink));
+  border-color: color-mix(in srgb, var(--accent) 84%, var(--ink));
+  color: var(--paper);
+}
+.bb-glyph { display: block; width: 34px; height: 34px; flex: 0 0 34px; }
+.bb-glyph svg { display: block; width: 100%; height: 100%; }
+.bb-ring { fill: none; stroke: currentColor; stroke-width: 1; opacity: .55; }
+.bb-tri { fill: currentColor; }
+.bb-text { display: block; min-width: 0; }
+.bb-label {
+  display: block;
+  font-family: var(--ui); font-size: .92rem; font-weight: 600;
+  letter-spacing: .005em; line-height: 1.25;
+}
+/* ⚠️ THE PLACE LINE IS A SIBLING, NOT A SUFFIX, and it ships `hidden`. A reader with
+   no saved position — or with localStorage unavailable, which is a private window on
+   iOS — must get a complete one-line button rather than a two-line one with a gap
+   where the second line would be. js/ui.js unhides it and fills it, and nothing else
+   ever touches it.
+   🛑 IT IS FULL --paper, AND THE DIMMED VERSION WAS MEASURED AND THROWN OUT. The
+   obvious treatment is a quieter tint — --paper mixed toward the accent — and it
+   fails: across the twelve accent/stock pairs in the two themes the best mix that
+   still reads as quieter lands at 4.42:1 for 11.5px of text, under the 4.5 floor,
+   with the fire and morning accents the worst of it. So the hierarchy is carried by
+   SIZE, WEIGHT AND CASE instead of by colour — tracked uppercase apparatus under a
+   sentence-case semibold label — which is how the rest of this book separates a
+   line from the line above it anyway. */
+.bb-place {
+  display: block;
+  margin-top: .18em;
+  font-family: var(--ui); font-size: var(--ap-md); font-weight: 400;
+  letter-spacing: .09em; text-transform: uppercase;
+  line-height: 1.3;
+  color: var(--paper);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.bb-place[hidden] { display: none; }
 
 /* ============================================================================
    NAV — a running head, not a floating capsule
@@ -134,9 +240,37 @@
 .nav-chapters a.is-active { color: var(--accent); font-weight: 600; }
 .nav-actions { display: flex; gap: .3rem; align-items: center; }
 /* 38px failed the 44px minimum on three buttons (measured 52x38 at 402px wide). */
+/* ⚠️ THE NAV KEEPS --ap-md WHILE .btn MOVED UP TO --ap-lg, 2026-09-05. That is not an
+   oversight: four 44px targets, a wordmark and the contents toggle already do not fit
+   320px, and the bar was measured overflowing by 61px before the rule below. Nav
+   labels are chrome consulted at a glance, which is exactly what --ap-md is for. */
 .nav-actions .btn { padding: .6em 1em; min-height: 44px; font-size: var(--ap-md); }
 
-@media (max-width: 900px) {
+/* 🔴 THE BAR WAS RUNNING OFF THE SCREEN ON A SMALL PHONE, 2026-09-05.
+   Measured in a real browser: the shell's scrollWidth beat its clientWidth by 61px at
+   320, 41px at 340, 21px at 360 — the night-mode button was the fourth action and the
+   one that pushed it over, but it was already 17px over without it. Nothing here is
+   allowed to shrink a target below 44×44, so the space comes out of the padding
+   between the labels and their borders, and then out of the wordmark, which is the one
+   item in the bar that navigates nowhere the page does not already offer: the jacket
+   title sits a hundred pixels under it and the contents toggle is its neighbour.
+   ✅ Re-measured after: 0px of overflow at 320 / 340 / 360 / 380 / 381 / 402 / 430 /
+   480, and no control under 44px at any of them. */
+@media (max-width: 420px) {
+  .nav-actions { gap: .15rem; }
+  .nav-actions .btn { padding: .6em .5em; }
+}
+@media (max-width: 380px) {
+  .nav-mark { display: none; }
+}
+
+/* 🔴 940, NOT 900, AND IT IS MEASURED, 2026-09-05. The ten chapter numerals used to
+   come back at 901px and the bar overflowed by 32px the moment they did — the night
+   toggle made the actions group wide enough that 901 no longer had room for both.
+   Swept in 10px steps: +32 at 901, +22 at 911, +13 at 921, +3 at 931, and 0 from 941
+   up. The numerals are a convenience the running head and the contents both duplicate;
+   the bar running off the screen is not. */
+@media (max-width: 940px) {
   .nav-chapters { display: none; }
   .nav-shell { min-height: 52px; }
 }
@@ -162,7 +296,18 @@
 }
 .hero-plate img {
   width: 100%;
-  height: clamp(380px, 72vh, 760px);
+  /* 🔴 SHORTER, 2026-09-05. The author: "can we raise up the The Invitation Hidden
+     on Every Page it needs better seign its too long top to bottom."
+     clamp(380px, 72vh, 760px) → this. The title cannot be raised by moving the
+     title: it already sits directly under the photograph with 49px between them,
+     and the only thing above it is the picture. 72vh is very nearly a full screen,
+     so on a phone the jacket's first line was ALWAYS below the fold no matter how
+     tight the type block underneath it was. At 64vh a 402x740 phone gets 474px of
+     photograph instead of 533 and the mark clears the fold; the picture is still
+     the largest thing on the page by a wide margin.
+     ⚠️ THE PRELOAD IN index.html DOES NOT CHANGE WITH THIS. It names three AVIF
+     derivatives by width and `sizes` is width-based; the height is a crop. */
+  height: clamp(340px, 64vh, 700px);
   object-fit: cover; object-position: 50% 45%;
   transform: scale(1.07);
 }
@@ -181,7 +326,10 @@
      on the page where a stranger is deciding whether to stay. After: 50px and 37px.
      🛑 THE PHONE END BARELY MOVES (38px → 30px). The bloat was a desktop fault: the
      old clamp's 5vw upper arm grew with the window while the type did not. */
-  padding: clamp(1.9rem, 3.4vw, 3.1rem) 0 clamp(1.5rem, 2.6vw, 2.3rem);
+  /* 🔴 TIGHTER AGAIN, 2026-09-05 (round six), same note as the photograph's height
+     above — the jacket is being raised, not just squeezed. 50px → 36px over the
+     mark at 1440, and the phone end goes 30 → 24. */
+  padding: clamp(1.5rem, 2.5vw, 2.3rem) 0 clamp(1.2rem, 2.1vw, 1.9rem);
 }
 @supports not (grid-template-columns: subgrid) {
   .hero-block { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
@@ -236,7 +384,10 @@
      32px of air was right under a centred mark floating free of the title; over a
      title it now shares a left edge with, it read as a gap rather than as a pair.
      Measured at 1440: 32px → 17px. The two are one object now. */
-  margin-bottom: clamp(.6rem, 1.2vw, 1.05rem);
+  /* ⚠️ HALVED AGAIN 2026-09-05 (round six): 17px → 9px at 1440. The mark and the
+     title are one object and share a left edge; the smaller the gap, the more they
+     read as a mark ON a title rather than as two lines of a stack. */
+  margin-bottom: clamp(.25rem, .6vw, .55rem);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color var(--dur-fast) var(--ease);
@@ -322,7 +473,28 @@
      edge matters most. The old rule centred it across the six phone tracks while
      the title started at track 1; on a 402px screen that was 90px of drift on the
      single most important pairing on the page. */
-  .hero-hebrew { grid-column: 1 / 7; justify-self: start; margin-bottom: .8rem; }
+  /* 🔴 CENTRED ON A PHONE, RANGED LEFT ON A DESKTOP, 2026-09-05, AND THAT IS A
+     DELIBERATE SPLIT RATHER THAN AN INCONSISTENCY. The author: "on mobile the first
+     panim hebbrew word looks pretty good might look best on mboile if it was
+     directly centerd above title challenge is desktop and phone work differently."
+     He has named the reason himself. On the desktop the title is 3/10 of a twelve
+     track grid and there is a wide empty margin to its right, so a centred mark
+     drifts 356px off the title's stem and reads as unrelated to it — that is the
+     measurement that put it back on the left in the first place, and it stands. On
+     a phone the title fills the whole measure, so "centred on the page" and
+     "centred on the title" are THE SAME PLACE, and the title-page move (a centred
+     device over a ranged-left title) is available for free.
+     🛑 SO THE SHARED LEFT EDGE IS NOT BEING GIVEN UP. It is being kept by a
+     different means, because the geometry underneath it is different.
+     ⚠️ margin-inline-start MUST BE CANCELLED HERE. The desktop carries -.12em to
+     pull the glyph back onto the title's stem against the touch-target padding;
+     centred, that same -.12em silently shifts the word 6px left of centre. */
+  .hero-hebrew {
+    grid-column: 1 / 7;
+    justify-self: center;
+    margin-inline-start: 0;
+    margin-bottom: .45rem;
+  }
   .hero-meta { margin-top: 1.4rem; }
 }
 
@@ -370,13 +542,43 @@
 }
 
 @media (max-width: 900px) {
-  .chapter-header { grid-column: 1 / -1; }
+  .chapter-header { grid-column: 1 / -1; padding-bottom: 1rem; }
   .chapter-header .chapter-margin { grid-column: 1 / 7; }
-  .chapter-header .chapter-num { padding-top: 0; margin-bottom: .5rem; }
   .chapter-header .chapter-titleblock { grid-column: 1 / 7; }
   @supports not (grid-template-columns: subgrid) {
     .chapter-header { grid-template-columns: repeat(6, 1fr); }
   }
+  /* 🔴 ONE ROW ON A PHONE, MARK FIRST, 2026-09-05. The author, of a screenshot of
+     this exact block: "on mobile the hebrew woed ends up on the left it would be
+     better if it was left of the title not just randomly floating… it shouldnt take
+     up so much space top to  bottom."
+     🛑 IT WAS NOT "ENDING UP" ANYWHERE — IT WAS BEING PUSHED THERE BY dir="rtl".
+     The mark is a block with dir="rtl" on it (js/render.js sets it, and it must:
+     Hebrew is a right-to-left script and the nikkud depend on it). A block in a
+     right-to-left direction aligns its inline content to the RIGHT edge of the box,
+     and on a phone the margin column is the full six tracks — so the word sat alone
+     against the right margin, 300px from the chapter label above it and the title
+     below it, related to neither. On the desktop the same rule is invisible because
+     the margin column is only 196px wide and the word fills it.
+     ⭐ SO THE COLUMN BECOMES A ROW AND THE MARK GOES FIRST. The chapter's own word,
+     then CHAPTER II beside it on the same baseline: two pieces of apparatus reading
+     as one line instead of as two floating objects, ranged hard left with the title
+     under them, and about 40px of the page's height given back.
+     ⚠️ THE FLEX IS ON THE PARENT AND MUST NEVER BE ON .chapter-mark ITSELF — the
+     long note at that rule explains why (every grapheme is a span, and flex would
+     lay a five-letter word out as five independent boxes).
+     ⚠️ order, NOT A DOM SWAP. The reading order is numeral-then-mark for a screen
+     reader, which is the right order to hear; only the phone's PAINT order changes,
+     and both are apparatus rather than controls, so 2.4.3 Focus Order is untouched
+     (neither is in the tab ring here — the mark's tabindex makes it focusable and it
+     is a single item either way). */
+  .chapter-header .chapter-margin {
+    display: flex; align-items: baseline; flex-wrap: wrap;
+    column-gap: .8rem; row-gap: 0;
+    margin-bottom: .45rem;
+  }
+  .chapter-header .chapter-num { order: 2; padding-top: 0; margin-bottom: 0; }
+  .chapter-header .chapter-mark { order: 1; }
 }
 
 /* ---------- the Hebrew in the margin ----------
@@ -408,7 +610,15 @@
    margin column has the room and the mark is the only thing in it. */
 .chapter-mark {
   font-family: var(--heb); font-weight: 300;
-  font-size: clamp(1.85rem, 3.1vw, 2.9rem);
+  /* clamp(1.85rem, 3.1vw, 2.9rem) → this, 2026-09-05. The author: "Maybe hebrew on
+     the left of all chapter could be beigger but still keep on the left dont put on
+     the top." The ceiling is the constraint and it is arithmetic, not taste: the
+     margin column is two of twelve tracks — 196px at the 1440 shell — and the four
+     PHRASE marks (peh el peh, panim be-panim, haster astir, prosopon pros prosopon)
+     have to wrap inside it without touching the title. Measured at 3.15rem the
+     longest of them still clears the column. Do not raise this without re-measuring
+     chapter V and chapter X, which are the two that bind. */
+  font-size: clamp(2.45rem, 3.4vw, 3.15rem);
   line-height: 1.24;
   /* 🛑 min-height ON A BLOCK, NOT display:flex. Flex was the obvious way to centre
      the word in a 44px box and it would have quietly wrecked the Hebrew: js/render
@@ -463,9 +673,17 @@
      undercut the clamp above and were the actual reason the marks were 30px tall
      where it mattered most. The clamp's own floor (1.85rem / 1.42rem) is what a
      phone gets now; the margin column on a phone is the full width (1/7), so
-     there is nothing for a larger word to collide with. */
-  .chapter-mark { font-size: 1.85rem; margin-top: .25em; }
-  .chapter-mark.is-greek { font-size: 1.42rem; }
+     there is nothing for a larger word to collide with.
+     🔴 LARGER AGAIN 2026-09-05 — the author: "Maybe hebrew on the left of all
+     chapter could be beigger but still keep on the left dont put on the top."
+     It shares a line with CHAPTER II now (see the header rule above), which is
+     where the room came from: the word is the size of a subhead instead of the
+     size of a label, and the row is still shorter than the two stacked lines were.
+     🛑 margin-top GOES TO ZERO WITH THE ROW. The .5em above was the gap under the
+     numeral when the two were stacked; left in place it pushes the mark's baseline
+     off the numeral's and the row stops being a row. */
+  .chapter-mark { font-size: 2.45rem; margin-top: 0; }
+  .chapter-mark.is-greek { font-size: 1.75rem; }
 }
 
 /* the hero's Hebrew writes itself in, right to left, once */
@@ -792,7 +1010,7 @@
 }
 .plate-caption .plate-text {
   grid-column: 3 / 9;
-  font-style: italic; color: var(--ink-soft); font-size: .95rem; line-height: 1.5;
+  font-style: italic; color: var(--ink-soft); font-size: var(--ap-xl); line-height: 1.5;
   max-width: 54ch;
 }
 @media (max-width: 900px) {
@@ -1648,12 +1866,66 @@
      overflow-y is pinned because an overflow value on one axis makes the other a
      scroll container too — left at `auto` a plate riding 66px high would hand the
      ribbon its own vertical scrollbar. */
+  /* 🛑 5rem, BOTH ENDS, AND TWO ATTEMPTS TO SHRINK THE BOTTOM WERE MEASURED AND
+     REVERSED ON 2026-09-05. THE AUTHOR'S NOTE IS REAL AND THIS IS NOT THE ANSWER
+     TO IT — the answer is in css/components.css `.pl-hook`'s margin and in the
+     `#plates` rule below, both of which came in on the same round.
+     The author: "maybe it doesnt have to be so far bwellow the pics so it looks
+     more ohesive."
+     ⚠️ 80px OF PAPER UNDER THE STRIP IS NOT A MARGIN. IT IS THE SWAY'S CLEARANCE:
+     the largest magnitude in PLATE_SWAY is 66 and the arrival rises another 14, and
+     overflow-y is `hidden` (it has to be — an overflow value on one axis makes the
+     other a scroll container too), so anything less clips a plate at the bottom of
+     its wave.
+     🛑 ATTEMPT 1, biasing the wave upward, cost 23% of the visible travel and freed
+     no clearance at all, because the amplitudes alternate sign — see the note at
+     @keyframes pl-sway.
+     🛑 ATTEMPT 2 assumed the full +66 only happens at `cover 0%`, below the fold.
+     MEASURED, it does not: at 1440 the section is short enough relative to a 900px
+     window that the rail's own bottom edge is already on screen when the wave is at
+     full extension, and 3.4rem clipped 12px off plate I. (At 402 the same test
+     comes back 47px — which is exactly why this had to be measured at both widths
+     and not at the one that agreed.)
+     ⭐ SO THE REAL TRADE IS CLEARANCE AGAINST TRAVEL, and it belongs to the author:
+     every 10px off the largest amplitude is 10px off this gap, and 20px off the
+     motion he asked for in the last round. It is written up in docs/DECISIONS.md. */
   padding-block: 5rem;
   overflow-y: hidden;
   scrollbar-width: none;
   margin-bottom: .2rem;
+  /* ⭐ THE STRIP FADES AT THE EDGE IT CONTINUES OVER, 2026-09-05. The author: "any
+     way to encourage them to go right?"
+     A row of plates that stops flush at the glass reads as a row that ENDS at the
+     glass. A picture dissolving into the paper is the oldest way in print of saying
+     "this goes on", and it is the honest one here because it goes on. js/ui.js adds
+     .is-scrolled / .at-end, so the fade is only ever on the side that has something
+     left — the reader who has reached chapter X is not told there is more.
+     ⚠️ BOTH SPELLINGS. Safari only dropped the -webkit- prefix for mask-image in
+     15.4, and this book still serves phones older than that. */
+  /* 🛑 THE RESTING STATE FADES THE RIGHT EDGE ONLY, AND THAT IS WHAT MAKES IT SAFE
+     WITHOUT SCRIPT. At scroll zero there is nothing off the left, so a left fade
+     would be a lie; the two classes below are added by js/ui.js as the rail moves,
+     and a reader whose script never ran keeps the correct default. */
+  --pl-fade: 72px;
+  --pl-fade-l: 0px;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--pl-fade-l),
+                      #000 calc(100% - var(--pl-fade-r, var(--pl-fade))), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 var(--pl-fade-l),
+              #000 calc(100% - var(--pl-fade-r, var(--pl-fade))), transparent 100%);
 }
+.pl-rail.is-scrolled { --pl-fade-l: var(--pl-fade); }
+.pl-rail.at-end { --pl-fade-r: 0px; }
 .pl-rail::-webkit-scrollbar { display: none; }
+
+/* ⚠️ THE SECTION GIVES ITS TOP PADDING TO THE RAIL, 2026-09-05. .section carries
+   clamp(3rem, 7vh, 6rem) top and bottom, and the rail directly inside it carries
+   5rem of its own — which is not decoration but the clearance a plate needs to
+   rise into. The two stacked put ~132px of paper between the jacket and the first
+   photograph, which is the seam the author has now asked about twice. The rail's
+   padding cannot go, so the section's does. Measured at 402: 132px becomes 80.
+   🛑 THE BOTTOM IS UNTOUCHED. Below the strip sit the caption and the five-minute
+   card, and that padding is the space between this section and the contents. */
+#plates { padding-block-start: 0; }
 
 .pl-plate {
   flex: 0 0 min(78vw, 340px);
@@ -1703,17 +1975,26 @@
      own right edge. Measured before the fix: a 398px image in a 400px frame,
      and an 18px band of bare frame down the right of every plate. */
   max-width: none;
-  position: absolute; top: 0; left: -5%;
-  width: 110%; height: 100%;
+  /* ⚠️ 112 / -6, WAS 110 / -5, 2026-09-05. The author: "i wouldnt mind ore movement
+     with the riboon. it should show off."
+     The overhang and the drift are one sum (see the note below), so widening the
+     travel means widening the picture — and every percent of width costs picture.
+     At 112% the strip shows 89.3% of the negative's width instead of 90.9%: one and
+     a half per cent, for a quarter more travel. That trade is worth making once.
+     🛑 IT IS NOT WORTH MAKING TWICE. The rest of the "show off" is in the lit
+     plate's lift, the arrival nudge and the edge fade — all of which cost no
+     picture at all. Do not reach for this number again. */
+  position: absolute; top: 0; left: -6%;
+  width: 112%; height: 100%;
   object-fit: cover;
   filter: saturate(.80) contrast(1.02);
   transition: filter var(--dur-slow) var(--ease);
   translate: var(--dx, 0) 0;
 }
 /* ⚠️ THE OVERHANG AND THE DRIFT ARE ONE SUM AND GETTING IT WRONG SHOWS. A
-   translate percentage resolves against the element, not its box: 3.7% of a
-   110%-wide picture is 4.07% of the FRAME, and the overhang is 5% a side, so at
-   either extreme there is still 0.93% of picture past the edge — about 3px on a
+   translate percentage resolves against the element, not its box: 4.6% of a
+   112%-wide picture is 5.15% of the FRAME, and the overhang is 6% a side, so at
+   either extreme there is still 0.85% of picture past the edge — about 3px on a
    desktop plate, and it does not depend on the plate's size because every number
    in the sum is a percentage.
    🛑 AND IT COSTS ABOUT 9% OF THE PICTURE'S HEIGHT. object-fit:cover in a box
@@ -1752,9 +2033,10 @@
 }
 .pl-n {
   font-family: var(--serif);
-  /* was --ap-lg (.82rem). A numeral that is half the size of the title beside it
-     reads as a footnote marker; at 1.05rem the pair reads as one caption. */
-  font-size: 1.05rem; font-weight: 500;
+  /* was --ap-lg (.82rem), then 1.05rem. A numeral that is half the size of the
+     title beside it reads as a footnote marker, so this moves whenever .pl-t does
+     — the two are one caption and the ratio between them is the caption's voice. */
+  font-size: 1.2rem; font-weight: 500;
   letter-spacing: .12em; color: var(--accent);
   font-variant-numeric: lining-nums tabular-nums;
   transition: color var(--dur-med) var(--ease);
@@ -1770,8 +2052,12 @@
 }
 .pl-t {
   font-variation-settings: var(--lit-mid); font-weight: 400;
-  /* was clamp(1.02rem, 1.5vw, 1.24rem) */
-  font-size: clamp(1.16rem, 1.85vw, 1.46rem);
+  /* clamp(1.02rem, 1.5vw, 1.24rem) → clamp(1.16rem, 1.85vw, 1.46rem) → this.
+     🔴 2026-09-05, the author: "titles could prob be bigger under pics."
+     A caption under a 400px plate is competing with a photograph, and at 23px it
+     was losing. 27px at 1440 sets it as the plate's title rather than as its label,
+     and the numeral beside it moves with it (below) so the pair stays one caption. */
+  font-size: clamp(1.34rem, 2.15vw, 1.7rem);
   line-height: 1.16; letter-spacing: -.018em;
   color: var(--ink); text-wrap: balance;
   transition: transform var(--dur-med) var(--ease);
@@ -1792,6 +2078,25 @@
 .pl-plate:not(.is-lit) .pl-frame img { filter: saturate(.62) contrast(1.02) brightness(.94); }
 .pl-plate:not(.is-lit) .pl-t { color: var(--ink-soft); }
 .pl-plate.is-lit .pl-n { color: var(--ink); }
+/* ⭐ THE LIT PLATE LIFTS, 2026-09-05. The author: "i wouldnt mind ore movement with
+   the riboon. it should show off."
+   This is the cheapest real motion on the strip and the only one tied to what the
+   reader is actually doing: the plate the ribbon is holding rises 7px and grows
+   1.5%, so scrolling the rail is a procession of pictures stepping forward one at a
+   time rather than a filmstrip sliding past. It costs no picture and no paper.
+   🛑 IT IS ON .pl-frame, NOT ON .pl-plate. The sway owns .pl-plate's transform —
+   two rules writing transform on one element is a silent fight where whichever the
+   cascade picks wins outright, and the sway is the one that would have lost.
+   ⚠️ THE 1.5% SCALE FITS IN THE GAP. clamp(.7rem, 1.4vw, 1.1rem) is 11-18px between
+   plates and 1.5% of a 400px frame is 6px, 3px a side. It never touches its
+   neighbour. Under prefers-reduced-motion the lit state keeps its colour and loses
+   the movement — the state is information, the lift is not. */
+.pl-frame { transition: transform var(--dur-med) var(--ease); }
+.pl-plate.is-lit .pl-frame { transform: translateY(-7px) scale(1.015); }
+@media (prefers-reduced-motion: reduce) {
+  .pl-frame { transition: none; }
+  .pl-plate.is-lit .pl-frame { transform: none; }
+}
 
 /* ---------- the pointer, where there is one ----------
    the list's own gesture: point at one and the other nine step back */
@@ -1840,9 +2145,12 @@
     animation-timeline: --pl-plate;
     animation-range: cover 0% cover 100%;
   }
+  /* 🛑 4.6 AND THE 4.6 IN js/ui.js ARE ONE NUMBER IN TWO FILES. The fallback rAF
+     path writes --dx; if the two ever disagree, Firefox drifts one distance and
+     Chrome another and nothing anywhere reports it. */
   @keyframes pl-drift {
-    from { translate: -3.7% 0 }
-    to   { translate:  3.7% 0 }
+    from { translate: -4.6% 0 }
+    to   { translate:  4.6% 0 }
   }
 }
 
@@ -1869,6 +2177,23 @@
 
    ⚠️ NOTHING REFLOWS. transform only, ten elements, and the amplitudes are set
    once at render time. */
+/* 🛑 THE WAVE IS SYMMETRIC AND STAYS SYMMETRIC — A BIASED VERSION WAS BUILT,
+   MEASURED AND THROWN AWAY, 2026-09-05, AND THE MEASUREMENT IS WORTH KEEPING.
+   The goal was to shrink the paper under the strip (the author: "maybe it doesnt
+   have to be so far bwellow the pics so it looks more ohesive") by moving the
+   wave's CENTRE up — +0.6·amp to −1.4·amp, same travel, less of it below the line.
+   ⚠️ IT COSTS 23% OF THE VISIBLE MOTION AND GIVES BACK NOTHING. The amplitudes in
+   js/render.js ALTERNATE SIGN — that is what makes adjacent plates oppose each
+   other — so a bias that lifts the +66 plate pushes the −65 plate exactly as far
+   down, and the clearance is unchanged. What does change is the part of the wave
+   the reader actually sees: the rail is only on screen for `cover` progress 0 to
+   about 0.65, so the symmetric wave shows 1.69 amplitudes of travel and the biased
+   one shows 1.29. Measured, plate I at 402: 111px of travel becomes 85px.
+   ⭐ THE PAPER CAME OFF A DIFFERENT WAY, AND THE ANSWER WAS IN THE SAME NUMBERS:
+   the full ±66 only happens at `cover 0%`, when the rail's own bottom edge is still
+   below the fold. From the moment that edge — and therefore the gap the author was
+   looking at — is on screen, the largest downward translate is 35px. The padding
+   below is sized for THAT, not for the extreme; see .pl-rail. */
 @keyframes pl-sway {
   from { transform: translateY(var(--amp, 0px)) }
   to   { transform: translateY(calc(var(--amp, 0px) * -1)) }
@@ -1898,12 +2223,13 @@
      describes reads as a stray paragraph. It begins where the first plate begins
      and stops at a comfortable measure. */
   grid-column: 1 / 8;
-  /* ⚠️ TIGHT ABOVE, ON PURPOSE. The rail already carries 2rem of padding under
-     the plates for the sway, so a full margin here put 53px between the strip and
-     its own caption while only 18 separated the caption from the arc — the
-     caption read as belonging to the arc rather than to the picture it describes.
-     The pair below the strip is one block; this is the space inside it. */
-  margin: 1.1rem 0 0;
+  /* ⚠️ TIGHT ABOVE, ON PURPOSE, AND TIGHTER AGAIN 2026-09-05 — the author: "maybe
+     it doesnt have to be so far bwellow the pics so it looks more ohesive."
+     The rail's own bottom padding came down from 5rem to 3.4 in the same round (see
+     the note there); this is the rest of it. The strip and its caption are ONE
+     BLOCK and the space between them has to be smaller than the space under them,
+     or the caption floats between the two and belongs to neither. */
+  margin: .5rem 0 0;
   /* ⭐ MUCH LARGER, 2026-09-05. The author: "Descriptions should be much larger
      too… that needs tonbe fixed."
      It was .92rem — smaller than the running text of the book — for the best short
@@ -1932,7 +2258,16 @@
   font-family: var(--serif);
   font-variation-settings: var(--lit-mid);
   font-weight: 350;
-  font-size: clamp(1.42rem, 2.15vw, 1.9rem);
+  /* 🔴 LARGER A THIRD TIME, 2026-09-05 (round five). The author: "the text under it
+     should be much bigger explaining the chapter."
+     .92rem → 1.34rem → 1.42rem floor → this. It is the one line of copy under a
+     full-bleed strip of ten photographs and it has nothing on the page to compete
+     with, so it is set at 34px at 1440 — larger than the chapter standfirsts and
+     just under the plate titles' display voice.
+     🛑 THE RESERVED-HEIGHT LADDER BELOW WAS RE-MEASURED AT THIS SIZE, not scaled.
+     It is in `em`, so it tracks the clamp automatically — but the LINE COUNTS do
+     not: bigger type wraps sooner, and two of the widths gained a line. */
+  font-size: clamp(1.56rem, 2.42vw, 2.12rem);
   line-height: 1.3; letter-spacing: -.012em;
   color: var(--ink); text-wrap: pretty;
   /* 🔴 THE LADDER IS IN `em` NOW, AND RE-MEASURED FROM SCRATCH, 2026-09-05. Two
@@ -1958,15 +2293,29 @@
   min-height: calc(6 * 1.3em);
   transition: opacity var(--dur-med) var(--ease);
 }
-@media (min-width: 340px) { .pl-hook { min-height: calc(5 * 1.3em); } }
-@media (min-width: 480px) { .pl-hook { min-height: calc(4 * 1.3em); } }
-@media (min-width: 560px) { .pl-hook { min-height: calc(3 * 1.3em); } }
-@media (min-width: 760px) { .pl-hook { min-height: calc(2 * 1.3em); } }
+/* 🛑 RE-MEASURED FROM SCRATCH AT THE NEW SIZE, 2026-09-05, NOT SCALED. The `em`
+   unit makes the ladder track the clamp automatically; it does not make the LINE
+   COUNTS track it, and bigger type wraps sooner. Every width below is where the
+   tallest of the ten hooks actually gains or loses a line, found by binary sweep
+   over 37 widths from 320 to 1120 with one probe element per width:
+       320  6 · 380  5 · 440  4 · 580  3 · 840  2 · 901  4 · 1010  3
+   The old ladder (340 / 480 / 560 / 760 / 901 / 915) under-reserved at five of
+   those widths once the type grew — up to a full line, which is 44px of the page
+   jumping under the reader's thumb on one snap in ten.
+   ⚠️ 901 GOING BACK UP TO FOUR IS STILL NOT A TYPO, and the reason is unchanged:
+   that is the layout breakpoint, and above it the caption spans seven of the
+   desktop's twelve tracks instead of all six of the phone's — so it gets NARROWER
+   as the window gets wider, once. 1010 is where the desktop grid has grown enough
+   to win the lines back. */
+@media (min-width: 380px) { .pl-hook { min-height: calc(5 * 1.3em); } }
+@media (min-width: 440px) { .pl-hook { min-height: calc(4 * 1.3em); } }
+@media (min-width: 580px) { .pl-hook { min-height: calc(3 * 1.3em); } }
+@media (min-width: 840px) { .pl-hook { min-height: calc(2 * 1.3em); } }
 .pl-hook.is-swapping { opacity: 0; }
 @media (max-width: 900px) { .pl-hook { grid-column: 1 / 7; } }
 /* the caption narrows at the desktop grid — see the note above */
-@media (min-width: 901px) { .pl-hook { min-height: calc(4 * 1.3em); } }
-@media (min-width: 915px) { .pl-hook { min-height: calc(3 * 1.3em); } }
+@media (min-width: 901px)  { .pl-hook { min-height: calc(4 * 1.3em); } }
+@media (min-width: 1010px) { .pl-hook { min-height: calc(3 * 1.3em); } }
 
 /* ---------- the arrival ----------
    🛑 IT ANIMATES THE FRAME AND THE ROW, NOT THE PLATE, AND THAT IS LOAD-BEARING.
