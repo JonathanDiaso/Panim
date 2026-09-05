@@ -1,146 +1,162 @@
 # 🚪 THE FRONT DOOR
 
 **What the top of the site does, why it does it, and what is next.**
-**v57**, 2026-09-05 — the mark sits on the title, the second door moved below the plates
-and opens on Hannah, and the plate caption is set in the display voice. 🗄 v55 (the ribbon
-going live) is at `58e2461`; v54's contact sheet, which never shipped, is at `d1dc9f9`.
+**v57 is LIVE on `main`**, 2026-09-05 — the mark sits on the title, the second door moved
+below the plates and is a teaser now, and the plate caption is set in the display voice.
+🛑 **Read §0.1 before touching the second door's `href`.** 🗄 v55 (the ribbon going live) is
+at `58e2461`; v54's contact sheet, which never shipped, is at `d1dc9f9`.
 
 > This file is **hand-written and permanent**. `README.md` describes the repo;
 > this describes the one screen a stranger actually sees.
 
 ---
 
-# 0 · 🔴 THE SECOND DOOR — it starts on Hannah now, and it moved below the plates
+# 0 · 🔴 THE SECOND DOOR — David's, still, and a teaser at last
 
-## 0.1 The target, and it is the author's
+## 0.1 🛑 THE ROUND THAT COST ITSELF — read this before touching the `href`
 
-`ch07-p139`**. He rejected the David passage by name:**
+**On 2026-09-05 the excerpt was moved off David and onto Hannah,** on a reading of the
+author that was half right and half wrong. **His correction, in full:**
 
-> *"the quote we were using was 'he answered it wet' or something… it should be
-> emotional, deeper than the brother thing."*
+> *"sorry i liked the david absalom audio but i didnt think it was a great introduction to
+> that like why would someone click it it should say only have 5 minutea and then something
+> els. its a teaser... it used to be good. it was fine before. where the sound startted."*
 
-**"The brother thing" is** `17m55s` — David, Absalom, the prodigal and his older brother.
-It was a good passage and it argued well. It was **an argument**, and the thing this card
-has to do is not argue.
+⭐ **THE COMPLAINT WAS NEVER ABOUT THE AUDIO.** *"it was fine before, where the sound
+started"* is an instruction to **leave the excerpt alone.** What was wrong was the **card**:
+it *described* the passage instead of *baiting* it, so nothing on it answered
+**"why would someone click this"**. **A description is not a teaser.**
+
+🛑 **SO DO NOT MOVE THE `href` AGAIN TO FIX A COPY PROBLEM.** The excerpt is the author's,
+chosen by text, twice. **If the card is not working, the card is wrong.**
+
+## 0.2 The target, and it is the author's
+
+`ch07-p107`**:**
+
+> *"David forgave his son and went on hiding his face for two years, because a hurt human
+> heart can hide indefinitely."* — **"God's cannot."**
 
 
 |             |                                                                                     |
 | ----------- | ----------------------------------------------------------------------------------- |
-| block id    | `ch07-p139` — *"My sister Hannah moved to heaven when she was twenty."*             |
-| cue         | `22:50` (`1369.69`) — `cues/ch07.json`                                              |
-| href        | `?t=ch07:22m49s`                                                                    |
-| the payoff  | `ch07-p169` + `ch07-p170` — *"He did not answer the question. He answered it wet."* |
+| block id    | `ch07-p107` → `ch07-p108`                                                           |
+| cue         | `17:56.320` — `cues/ch07.json`                                                      |
+| href        | `?t=ch07:17m55s`                                                                    |
 | source line | `content/chapters.js`, and upstream `panim-book/chapters/07-the-glory-backs-out.md` |
 
 
-🛑 **THE HREF IS ONE SECOND EARLY ON PURPOSE. Do not "correct" it to** `22m50s`**.**
-Same rule the David link had and for the same reason: a seek that lands a few
-milliseconds late clips the **M** of *"My sister"*.
+🛑 **THE HREF IS ONE SECOND EARLY ON PURPOSE. Do not "correct" it to** `17m56s`**.**
+A seek that lands a few milliseconds late clips the **D** of *David*, and the one second
+of lead-in is the tail of `ch07-p106` — a complete clause and a better cold open than a
+hard cut.
 
-⚠️ **THIS ANSWERS THE AUTHOR'S OWN NOTE IN §0.2 OF THE OLD VERSION OF THIS FILE** —
-*"it might take more than 4 min to get to the hannahs story."* It did: from `17:55`
-Hannah was **five minutes away and past the end of the excerpt.** The excerpt now
-**opens on her.**
+## 0.3 ⭐ Five minutes IS the measurement now — the old table was short
 
-## 0.2 ⭐ Five minutes, and five is now the measured number as well as the author's
-
-The label said five because **the author said five** (*"change from 4 to 5"*) while the
-old link measured four. From `22:49` it is **both**. Measured forward against
+**The old version of this file stopped its table at `+3m56` and concluded "four minutes",**
+which is why *five* had to be carried as the author's word **over** the measurement.
+**It was the table that was short, not the passage.** Measured forward from `17:55` against
 `cues/ch07.json`, by text, never by clock:
 
 
-| clock   | what you hear                                                                        |
-| ------- | ------------------------------------------------------------------------------------ |
-| `22:50` | **My sister Hannah moved to heaven when she was twenty.**                            |
-| `23:01` | the surprise party she hid behind a scavenger hunt and made him find                 |
-| `23:33` | ⭐ the pineapple — the old sign for **a safe return** — hung on a party about leaving |
-| `23:55` | she was in the stands, *including the ones that did not matter to anybody*           |
-| `24:18` | 🛑 **"It was whether He had been in the stands."**                                   |
-| `24:42` | a pen, a blank sheet, and **"Jesus, do You love me?"**                               |
-| `25:18` | the tears he had not cried in years, falling onto the question                       |
-| `25:42` | the ink runs; the words blur until he cannot read what he wrote                      |
-| `26:15` | ⭐ **"He answered it wet."**                                                         |
-| `26:49` | **"As tears."**                                                                      |
-| `27:12` | *"The finding was the gift."* — the scavenger hunt pays itself off                   |
-| `27:58` | 🛑 **a hiding that puts you outside the face of God, and one that puts you inside it** |
+| from start | what you hear                                                                                                                 |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `+0m01`    | **David forgave his son…** *a hurt human heart can hide indefinitely*                                                         |
+| `+0m10`    | **God's cannot.**                                                                                                             |
+| `+0m34`    | the younger son is still a long way off when the father sees him                                                              |
+| `+1m23`    | the father leaves his own feast and goes out to the door                                                                      |
+| `+1m34`    | ⭐ **"David waited two years for Absalom. This father would not wait through dinner."** — the two halves closing on each other |
+| `+1m50`    | Elijah, off Carmel, forty days to Horeb                                                                                       |
+| `+2m42`    | the wind, the earthquake, the fire — *He is not in* any of them                                                               |
+| `+3m09`    | *qol demamah daqqah*, a voice of thin silence                                                                                 |
+| `+3m56`    | **"He knows exactly Who is in the thin silence."**                                                                            |
+| `+4m43`    | Elijah walks off the mountain with his face still wrapped                                                                     |
+| `+4m51`    | 🛑 **"The appointment is still on the books."**                                                                               |
 
 
-**Start to that last line is 5 min 08 s.** It is an ending — the whole personal movement
-closes on it — and it is the first time the number on the card and the number on the
-clock have been the same number.
+⭐ **`+4m51` IS AN ENDING AND IT IS EXACTLY WHERE FIVE MINUTES LANDS.** It closes the Elijah
+movement, and **the next line opens a new one** (*"My sister Hannah moved to heaven when she
+was twenty"*) — so five minutes is also **the last honest place to stop.**
 
 ⚠️ **If the copy ever moves off "five minutes", re-derive it from this table.**
 
-## 0.3 🔴 IT MOVED OUT OF THE HERO, AND IT GREW
+## 0.4 🔴 IT MOVED OUT OF THE HERO, AND IT IS A TEASER NOW
 
 > *"we could possibly move that button down a bit so they interact with the pictures
 > first… move this down below photos and add what chapter 7 holds and the quote there
 > so its still super sweet and doesnt miss"*
 
-**It now sits under the ribbon of ten plates**, directly below the caption, and it is the
-last thing before the contents. A stranger meets **the photographs first** and is offered
-the five minutes **on the way out of them** — the card answers a curiosity the pictures
-have just created instead of competing with the title.
+**It sits under the ribbon of ten plates**, directly below the caption, and it is the last
+thing before the contents. A stranger meets **the photographs first** and is offered the
+five minutes **on the way out of them** — the card answers a curiosity the pictures have
+just created instead of competing with the title.
 
 ```
   Two small silver scrolls, a blessing about a face, and the      ← .pl-hook, 30.4px
   oldest words of the Bible anyone has ever found.
 
 ┌────────────────────────────────────────────────────┐
-│  CHAPTER VII · THE GLORY BACKS OUT                 │  ← --accent, --ui, --ap-lg, caps
+│  IF YOU ONLY HAVE FIVE MINUTES                     │ 1 the offer   --accent, --ap-lg
 │                                                    │
-│  He did not answer the question.                   │  ← Literata --lit-mid 350, 33.6px
-│  He answered it wet.                               │
+│  …a hurt human heart can hide indefinitely.        │ 2 the bait    Literata 350, 33.6px
+│  God's cannot.                                     │
 │                                                    │
-│  A sister who came to every game, a blank sheet of │  ← --ink-soft, --ui, --ap-xl
-│  paper in Pennsylvania, and an answer that did not │
-│  arrive in the format it was asked in.             │
+│  Two years of a father's hidden face. A father who │ 3 what's inside --ink-soft, --ap-xl
+│  leaves his own feast to stand at the door. And a  │
+│  mountain where the wind, the earthquake and the   │
+│  fire all turn out to be the wrong answer.         │
 │  ──────────────────────────────────────────────    │
-│  ╭───╮   The five minutes that do it               │  ← Literata, --ink
-│  │ ▶ │                                             │
+│  ╭───╮                                             │ 4 where it goes  Literata, --ink
+│  │ ▶ │  Chapter VII · The Glory Backs Out          │
 │  ╰───╯                                             │
 └────────────────────────────────────────────────────┘
 ```
 
-🛑 **FOUR ELEMENTS, FOUR DIFFERENT JOBS.** Locator (**where**), quote (**the book's own
-voice**), standfirst (**what the five minutes hold**), action (**what pressing it does**).
-Nothing repeats anything else. **This is the fault the 2026-09-05 morning pass fixed and
-it must not come back:** the card used to be an eyebrow, a title and a meta line all
-reporting the same number of minutes, which is the single most recognisable shape of
-machine-written UI copy and is why it read as an advert sitting on a book jacket.
+🛑 **FOUR ELEMENTS, FOUR JOBS, AND THE ORDER IS THE AUTHOR'S** — *"it should say only have
+5 minutes and then something els"*. **The offer is first because it is the only line on the
+page that is about the READER.** A card that opens by naming the chapter is answering a
+question nobody asked: a stranger does not know what Chapter VII is and cannot want it.
+**The locator went to the action row**, where a play ring wants a destination beside it.
 
-⭐ **THE QUOTE IS THE ONLY PLACE ON THE FRONT PAGE THE BOOK SPEAKS IN ITS OWN VOICE.**
-`ch07-p169` + `ch07-p170` verbatim, set at display size in Literata `--lit-mid` 350.
-⚠️ **It is a second copy of that text.** If the chapter is ever re-edited it will not follow.
+⚠️ **"FIVE MINUTES" IS SAID ONCE, IN LINE 1, AND NOWHERE ELSE.** The card's oldest and most
+persistent fault is an eyebrow, a title and a meta line **all reporting the same number of
+minutes** — three lines of chrome carrying one fact, which is the most recognisable shape
+of machine-written UI copy on this page. **The action line is the locator precisely so that
+number cannot come back twice.**
 
-🛑 **THE MARKUP MOVED TO** `js/render.js` — the constant `THE_SECOND_DOOR`, immediately
-above `renderPlateIndex()`, which is the function that emits it. It is **not** in
-`index.html` any more; there is a marker comment there pointing here.
+⚠️ **THE QUOTE IS `ch07-p107` + `ch07-p108`, ELIDED AT THE FRONT AND MARKED.** The full
+first sentence names David and runs to four lines at display size, which is a paragraph,
+not bait. **The leading ellipsis is the honest way to say so.** It is a second copy of that
+text — if the chapter is re-edited it will not follow.
+
+🛑 **THE MARKUP IS IN `js/render.js`** — the constant `THE_SECOND_DOOR`, immediately above
+`renderPlateIndex()`, which is the function that emits it. It is **not** in `index.html`
+any more; there is a marker comment there pointing here.
 **The id and the classes are still** `hero-sample` / `hs-*`. They are wrong about where it
 lives and right about what it is, and renaming them would touch the interceptor in
 `js/ui.js` and twenty selectors in `css/site.css` for no reader-visible gain.
 
-🛑 **THE WIRING STILL WORKS BECAUSE OF ORDER, NOT LUCK.** `js/ui.js` `init()` runs on
+🛑 **THE WIRING WORKS BECAUSE OF ORDER, NOT LUCK.** `js/ui.js` `init()` runs on
 `panim:rendered`, which `js/render.js` fires **after** `root.innerHTML` is set — so
 `$('#hero-sample')` finds it. **Verified by clicking it headlessly:** the event fires with
-`{"chapterId":"ch07","seekTo":1369}`, the default is prevented, and the URL does not change.
+`{"chapterId":"ch07","seekTo":1075}`, the default is prevented, and the URL does not change.
 
-🛑 **IT IS STILL AN** `<a>` **WITH THE REAL DEEP LINK, AND THAT IS NOT AN OVERSIGHT.**
-The `href` is what makes it **copyable, right-clickable, shareable, and the no-JS path.**
-Do not "simplify" it to a `<button>`.
+🛑 **IT IS STILL AN** `<a>` **WITH THE REAL DEEP LINK.** The `href` is what makes it
+**copyable, right-clickable, shareable, and the no-JS path.** Do not "simplify" it to a
+`<button>`.
 
-⚠️ **IT MUST NOT OUTRANK "Begin listening", AND THE THING THAT KEEPS IT IN ITS PLACE IS
-FILL.** `.btn-solid` is a solid slab of `--ink`; this is a wash inside a hairline. **A ring
-reads as *optional, and worth it*. A filled slab reads as *the thing*.** The two are also
-no longer on the same screen, which settles it further.
+⚠️ **IT MUST NOT OUTRANK "Begin listening", AND WHAT KEEPS IT IN ITS PLACE IS FILL.**
+`.btn-solid` is a solid slab of `--ink`; this is a wash inside a hairline. **A ring reads as
+*optional, and worth it*. A filled slab reads as *the thing*.** They are also no longer on
+the same screen.
 
 🛑 **"Begin listening" STAYED IN THE HERO,** on the author's call (*"card only"*). A
 returning reader's **`Continue: VII, 37:26`** must not be ten plates deep.
 
-🛑 **"Contents ↓" IS DELETED.** The author: *"i told you i dont want the clicker that shows
-content near the button."* It was a second, weaker door beside the only one that matters,
-pointing at a list the reader reaches by scrolling anyway. `.hero-hint` went with its
-markup — **a CSS rule with no markup is a trap for whoever reads the file next.**
+🛑 **"Contents ↓" IS DELETED.** *"i told you i dont want the clicker that shows content near
+the button."* It was a second, weaker door beside the only one that matters, pointing at a
+list the reader reaches by scrolling anyway. `.hero-hint` went with its markup — **a CSS
+rule with no markup is a trap for whoever reads the file next.**
 ⚠️ `#contents` **still exists** and is still a link target; this deleted the hint.
 
 **Tokens, all inherited, none invented:** `--control-edge` `--control-wash` `--accent`
@@ -159,32 +175,32 @@ its background composites to the same `rgb(239,235,225)` the jacket sits on.
 | `--control-edge` (.50) | `#848078`  | **3.30:1** | ✅ passes |
 
 
-**Every text pair was re-measured on the new paper, alpha composited, not eyeballed:**
+**Every text pair re-measured on the paper it actually sits on, alpha composited:**
 
 
-| pair                                   | size     | ratio       |     |
-| -------------------------------------- | -------- | ----------- | --- |
-| eyebrow `--accent` on card             | 13.12px  | **6.67:1**  | ✅   |
-| quote `--ink` on card                  | 33.6px   | **14.39:1** | ✅   |
-| standfirst `--ink-soft` on card        | 15.2px   | **5.90:1**  | ✅   |
-| action title `--ink` on card           | 19.44px  | **14.39:1** | ✅   |
-| plate caption `--ink` on paper         | 30.4px   | **15.26:1** | ✅   |
-| tap-to-listen note `--ink-soft`        | 15.2px   | **6.26:1**  | ✅   |
-| card border-left `--accent` on paper   | —        | **7.07:1**  | ✅   |
+| pair                                 | size    | ratio       |     |
+| ------------------------------------ | ------- | ----------- | --- |
+| offer `--accent` on card             | 13.12px | **6.67:1**  | ✅   |
+| quote `--ink` on card                | 33.6px  | **14.39:1** | ✅   |
+| what's-inside `--ink-soft` on card   | 15.2px  | **5.90:1**  | ✅   |
+| locator `--ink` on card              | 19.44px | **14.39:1** | ✅   |
+| plate caption `--ink` on paper       | 30.4px  | **15.26:1** | ✅   |
+| card edge `--control-edge` on paper  | —       | **3.30:1**  | ✅   |
 
 
-**Touch target: the whole card, 672 × 330 at 1440.** The ring is 40px and is decoration —
-the link is the rectangle.
+**Touch target: the whole card**, 672 × 371 at 1440, 280 × 409 at 320. The ring is 40px and
+is decoration — **the link is the rectangle.** No document-level horizontal scroll at any
+of 320 / 360 / 402 / 480 / 560 / 640 / 768 / 900 / 901 / 1024 / 1280 / 1440 / 1920.
 
 **The ring draws itself once,** 900ms, `both` fill, and is then finished forever.
 🛑 **No pulse, no loop, no glow.** Self-drawing hairlines are already this book's motion
 language (`.hairline.is-drawn`) — **this inherits it rather than inventing a gesture.**
 ⚠️ **The 500ms delay went with the move.** In the hero the ring drew while the reader was
-still on the title; below the fold the animation is over before anybody scrolls to it, so
-a delay buys nothing and only risks the ring being caught half-drawn.
+still on the title; below the fold the animation is over before anybody scrolls to it, so a
+delay buys nothing and only risks the ring being caught half-drawn.
 Under `prefers-reduced-motion` the ring is simply already drawn.
 
-## 0.4 🔴 THE "GLITCH" WAS A FULL PAGE RELOAD
+## 0.5 🔴 THE "GLITCH" WAS A FULL PAGE RELOAD
 
 **This is the fault the author felt and could not name.**
 
@@ -209,7 +225,7 @@ removing it breaks the shareability the `<a>` exists for.
 
 
 
-## 0.5 ⭐ Tap-to-listen finally has a sentence
+## 0.6 ⭐ Tap-to-listen finally has a sentence
 
 **The feature has existed since** `js/sync.js` **and nothing on the site ever said so.**
 The affordance is a hairline in the margin on hover (`css/polish.css`) — correct,
@@ -222,7 +238,7 @@ restrained, and **completely invisible on a phone, which has no hover at all.**
 never binds the handler. **A promise the page cannot keep is worse than no promise.**
 The **Click / Tap** swap is `@media (hover: hover)` — **never tell a phone to click.**
 
-## 0.6 "free · no account" is out of the invitation
+## 0.7 "free · no account" is out of the invitation
 
 **The author:** *"delete the no account from the intro section and the free thing thats weird."*
 
@@ -242,7 +258,7 @@ it is a sentence rather than a feature bullet. **If he meant that one too, it is
 ---
 
 
-## 0.7 🔴 THE MARK CAME OFF THE PAGE'S CENTRE LINE AND ONTO THE TITLE'S
+## 0.8 🔴 THE MARK CAME OFF THE PAGE'S CENTRE LINE AND ONTO THE TITLE'S
 
 > *"hebrew word should be on top of title it sits on top of not in dead center."*
 
@@ -271,7 +287,7 @@ of padding is what keeps the word's box over 44px wide; ranged left it would als
 glyph ~6px right of the title's stem, which is the one misalignment the eye catches on a
 title page.
 
-## 0.8 🔴 THE PLATE CAPTION IS SET IN THE DISPLAY VOICE NOW
+## 0.9 🔴 THE PLATE CAPTION IS SET IN THE DISPLAY VOICE NOW
 
 > *"maybe this text should be bigger its still tiny and nt captivating… should we use
 > different font."*
@@ -317,7 +333,7 @@ caption spans all six phone tracks (**828px at 900**), above it seven of the des
 twelve (**477px at 901**). **The caption gets narrower as the window gets wider, once,**
 and it costs two lines. 915 is where the desktop grid has grown enough to win them back.
 
-## 0.9 🔴 THE TOP OF THE PAGE WAS BLOATED, AND IT WAS THREE GAPS DOING ONE JOB
+## 0.10 🔴 THE TOP OF THE PAGE WAS BLOATED, AND IT WAS THREE GAPS DOING ONE JOB
 
 > *"i feel like theres too much space in between sections at the beggining make sure theyre
 > clean not bloated."*
@@ -768,4 +784,72 @@ shorter than it was with the arc.
 3. every `?v=` in `index.html`
 4. **the** `?v=` **on** `fonts.css` **in** `404.html` **AND** `accessibility.html` ← the one that rots
 
-**All four are on** `53`**.**
+**All four are on** `57`**.**
+---
+
+# 4 · 🛑 WHERE THIS WAS LEFT — end of 2026-09-05, last session of the night
+
+**v57 is committed and pushed. The site is live and matches this file.** Nothing is
+half-done, nothing is stubbed, and there is no branch waiting to be merged.
+
+## 4.1 What shipped tonight, in one place
+
+
+| # | the note                                                        | what happened                                                                                     |
+| - | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 1 | *"hebrew word should be on top of title… not in dead center"*   | The mark spans `.hero-title`'s own tracks and ranges left with it. **0px offset at every width.** §0.8 |
+| 2 | *"i dont want the clicker that shows content near the button"*   | `Contents ↓` deleted, `.hero-hint` deleted with it. `Begin listening` stands alone. §0.4          |
+| 3 | *"move that button down… so they interact with the pictures first"* | The second door is under the ribbon. `Begin listening` stayed on the jacket, on his call. §0.4 |
+| 4 | *"why would someone click it… its a teaser"*                    | Card rebuilt: **offer → bait → what's inside → destination.** Excerpt unchanged at `17m55s`. §0.1, §0.4 |
+| 5 | *"still tiny and nt captivating… different font"*                | Plate caption in the display voice, 21.4 → 30.4px, `--ink`. Reserved height rewritten in `em`. §0.9 |
+| 6 | *"too much space in between sections at the beggining"*          | `#hero` 1504px → 1363px. §0.10                                                                    |
+
+
+## 4.2 🛑 THE ONE MISTAKE OF THE NIGHT, SO IT IS NOT REPEATED
+
+**Note 4 was read as a complaint about the audio and it was a complaint about the copy.**
+The excerpt was moved from David/Absalom to Hannah and had to be moved back. **The whole
+lesson is in §0.1 and it is worth the thirty seconds** before anyone touches that `href`:
+
+> **"it was fine before, where the sound started"** is an instruction to leave the excerpt
+> alone. **If the card is not working, the card is wrong.**
+
+⚠️ **The Hannah passage (`22m49s`, "He answered it wet") is genuinely strong and is still
+sitting there unused.** It is **not** a rejected idea — he liked the David audio *and* he
+volunteered that quote by name. **If a second door is ever wanted somewhere else on the
+site, that is the one**, and §0.3's method (measure forward by text against `cues/ch07.json`,
+never by clock) is how to size it.
+
+## 4.3 ⬜ Open, ranked, for whoever picks this up next
+
+- ⬜ **The plate caption's reserved height is generous on a phone.** At 402 it holds five
+  lines for chapter VI while chapter I only needs three, so up to ~60px of air can sit
+  between the caption and the card. **The reservation is deliberate** — a fluid caption
+  moves the card under the reader's thumb on every snap, which is worse — but there may be
+  a middle version (reserve the *median*, let the two long hooks push). **~1 hr, nothing
+  blocked, and it needs the author's eye on a real phone before it is worth doing.**
+- ⬜ **The card is 42rem wide and the quote only fills about half of it at 1440.** It reads
+  as deliberate short-line setting, but a narrower card (~36rem) would sit tighter under
+  the caption. **~20 min, purely a taste call — do not do it without asking him.**
+- ⬜ **`.hero-meta` still reads "Read and listen".** *"free"* came off it on his instruction;
+  the About sheet still carries the runtime and the price, which is where somebody who has
+  already decided goes to plan an evening. **Left alone on purpose.**
+- ⬜ **One real pointer and one real thumb** on the ribbon — still the standing request from
+  §2.9, still not done. Everything above was measured headlessly.
+
+## 4.4 How everything above was verified
+
+**Same-origin harness in `Panim-site/`, served over `http://localhost:8899/`, deleted before
+committing.** See `README.md` §6 and the project memory: a `file://` harness with a
+`localhost` iframe is cross-origin, `contentDocument` is `null`, and the failure looks like
+a perfectly good screenshot of the top of the page every time.
+
+- **Deep link:** clicked headlessly → `{"chapterId":"ch07","seekTo":1075}`, default
+  prevented, URL unchanged.
+- **Contrast:** every pair alpha-composited against the background it actually sits on, not
+  against the token. `#plates` has no `[data-ch]` and composites to `rgb(239,235,225)`.
+- **The caption ladder:** all ten hooks measured at thirteen widths, one probe element per
+  width, and the ladder carries only the widths where the tallest hook actually gains or
+  loses a line.
+- **Horizontal scroll:** `scrollWidth > clientWidth` checked at 320 / 360 / 402 / 480 / 560 /
+  640 / 768 / 900 / 901 / 1024 / 1280 / 1440 / 1920. **None.**
