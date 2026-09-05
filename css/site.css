@@ -130,6 +130,17 @@
   --ap-sm: .64rem;   /* tracked uppercase only: numerals, references, labels */
   --ap-md: .72rem;   /* captions, running times, anything with a few words */
   --ap-lg: .82rem;   /* apparatus that carries a sentence */
+  /* ⭐ ADDED 2026-09-05, and it is a real addition to the scale rather than a
+     number written inline. The author, of .hero-sample-note: "tap any line that
+     text is super small too."
+     He is right and the scale is what made it small. The three sizes above are
+     sized for apparatus that sits BESIDE something — a running time, a plate
+     caption, a reference. .hero-sample-note is not that: it is a full sentence on
+     the jacket, in the reading column, whose whole job is to tell a stranger the
+     book is a play button. At --ap-md that is 11.5px of body copy, which nobody
+     reads. This is the size apparatus takes when it is the only thing in its own
+     line of the page and is meant to be read rather than consulted. */
+  --ap-xl: .95rem;   /* apparatus that IS the line: a full sentence, read not consulted */
 
   /* ---- measure + rhythm -------------------------------------------------
      62ch is the reading measure. It is NOT the page width: the page is a
@@ -528,15 +539,28 @@ main { position: relative; }
    heavier, which is the point of the change. The one place --rule-strong would be
    right here is if this were a plain container, and it is not.
    ============================================================================ */
+/* 🔴 SLIMMED 2026-09-05. The author: "its ugly and big nott pleasant not
+   attractive." The copy fix above took a line out of it, and the box then had to
+   stop being sized for three. Measured at 1440: 104px tall becomes 68px, and the
+   width comes in from 32rem to 27rem so it stops running the full reading measure
+   and reading as a banner.
+   🛑 IT DOES NOT GO BACK TO BEING A GHOST LINK. That is the fault it was built to
+   fix on 2026-09-04 ("that arrow section line is way too not prominent, that
+   should be a sexy button"), and "prettier" is not "quieter". The edge, the accent
+   rule and the wash all stay; only the bulk goes.
+   ⚠️ --control-edge, NOT --rule-strong, and the distinction still holds: the whole
+   rectangle is one link, so WCAG 2.2 SC 1.4.11 wants 3:1 for its boundary.
+   Against this section's paper (#EFEBE1) --rule-strong composites to 1.84:1 and
+   fails; --control-edge composites to 3.30:1 and passes. */
 .hero-sample {
   grid-column: 3 / 9;
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 1rem;
-  max-width: 32rem;
+  gap: .85rem;
+  max-width: 27rem;
   margin-top: 1.5rem;
-  padding: .95rem 1.15rem;
+  padding: .7rem 1rem;
   border: 1px solid var(--control-edge);
   /* the accent edge is the eye-magnet, and it is a RULE, not a glow. The book
      marks a change of voice with a rule everywhere else; this is the same move. */
@@ -554,19 +578,27 @@ main { position: relative; }
 }
 .hero-sample:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-/* the ring + triangle. 46px is the transport button's size (components.css), so
-   the two play affordances on the site are the same object at the same scale. */
-.hs-glyph { display: block; width: 46px; height: 46px; }
+/* the ring + triangle. It was 46px, the transport button's size, so that the two
+   play affordances on the site were the same object at the same scale — and at
+   46px beside two lines instead of three the ring was taller than the type it was
+   introducing and the card looked top-heavy. 40px still clears the 24px minimum
+   for a non-text control (WCAG 2.2 SC 2.5.8) many times over, and the CARD is the
+   touch target here anyway: the whole rectangle is the link, and it measures
+   68px tall. */
+.hs-glyph { display: block; width: 40px; height: 40px; }
 .hs-glyph svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .hs-ring {
   fill: none;
   stroke: var(--ink);
   stroke-width: 1;
-  /* 2πr, r=22 → 138.23. The dash pattern is what lets it draw itself. */
-  stroke-dasharray: 138.23;
+  /* 2πr, r=19 → 119.38. The dash pattern is what lets it draw itself.
+     ⚠️ IT MUST TRACK THE RADIUS IN index.html. It was 138.23 for r=22; leaving it
+     there against r=19 leaves 18.85 units of dash the circle never uses, so the
+     ring finishes drawing early and then sits still for the last 140ms. Silent. */
+  stroke-dasharray: 119.38;
   stroke-dashoffset: 0;
   transform: rotate(-90deg);
-  transform-origin: 23px 23px;
+  transform-origin: 20px 20px;
 }
 .hs-tri { fill: var(--ink); transition: fill var(--dur-fast) var(--ease); }
 .hero-sample:hover .hs-ring,
@@ -578,7 +610,7 @@ main { position: relative; }
    finished forever. `both` holds the end state, so there is no frame where the
    ring is missing and no second pass. This is .hairline.is-drawn's gesture, not a
    new one, which is why it does not read as a different site. */
-@keyframes hs-draw { from { stroke-dashoffset: 138.23; } to { stroke-dashoffset: 0; } }
+@keyframes hs-draw { from { stroke-dashoffset: 119.38; } to { stroke-dashoffset: 0; } }
 .hs-ring { animation: hs-draw 900ms var(--ease) 500ms both; }
 
 .hs-text { display: block; min-width: 0; }
@@ -593,29 +625,35 @@ main { position: relative; }
   display: block;
   font-variation-settings: var(--lit-mid);
   font-weight: 400;
-  font-size: 1.05rem; line-height: 1.25; letter-spacing: -.005em;
+  font-size: 1.08rem; line-height: 1.22; letter-spacing: -.005em;
   color: var(--ink);
 }
-.hs-meta {
-  display: block;
-  font-family: var(--ui); font-size: var(--ap-md);
-  letter-spacing: .06em;
-  color: var(--ink-faint);
-  margin-top: .22em;
-}
+/* 🛑 .hs-meta WAS DELETED WITH ITS MARKUP, 2026-09-05. It read
+   "Chapter VII · about 4 minutes" under a title that already said the number of
+   minutes, under an eyebrow that had said it once before that. The eyebrow above
+   is now the locator and carries "Chapter VII" alone. Do not restore this rule
+   without markup that says something the other two lines do not. */
 
 /* THE LINE THAT NAMES A FEATURE THAT ALREADY EXISTED.
    Hidden by default and revealed only by .can-tap-to-listen, which js/sync.js
    sets on <html> where it actually binds the handler. A promise the page cannot
    keep is worse than no promise. */
+/* ⚠️ IT WAS 11.5px OF BODY COPY. The author, 2026-09-05: "tap any line that text
+   is super small too." --ap-md is .72rem, and the token block's own note says
+   "Anything carrying a sentence takes --ap-md or --ap-lg" — this line carries a
+   sentence AND is the only thing on its row, which is a third case the scale did
+   not have. It takes the new --ap-xl (.95rem, 15.2px), and the colour comes off
+   --ink-faint (4.51:1, the floor) onto --ink-soft (measured 6.26:1 composited over this stock), because
+   a sentence a stranger is meant to actually read should not be sitting on the
+   contrast minimum. */
 .hero-sample-note {
   display: none;
   grid-column: 3 / 9;
-  max-width: 32rem;
-  margin: .6rem 0 0;
-  font-family: var(--ui); font-size: var(--ap-md);
-  letter-spacing: .04em;
-  color: var(--ink-faint);
+  max-width: 34rem;
+  margin: .75rem 0 0;
+  font-family: var(--ui); font-size: var(--ap-xl);
+  line-height: 1.5; letter-spacing: .01em;
+  color: var(--ink-soft);
 }
 .can-tap-to-listen .hero-sample-note { display: block; }
 /* never tell a phone to click. Pointer-only devices get "Tap"; anything with a
@@ -629,6 +667,8 @@ main { position: relative; }
 
 @media (max-width: 900px) {
   .hero-sample, .hero-sample-note { grid-column: 1 / 7; max-width: none; }
+  /* on a phone the card is the width of the column anyway, so the cap that keeps
+     it from spanning the desktop measure has nothing to do here */
 }
 
 /* 🛑 REDUCED MOTION IS A FULL STOP, NOT A SLOWER VERSION.

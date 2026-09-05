@@ -131,12 +131,12 @@
       href="art/d/hero-940.avif"
       imagesrcset="art/d/hero-640.avif 640w, art/d/hero-940.avif 940w, art/d/hero-1408.avif 1408w"
       imagesizes="(min-width: 1440px) 1440px, 100vw">
-<link rel="stylesheet" href="fonts/fonts.css?v=55">
-<link rel="stylesheet" href="css/site.css?v=55">
-<link rel="stylesheet" href="css/components.css?v=55">
-<link rel="stylesheet" href="css/player.css?v=55">
-<link rel="stylesheet" href="css/room.css?v=55">
-<link rel="stylesheet" href="css/polish.css?v=55">
+<link rel="stylesheet" href="fonts/fonts.css?v=56">
+<link rel="stylesheet" href="css/site.css?v=56">
+<link rel="stylesheet" href="css/components.css?v=56">
+<link rel="stylesheet" href="css/player.css?v=56">
+<link rel="stylesheet" href="css/room.css?v=56">
+<link rel="stylesheet" href="css/polish.css?v=56">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -182,6 +182,16 @@
            likely to try to click. It goes to that word's plate in the closing
            lexicon (#lex-panim), which is the only place on the site that answers
            "what does this say and what does it mean". -->
+      <!-- ⭐ ITS OWN LINE, CENTRED, 2026-09-05. The author: "make the ebrew symbol
+           the first one bigger its kinda small… why dont you center it? any reason
+           not too?" There was no reason. It was in the margin column (1/3) beside
+           the title at clamp(1.6rem, 3vw, 2.6rem) — the width of that column is
+           what was holding it small, not a decision, and a word set at 26px is not
+           the word the whole book is named after.
+           It is now a device: full width, centred, roughly twice the size, with the
+           title ranged left underneath it. A centred mark over a ranged-left title
+           is the title-page move, and it is the only centred thing on the jacket —
+           which is what makes it read as a mark rather than as a heading. -->
       <a class="hero-hebrew" href="#lex-panim" lang="he" dir="rtl"
          aria-label="Panim, the Hebrew word for face. Open its entry in the lexicon.">פָּנִים</a>
       <h1 class="hero-title">The Invitation Hidden on Every Page</h1>
@@ -196,7 +206,12 @@
       <div class="hero-meta">
         <b>Jonathan Diaso</b>
         Ten chapters<br>
-        Read and listen, free
+        <!-- 🛑 "free" CAME OUT 2026-09-05, the author: "on read and listen free
+             delete free". Same call already made on the invite's meta line and for
+             the same reason: it is pricing chrome, it answers an objection nobody
+             standing on the jacket has yet, and answering it plants it. The About
+             sheet still says free, where somebody who has decided goes to check. -->
+        Read and listen
       </div>
       <div class="hero-actions">
         <button class="btn btn-solid" id="begin-btn">Begin listening</button>
@@ -248,18 +263,41 @@
            ⚠️ THE RUNTIME IS THE REAL ONE. 24m35s → 26:14 is 1 min 39 sec, measured
            against the canonical transcripts, not rounded up to match the eyebrow.
            Under-promising here is the point. -->
+      <!-- 🔴 IT SAID "FOUR MINUTES" THREE TIMES IN THREE LINES, 2026-09-05. The
+           author: "the 5 minute button… should be much prettier its ugly and big
+           nott pleasant not attractive."
+           The card was not big because of its padding. It was big because it was
+           an eyebrow, a title and a meta line all reporting the same number:
+             "If you only have four minutes" / "The four minutes that do it" /
+             "Chapter VII · about 4 minutes"
+           Three lines of chrome to carry one fact. That triplet — eyebrow states
+           the offer, title restates it, meta restates it a third time with a
+           digit — is the single most recognisable shape of machine-written UI
+           copy on this page, and it is why the card read as an advert sitting on
+           a book jacket.
+           It is now two lines that say two different things: WHERE it is, and
+           WHAT it does. Nothing is repeated, so the box that holds it can be
+           smaller without anything being lost.
+           ⚠️ FIVE, NOT FOUR, ON THE AUTHOR'S INSTRUCTION: "change from 4 to 5".
+           The href does not move — the passage still opens at 17m55s on the "D"
+           of David — so this is the label changing, not the excerpt. Note that it
+           crosses the old comment's measurement: four minutes is where the
+           passage LANDS ("He knows exactly Who is in the thin silence", +236s).
+           Five is the author's number and the author's call.
+           ⭐ STILL AN <a> WITH THE REAL DEEP LINK. The href is what makes it
+           copyable, right-clickable and shareable, and it is the no-JS path. The
+           click is intercepted in js/ui.js so the page does NOT reload. -->
       <a class="hero-sample" id="hero-sample" href="?t=ch07:17m55s"
-         aria-label="Play the four minutes that do it — chapter seven, about four minutes.">
+         aria-label="Play the five minutes that do it — from chapter seven.">
         <span class="hs-glyph" aria-hidden="true">
-          <svg viewBox="0 0 46 46" focusable="false">
-            <circle class="hs-ring" cx="23" cy="23" r="22"/>
-            <path class="hs-tri" d="M19 15.4 32 23 19 30.6Z"/>
+          <svg viewBox="0 0 40 40" focusable="false">
+            <circle class="hs-ring" cx="20" cy="20" r="19"/>
+            <path class="hs-tri" d="M16.6 13.4 28 20 16.6 26.6Z"/>
           </svg>
         </span>
         <span class="hs-text">
-          <span class="hs-eyebrow">If you only have four minutes</span>
-          <span class="hs-title">The four minutes that do it</span>
-          <span class="hs-meta">Chapter VII · about 4 minutes</span>
+          <span class="hs-eyebrow">Chapter VII</span>
+          <span class="hs-title">The five minutes that do it</span>
         </span>
       </a>
       <!-- TAP-TO-LISTEN HAS EXISTED SINCE js/sync.js AND NOTHING EVER SAID SO.
@@ -347,8 +385,26 @@
   <div class="sheet-inner">
     <button class="btn btn-icon sheet-close" data-close-sheet="about-sheet" aria-label="Close">×</button>
     <h2>About this book</h2>
-    <p>PANIM traces the Hebrew word for face, <em>panim</em>, across the whole of Scripture: a single word, followed from the first page to the last, until it becomes the whole story.</p>
-    <p>Written and narrated by Jonathan Diaso. Ten chapters, five and a half hours, free. No account, no paywall, and your place is saved on this device.</p>
+    <!-- AI-TEXT PASS, 2026-09-05. The author: "review for ai text".
+         🔴 THIS PARAGRAPH ENDED IN THE HERO'S SUBTITLE, WORD FOR WORD. It read
+         "…across the whole of Scripture: a single word, followed from the first
+         page to the last, until it becomes the whole story", and the jacket four
+         inches behind this sheet says "One Hebrew word for face, followed from the
+         first page of the Bible to the last, until it becomes the whole story."
+         Same clause, same rhythm, same close. Restating the thesis in slightly
+         different words every time there is a box to fill is the most reliable
+         signature of machine-written copy on a site, and it was doing it across an
+         open modal and the page underneath it.
+         The fix is a deletion, not a rewrite: About names the subject and leaves
+         the thesis to the jacket, which already carries it better.
+         🛑 "No account, no paywall" WENT FOR THE AUTHOR'S OWN STATED REASON. On
+         2026-09-04 he had it cut from the invitation — "delete the no account from
+         the intro section and the free thing thats weird" — and it survived here.
+         It is SaaS pricing chrome: it answers an objection nobody has yet, and
+         answering it plants it. The runtime stays, because About is exactly where
+         he said the runtime belongs. -->
+    <p>PANIM traces the Hebrew word for face, <em>panim</em>, across the whole of Scripture.</p>
+    <p>Written and narrated by Jonathan Diaso. Ten chapters, five and a half hours, free. Your place is saved on this device.</p>
 
     <p class="about-thanks">Thank you for giving it your evening. If any of it landed, the
     only thing I would ask is that you send it to one person you thought of while you were
@@ -558,23 +614,23 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=55"></script>
-<script src="content/images.js?v=55"></script>
-<script src="content/audio-manifest.js?v=55"></script>
-<script src="content/marks.js?v=55"></script>
-<script src="content/thread.js?v=55"></script>
-<script src="content/lexicon.js?v=55"></script>
-<script src="content/names.js?v=55"></script>
-<script src="content/sources.js?v=55"></script>
-<script src="content/verse-notes.js?v=55"></script>
-<script src="content/derivatives.js?v=55"></script>
-<script src="js/render.js?v=55"></script>
-<script src="js/ui.js?v=55"></script>
-<script src="js/motion.js?v=55"></script>
-<script src="js/sync.js?v=55"></script>
-<script src="js/search.js?v=55"></script>
-<script src="js/player.js?v=55"></script>
-<script src="js/room.js?v=55"></script>
+<script src="content/chapters.js?v=56"></script>
+<script src="content/images.js?v=56"></script>
+<script src="content/audio-manifest.js?v=56"></script>
+<script src="content/marks.js?v=56"></script>
+<script src="content/thread.js?v=56"></script>
+<script src="content/lexicon.js?v=56"></script>
+<script src="content/names.js?v=56"></script>
+<script src="content/sources.js?v=56"></script>
+<script src="content/verse-notes.js?v=56"></script>
+<script src="content/derivatives.js?v=56"></script>
+<script src="js/render.js?v=56"></script>
+<script src="js/ui.js?v=56"></script>
+<script src="js/motion.js?v=56"></script>
+<script src="js/sync.js?v=56"></script>
+<script src="js/search.js?v=56"></script>
+<script src="js/player.js?v=56"></script>
+<script src="js/room.js?v=56"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

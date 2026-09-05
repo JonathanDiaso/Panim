@@ -178,14 +178,35 @@
 @supports not (grid-template-columns: subgrid) {
   .hero-block { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
 }
+/* ⭐ ITS OWN ROW, CENTRED, AND ROUGHLY TWICE THE SIZE. 2026-09-05, the author:
+   "make the ebrew symbol the first one bigger its kinda small… why dont you
+   center it? any reason not too?"
+   🔴 THE MARGIN COLUMN IS WHAT WAS HOLDING IT SMALL. It sat at grid-column 1/3 —
+   two of twelve tracks, 208px at 1440 — beside the title, so the clamp had to top
+   out at 2.6rem or the word would have run out of its own column. That was a
+   consequence of where it was parked, never a decision about how big the word the
+   book is named after ought to be. Measured at 1440: 41.6px becomes 76.8px.
+   ⭐ AND THERE WAS NO REASON NOT TO CENTRE IT. A device centred above a
+   ranged-left title is the title page, not a mistake — it is the one centred
+   element on the jacket, which is exactly what stops it reading as a heading and
+   makes it read as a mark. The title, the standfirst and the pull line all keep
+   the left grid they had.
+   🛑 IT IS STILL A LINK to #lex-panim, still not underlined (css/site.css sets
+   `a { color: inherit }` and every component turns the UA underline off for
+   itself), and still writes itself in right-to-left once (.heb-g, below). */
 .hero-hebrew {
-  grid-column: 1 / 3;
+  grid-column: 1 / -1;
+  justify-self: center;
   font-family: var(--heb); font-weight: 400;
-  font-size: clamp(1.6rem, 3vw, 2.6rem); line-height: 1;
+  /* ⚠️ IT MUST NOT LAND WITHIN A FEW PIXELS OF THE TITLE. The first pass was
+     clamp(2.9rem, 6.4vw, 4.8rem) → 76.8px at 1440 against a 70.4px .hero-title,
+     and two display sizes six pixels apart do not read as a hierarchy, they read
+     as a mistake. This clears the title by about a quarter at both ends: 49.6px
+     over 35.2px on a 402px phone, 86.4px over 70.4px at 1440. */
+  font-size: clamp(3.1rem, 6.6vw, 5.4rem); line-height: 1;
   color: var(--accent);
-  padding-top: .18em;
-  /* it is a link now (index.html) — it must not pick up the site's underline */
-  display: inline-block; justify-self: start;
+  padding-top: 0;
+  margin-bottom: clamp(1.1rem, 2.4vw, 2rem);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color var(--dur-fast) var(--ease);
@@ -194,18 +215,17 @@
   border-bottom-color: color-mix(in srgb, var(--accent) 45%, transparent);
 }
 .hero-hebrew:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
-/* 🛑 44px on BOTH axes, from 2026-08-30 (D15-G). Measured at 402px this was 42 x 27:
-   the word the whole book is about, and the one link on the jacket, missing the
-   touch floor on both sides. It is a single Hebrew word set at the phone end of a
-   clamp, so its own box is simply small — the padding is what makes it tappable,
-   and inline-flex is what lets the box grow without moving the type off the
-   baseline the title is set to. Fixed on the same day the same fault was found in
-   the About sheet; both are older than this round, and both were invisible because
-   the type LOOKS big at desktop. */
+/* 🛑 44px ON BOTH AXES SURVIVES THE RESIZE, AND IT IS STILL DECLARED RATHER THAN
+   ASSUMED. The floor was found on 2026-08-30 (D15-G) when this measured 42 x 27 at
+   402px. At the new clamp the phone end is 2.9rem, so the word's own box now
+   measures about 118 x 46 and clears the floor on its own — but the padding stays,
+   because a floor that is only met by accident is a floor that breaks the next
+   time somebody touches the clamp. The padding is symmetric now that the word is
+   centred; the old padding-right alone would have pushed it off centre by 4px. */
 .hero-hebrew {
-  display: inline-flex; align-items: flex-start;
+  display: inline-flex; align-items: center; justify-content: center;
   min-height: 44px; min-width: 44px;
-  padding-right: .25em;
+  padding-inline: .12em;
 }
 /* Retuned for Literata, 2026-08-27. Literata sets wider than Fraunces did, so the
    old clamp(…, 5.1rem) pushed the title from two lines to three and the jacket
@@ -260,8 +280,13 @@
   @supports not (grid-template-columns: subgrid) {
     .hero-block { grid-template-columns: repeat(6, 1fr); }
   }
-  .hero-hebrew, .hero-title, .hero-subtitle, .hero-pull, .hero-meta, .hero-actions { grid-column: 1 / 7; }
-  .hero-hebrew { padding-top: 0; margin-bottom: .4rem; }
+  .hero-title, .hero-subtitle, .hero-pull, .hero-meta, .hero-actions { grid-column: 1 / 7; }
+  /* 🛑 THE MARK IS NOT IN THAT LIST ANY MORE. It used to be ranged left with the
+     rest of the block; it now spans the phone's six tracks and stays centred, the
+     same as the desktop. Adding it back to the rule above silently un-centres it
+     on every phone while the desktop still looks right — which is the shape of
+     bug that ships. */
+  .hero-hebrew { grid-column: 1 / 7; justify-self: center; margin-bottom: 1rem; }
   .hero-meta { margin-top: 1.4rem; }
 }
 
@@ -331,12 +356,34 @@
    same #gloss-card the inline glossary terms use.
    Smaller than before because four of the ten marks are phrases, not single words
    (peh el peh, panim be-panim, haster astir, prosopon pros prosopon). */
+/* ⭐ LARGER AND ACTUALLY TOUCHABLE, 2026-09-05. The author: "Should we make all
+   greek hebrew words biiger that are not in the large lot at the bottom easier to
+   interact with?"
+   Yes, and the two halves of that are separate faults. SIZE: outside the lexicon
+   wall there are only two places a Hebrew or Greek word appears on this site — the
+   jacket's mark and these ten — and both were sized by the column they happened to
+   sit in rather than by what they are. The jacket's is fixed above; this is the
+   other one.
+   TOUCH: this is a tabindex="0" role="note" that opens the #gloss-card, i.e. a
+   control, and it had no declared target at all. Measured at 402px before this:
+   ch. I "פָּנִים" was 96 x 30 — thirty pixels tall against WCAG 2.5.5's 44, and the
+   four Greek marks were worse because the serif sets shorter. The line-height and
+   the min-height below are the target; nothing moves on the page, because the
+   margin column has the room and the mark is the only thing in it. */
 .chapter-mark {
   font-family: var(--heb); font-weight: 300;
-  font-size: clamp(1.45rem, 2.5vw, 2.35rem);
-  line-height: 1.12;
+  font-size: clamp(1.85rem, 3.1vw, 2.9rem);
+  line-height: 1.24;
+  /* 🛑 min-height ON A BLOCK, NOT display:flex. Flex was the obvious way to centre
+     the word in a 44px box and it would have quietly wrecked the Hebrew: js/render
+     .js grapheme-splits every Hebrew mark into .heb-g spans so the combining nikkud
+     stay attached to their letters, and under flex each of those spans becomes a
+     flex ITEM — ten letters laid out as ten independent boxes, in a word that is
+     supposed to be one. The box just gets taller instead. */
+  min-height: 44px;
+  display: block;
   color: var(--accent);
-  margin-top: .55em;
+  margin-top: .5em;
   user-select: none;
   cursor: help;
   transition: color var(--dur-fast) var(--ease);
@@ -355,9 +402,13 @@
 .chapter-mark:hover, .chapter-mark:focus-visible { color: var(--ink); }
 .chapter-mark:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 /* Greek is left-to-right and is set in the book serif, not the Hebrew face */
+/* Greek is left-to-right and is set in the book serif, not the Hebrew face. It is
+   set a step down from the Hebrew because Frank Ruhl's Hebrew has no ascenders or
+   descenders to speak of and Literata italic has both — matching the two by
+   nominal size makes the Greek look larger than the Hebrew, not equal to it. */
 .chapter-mark.is-greek {
   font-family: var(--serif);
-  font-size: clamp(1.15rem, 1.9vw, 1.7rem);
+  font-size: clamp(1.42rem, 2.3vw, 2.05rem);
   font-style: italic;
 }
 .chapter-mark .heb-g {
@@ -372,8 +423,13 @@
 /* It used to be hidden on phones because it was ornament. It is content now:
    the word each chapter turns on. Kept, smaller, above the title. */
 @media (max-width: 900px) {
-  .chapter-mark { font-size: 1.3rem; margin-top: .25em; }   /* the .7 went with the .62 above */
-  .chapter-mark.is-greek { font-size: 1.05rem; }
+  /* ⚠️ THE PHONE HAD ITS OWN, SMALLER, FLAT SIZES — 1.3rem and 1.05rem — which
+     undercut the clamp above and were the actual reason the marks were 30px tall
+     where it mattered most. The clamp's own floor (1.85rem / 1.42rem) is what a
+     phone gets now; the margin column on a phone is the full width (1/7), so
+     there is nothing for a larger word to collide with. */
+  .chapter-mark { font-size: 1.85rem; margin-top: .25em; }
+  .chapter-mark.is-greek { font-size: 1.42rem; }
 }
 
 /* the hero's Hebrew writes itself in, right to left, once */
@@ -1460,7 +1516,17 @@
    objected to on 2026-08-28, and it scroll-jacks. The travel is the reader's own
    thumb on a native scroller instead.
    ============================================================================ */
-#plates { padding-block: clamp(2rem, 5vh, 3.4rem); }
+/* ⚠️ THE BOTTOM IS NOT THE TOP ANY MORE, 2026-09-05. The author: "and less space
+   from that to next station." The rail already carries 5rem of its own padding
+   underneath the plates for the sway, and the caption sits below that, so the
+   section's own bottom padding was stacking a third gap on top of two — measured
+   at 1440 the ribbon's last line and the Table of Contents were 141px apart while
+   the caption sat only 18px off the strip it belongs to. Arithmetic, both sides:
+   #plates' old bottom clamp topped out at 3.4rem and #contents' old top at the
+   same, so the seam was 54.4 + 54.4 = 108.8px of nothing between a caption and
+   the line it leads into. Measured after: 48px. The block reads as one thing now
+   and the seam to #contents is where the space went. */
+#plates { padding-block: clamp(2rem, 5vh, 3.4rem) clamp(.6rem, 1.4vh, 1rem); }
 
 /* ---------- the rail ----------
    🛑 EVERY PART OF THE TRAVEL IS THE BROWSER'S OWN. overflow-x plus scroll-snap
@@ -1505,18 +1571,42 @@
   gap: clamp(.7rem, 1.4vw, 1.1rem);
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
+  /* 🔴 proximity, NOT mandatory, 2026-09-05. The author: "can you make the scrll
+     bar any easier to scroll right to left on mobile… sometimes gets stuck."
+     `mandatory` means the rail is FORBIDDEN to come to rest anywhere except on a
+     snap point. On a phone the plate is min(78vw, 340px) — about 313px of a 402px
+     screen — so a short flick that does not carry past the halfway mark is not
+     slowed down, it is dragged backwards to where it started, and the ribbon
+     reads as refusing to move. That is the stick. `proximity` snaps a flick that
+     lands near a plate and otherwise leaves the reader's thumb alone, which is
+     the whole difference between a rail that helps and one that argues.
+     🛑 SNAPPING DOES NOT GO AWAY, AND IT MUST NOT. It is how the lit state and
+     the caption below know which plate the ribbon is holding (js/ui.js). */
+  scroll-snap-type: x proximity;
+  /* the rail owns the horizontal gesture; the PAGE keeps the vertical one, so a
+     thumb that starts on a plate and moves down still scrolls the document
+     instead of being swallowed. Naming both axes is what says that out loud —
+     `pan-x` alone would have taken the page scroll away from anyone who happened
+     to start their swipe on the ribbon. */
+  touch-action: pan-x pan-y;
   /* ⚠️ THE VERTICAL PADDING IS THE ROOM THE SWAY AND THE ARRIVAL NEED, and
      overflow-y is pinned because an overflow value on one axis makes the other a
      scroll container too — left at `auto` a plate riding 44px high would hand the
      ribbon its own vertical scrollbar. 2rem clears the sway (±14px) and the
      entrance rise (14px) at once, and it is also the room a focus ring needs. */
-  /* ⚠️ 3.75rem, AND IT IS THE SWAY'S TRAVEL PLUS THE ARRIVAL'S. The plates ride
-     ±44px and the entrance rises 14px, so anything less clips a plate at the top
-     of its wave. overflow-y is pinned because an overflow value on one axis makes
-     the other a scroll container too — left at `auto` a plate riding 44px high
-     would hand the ribbon its own vertical scrollbar. */
-  padding-block: 3.75rem;
+  /* ⚠️ 5rem, AND IT IS THE SWAY'S TRAVEL PLUS THE ARRIVAL'S — RECOMPUTED
+     2026-09-05 WHEN THE SWAY GREW. The largest amplitude in js/render.js's
+     PLATE_SWAY is now 66px (it was 44), and the entrance still rises 14px:
+     66 + 14 = 80px = 5rem exactly. Anything less clips a plate at the top of its
+     wave, and it clips only the plates whose phase is high at that moment, so it
+     looks like a rendering fault rather than like a missing rule.
+     🛑 IF PLATE_SWAY CHANGES, THIS CHANGES. The two numbers are one decision
+     living in two files; the comment in js/render.js says the same thing from the
+     other end.
+     overflow-y is pinned because an overflow value on one axis makes the other a
+     scroll container too — left at `auto` a plate riding 66px high would hand the
+     ribbon its own vertical scrollbar. */
+  padding-block: 5rem;
   overflow-y: hidden;
   scrollbar-width: none;
   margin-bottom: .2rem;
@@ -1595,32 +1685,60 @@
    ruling and it is worth more here than it was there: with nothing printed on
    the plate there is no scrim, so no contrast debt and not one square inch of
    the photograph covered up. The type does the labelling. */
+/* ⭐ CENTRED UNDER THE FRAME, AND LARGER, 2026-09-05. The author: "Titles should
+   be larger and centerred."
+   🔴 THE THREE-COLUMN GRID WAS THE THING STOPPING IT. It was
+   `2.1rem 1fr auto` — numeral, title, runtime — a ledger row, and a ledger row
+   cannot be centred: with the runtime gone the third track collapses and the
+   remaining two sit off to the left of a frame that is 340-400px wide, which
+   reads as a caption that has slipped. So the row is a centred flex line now, the
+   numeral and the title on one baseline with a middot between them, and the whole
+   thing sits under the middle of its own picture.
+   ⚠️ inline-flex WITH wrap, NOT nowrap. Chapter IV is "The Word He Kept
+   Rehearsing" — 25 characters — and at the 340px mobile plate that does not fit
+   on one line beside a numeral. Wrapping centres the second line under the first,
+   which is what a centred caption should do; nowrap would have squeezed the type
+   or overflowed the frame. */
 .pl-row {
-  display: grid;
-  grid-template-columns: 2.1rem 1fr auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: baseline;
-  gap: .7rem;
-  padding: .62rem .1rem 0;
+  gap: .1rem .55rem;
+  padding: .8rem .4rem 0;
+  text-align: center;
 }
 .pl-n {
   font-family: var(--serif);
-  font-size: var(--ap-lg); font-weight: 500;
-  letter-spacing: .14em; color: var(--accent);
+  /* was --ap-lg (.82rem). A numeral that is half the size of the title beside it
+     reads as a footnote marker; at 1.05rem the pair reads as one caption. */
+  font-size: 1.05rem; font-weight: 500;
+  letter-spacing: .12em; color: var(--accent);
   font-variant-numeric: lining-nums tabular-nums;
   transition: color var(--dur-med) var(--ease);
 }
+/* the separator is drawn, not typed, so it never lands in a copy-paste or in an
+   accessible name — the row is aria-hidden anyway, and the real label is the
+   .visually-hidden span js/render.js writes above it */
+.pl-n::after {
+  content: '\00B7';
+  margin-left: .55rem;
+  color: var(--ink-faint);
+  letter-spacing: 0;
+}
 .pl-t {
   font-variation-settings: var(--lit-mid); font-weight: 400;
-  font-size: clamp(1.02rem, 1.5vw, 1.24rem);
-  line-height: 1.12; letter-spacing: -.018em;
+  /* was clamp(1.02rem, 1.5vw, 1.24rem) */
+  font-size: clamp(1.16rem, 1.85vw, 1.46rem);
+  line-height: 1.16; letter-spacing: -.018em;
   color: var(--ink); text-wrap: balance;
   transition: transform var(--dur-med) var(--ease);
 }
-.pl-d {
-  font-family: var(--ui); font-size: var(--ap-md); font-weight: 500;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--ink-faint);
-  font-variant-numeric: lining-nums tabular-nums; white-space: nowrap;
-}
+/* 🛑 .pl-d WAS DELETED WITH ITS MARKUP, 2026-09-05 — the per-plate runtime. The
+   author: "we dont need to list the minutes under chapter just the name and
+   numeral would suffice in the same text." js/render.js still puts the runtime in
+   each plate's hidden label, where it is the only sense of scale a screen reader
+   user gets. Do not restore this rule without markup. */
 
 /* a chapter whose first block is not a slot gets a typographic cell — no
    placeholder and no grey box, exactly as in v54 */
@@ -1641,7 +1759,11 @@
   .pl-rail .pl-plate:focus-visible { opacity: 1; }
   .pl-plate:hover .pl-frame img,
   .pl-plate:focus-visible .pl-frame img { filter: saturate(1) contrast(1); }
-  .pl-plate:hover .pl-t, .pl-plate:focus-visible .pl-t { transform: translateX(.28rem); }
+  /* ⚠️ IT WAS translateX(.28rem), AND THAT WAS RIGHT WHILE THE ROW WAS RANGED
+     LEFT: a list nudges its titles sideways. A CENTRED caption that slides right
+     on hover just looks off its axis, so the gesture became a 2px rise — the same
+     amount, on the axis the caption is now symmetrical about. */
+  .pl-plate:hover .pl-t, .pl-plate:focus-visible .pl-t { transform: translateY(-2px); }
   .pl-plate:hover .pl-n, .pl-plate:focus-visible .pl-n { color: var(--ink); }
   /* ⚠️ BUT NOT BOTH AT ONCE. The rail already drops the other nine to .58; the
      held-back filter on top of that dimmed a dark plate twice and chapter I went
@@ -1739,15 +1861,45 @@
      its own caption while only 18 separated the caption from the arc — the
      caption read as belonging to the arc rather than to the picture it describes.
      The pair below the strip is one block; this is the space inside it. */
-  margin: .35rem 0 0;
-  font-size: .92rem; line-height: 1.5;
+  margin: 1.1rem 0 0;
+  /* ⭐ MUCH LARGER, 2026-09-05. The author: "Descriptions should be much larger
+     too… that needs tonbe fixed."
+     It was .92rem — smaller than the running text of the book — for the best short
+     copy on the site. The hook is what turns an index into an invitation, and it
+     was set at the size of a photo credit. It is now larger than body copy rather
+     than smaller, which is the right relationship: this is the one line under a
+     full-bleed strip and it has nothing to compete with.
+     🛑 THE RESERVED HEIGHT MOVES WITH IT. min-height holds the tallest of the ten
+     hooks (they run 90-136 characters) so the section below does not jump under
+     the reader's thumb on every snap — recomputed at the new size, or the caption
+     starts sizing itself again and the whole point of reserving it is lost. */
+  font-size: clamp(1.12rem, 1.6vw, 1.34rem);
+  line-height: 1.48; letter-spacing: -.006em;
   color: var(--ink-soft); text-wrap: pretty;
-  min-height: calc(3 * 1.5 * .92rem);
+  /* 🔴 FOUR LINES ON A PHONE, AND THREE WAS WRONG — MEASURED, NOT ESTIMATED. The
+     ten hooks run 90 to 136 characters. At 402px the caption is 362px wide with a
+     26.5px line, and the longest (chapter VI, 136 chars) sets to FOUR lines =
+     106.1px against a three-line reservation of 79.6px. That is 26.5px of the
+     contents page jumping up under the reader's thumb on one snap in ten — the
+     exact fault min-height exists to stop, and it does not show at any width a
+     desktop is ever tested at.
+     🛑 THE LADDER IS MEASURED AT EVERY STEP, so do not collapse it to one value:
+        320px → 5 lines      340px → 4      402px → 4      480px → 3
+        560px → 3            640px → 2      720px → 2      1440px → 2 (larger size)
+     340, 480 and 640 are the widths at which the tallest hook actually loses a
+     line, each one checked rather than interpolated. 320 is in the ladder because
+     it is a real phone (an SE in landscape-lock, and the narrowest width this book
+     claims to support) and it is the ONLY width that needs a fifth line. */
+  min-height: calc(5 * 1.48 * 1.12rem);
   transition: opacity var(--dur-med) var(--ease);
 }
+@media (min-width: 340px) { .pl-hook { min-height: calc(4 * 1.48 * 1.12rem); } }
+@media (min-width: 480px) { .pl-hook { min-height: calc(3 * 1.48 * 1.12rem); } }
+@media (min-width: 640px) { .pl-hook { min-height: calc(2 * 1.48 * 1.12rem); } }
 .pl-hook.is-swapping { opacity: 0; }
 @media (max-width: 900px) { .pl-hook { grid-column: 1 / 7; } }
-@media (min-width: 901px) { .pl-hook { font-size: .98rem; min-height: calc(2 * 1.5 * .98rem); } }
+/* two lines fit at the desktop measure where three were needed on a phone */
+@media (min-width: 901px) { .pl-hook { min-height: calc(2 * 1.48 * 1.34rem); } }
 
 /* ---------- the arrival ----------
    🛑 IT ANIMATES THE FRAME AND THE ROW, NOT THE PLATE, AND THAT IS LOAD-BEARING.
@@ -1781,7 +1933,7 @@
   .pl-frame, .pl-row { opacity: 1 !important; transform: none !important; animation: none !important; }
   .pl-plate { transform: none !important; animation: none !important; }
   .pl-frame img { translate: none !important; animation: none !important; }
-  .pl-plate:hover .pl-t, .pl-plate:focus-visible .pl-t { transform: none; }
+  .pl-plate:hover .pl-t, .pl-plate:focus-visible .pl-t { transform: none; }   /* the 2px rise, off */
   .pl-hook { transition: none; }
 }
 
@@ -1792,7 +1944,10 @@
    the outer column. Rows are separated by rules, not cards — a card grid would
    be the exact generic pattern this rebuild exists to avoid.
    ============================================================================ */
-#contents { padding-block: clamp(2.6rem, 6vh, 5rem); }
+/* the top is tightened to meet #plates above — see the note there. The bottom is
+   unchanged: below this is chapter I, and a contents page needs air before a book
+   starts. */
+#contents { padding-block: clamp(1.2rem, 2.6vh, 2rem) clamp(2.6rem, 6vh, 5rem); }
 
 .toc-head {
   grid-column: 1 / -1;
@@ -1824,12 +1979,11 @@
 .toc-expand:hover, .toc-expand:focus-visible { color: var(--ink); border-bottom-color: var(--ink); }
 .toc-expand:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-.toc-total {
-  grid-column: 10 / 13;
-  font-family: var(--ui); font-size: var(--ap-md); font-weight: 500;
-  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-faint);
-  font-variant-numeric: lining-nums tabular-nums;
-}
+/* 🛑 .toc-total WAS DELETED WITH ITS MARKUP, 2026-09-05 — it read
+   "10 chapters · 5 hr 21 min". The author: "we dont need the time in length that
+   can be in about not in table of contents nor do we need it saying 10 chapters
+   they cna scroll to fidn out." The runtime lives on the About sheet. Do not
+   restore this rule; js/render.js no longer emits the span. */
 
 .toc { grid-column: 1 / -1; display: block; }
 
@@ -1859,18 +2013,30 @@
    the contents that read as chrome. A chapter numeral is furniture of the book, the
    same call already made for the numerals in the running head. The running time
    beside it stays in Archivo, because a running time genuinely IS machinery. */
+/* ⭐ THE NUMERALS GREW WITH THE COLUMN THAT FREED UP, 2026-09-05. The author, of
+   the contents: "could be fancier". With the runtime gone there is a whole outer
+   column doing nothing, and the cheapest honest way to spend it is to stop
+   whispering the numerals: --ap-lg is .82rem, apparatus size, next to a title set
+   as large as 1.75rem. A chapter numeral in a printed contents is furniture of the
+   book and is set like it. No new ornament, no rule, no card — the same list, with
+   its own proportions fixed. */
 .toc-num {
   grid-column: 1 / 3;
   font-family: var(--serif); font-variation-settings: var(--lit-normal);
-  font-size: var(--ap-lg); font-weight: 500;
+  font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 500;
   font-variant-numeric: lining-nums tabular-nums;
-  letter-spacing: .1em; color: var(--accent);
+  letter-spacing: .08em; color: var(--accent);
+  line-height: 1.1;
 }
-.toc-body { grid-column: 3 / 10; }
+/* the reading measure runs to the edge of the grid now that nothing sits beside
+   it. Back-matter rows still carry a count, so they keep the old range — see
+   .toc-row.toc-back below. */
+.toc-body { grid-column: 3 / 12; }
+.toc-row.toc-back .toc-body { grid-column: 3 / 10; }
 .toc-title {
   display: block;
   font-variation-settings: var(--lit-mid);
-  font-weight: 350; font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  font-weight: 350; font-size: clamp(1.34rem, 2.3vw, 1.82rem);
   line-height: 1.14; letter-spacing: -.014em;
 }
 /* Option C, and now option C at the chapter openings too — see .chapter-hook in
@@ -1882,16 +2048,18 @@
   font-family: var(--serif); font-variation-settings: var(--lit-normal);
   font-style: italic; font-weight: 400;
   color: var(--ink-soft);
-  font-size: .95rem; line-height: 1.55; max-width: 58ch;
+  /* .95rem was below body copy for the line the author said he likes best about
+     this list — "i like the chapter descriptions". Same call as .pl-hook above. */
+  font-size: 1.06rem; line-height: 1.55; max-width: 58ch;
 }
 /* The WHOLE list folds, not just the standfirsts. #contents.is-open is set by
    js/ui.js from the remembered choice; closed is the default on a first visit.
    The head line stays, so the section still reads as a contents page — it just
    does not spend a screen and a half proving it. */
 #contents:not(.is-open) .toc { display: none; }
-/* Closed, the section is the four words and nothing else. The chapter count and
-   running time are useful once you have opened the list and meaningless before. */
-#contents:not(.is-open) .toc-total { visibility: hidden; }
+/* Closed, the section is the three words and nothing else — which is now true at
+   every state, since the count and the running time that used to sit beside them
+   are gone from the page entirely. */
 #contents:not(.is-open) .toc-head { border-bottom-color: transparent; }
 #contents:not(.is-open) .toc-head { border-bottom-color: var(--rule); padding-bottom: .9rem; }
 .toc-dur {
@@ -1903,12 +2071,11 @@
 
 @media (max-width: 900px) {
   .toc-head { grid-template-columns: repeat(6, 1fr); }
-  /* with the label gone the toggle and the running time fit on one row */
-  .toc-expand { grid-column: 1 / 5; grid-row: 1; min-height: 44px; }
-  .toc-total { grid-column: 5 / 7; grid-row: 1; text-align: right; }
+  /* the toggle is the whole head now that the running time beside it is gone */
+  .toc-expand { grid-column: 1 / 7; grid-row: 1; min-height: 44px; }
   .toc-row { grid-template-columns: repeat(6, 1fr); }
   .toc-num { grid-column: 1 / 2; }
-  .toc-body { grid-column: 2 / 7; }
+  .toc-body, .toc-row.toc-back .toc-body { grid-column: 2 / 7; }
   .toc-dur { grid-column: 2 / 7; margin-top: .5em; }
 }
 
