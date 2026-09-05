@@ -33,6 +33,7 @@
     sleep: document.getElementById('room-sleep'),
     follow: document.getElementById('room-follow'),
     chapters: document.getElementById('room-chapters'),
+    auto: document.getElementById('room-auto'),
     seek: document.getElementById('room-seek'),
     seekFill: document.getElementById('room-seek-fill'),
     sleepBadge: document.getElementById('room-sleep-badge'),
@@ -192,6 +193,20 @@
   }
 
   // ---------- reflect player state ----------
+  // ⚠️ THE LABEL CHANGES WITH THE STATE AND SO DOES THE MEANING OF THE CHIP. A
+  // toggle that reads "Continuous" in both positions makes a reader work out from
+  // the fill whether it is on; a chip that says what will happen at the end of this
+  // chapter answers the question the reader actually has, in the dark, at 1 a.m.
+  function reflectAuto() {
+    if (!els.auto) return;
+    var on = P.state.autoAdvance !== false;
+    els.auto.setAttribute('aria-pressed', on ? 'true' : 'false');
+    els.auto.textContent = on ? 'Continuous' : 'One chapter';
+    els.auto.setAttribute('aria-label', on
+      ? 'Continuous play is on. The next chapter follows automatically.'
+      : 'Continuous play is off. Playback stops at the end of this chapter.');
+  }
+
   function refresh() {
     if (!P.state.chapterId) return;
     var m = P.manifest[P.state.chapterId] || {};
@@ -206,6 +221,7 @@
     }
     els.play.classList.toggle('is-playing', P.state.playing);
     els.play.setAttribute('aria-label', P.state.playing ? 'Pause' : 'Play');
+    reflectAuto();
     paintBackdrop(P.state.chapterId);
     tick();
   }
@@ -215,6 +231,9 @@
     var ratio = dur ? cur / dur : 0;
     els.clock.textContent = clockMode === 'elapsed' ? P.fmtTime(cur) : '−' + P.fmtTime(Math.max(0, dur - cur));
     els.arcFill.style.strokeDashoffset = String(100 - ratio * 100);
+    // see the note on .arc-fill in css/room.css: a round linecap paints a bead even
+    // when the dash has no length, so a chapter at 0:00 wore a dot on its arc
+    els.arcFill.style.opacity = ratio > 0.005 ? '1' : '0';
     els.seekFill.style.width = (ratio * 100) + '%';
     els.seek.setAttribute('aria-valuenow', Math.round(ratio * 100));
     var rem = P.sleepRemaining();
@@ -339,6 +358,16 @@
     els.chapters.addEventListener('click', function () {
       buildChaptersSheet();
       if (window.PanimUI) window.PanimUI.openSheet('chapters-sheet');
+    });
+    // ⭐ CONTINUOUS PLAY, 2026-09-05. The author: "Should i have an option that
+    // doesnt stop at every chapter or just keep stopping at chapter breaks?"
+    // The default is on (js/player.js) and this is the only place it can be turned
+    // off, which is the right place: it is the Room that a reader leaves running.
+    // ⚠️ THE PRESSED ATTRIBUTE IS BOTH THE STATE AND THE STYLE — css/room.css paints
+    // .room-chip[aria-pressed="true"], so there is no second class to keep in step.
+    if (els.auto) els.auto.addEventListener('click', function () {
+      P.setAutoAdvance(!P.state.autoAdvance);
+      reflectAuto();
     });
     els.follow.addEventListener('click', function () {
       // drop to the page at the live paragraph

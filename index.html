@@ -6,6 +6,26 @@
 <title>PANIM: The Invitation Hidden on Every Page</title>
 <meta name="description" content="An audiobook of light. The Hebrew word for face, panim, followed across the whole Bible, narrated by the author. By Jonathan Diaso.">
 <meta name="theme-color" content="#EDE9DF">
+
+<!-- 🌙 THE THEME IS DECIDED BEFORE THE FIRST PAINT, AND THAT IS WHY THIS IS INLINE.
+     The author, 2026-09-05: "maybe i need a night mode that might ahve disappeared."
+     Any external file is a network round trip, and a reader who chose night would
+     watch a full sheet of cream paper flash first — the one bug every hand-rolled
+     dark mode ships with. This reads one key and writes one attribute; every colour
+     it implies is in css/site.css under html[data-theme="night"].
+     🛑 AN UNSET PREFERENCE FOLLOWS THE OPERATING SYSTEM. A stored one wins over it
+     forever, in both directions — somebody who turns the lights back on inside a
+     dark OS meant it. js/ui.js writes that key and nothing else does. -->
+<script>
+(function () {
+  var t = null;
+  try { var v = localStorage.getItem('panim:theme'); if (v) t = JSON.parse(v); } catch (e) {}
+  if (t !== 'night' && t !== 'day') {
+    t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'day';
+  }
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
 <link rel="canonical" href="https://jonathandiaso.github.io/Panim/">
 
 <meta property="og:type" content="book">
@@ -131,12 +151,12 @@
       href="art/d/hero-940.avif"
       imagesrcset="art/d/hero-640.avif 640w, art/d/hero-940.avif 940w, art/d/hero-1408.avif 1408w"
       imagesizes="(min-width: 1440px) 1440px, 100vw">
-<link rel="stylesheet" href="fonts/fonts.css?v=57">
-<link rel="stylesheet" href="css/site.css?v=57">
-<link rel="stylesheet" href="css/components.css?v=57">
-<link rel="stylesheet" href="css/player.css?v=57">
-<link rel="stylesheet" href="css/room.css?v=57">
-<link rel="stylesheet" href="css/polish.css?v=57">
+<link rel="stylesheet" href="fonts/fonts.css?v=58">
+<link rel="stylesheet" href="css/site.css?v=58">
+<link rel="stylesheet" href="css/components.css?v=58">
+<link rel="stylesheet" href="css/player.css?v=58">
+<link rel="stylesheet" href="css/room.css?v=58">
+<link rel="stylesheet" href="css/polish.css?v=58">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -158,6 +178,16 @@
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="6.25"/><path d="M15.6 15.6 20 20"/></svg>
       </button>
       <button class="btn btn-icon" id="about-btn" aria-haspopup="dialog" aria-controls="about-sheet" title="About">About</button>
+      <!-- 🌙 NIGHT. Two glyphs live in this button and css/site.css shows one; the
+           label and aria-pressed are rewritten by js/ui.js so a screen reader is
+           told the STATE, not just the name. It sits beside About rather than in a
+           settings sheet because a reader who wants the lights off wants them off
+           now, not after two taps. -->
+      <button class="btn btn-icon" id="theme-btn" type="button" aria-pressed="false"
+              title="Night mode" aria-label="Turn on night mode">
+        <svg class="theme-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.2 15.1A8.4 8.4 0 0 1 9 3.9a8.4 8.4 0 1 0 11.2 11.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <svg class="theme-sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 3v2.2M12 18.8V21M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M3 12h2.2M18.8 12H21M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
+      </button>
       <button class="btn" id="listen-btn" title="Open the Listening Room">Listen</button>
     </div>
   </div>
@@ -224,8 +254,37 @@
            ⚠️ #contents STILL EXISTS and is still a link target — the nav panel, the
            back-matter rows and the skip link all point into it. This deleted the
            hint, not the section. -->
+      <!-- 🔴 THE BLACK SLAB IS GONE, 2026-09-05. The author: "could the resume button
+           be any ugglier? That's so pathethic… continue balck buttons are so ugly.
+           they need redesign."
+           He is right twice over. .btn-solid was a rectangle of near-black --ink with
+           one line of sans inside it, which is the default primary button of every
+           template on the internet — and when a returning reader came back it printed
+           "Continue: VII, 37:26" as one run-on string in that same black box, so the
+           most personal thing the site knows about anybody arrived looking like a
+           form submit.
+           It is .btn-begin now (css/components.css): the accent, not black, so the
+           one emphatic control on the jacket is painted in the chapter's own light
+           and moves with the dawn arc; a drawn play ring; and the resume state set
+           as TWO LINES — the verb, and underneath it the place — which is what a
+           bookmark looks like and what that information actually is.
+           🛑 THE LABEL SPANS ARE WRITTEN BY js/ui.js AND MUST STAY. It swaps
+           .bb-label to "Continue" and unhides .bb-place; the markup ships in the
+           first-visit state so a reader with no saved place, or no localStorage,
+           gets a complete button rather than an empty one. -->
       <div class="hero-actions">
-        <button class="btn btn-solid" id="begin-btn">Begin listening</button>
+        <button class="btn btn-begin" id="begin-btn" type="button">
+          <span class="bb-glyph" aria-hidden="true">
+            <svg viewBox="0 0 34 34" focusable="false">
+              <circle class="bb-ring" cx="17" cy="17" r="16"/>
+              <path class="bb-tri" d="M13.6 10.8 25 17l-11.4 6.2Z"/>
+            </svg>
+          </span>
+          <span class="bb-text">
+            <span class="bb-label" id="begin-label">Begin listening</span>
+            <span class="bb-place" id="begin-place" hidden></span>
+          </span>
+        </button>
       </div>
       <!-- ⤵ THE SECOND DOOR MOVED OUT OF THE HERO, 2026-09-05. The author: "we
            could possibly move that button down a bit so they interact with the
@@ -468,24 +527,88 @@
     <div class="room-chnum" id="room-chnum">I</div>
     <h2 class="room-title" id="room-title">The God Who Sees</h2>
     <button class="room-clock" id="room-clock" title="Elapsed / remaining">0:00</button>
+    <!-- ⭐ THE ARC CARRIES THE DAWN NOW, 2026-09-05. The author: "technically we
+         could do a rainbow or something in the chapter arc… and it could start
+         darlk and turn to light in the little audio page."
+         🛑 IT IS NOT A RAINBOW AND IT IS NOT DECORATION — it is the book's own
+         three-accent arc laid along the chapter: night, dawn, fire, morning, left
+         to right, which is the exact colour story css/site.css walks the paper
+         through from chapter I to chapter X. So the ring filling up as the chapter
+         plays is the same gesture as the page warming as the reader goes down it.
+         ⚠️ THE STOPS ARE THE NIGHT-LIFTED ACCENTS, not the page's. The Room is a
+         near-black surface (see css/room.css) and #32506B on #0C0B0A is 2.1:1 —
+         the fill would simply disappear into the track for the first third of
+         every chapter. These are the same three hues raised for a dark ground,
+         plus one deeper stop at the start so the arc actually begins dark.
+         🛑 THE GRADIENT IS IN userSpaceOnUse ACROSS THE ARC'S OWN BOX. Left on the
+         default objectBoundingBox it is measured against the PATH's bounding box,
+         which for a semicircle is the top half only — the stops would compress
+         into the arc's own width and the last one would never be reached. -->
     <div class="room-arc" aria-hidden="true">
       <svg viewBox="0 0 100 54" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="room-arc-dawn" gradientUnits="userSpaceOnUse" x1="6" y1="0" x2="94" y2="0">
+            <stop offset="0" stop-color="#35536F"/>
+            <stop offset="0.34" stop-color="#7FA6CE"/>
+            <stop offset="0.68" stop-color="#E58156"/>
+            <stop offset="1" stop-color="#F3DCA6"/>
+          </linearGradient>
+        </defs>
         <path class="arc-track" d="M 6 50 A 44 44 0 0 1 94 50" pathLength="100"/>
         <path class="arc-fill" id="room-arc-fill" d="M 6 50 A 44 44 0 0 1 94 50" pathLength="100"/>
       </svg>
     </div>
+    <!-- 🔴 THE TRANSPORT WAS REBUILT 2026-09-05. The author, of this screen: "can we
+         clean upt his section and make it high level coding it looks cheap and we
+         should ahve more options bigger buttons."
+         It was two bare text labels — "−15" and "+30" — set in the apparatus size
+         beside a 74px circle, which is the shape of a debug console rather than of a
+         transport. They are drawn controls now: a circular arrow with a gap and an
+         arrowhead, the number set inside the ring, at 62px. The play button is 88.
+         🛑 THE ICON IS ONE CIRCLE WITH A DASH GAP, NOT AN ARC PATH, and that is on
+         purpose: a gap cut by stroke-dasharray stays perfectly round at every size
+         and needs no second path to close it, where a hand-written A-command arc
+         drifts off the circle the moment the stroke width changes. The rotation puts
+         the gap at twelve o'clock, where the arrowhead sits. -->
     <div class="room-transport">
-      <button class="btn btn-icon room-btn" id="room-back" aria-label="Skip back 15 seconds">−15</button>
+      <button class="room-skip" id="room-back" type="button" aria-label="Skip back 15 seconds">
+        <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+          <circle cx="22" cy="22" r="17" fill="none" stroke="currentColor" stroke-width="1.3"
+                  stroke-linecap="round" stroke-dasharray="96 10.8" transform="rotate(-85 22 22)"/>
+          <path d="M22 1.4 22 10.6 15.4 6Z" fill="currentColor"/>
+        </svg>
+        <span class="rs-n" aria-hidden="true">15</span>
+      </button>
       <button class="transport-play room-play" id="room-play" aria-label="Play">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path class="ico-play" d="M8 5.5v13l11-6.5z"/><g class="ico-pause"><rect x="7" y="5" width="3.4" height="14" rx="1"/><rect x="13.6" y="5" width="3.4" height="14" rx="1"/></g></svg>
       </button>
-      <button class="btn btn-icon room-btn" id="room-fwd" aria-label="Skip forward 30 seconds">+30</button>
+      <button class="room-skip" id="room-fwd" type="button" aria-label="Skip forward 30 seconds">
+        <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+          <circle cx="22" cy="22" r="17" fill="none" stroke="currentColor" stroke-width="1.3"
+                  stroke-linecap="round" stroke-dasharray="96 10.8" transform="rotate(-5 22 22) scale(-1 1) translate(-44 0)"/>
+          <path d="M22 1.4 22 10.6 28.6 6Z" fill="currentColor"/>
+        </svg>
+        <span class="rs-n" aria-hidden="true">30</span>
+      </button>
     </div>
+    <!-- 🔴 FIVE CHIPS, NOT FOUR NAKED WORDS. The secondary row was four .btn-icon —
+         no edge, no wash, no state — so "Sleep", "Read" and "Chapters" read as three
+         pieces of caption text that happened to be tappable, and nothing on the
+         screen said which of them was currently ON. They are controls now: the
+         site's own .btn surface at 48px, with aria-pressed where there is a state to
+         press, and the accent wash marking it.
+         ⭐ AND THE FIFTH IS THE NEW ONE. The author: "Should i have an option that
+         doesnt stop at every chapter or just keep stopping at chapter breaks?"
+         Continuous play is on by default (js/player.js) and this is where it is
+         turned off. It is the only control in this row that changes what happens
+         when the reader is asleep, which is exactly the reader this screen is for. -->
     <div class="room-secondary">
-      <button class="btn btn-icon" id="room-speed" title="Playback speed">1×</button>
-      <button class="btn btn-icon" id="room-sleep" title="Sleep timer">Sleep</button>
-      <button class="btn btn-icon" id="room-follow" title="Read along. Drop to the page at the live paragraph">Read</button>
-      <button class="btn btn-icon" id="room-chapters" title="Chapters">Chapters</button>
+      <button class="btn room-chip" id="room-speed" type="button" title="Playback speed" aria-label="Playback speed">1×</button>
+      <button class="btn room-chip" id="room-sleep" type="button" title="Sleep timer" aria-haspopup="dialog" aria-controls="sleep-sheet">Sleep</button>
+      <button class="btn room-chip" id="room-follow" type="button" title="Read along. Drop to the page at the live paragraph">Read</button>
+      <button class="btn room-chip" id="room-chapters" type="button" title="Chapters" aria-haspopup="dialog" aria-controls="chapters-sheet">Chapters</button>
+      <button class="btn room-chip" id="room-auto" type="button" aria-pressed="true"
+              title="Play the next chapter automatically">Continuous</button>
     </div>
   </div>
   <div class="seekbar seekbar-edge" id="room-seek" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
@@ -555,23 +678,23 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=57"></script>
-<script src="content/images.js?v=57"></script>
-<script src="content/audio-manifest.js?v=57"></script>
-<script src="content/marks.js?v=57"></script>
-<script src="content/thread.js?v=57"></script>
-<script src="content/lexicon.js?v=57"></script>
-<script src="content/names.js?v=57"></script>
-<script src="content/sources.js?v=57"></script>
-<script src="content/verse-notes.js?v=57"></script>
-<script src="content/derivatives.js?v=57"></script>
-<script src="js/render.js?v=57"></script>
-<script src="js/ui.js?v=57"></script>
-<script src="js/motion.js?v=57"></script>
-<script src="js/sync.js?v=57"></script>
-<script src="js/search.js?v=57"></script>
-<script src="js/player.js?v=57"></script>
-<script src="js/room.js?v=57"></script>
+<script src="content/chapters.js?v=58"></script>
+<script src="content/images.js?v=58"></script>
+<script src="content/audio-manifest.js?v=58"></script>
+<script src="content/marks.js?v=58"></script>
+<script src="content/thread.js?v=58"></script>
+<script src="content/lexicon.js?v=58"></script>
+<script src="content/names.js?v=58"></script>
+<script src="content/sources.js?v=58"></script>
+<script src="content/verse-notes.js?v=58"></script>
+<script src="content/derivatives.js?v=58"></script>
+<script src="js/render.js?v=58"></script>
+<script src="js/ui.js?v=58"></script>
+<script src="js/motion.js?v=58"></script>
+<script src="js/sync.js?v=58"></script>
+<script src="js/search.js?v=58"></script>
+<script src="js/player.js?v=58"></script>
+<script src="js/room.js?v=58"></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

@@ -113,53 +113,165 @@ body.room-open .player { opacity: 0; pointer-events: none; }
    announcing a sleep timer nobody had set */
 .room-sleep-badge[hidden] { display: none; }
 
+/* 🔴 THE STACK WAS RE-SPACED, 2026-09-05. The author: "can we clean upt his section
+   and make it high level coding it looks cheap and we should ahve more options
+   bigger buttons and a night mode."
+   The old stack was one flat `gap: .9rem` between eight things of five different
+   kinds — a mark, a numeral, a title, a clock, an arc, a transport and a control
+   row — so nothing on the screen was grouped with anything else and the whole thing
+   read as a list of widgets. The gap is 0 now and each element declares its own
+   space, which is what lets the identity block (mark · numeral · title) sit tight
+   while the transport gets real air around it. */
 .room-stack {
   position: relative; z-index: 1; text-align: center;
-  display: flex; flex-direction: column; align-items: center; gap: .9rem;
-  max-width: min(92vw, 30rem);
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+  max-width: min(94vw, 32rem);
 }
-.room-hebrew { font-size: 1rem; color: var(--accent); opacity: .8; letter-spacing: .1em; }
+/* ⭐ THE MARK IS THE BOOK'S OWN WORD AND IT WAS SET AT 16px. It is the only thing on
+   this screen that says which book you are inside; at --ap size it read as a
+   watermark somebody forgot to remove. It is in the Hebrew face at display size now,
+   the same relationship the jacket sets up between the mark and the title under it.
+   🛑 THE OPACITY IS GONE. It was .8 over --accent, which composites to 3.6:1 on the
+   room's own paper — under AA for text, and this is text. The colour carries it. */
+.room-hebrew {
+  font-family: var(--heb); font-weight: 400;
+  font-size: clamp(1.9rem, 7vw, 2.7rem); line-height: 1;
+  color: var(--accent);
+  margin-bottom: .55rem;
+}
 .room-chnum {
-  font-family: var(--ui); font-size: var(--ap-lg); letter-spacing: .45em;
-  color: var(--accent); margin-top: .4rem;
+  /* ⚠️ --ap-lg IS 13px AND A SINGLE ROMAN NUMERAL AT 13px WITH .45em OF TRACKING IS
+     A SPECK. It is the only thing on the screen that says WHICH chapter, and on the
+     shot the author sent it read as a stray mark above the title. Sized as a real
+     line of apparatus instead. */
+  font-family: var(--ui); font-size: .95rem; font-weight: 600;
+  letter-spacing: .45em; text-indent: .45em;   /* tracking pushes the last letter off centre */
+  color: var(--accent);
+  margin-bottom: .5rem;
 }
 .room-title {
-  font-family: var(--serif); font-weight: 300;
-  font-size: clamp(1.7rem, 6vw, 2.6rem); line-height: 1.15;
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-display);
+  font-weight: 350;
+  font-size: clamp(1.95rem, 6.6vw, 3rem); line-height: 1.08;
+  letter-spacing: -.018em;
+  text-wrap: balance;
+  margin-bottom: 1.3rem;
 }
+/* ⚠️ THE CLOCK IS A BUTTON AND HAD NO EDGE, so the one number on the screen that
+   toggles when you press it looked exactly like the one number that does not. It
+   keeps its size and gains a hairline under it — the site's own way of saying "this
+   is pressable" without turning a 3.4rem numeral into a chip. */
 .room-clock {
   font-family: var(--ui); font-variant-numeric: tabular-nums;
-  font-size: clamp(2.2rem, 9vw, 3.4rem); letter-spacing: .06em; line-height: 1;
-  padding: .2em .4em; border-radius: 6px;
+  font-size: clamp(2.4rem, 9.5vw, 3.6rem); letter-spacing: .04em; line-height: 1;
+  padding: .12em .3em .18em;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.room-clock:hover, .room-clock:focus-visible {
+  border-bottom-color: color-mix(in srgb, var(--accent) 60%, transparent);
 }
 .room-clock:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-.room-arc { width: min(64vw, 300px); margin: -0.4rem 0; }
+/* ⭐ THE ARC IS THE DAWN, 2026-09-05 — night on the left, morning on the right, the
+   same three-accent story css/site.css walks the paper through across the ten
+   chapters. The stops are in index.html (a gradient needs a <defs>, and it needs to
+   be in the document rather than in a stylesheet).
+   ⚠️ IT IS THICKER, AND THAT IS WHY THE GRADIENT IS WORTH HAVING AT ALL. At 1.4 the
+   fill was a hairline and four colour stops inside a hairline are four colours
+   nobody can see. 2.8 is still a line rather than a bar. */
+.room-arc { width: min(70vw, 330px); margin: .9rem 0 .2rem; }
 .room-arc svg { width: 100%; height: auto; overflow: visible; }
-.room-arc path { fill: none; stroke-width: 1.4; stroke-linecap: round; }
-.arc-track { stroke: color-mix(in srgb, currentColor 18%, transparent); }
+.room-arc path { fill: none; stroke-width: 2.8; stroke-linecap: round; }
+.arc-track { stroke: color-mix(in srgb, currentColor 16%, transparent); }
 .arc-fill {
-  stroke: var(--accent);
+  stroke: url(#room-arc-dawn);
   stroke-dasharray: 100; stroke-dashoffset: 100;
-  transition: stroke-dashoffset .5s linear;
+  /* ⚠️ THE ROUND CAP DRAWS A DOT AT ZERO LENGTH. With the whole dash offset out of
+     the path there is nothing to draw, but a round linecap still paints its own
+     half-circle at the dash boundary — a 3px tan bead sitting on the arc of a
+     chapter that has not started. js/room.js fades the fill out below half a
+     per cent rather than switching the cap to `butt`, because the cap is what makes
+     the progress head read as a moving point of light rather than as a cut. */
+  transition: stroke-dashoffset .5s linear, opacity var(--dur-fast) linear;
 }
 
-.room-transport { display: flex; align-items: center; gap: 1.4rem; margin-top: .4rem; }
-.room-btn { min-width: 52px; min-height: 52px; font-size: .9rem; }
+.room-transport {
+  display: flex; align-items: center; gap: clamp(1.2rem, 5vw, 2rem);
+  margin-top: 1.1rem;
+}
+/* 🔴 THE SKIP CONTROLS ARE DRAWN NOW, NOT TYPED. They were the strings "−15" and
+   "+30" in a 52px box with no surface at all — the two cheapest-looking objects on
+   the screen and, at --ap size, two of the smallest. Each is a circular arrow with a
+   gap at twelve o'clock, an arrowhead in the gap, and its number set inside the ring:
+   62px of target, which is the size a thumb wants on a phone in the dark.
+   🛑 THE NUMBER IS aria-hidden AND THE BUTTON CARRIES A REAL LABEL. "15" alone is
+   not an instruction; the aria-label says "Skip back 15 seconds" and always did. */
+.room-skip {
+  position: relative;
+  width: 62px; height: 62px;
+  display: grid; place-items: center;
+  color: var(--ink-soft);
+  transition: color var(--dur-fast) var(--ease), transform 80ms var(--ease);
+}
+.room-skip svg { width: 100%; height: 100%; display: block; }
+.rs-n {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-family: var(--ui); font-size: .88rem; font-weight: 600;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: .02em;
+  padding-top: .18em;   /* the arrowhead sits above the ring's centre line */
+}
+.room-skip:hover, .room-skip:focus-visible { color: var(--ink); }
+.room-skip:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.room-skip:active { transform: scale(.94); }
+
 /* An instance of .transport-play (components.css), not a second build of it. The
    circle, the icon swap, the inversion on hover/focus and the press are all shared;
    what is genuinely the Room's own is the size, the clay edge, and the blur — this
-   button sits over a photograph and the bar's does not. */
+   button sits over a photograph and the bar's does not.
+   ⚠️ 88px, WAS 74. The author asked for bigger buttons and this is the one the whole
+   screen is arranged around; the two skips beside it are 62. */
 .room-play {
-  --transport-size: 74px;
-  --transport-glyph: 30px;
+  --transport-size: 88px;
+  --transport-glyph: 34px;
   border-color: color-mix(in srgb, var(--accent) 65%, transparent);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
 }
 
-.room-secondary { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem; margin-top: .3rem; }
-.room-secondary .btn-icon { min-width: 60px; min-height: 44px; font-size: var(--ap-md); }
+/* 🔴 FIVE CHIPS WITH EDGES, NOT FOUR NAKED WORDS. These were .btn-icon — a class
+   that deliberately has no border and no wash, because it is for CHROME (the nav's
+   search glyph, the player bar's icons). Here it made "Sleep", "Read" and "Chapters"
+   look like three pieces of caption text, and it gave the two of them that have a
+   STATE no way to show it. They are .btn now, which is the site's real control
+   surface, plus the pressed treatment below. */
+.room-secondary {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: .5rem; margin-top: 1.5rem;
+  /* ⚠️ 20.5rem IS A WRAPPING DECISION, NOT A WIDTH. Five chips on a 402px phone
+     cannot sit on one row; left to the stack's own 32rem the row breaks 4 + 1 and
+     the fifth chip sits alone under four, which reads as an afterthought bolted on
+     — which is exactly what "Continuous" would look like if it were one. Capped
+     here the row breaks 3 + 2 and the block reads as a keypad. */
+  max-width: 20.5rem;
+}
+.room-chip {
+  min-height: 48px; padding: .6em 1.05em;
+  font-size: var(--ap-lg); letter-spacing: .04em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+/* ⚠️ aria-pressed IS THE SOURCE OF TRUTH, NOT A CLASS. Two of these five are
+   toggles (Read, Continuous) and both already had to set aria-pressed for a screen
+   reader; styling off the same attribute is what guarantees the two can never
+   disagree — which is the classic failure of a parallel .is-on class. */
+.room-chip[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  color: var(--ink);
+}
 
 /* The Room's seek bar is .seekbar .seekbar-edge now (css/player.css) — the same
    component the transport bar uses, pinned to the bottom edge. Nothing left here. */

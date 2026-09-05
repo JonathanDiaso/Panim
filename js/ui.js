@@ -343,11 +343,29 @@
       s = Math.floor(s); var m = Math.floor(s / 60);
       return m + ':' + String(s % 60).padStart(2, '0');
     }
+    // 🔴 TWO LINES, NOT A RUN-ON STRING, 2026-09-05. The author: "could the resume
+    // button be any ugglier? That's so pathethic."
+    // This used to write `beginBtn.textContent = 'Continue: VII, 37:26'` — one
+    // sans string in a near-black slab, which threw away the markup and printed a
+    // verb, a chapter and a timecode as though they were one fact. They are two.
+    // The verb goes on .bb-label and the place goes underneath on .bb-place, which
+    // is the shape of a bookmark. The slab is .btn-begin now; see components.css.
+    // ⚠️ textContent ON THE BUTTON WOULD NOW DELETE THE PLAY RING. Never write to
+    // #begin-btn directly — write to the two spans.
+    // ⚠️ THE ACCESSIBLE NAME IS SET IN ONE PIECE. Two spans read out as "Continue
+    // chapter seven 37:26" with no punctuation between them, so the label says the
+    // whole sentence and the visible type keeps its own arrangement.
     var place = savedPlace();
-    if (place && beginBtn) {
+    var beginLabel = $('#begin-label');
+    var beginPlace = $('#begin-place');
+    if (place && beginBtn && beginLabel && beginPlace) {
       var rendered = window.PANIM_RENDERED;
       var num = rendered ? rendered.romanFor(parseInt(place.chapterId.replace('ch', ''), 10)) : '';
-      beginBtn.textContent = 'Continue: ' + (num ? num + ', ' : '') + fmt(place.pos);
+      beginLabel.textContent = 'Continue listening';
+      beginPlace.textContent = (num ? 'Chapter ' + num + ' \u00B7 ' : '') + fmt(place.pos);
+      beginPlace.hidden = false;
+      beginBtn.setAttribute('aria-label',
+        'Continue listening' + (num ? ', chapter ' + num : '') + ', at ' + fmt(place.pos));
     }
     if (beginBtn) beginBtn.addEventListener('click', function () {
       var p = savedPlace();
@@ -478,7 +496,64 @@
     });
   }
 
+  // ---------- 🌙 night ----------
+  //
+  // The attribute is already on <html> before this file loads — index.html carries a
+  // seven-line inline script for that, because a theme decided by an external script
+  // is a theme the reader watches arrive. All this does is flip it, remember it, and
+  // tell the two things that cannot read CSS.
+  //
+  // 🛑 IT DISPATCHES panim:theme AND THAT EVENT IS LOAD-BEARING. js/motion.js holds
+  // the paper/ink/accent it last wrote to <html> and refuses to write the same value
+  // twice — a real optimisation, because those three properties are inherited and
+  // setting one re-styles the whole book. Flipping the theme changes the TABLE and
+  // not the scroll position, so without a signal the guard would reject every new
+  // value and the inline properties from the day palette would sit on top of the
+  // night stylesheet forever. The page would go half-dark and nothing would say why.
+  //
+  // ⚠️ AND THE ADDRESS BAR IS THE THIRD THING THAT HAS TO BE TOLD. <meta
+  // name="theme-color"> is what paints the browser chrome on iOS and Android; left
+  // on the day cream it draws a bright band above a dark page, which looks like a
+  // rendering fault on the one device most of this book is read on.
+  function wireTheme() {
+    var btn = $('#theme-btn');
+    if (!btn) return;
+    var meta = document.querySelector('meta[name="theme-color"]');
+
+    function apply(theme, remember) {
+      document.documentElement.setAttribute('data-theme', theme);
+      var night = theme === 'night';
+      btn.setAttribute('aria-pressed', night ? 'true' : 'false');
+      btn.setAttribute('aria-label', night ? 'Turn off night mode' : 'Turn on night mode');
+      btn.setAttribute('title', night ? 'Day mode' : 'Night mode');
+      if (meta) meta.setAttribute('content', night ? '#121110' : '#EDE9DF');
+      if (remember) { try { localStorage.setItem('panim:theme', JSON.stringify(theme)); } catch (e) {} }
+      document.dispatchEvent(new CustomEvent('panim:theme', { detail: { theme: theme } }));
+    }
+
+    apply(document.documentElement.getAttribute('data-theme') === 'night' ? 'night' : 'day', false);
+    btn.addEventListener('click', function () {
+      apply(document.documentElement.getAttribute('data-theme') === 'night' ? 'day' : 'night', true);
+    });
+
+    // ⚠️ THE SYSTEM ONLY LEADS UNTIL THE READER HAS AN OPINION. Once panim:theme is
+    // in storage this listener stops mattering, which is why it checks storage
+    // rather than a flag — a second tab could have set it since this one loaded.
+    if (window.matchMedia) {
+      var mq = matchMedia('(prefers-color-scheme: dark)');
+      var onSystem = function (e) {
+        var saved = null;
+        try { var v = localStorage.getItem('panim:theme'); if (v) saved = JSON.parse(v); } catch (err) {}
+        if (saved === 'night' || saved === 'day') return;
+        apply(e.matches ? 'night' : 'day', false);
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onSystem);
+      else if (mq.addListener) mq.addListener(onSystem);
+    }
+  }
+
   function init() {
+    wireTheme();
     buildNav();
     wireNavToc();
     wireContentsToggle();
@@ -893,7 +968,7 @@
     }
     measureScrollbar();
 
-    var snaps = [], pad = 0;
+    var snaps = [], pad = 0, railMax = 0;
     function measure() {
       measureScrollbar();
       pad = parseFloat(getComputedStyle(rail).scrollPaddingLeft) || 0;
@@ -901,6 +976,11 @@
       snaps = plates.map(function (p) {
         return p.getBoundingClientRect().left + rail.scrollLeft - base - pad;
       });
+      // cached here, and ONLY here: scrollWidth is a layout-forcing read, and
+      // reflectEdges() runs on every scroll event. Layout cannot change under a
+      // horizontal scroll, so the answer measured at rest stays true until a
+      // resize, which re-runs measure() anyway.
+      railMax = rail.scrollWidth - rail.clientWidth;
     }
     function leading() {
       var x = rail.scrollLeft, best = 0, bestD = Infinity;
@@ -938,7 +1018,9 @@
     // while the keyframes used 3.7, so the two implementations disagreed on both the
     // distance AND the direction — Firefox would have drifted the wrong way while
     // Chrome drifted the right way, and nothing would have said so.
-    var DRIFT = 3.7;
+    // ⚠️ 4.6 SINCE 2026-09-05, and @keyframes pl-drift in css/components.css carries
+    // the same value. The overhang moved with it (112% / -6%); the three are one sum.
+    var DRIFT = 4.6;
     if (CSS_DRIFT) document.documentElement.classList.add('pl-sda');
 
     // ---------- the sway, fallback path ----------
@@ -959,6 +1041,10 @@
       if (r.bottom < 0 || r.top > vh) return;
       // cover progress: 0 as the section's top edge enters, 1 as its bottom leaves
       var prog = (vh - r.top) / (vh + r.height);
+      // 🛑 SYMMETRIC, AND IT MATCHES @keyframes pl-sway EXACTLY. A biased version of
+      // both was built and measured out again on 2026-09-05 — the note at those
+      // keyframes says why. A mismatch here is invisible in Chrome, which never
+      // runs this path at all.
       var k = 1 - 2 * Math.max(0, Math.min(1, prog));
       for (var i = 0; i < plates.length; i++) {
         plates[i].style.transform = 'translateY(' + (amps[i] * k).toFixed(2) + 'px)';
@@ -992,9 +1078,32 @@
         imgs[i].style.setProperty('--dx', (-t * DRIFT).toFixed(2) + '%');
       }
     }
-    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    // ⭐ THE EDGE FADE FOLLOWS THE RAIL, 2026-09-05. The author: "any way to
+    // encourage them to go right?"
+    // css/components.css fades the right edge at rest and nothing else; these two
+    // classes turn on the left fade once there is something behind the reader and
+    // turn OFF the right one once there is not. A strip that keeps fading on the
+    // right after chapter X is the last plate is a promise the ribbon cannot keep.
+    // ⚠️ THE 2px SLACK IS NOT SLOPPINESS. scrollLeft is fractional on a trackpad and
+    // on a zoomed page, and scrollWidth − clientWidth is rounded, so an exact
+    // comparison leaves the end fade on forever on about half of all zoom levels.
+    function reflectEdges() {
+      rail.classList.toggle('is-scrolled', rail.scrollLeft > 2);
+      rail.classList.toggle('at-end', rail.scrollLeft >= railMax - 2);
+    }
+
+    // ⚠️ reflectEdges() IS CALLED HERE, NOT INSIDE frame(). The fades are the only
+    // signal that there is more ribbon to the right, so they cannot be the one
+    // thing that fails when requestAnimationFrame is throttled — a background tab,
+    // a hidden document, a headless run. It is two class toggles against an
+    // already-known scrollLeft, so it costs nothing to run it eagerly.
+    function onScroll() {
+      reflectEdges();
+      if (!ticking) { ticking = true; requestAnimationFrame(frame); }
+    }
 
     measure();
+    reflectEdges();
     frame();
     // passive: this listener never calls preventDefault, and saying so is what lets
     // the compositor scroll without waiting to find that out.
@@ -1023,9 +1132,49 @@
     if ('IntersectionObserver' in window) {
       if (!REDUCED) rail.classList.add('is-armed');
       var arrive = new IntersectionObserver(function (entries) {
-        if (entries[0].isIntersecting) { rail.classList.add('is-in'); arrive.disconnect(); }
+        if (entries[0].isIntersecting) {
+          rail.classList.add('is-in');
+          arrive.disconnect();
+          nudge();
+        }
       }, { rootMargin: '0px 0px -12% 0px' });
       arrive.observe(rail);
+    }
+
+    // ⭐ THE NUDGE — the strip shows once that it moves sideways, 2026-09-05.
+    // The author: "any way to encourage them to go right?"
+    // 🛑 A HORIZONTAL SCROLLER IS THE ONE COMPONENT ON A PHONE THAT CAN BE MISSED
+    // ENTIRELY. There is no scrollbar (scrollbar-width: none, and iOS has none to
+    // begin with), no arrows, and the rail bleeds to both edges — so a strip that
+    // never moves is a strip a reader can take for a static picture and scroll
+    // straight past. The edge fade says "there is more"; this says "it moves".
+    // ⚠️ IT IS A REAL SCROLL, NOT A TRANSFORM, and that matters: a transform would
+    // have to be undone before the reader's first touch or the rail would fight
+    // them. Nudging scrollLeft and returning it leaves the scroller exactly where
+    // it started, and if a thumb lands mid-gesture the abort below hands it over
+    // without a jump.
+    // 🛑 ONCE PER SESSION, AND NEVER IF THE READER HAS ALREADY MOVED IT — arriving
+    // at a strip you have already scrolled and watching it scroll itself is the
+    // component overruling you.
+    function nudge() {
+      if (REDUCED || rail.scrollLeft > 2) return;
+      var DIST = 46, DUR = 1150, t0 = 0, live = true;
+      function stop() { live = false; }
+      // any real input wins immediately; the listeners come off with the animation
+      ['pointerdown', 'wheel', 'touchstart', 'keydown'].forEach(function (ev) {
+        rail.addEventListener(ev, stop, { passive: true, once: true });
+      });
+      function step(ts) {
+        if (!t0) t0 = ts;
+        var p = Math.min(1, (ts - t0) / DUR);
+        if (!live) return;
+        // out and back on one sine arch, so it decelerates into the turn and into
+        // the stop rather than snapping at either end
+        rail.scrollLeft = Math.sin(p * Math.PI) * DIST;
+        if (p < 1) requestAnimationFrame(step);
+        else { rail.scrollLeft = 0; reflectEdges(); }
+      }
+      setTimeout(function () { if (live) requestAnimationFrame(step); }, 420);
     }
   }
 

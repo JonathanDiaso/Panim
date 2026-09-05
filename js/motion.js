@@ -33,6 +33,37 @@
     'fw': { bg: '#FDFAF3', text: '#1A1712', accent: '#7E5A20' }
   };
 
+  // 🌙 THE SAME ARC WITH THE LIGHTS OFF, 2026-09-05.
+  // 🛑 THIS TABLE MUST STAY IDENTICAL TO THE html[data-theme="night"] .section
+  // BLOCK AT THE BOTTOM OF css/site.css, exactly as TOKENS above must stay
+  // identical to the day block. Two files, one decision, and the failure mode is
+  // silent: the lerp would walk the paper toward a stock the stylesheet never
+  // paints, so the page would drift a few hex steps off its own sections.
+  // The arc is not thrown away in night, it is moved down: chapter I is the tomb
+  // at 1 a.m., chapter X is the same morning seen from a dark room. Contrast
+  // figures for the ink and the three accents are in css/site.css.
+  var TOKENS_NIGHT = {
+    '0':  { bg: '#141311', text: '#EFE9DE', accent: '#8FB4D8' },
+    '1':  { bg: '#121110', text: '#EFE9DE', accent: '#8FB4D8' },
+    '2':  { bg: '#111315', text: '#EAEBEE', accent: '#8FB4D8' },
+    '3':  { bg: '#151211', text: '#F0E9DD', accent: '#8FB4D8' },
+    '4':  { bg: '#101215', text: '#E9ECEF', accent: '#8FB4D8' },
+    '5':  { bg: '#17130F', text: '#F2EADC', accent: '#E58156' },
+    '6':  { bg: '#191410', text: '#F3EBDD', accent: '#E58156' },
+    '7':  { bg: '#131415', text: '#ECEDEE', accent: '#E58156' },
+    '8':  { bg: '#151312', text: '#EFEAE4', accent: '#E58156' },
+    '9':  { bg: '#1A1510', text: '#F4EDDF', accent: '#DCAA51' },
+    '10': { bg: '#1E1913', text: '#F7F1E5', accent: '#DCAA51' },
+    'fw': { bg: '#201B15', text: '#F8F2E7', accent: '#DCAA51' }
+  };
+
+  // one lookup, so nothing below has to know which table it is reading
+  function stock(ch) {
+    var t = document.documentElement.getAttribute('data-theme') === 'night'
+      ? TOKENS_NIGHT : TOKENS;
+    return t[ch] || t['0'];
+  }
+
   function hexToRgb(hex) {
     var n = parseInt(hex.slice(1), 16);
     return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
@@ -95,8 +126,8 @@
       t = (viewportCenter - a.mid) / (b.mid - a.mid);
       t = Math.max(0, Math.min(1, t));
     }
-    var bgA = TOKENS[a.ch] || TOKENS['0'];
-    var bgB = TOKENS[b.ch] || bgA;
+    var bgA = stock(a.ch);
+    var bgB = stock(b.ch);
     var blended = reduceMotion ? bgA.bg : lerpColor(bgA.bg, bgB.bg, t);
 
     // discrete ink/accent switch per current section. These land on <html> so the
@@ -104,7 +135,7 @@
     // paper and accent. That chrome lives outside .section and would otherwise be
     // stuck on chapter I's stock for the whole book.
     var cur = currentSectionFor(viewportCenter);
-    var tok = TOKENS[cur.ch] || TOKENS['0'];
+    var tok = stock(cur.ch);
 
     // 🛑 A CUSTOM PROPERTY ON <html> IS THE MOST EXPENSIVE WRITE ON THIS PAGE, AND
     // THESE FOUR WERE UNGUARDED ON EVERY SCROLL FRAME.
@@ -508,6 +539,20 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     var remeasure = function () { measureSections(); tocRollLast = -1; onScrollFrame(); };
     window.addEventListener('resize', remeasure);
+
+    // 🌙 THE THEME SWITCH HAS TO CLEAR THE COMPARE-THEN-WRITE CACHE FIRST, and this
+    // is the whole reason it needs a listener rather than nothing. onScrollFrame
+    // only writes --paper / --ink / --accent when the value it computed differs
+    // from the last one it wrote (see the long note there). Flipping to night
+    // changes the TABLE, not the scroll position, so the newly computed values are
+    // correct and the guard would refuse every one of them — the stylesheet would
+    // go dark and the three inline properties on <html>, which win over it, would
+    // hold the whole document on day paper. Silent, and it looks like night mode
+    // simply does not work.
+    document.addEventListener('panim:theme', function () {
+      lastBg = lastAccent = lastInk = null;
+      onScrollFrame();
+    });
 
     // measureSections() ran ONCE, at render, against a page set in the fallback
     // fonts and with nothing decoded. Literata then swapped in and 209,000px of

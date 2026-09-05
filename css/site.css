@@ -432,7 +432,16 @@ main { position: relative; }
   font-weight: 400;
   color: var(--ink-soft);
   margin: 1.1em 0 0;
-  font-size: 1rem;
+  /* ⭐ THE STANDFIRST TRACKS THE BODY, 2026-09-05. The author: "how is textsize and
+     cohesion looking any weird text that needs to be bigger or less weird."
+     It was a flat 1rem — 16px at every width, which is a fifth SMALLER than the
+     body copy it introduces once the page is past 928px and --body-size has hit
+     its 1.32rem ceiling. A standfirst that reads smaller than the paragraph under
+     it inverts the hierarchy: the eye takes it for a caption and skips it, and it
+     is the one line telling the reader what the chapter is about. Same size as the
+     body, in italic and --ink-soft, is the printed convention and it costs no new
+     token — this IS the body token. */
+  font-size: var(--body-size);
   line-height: 1.55;
   letter-spacing: 0;
   max-width: 58ch;
@@ -557,9 +566,20 @@ main { position: relative; }
      follows, which is the same fault the caption's own note argues against. */
   grid-column: 1 / 8;
   display: block;
-  max-width: 42rem;
-  margin: clamp(1.8rem, 3.4vw, 2.8rem) 0 0;
-  padding: clamp(1.1rem, 1.9vw, 1.5rem) clamp(1.2rem, 2.1vw, 1.7rem);
+  /* 🔴 SMALLER, 2026-09-05 (round seven). The author: "i said the box ws ugly and
+     all you did was make it bigger it looks ok but now its too big… keep that
+     shrter."
+     He is right, and the previous round's open note in docs/FRONT-DOOR.md §4.3 had
+     already spotted half of it: "the card is 42rem wide and the quote only fills
+     about half of it at 1440." A card whose display-size quote runs two short lines
+     inside a 672px box is not a wide card, it is a box with a hole in it. 35rem is
+     the width the quote actually wants — it sets to three fuller lines — and the
+     card stops reading as a panel and starts reading as a note pinned under the
+     caption. The type came down with it (.hs-quote, .hs-holds below); shrinking the
+     box alone would have made a cramped panel out of a loose one. */
+  max-width: 35rem;
+  margin: clamp(1.4rem, 2.6vw, 2.1rem) 0 0;
+  padding: clamp(1rem, 1.6vw, 1.25rem) clamp(1.05rem, 1.8vw, 1.4rem);
   border: 1px solid var(--control-edge);
   /* the accent edge is the eye-magnet, and it is a RULE, not a glow. It is doing
      double duty now: the book marks a change of voice with a rule everywhere, and
@@ -574,7 +594,10 @@ main { position: relative; }
 .hero-sample:hover, .hero-sample:focus-visible {
   border-color: var(--ink);
   border-left-color: var(--accent);
-  background: rgba(25, 21, 16, .06);
+  /* ⚠️ color-mix OFF --ink, NOT A LITERAL. This was rgba(25,21,16,.06) — the day
+     ink hard-coded — which in night mode painted a darker patch on an already dark
+     card instead of lifting it. The token is the same gesture in both themes. */
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
 }
 .hero-sample:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
@@ -612,8 +635,14 @@ main { position: relative; }
   margin: 0;
   font-variation-settings: var(--lit-mid);
   font-weight: 350;
-  font-size: clamp(1.5rem, 2.5vw, 2.1rem);
-  line-height: 1.22; letter-spacing: -.012em;
+  /* clamp(1.5rem, 2.5vw, 2.1rem) → this, with the card's own width, 2026-09-05.
+     🛑 THE VOICE DOES NOT CHANGE, ONLY THE SIZE. This is still the one place on the
+     page outside a chapter where the book speaks in its own display setting, and
+     that is the whole reason the card works. It is now 27px at 1440 against the
+     plate caption's 34 directly above it — the caption is the louder line, which is
+     correct: the caption belongs to ten photographs and this belongs to one offer. */
+  font-size: clamp(1.28rem, 1.95vw, 1.7rem);
+  line-height: 1.24; letter-spacing: -.012em;
   color: var(--ink);
   text-wrap: balance;
 }
@@ -630,8 +659,10 @@ main { position: relative; }
      set this line at 400px inside a 615px box — a narrow ragged column floating in
      a wide one, which reads as a mistake rather than as a measure. One cap, on the
      outside, is the rule this page follows everywhere else. */
+  /* --ap-xl, not --ap-lg: this line is the reason --ap-xl exists (see the scale
+     above), and it had been left on the smaller step the author complained about. */
   font-family: var(--ui); font-size: var(--ap-xl);
-  line-height: 1.5; letter-spacing: .01em;
+  line-height: 1.55; letter-spacing: .01em;
   color: var(--ink-soft);
 }
 
@@ -711,8 +742,10 @@ main { position: relative; }
   grid-column: 3 / 9;
   max-width: 34rem;
   margin: 1.1rem 0 0;
+  /* --ap-xl, not --ap-lg: this line is the reason --ap-xl exists (see the scale
+     above), and it had been left on the smaller step the author complained about. */
   font-family: var(--ui); font-size: var(--ap-xl);
-  line-height: 1.5; letter-spacing: .01em;
+  line-height: 1.55; letter-spacing: .01em;
   color: var(--ink-soft);
 }
 .can-tap-to-listen .hero-sample-note { display: block; }
@@ -738,3 +771,78 @@ main { position: relative; }
   .hero-sample { transition: none; }
   .hs-tri { transition: none; }
 }
+
+/* ============================================================================
+   🌙 NIGHT — the whole book with the lights off, 2026-09-05
+   The author: "continue balck buttons are so ugly… and maybe i need a night mode
+   that might ahve disappeared."
+
+   🛑 IT IS NOT AN INVERSION AND IT IS NOT A FILTER. The arc is the point of this
+   book's colour: the paper warms and lightens chapter by chapter from the tomb to
+   full morning. Night keeps that arc and moves it down — chapter I is the tomb at
+   1 a.m. and chapter X is the same morning seen from a dark room. A `filter:
+   invert()` would have turned every photograph into a negative, and a flat
+   #000/#fff pair would have thrown away the one thing the palette says.
+
+   🛑 THE TABLE MUST STAY IDENTICAL TO TOKENS_NIGHT IN js/motion.js, exactly as the
+   day table above must stay identical to TOKENS. Two files, one decision, twice.
+
+   ⭐ EVERY VALUE IS MEASURED, against the LIGHTEST night stock (#201B15, the five
+   words) rather than against a convenient one — that is the stock where a light ink
+   has the least room:
+       ink        #EFE9DE  14.14:1      night   #8FB4D8   7.88:1
+       ink-soft   #B6ADA1   7.71:1      fire    #E58156   6.19:1
+       ink-faint  #968D82   5.23:1      morning #DCAA51   8.06:1
+   and the control boundary (WCAG 2.2 SC 1.4.11 wants 3:1): white at .36 alpha
+   composites to 3.55:1. --rule / --rule-strong carry containers, which 1.4.11 does
+   not cover, and are set by eye at the same weights the day palette uses.
+
+   ⚠️ THE ACCENTS ARE LIFTED, NOT REUSED. #32506B on #121110 is 2.1:1 — it paints
+   .chapter-num and .verse-ref at ~11px, so the day accents are a real failure here
+   rather than a taste question. Same three hues, same three moments in the book.
+   ============================================================================ */
+html[data-theme="night"] {
+  --paper: #121110;
+  --ink: #EFE9DE;
+  --ink-soft: #B6ADA1;
+  --ink-faint: #968D82;
+  --rule: rgba(239, 233, 222, .14);
+  --rule-strong: rgba(239, 233, 222, .26);
+  --control-edge: rgba(239, 233, 222, .36);
+  --control-wash: rgba(239, 233, 222, .05);
+  --accent: #8FB4D8;
+  color-scheme: dark;
+}
+html[data-theme="night"] .section[data-ch="0"]  { --paper:#141311; --ink:#EFE9DE; --accent:#8FB4D8; }
+html[data-theme="night"] .section[data-ch="1"]  { --paper:#121110; --ink:#EFE9DE; --accent:#8FB4D8; }
+html[data-theme="night"] .section[data-ch="2"]  { --paper:#111315; --ink:#EAEBEE; --accent:#8FB4D8; }
+html[data-theme="night"] .section[data-ch="3"]  { --paper:#151211; --ink:#F0E9DD; --accent:#8FB4D8; }
+html[data-theme="night"] .section[data-ch="4"]  { --paper:#101215; --ink:#E9ECEF; --accent:#8FB4D8; }
+html[data-theme="night"] .section[data-ch="5"]  { --paper:#17130F; --ink:#F2EADC; --accent:#E58156; }
+html[data-theme="night"] .section[data-ch="6"]  { --paper:#191410; --ink:#F3EBDD; --accent:#E58156; }
+html[data-theme="night"] .section[data-ch="7"]  { --paper:#131415; --ink:#ECEDEE; --accent:#E58156; }
+html[data-theme="night"] .section[data-ch="8"]  { --paper:#151312; --ink:#EFEAE4; --accent:#E58156; }
+html[data-theme="night"] .section[data-ch="9"]  { --paper:#1A1510; --ink:#F4EDDF; --accent:#DCAA51; }
+html[data-theme="night"] .section[data-ch="10"] { --paper:#1E1913; --ink:#F7F1E5; --accent:#DCAA51; }
+html[data-theme="night"] .section[data-ch="fw"] { --paper:#201B15; --ink:#F8F2E7; --accent:#DCAA51; }
+
+/* ⚠️ THE PHOTOGRAPHS COME DOWN A STOP, AND ONLY IN NIGHT. A full-brightness plate
+   on a near-black page is a lightbulb in a dark room: the eye stops on the picture
+   and cannot read the paragraph beside it. This is the same call css/room.css makes
+   for the Listening Room, at a fraction of the depth — the page is still a book,
+   not a nightstand. Transform-free, so it costs nothing on scroll. */
+html[data-theme="night"] .plate-frame img,
+html[data-theme="night"] .pl-frame img,
+html[data-theme="night"] .img-slot img { filter: brightness(.86) contrast(1.03); }
+/* 🛑 AND THE RIBBON'S OWN DIM STILL HAS TO WIN. .pl-plate:not(.is-lit) sets its own
+   filter; without this the rule above would replace it and every plate in the strip
+   would look lit. Composed by hand rather than by !important. */
+html[data-theme="night"] .pl-plate:not(.is-lit) .pl-frame img {
+  filter: brightness(.86) saturate(.62) contrast(1.05);
+}
+
+/* The one control that has to be told twice: a theme toggle whose icon is a moon
+   in the day and a sun at night. Both glyphs are in the button; one shows. */
+.theme-sun { display: none; }
+html[data-theme="night"] .theme-moon { display: none; }
+html[data-theme="night"] .theme-sun { display: block; }

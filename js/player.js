@@ -61,7 +61,16 @@
     sleepEndsAt: null,
     sleepFading: false,
     completed: {},
-    inPrayerZone: false
+    inPrayerZone: false,
+    // 🔴 CONTINUOUS PLAY, 2026-09-05. The author: "Should i have an option that
+    // doesnt stop at every chapter or just keep stopping at chapter breaks?"
+    // Both, and the default is continuous — this is an audiobook, and a book read
+    // aloud that stops dead at every chapter end and puts a dialog in front of a
+    // reader who has fallen asleep is a book that has to be restarted eleven times.
+    // The Room carries the switch (js/room.js, #room-auto). Set in init() from
+    // storage, because `state` is built before LS is reachable in a way that reads
+    // cleanly here.
+    autoAdvance: true
   };
 
   var LS = {
@@ -104,7 +113,24 @@
     updateMediaSession(chapterId);
     renderSeekMarks();
 
-    var resumeAt = opts.seekTo != null ? opts.seekTo : LS.get('pos:' + chapterId, 0); // voice timeline
+    // 🔴 A CHAPTER YOU CHOOSE STARTS AT ITS BEGINNING, 2026-09-05. The author:
+    // "whehether each ch individual clcik shoudl start at the beggining of chapter
+    //  or bring you to last listened location within the chapter seems like
+    //  beggining is realistic unless tyou are actually contoinuing from where you
+    //  left off but switching chapter would be the beggining."
+    // This used to fall back to LS 'pos:<chapter>' — a per-chapter bookmark — so
+    // tapping chapter III in the ribbon or the chapters sheet dropped the reader
+    // eleven minutes into it, in the middle of a sentence, with no way to say
+    // "no, from the top". Choosing a chapter is choosing to hear it; only
+    // CONTINUING is continuing.
+    // ⚠️ THE ONE PLACE THAT STILL RESUMES IS THE ONE THAT MEANS IT. The jacket's
+    // Continue button and the resume toast both read 'lastChapter'/'lastPos' and
+    // pass the position in as opts.seekTo, which this line still honours, as does
+    // the edition switch (which passes the current position through so a swap
+    // between the music and voice cuts does not lose your place).
+    // 🛑 'pos:<chapter>' IS NOT WRITTEN ANY MORE EITHER — see savePosition below.
+    // A store nothing reads is a trap for whoever reads this file next.
+    var resumeAt = opts.seekTo != null ? opts.seekTo : 0; // voice timeline
 
     // Both listeners come off together, whichever fires. They used to remove only
     // themselves, so a chapter that errored left its `loadedmetadata` handler behind
@@ -261,7 +287,10 @@
       els.seekBuffered.style.width = Math.min(100, (end / dur) * 100) + '%';
     }
     var vt = voiceTime();
-    LS.set('pos:' + state.chapterId, vt);
+    // 🛑 THE PER-CHAPTER BOOKMARK IS GONE, 2026-09-05, WITH ITS ONLY READER. See the
+    // note in loadChapter: a chapter the reader picks starts at its beginning now,
+    // so 'pos:<chapter>' had nothing left to answer. It was written on every
+    // timeupdate — four times a second, ten keys — for a value nobody asked for.
     LS.set('lastChapter', state.chapterId);
     LS.set('lastPos', vt);
     updatePositionState();
@@ -502,6 +531,27 @@
       // by hand rather than left showing ❚❚ on a finished chapter.
       syncPlayState();
       if (state.sleepMode === 'chapter') { setSleep('off'); pause(); showCompletion('sleep'); return; }
+      // 🔴 CONTINUOUS PLAY. The modal is the OPT-OUT path now, not the default.
+      // ⚠️ THE LAST CHAPTER STILL GETS THE MODAL, and that is the point of the
+      // `next` test rather than a plain `if (state.autoAdvance) return advance()`.
+      // Chapter X ending is the book ending; there is nothing to advance into and
+      // finishing it silently would be the one moment on this site that deserves a
+      // sentence and does not get one.
+      // ⚠️ AND autoplay IS SAFE HERE WITHOUT A GESTURE. The reader is mid-session
+      // on an element that is already playing, so the media engagement that
+      // permitted the current chapter carries into the next src on every engine
+      // this book supports. It is the same call the completion modal's own "next
+      // chapter" button has always made.
+      var nextId = CHAPTER_IDS[CHAPTER_IDS.indexOf(state.chapterId) + 1];
+      if (state.autoAdvance && nextId) {
+        loadChapter(nextId, { autoplay: true });
+        announce('Continuing with ' + chapterTitle(nextId));
+        var sec = document.getElementById(nextId);
+        // follow the voice onto the page, exactly as tap-to-listen does — a reader
+        // who is reading along must not be left on the previous chapter's last page
+        if (state.follow && sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
       showCompletion('chapter-end');
     });
   }
@@ -613,7 +663,17 @@
     wireControls();
     wireKeyboard();
     setPlayerState('idle');
+    state.autoAdvance = LS.get('autoAdvance', true) !== false;
     if (!maybeDeepLink()) maybeShowResumeToast();
+  }
+
+  function setAutoAdvance(on) {
+    state.autoAdvance = !!on;
+    LS.set('autoAdvance', state.autoAdvance);
+    emit('panim:auto-advance', { on: state.autoAdvance });
+    announce(state.autoAdvance
+      ? 'Continuous play on. Chapters will follow one another.'
+      : 'Continuous play off. Playback stops at the end of each chapter.');
   }
 
   document.addEventListener('panim:rendered', init);
@@ -626,6 +686,7 @@
     play: play, pause: pause, toggle: togglePlay, skip: skip,
     load: function (id, opts) { loadChapter(id, opts); },
     setEdition: setEdition, cycleSpeed: cycleSpeed,
+    setAutoAdvance: setAutoAdvance,
     setSleep: setSleep, sleepRemaining: sleepRemaining,
     voiceTime: voiceTime, voiceDur: voiceDur, fileDur: fileDur,
     audio: els.audio, fmtTime: fmtTime, chapterTitle: chapterTitle,
