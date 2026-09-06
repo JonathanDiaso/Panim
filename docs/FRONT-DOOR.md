@@ -1,9 +1,10 @@
 # 🚪 THE FRONT DOOR
 
 **What the top of the site does, why it does it, and what is next.**
-**v58 is LIVE on `main`**, 2026-09-05 — night mode, a primary button that is not a black
-slab, a player that keeps going, and a rebuilt Listening Room. **§5 is that round; §4 is
-v57 and every ruling in it still stands.**
+**v59 is LIVE on `main`**, 2026-09-06 — the standfirsts split into two fields, the
+five-minute card is lit and short, the ribbon moves 35% more, and **a reader can now send a
+passage of the book to one other person.** **§6 is that round. §5 is v58, §4 is v57, and
+every ruling in both still stands.**
 🛑 **Read §0.1 before touching the second door's `href`.**
 🛑 **Every open decision is in `docs/DECISIONS.md` — do not start a second list.**
 🗄 v55 (the ribbon going live) is at `58e2461`; v54's contact sheet, which never shipped,
@@ -1056,3 +1057,130 @@ the edge classes driven through `scrollLeft = 0 → 300 → max → 0` (**`is-sc
 in **`docs/DECISIONS.md`** — the standfirsts (§A), the copy questions (§B), the design calls
 (§C), the player's default (§D), the carried-over audio and repo work (§E), and the four
 things only a person with the site in their hand can check (§F).
+
+---
+
+# 6 · ✉️ v59 — TWO FIELDS FOR THE STANDFIRSTS, AND THE BOOK CAN BE QUOTED
+
+**2026-09-06.** The author marked up `docs/DECISIONS.md` in the margins and every mark was
+acted on in one round. **v59 is committed and pushed.** 🛑 **The record of what he said and
+what it produced is `docs/DECISIONS.md` — this section is what was built.**
+
+## 6.1 🛑 ONE FIELD WAS BEING SET AT TWO SIZES, AND THAT IS WHY THE COPY COULD NOT IMPROVE
+
+**The author asked for standfirsts with "more heart and truth" and allowed three sentences.
+Measured, three sentences was unshippable, and the reason was structural rather than
+editorial:** `hook` is printed in **three** places and one of them sets it in the display
+voice at a 32px line-height on a phone. The four alternatives he picked ran **6–9 lines** in
+the ribbon caption against a reserve of five — **up to 162px of new air under all ten
+plates**, which is the vertical bloat he had asked to remove two notes earlier.
+
+⭐ **So there are two fields now, and he does not have to choose:**
+
+| | field | who prints it | budget |
+|---|---|---|---|
+| under the ten plates, and in the contents | `hook` | `.pl-hook`, `.toc-hook` | display voice — **short or nothing** |
+| at the top of the chapter | `standfirst` | `.chapter-hook` | body size, 58ch — **three sentences fit** |
+
+**`standfirst` is optional and only four chapters carry one** (I, IV, VIII, IX);
+`js/render.js` falls back to `hook` everywhere else. 🛑 **BOTH ARE HAND-CARRIED FIELDS in a
+generated file** — `tools/build-chapters.py` copies each of them forward across a rebuild,
+and that is the only reason editing them in `content/chapters.js` is safe.
+
+✅ **Re-measured at 22 widths from 320 to 1920 after the rewrite: the hook ladder still
+reserves enough for the tallest of the ten at every width, unchanged.** Chapter I is now the
+tallest instead of chapter VI. **The strip did not get taller.**
+
+## 6.2 THE FIVE-MINUTE CARD — shorter, lit, and it pulses exactly once
+
+**Three complaints, three answers.** *"honestly kinda long"* → the supporting paragraph went
+from three sentences to one; the father at the door was the weakest of the three and the
+quote above it already implies him. *"could be flashing or have color"* → 🛑 **not flashing,
+ever** (WCAG 2.3, and `prefers-reduced-motion` would remove it for exactly the reader it was
+meant for) — **colour instead, and the colour is the chapter's own:** 7% of the current
+accent mixed into the same `--control-wash` every control uses, with the eyebrow and the
+play ring in the accent too. It is the only tinted rectangle above the fold.
+
+⚠️ **Measured by compositing the translucent wash over the paper it actually sits on** — day
+`rgb(215,212,203)`, night `rgb(18,17,15)`: quote **12.26 / 15.62**, supporting line
+**5.03 / 8.52**, accent ring and eyebrow **5.68 / 8.71**. All pass.
+
+**And one pulse on arrival** — the author's pick over a flashing box. `js/ui.js` adds
+`.is-arrived` the first time the card crosses 35% into view and the observer disconnects
+itself; the animation has no iteration count, so it plays once. **The ring draws itself and
+the triangle lifts — the same gesture the transport button makes when a chapter starts, so
+the card rehearses what pressing it does.**
+
+## 6.3 THE RIBBON — *"more motion some room is fine"*, and those are one decision
+
+| | was | now |
+|---|---|---|
+| sway, largest plate | ±66px | **±89px** (`PLATE_SWAY` × 1.35, shape untouched) |
+| drift inside the frame | ±4.6% | **±5.6%** |
+| the rail's `padding-block` | 5rem / 80px | **6.5rem / 104px** |
+
+🛑 **THE LARGEST AMPLITUDE AND THE PADDING NEVER MOVE APART.** A plate travels ±(its own
+amplitude) and `#plates` clips anything past the padding; 104 against 89 keeps the same 15px
+of slack the old pair had. **This is the trade this file spent two measured, reverted
+attempts on in v58, and the author has now ruled on it: more motion, and the room to pay for
+it.** ⚠️ **The drift has a hard ceiling of 6** — `.pl-frame img` is laid out at
+`left: -6%; width: 112%`, so past 6 the frame runs out of picture and shows its own
+background at the trailing edge on every plate. Widen the overhang first or do not widen it.
+
+## 6.4 ⭐ THE BOOK CAN BE QUOTED NOW — `js/quote.js`
+
+> *"also is it possible to just send a small snippet of the book to someone?? that links to
+> the whole book? Thats needed"*
+
+**Select any text in the ten chapters and one button appears over the selection.** It hands
+`navigator.share` the passage, its chapter and a link; with no share sheet it copies the
+same three lines to the clipboard and says so in the button.
+
+🛑 **THE LINK IS `/c/NN/?p=<paragraph id>`, NOT A BARE `#fragment`, AND THAT IS THE WHOLE
+FEATURE.** A bare `…/#ch07-p107` opens in the right place but **unfurls as the book's front
+door**, because one HTML file has one set of Open Graph tags. The chapter stub already
+carried chapter VII's own title, standfirst and plate — it now also reads `?p=` and redirects
+to that paragraph. **The recipient's messaging app gets a card worth opening; the reader gets
+the whole book, at the sentence they were sent.** `tools/gen-chapter-stubs.py` writes the
+parameter handling and **validates the id before using it** — it only ever becomes a
+same-document fragment, but a redirect target assembled out of a query string is a shape
+worth never getting into the habit of.
+
+**Decisions inside it, so they are not re-litigated:**
+- ⚠️ **Scoped to `#chapters-root`.** Selecting a nav label or a caption must not offer to
+  quote the book. Verified: a selection in `.nav-mark` does not raise it.
+- ⚠️ **Raised on `mouseup` / `touchend` / shift-`keyup`, never on `selectionchange`.**
+  `selectionchange` fires continuously during a drag, and a button appearing under a moving
+  cursor makes the selection impossible to finish. `selectionchange` is used for one thing:
+  taking the pill away when the selection collapses.
+- **Position is `absolute`, not `fixed`** — a fixed pill slides away from its own selection
+  the instant the page moves, which reads as a bug even when it is not.
+- **280 characters, cut on a word**, ellipsis only when something was actually removed.
+- `z-index: 60` — **under** the sheets and the player bar.
+
+✅ **Verified at 402px in both themes:** pill is 170×44 (target met), fully on screen,
+label text **15.3:1** against its own paper, glyph **7.07 / 8.57**; Escape hides it; a
+collapsed selection hides it; a selection outside the book never raises it.
+
+## 6.5 The jacket line
+
+**`Read and listen` → `Read it or listen. The choice is yours.`** The author:
+*"add the chouc is yours thats good!!!!"* — *and* can be read as an instruction to do both,
+which is more homework; *or* alone makes the reader choose at the door and implies the two
+are different products. The second sentence settles it in four words. 🛑 **No runtime on
+that line** — see §0.4.
+
+## 6.6 How v59 was verified
+
+**Same-origin harness over `http://localhost:8899/`, deleted before committing**, with
+`* { transition: none !important }` injected before any state change — see §5.10, that
+omission cried wolf on night mode for an hour last round.
+
+- **No console errors**, and **no document overflow and no nav overflow** at 320 / 360 / 380
+  / 402 / 480 / 640 / 768 / 900 / 901 / 940 / 941 / 1024 / 1280 / 1440 / 1920, with **no
+  control under 44px** at any of them.
+- **The hook ladder re-swept at 22 widths** against the rewritten hooks — every width still
+  reserves enough.
+- **Contrast composited, not assumed**, for the card and the pill in both themes.
+- **The share pill driven end to end**: raised from a real range in chapter I, measured,
+  dismissed by Escape, dismissed by collapse, and refused a selection in the nav.

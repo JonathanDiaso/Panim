@@ -552,6 +552,31 @@
     }
   }
 
+  // ⭐ THE CARD PULSES ONCE WHEN IT ARRIVES — the author's pick over a flashing box.
+  // One class, added the first time the card crosses into view, never removed and
+  // never re-added; css/site.css runs a single un-iterated animation off it and
+  // switches it off under prefers-reduced-motion. The observer disconnects itself,
+  // so this costs nothing after the first scroll past the ribbon.
+  // ⚠️ THE 0.35 THRESHOLD IS NOT DECORATION. At 0 the ring would draw itself while
+  // the card is one pixel onto the screen and be finished before the reader can see
+  // it; a third of the card visible is the earliest point the gesture is worth
+  // spending. Falls back to adding the class immediately where there is no observer.
+  function wireSampleArrival() {
+    var card = $('#hero-sample');
+    if (!card) return;
+    if (!('IntersectionObserver' in window)) { card.classList.add('is-arrived'); return; }
+    var io = new IntersectionObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) {
+          card.classList.add('is-arrived');
+          io.disconnect();
+          return;
+        }
+      }
+    }, { threshold: 0.35 });
+    io.observe(card);
+  }
+
   function init() {
     wireTheme();
     buildNav();
@@ -568,6 +593,7 @@
     wireLexiconSort();
     wireLexiconWall();
     wirePlateRibbon();
+    wireSampleArrival();
   }
 
   // ---------- the lexicon filter ----------
@@ -1020,7 +1046,7 @@
     // Chrome drifted the right way, and nothing would have said so.
     // ⚠️ 4.6 SINCE 2026-09-05, and @keyframes pl-drift in css/components.css carries
     // the same value. The overhang moved with it (112% / -6%); the three are one sum.
-    var DRIFT = 4.6;
+    var DRIFT = 5.6;   // 🛑 one number in two files — see @keyframes pl-drift
     if (CSS_DRIFT) document.documentElement.classList.add('pl-sda');
 
     // ---------- the sway, fallback path ----------

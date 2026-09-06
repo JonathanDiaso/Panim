@@ -1889,7 +1889,12 @@
      ⭐ SO THE REAL TRADE IS CLEARANCE AGAINST TRAVEL, and it belongs to the author:
      every 10px off the largest amplitude is 10px off this gap, and 20px off the
      motion he asked for in the last round. It is written up in docs/DECISIONS.md. */
-  padding-block: 5rem;
+  /* ⭐ 5rem → 6.5rem, 2026-09-06. The author, asked to rule on the clearance-versus-
+     travel trade this file spent two measured attempts on: "more motion some room is
+     fine." So the motion went up 1.35× (js/render.js PLATE_SWAY) and the room went up
+     with it. 104px of padding against a largest amplitude of 89 leaves 15px of slack,
+     which is what the old pair had (80 against 66). Neither number moves alone. */
+  padding-block: 6.5rem;
   overflow-y: hidden;
   scrollbar-width: none;
   margin-bottom: .2rem;
@@ -2145,12 +2150,17 @@
     animation-timeline: --pl-plate;
     animation-range: cover 0% cover 100%;
   }
-  /* 🛑 4.6 AND THE 4.6 IN js/ui.js ARE ONE NUMBER IN TWO FILES. The fallback rAF
+  /* 🛑 5.6 AND THE 5.6 IN js/ui.js ARE ONE NUMBER IN TWO FILES. The fallback rAF
      path writes --dx; if the two ever disagree, Firefox drifts one distance and
-     Chrome another and nothing anywhere reports it. */
+     Chrome another and nothing anywhere reports it.
+     ⭐ 4.6 → 5.6 on 2026-09-06, the author: "more motion some room is fine."
+     ⚠️ THE CEILING IS 6, AND IT IS ARITHMETIC, NOT TASTE. .pl-frame img is laid out
+     at left:-6%; width:112%, so the picture has exactly 6% of overhang on each side.
+     Drift past 6 and the frame runs out of picture and shows its own background at
+     the trailing edge on every plate. Widen the overhang first or do not widen this. */
   @keyframes pl-drift {
-    from { translate: -4.6% 0 }
-    to   { translate:  4.6% 0 }
+    from { translate: -5.6% 0 }
+    to   { translate:  5.6% 0 }
   }
 }
 
@@ -3787,3 +3797,52 @@ body.nav-toc-open #site-nav {
 .bm-link.is-back { color: var(--accent); margin-left: auto; }
 .bm-link.is-back:hover { border-bottom-color: var(--accent); }
 @media (max-width: 640px) { .bm-link.is-back { margin-left: 0; } }
+
+/* ============================================================================
+   THE QUOTE PILL — the button that appears over a selection
+   The author, 2026-09-06: "is it possible to just send a small snippet of the
+   book to someone?? that links to the whole book? Thats needed"
+
+   🛑 IT LOOKS LIKE THE BOOK, NOT LIKE A BROWSER EXTENSION. Every share affordance
+   on the internet is a dark floating capsule with a shadow under it; this is the
+   page's own control — the same hairline, the same wash, the same accent lift on
+   hover as every .btn — raised off the paper by one soft shadow so it reads as
+   sitting ON the page rather than as part of it.
+   ⚠️ POSITION IS ABSOLUTE, NOT FIXED, and js/quote.js explains why: a fixed pill
+   slides away from its own selection the moment the page moves.
+   ⚠️ z-index sits under the sheets and the player bar. A share pill that paints
+   over an open dialog is a bug in every design system that has ever shipped one.
+   ========================================================================== */
+.quote-pill {
+  position: absolute;
+  z-index: 60;
+  display: inline-flex; align-items: center; gap: .5em;
+  min-height: 44px;
+  padding: .6em 1em;
+  border: 1px solid var(--control-edge);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--ui); font-size: var(--ap-lg); font-weight: 600;
+  letter-spacing: .01em;
+  white-space: nowrap;
+  /* the only drop shadow on the site, and it is here because this element is the
+     only one that genuinely floats above the text rather than sitting in the flow */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .16);
+  transition: border-color var(--dur-fast) var(--ease),
+              background-color var(--dur-fast) var(--ease),
+              color var(--dur-fast) var(--ease);
+}
+.quote-pill svg { width: 18px; height: 18px; flex: none; color: var(--accent); }
+.quote-pill:hover, .quote-pill:focus-visible {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--paper));
+}
+.quote-pill:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+/* the confirmation is a state of the same button, not a toast: a toast for a
+   two-word acknowledgement is a second surface for no reason */
+.quote-pill.is-done { border-color: var(--accent); color: var(--accent); }
+.quote-pill.is-done svg { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .quote-pill { transition: none; }
+}

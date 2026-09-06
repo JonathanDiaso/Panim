@@ -19,7 +19,8 @@ window.PANIM_CHAPTERS = [
   "num": 1,
   "id": "ch01",
   "title": "The God Who Sees",
-  "hook": "Two small silver scrolls, a blessing about a face, and the oldest words of the Bible anyone has ever found.",
+  "hook": "A bored thirteen-year-old knocked on a tomb floor and it knocked back hollow. Underneath were the oldest words of the Bible anyone has ever found.",
+  "standfirst": "A bored thirteen-year-old was handed a broom and the one chamber nobody expected anything from. He knocked on the floor because the silence was getting to him, and the floor knocked back hollow. Underneath were the oldest words of the Bible anyone has ever found, and they are a blessing about a face.",
   "glossary": [
    {
     "term": "panim",
@@ -2436,7 +2437,8 @@ window.PANIM_CHAPTERS = [
   "num": 4,
   "id": "ch04",
   "title": "The Word He Kept Rehearsing",
-  "hook": "Jacob has one word he cannot stop rehearsing, and it is the word this whole book is about.",
+  "hook": "He says it face-down in the dirt, the way a guilty man says it — perhaps he will lift up my face. He does not know he has just prayed the priestly blessing.",
+  "standfirst": "Perhaps he will lift up my face. Jacob means it the way a guilty man means it — face-down in the dirt in front of an offended lord, waiting to find out whether he will be raised to his feet or run through. He does not know he has just said the sentence God will one day command His priests to lay on every face in Israel.",
   "glossary": [],
   "blocks": [
    {
@@ -6377,7 +6379,8 @@ window.PANIM_CHAPTERS = [
   "num": 8,
   "id": "ch08",
   "title": "The Face Set Like Flint",
-  "hook": "Moses was told he could not see the face of God and live. On this mountain he is standing in front of it.",
+  "hook": "Every shining face in this book was borrowed light. This one is not reflecting the glory. It is where the glory is.",
+  "standfirst": "Every shining face in this book so far was borrowed light. Moses glowed the way a wall glows at sunset, catching it off a face that was not his, and when the visits stopped the glow died. This face is not reflecting the glory. It is where the glory is.",
   "glossary": [
    {
     "term": "metamorphoo",
@@ -7726,7 +7729,8 @@ window.PANIM_CHAPTERS = [
   "num": 9,
   "id": "ch09",
   "title": "Eyes Opened",
-  "hook": "Seven miles beside Him, arguing about Him, and it is the way He breaks the bread that gives Him away.",
+  "hook": "Two of them walk seven miles beside Him arguing about Him and never once see it. She stands in a garden at dawn and takes Him for the gardener.",
+  "standfirst": "Two of them walk seven miles beside Him arguing about Him and never once see it. She stands in a garden before sunrise and takes Him for the gardener. What finally opens their eyes is nothing spectacular — a name said out loud, and the way His hands break the bread.",
   "glossary": [
    {
     "term": "lechem ha-panim",

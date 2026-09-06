@@ -29,7 +29,8 @@ Four things do not come from the manuscript and are carried across from the
 previous content/chapters.js instead, because they are editorial work done on
 the site and have no marker in the book:
 
-  hook       the chapter standfirsts
+  hook       the chapter standfirsts (short: the ribbon and contents set this)
+  standfirst the chapter opening's longer line, optional, falls back to hook
   slot       the fifteen image positions, re-anchored by matching the paragraph
              each slot used to sit above
   zone       the prayer passage in chapter X, re-anchored the same way
@@ -549,6 +550,10 @@ def main():
             "id": chid,
             "title": title,
             "hook": old.get("hook", ""),
+            # carried the same way and for the same reason as `hook`: the chapter
+            # opening's longer standfirst is hand-written and must survive a rebuild.
+            # Only four chapters carry one; render.js falls back to `hook`.
+            "standfirst": old.get("standfirst", ""),
             "glossary": gloss,
             "blocks": blocks,
         })
