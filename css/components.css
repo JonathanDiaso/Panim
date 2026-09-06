@@ -425,7 +425,19 @@
 .hero-hebrew {
   grid-column: 3 / 10;
   justify-self: start;
-  margin-inline-start: -.12em;
+  /* 🔴 margin-LEFT, NOT margin-inline-start, AND THAT WAS A REAL BUG UNTIL
+     2026-09-06. This element carries dir="rtl" — it must, Hebrew is a
+     right-to-left script and the nikkud depend on it — and in an RTL box the
+     INLINE-START EDGE IS THE RIGHT ONE. So the negative margin that was supposed to
+     cancel the touch-target padding on the left was quietly cancelling it on the
+     right, and the word had been sitting 6px (phone) to 10px (desktop) right of the
+     title's stem the whole time. Measured before: box left 20 / title left 20, ink
+     left 26. After: ink and stem on the same vertical at every width.
+     🛑 A LOGICAL PROPERTY IS THE WRONG TOOL ON AN RTL ISLAND INSIDE AN LTR PAGE.
+     The page's reading direction decides the grid; the element's decides its own
+     inline axis, and here the two disagree on purpose. Use physical properties for
+     anything that has to line up with the page. */
+  margin-left: -.12em;
   font-family: var(--heb); font-weight: 400;
   /* ⚠️ IT MUST NOT LAND WITHIN A FEW PIXELS OF THE TITLE. The first pass was
      clamp(2.9rem, 6.4vw, 4.8rem) → 76.8px at 1440 against a 70.4px .hero-title,
@@ -518,36 +530,32 @@
     .hero-block { grid-template-columns: repeat(6, 1fr); }
   }
   .hero-title, .hero-subtitle, .hero-pull, .hero-meta, .hero-actions { grid-column: 1 / 7; }
-  /* 🛑 THE MARK IS NOT IN THAT LIST ANY MORE. It used to be ranged left with the
-     rest of the block; it now spans the phone's six tracks and stays centred, the
-     same as the desktop. Adding it back to the rule above silently un-centres it
-     on every phone while the desktop still looks right — which is the shape of
-     bug that ships. */
-  /* 🛑 IT RANGES LEFT WITH THE TITLE HERE TOO, 2026-09-05 — same call as the
-     desktop, and the phone is where the two are closest together and a shared left
-     edge matters most. The old rule centred it across the six phone tracks while
-     the title started at track 1; on a 402px screen that was 90px of drift on the
-     single most important pairing on the page. */
-  /* 🔴 CENTRED ON A PHONE, RANGED LEFT ON A DESKTOP, 2026-09-05, AND THAT IS A
-     DELIBERATE SPLIT RATHER THAN AN INCONSISTENCY. The author: "on mobile the first
-     panim hebbrew word looks pretty good might look best on mboile if it was
-     directly centerd above title challenge is desktop and phone work differently."
-     He has named the reason himself. On the desktop the title is 3/10 of a twelve
-     track grid and there is a wide empty margin to its right, so a centred mark
-     drifts 356px off the title's stem and reads as unrelated to it — that is the
-     measurement that put it back on the left in the first place, and it stands. On
-     a phone the title fills the whole measure, so "centred on the page" and
-     "centred on the title" are THE SAME PLACE, and the title-page move (a centred
-     device over a ranged-left title) is available for free.
-     🛑 SO THE SHARED LEFT EDGE IS NOT BEING GIVEN UP. It is being kept by a
-     different means, because the geometry underneath it is different.
-     ⚠️ margin-inline-start MUST BE CANCELLED HERE. The desktop carries -.12em to
-     pull the glyph back onto the title's stem against the touch-target padding;
-     centred, that same -.12em silently shifts the word 6px left of centre. */
+  /* 🔴 RANGED LEFT ON A PHONE TOO — REVERSED 2026-09-06, ON THE AUTHOR'S WORD.
+     "the panim symbol needs to move left cause it looks weird fully centered on
+     mobile."
+     🛑 THIS IS THE THIRD POSITION THIS MARK HAS HAD AND IT IS THE LAST ONE, so the
+     reasoning that lost is written down rather than deleted — the argument for
+     centring was good and it was still wrong.
+     THE ARGUMENT WAS: on a phone the title fills the whole measure, so "centred on
+     the page" and "centred on the title" are the same place, and a centred device
+     over a ranged-left title is the title-page move, available for free. The
+     geometry is correct. What it misses is that the title is TWO RAGGED LINES, not
+     a block — "The Invitation / Hidden on Every Page" — so the mark was not being
+     centred over a shape, it was being centred over an average. It read as floating
+     because it WAS floating: it shared no edge with anything on the page.
+     ⭐ ONE LEFT EDGE, EVERYWHERE, AT EVERY WIDTH. The mark, the title, the
+     standfirst, the pull line and the door now all start on the same vertical, on a
+     phone exactly as on a desktop, and the mark reads as a mark ON the title
+     instead of as a fourth thing stacked above it.
+     ⚠️ SO THE NEGATIVE MARGIN COMES BACK. The .12em of padding is what keeps the
+     word's box over the 44px touch minimum; ranged left, that padding also pushes
+     the first glyph ~6px right of the title's stem, and a mark six pixels off the
+     line it belongs to is the one misalignment the eye actually catches. The
+     negative margin cancels it optically without touching the target. */
   .hero-hebrew {
     grid-column: 1 / 7;
-    justify-self: center;
-    margin-inline-start: 0;
+    justify-self: start;
+    margin-left: -.12em;   /* physical — see the note on the desktop rule */
     margin-bottom: .45rem;
   }
   .hero-meta { margin-top: 1.4rem; }
