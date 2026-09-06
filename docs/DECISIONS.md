@@ -1,6 +1,6 @@
 # ☑ ONE SHEET — WHAT YOU ANSWERED, WHAT SHIPPED, WHAT IS STILL OPEN
 
-**2026-09-06, after v59.** You marked this sheet up in the margins and every mark has been
+**2026-09-06, after v60.** You marked this sheet up in the margins and every mark has been
 acted on. **Your words are quoted verbatim below each item** — they are the record of what
 was decided, so they stay even after the work is done.
 
@@ -10,6 +10,27 @@ was decided, so they stay even after the work is done.
 🛑 **Two things that are not up for discussion, listed only so nobody re-opens them:** the
 second door's `href` stays on David/Absalom (`?t=ch07:17m55s`) — `FRONT-DOOR.md §0.1`; and
 no commit ever carries a co-author trailer.
+
+---
+
+# ⬜ STILL OPEN, AT A GLANCE — everything else on this sheet is done
+
+**Nine things. Four are a decision, five are something only you can check.**
+
+| | what | where |
+|---|---|---|
+| ☐ | **Two doors, or one?** Hannah is 3 seconds past where the five minutes end. My pick: give her her own door somewhere else. | §B.2 |
+| ☐ | **Read the four new short lines under the photographs on your phone.** If one is worse than what it replaced, the old ten are saved. | §A.2 |
+| ☐ | **The hero mark centred on a phone** — the one change made on a screenshot rather than your word. One rule to revert. | §C.2 |
+| ☐ | **The resume button** — the accent-rule version shipped; three other variants are one line away. | §D.4 |
+| ☐ | **Send yourself a passage from your phone** and look at how it unfurls in iMessage or WhatsApp. **The unfurl is the whole feature and only a real phone shows it.** | §D.5 |
+| ☐ | **One listen across a chapter boundary** — 12 seconds of music between chapters now. Right, or still long? | §D.2 |
+| ☐ | **One real thumb and one real mouse on the ribbon.** Everything was measured with a synthetic cursor. | §F |
+| ☐ | **Night mode on your own phone, at night.** Contrast is measured; comfort is not the same thing. | §F |
+| ☐ | **Open `#ch07` and `#ch10` cold on the live site** — the one real regression risk of the speed work. | §F |
+
+🗄 **And §E carries the audio and repo work from earlier rounds, untouched and still true** —
+the `3-studiosound/` backup is the only 🔴 on it that has a deadline attached.
 
 ---
 
@@ -130,29 +151,51 @@ one time, the first time the card comes into view, and never again. It is the sa
 the transport button makes when a chapter starts, so the card is rehearsing what pressing it
 does. Off entirely under `prefers-reduced-motion`.
 
-### ☐ AND THE ONE QUESTION YOU ASKED BACK
+### ⬜ THE ONE QUESTION YOU ASKED BACK — MEASURED, AND YOU WERE RIGHT
 
-> *"yeh so it leads into that story what should i write on the scene? i want the audio to
-> start at absalom and maybe say answering it wet???"*
+> *"have 2 doors??? Why cant it show Hannah and start earlier on absalom cause they conenct
+> haha. or is there actually a better scen that sbigger and bettr."*
 
-**The audio starts at Absalom and has not moved** — `?t=ch07:17m55s`, untouched.
+⭐ **They connect more literally than you knew.** Measured against `cues/ch07.json`:
 
-🛑 **But *"He answered it wet"* cannot go on this card, and the reason is a clock, not a
-taste.** That line is Hannah, at `22m49s`. **The five minutes end at `22m46s`** — the
-Elijah movement closes on *"The appointment is still on the books"* and the Hannah paragraph
-is the line immediately after it. **So the card would be quoting something the clip stops
-three seconds short of reaching.** That is the exact fault §0.1 is about: the card promising
-one thing and the sound delivering another.
+| | |
+|---|---|
+| `ch07-p138` — *"The appointment is still on the books."* | **22:46** — the last line of the five minutes |
+| `ch07-p139` — *"My sister Hannah moved to heaven when she was twenty."* | **22:49** |
 
-**Two honest ways to have it, and both are yours to call:**
+**They are consecutive paragraphs. The excerpt stops three seconds short of her.**
 
-* ☐ **A** ⭐ *my pick, and what ships* — **the card quotes where the sound starts.** As now.
-* ☐ **B** — **extend the excerpt by about ninety seconds** so Hannah is inside it, then the
-  card can quote her. ⚠️ **It stops being "five minutes"** — it becomes six and a half, and
-  the eyebrow is the most persuasive line on the card.
-* ☐ **C** — **give Hannah her own door somewhere else.** She is the strongest thing on that
-  tape and she is still unused. The About sheet or a share card would carry her without
-  touching this one. **This is what I would do with her.**
+🛑 **But she cannot be quoted on the card without making it nine minutes.** Measured forward
+from `17:55`:
+
+| stop at | ends on | length |
+|---|---|---|
+| `22:46` | "The appointment is still on the books." | **4:51** — what ships |
+| `26:19` | **"He answered it wet."** | **8:24** |
+| `26:48` | "As tears." | **8:53** |
+
+**"If you only have five minutes" is the most persuasive line on that card**, and it is the
+first thing a stranger reads. Trading it for a quote is trading the offer for the bait.
+
+⭐ **The reverse is cheap, and it is your two-doors instinct, which is right.** Starting **at**
+Hannah — `22:49 → 26:32` — is **3m43s**: a complete scene with its own ending. Sister, the
+question, the pen and the blank page, the tears running the ink, *"He answered it wet"*,
+*"Jesus wept."*
+
+* ☐ **A** ⭐ *my pick* — **two doors, in two places.** Absalom stays on the jacket as the
+  argument. **Hannah gets her own door elsewhere** — the About sheet, or under the contents —
+  as the testimony. **They never share a screen, so they cannot compete, and because they are
+  consecutive nothing is skipped between them.** ~1 hr.
+* ☐ **B** — **one door, extended to 8m24s.** Honest, and it stops being five minutes.
+* ☐ **C** — **swap the jacket door to Hannah.** 3m43s, "if you only have four minutes."
+  Stronger emotionally. ⚠️ It opens the book on your grief rather than on its argument, and
+  it spends the chapter's climax on someone who has not started.
+
+**And "is there a better scene": I checked, and no.** Chapter IX's mirror-and-*hilasterion*
+passage is the densest theology in the book and needs runway before it lands. Chapter X's
+closing prayer is the destination — showing it to a stranger spends the whole book.
+**Chapter VII is where the argument lands, which is why it has now been chosen three times,
+and the two strongest four-minute scenes in the book are both in it, back to back.**
 
 ---
 
@@ -219,13 +262,54 @@ way.**
 
 Your ruling. Clicking a chapter starts it at `0:00`; **only Continue resumes.**
 
-## D.2 ☐ Continuous play — ON by default, and one thing still needs your ear
+## D.2 ✅ Continuous play — and the music question is MEASURED now, not guessed
 
-The tape plays straight through chapter breaks, announcing the next title, and remembers
-your choice. ⚠️ **The unverified thing is the music.** If the beds were mixed to land on a
-full stop, playing straight through steps on ten endings. **Only your ear settles that** —
-one listen across a chapter boundary. The switch is in the Listening Room; the default is
-one line in `js/player.js`.
+**You asked whether the audio had been touched. It has not, and it has not been touched
+once this whole round** — no audio, cue or manifest file appears in any commit.
+
+🛑 **AND MY NOTE ABOUT "THE BEDS" WAS BADLY WORDED — nobody was ever suggesting a separate
+music bed.** I meant the music already mixed into the tape. **You were right that it is
+already combined, and the measurement showed my worry was pointed the wrong way.** From
+`content/audio-manifest.js`, identical on all ten chapters:
+
+| | |
+|---|---|
+| music before the voice | **6.00s** |
+| music after the voice ends | **12.00s** |
+
+**`ended` fires at the end of the FILE, so the 12-second ending is never clipped — it plays
+in full.** Nothing was ever being stepped on. **What was actually happening is that
+continuous play ran a 12s outro straight into a 6s intro: eighteen seconds of music between
+two chapters**, plus load time. On a phone in a car that does not read as a track break, it
+reads as the app having stopped.
+
+✅ **Fixed: the lead-in is skipped on auto-advance only.** It exists to open a chapter
+somebody chose; nothing needs opening when the music is already playing. **A chapter you
+pick still gets its full opening.** 18s → 12s.
+
+☐ **The only thing left is one listen across a boundary** to say whether 12 seconds is
+right or still long. The switch is in the Listening Room.
+
+---
+
+# D.4 · ✅ THE RESUME BUTTON — *"obnoxiously loud"*, then *"i meant loud as in ugly lol"*
+
+**The clarification is what fixed it.** The first pass took the fill off and left a
+**rectangle** — quieter, still a box. **The box was the ugly part:** this page is hairlines
+and paper, and a bordered box is the one shape it uses nowhere else, which is exactly why a
+control drawn as one looks like it came from a different website.
+
+⭐ **It is now marked the way the book marks things — one accent rule down the left edge**,
+the same as the five-minute card and the same as a change of voice in the text. **The
+affordance was never the box; it is the drawn ring with the triangle in it.**
+
+🔴 **And the thing that actually shouted on a return visit was the resume TOAST** — a
+near-black rectangle sliding in over the paper with a *second* Resume button under the first
+one. It was the last black slab on the site and it is paper now, with the same accent rule.
+⚠️ **Its buttons were also 34px, under the 44px minimum.** Fixed.
+
+☐ **Four variants were rendered side by side and the accent-rule one was picked. Switching
+is one line** — say the word if you want the hairline box or the ring-only version instead.
 
 ---
 
@@ -248,6 +332,16 @@ exact sentence you sent. **They land inside the whole book, at your paragraph.**
   extension, not of a page.
 - **How long a passage can be:** about 280 characters, cut on a word. Past four lines the
   recipient is being sent homework rather than a sentence.
+- ✅ **AND IT NOW CARRIES THE MOMENT, not only the place** — the link is
+  `/c/07/?p=ch07-p107&t=17m55s`. They land on your sentence **with the tape already wound to
+  it**: one press and they hear it read. The cue is looked up when the button appears rather
+  than when it is pressed, because iOS refuses a share sheet that is not opened
+  synchronously inside the tap.
+- 🔴 **AND THE BUG YOU FOUND IS FIXED.** *"shared passage butto thing doesnt leave once you
+  click it which is weird."* Exactly right, and it was the button's own listener: pressing it
+  is a mouseup like any other, and the selection was still standing, so it hid on the click
+  and reappeared one tick later in the same place. It now ignores its own gestures and drops
+  the selection when the send completes.
 - ☐ **One thing for you:** send yourself a passage from your phone and check how it looks in
   the app you would actually use — iMessage, WhatsApp, wherever. **The unfurl is the whole
   feature and only a real phone shows it.**

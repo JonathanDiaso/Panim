@@ -145,6 +145,20 @@
       cleanup();
       if (resumeAt > 1 && resumeAt < voiceDur() - 2) {
         try { els.audio.currentTime = resumeAt + offset(); } catch (e) {}
+      } else if (opts.skipIntro && offset() > 0) {
+        // ⭐ NO SECOND OVERTURE ON AUTO-ADVANCE, 2026-09-06.
+        // MEASURED, all ten chapters, from content/audio-manifest.js: the music
+        // edition carries a 6.0s lead-in before the voice and a 12.0s tail after it
+        // (musicDur − voiceDur − musicOffset = 12.00 on every one). `ended` fires at
+        // the END of the file, so the tail is never clipped — it plays in full. What
+        // that produced on continuous play was 12s of outro followed immediately by
+        // 6s of intro: EIGHTEEN SECONDS of music between two chapters, plus whatever
+        // the next file takes to load. On a phone in a car that does not read as a
+        // track break, it reads as the app having stopped.
+        // The lead-in exists to OPEN a chapter somebody chose. Nothing needs opening
+        // here — the music is already playing. So it is skipped, and only here: a
+        // chapter the reader picks still gets its full opening.
+        try { els.audio.currentTime = offset(); } catch (e) {}
       }
       // leave 'loading' — set the bar directly, because reflectPlaying() is a no-op
       // when the flag already agrees and would strand data-state on "loading".
@@ -544,7 +558,7 @@
       // chapter" button has always made.
       var nextId = CHAPTER_IDS[CHAPTER_IDS.indexOf(state.chapterId) + 1];
       if (state.autoAdvance && nextId) {
-        loadChapter(nextId, { autoplay: true });
+        loadChapter(nextId, { autoplay: true, skipIntro: true });
         announce('Continuing with ' + chapterTitle(nextId));
         var sec = document.getElementById(nextId);
         // follow the voice onto the page, exactly as tap-to-listen does — a reader
