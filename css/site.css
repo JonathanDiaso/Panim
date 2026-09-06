@@ -585,14 +585,32 @@ main { position: relative; }
      double duty now: the book marks a change of voice with a rule everywhere, and
      the thing directly inside it is a quotation. */
   border-left: 2px solid var(--accent);
-  background: var(--control-wash);
+  /* 🔴 THE CARD IS LIT NOW, NOT GREY, 2026-09-06. The author: "thsi box is really
+     ugly", and separately: "could be flashing or have color."
+     🛑 IT IS NOT FLASHING AND IT WILL NOT BE. A blinking element is a WCAG 2.3
+     failure above three flashes a second and a migraine and a vestibular trigger
+     well below that, and prefers-reduced-motion would switch it off for exactly the
+     reader most likely to be on a phone at night, who is who this card is for.
+     ⭐ COLOUR IS THE VERSION OF THAT ASK THAT WORKS, AND THE COLOUR IS ALREADY HIS.
+     7% of the CURRENT CHAPTER'S accent, mixed into the same control wash every other
+     control uses — so the card sits on the dawn arc with everything else instead of
+     being decorated. No new token, and the card is now the only tinted rectangle
+     above the fold, which is what makes it the eye-magnet the grey one never was.
+     ⚠️ MEASURED, not assumed, by compositing the card's translucent wash over the
+     paper it actually sits on — day rgb(215,212,203), night rgb(18,17,15):
+       --ink (the quote)        12.26:1 day · 15.62:1 night
+       --ink-soft (.hs-holds)    5.03:1 day ·  8.52:1 night   (needs 4.5)
+       --accent (ring, eyebrow)  5.68:1 day ·  8.71:1 night   (needs 3 as a control,
+                                                               4.5 as the eyebrow's text)
+     Re-measure if --control-wash or the accent stops being 7%. */
+  background: color-mix(in srgb, var(--accent) 7%, var(--control-wash));
   color: var(--ink);
   text-decoration: none;
   transition: border-color var(--dur-fast) var(--ease),
               background-color var(--dur-fast) var(--ease);
 }
 .hero-sample:hover, .hero-sample:focus-visible {
-  border-color: var(--ink);
+  border-color: var(--accent);
   border-left-color: var(--accent);
   /* ⚠️ color-mix OFF --ink, NOT A LITERAL. This was rgba(25,21,16,.06) — the day
      ink hard-coded — which in night mode painted a darker patch on an already dark
@@ -683,7 +701,9 @@ main { position: relative; }
 .hs-glyph svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .hs-ring {
   fill: none;
-  stroke: var(--ink);
+  /* accent at rest, not --ink: the ring is the only mark on the card that says
+     "this plays", and it was the same near-black as the type around it. */
+  stroke: var(--accent);
   stroke-width: 1;
   /* 2πr, r=19 → 119.38. The dash pattern is what lets it draw itself.
      ⚠️ IT MUST TRACK THE RADIUS IN js/render.js. It was 138.23 for r=22; leaving it
@@ -694,7 +714,36 @@ main { position: relative; }
   transform: rotate(-90deg);
   transform-origin: 20px 20px;
 }
-.hs-tri { fill: var(--ink); transition: fill var(--dur-fast) var(--ease); }
+.hs-tri { fill: var(--accent); transition: fill var(--dur-fast) var(--ease); }
+
+/* ⭐ ONE PULSE, ON FIRST ARRIVAL, AND NEVER AGAIN — the author's pick, 2026-09-06.
+   js/ui.js adds .is-arrived the first time the card crosses into view and removes
+   nothing; the animation has no iteration count, so it plays once and stops. A loop
+   here would be a blinking element by another name, which is the thing refused
+   above. The ring draws itself and the triangle lifts with it — the same
+   gesture the transport button makes when a chapter starts, so the card is
+   rehearsing what pressing it does.
+   ⚠️ THE RING'S DASH LENGTH IS 2πr FOR r=19 AND IT MUST TRACK THE RADIUS. */
+@keyframes hs-draw {
+  from { stroke-dashoffset: 119.38; }
+  to   { stroke-dashoffset: 0; }
+}
+@keyframes hs-lift {
+  0%   { transform: scale(.82); opacity: .35; }
+  55%  { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.hero-sample.is-arrived .hs-ring {
+  animation: hs-draw var(--dur-slow) var(--ease) 180ms both;
+}
+.hero-sample.is-arrived .hs-tri {
+  transform-origin: 20px 20px;
+  animation: hs-lift var(--dur-med) var(--ease) 480ms both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-sample.is-arrived .hs-ring,
+  .hero-sample.is-arrived .hs-tri { animation: none; }
+}
 .hero-sample:hover .hs-ring,
 .hero-sample:focus-visible .hs-ring { stroke: var(--accent); }
 .hero-sample:hover .hs-tri,

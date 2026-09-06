@@ -151,12 +151,12 @@
       href="art/d/hero-940.avif"
       imagesrcset="art/d/hero-640.avif 640w, art/d/hero-940.avif 940w, art/d/hero-1408.avif 1408w"
       imagesizes="(min-width: 1440px) 1440px, 100vw">
-<link rel="stylesheet" href="fonts/fonts.css?v=58">
-<link rel="stylesheet" href="css/site.css?v=58">
-<link rel="stylesheet" href="css/components.css?v=58">
-<link rel="stylesheet" href="css/player.css?v=58">
-<link rel="stylesheet" href="css/room.css?v=58">
-<link rel="stylesheet" href="css/polish.css?v=58">
+<link rel="stylesheet" href="fonts/fonts.css?v=59">
+<link rel="stylesheet" href="css/site.css?v=59">
+<link rel="stylesheet" href="css/components.css?v=59">
+<link rel="stylesheet" href="css/player.css?v=59">
+<link rel="stylesheet" href="css/room.css?v=59">
+<link rel="stylesheet" href="css/polish.css?v=59">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -241,7 +241,15 @@
              the same reason: it is pricing chrome, it answers an objection nobody
              standing on the jacket has yet, and answering it plants it. The About
              sheet still says free, where somebody who has decided goes to check. -->
-        Read and listen
+        <!-- ⭐ THE CHOICE IS SAID OUT LOUD, 2026-09-06. The author, on the note that
+             "and" can be read as an instruction to do both: "add the chouc is yours
+             thats good!!!!" — so the line says it. "Read and listen" was a promise
+             the reader had to interpret; "or" alone would have made it a menu and
+             implied the two are different products. This says the same book is both
+             and that nobody has to pick correctly.
+             🛑 NO RUNTIME ON THIS LINE. See the note above the invite meta — 5 hr
+             21 min reads as homework to somebody who has not started. -->
+        Read it or listen. The choice is yours.
       </div>
       <!-- 🛑 "Contents ↓" IS GONE, 2026-09-05. The author: "i told you i dont want
            the clicker that shows content near the button."
@@ -678,23 +686,26 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=58"></script>
-<script src="content/images.js?v=58"></script>
-<script src="content/audio-manifest.js?v=58"></script>
-<script src="content/marks.js?v=58"></script>
-<script src="content/thread.js?v=58"></script>
-<script src="content/lexicon.js?v=58"></script>
-<script src="content/names.js?v=58"></script>
-<script src="content/sources.js?v=58"></script>
-<script src="content/verse-notes.js?v=58"></script>
-<script src="content/derivatives.js?v=58"></script>
-<script src="js/render.js?v=58"></script>
-<script src="js/ui.js?v=58"></script>
-<script src="js/motion.js?v=58"></script>
-<script src="js/sync.js?v=58"></script>
-<script src="js/search.js?v=58"></script>
-<script src="js/player.js?v=58"></script>
-<script src="js/room.js?v=58"></script>
+<script src="content/chapters.js?v=59"></script>
+<script src="content/images.js?v=59"></script>
+<script src="content/audio-manifest.js?v=59"></script>
+<script src="content/marks.js?v=59"></script>
+<script src="content/thread.js?v=59"></script>
+<script src="content/lexicon.js?v=59"></script>
+<script src="content/names.js?v=59"></script>
+<script src="content/sources.js?v=59"></script>
+<script src="content/verse-notes.js?v=59"></script>
+<script src="content/derivatives.js?v=59"></script>
+<script src="js/render.js?v=59"></script>
+<script src="js/ui.js?v=59"></script>
+<script src="js/motion.js?v=59"></script>
+<script src="js/sync.js?v=59"></script>
+<script src="js/search.js?v=59"></script>
+<script src="js/player.js?v=59"></script>
+<script src="js/room.js?v=59"></script>
+<!-- select any passage in the book and it offers to send it, with a link that
+     unfurls as the chapter and lands on the sentence. See js/quote.js. -->
+<script src="js/quote.js?v=59" defer></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

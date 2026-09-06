@@ -122,7 +122,21 @@ TPL = """<!doctype html>
   <p class="hook">{hook}</p>
   <p><a href="{base}/#{chid}">Read and listen to chapter {roman} &#8594;</a></p>
 </div>
-<script>location.replace({href});</script>
+<!-- ⭐ ?p= CARRIES A PASSAGE, 2026-09-06. js/quote.js builds /c/NN/?p=<paragraph id>
+     when a reader shares a selection, so the message unfurls as THIS chapter — its
+     own title, standfirst and plate — and still lands the recipient on the exact
+     sentence. Without the parameter this behaves exactly as it always has.
+     🛑 THE ID IS VALIDATED BEFORE IT IS USED. It is only ever written into a
+     same-document fragment, so the risk is low, but a redirect target assembled out
+     of a query string is a shape worth never getting into the habit of. -->
+<script>
+(function () {{
+  var to = {href};
+  var m = /[?&]p=(ch\\d{{2}}-[A-Za-z0-9_-]+)/.exec(location.search);
+  if (m) to = "{base}/#" + m[1];
+  location.replace(to);
+}}());
+</script>
 </body>
 </html>
 """

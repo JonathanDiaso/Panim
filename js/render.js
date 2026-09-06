@@ -1209,7 +1209,16 @@
   // 🛑 66 IS WHAT SETS .pl-rail's padding-block. See css/components.css — anything
   // less clips a plate at the top of its wave, silently, and only on the plates
   // whose phase happens to be high while the section is entering.
-  var PLATE_SWAY = [66, -50, 25, -28, 54, -65, 45, -23, 32, -58];
+  // ⭐ SCALED 1.35× ON 2026-09-06 — the author: "more motion some room is fine."
+  // Was [66, -50, 25, -28, 54, -65, 45, -23, 32, -58]. The SHAPE is untouched: it is
+  // still one cosine across the ten, still starting at full height on plate I and
+  // still crossing zero twice, because ten numbers that do not describe a wave read
+  // as a rendering fault rather than as a field of plates breathing.
+  // 🛑 THE LARGEST AMPLITUDE AND THE RAIL'S padding-block ARE ONE DECISION. A plate
+  // travels ±(its amp), and anything past the padding is clipped by #plates. 89 now
+  // needs the 6.5rem the rail was given in the same edit — "some room is fine" is
+  // the half of this instruction that pays for the other half.
+  var PLATE_SWAY = [89, -68, 34, -38, 73, -88, 61, -31, 43, -78];
 
   // the sizes attribute describes the IMG, which is 110% of its frame — not the
   // frame. Understating it hands a phone a picture it then has to upscale.
@@ -1305,9 +1314,14 @@
       // wind, the earthquake and the fire all turn out to be the wrong answer" —
       // which is four things in a line whose job is to name three. The three
       // stories are unchanged; the third one is named rather than enumerated.
-      '<span class="hs-holds">Two years of a father’s hidden face. A father who leaves ' +
-        'his own feast to stand at the door. And a mountain where the fire turns out ' +
-        'to be the wrong answer.</span>' +
+      // 🔴 ONE SENTENCE, 2026-09-06. The author, for the third time: "thsi box is
+      // really ugly ad honestly kinda long." It was three sentences naming three
+      // stories, under a two-line quote, on a card whose whole pitch is that it only
+      // costs five minutes. A card that takes a paragraph to say it is short is
+      // arguing against itself. Two of the three stories survive; the father at the
+      // door was the weakest of them and it is the one the quote already implies.
+      '<span class="hs-holds">Two years of a father’s hidden face, and a mountain ' +
+        'where the fire turns out to be the wrong answer.</span>' +
       '<span class="hs-act">' +
         '<span class="hs-glyph" aria-hidden="true">' +
           '<svg viewBox="0 0 40 40" focusable="false">' +
@@ -1504,8 +1518,20 @@
     // began a full screen lower, past a photograph); at this density the sentence
     // simply appears twice, four lines apart. So the hook is only set as a
     // standfirst when it is NOT how the prose already opens. No content is edited.
-    if (!hookDuplicatesOpening(chapter)) {
-      out.push('<p class="chapter-hook">' + esc(chapter.hook) + '</p>');
+    // ⭐ TWO FIELDS, TWO BUDGETS, 2026-09-06. The author asked for standfirsts with
+    // "more heart and truth" and allowed three sentences. Measured, three sentences
+    // is 6–9 lines in the RIBBON caption on a phone, where the same string is set in
+    // the display voice — up to 162px of reserved air under all ten plates, which is
+    // the vertical bloat he had just asked to remove. So `hook` stays the short,
+    // punchy line the ribbon and the contents print, and `standfirst` — optional,
+    // and only on the four chapters that earned a longer one — is what the chapter
+    // OPENING prints, where the measure is 58ch of body copy and a reader has
+    // already committed. Falls back to `hook` wherever there is no standfirst.
+    // 🛑 BOTH ARE HAND-CARRIED FIELDS in a generated file; tools/build-chapters.py
+    // copies each of them forward across a rebuild on purpose.
+    var opener = chapter.standfirst || (hookDuplicatesOpening(chapter) ? '' : chapter.hook);
+    if (opener) {
+      out.push('<p class="chapter-hook">' + esc(opener) + '</p>');
     }
     // TWO ACTIONS AT A CHAPTER HEAD, and the second one is why /c/NN/ exists.
     // Sharing #ch07 from this page unfurls as the whole book — one HTML file has

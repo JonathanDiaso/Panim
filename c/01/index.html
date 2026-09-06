@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>I. The God Who Sees — PANIM</title>
-<meta name="description" content="Two small silver scrolls, a blessing about a face, and the oldest words of the Bible anyone has ever found.">
+<meta name="description" content="A bored thirteen-year-old knocked on a tomb floor and it knocked back hollow. Underneath were the oldest words of the Bible anyone has ever found.">
 <link rel="canonical" href="https://jonathandiaso.github.io/Panim/#ch01">
 <meta name="robots" content="noindex, follow">
 
 <meta property="og:type" content="article">
 <meta property="og:title" content="I. The God Who Sees">
-<meta property="og:description" content="Two small silver scrolls, a blessing about a face, and the oldest words of the Bible anyone has ever found.">
+<meta property="og:description" content="A bored thirteen-year-old knocked on a tomb floor and it knocked back hollow. Underneath were the oldest words of the Bible anyone has ever found.">
 <meta property="og:url" content="https://jonathandiaso.github.io/Panim/c/01/">
 <meta property="og:site_name" content="PANIM">
 <meta property="og:locale" content="en_US">
@@ -52,9 +52,23 @@
   <img src="https://jonathandiaso.github.io/Panim/art/ch01-tomb.webp" alt="Looking down through a break in a stone floor into a burial chamber: a young hand in a frayed 1970s cuff, white with limestone dust, grips the jagged edge, and below it a shaft of daylight falls across a repository of bones scattered with small clay oil lamps." width="1408" height="768">
   <p class="num">PANIM · Chapter I</p>
   <h1>The God Who Sees</h1>
-  <p class="hook">Two small silver scrolls, a blessing about a face, and the oldest words of the Bible anyone has ever found.</p>
+  <p class="hook">A bored thirteen-year-old knocked on a tomb floor and it knocked back hollow. Underneath were the oldest words of the Bible anyone has ever found.</p>
   <p><a href="https://jonathandiaso.github.io/Panim/#ch01">Read and listen to chapter I &#8594;</a></p>
 </div>
-<script>location.replace("https://jonathandiaso.github.io/Panim/#ch01");</script>
+<!-- ⭐ ?p= CARRIES A PASSAGE, 2026-09-06. js/quote.js builds /c/NN/?p=<paragraph id>
+     when a reader shares a selection, so the message unfurls as THIS chapter — its
+     own title, standfirst and plate — and still lands the recipient on the exact
+     sentence. Without the parameter this behaves exactly as it always has.
+     🛑 THE ID IS VALIDATED BEFORE IT IS USED. It is only ever written into a
+     same-document fragment, so the risk is low, but a redirect target assembled out
+     of a query string is a shape worth never getting into the habit of. -->
+<script>
+(function () {
+  var to = "https://jonathandiaso.github.io/Panim/#ch01";
+  var m = /[?&]p=(ch\d{2}-[A-Za-z0-9_-]+)/.exec(location.search);
+  if (m) to = "https://jonathandiaso.github.io/Panim/#" + m[1];
+  location.replace(to);
+}());
+</script>
 </body>
 </html>
