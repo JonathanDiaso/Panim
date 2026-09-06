@@ -138,10 +138,52 @@
    .hs-glyph makes — this book's controls point with a hairline circle. Do not give
    it a solid disc: two filled shapes inside one filled slab is a logo, not a button.
    ============================================================================ */
+/* 🔴 IT STOPPED BEING A SLAB, 2026-09-06. The author: "the resume button is
+   obnoxiously loud."
+   He is right, and the fault was that it was solving the wrong problem. The round
+   before, it had been a near-black rectangle and the fix was to paint it in the
+   book's own accent instead — which fixed the COLOUR and left the SHAPE, a filled
+   block sixty pixels tall sitting on cream paper directly under a photograph. On a
+   page whose entire visual argument is ink on paper and one hairline, a filled block
+   of any colour is the loudest thing on the screen by an order of magnitude.
+   ⭐ IT DOES NOT NEED FILL TO BE PRIMARY. It is already the widest control on the
+   jacket, the only one carrying two lines, and the only one with a drawn ring in it —
+   three ranks of emphasis before colour is spent. So the fill becomes a wash, the
+   border carries the accent at 2px, and the label goes back to --ink.
+   ⚠️ 2px, NOT 1. The wash alone left the button's own edge indistinct against the
+   paper — SC 1.4.11 wants 3:1 for a control's boundary, and doubling the accent rule
+   is what keeps the shape legible now that it is not a block.
+   ⚠️ MEASURED after the change, compositing the wash over the paper it actually sits
+   on — day rgb(218,214,205), night rgb(18,17,16): the label 12.53:1 / 15.61:1, the
+   place line 5.14 / 8.52, the accent ring and border 5.80 / 8.70. All clear of 4.5,
+   and the ring clears 3 as a control boundary with room to spare.
+   🛑 THE RING STAYS DRAWN, NOT FILLED. This book's controls point with a hairline
+   circle; a solid disc inside a washed pill is a logo, not a button. */
 .btn-begin {
-  border: 1px solid var(--accent);
-  background: var(--accent);
-  color: var(--paper);
+  /* 🔴 AND THEN THE BOX WENT TOO, 2026-09-06. The author, clarifying: "i meant loud
+     as in ugly lol."
+     The wash version above was quieter and still a RECTANGLE, and the rectangle was
+     the ugly part. This page is hairlines and paper — a bordered box is the one shape
+     it never uses anywhere else, which is exactly why a control drawn as one looks
+     like something pasted on from a different website.
+     ⭐ SO IT IS MARKED THE WAY THE BOOK MARKS THINGS: one accent rule down the left
+     edge, which is what the five-minute card does and what a change of voice gets
+     throughout the text. The affordance is not lost with the box — it was never the
+     box carrying it. It is the 40px drawn ring with a triangle in it, which is the
+     one mark on this page that means "this plays".
+     ⚠️ SO THE HOVER HAS TO DO REAL WORK NOW. With no resting background there is
+     nothing to deepen, so hover paints the wash IN — the control gains a surface
+     under the pointer rather than changing colour. That is also the only state where
+     a boundary appears, which is fine: SC 1.4.11 is satisfied at rest by the ring
+     (7.07:1 day / 8.57:1 night against a 3:1 requirement), not by an edge.
+     ⚠️ MEASURED at rest, on the paper itself now that there is no wash under it —
+     day rgb(239,235,225), night rgb(20,19,17): label 15.26:1 / 15.37:1, place line
+     6.26 / 8.38, ring 7.07 / 8.57. All clear. */
+  border: 0;
+  border-left: 2px solid var(--accent);
+  border-radius: 0;
+  background: none;
+  color: var(--ink);
   /* the label block is a two-line stack, so the vertical rhythm is set here rather
      than inherited from .btn's single-line padding */
   align-items: center;
@@ -149,16 +191,22 @@
   padding: .85em 1.4em .85em 1.05em;
   min-height: 60px;
   text-align: left;
+  /* the rule must not move when the wash arrives on hover */
+  transition: background-color var(--dur-fast) var(--ease);
 }
 .btn-begin:hover, .btn-begin:focus-visible {
-  background: color-mix(in srgb, var(--accent) 84%, var(--ink));
-  border-color: color-mix(in srgb, var(--accent) 84%, var(--ink));
-  color: var(--paper);
+  /* the surface arrives; nothing inverts and nothing moves. A hover that flips a
+     control the reader is already pointing at is the black-slab gesture in disguise. */
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border-left-color: var(--accent);
+  color: var(--ink);
 }
 .bb-glyph { display: block; width: 34px; height: 34px; flex: 0 0 34px; }
 .bb-glyph svg { display: block; width: 100%; height: 100%; }
-.bb-ring { fill: none; stroke: currentColor; stroke-width: 1; opacity: .55; }
-.bb-tri { fill: currentColor; }
+/* the glyph is the one place the accent still speaks at full strength — it is the
+   part of the button that says "this plays", and it is 34px of line art, not a block */
+.bb-ring { fill: none; stroke: var(--accent); stroke-width: 1.25; }
+.bb-tri { fill: var(--accent); }
 .bb-text { display: block; min-width: 0; }
 .bb-label {
   display: block;
@@ -184,7 +232,14 @@
   font-family: var(--ui); font-size: var(--ap-md); font-weight: 400;
   letter-spacing: .09em; text-transform: uppercase;
   line-height: 1.3;
-  color: var(--paper);
+  /* 🛑 --ink-soft IS SAFE HERE AND --paper WAS NOT SAFE ON THE OLD FILL. The note
+     below the previous version of this rule explains why the dimmed line had to be
+     full --paper: it was sitting on a solid accent, where every quieter mix measured
+     under 4.5:1. On a 9% wash over paper that constraint is gone — --ink-soft is the
+     token this page uses for a second line everywhere else, and on plain paper it
+     measures 6.26:1 by day and 8.38:1 at night. Re-measure if a resting background
+     is ever put back under this button. */
+  color: var(--ink-soft);
   font-variant-numeric: lining-nums tabular-nums;
 }
 .bb-place[hidden] { display: none; }
@@ -1601,20 +1656,40 @@
 }
 .completion-actions { display: flex; gap: .6rem; flex-wrap: wrap; }
 
+/* 🔴 THE LAST BLACK SLAB ON THE SITE, AND IT WENT 2026-09-06.
+   The author: "the resume button is obnoxiously loud." The button he can see is
+   .btn-begin on the jacket — but the thing that ACTUALLY shouts on a return visit is
+   this: a near-black rectangle that slides in over the paper, carrying a second
+   Resume button a few inches under the first one. Every other control on this page
+   was taken off --ink and put onto the accent over the last two rounds; this one was
+   missed because it only appears to a reader who has been here before.
+   ⭐ It is paper now, with the accent rule down its left edge — the same object the
+   five-minute card is, at a smaller size, which is the right relationship: both are
+   the page offering to take you somewhere you have already been interested in.
+   🛑 THE HARD-CODED WHITES HAD TO GO WITH IT. rgba(255,255,255,.35) on a --ink
+   ground is invisible reasoning in night mode, where --ink IS near-white: the toast
+   would have drawn white-on-white. Tokens only in here now.
+   ⚠️ AND ITS BUTTONS WERE 34px — under the 44px minimum, on the one control a
+   returning reader is most likely to reach for on a phone. They are .btn's full
+   height now. */
 .toast {
   position: fixed; left: var(--edge); bottom: calc(var(--player-h, 134px) + 10px); z-index: 940;
-  transition: bottom var(--dur-med) var(--ease);
-  background: var(--ink); color: var(--paper);
-  padding: .9em 1.2em; display: flex; gap: 1em; align-items: center;
-  font-family: var(--ui); font-size: var(--ap-lg); max-width: min(420px, 88vw);
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--control-edge);
+  border-left: 2px solid var(--accent);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .16);
+  padding: .8em 1em; display: flex; gap: .8em; align-items: center;
+  font-family: var(--ui); font-size: var(--ap-lg); max-width: min(440px, 88vw);
   opacity: 0; transform: translateY(10px);
-  transition: opacity var(--dur-med) var(--ease), transform var(--dur-med) var(--ease);
+  transition: opacity var(--dur-med) var(--ease), transform var(--dur-med) var(--ease),
+              bottom var(--dur-med) var(--ease);
 }
 .toast:not([hidden]).is-shown { opacity: 1; transform: none; }
 .toast[hidden] { display: none; }
-.toast .btn { border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.06); color: var(--paper); min-height: 34px; padding: .45em .9em; }
-.toast .btn:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
-.toast .btn-icon { color: rgba(255,255,255,.7); }
+.toast .btn { min-height: 44px; padding: .55em 1em; white-space: nowrap; }
+.toast .btn-icon { color: var(--ink-faint); }
+.toast .btn-icon:hover, .toast .btn-icon:focus-visible { color: var(--ink); }
 
 #gloss-card {
   position: absolute; z-index: 950; max-width: 320px;

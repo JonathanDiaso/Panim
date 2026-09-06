@@ -1,10 +1,10 @@
 # 🚪 THE FRONT DOOR
 
 **What the top of the site does, why it does it, and what is next.**
-**v59 is LIVE on `main`**, 2026-09-06 — the standfirsts split into two fields, the
-five-minute card is lit and short, the ribbon moves 35% more, and **a reader can now send a
-passage of the book to one other person.** **§6 is that round. §5 is v58, §4 is v57, and
-every ruling in both still stands.**
+**v60 is LIVE on `main`**, 2026-09-06 — **the last two black slabs are gone**, a shared
+passage now carries the moment in the tape, and continuous play stopped playing two
+overtures between chapters. **§7 is that round; §6 is v59, §5 is v58, §4 is v57, and every
+ruling in all of them still stands.**
 🛑 **Read §0.1 before touching the second door's `href`.**
 🛑 **Every open decision is in `docs/DECISIONS.md` — do not start a second list.**
 🗄 v55 (the ribbon going live) is at `58e2461`; v54's contact sheet, which never shipped,
@@ -1184,3 +1184,155 @@ omission cried wolf on night mode for an hour last round.
 - **Contrast composited, not assumed**, for the card and the pill in both themes.
 - **The share pill driven end to end**: raised from a real range in chapter I, measured,
   dismissed by Escape, dismissed by collapse, and refused a selection in the nav.
+
+---
+
+# 7 · 🔇 v60 — THE LAST BLACK SLABS, THE SHARED MOMENT, AND EIGHTEEN SECONDS OF MUSIC
+
+**2026-09-06, same day as v59.** Four things, all of them the author's word.
+
+## 7.1 🔴 "THE RESUME BUTTON IS OBNOXIOUSLY LOUD" — AND THERE WERE TWO OF THEM
+
+**`.btn-begin` was solving the wrong half of the problem.** v58 took it off near-black and
+painted it in the book's own accent, which fixed the **colour** and left the **shape**: a
+filled block, sixty pixels tall, on cream paper, directly under a photograph. **On a page
+whose entire visual argument is ink on paper and one hairline, a filled block of any colour
+is the loudest thing on the screen.**
+
+⭐ **It did not need fill to be primary.** It is already the widest control on the jacket,
+the only one with two lines, and the only one with a drawn ring — **three ranks of emphasis
+before colour is spent.**
+
+🔴 **AND THE FIRST ATTEMPT ONLY GOT HALF OF IT.** The fill became a 9% wash inside a 2px
+accent border — quieter, and still a **rectangle**. The author's clarification settled which
+half mattered: *"i meant loud as in ugly lol."* **The rectangle was the ugly part.** This
+page is hairlines and paper; a bordered box is the one shape it uses nowhere else, which is
+exactly why a control drawn as one looks pasted in from a different website.
+
+**So the box went too, and the button is marked the way the book marks things:** one accent
+rule down the left edge — what the five-minute card does, and what a change of voice gets
+throughout the text. **The affordance was never in the box.** It is the 40px drawn ring with
+a triangle in it, the one mark on this page that means *this plays*.
+
+⚠️ **WHICH MAKES THE HOVER DO REAL WORK.** With no resting background there is nothing to
+deepen, so hover paints the wash **in** — the control gains a surface under the pointer
+rather than changing colour. That is also the only state with a boundary, and it is fine:
+**SC 1.4.11 is satisfied at rest by the ring** (7.07:1 day / 8.57:1 night against a 3:1
+requirement), not by an edge.
+
+**Four variants were rendered side by side before this was picked** — filled, washed box,
+hairline box, accent rule, and ring-only. **Switching between them is one declaration**, and
+the comparison is reproducible: build the button markup against `css/components.css` in a
+standalone page and override `.btn-begin`.
+
+⚠️ **The place line could finally be `--ink-soft`.** The old rule forced it to full
+`--paper` because it sat on a solid accent, where every quieter mix measured under 4.5:1.
+Off the fill that constraint is gone. **Measured at rest on the paper itself — day
+`rgb(239,235,225)`, night `rgb(20,19,17)`: label 15.26 / 15.37, place line 6.26 / 8.38,
+ring 7.07 / 8.57.**
+
+🔴 **AND THE THING THAT ACTUALLY SHOUTS ON A RETURN VISIT WAS `.toast`.** A near-black
+rectangle that slides in over the paper carrying a *second* Resume button a few inches under
+the first one. **Every other control was moved off `--ink` over the last two rounds; this one
+was missed because it only ever appears to a reader who has been here before.** It is paper
+now with the accent rule down its left edge — the same object the five-minute card is, at a
+smaller size.
+
+🛑 **Its hard-coded whites had to go with it.** `rgba(255,255,255,.35)` on an `--ink` ground
+is invisible reasoning in night mode, where `--ink` **is** near-white: the toast would have
+drawn white on white. ⚠️ **And its buttons were 34px** — under the 44px minimum, on the one
+control a returning reader on a phone is most likely to reach for.
+
+## 7.2 ✉️ A SHARED PASSAGE NOW CARRIES THE MOMENT, NOT ONLY THE PLACE
+
+`/c/07/?p=ch07-p107` **→** `/c/07/?p=ch07-p107&t=17m55s`. The recipient still gets the
+chapter's own unfurl card and still lands on the exact sentence — **and the tape is already
+wound to it.** One press and they hear it read.
+
+🛑 **THE CUE IS FETCHED WHEN THE PILL IS RAISED, NOT WHEN IT IS PRESSED, AND THAT IS NOT A
+PERFORMANCE CHOICE.** `navigator.share()` must be called **synchronously inside the user
+gesture** or iOS refuses it outright — an `await` between the tap and the call is the single
+most common way this API is broken. So the network happens on `mouseup`, seconds before
+anyone can press anything, and `send()` stays synchronous. **A miss is survivable: no cue,
+no `&t=`, and the link still lands on the paragraph.**
+
+🛑 **The seek is one second early, on purpose** — the same ruling as the second door's
+`href` in §0.2. A seek that lands milliseconds late clips the first consonant of the first
+word. `tools/gen-chapter-stubs.py` forwards the parameter and validates it.
+
+## 7.3 🔴 THE PILL WOULD NOT GO AWAY, AND THE CAUSE WAS ITS OWN LISTENER
+
+**The author: "shared passage butto thing doesnt leave once you click it which is weird."**
+
+**Exactly right.** Pressing the pill is a `mouseup` on the document like any other, and the
+selection is still standing when it fires — so `hide()` ran on the click and `show()` put the
+pill straight back one tick later, **in the same place**. It looked like a button refusing to
+close.
+
+**Two parts to the fix, and both are needed:** the `mouseup`/`touchend` handlers now ignore
+anything originating inside `.quote-pill`, and a completed send calls `finish()`, which drops
+the selection as well as the pill. **With no selection there is nothing for `show()` to
+raise** — that is what makes it stay gone. ✅ Verified end to end: raised, pressed, clipboard
+captured with the `&t=` in it, `Copied` shown for 1.8s, then hidden and **still hidden**.
+
+## 7.4 🎵 EIGHTEEN SECONDS OF MUSIC BETWEEN CHAPTERS — MEASURED, THEN HALVED
+
+**The author asked whether the audio had been touched. It had not, and it still has not** —
+no audio, cue or manifest file has been modified in any commit this round. **But the question
+was worth measuring, and the measurement corrected the note in §5.5.**
+
+**From `content/audio-manifest.js`, identical on all ten chapters:**
+
+| | |
+|---|---|
+| `musicOffset` — music before the voice | **6.00s** |
+| `musicDur − voiceDur − musicOffset` — music after it | **12.00s** |
+
+**`ended` fires at the end of the FILE, so the tail is never clipped** — v58's worry was
+pointed the wrong way. **What it actually produced was 12s of outro followed immediately by
+6s of intro: eighteen seconds of music between two chapters**, plus load time. On a phone in
+a car that does not read as a track break, it reads as the app having stopped.
+
+⭐ **The lead-in exists to OPEN a chapter somebody chose. Nothing needs opening on an
+auto-advance — the music is already playing.** `loadChapter` takes `skipIntro` and the
+`ended` handler is the only caller that passes it, so **a chapter the reader picks still gets
+its full opening.** 18s → 12s.
+
+## 7.5 ⬜ THE EXCERPT QUESTION, ANSWERED WITH THE CLOCK — still the author's call
+
+**He asked why the card cannot quote Hannah while the audio starts at Absalom, "cause they
+conenct haha."** ⭐ **He is right that they connect, and more literally than he knew:**
+`ch07-p138` is *"The appointment is still on the books"* at **22:46** and `ch07-p139` is
+*"My sister Hannah moved to heaven when she was twenty"* at **22:49**. **The two scenes are
+consecutive paragraphs.** The five minutes stop three seconds short of her.
+
+**Measured forward from `17:55` against `cues/ch07.json`:**
+
+| stop | ends on | length |
+|---|---|---|
+| `22:46` | "The appointment is still on the books." | **4:51** — what ships |
+| `26:19` | "He answered it wet." | **8:24** |
+| `26:48` | "As tears." | **8:53** |
+
+🛑 **So including Hannah costs nearly nine minutes, and "five minutes" is the most persuasive
+line on the card.** But the reverse is cheap: **starting AT Hannah, `22:49` → `26:32`, is
+3m43s** — a self-contained scene with its own ending, and it is the author's own life.
+
+**Recommendation, in `docs/DECISIONS.md §B.2`: two doors, in two places.** Absalom stays on
+the jacket as the argument; Hannah gets her own door elsewhere as the testimony. They do not
+compete because they are never on the same screen — **and they are consecutive, so nothing
+is skipped between them.** 🛑 **Nothing has moved. §0.1 stands: the `href` does not change
+without his word.**
+
+**Checked, and neither is a better door:** chapter IX's mirror-and-*hilasterion* passage is
+the densest theology in the book and needs runway; chapter X's closing prayer is the
+destination, and showing it to a stranger spends the whole book. **Chapter VII is where the
+argument lands, which is why it has now been chosen three times.**
+
+## 7.6 How v60 was verified
+
+**Same-origin harness, `* { transition: none !important }` before every state change.**
+No console errors; **no document or nav overflow and no control under 44px at 320 / 360 /
+380 / 402 / 480 / 640 / 768 / 900 / 901 / 940 / 941 / 1024 / 1280 / 1440 / 1920**; both
+contrast sets composited over real paper in both themes; the share pill driven click-through
+with the clipboard intercepted and the resulting URL read back.

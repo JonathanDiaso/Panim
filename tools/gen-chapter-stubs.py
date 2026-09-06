@@ -132,8 +132,13 @@ TPL = """<!doctype html>
 <script>
 (function () {{
   var to = {href};
-  var m = /[?&]p=(ch\\d{{2}}-[A-Za-z0-9_-]+)/.exec(location.search);
-  if (m) to = "{base}/#" + m[1];
+  var q = location.search;
+  var p = /[?&]p=(ch\\d{{2}}-[A-Za-z0-9_-]+)/.exec(q);
+  var t = /[?&]t=(\\d{{1,3}}m\\d{{1,2}}s)/.exec(q);
+  if (p) {{
+    // ?t= winds the tape to the shared sentence; the fragment puts the page on it.
+    to = "{base}/" + (t ? "?t={chid}:" + t[1] : "") + "#" + p[1];
+  }}
   location.replace(to);
 }}());
 </script>
