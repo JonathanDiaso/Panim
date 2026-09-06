@@ -1,6 +1,6 @@
 # ☑ ONE SHEET — WHAT YOU ANSWERED, WHAT SHIPPED, WHAT IS STILL OPEN
 
-**2026-09-06, after v60.** You marked this sheet up in the margins and every mark has been
+**2026-09-06, after v61.** You marked this sheet up in the margins and every mark has been
 acted on. **Your words are quoted verbatim below each item** — they are the record of what
 was decided, so they stay even after the work is done.
 
@@ -15,13 +15,12 @@ no commit ever carries a co-author trailer.
 
 # ⬜ STILL OPEN, AT A GLANCE — everything else on this sheet is done
 
-**Nine things. Four are a decision, five are something only you can check.**
+**Eight things. Three are a decision, five are something only you can check.**
 
 | | what | where |
 |---|---|---|
 | ☐ | **Two doors, or one?** Hannah is 3 seconds past where the five minutes end. My pick: give her her own door somewhere else. | §B.2 |
 | ☐ | **Read the four new short lines under the photographs on your phone.** If one is worse than what it replaced, the old ten are saved. | §A.2 |
-| ☐ | **The hero mark centred on a phone** — the one change made on a screenshot rather than your word. One rule to revert. | §C.2 |
 | ☐ | **The resume button** — the accent-rule version shipped; three other variants are one line away. | §D.4 |
 | ☐ | **Send yourself a passage from your phone** and look at how it unfurls in iMessage or WhatsApp. **The unfurl is the whole feature and only a real phone shows it.** | §D.5 |
 | ☐ | **One listen across a chapter boundary** — 12 seconds of music between chapters now. Right, or still long? | §D.2 |
@@ -208,11 +207,20 @@ and the two strongest four-minute scenes in the book are both in it, back to bac
 stacked above a numeral above a title is three headings in a row, and the reader descends
 three steps before reaching a word they can read.
 
-## C.2 ☐ The hero mark on a phone — **still yours to veto**
+## C.2 ✅ CLOSED — the mark ranges left everywhere now
 
-Centred over the title below 900px, ranged left above it. ⚠️ **This is the one change made
-on a screenshot rather than on your word**, and it reverts in one rule — the `.hero-hebrew`
-block inside `@media (max-width: 900px)` in `css/components.css`.
+*"the panim symbol needs to move left cause it looks weird fully centered on mobile."*
+
+**Done, and it turned up a real bug while it was being done.** The mark now starts on the
+same vertical as the title, the standfirst, the pull line and the door — on a phone exactly
+as on a desktop.
+
+🔴 **And the alignment had never actually been working, on either.** The element carries
+`dir="rtl"` (it must — Hebrew is right-to-left and the vowel points depend on it), and **in
+an RTL box the "inline-start" edge is the RIGHT one**. So the negative margin written to
+pull the word onto the title's stem was pulling from the wrong side, and the mark had been
+sitting **6px off on a phone and 10px off at 1440** since the day it was ranged left.
+**Measured after the fix: 0px at ten widths from 320 to 1920.**
 
 ## C.3 ✅ CLOSED — *"i didnt mnea i wanted the arc for chap 1 through 10 just in the lamp audio settings"*
 

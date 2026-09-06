@@ -1,10 +1,10 @@
 # 🚪 THE FRONT DOOR
 
 **What the top of the site does, why it does it, and what is next.**
-**v60 is LIVE on `main`**, 2026-09-06 — **the last two black slabs are gone**, a shared
-passage now carries the moment in the tape, and continuous play stopped playing two
-overtures between chapters. **§7 is that round; §6 is v59, §5 is v58, §4 is v57, and every
-ruling in all of them still stands.**
+**v61 is LIVE on `main`**, 2026-09-06 — the jacket's Hebrew mark ranges left at every
+width now, and the negative margin that was supposed to align it had been pulling the wrong
+way since it was written. **§8 is that round; §7 is v60, §6 is v59, §5 is v58, §4 is v57,
+and every ruling in all of them still stands.**
 🛑 **Read §0.1 before touching the second door's `href`.**
 🛑 **Every open decision is in `docs/DECISIONS.md` — do not start a second list.**
 🗄 v55 (the ribbon going live) is at `58e2461`; v54's contact sheet, which never shipped,
@@ -1336,3 +1336,58 @@ No console errors; **no document or nav overflow and no control under 44px at 32
 380 / 402 / 480 / 640 / 768 / 900 / 901 / 940 / 941 / 1024 / 1280 / 1440 / 1920**; both
 contrast sets composited over real paper in both themes; the share pill driven click-through
 with the clipboard intercepted and the resulting URL read back.
+
+---
+
+# 8 · ← v61 — THE MARK RANGES LEFT EVERYWHERE, AND A LOGICAL PROPERTY WAS LYING
+
+**2026-09-06.** *"the panim symbol needs to move left cause it looks weird fully centered on
+mobile."*
+
+## 8.1 The centring is reversed, and the argument that lost is kept
+
+🛑 **This is the third position this mark has had and it is the last one**, so the losing
+reasoning stays written down rather than deleted — it was a good argument and it was still
+wrong.
+
+**It said:** on a phone the title fills the whole measure, so *centred on the page* and
+*centred on the title* are the same place, and a centred device over a ranged-left title is
+the title-page move, available for free. **The geometry is correct.**
+
+⭐ **What it missed is that the title is two ragged lines, not a block** — *"The Invitation /
+Hidden on Every Page."* So the mark was not centred over a shape, it was centred over an
+**average**. It read as floating because it **was** floating: it shared no edge with anything
+on the page. **Now the mark, the title, the standfirst, the pull line and the door all start
+on one vertical, at every width.**
+
+## 8.2 🔴 AND THE ALIGNMENT WAS NEVER ACTUALLY WORKING — `margin-inline-start` ON AN RTL BOX
+
+**The bug was live on the desktop too, and had been since the mark was first ranged left.**
+
+`.hero-hebrew` carries `dir="rtl"` — **it must**, Hebrew is a right-to-left script and the
+nikkud depend on it. **In an RTL box the inline-START edge is the RIGHT one.** So
+`margin-inline-start: -.12em`, written to cancel the `.12em` of touch-target padding on the
+left, was quietly cancelling it **on the right** — and the word had been sitting off the
+title's stem the entire time.
+
+**Measured, leftmost glyph against the title's left edge:**
+
+| | before | after |
+|---|---|---|
+| 320 / 360 / 402 / 480 / 640 / 768 | **+6px** | **0** |
+| 900 / 901 | +7px | **0** |
+| 1024 | +8px | **0** |
+| 1440 | **+10px** | **0** |
+
+**Fixed with `margin-left`, a physical property.** 🛑 **A logical property is the wrong tool
+on an RTL island inside an LTR page.** The page's reading direction decides the grid; the
+element's decides its own inline axis, and here **the two disagree on purpose**. Anything
+that has to line up with the page uses physical properties.
+
+⚠️ **The measurement trap that hid it, worth thirty seconds:** `.heb-g` is one span per
+letter, and **in RTL the FIRST span in the DOM renders RIGHTMOST**. Measuring
+`querySelector('.heb-g').getBoundingClientRect().left` reports the right-hand glyph and
+gives a 63px error. **Take the minimum `left` across all of them.**
+
+✅ **Verified: 0px offset at ten widths from 320 to 1920, no document or nav overflow at
+fifteen, the mark's box still clears 44×44 (94×51 at 320), and no console errors.**
