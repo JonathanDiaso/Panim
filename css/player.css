@@ -10,6 +10,20 @@
   border-top: 1px solid var(--rule-strong);
   color: var(--ink);
   font-family: var(--ui);
+  /* ---------------------------------------------------------------------------
+     THE BAR IS LIFTED OFF THE BOTTOM EDGE, 2026-09-07.
+     The seek track was the LAST thing in the bar and the bar sat at bottom:0 with
+     viewport-fit=cover, so on a phone the track lived inside the home-indicator
+     gesture strip: a drag across it is claimed by iOS before the page ever sees a
+     pointermove, and scrolling near the bottom of the screen caught the bar
+     instead of the prose. --player-pad is that clearance, and it is the ONLY
+     place the number lives -- --player-h below adds the same token so anything
+     pinned above the bar (js/sync.js's readable band, the back-to-top control in
+     components.css, scroll-padding-bottom in site.css) travels with it.
+     env() is 0 on a desktop browser, so the max() floor is what actually raises
+     the bar on a phone whose bottom toolbar is showing and reporting no inset.
+     --------------------------------------------------------------------------- */
+  padding-bottom: var(--player-pad);
 }
 /* both rows sit on the same measure as the page, so the transport lines up with
    the text column instead of running edge to edge under it */
@@ -256,8 +270,16 @@
    out which part of the screen the reader can actually see, so a wrong number here
    makes the read-along stop scrolling to lines that are behind the bar. Re-measure
    if the bar's contents change. */
-:root { --player-h: 134px; }
-@media (max-width: 640px) { :root { --player-h: 92px; } }   /* measured at 402px wide */
+:root {
+  --player-pad: env(safe-area-inset-bottom, 0px);
+  --player-h: calc(134px + var(--player-pad));
+}
+@media (max-width: 640px) {                                 /* measured at 402px wide */
+  :root {
+    --player-pad: max(env(safe-area-inset-bottom, 0px), 16px);
+    --player-h: calc(92px + var(--player-pad));
+  }
+}
 body:has(.player[data-state="idle"]) { --player-h: 0px; }
 @media (prefers-reduced-motion: reduce) { .player { transition: none; } }
 

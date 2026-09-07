@@ -110,9 +110,17 @@
   function readableBand() {
     var nav = document.getElementById('site-nav');
     var top = nav ? Math.max(0, nav.getBoundingClientRect().bottom) : 0;
-    var playerH = parseFloat(
-      getComputedStyle(document.documentElement).getPropertyValue('--player-h')
-    ) || 0;
+    // 🛑 MEASURE THE BAR, DO NOT PARSE --player-h, 2026-09-07. That token is now
+    // calc(92px + max(env(safe-area-inset-bottom), 16px)) so the bar can clear the
+    // home-indicator strip (css/player.css). getComputedStyle hands an unregistered
+    // custom property back as its unresolved token stream, so parseFloat('calc(...')
+    // is NaN and the band silently became the whole viewport again — the exact bug
+    // the token was introduced to fix. The element knows its own height, safe-area
+    // padding included; idle means it has translated off-screen and covers nothing.
+    var bar = document.getElementById('player');
+    var playerH = (bar && bar.getAttribute('data-state') !== 'idle')
+      ? bar.getBoundingClientRect().height
+      : 0;
     return { top: top, bottom: window.innerHeight - playerH };
   }
 
