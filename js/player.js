@@ -97,6 +97,16 @@
     return (h ? h + ':' + (m < 10 ? '0' : '') : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
   }
 
+  // One place that knows how this file scrolls. js/ui.js owns the distance rule —
+  // a jump longer than three screens lands instead of animating, because animating
+  // it renders every chapter in between while the decoder wants the main thread.
+  // The fallback matters: this file must still work if ui.js has not run.
+  function scrollTo_(el, block) {
+    if (!el) return;
+    if (window.PanimScroll) window.PanimScroll.intoView(el, block || 'start');
+    else el.scrollIntoView({ behavior: 'smooth', block: block || 'start' });
+  }
+
   function setPlayerState(s) { els.player.setAttribute('data-state', s); }
   function announce(msg) { if (els.ariaLive) els.ariaLive.textContent = msg; }
   function emit(name, detail) { document.dispatchEvent(new CustomEvent(name, { detail: detail || {} })); }
@@ -362,7 +372,10 @@
         dismissResumeToast();
         loadChapter(lastChapter, { seekTo: lastPos, autoplay: true });
         var sec = document.getElementById(lastChapter);
-        if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+        // Resuming from the jacket is the longest jump on the site — the reader is at
+        // the top and the chapter can be 240,000px down. PanimScroll lands it in one
+        // frame instead of animating through every chapter in between (js/ui.js).
+        if (sec) scrollTo_(sec, 'start');
       };
       els.resumeToastDismiss.onclick = dismissResumeToast;
     }
@@ -563,7 +576,7 @@
         var sec = document.getElementById(nextId);
         // follow the voice onto the page, exactly as tap-to-listen does — a reader
         // who is reading along must not be left on the previous chapter's last page
-        if (state.follow && sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (state.follow && sec) scrollTo_(sec, 'start');
         return;
       }
       showCompletion('chapter-end');

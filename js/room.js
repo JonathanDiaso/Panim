@@ -374,7 +374,14 @@
       closeRoom();
       var live = document.querySelector('.is-live');
       var target = live || document.getElementById(P.state.chapterId);
-      if (target) target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+      // reduced motion still wins: PanimScroll only chooses between an animated hop
+      // and an instant jump, and html{scroll-behavior} is already `auto` under the
+      // reduce query (css/site.css), so a 'smooth' request there does not animate.
+      if (target) {
+        if (reduceMotion) target.scrollIntoView({ behavior: 'auto', block: 'center' });
+        else if (window.PanimScroll) window.PanimScroll.intoView(target, 'center');
+        else target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     });
     els.clock.addEventListener('click', function () {
       clockMode = clockMode === 'elapsed' ? 'remaining' : 'elapsed'; tick();
