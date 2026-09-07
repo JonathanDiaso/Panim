@@ -43,6 +43,7 @@
     completionClose: document.getElementById('completion-close'),
     resumeToast: document.getElementById('resume-toast'),
     resumeToastText: document.getElementById('resume-toast-text'),
+    resumeToastPlace: document.getElementById('resume-toast-place'),
     resumeToastYes: document.getElementById('resume-toast-yes'),
     resumeToastDismiss: document.getElementById('resume-toast-dismiss'),
     ariaLive: document.getElementById('aria-live')
@@ -365,7 +366,20 @@
     var lastChapter = LS.get('lastChapter', null);
     var lastPos = LS.get('lastPos', 0);
     if (lastChapter && lastPos > 10) {
-      els.resumeToastText.textContent = 'Resume "' + chapterTitle(lastChapter) + '" at ' + fmtTime(lastPos) + '?';
+      // 🔴 TWO LINES, THE SAME TWO THE JACKET USES — 2026-09-07. This wrote one
+      // string: 'Resume "IX. Eyes Opened" at 7:36?'. A verb, a title in quotation
+      // marks and a timecode, run together in one sans sentence, next to a bordered
+      // button that said Resume a second time. The jacket's #begin-btn was taken off
+      // exactly this shape on 2026-09-05 ("could the resume button be any ugglier?")
+      // and this one was missed because it only ever appears to a returning reader.
+      // ⚠️ NEVER textContent THE BUTTON — the play ring is inside it. Write the spans.
+      // ⚠️ THE ACCESSIBLE NAME IS ONE SENTENCE, set here, for the reason the jacket's
+      // is: two spans read out with no punctuation between them run together.
+      els.resumeToastText.textContent = 'Pick up where you left off';
+      els.resumeToastPlace.textContent = chapterTitle(lastChapter) + ' \u00B7 ' + fmtTime(lastPos);
+      els.resumeToastPlace.hidden = false;
+      els.resumeToastYes.setAttribute('aria-label',
+        'Resume ' + chapterTitle(lastChapter) + ', at ' + fmtTime(lastPos));
       els.resumeToast.hidden = false;
       requestAnimationFrame(function () { els.resumeToast.classList.add('is-shown'); });
       els.resumeToastYes.onclick = function () {

@@ -35,8 +35,11 @@
    by the book's own furniture: the chapter numerals in the running head. Numerals
    you have read through go to full ink; the one you are inside carries a hairline
    that fills as you read it. Same information, no extra chrome, and it is legible
-   as a position in a BOOK rather than a percentage of a page. */
-#progress-bar { display: none; }
+   as a position in a BOOK rather than a percentage of a page.
+   🛑 THE MARKUP WENT WITH IT, 2026-09-07. `#progress-bar` and `#progress-fill` were
+   still in index.html, hidden by a rule here and read by nothing — two elements and
+   two selectors doing no work. If a progress widget is ever wanted again it is a new
+   decision, not a revival of this one. */
 
 #nav-chapters a { position: relative; }
 #nav-chapters a::after {
@@ -113,7 +116,7 @@
    PRINT — a book should print like one
    ============================================================================ */
 @media print {
-  #site-nav, .player, #room, .toast, #progress-bar, .listen-from-here,
+  #site-nav, .player, #room, .toast, .listen-from-here,
   #hold-btn, #lightbox, #gloss-card { display: none !important; }
   body { background: #fff; color: #000; font-size: 11pt; }
   .section { padding-block: 0; display: block; max-width: none; }

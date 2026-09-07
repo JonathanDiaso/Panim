@@ -42,8 +42,20 @@
   window.PANIM_SOURCES = [
     {
       group: 'The text itself',
-      note: 'Every pointed Hebrew form and every Greek lemma on this site was pulled ' +
-            'out of one of these by a script and pasted in. None was typed by hand.',
+      // 🔴 THE CLAIM CAME BACK HERE AFTER BEING CUT TWICE — trimmed 2026-09-07.
+      // This note read "...was pulled out of one of these by a script and pasted in.
+      // None was typed by hand." That is the same sentence the author deleted from the
+      // Lexicon's standfirst and then from this page's own standfirst (D18-A, D19-A,
+      // and see the top of this file: "NOBODY MAKES THE CLAIM ANY MORE"). It survived
+      // in the one place nobody looked, and it survived at TWICE the length of every
+      // other note here, set in italic in a narrow column. His words, 2026-09-07:
+      // "weird text and long ... am i rambling here?"
+      // 🛑 THE ROWS ARE THE PROOF. A page that lists eleven works and says what
+      // each supplied does not also need to tell the reader it can be trusted — that is
+      // the whole argument for the section existing. One sentence of fact, in the same
+      // register as 'The lexica' below, and nothing about scripts or typing.
+      // ⚠️ TO RESTORE: the old string is in git, at the commit before this note.
+      note: 'Every pointed Hebrew form and every Greek lemma came out of one of these.',
       items: [
         {
           title: 'Miqra according to the Masorah (MAM)',

@@ -83,9 +83,9 @@
 .player-meta .meta-time {
   font-size: .82rem; color: var(--ink-soft); letter-spacing: .02em;
 }
-.player-meta .meta-status {
-  font-size: .82rem; color: var(--ink-soft); font-style: italic; font-family: var(--serif);
-}
+/* 🛑 .meta-status IS GONE, 2026-09-07. The bar has one meta line — #meta-time — and
+   js/player.js reads that id and no other. The unavailable state says what it is
+   through the transport and the seek bar below, both of which are styled for it. */
 
 /* FOLLOW HAD NO SIGHTED STATE AT ALL until 2026-08-29. js/player.js has always
    toggled .is-active on this button and nothing in any stylesheet matched it, so
@@ -165,10 +165,13 @@
    position, and the index sits above it, labelled, where evenly spaced marks read as
    what they are.
    --------------------------------------------------------------------------- */
+/* 🔴 22px, NOT 20px — 2026-09-07. The rail was sized to the 11.5px numeral it used
+   to carry (see .seek-mark). The numeral grew and the box had to grow with it, or
+   the current chapter's underline sat on the seek bar's own track. */
 .chapter-rail {
   position: relative;
-  height: 20px;
-  margin: 0 0 6px;
+  height: 22px;
+  margin: 0 0 7px;
 }
 .seekbar-marks { position: absolute; inset: 0; }
 
@@ -205,7 +208,20 @@
   background: none; border: 0; cursor: pointer;
   font-family: var(--serif);
   font-variation-settings: var(--lit-normal);
-  font-size: .72rem; font-weight: 500; font-style: normal;
+  /* 🔴 .86rem, WAS .72rem — 2026-09-07. The author: "numerals could be bigger on the
+     audio player." He is asking the third time for the same thing: the Names index
+     letter grew for "the abc … could be bigger its hard to see", the Sources group
+     head grew the same day, and this rail is the last small label left. 11.52px of
+     roman numeral is the smallest type on the site's furniture, and a roman numeral
+     is the hardest kind of small type to read — V, X and I are the same three strokes.
+     🛑 THE CEILING IS ARITHMETIC, NOT TASTE. The ten marks are evenly spaced across
+     the rail and the rail is hidden below 641px, so the tightest real case is the
+     bar at 641px: nine gaps of about 63px carrying "VIII" at its widest. 13.76px
+     measures 30px there — it fits with room, and 1rem does not.
+     🛑 CONTRAST IS UNCHANGED AND STILL 4.5:1. --ink-faint is exactly the AA floor for
+     body text against the darkest stock; growing type never lowers a requirement that
+     is already met at the smaller size, so nothing here needs re-measuring. */
+  font-size: .86rem; font-weight: 500; font-style: normal;
   letter-spacing: .05em; line-height: 1;
   color: var(--ink-faint);
   border-bottom: 1px solid transparent;
@@ -240,7 +256,6 @@
 .player[data-state="unavailable"] .seekbar {
   opacity: .45; pointer-events: none;
 }
-.player[data-state="unavailable"] .meta-status { opacity: 1; }
 
 /* ---------------------------------------------------------------------------
    THE BAR HIDES WHEN NOTHING IS PLAYING
@@ -265,14 +280,21 @@
 }
 /* Anything pinned above the bar has to travel with it, or it hangs in mid-air
    over the prose while the bar is gone. --player-h is the single source. */
-/* Both measured off a screenshot, not estimated: 134px at 1440 (114px + the 20px
-   chapter rail), 92px at 402 where the rail is hidden. js/sync.js reads this to work
-   out which part of the screen the reader can actually see, so a wrong number here
-   makes the read-along stop scrolling to lines that are behind the bar. Re-measure
-   if the bar's contents change. */
+/* Both measured in a real browser, not estimated: 136px at 1440 and 92px at 402,
+   where the rail is hidden. js/sync.js reads this to work out which part of the
+   screen the reader can actually see, so a wrong number here makes the read-along
+   stop scrolling to lines that are behind the bar.
+   🔴 136, NOT 134 — 2026-09-07, and this is the trap the note above always warned
+   about. Growing the rail's numerals to .86rem grew the rail from 20px to 22px, and
+   the bar with it. The comment said "re-measure if the bar's contents change" and
+   the numerals ARE the contents; a type change is a layout change here. Measured
+   `#player.getBoundingClientRect().height` at 1440/900/700/641 — 136 at every one —
+   rather than adding 2 to the old number and hoping.
+   ⚠️ 402 IS UNCHANGED AT 92 + 16 = 108, verified the same way, because the rail is
+   display:none below 641px and takes its whole height with it. */
 :root {
   --player-pad: env(safe-area-inset-bottom, 0px);
-  --player-h: calc(134px + var(--player-pad));
+  --player-h: calc(136px + var(--player-pad));
 }
 @media (max-width: 640px) {                                 /* measured at 402px wide */
   :root {
@@ -304,7 +326,6 @@ body:has(.player[data-state="idle"]) { --player-h: 0px; }
   /* the seek bar directly below already shows position; the Room carries a clock */
   .player-meta .meta-time { display: none; }
   #speed-btn, #follow-btn, #sleep-btn { display: none; }
-  .player-secondary .label-hide-mobile { display: none; }
   .player-seek { padding-bottom: .25rem; }
   .seekbar { margin: 14px 0; }
   /* The chapter rail is 26px, which is a lot of a 92px bar to spend on an index that
@@ -313,12 +334,10 @@ body:has(.player[data-state="idle"]) { --player-h: 0px; }
   .chapter-rail { display: none; }
 }
 
-/* ---------- mix panel (C13) ---------- */
-.mix-row { display: flex; flex-direction: column; gap: .5em; margin-bottom: 1.4em; }
-.mix-row label { font-family: var(--ui); font-size: var(--ap-md); letter-spacing: .12em; text-transform: uppercase; }
-.mix-row input[type="range"] {
-  width: 100%; accent-color: var(--accent); min-height: 44px;
-}
+/* 🛑 THE MIX PANEL (C13) WAS NEVER BUILT, and its three rules came out 2026-09-07.
+   There is no mix sheet in index.html and no code that opens one. The one level a
+   reader can actually move is the music bed, and that is decided in the master, not
+   at playback. */
 
 /* ---------- sleep sheet (C12) ---------- */
 .sleep-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6em; margin: 1em 0 1.4em; }
