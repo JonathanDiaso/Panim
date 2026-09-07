@@ -126,9 +126,26 @@
      `font-variant-caps: small-caps` would be SYNTHESISED: scaled-down capitals with
      the wrong stem weight. Everywhere this file wants small caps it uses uppercase
      with tracking instead, which is honest and is what a printed apparatus does. */
-  --ap-sm: .64rem;   /* tracked uppercase only: numerals, references, labels */
-  --ap-md: .72rem;   /* captions, running times, anything with a few words */
-  --ap-lg: .82rem;   /* apparatus that carries a sentence */
+  /* 🔴 THE WHOLE SCALE WENT UP ONE STEP, 2026-09-07. The author: "look at the text
+     and find the smallest ... do we need to make any text bigger."
+     🛑 AND THE ANSWER WAS IN THE COUNT, NOT IN ANY ONE LABEL. Measured on the live
+     page: 10.24px was the computed size of FOURTEEN different components and just
+     over three hundred elements — 114 verse-note book names, 51 lexicon chips, 26
+     roman-numeral index links, 20 back-matter links, 13 block references, 13 thread
+     reference rows, the ten plate credits, the eleven chapter numerals. That is not
+     an apparatus floor any more. That is a third of the type on the page.
+     ⚠️ AND IT HAD ALREADY BEEN WALKED BACK THREE TIMES ONE COMPONENT AT A TIME —
+     the Names index letter ("the abc ... could be bigger its hard to see"), the
+     Sources group heading, the player's chapter rail. Three patches to a token that
+     was simply too small. This raises the token instead.
+     🛑 THE THREE STEPS KEEP THEIR RATIOS so nothing inverts: 1 : 1.11 : 1.25 before,
+     1 : 1.11 : 1.25 after. --ap-xl is untouched at 15.2px; it was already right.
+     ⚠️ VERIFIED BY MEASUREMENT, not by looking: zero horizontal document overflow at
+     320 / 402 / 900 / 1440 / 1920, and the lexicon chip wall, the contents rows, the
+     player bar and the back-matter indexes were each re-measured for reflow. */
+  --ap-sm: .72rem;   /* tracked uppercase only: numerals, references, labels */
+  --ap-md: .80rem;   /* captions, running times, anything with a few words */
+  --ap-lg: .90rem;   /* apparatus that carries a sentence */
   /* ⭐ ADDED 2026-09-05, and it is a real addition to the scale rather than a
      number written inline. The author, of .hero-sample-note: "tap any line that
      text is super small too."

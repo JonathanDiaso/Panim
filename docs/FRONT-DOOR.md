@@ -4,6 +4,9 @@
 **v61 is LIVE on `main`**, 2026-09-06 — the jacket's Hebrew mark ranges left at every
 width now, and the negative margin that was supposed to align it had been pulling the wrong
 way since it was written. **§8 is that round.**
+🎬 **v66, 2026-09-07 — §11.** The ribbon's caption is lit by the chapter it names, the
+apparatus scale went up a step, and two things were quietly wrong: the caption reserved one
+line too few at nine widths in ten, and every scroll frame forced two full-document layouts.
 🧹 **v64–v65, 2026-09-07.** **§9** is the dead-rule sweep (no behaviour change) and where
 the two stale version numbers in these docs are recorded. **§10** is the round that grew
 three small labels the author had asked about three times, rebuilt the resume toast on
@@ -1049,4 +1052,154 @@ stylesheets. **Zero JavaScript errors at 320, 402, 900 and 1440.** Both new cont
 44px on both axes. The rail, the toast, the Sources section and the Names index were each
 rendered and read back from a real browser through the same-origin harness described in
 `docs/HEADLESS.md`.
+
+---
+
+# 11 · 🎬 v66 — THE CAPTION IS LIT BY THE CHAPTER IT NAMES, AND TWO THINGS WERE QUIETLY WRONG
+
+**2026-09-07.** The author, on the ribbon: *"now we have big text but its seperated from the
+very ribbon itself what if we actually had cool text thats different? rather than just black
+or white like actually make that text legit make it fn to itnereact with."*
+
+## 11.1 What the caption does now
+
+**The words arrive one at a time, each carrying that chapter's own accent, and cool to ink
+over 700ms.** Night blue through I–IV, the fire through V–VIII, morning gold for IX and X.
+**The lit plate's numeral takes the same colour in the same frame.**
+
+⭐ **That is the dawn arc — the book's whole argument — running live in the one place a
+reader can see all ten chapters at once, in type, with nothing drawn.**
+
+🛑 **IT IS NOT THE ARC HE DELETED, AND THE DIFFERENCE IS THAT NOTHING PERSISTS.** v54 put
+ten chips of the chapters' paper stock under the plates and he called them *"so ugly … tabs"*
+(§2.8b). A tab is a permanent coloured object competing with the photographs. This is a
+colour the type passes **through**: 700ms after a snap the caption is `--ink` again. The only
+thing that stays is one numeral — the lit one, which was already being drawn in a different
+colour from the other nine. **One line reverts the whole effect** (the `--hook-lit` write in
+`js/ui.js` `setLit`).
+
+🛑 **AND IT IS DELIBERATELY NOT THE FIVE-WORDS LIGHT.** The ending's sweep
+(`.fivewords-text.is-lit`) is a band of accent travelling across the letterforms, and
+`css/components.css` argues there that it *"runs ONCE … because a light that keeps arriving
+is a barber's pole, and this one is supposed to have arrived."* **Running the book's last
+image on every snap of an index would spend it.** It is also the expensive option:
+`background-position` on twenty `background-clip:text` spans repaints every frame; `color`
+and `transform` on twenty inline-blocks does not.
+
+⚠️ **THE GAP HE NAMED CANNOT BE CLOSED, AND THAT IS WHY THE FIX IS COLOUR AND TIMING.** The
+104px between the strip and the caption is `.pl-rail`'s bottom padding, and it is sized to
+the sway's 89px amplitude — the motion he asked for in the last round. Cutting the gap clips
+plate I at the bottom of its wave. **So the two are joined by sharing a colour in the same
+frame instead of by sharing a space.**
+
+⚠️ **`--hook-lit` IS READ FROM THE CHAPTER'S OWN SECTION, NEVER RETYPED.** The dawn table is
+already in two files and that duplication has cost one live bug; a third copy would be worse.
+`getComputedStyle` on each `<section data-ch>`, once, cached — ten reads on first paint,
+never in a scroll handler.
+
+## 11.2 🔴 THE CAPTION'S RESERVED HEIGHT WAS ONE LINE SHORT AT NINE WIDTHS IN TEN
+
+`min-height` on `.pl-hook` exists so the contents page does not jump under the reader's thumb
+when a snap lands on a long hook. **It was reserving less than the tallest hook needs at
+every width except 901–1009.** Measured with the real ten hooks at 28 widths:
+
+| width | reserved | actual | |
+| --- | --- | --- | --- |
+| 320 | 195 | **227** | one line |
+| 380–402 | 162 | **195** | one line |
+| 440 | 130 | **162** | one line |
+| 580 | 97 | **130** | one line |
+| 840–880 | 65 | **97** | **two lines** |
+| 1010 | 97 | **130** | one line |
+| 1440–1920 | 132 | **176** | one line |
+
+**So one snap in ten moved the page by a full line — 32px on a phone, 44px on a desktop —
+which is the exact fault the reservation exists to prevent.**
+
+⚠️ **IT IS NOT THE NEW WORD SPANS.** The same sweep run with plain `textContent` — the
+wrapping this had before the rebuild — returns the same numbers to the pixel. **The ladder
+was simply never re-measured the last time the type grew.** The new steps are where the
+tallest hook actually loses a line: **320→7 · 340→6 · 420→5 · 460→4 · 620→3 · 901→4**, and
+reserved now equals actual at every width.
+
+## 11.3 🔴 TWO FORCED SYNCHRONOUS LAYOUTS PER SCROLL FRAME, ON A 266,000px DOCUMENT
+
+**This is the scroll-smoothness finding.** `js/motion.js` `onScrollFrame` wrote `--paper` and
+`background-color` to the root, **then read** `documentElement.scrollHeight`, then wrote the
+whole running head in `updateNav()`, **then read** `#contents.getBoundingClientRect()` inside
+`updateTocRoll()`.
+
+**Every one of those reads came after a write, so each forced the engine to lay out the whole
+document again before it could answer.**
+
+🛑 **AND THE FILE ALREADY KNEW THE RULE.** `plateFrame` in the same file carries a note
+saying *"READ EVERY RECT FIRST, THEN WRITE EVERY TRANSFORM … Never put a style write above a
+rect read in this function."* `onScrollFrame` never got it.
+
+⚠️ **THE COMPARE-THEN-WRITE GUARD IS WHY THIS HID.** The root custom properties are usually
+not written at all, so it looked clean — but `updateNav` writes on nearly every frame and
+`updateTocRoll`'s rect read sat directly behind it. **The guard saved a style recalculation
+and paid for a layout instead.**
+
+**Both reads are hoisted into a `pass 1` block now**, and `updateTocRoll` takes the rect as an
+argument (it still reads its own when called from init or resize, neither of which is inside
+a scroll frame).
+
+⚠️ **`scrollHeight` IS STILL RE-READ EVERY FRAME AND MUST BE** — the sections carry
+`content-visibility: auto`, so the document's real height changes as chapters render for the
+first time. A cached value would be right at load and wrong by chapter III.
+
+**The rest of the scroll path was already correct and is left alone:** `sync.js`'s handler
+touches no layout at all, `swayFrame` reads before it writes and only runs on browsers
+without scroll-driven animations, and the four separate `scroll` listeners each schedule
+their own rAF — which the browser coalesces into one frame, so the cost was the work, not
+the count.
+
+⚠️ **REAL FRAME TIMES WERE NOT RE-MEASURED THIS ROUND, AND THIS FILE WILL NOT PRETEND THEY
+WERE.** `--virtual-time-budget` fast-forwards the clock, so rAF deltas under it are synthetic,
+and puppeteer is not installed on this machine. **The fix is structural and was verified by
+read/write ordering, not by a stopwatch.** A real trace is worth running the next time a
+browser with a profiler is on the page.
+
+## 11.4 The apparatus scale went up one step
+
+*"look at the text and find the smallest … do we need to make any text bigger."*
+
+**The answer was in the count.** 10.24px was the computed size of **fourteen components and
+just over three hundred elements** — 114 verse-note book names, 51 lexicon chips, 26
+roman-numeral index links, 20 back-matter links, 13 block references, the ten plate credits.
+**That is not an apparatus floor, it is a third of the type on the page.**
+
+⚠️ **AND IT HAD BEEN WALKED BACK THREE TIMES ONE COMPONENT AT A TIME** — the Names index
+letter, the Sources group heading, the player's chapter rail. **This raises the token
+instead:** `--ap-sm` .64→.72rem, `--ap-md` .72→.80, `--ap-lg` .82→.90, ratios unchanged,
+`--ap-xl` untouched. **Zero horizontal document overflow at 320 / 402 / 900 / 1440 / 1920.**
+
+## 11.5 *"a double title like at the bottom sections"*
+
+**`What Comes Back` was the fifth back-matter section and the only one still drawn as a
+label** — its name and a second label counting its own rows (`13 threads`), both 10px tracked
+uppercase, side by side. The other four became `.is-bare` on 2026-08-30 (D20-A) and set their
+name in the serif; **this one was missed, and it is the section a reader reaches first.**
+
+**It shares that rule now, and the count is gone** — the same ruling that cut *"11 works"*
+off the Sources head and *"Ten chapters"* off the contents. **A count of thirteen above a
+list of thirteen is the list counting itself out loud.**
+
+## 11.6 One stale comment that was a live trap
+
+`js/ui.js` said **"4.6 SINCE 2026-09-05, and @keyframes pl-drift carries the same value"**
+directly above `var DRIFT = 5.6`. The keyframes say 5.6. **The code was right and the comment
+was wrong** — and it is the one comment on the page whose whole job is to keep two files in
+step, so the next person to reconcile them would have "corrected" the working number to the
+stale one and made Firefox drift a different distance from Chrome, silently.
+
+## 11.7 Verified
+
+Zero dead selectors on a full re-sweep. Braces balance in all five stylesheets. All eight
+scripts parse. **Zero JavaScript errors at 320, 402, 900 and 1440.** Reserved caption height
+equals the tallest hook at twelve widths. `--hook-lit` resolves to the right accent per
+chapter and the words settle to `--ink` — read back from the live DOM, with transitions
+disabled, because **a transition read under virtual time returns its start value** (this
+harness has cried wolf on exactly that before).
 

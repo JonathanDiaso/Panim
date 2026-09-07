@@ -3,7 +3,7 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: `v65`** — `ASSET_V = '65'`, `panim-shell-v65`. Two rounds on 2026-09-07: `v64` a dead-rule sweep (`docs/FRONT-DOOR.md` §9), `v65` the small-label round and the Hannah index fix (§10). 🗄 The running log of what each
+**Current: `v66`** — `ASSET_V = '66'`, `panim-shell-v66`. Three rounds on 2026-09-07: `v64` a dead-rule sweep (`docs/FRONT-DOOR.md` §9), `v65` the small-label round and the Hannah index fix (§10), `v66` the ribbon caption, the apparatus scale, and two real bugs (§11). 🗄 The running log of what each
 version changed is `archive/version-log-through-v46.md`; the round records for v57–v60 are
 `archive/round-records-v57-to-v60.md`, and what the front door does *now* is `docs/FRONT-DOOR.md`.
 🛑 **This line rots.** It said `v55` for nine releases. Read `sw.js` and correct it here.
