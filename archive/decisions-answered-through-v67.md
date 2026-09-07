@@ -510,3 +510,87 @@ what you want it to be, not what I picked. **Say the word and it becomes anythin
 - *"my sister — and the name of the woman at Shiloh"* (first person, the way chapter X speaks)
 - *"Hannah — twice"* (the flattest possible, and it makes the reader do the work)
 
+
+---
+---
+
+# 🗄 ANSWERED IN v67 — 2026-09-07
+
+**Six things came off the sheet in one pass.** The author's words are verbatim from the
+markdown headings he typed them into; the full engineering record is `docs/FRONT-DOOR.md`
+§12.
+
+## ✅ The ribbon caption's setting — *"thats like italics its hard to read?????"*
+
+> *"I think it wqorks but im not sure about the kind of text we chose thats like italics its
+> hard to read?????"* — and the same day: *"the text we have now is not super splendid iw as
+> thinking different font options."*
+
+🛑 **IT WAS A BUG, NOT A FONT CHOICE, AND IT HAD BEEN SHIPPING.** `js/ui.js` built each word
+of the caption with `document.createElement('i')`. The UA default for `<i>` is
+`font-style: italic`; `.plh-w` never overrode it; **no rule in any stylesheet mentions
+italic.** So the caption really was italic, the author really could not read it, and the only
+place it was visible was a computed-style dump. The wrapper is a `<span>` now and `.plh-w`
+states `font-style: normal` as the second lock.
+
+⭐ **The other half of *"different font options"* is weight, not family.** 350 → 400 —
+Literata's roman, the weight the book itself is set in. There is no fourth family coming;
+Literata and Archivo are the whole type budget and a webfont on the critical path for one
+caption is not a trade this book makes.
+
+## ✅ *"the beggining of chapter descriptions also have weird font"*
+
+`.chapter-hook` and `.toc-hook` — the standfirst at each chapter opening and in the
+contents — **were deliberately italic, twice.** The argument was that a standfirst must not
+read as the chapter's own first paragraph. **That separation was already being carried three
+other ways** — a lighter ink, a shorter measure, a full line of space — and italic was the
+fourth. **Roman at weight 450 now:** heavier than the prose, in a softer ink than the prose,
+which is how a printed standfirst is set.
+
+## ✅ The gap under the ribbon, AND more motion
+
+> *"theres more seperation from the chapter description text and the pictures than i would
+> rpobably want though i really want the motion and maybe even more motion lol."*
+
+**Both.** Two earlier rounds measured this and reversed themselves. The trade is real
+vertically and **false between the two ends of the rail** — the top needs the full amplitude,
+the bottom never does. Motion **×1.25**, gap **−28px**, one edit. §12.4 has the two
+measurements, including the one that threw out the first argument for being about a scroll
+model rather than about pixels.
+
+## ✅ The play button — *"it looks like chlkdrens coding"*
+
+> *"we need to find a better play button ours is not impressive… research a new jhigher
+> quality play button like the circle that has the triangle… look for complete coding that we
+> can steal or borrow from someones designs."*
+
+**It already was a circle with a triangle.** Five faults made it look homemade — sharp
+corners, geometric instead of optical centring, thin proportions, an `--ink` hairline, and no
+body at all. All five are fixed and it is now **one drawing in three places** at four sizes.
+The conventions are borrowed from how Material, Feather, Phosphor and Lucide actually cut
+theirs; §12.5 names each one. **The two typed strings `−15` and `+30` went with it** — the
+Listening Room had already replaced its own pair two days earlier and the bar never got it.
+
+## ✅ The five-minute card — *"such a gross looking box"*
+
+**Fourth complaint about this object.** The box is gone: no border, no fill, no internal
+hairline. **One accent rule down the left edge and nothing else** — the answer `.btn-begin`
+had already reached the day before for the same word. And it is **red**, because
+*"i like the red color on the text"* and the card goes to chapter VII, which is the fire.
+`.hs-holds` came out of the interface sans in the same edit: the card was four things in
+three voices, which is what *"bloated"* was describing.
+
+## ✅ *"remove the it thats ugly"*
+
+**`Read it or listen.` → `Read or listen.`** Right, and not only for rhythm: the first half
+had an object and the second did not, so the two verbs were not parallel and the line limped
+at exactly the point it was offering a choice.
+
+## ✅ The hero photograph — *"close"*
+
+**Closed on the author's word.** It stays.
+
+## ✅ `og:description` — *"i think the old line was trashy and didnt provide value correct?"*
+
+**Correct, and the new line stays.** The old one is still saved in the round-20 record if it
+is ever wanted back.

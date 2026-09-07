@@ -63,16 +63,60 @@
    `.is-playing` class switch (2026-08-28); this makes them share everything else.
    An instance changes --transport-size and --transport-glyph and nothing else.
    ============================================================================ */
+/* 🔴 REDRAWN 2026-09-07. The author, of the bar: "we need to find a better play
+   button ours is not impressive it looks like chlkdrens coding… research a new
+   jhigher quality play button like the circle that has the triangle."
+   It WAS a circle with a triangle. What made it look homemade was five things, and
+   every one of them is what separates a drawn icon from a typed one:
+     1 THE CORNERS WERE SHARP. `M8 5.5v13l11-6.5z` is three straight lines meeting at
+       three points, and a 60° point rendered at 21px is a needle. Every icon set
+       worth borrowing from — Material, Feather, Phosphor, Lucide — rounds the joins.
+       Here that is stroke-linejoin:round with the fill and the stroke both currentColor,
+       which rounds the corners AND restores the size the rounding takes off.
+     2 IT WAS GEOMETRICALLY CENTRED, WHICH LOOKS OFF-CENTRE. A triangle carries its
+       visual mass at the back edge, so a play mark centred on its bounding box always
+       reads as sitting too far left. The convention is to centre the CENTROID and let
+       the bounding box run right — Material's own play_arrow puts its centroid 0.33
+       units left of centre in a 24 grid and its box 1.5 units right. This is that,
+       scaled: centroid on 22.0 in a 44 grid, box centre on 24.6.
+     3 THE PROPORTIONS WERE THIN. The triangle covered about 46% of the circle's inner
+       width; 51-53% is where a transport button stops looking like a diagram.
+     4 THE RING WAS --ink AT 1px. A hairline of near-black around a near-black triangle
+       is the shape of a wireframe. It takes the accent now, like every other control
+       on this site, and it moves with the dawn arc.
+     5 THERE WAS NO BODY. A 46px circle containing nothing but two hairlines has no
+       button in it. A 14% wash of the same accent gives it one without filling it —
+       which is the standing rule here (see .btn-begin: "the ring stays drawn, not
+       filled"), and the reason that rule survives this round rather than being
+       overturned by it. The FILL is what hover is for, and hover already did it.
+   🛑 ONE MARK, THREE PLACES. .bb-glyph on the jacket and .hs-glyph on the five-minute
+   card carry the same geometry in the same grid, so the play mark is one drawing at
+   three sizes rather than three drawings. If the path changes here it changes there.
+   ⚠️ MEASURED, --accent on the paper each of them sits on: 5.68:1 day / 8.71:1 night
+   for the ring and the triangle, against a 3:1 requirement for a control. The 14%
+   wash is decoration under an opaque glyph and carries no contrast debt of its own. */
 .transport-play {
   --transport-size: 46px;
-  --transport-glyph: 21px;
+  /* ⚠️ THE GLYPH BOX IS THE BUTTON, NOT A FRACTION OF IT, AND THAT IS THE POINT OF
+     THE 44-UNIT GRID. .bb-glyph and .hs-glyph draw their ring INSIDE the same
+     viewBox (r=20.5 of 44); here the ring is the button's own border, so the SVG has
+     to be laid over the whole button for the triangle to come out at the same size
+     relative to it. Set to a fraction — 24px was the first try — the triangle lands
+     at 24% of the circle instead of 49% and the button reads as a big empty ring
+     with a chip in it, which is most of what "childrens coding" meant.
+     ⚠️ MINUS THE BORDER, AND THAT 3px IS NOT COSMETIC. Set to the button's full size the
+     SVG is a grid item wider than the content box it sits in, so the browser shrinks it
+     to fit — measured 44px inside a 46px button — and the glyph comes out 4% small at
+     one size and not at another. `preserveAspectRatio` keeps it undistorted, so the
+     fault is silent. The content box is size − 2×1.5px of border; state that. */
+  --transport-glyph: calc(var(--transport-size) - 3px);
   width: var(--transport-size); height: var(--transport-size);
   min-width: var(--transport-size); min-height: var(--transport-size);
   padding: 0;
   display: grid; place-items: center;
-  border: 1px solid var(--ink); border-radius: 50%;
-  background: none;
-  color: var(--ink);
+  border: 1.5px solid var(--accent); border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--accent);
   cursor: pointer;
   transition: background-color var(--dur-fast) var(--ease),
               color var(--dur-fast) var(--ease),
@@ -82,7 +126,14 @@
 .transport-play svg {
   width: var(--transport-glyph); height: var(--transport-glyph);
   fill: currentColor; display: block;
+  /* the stroke IS the rounding. Same paint as the fill, so the shape does not gain an
+     outline — it gains a radius, and gains back the 1.5 units the radius eats. */
+  stroke: currentColor; stroke-width: 3; stroke-linejoin: round;
 }
+/* the pause bars are rounded to the same radius the triangle's corners now have, so
+   the two states are the same drawing hand. They are rects, so they do not want the
+   join stroke the triangle needs. */
+.transport-play .ico-pause rect { stroke: none; }
 /* the state switch is a class, not textContent: the button holds both glyphs and
    shows one. js/player.js reflectPlaying and js/room.js both toggle .is-playing. */
 .transport-play .ico-pause { display: none; }
@@ -103,6 +154,47 @@
 }
 .transport-play:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .transport-play:active { transform: scale(.96); }
+
+/* ============================================================================
+   THE SKIP MARK — one component, two sizes
+   🔴 PROMOTED OUT OF room.css, 2026-09-07. The Listening Room made this fix on
+   2026-09-05 and the player bar never got it: "THE SKIP CONTROLS ARE DRAWN NOW, NOT
+   TYPED. They were the strings '−15' and '+30' … the two cheapest-looking objects on
+   the screen." Both of those strings were still sitting in the bar, on either side of
+   the play button the author has now called "chlkdrens coding" — so the bar had one
+   drawn control between two typed ones, which is most of why it reads as unfinished.
+   🛑 IT IS THE ROOM'S DRAWING, NOT A SECOND ONE. A circle with a dash gap at twelve
+   o'clock and an arrowhead in the gap; the number set inside the ring, aria-hidden,
+   with the real instruction on the button's own label. An instance changes
+   --skip-size and --skip-num and nothing else.
+   ⚠️ THE GAP IS CUT BY stroke-dasharray AND NOT DRAWN AS AN ARC. A dashed circle
+   stays perfectly round at every size and needs no second path to close it; a
+   hand-written A-command drifts off the circle the moment the stroke width changes.
+   ============================================================================ */
+.skip-mark {
+  --skip-size: 44px;
+  --skip-num: .72rem;
+  position: relative;
+  width: var(--skip-size); height: var(--skip-size);
+  min-width: var(--skip-size); min-height: var(--skip-size);
+  padding: 0; border: 0; background: none;
+  display: grid; place-items: center;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease), transform 80ms var(--ease);
+}
+.skip-mark svg { width: 100%; height: 100%; display: block; }
+.sm-n {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-family: var(--ui); font-size: var(--skip-num); font-weight: 600;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: .02em;
+  padding-top: .18em;   /* the arrowhead sits above the ring's centre line */
+}
+.skip-mark:hover, .skip-mark:focus-visible { color: var(--ink); }
+.skip-mark:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.skip-mark:active { transform: scale(.94); }
 
 /* THE ONE EMPHATIC ACTION ON THE PAGE.
    ⚠️ #begin-btn DOES NOT USE THIS ANY MORE — it is .btn-begin below. This class is
@@ -201,12 +293,30 @@
   border-left-color: var(--accent);
   color: var(--ink);
 }
-.bb-glyph { display: block; width: 34px; height: 34px; flex: 0 0 34px; }
+/* 🔴 34px → 40px AND THE SAME REDRAWN MARK THE TRANSPORT GOT, 2026-09-07 — the five
+   faults are listed once, at .transport-play above, and this is the second of the
+   three places they were shipping. The ring is still DRAWN and not filled: the note
+   at the top of .btn-begin is unchanged and this round did not overturn it. What the
+   ring gained is a body (a 14% wash of its own accent), a corner radius on the
+   triangle, and four more pixels — a 34px mark inside a 60px control was reading as
+   the button's punctuation rather than as its point. */
+.bb-glyph { display: block; width: 40px; height: 40px; flex: 0 0 40px; }
 .bb-glyph svg { display: block; width: 100%; height: 100%; }
 /* the glyph is the one place the accent still speaks at full strength — it is the
-   part of the button that says "this plays", and it is 34px of line art, not a block */
-.bb-ring { fill: none; stroke: var(--accent); stroke-width: 1.25; }
-.bb-tri { fill: var(--accent); }
+   part of the button that says "this plays", and it is 40px of line art, not a block */
+.bb-ring {
+  fill: color-mix(in srgb, var(--accent) 14%, transparent);
+  stroke: var(--accent); stroke-width: 1.5;
+  transition: fill var(--dur-fast) var(--ease);
+}
+.bb-tri {
+  fill: var(--accent); stroke: var(--accent);
+  stroke-width: 3; stroke-linejoin: round;
+}
+/* ⚠️ THE HOVER IS ON THE BUTTON, NOT ON THE GLYPH, so the mark fills at the same
+   moment the control gains its surface rather than a beat after it. */
+.btn-begin:hover .bb-ring,
+.btn-begin:focus-visible .bb-ring { fill: color-mix(in srgb, var(--accent) 26%, transparent); }
 .bb-text { display: block; min-width: 0; }
 .bb-label {
   display: block;
@@ -1986,10 +2096,42 @@
      fine." So the motion went up 1.35× (js/render.js PLATE_SWAY) and the room went up
      with it. 104px of padding against a largest amplitude of 89 leaves 15px of slack,
      which is what the old pair had (80 against 66). Neither number moves alone. */
-  padding-block: 6.5rem;
+  /* 🔴 ASYMMETRIC, 2026-09-07, AND THIS IS THE THIRD ATTEMPT AT THE AUTHOR'S GAP —
+     the first one that works, because it stopped treating the two ends as one number.
+     He asked for both at once: "theres more seperation from the chapter description
+     text and the pictures than i would rpobably want though i really want the motion
+     and maybe even more motion lol."
+     ⭐ THE TOP NEEDS THE FULL AMPLITUDE AND THE BOTTOM NEVER DOES. At `cover 0%` the
+     wave is fully extended and the rail's top edge is already on screen, so a −110
+     plate genuinely rides 110px up and 7.25rem (116px) is the floor there. But the
+     rail's BOTTOM edge — the edge the author is looking at, the one the caption hangs
+     under — is not on screen until the section has climbed far enough that the wave
+     has decayed. Swept at every scroll position over six viewports, the largest
+     downward travel while that edge is visible is 48–64px, +14px for the arrival's
+     rise = 78px worst case (900×900).
+     🛑 AND THEN 5rem WAS RAISED TO 5.5, BECAUSE THE OFF-SCREEN CLIP IS NOT GOOD
+     ENOUGH. At 80px the +111 and −110 plates clip 31px and 30px at the FULL extreme —
+     which the sweep says is never on screen, and "never on screen" is a claim about a
+     scroll model, not about pixels. So it was measured the other way instead: how much
+     EMPTY paper each plate carries below its own title row (the rail stretches all ten
+     to the tallest, and Chapter IV's title wraps, so the one-line plates carry 26–30px
+     of nothing at the bottom). At 88px the worst clip is 23px against a 26px tail at
+     every width from 320 to 1920 — so nothing a reader could see is ever cut, at any
+     scroll position, on screen or off, and the argument no longer depends on the wave
+     decaying in time. 8px of the 24 given back for a guarantee.
+     ⚠️ THE TAIL IS THE BUDGET AND IT IS NOT A CONSTANT. It exists because .pl-plate is
+     a flex item stretched to the tallest title. If a chapter title ever stops wrapping
+     — or another starts — the tail changes and this number has to be re-measured.
+     Both numbers measured, not scaled; the sweep is written out at js/render.js
+     PLATE_SWAY.
+     🛑 SO THE MOTION WENT UP 1.25× AND THE GAP CAME DOWN 24px IN THE SAME EDIT, and
+     the two notes above — which say this trade cannot be won — were right about a
+     SYMMETRIC padding and wrong about the object. Do not re-symmetrise it.
+     ⚠️ margin-bottom went with it: .2rem under a 104px pad was rounding, and under a
+     tightened one it is 3px of the gap being complained about. */
+  padding-block: 7.25rem 5.5rem;
   overflow-y: hidden;
   scrollbar-width: none;
-  margin-bottom: .2rem;
   /* ⭐ THE STRIP FADES AT THE EDGE IT CONTINUES OVER, 2026-09-05. The author: "any
      way to encourage them to go right?"
      A row of plates that stops flush at the glass reads as a row that ENDS at the
@@ -2175,9 +2317,11 @@
 .pl-plate:not(.is-lit) .pl-frame img { filter: saturate(.62) contrast(1.02) brightness(.94); }
 .pl-plate:not(.is-lit) .pl-t { color: var(--ink-soft); }
 /* ⭐ THE LIT NUMERAL TAKES THE CHAPTER'S OWN ACCENT — 2026-09-07, and it is half of
-   one idea. The caption 104px below is arriving in the same colour in the same
-   frame (see .plh-w), and that is what joins the two across a gap the sway
-   clearance will not let us close.
+   one idea. The caption below is arriving in the same colour in the same frame (see
+   .plh-w), and that is what joins the two across the gap the sway clearance leaves.
+   ⚠️ THAT GAP IS 80px NOW, NOT 104 — later the same day the rail's padding went
+   asymmetric and the caption's own margin went to zero. The tie still earns its keep;
+   there is simply less to tie across.
    🛑 ONE NUMERAL, NEVER TEN. v54 put a chip of every chapter's stock under every
    plate and the author called them "so ugly ... tabs". This is the current one and
    only the current one: it is the state that was already being drawn, painted in
@@ -2299,6 +2443,9 @@
    The goal was to shrink the paper under the strip (the author: "maybe it doesnt
    have to be so far bwellow the pics so it looks more ohesive") by moving the
    wave's CENTRE up — +0.6·amp to −1.4·amp, same travel, less of it below the line.
+   🛑 THE NUMBERS IN THIS NOTE ARE THE 2026-09-05 PAIR (±66). PLATE_SWAY is ±111 now
+   and the rail's padding is asymmetric; the ARGUMENT below is unchanged and is why a
+   biased wave is still the wrong answer, but do not read the figures as current.
    ⚠️ IT COSTS 23% OF THE VISIBLE MOTION AND GIVES BACK NOTHING. The amplitudes in
    js/render.js ALTERNATE SIGN — that is what makes adjacent plates oppose each
    other — so a bias that lifts the +66 plate pushes the −65 plate exactly as far
@@ -2345,8 +2492,12 @@
      The rail's own bottom padding came down from 5rem to 3.4 in the same round (see
      the note there); this is the rest of it. The strip and its caption are ONE
      BLOCK and the space between them has to be smaller than the space under them,
-     or the caption floats between the two and belongs to neither. */
-  margin: .5rem 0 0;
+     or the caption floats between the two and belongs to neither.
+     🔴 .5rem → 0, 2026-09-07. The rail's bottom padding came down 24px in the same
+     round (see .pl-rail) and this is the last 8px of the same complaint. The caption
+     starts immediately under the strip's own edge now; everything still between them
+     is the sway's clearance, which is the only space there doing a job. */
+  margin: 0;
   /* ⭐ MUCH LARGER, 2026-09-05. The author: "Descriptions should be much larger
      too… that needs tonbe fixed."
      It was .92rem — smaller than the running text of the book — for the best short
@@ -2374,7 +2525,19 @@
      like a photo credit. Author's pick, of three options offered. */
   font-family: var(--serif);
   font-variation-settings: var(--lit-mid);
-  font-weight: 350;
+  /* 🔴 350 → 400, 2026-09-07, AND IT IS THE OTHER HALF OF THE ITALIC FIX. 350 is a
+     light weight, and a light weight at 34px is a display setting: it wants a big
+     page and a lot of paper around it. Here it sits under ten photographs and above
+     a card, and in night mode it is thin white strokes on near-black, which is the
+     worst case a light serif has. 400 is Literata's roman — the weight the book
+     itself is set in — so the caption now reads as the same voice as the prose it
+     is advertising rather than as a lighter, fancier one.
+     🛑 THIS IS THE WHOLE ANSWER TO "different font options", AND THERE IS NO FOURTH
+     FAMILY COMING. Literata and Archivo are the entire type budget (fonts/fonts.css);
+     the caption is now upright Literata at the book's own weight, which is the third
+     of the three settings this line has had and the first one that is not a costume.
+     The alternatives, and what each would cost, are written up in docs/DECISIONS.md. */
+  font-weight: 400;
   /* 🔴 LARGER A THIRD TIME, 2026-09-05 (round five). The author: "the text under it
      should be much bigger explaining the chapter."
      .92rem → 1.34rem → 1.42rem floor → this. It is the one line of copy under a
@@ -2457,6 +2620,12 @@
    ============================================================================ */
 .pl-hook .plh-w {
   display: inline-block;
+  /* 🛑 STATED, AND IT IS NOT DEFENSIVE PADDING. js/ui.js built these wrappers with
+     createElement('i') until 2026-09-07, so the UA default made the whole caption
+     italic and nothing in either file said so. The tag is a <span> now; this is the
+     second lock, because the fault was invisible in the CSS and invisible in the JS
+     and only showed up in a computed-style dump. */
+  font-style: normal;
   opacity: 0;
   transform: translateY(.32em);
   color: var(--hook-lit, var(--accent));
@@ -2485,10 +2654,25 @@
    desktop's twelve tracks instead of all six of the phone's — so it gets NARROWER
    as the window gets wider, once. 1010 is where the desktop grid has grown enough
    to win the lines back. */
-@media (min-width: 340px) { .pl-hook { min-height: calc(6 * 1.3em); } }
-@media (min-width: 420px) { .pl-hook { min-height: calc(5 * 1.3em); } }
-@media (min-width: 460px) { .pl-hook { min-height: calc(4 * 1.3em); } }
-@media (min-width: 620px) { .pl-hook { min-height: calc(3 * 1.3em); } }
+/* 🔴 RE-SWEPT 2026-09-07 AND EVERY STEP MOVED, because the caption stopped being
+   italic. js/ui.js was wrapping each word in an <i> — see the note at .plh-w — so the
+   ladder above had been measured against Literata ITALIC at weight 350, and the roman
+   at 400 that replaced it is a wider face: the tallest hook now holds each line count
+   for another 16-34px of width before it drops one.
+   🛑 MEASURED, NOT SHIFTED. A probe cloned from .pl-hook itself, min-height off, all
+   ten hooks through it at 38 widths from 320 to 1920, reading the real rendered
+   height against the real line box:
+       320-358  7 lines   ·  360-434  6  ·  436-488  5  ·  490-652  4
+       654-900  3         ·  901+     4  (and 4 at every width to 1920)
+   ⚠️ THE OLD 620px STEP WAS UNDER-RESERVING BY A FULL LINE FROM 620 TO 653, which is
+   44px of the contents page jumping under a thumb on one snap in ten — the exact
+   fault this reservation exists to prevent, reintroduced by a change three files away
+   that had nothing to do with layout. If the caption's face, weight or size moves
+   again, re-run the sweep; do not scale these numbers. */
+@media (min-width: 360px) { .pl-hook { min-height: calc(6 * 1.3em); } }
+@media (min-width: 436px) { .pl-hook { min-height: calc(5 * 1.3em); } }
+@media (min-width: 490px) { .pl-hook { min-height: calc(4 * 1.3em); } }
+@media (min-width: 654px) { .pl-hook { min-height: calc(3 * 1.3em); } }
 /* 🛑 .is-swapping IS GONE WITH THE CROSSFADE IT RAN, 2026-09-07 — nothing sets it
    any more. The caption's transition now lives on its words, above. */
 @media (max-width: 900px) { .pl-hook { grid-column: 1 / 7; } }
@@ -2649,10 +2833,15 @@
    site.css. In a ten-row list the sans stops the rows reading as ten paragraphs;
    at a chapter opening it stops the standfirst reading as the chapter's real
    first paragraph. Same job both times. */
+/* 🔴 ROMAN AT 450, NOT ITALIC — 2026-09-07, the same edit as .chapter-hook in
+   css/site.css and for the author's note there. These two have always been one
+   decision and they still are; only the mechanism changed. Weight and ink separate
+   the line from the title above it now, which is how a printed contents page does
+   it anyway. */
 .toc-hook {
   display: block; margin-top: .45em;
   font-family: var(--serif); font-variation-settings: var(--lit-normal);
-  font-style: italic; font-weight: 400;
+  font-style: normal; font-weight: 450;
   color: var(--ink-soft);
   /* .95rem was below body copy for the line the author said he likes best about
      this list — "i like the chapter descriptions". Same call as .pl-hook above. */
