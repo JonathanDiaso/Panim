@@ -37,8 +37,12 @@
   min-height: 64px;
 }
 
-.player-transport { display: flex; align-items: center; gap: .25rem; }
-.player-transport .btn-icon { min-width: 44px; min-height: 44px; font-size: 1rem; }
+.player-transport { display: flex; align-items: center; gap: .45rem; }
+/* 🛑 `.player-transport .btn-icon` CAME OFF 2026-09-07 WITH THE MARKUP IT SIZED. The
+   two skips were `.btn .btn-icon` carrying the strings "−15" and "+30"; they are
+   .skip-mark now (css/components.css), which brings its own 44px box. The gap opened
+   from .25rem to .45rem in the same edit — three drawn circles in a row need air
+   between them where two words and a circle did not. */
 /* THE TRANSPORT IS DRAWN, NOT TYPED, 2026-08-28.
    Play and pause were the text characters ▶ and ❚❚, set in whatever the font stack
    happened to have: two different weights on two different platforms, a vertical

@@ -208,25 +208,13 @@ body.room-open .player { opacity: 0; pointer-events: none; }
    62px of target, which is the size a thumb wants on a phone in the dark.
    🛑 THE NUMBER IS aria-hidden AND THE BUTTON CARRIES A REAL LABEL. "15" alone is
    not an instruction; the aria-label says "Skip back 15 seconds" and always did. */
-.room-skip {
-  position: relative;
-  width: 62px; height: 62px;
-  display: grid; place-items: center;
-  color: var(--ink-soft);
-  transition: color var(--dur-fast) var(--ease), transform 80ms var(--ease);
-}
-.room-skip svg { width: 100%; height: 100%; display: block; }
-.rs-n {
-  position: absolute; inset: 0;
-  display: grid; place-items: center;
-  font-family: var(--ui); font-size: .88rem; font-weight: 600;
-  font-variant-numeric: lining-nums tabular-nums;
-  letter-spacing: .02em;
-  padding-top: .18em;   /* the arrowhead sits above the ring's centre line */
-}
-.room-skip:hover, .room-skip:focus-visible { color: var(--ink); }
-.room-skip:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.room-skip:active { transform: scale(.94); }
+/* 🛑 THE RULES THAT USED TO SIT HERE ARE .skip-mark IN components.css, 2026-09-07,
+   because the player bar needed the same drawing and was still carrying "−15" and
+   "+30" as text. This is an INSTANCE now: 62px against the shared 44, and a number
+   set to match. Everything else — the ring, the gap, the arrowhead, the hover, the
+   focus ring and the press — is the shared component. .rs-n went with it and is
+   .sm-n; the markup in index.html carries both class names on the button. */
+.room-skip { --skip-size: 62px; --skip-num: .88rem; }
 
 /* An instance of .transport-play (components.css), not a second build of it. The
    circle, the icon swap, the inversion on hover/focus and the press are all shared;
@@ -236,10 +224,22 @@ body.room-open .player { opacity: 0; pointer-events: none; }
    screen is arranged around; the two skips beside it are 62. */
 .room-play {
   --transport-size: 88px;
-  --transport-glyph: 34px;
+  /* 🛑 NO --transport-glyph HERE. components.css derives it from --transport-size minus
+     the border, so this instance gets 85px inside its 88px button automatically and the
+     two sizes cannot drift apart by hand. */
   border-color: color-mix(in srgb, var(--accent) 65%, transparent);
   background: color-mix(in srgb, var(--accent) 10%, transparent);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  /* 🛑 THE GLYPH STAYS --ink HERE AND THE BAR'S DOES NOT, 2026-09-07. components.css
+     redrew the shared mark and put it in the accent, which is right on paper and
+     wrong over a photograph: this button floats on the chapter plate, behind 14px of
+     blur, and the Room's token block has already swapped --ink to the light end — so
+     --ink is the high-contrast paint here and the accent is not. Same component, one
+     token different, which is what the shared build is for.
+     ⚠️ THE GLYPH BOX IS THE BUTTON'S OWN SIZE now, not a fraction of it — the ring
+     here is the button's border and the triangle is drawn in a 44-unit grid that
+     assumes the ring is in the same grid. components.css says this once at length. */
+  color: var(--ink);
 }
 
 /* 🔴 FIVE CHIPS WITH EDGES, NOT FOUR NAKED WORDS. These were .btn-icon — a class

@@ -1228,10 +1228,29 @@
   // still crossing zero twice, because ten numbers that do not describe a wave read
   // as a rendering fault rather than as a field of plates breathing.
   // 🛑 THE LARGEST AMPLITUDE AND THE RAIL'S padding-block ARE ONE DECISION. A plate
-  // travels ±(its amp), and anything past the padding is clipped by #plates. 89 now
-  // needs the 6.5rem the rail was given in the same edit — "some room is fine" is
-  // the half of this instruction that pays for the other half.
-  var PLATE_SWAY = [89, -68, 34, -38, 73, -88, 61, -31, 43, -78];
+  // travels ±(its amp), and anything past the padding is clipped by #plates.
+  //
+  // 🔴 ×1.25 AND THE GAP CLOSED AT THE SAME TIME, 2026-09-07. The author: "theres
+  // more seperation from the chapter description text and the pictures than i would
+  // rpobably want though i really want the motion and maybe even more motion lol."
+  // Both halves, which two earlier rounds had concluded was impossible — the note in
+  // css/components.css .pl-rail says "the real trade is clearance against travel".
+  // ⭐ THE TRADE IS REAL VERTICALLY AND FALSE BETWEEN THE TWO ENDS. The clearance a
+  // plate needs at the TOP of the rail is the full amplitude: at `cover 0%` the wave
+  // is fully extended and the rail's top edge is on screen, so a −110 plate really
+  // does ride 110px up. The clearance it needs at the BOTTOM is not, because by the
+  // time the rail's bottom edge is on screen the wave has already decayed. Swept
+  // every scroll position at six viewports (402×844, 900×900, 1440×760/900/1040,
+  // 1920×900) against the view-timeline's own progress formula — the one js/ui.js's
+  // swayFrame mirrors — the largest DOWNWARD travel while that edge is visible is:
+  //     402×844  55px   ·  900×900  64px  ·  1440×900  52px
+  //     1440×1040 56px  ·  1920×900 52px  ·  1440×760  48px
+  // plus the arrival's own 14px rise = 78px worst case. So the bottom needs 5rem and
+  // the top needs 7.25rem, and the 104px that used to sit under the strip was 24px
+  // of paper nobody was using. The padding is asymmetric now; see .pl-rail.
+  // 🛑 IF THIS ARRAY CHANGES, RE-RUN THAT SWEEP. The two numbers are still one
+  // decision — they are simply no longer the SAME number at both ends.
+  var PLATE_SWAY = [111, -85, 42, -48, 91, -110, 76, -39, 54, -98];
 
   // the sizes attribute describes the IMG, which is 110% of its frame — not the
   // frame. Understating it hands a phone a picture it then has to upscale.
@@ -1336,10 +1355,15 @@
       '<span class="hs-holds">Two years of a father’s hidden face, and a mountain ' +
         'where the fire turns out to be the wrong answer.</span>' +
       '<span class="hs-act">' +
+        // 🛑 THE 44-UNIT GRID AND THIS PATH ARE THE SITE'S ONE PLAY MARK. Same
+        // geometry as .bb-glyph in index.html and .transport-play in the bar and the
+        // Room; the reasoning behind every number is written once, at .transport-play
+        // in css/components.css. ⚠️ r=20.5 AND css/site.css's stroke-dasharray IS
+        // 2πr = 128.81. The two move together or the ring finishes drawing early.
         '<span class="hs-glyph" aria-hidden="true">' +
-          '<svg viewBox="0 0 40 40" focusable="false">' +
-            '<circle class="hs-ring" cx="20" cy="20" r="19"/>' +
-            '<path class="hs-tri" d="M16.6 13.4 28 20 16.6 26.6Z"/>' +
+          '<svg viewBox="0 0 44 44" focusable="false">' +
+            '<circle class="hs-ring" cx="22" cy="22" r="20.5"/>' +
+            '<path class="hs-tri" d="M16.9 13.2 32.3 22 16.9 30.8Z"/>' +
           '</svg>' +
         '</span>' +
         '<span class="hs-title">Chapter VII <i aria-hidden="true">·</i> The Glory Backs Out</span>' +

@@ -1,9 +1,18 @@
 # 🚪 THE FRONT DOOR
 
 **What the top of the site does, why it does it, and what is next.**
-**v61 is LIVE on `main`**, 2026-09-06 — the jacket's Hebrew mark ranges left at every
-width now, and the negative margin that was supposed to align it had been pulling the wrong
-way since it was written. **§8 is that round.**
+🛑 **THE VERSION NUMBER LIVES IN `sw.js` (`SHELL` / `ASSET_V`), NEVER IN THIS PROSE.**
+This header has shipped a stale number twice. **§8 is v61** — the jacket's Hebrew mark
+ranging left at every width, and the negative margin that had been pulling the wrong way
+since it was written.
+🎯 **v67 IS THE LATEST, 2026-09-07 — §12.** The ribbon caption had been setting in
+**italic by accident** since it was rebuilt (`createElement('i')`, and no stylesheet ever
+said so) — which answers three separate complaints including one that sat open on the sheet
+for two days. The play button was redrawn properly and is now **one mark in three places**;
+the five-minute card lost its box and took chapter VII's own red; and **the ribbon got 25%
+more motion AND 28px less gap in the same edit**, which §2 and this file both said was
+impossible. 🛑 The clearance argument is now *"nothing visible is ever clipped"*, measured —
+not *"the clip is off screen"*, assumed.
 🎬 **v66, 2026-09-07 — §11.** The ribbon's caption is lit by the chapter it names, the
 apparatus scale went up a step, and two things were quietly wrong: the caption reserved one
 line too few at nine widths in ten, and every scroll frame forced two full-document layouts.
@@ -1203,3 +1212,208 @@ chapter and the words settle to `--ink` — read back from the live DOM, with tr
 disabled, because **a transition read under virtual time returns its start value** (this
 harness has cried wolf on exactly that before).
 
+
+---
+
+# 12 · 🎯 v67 — THE CAPTION WAS ITALIC BY ACCIDENT, AND THE PLAY BUTTON GOT DRAWN PROPERLY
+
+**Shipped 2026-09-07.** Seven notes from the author, one bug underneath three of them.
+
+> *"the text we have now is not super splendid iw as thinking different font options… the
+> if you only have 5 minutes seems pretty bloated and the coding is uggluy on it such a
+> gross looking box… theres more seperation from the chapter description text and the
+> pictures than i would rpobably want though i really want the motion and maybe even more
+> motion lol… the beggining of chapter descriptions also have weird font not sure its
+> working… we need to find a better play button ours is not impressive it looks like
+> chlkdrens coding… it should say read or listen the hcoise is yours not read it remove the
+> it thats ugly."*
+
+## 12.1 🔴 THE RIBBON CAPTION WAS SET IN ITALIC AND NOTHING SAID SO
+
+**`js/ui.js` built each word of the caption with `document.createElement('i')`.** The UA
+default for `<i>` is `font-style: italic`, `.plh-w` never overrode it, and no rule in any
+stylesheet mentions italic — so **34px of Literata italic has been the caption's setting
+since the caption was rebuilt**, and the only place it was visible was a computed-style dump.
+
+⭐ **THIS IS THE ANSWER TO THREE SEPARATE COMPLAINTS,** including one that had been sitting
+open on the decisions sheet for two days: *"im not sure about the kind of text we chose
+thats like italics its hard to read?????"* It was never a font choice. **It was a tag name.**
+
+The wrapper is a `<span>`, and `.plh-w` states `font-style: normal` as the second lock.
+
+## 12.2 The rest of *"different font options"* — weight, not family
+
+**350 → 400.** A light weight at 34px is a display setting; this line sits under ten
+photographs and above a card, and in night mode it is thin white strokes on near-black.
+**400 is Literata's roman — the weight the book itself is set in** — so the caption speaks
+in the same voice as the prose it is advertising instead of a lighter, fancier one.
+
+🛑 **THERE IS NO FOURTH FAMILY COMING.** Literata and Archivo are the whole type budget; a
+webfont on the critical path for one caption is not a trade this book makes. The alternatives
+are ranked in `DECISIONS.md`.
+
+⚠️ **AND THE RESERVED-HEIGHT LADDER HAD TO BE RE-SWEPT,** because the roman is a wider face
+than the italic. Every step moved: **320-358 → 7 lines · 360 → 6 · 436 → 5 · 490 → 4 ·
+654 → 3 · 901 → 4.** The old `620px` step was **under-reserving by a full line from 620 to
+653** — 44px of the contents page jumping under a thumb on one snap in ten, reintroduced by
+a change three files away that had nothing to do with layout.
+
+## 12.3 🔴 THE TWO ITALICS THAT WERE CHOSEN, NOT BUGS
+
+`.chapter-hook` and `.toc-hook` — the standfirsts at each chapter opening and in the
+contents — **were deliberately italic**, twice, on the argument that a standfirst must not
+read as the chapter's own first paragraph. **That separation was already being carried three
+other ways** (a lighter ink, a shorter measure, a full line of space) and italic was the
+fourth. **Roman at weight 450 replaces it:** heavier than the prose, in a softer ink than the
+prose, which is how a printed standfirst is set. Reading speed back, nothing lost the reader
+can name.
+
+## 12.4 🔴 MORE MOTION *AND* LESS GAP — the trade this file said could not be won
+
+**Two earlier rounds measured this and reversed themselves,** and the note at `.pl-rail`
+concluded *"the real trade is clearance against travel."* **It is — vertically. It is not
+between the two ends of the rail.**
+
+⭐ **THE TOP NEEDS THE FULL AMPLITUDE AND THE BOTTOM NEVER DOES.** At `cover 0%` the wave is
+fully extended and the rail's *top* edge is on screen, so a −110 plate genuinely rides 110px
+up. The rail's **bottom** edge — the one the author is looking at — is not on screen until
+the section has climbed far enough that the wave has decayed. Swept at every scroll position
+over six viewports, the largest downward travel while that edge is visible is **48–64px.**
+
+🛑 **AND THEN THE OFF-SCREEN ARGUMENT WAS THROWN OUT AND MEASURED AGAIN,** because *"never on
+screen"* is a claim about a scroll model, not about pixels. The second measurement is the one
+that shipped: **how much empty paper each plate carries below its own title row.** The rail
+stretches all ten plates to the tallest, Chapter IV's title wraps, so the one-line plates
+carry **26–30px of nothing** at the bottom. At `5.5rem` the worst clip is **23px against a
+26px tail at every width from 320 to 1920** — so nothing a reader could see is ever cut, at
+any scroll position, on screen or off.
+
+**`PLATE_SWAY` ×1.25** (largest 89 → 111) and **`padding-block: 7.25rem 5.5rem`**, replacing
+a symmetric `6.5rem`. `.pl-hook`'s own `.5rem` margin and the rail's `.2rem` went to zero.
+
+**Measured, strip's title row to the caption's first line: 146px → 118px at 1440, 141px →
+114px at 402.** Motion up a quarter, gap down 28px, in one edit.
+
+⚠️ **THE TAIL IS THE BUDGET AND IT IS NOT A CONSTANT.** It exists only because `.pl-plate`
+is a flex item stretched to the tallest title. **If a chapter title ever stops wrapping — or
+another starts — re-measure.**
+
+## 12.5 🔴 THE PLAY BUTTON — five faults, one drawing, three places
+
+> *"ours is not impressive it looks like chlkdrens coding… research a new jhigher quality
+> play button like the circle that has the triangle… look for complete coding that we can
+> steal or borrow from someones designs."*
+
+**It already was a circle with a triangle.** What made it look homemade — and these are the
+five things that separate a drawn icon from a typed one, taken off how Material, Feather,
+Phosphor and Lucide actually cut theirs:
+
+1. **The corners were sharp.** `M8 5.5v13l11-6.5z` is three straight lines meeting at three
+   points, and a 60° point rendered at 21px is a needle. **`stroke-linejoin: round` with the
+   fill and the stroke both `currentColor`** rounds the corners *and* gives back the size
+   the rounding takes off.
+2. **It was geometrically centred, which looks off-centre.** A triangle carries its visual
+   mass at the back edge. The convention is to centre the **centroid** and let the bounding
+   box run right — Material's own `play_arrow` puts its centroid 0.33 units *left* of centre
+   in a 24 grid and its box 1.5 units right. **This is that, scaled: centroid on 22.0 in a
+   44 grid, box centre on 24.6.**
+3. **The proportions were thin** — about 46% of the circle's inner width. **51–53%** is where
+   a transport button stops looking like a diagram.
+4. **The ring was `--ink` at 1px.** A hairline of near-black around a near-black triangle is
+   a wireframe. **It takes the accent now** and moves with the dawn arc.
+5. **There was no body.** A 46px circle containing two hairlines has no button in it. **A 14%
+   wash of its own accent** gives it one *without filling it* — which is why `.btn-begin`'s
+   standing rule (*"the ring stays drawn, not filled"*) survives this round rather than being
+   overturned by it. **The fill is what hover is for, and hover already did it.**
+
+🛑 **ONE MARK, THREE PLACES, ONE GRID.** `.transport-play` (the bar and the Room),
+`.bb-glyph` (the jacket's door) and `.hs-glyph` (the five-minute card) now carry the same
+path in the same 44-unit viewBox. **If it changes in one it changes in all three.** Sizes:
+begin 34 → 40px, card 40 → 46px, bar 46px, Room 88px.
+
+⚠️ **`--transport-glyph` IS THE BUTTON'S OWN SIZE, NOT A FRACTION OF IT.** `.bb-glyph` and
+`.hs-glyph` draw their ring *inside* the viewBox; on `.transport-play` the ring is the
+button's border, so the SVG has to be laid over the whole button. Set to a fraction — 24px
+was the first try — the triangle lands at **24%** of the circle instead of 49% and the button
+reads as a big empty ring with a chip in it, **which is most of what *"childrens coding"*
+meant.**
+
+## 12.6 The two typed strings the Room had already fixed
+
+**`−15` and `+30` were still text in the player bar.** The Listening Room replaced its own
+pair with a drawn control on 2026-09-05 — *"the two cheapest-looking objects on the screen"*
+— **and the bar never got it.** So the bar had one drawn control between two typed ones,
+which is most of why it read as unfinished with a good button in the middle.
+
+**`.room-skip`'s rules were promoted to `.skip-mark` in `components.css`** and the Room is an
+instance of it (`--skip-size: 62px` against the shared 44). Same circle with a dash gap at
+twelve o'clock, same arrowhead, same numeral inside the ring, `aria-hidden`, with the real
+instruction on the button's label. **`.player-transport .btn-icon` came off with the markup
+it sized;** the transport gap opened `.25rem → .45rem` — three drawn circles in a row need
+air where two words and a circle did not.
+
+## 12.7 🔴 THE FIVE-MINUTE CARD — the box went, and it is lit by the chapter it opens
+
+**Fourth complaint about this object, and the answer was one `.btn-begin` had already reached
+the day before** for the same word: *"i meant loud as in ugly lol."* The note there is exact
+— *"This page is hairlines and paper — a bordered box is the one shape it never uses anywhere
+else, which is exactly why a control drawn as one looks like something pasted on from a
+different website."* **Every word of that was true of this card, and this card was the more
+boxed of the two:** a full 1px edge *and* a tinted fill *and* a second hairline cutting it in
+half. **Three chrome elements around four content ones is the definition of the word he
+used.**
+
+What is left is **one accent rule down the left edge at 3px** and nothing else. No border, no
+fill, no internal rule. **The eye-magnet moved from the rectangle to the thing you press** —
+which is where it belongs, and the play mark was redrawn the same round to carry it.
+
+⭐ **AND IT IS RED NOW, WHICH IS THE HALF OF THIS HE ASKED FOR:** *"i like the red color on
+the text that looks good the first ones dont look as goood."* **`#plates` carries no
+`[data-ch]`,** so everything inside it — this card's rule, its eyebrow, its play mark — was
+painted in the **root** accent, the night blue of chapter I. **The card does not go to
+chapter I. It goes to chapter VII, which is the fire.** So it takes its own chapter's light:
+`.hero-sample { --accent: #A8391B }`, `#E58156` at night. **The door and the room behind it
+are the same colour, which is the arc's whole argument.**
+
+🛑 **THE ARC ITSELF IS UNTOUCHED.** Re-colouring chapters I–IV is a separate question and is
+on the sheet as one.
+
+⚠️ **AND `.hs-holds` CAME OUT OF THE SANS.** The card was four things in *three* voices —
+tracked sans caps, Literata at display size, Archivo at 15px, Literata again. **A reader
+does not call that four elements, he calls it bloated.** The eyebrow is signage and stays in
+the sans; every other word on the card is out of the book and is set in the book's face. The
+site's own rule, at `.verse-note`: *"the serif is the book and the sans is the machine."*
+
+## 12.8 *"remove the it thats ugly"*
+
+**`Read it or listen. The choice is yours.` → `Read or listen. The choice is yours.`** He is
+right and it is not only rhythm: *"Read it or listen"* has an object in the first half and
+none in the second, so **the two verbs are not parallel and the line limps at exactly the
+point it is trying to offer a choice.**
+
+## 12.9 Verified
+
+**Zero JavaScript errors and zero horizontal document overflow at 320 / 402 / 600 / 900 /
+1000 / 1440 / 1920, day and night.** All eight scripts parse; braces balance in all five
+stylesheets.
+
+**Contrast, composited through every translucent layer to the opaque stock underneath** —
+the card now sits on bare paper, which is simpler than the wash it replaced:
+
+| | day | night | floor |
+|---|---|---|---|
+| caption word · card quote · card title | 15.26:1 | 15.37:1 | 4.5 |
+| `.hs-holds` · both standfirsts | 6.26:1 | 8.38:1 | 4.5 |
+| card eyebrow (text) | 5.40:1 | 6.73:1 | 4.5 |
+| card rule + card ring (boundary) | 5.40:1 | 6.73:1 | 3 |
+| transport ring + begin ring (boundary) | 7.07:1 | 8.57:1 | 3 |
+| skip numeral | 11.36:1 | 11.36:1 | 4.5 |
+
+**`font-style` reads `normal` on `.plh-w`, `.chapter-hook` and `.toc-hook` at every width, in
+both themes** — read back from the live DOM with transitions killed, because a transition read
+under virtual time returns its start value and this harness has cried wolf on that before.
+
+**Sway clipping measured at both extremes of the wave, by hand, at seven widths:** 0px at the
+top, 23px at the bottom, against a 26px empty tail. **Nothing visible is ever cut.**
+
+**Reduced motion:** no errors, geometry identical, caption upright and readable.

@@ -1210,6 +1210,17 @@
     // authored prose — it carries apostrophes and em dashes, and one of them could
     // one day carry an ampersand. Splitting on whitespace and setting textContent
     // cannot produce markup no matter what the manuscript says.
+    // 🔴 <span>, NOT <i> — 2026-09-07, AND THIS WAS A REAL BUG THAT SHIPPED. The
+    // wrapper was an <i>, whose UA default is font-style: italic, so EVERY WORD of
+    // the ribbon caption has been setting in Literata italic since the caption was
+    // rebuilt — 34px of italic display type under ten photographs, which is the
+    // hardest thing on the page to read and the thing the author asked about twice:
+    // "im not sure about the kind of text we chose thats like italics its hard to
+    // read?????" and "the text we have now is not super splendid… i was thinking
+    // different font options." It was never a font choice. It was a tag name.
+    // 🛑 css/components.css .plh-w now states font-style: normal as well, so a
+    // future change back to <i> — or an inherited italic from anywhere above —
+    // cannot bring it back silently.
     function paintHook(i) {
       var frag = document.createDocumentFragment();
       var parts = String(hooks[i] || '').split(/(\s+)/);
@@ -1217,7 +1228,7 @@
       for (var k = 0; k < parts.length; k++) {
         if (!parts[k]) continue;
         if (/^\s+$/.test(parts[k])) { frag.appendChild(document.createTextNode(parts[k])); continue; }
-        var span = document.createElement('i');
+        var span = document.createElement('span');
         span.className = 'plh-w';
         // 🛑 THE DELAY IS CAPPED. Chapter X's hook is 136 characters — about 24
         // words — and an uncapped 24ms ladder would still be arriving 570ms after

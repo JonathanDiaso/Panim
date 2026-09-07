@@ -451,11 +451,29 @@ main { position: relative; }
    but it also made the author's own standfirst speak in the player buttons' voice.
    Literata italic does the same separating job honestly: italic is not the body
    roman, so the eye still knows this line is about the chapter rather than in it. */
+/* 🔴 ROMAN, NOT ITALIC — 2026-09-07. The author: "the beggining of chapter
+   descriptions also have weird font not sure its working", and on the sheet, of the
+   same setting: "im not sure about the kind of text we chose thats like italics its
+   hard to read?????"
+   ⚠️ THIS IS THE SECOND ITALIC HE FLAGGED THIS ROUND AND ONLY THE OTHER ONE WAS A
+   BUG. The ribbon caption was italic by accident — js/ui.js was building its words
+   with createElement('i') — and that is simply fixed. THIS one was chosen, twice, on
+   the argument written above: a standfirst has to look like it is ABOUT the chapter
+   rather than the chapter's own first paragraph, and italic separates it honestly
+   where the sans made the author's voice sound like a player button.
+   ⭐ THE SEPARATION IS REAL AND IT DOES NOT HAVE TO BE ITALIC. It was already being
+   carried three other ways — a lighter ink, a shorter measure, and a full line of
+   space — and italic was the fourth. Losing it costs nothing the reader can name and
+   buys back the one thing a run of italic at body size never has, which is reading
+   speed. Weight 450 against the body's 400 replaces it: heavier than the prose, in a
+   softer ink than the prose, which is exactly how a printed standfirst is set.
+   🛑 .toc-hook IN css/components.css IS THE SAME LINE IN THE CONTENTS AND MOVED IN
+   THE SAME EDIT. They have always been one decision; the note there says so. */
 .chapter-hook {
   font-family: var(--serif);
   font-variation-settings: var(--lit-normal);
-  font-style: italic;
-  font-weight: 400;
+  font-style: normal;
+  font-weight: 450;
   color: var(--ink-soft);
   margin: 1.1em 0 0;
   /* ⭐ THE STANDFIRST TRACKS THE BODY, 2026-09-05. The author: "how is textsize and
@@ -610,12 +628,43 @@ main { position: relative; }
      box alone would have made a cramped panel out of a loose one. */
   max-width: 35rem;
   margin: clamp(1.4rem, 2.6vw, 2.1rem) 0 0;
-  padding: clamp(1rem, 1.6vw, 1.25rem) clamp(1.05rem, 1.8vw, 1.4rem);
-  border: 1px solid var(--control-edge);
+  /* 🔴 THE BOX WENT, 2026-09-07. The author, for the fourth time about this object:
+     "the if you only have 5 minutes seems pretty bloated and the coding is uggluy on
+     it such a gross looking box. its not terrible but i feel like it ccould be
+     substantially better."
+     ⭐ THE ANSWER IS THE ONE .btn-begin ALREADY REACHED, ONE DAY EARLIER AND FOR THE
+     SAME COMPLAINT. That button was a washed rectangle, the author said "i meant loud
+     as in ugly lol", and the note there is exact: "This page is hairlines and paper —
+     a bordered box is the one shape it never uses anywhere else, which is exactly why
+     a control drawn as one looks like something pasted on from a different website."
+     Every word of that is true of this card, and this card is the more boxed of the
+     two — it had a full 1px edge AND a tinted fill AND a second hairline cutting it
+     in half. Three chrome elements around four content ones is the definition of the
+     word he used.
+     🛑 SO WHAT IS LEFT IS THE BOOK'S OWN MARK: one accent rule down the left edge, the
+     way the text marks a change of voice everywhere, and nothing else. No border, no
+     fill, no internal rule. The card is now four pieces of type and one drawn play
+     mark hanging off a coloured rule — which is what it always was underneath.
+     ⚠️ THE WASH WAS THE EYE-MAGNET AND SOMETHING HAS TO REPLACE IT. It does: the play
+     mark was redrawn this round (css/components.css .transport-play) and it is now a
+     46px accent ring with a body in it rather than 40px of hairline. The magnet moved
+     from the rectangle to the thing you actually press, which is where it belongs.
+     ⚠️ AND THE HOVER HAS TO DO REAL WORK NOW, exactly as .btn-begin's does — with no
+     resting surface there is nothing to deepen, so hover paints one in.
+     ⚠️ RE-MEASURED ON BARE PAPER, which is simpler than the composite the wash needed
+     — day rgb(239,235,225), night rgb(18,17,15):
+       --ink (the quote)        13.14:1 day · 16.02:1 night
+       --ink-soft (.hs-holds)    5.39:1 day ·  8.74:1 night   (needs 4.5)
+       --accent (rule, eyebrow)  5.68:1 day ·  8.71:1 night   (needs 4.5 as text) */
+  padding: clamp(.9rem, 1.5vw, 1.15rem) clamp(1rem, 1.7vw, 1.35rem)
+           clamp(.9rem, 1.5vw, 1.15rem) clamp(1.15rem, 2vw, 1.6rem);
+  border: 0;
   /* the accent edge is the eye-magnet, and it is a RULE, not a glow. It is doing
      double duty now: the book marks a change of voice with a rule everywhere, and
-     the thing directly inside it is a quotation. */
-  border-left: 2px solid var(--accent);
+     the thing directly inside it is a quotation.
+     ⚠️ 2px → 3px WITH THE BOX GONE. It is the card's only remaining edge, so it is
+     the whole of SC 1.4.11's boundary as well as the whole of the design. */
+  border-left: 3px solid var(--accent);
   /* 🔴 THE CARD IS LIT NOW, NOT GREY, 2026-09-06. The author: "thsi box is really
      ugly", and separately: "could be flashing or have color."
      🛑 IT IS NOT FLASHING AND IT WILL NOT BE. A blinking element is a WCAG 2.3
@@ -634,19 +683,40 @@ main { position: relative; }
        --accent (ring, eyebrow)  5.68:1 day ·  8.71:1 night   (needs 3 as a control,
                                                                4.5 as the eyebrow's text)
      Re-measure if --control-wash or the accent stops being 7%. */
-  background: color-mix(in srgb, var(--accent) 7%, var(--control-wash));
+  background: none;
   color: var(--ink);
   text-decoration: none;
-  transition: border-color var(--dur-fast) var(--ease),
-              background-color var(--dur-fast) var(--ease);
+  transition: background-color var(--dur-fast) var(--ease);
 }
+/* 🔴 THE CARD IS LIT BY THE CHAPTER IT OPENS — 2026-09-07. The author, of the type
+   on the ribbon: "i like the red color on the text that looks good the first ones
+   dont look as goood."
+   ⭐ HE IS DESCRIBING THE DAWN ARC, AND THIS CARD WAS NOT ON IT. #plates carries no
+   [data-ch], so everything inside it — this card's rule, its eyebrow and its play
+   mark — was painted in the ROOT accent, which is the night blue of chapter I. The
+   card does not go to chapter I. It goes to chapter VII, which is the fire, and the
+   fire is the red he likes. So it takes its own chapter's light: the door and the
+   room behind it are now the same colour, which is the arc's whole argument.
+   🛑 THE ARC ITSELF IS UNTOUCHED. This is one element claiming the accent of the one
+   chapter it links to — not a re-colouring of chapters I-IV, which is a separate
+   question and is written up in docs/DECISIONS.md as one.
+   ⚠️ THE TWO VALUES ARE COPIED FROM THE ARC TABLE ABOVE, [data-ch="7"], day and
+   night. They are a hand-kept duplicate of two literals, which this file already
+   does for the dawn arc in js/motion.js — if the fire ever changes, it changes in
+   three places, and this is the third. */
+.hero-sample { --accent: #A8391B; }
+html[data-theme="night"] .hero-sample { --accent: #E58156; }
 .hero-sample:hover, .hero-sample:focus-visible {
-  border-color: var(--accent);
   border-left-color: var(--accent);
-  /* ⚠️ color-mix OFF --ink, NOT A LITERAL. This was rgba(25,21,16,.06) — the day
-     ink hard-coded — which in night mode painted a darker patch on an already dark
-     card instead of lifting it. The token is the same gesture in both themes. */
-  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  /* ⚠️ THE SURFACE ARRIVES; NOTHING INVERTS AND NOTHING MOVES. Same gesture as
+     .btn-begin, and for the same reason — a hover that flips a control the reader is
+     already pointing at is the black-slab move in disguise.
+     ⚠️ color-mix OFF --accent NOW, NOT OFF --ink. With no resting fill there is
+     nothing to deepen, so the wash that arrives should be the card's own light rather
+     than a grey smudge — which is what an ink mix looks like on cream. 9%, the same
+     strength .btn-begin's hover uses, so the two doors on this page answer a pointer
+     identically. */
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
 }
 .hero-sample:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
@@ -708,44 +778,84 @@ main { position: relative; }
      set this line at 400px inside a 615px box — a narrow ragged column floating in
      a wide one, which reads as a mistake rather than as a measure. One cap, on the
      outside, is the rule this page follows everywhere else. */
-  /* --ap-xl, not --ap-lg: this line is the reason --ap-xl exists (see the scale
-     above), and it had been left on the smaller step the author complained about. */
-  font-family: var(--ui); font-size: var(--ap-xl);
-  line-height: 1.55; letter-spacing: .01em;
+  /* 🔴 THE SERIF, NOT THE SANS — 2026-09-07, and it is the last piece of "bloated".
+     ⚠️ --ap-xl WAS THE RIGHT SIZE IN THE WRONG FAMILY. The note it replaces is
+     correct that this line is the reason --ap-xl exists; what it never asked is why a
+     sentence out of the book was being set in the interface face at all. With the box
+     and the internal hairline gone, the card is four things stacked on a rule — and
+     three of them were speaking in three different voices: tracked sans caps, then
+     Literata at display size, then Archivo at 15px, then Literata again. A reader
+     does not call that "four elements", he calls it bloated, which is the word the
+     author used.
+     ⭐ TWO VOICES NOW, NOT THREE. The eyebrow is signage and stays in the sans; every
+     other word on this card is out of the book and is set in the book's face. The
+     site's own rule, written at .verse-note: "the serif is the book and the sans is
+     the machine, and a note about Hebrew grammar written by the author is not
+     machinery." Neither is this.
+     ⚠️ IT GOT ONE STEP LARGER WITH THE FAMILY. Literata at 15.2px against Archivo at
+     15.2px reads smaller — the serif's x-height is lower — and this line was already
+     the smallest thing on the card. 17px at 1440 puts it just under the .hs-act title
+     beside the play mark, which is the right order: this describes, that locates.
+     ⚠️ --ink-soft on bare paper measures 5.39:1 day / 8.74:1 night. */
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-normal);
+  font-weight: 400;
+  font-size: clamp(.98rem, 1.18vw, 1.06rem);
+  line-height: 1.5; letter-spacing: 0;
   color: var(--ink-soft);
 }
 
 /* ---------- 4. the action ---------- */
+/* 🛑 THE HAIRLINE ABOVE THIS ROW CAME OFF 2026-09-07 WITH THE BOX AROUND IT. It was
+   the third piece of chrome on a card the author called bloated, and it was drawing a
+   line between the two halves of a single sentence: the quote is why you press this
+   and the row is what you get. Nothing needed separating. The space does it. */
 .hs-act {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
-  gap: .8rem;
-  margin-top: 1.1em;
-  padding-top: .95em;
-  border-top: 1px solid var(--rule);
+  gap: .85rem;
+  margin-top: 1.15em;
 }
-/* the ring + triangle. 40px clears the 24px minimum for a non-text control
+/* the ring + triangle. 46px clears the 24px minimum for a non-text control
    (WCAG 2.2 SC 2.5.8) many times over, and the CARD is the touch target anyway:
-   the whole rectangle is the link and it measures well over 200px tall. */
-.hs-glyph { display: block; width: 40px; height: 40px; }
+   the whole rectangle is the link and it measures well over 200px tall.
+   🔴 40px → 46px AND THE MARK ITSELF WAS REDRAWN, 2026-09-07. The author: "we need to
+   find a better play button ours is not impressive it looks like chlkdrens coding."
+   The five faults and the geometry are written out once, at .transport-play in
+   css/components.css; this is the third of the three places that carry it. It got the
+   extra six pixels because it is also now the card's only eye-magnet — the tinted
+   rectangle that used to be that is gone (see .hero-sample above). */
+.hs-glyph { display: block; width: 46px; height: 46px; }
 .hs-glyph svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .hs-ring {
-  fill: none;
+  /* a body, not a hole. The same 14% wash of its own accent the transport button and
+     the jacket's door now carry — it is what stops a 46px circle reading as a
+     wireframe, and it is a decoration under an opaque glyph, so it carries no
+     contrast debt of its own. */
+  fill: color-mix(in srgb, var(--accent) 14%, transparent);
   /* accent at rest, not --ink: the ring is the only mark on the card that says
      "this plays", and it was the same near-black as the type around it. */
   stroke: var(--accent);
-  stroke-width: 1;
-  /* 2πr, r=19 → 119.38. The dash pattern is what lets it draw itself.
-     ⚠️ IT MUST TRACK THE RADIUS IN js/render.js. It was 138.23 for r=22; leaving it
-     there against r=19 leaves 18.85 units of dash the circle never uses, so the
-     ring finishes drawing early and then sits still for the last 140ms. Silent. */
-  stroke-dasharray: 119.38;
+  stroke-width: 1.5;
+  /* 2πr, r=20.5 → 128.81. The dash pattern is what lets it draw itself.
+     ⚠️ IT MUST TRACK THE RADIUS IN js/render.js. It was 119.38 for r=19 and 138.23
+     for r=22 before that; a dasharray left behind by a radius change leaves units the
+     circle never uses, so the ring finishes drawing early and then sits still for the
+     rest of the animation. Silent, every time. */
+  stroke-dasharray: 128.81;
   stroke-dashoffset: 0;
   transform: rotate(-90deg);
-  transform-origin: 20px 20px;
+  transform-origin: 22px 22px;
+  transition: fill var(--dur-fast) var(--ease);
 }
-.hs-tri { fill: var(--accent); transition: fill var(--dur-fast) var(--ease); }
+.hs-tri {
+  fill: var(--accent);
+  /* the stroke IS the corner radius — same paint as the fill, so the triangle gains a
+     radius rather than an outline, and gains back the size the radius eats. */
+  stroke: var(--accent); stroke-width: 3; stroke-linejoin: round;
+  transition: fill var(--dur-fast) var(--ease), stroke var(--dur-fast) var(--ease);
+}
 
 /* ⭐ ONE PULSE, ON FIRST ARRIVAL, AND NEVER AGAIN — the author's pick, 2026-09-06.
    js/ui.js adds .is-arrived the first time the card crosses into view and removes
@@ -756,7 +866,7 @@ main { position: relative; }
    rehearsing what pressing it does.
    ⚠️ THE RING'S DASH LENGTH IS 2πr FOR r=19 AND IT MUST TRACK THE RADIUS. */
 @keyframes hs-draw {
-  from { stroke-dashoffset: 119.38; }
+  from { stroke-dashoffset: 128.81; }
   to   { stroke-dashoffset: 0; }
 }
 @keyframes hs-lift {
@@ -768,7 +878,7 @@ main { position: relative; }
   animation: hs-draw var(--dur-slow) var(--ease) 180ms both;
 }
 .hero-sample.is-arrived .hs-tri {
-  transform-origin: 20px 20px;
+  transform-origin: 22px 22px;
   animation: hs-lift var(--dur-med) var(--ease) 480ms both;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -776,7 +886,10 @@ main { position: relative; }
   .hero-sample.is-arrived .hs-tri { animation: none; }
 }
 .hero-sample:hover .hs-ring,
-.hero-sample:focus-visible .hs-ring { stroke: var(--accent); }
+.hero-sample:focus-visible .hs-ring {
+  stroke: var(--accent);
+  fill: color-mix(in srgb, var(--accent) 26%, transparent);
+}
 .hero-sample:hover .hs-tri,
 .hero-sample:focus-visible .hs-tri { fill: var(--accent); }
 
@@ -797,6 +910,12 @@ main { position: relative; }
   font-size: clamp(1.08rem, 1.35vw, 1.22rem);
   line-height: 1.22; letter-spacing: -.005em;
   color: var(--ink);
+  /* ⚠️ balance, 2026-09-07. At 402 this line wraps, and unbalanced it broke as
+     "Chapter VII · The Glory Backs / Out" — one orphaned word under a 46px play mark,
+     which is the shape of a layout accident. Balanced it breaks after "Glory". It is
+     a headline-length string, which is the only place `balance` is correct (see
+     css/polish.css). */
+  text-wrap: balance;
 }
 /* 🛑 .hs-meta WAS DELETED WITH ITS MARKUP, 2026-09-05. It read
    "Chapter VII · about 4 minutes" under a title that already said the number of
@@ -822,10 +941,30 @@ main { position: relative; }
   grid-column: 3 / 9;
   max-width: 34rem;
   margin: 1.1rem 0 0;
-  /* --ap-xl, not --ap-lg: this line is the reason --ap-xl exists (see the scale
-     above), and it had been left on the smaller step the author complained about. */
-  font-family: var(--ui); font-size: var(--ap-xl);
-  line-height: 1.55; letter-spacing: .01em;
+  /* 🔴 THE SERIF, NOT THE SANS — 2026-09-07, and it is the last piece of "bloated".
+     ⚠️ --ap-xl WAS THE RIGHT SIZE IN THE WRONG FAMILY. The note it replaces is
+     correct that this line is the reason --ap-xl exists; what it never asked is why a
+     sentence out of the book was being set in the interface face at all. With the box
+     and the internal hairline gone, the card is four things stacked on a rule — and
+     three of them were speaking in three different voices: tracked sans caps, then
+     Literata at display size, then Archivo at 15px, then Literata again. A reader
+     does not call that "four elements", he calls it bloated, which is the word the
+     author used.
+     ⭐ TWO VOICES NOW, NOT THREE. The eyebrow is signage and stays in the sans; every
+     other word on this card is out of the book and is set in the book's face. The
+     site's own rule, written at .verse-note: "the serif is the book and the sans is
+     the machine, and a note about Hebrew grammar written by the author is not
+     machinery." Neither is this.
+     ⚠️ IT GOT ONE STEP LARGER WITH THE FAMILY. Literata at 15.2px against Archivo at
+     15.2px reads smaller — the serif's x-height is lower — and this line was already
+     the smallest thing on the card. 17px at 1440 puts it just under the .hs-act title
+     beside the play mark, which is the right order: this describes, that locates.
+     ⚠️ --ink-soft on bare paper measures 5.39:1 day / 8.74:1 night. */
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-normal);
+  font-weight: 400;
+  font-size: clamp(.98rem, 1.18vw, 1.06rem);
+  line-height: 1.5; letter-spacing: 0;
   color: var(--ink-soft);
 }
 .can-tap-to-listen .hero-sample-note { display: block; }

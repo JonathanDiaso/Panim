@@ -151,12 +151,12 @@
       href="art/d/hero-940.avif"
       imagesrcset="art/d/hero-640.avif 640w, art/d/hero-940.avif 940w, art/d/hero-1408.avif 1408w"
       imagesizes="(min-width: 1440px) 1440px, 100vw">
-<link rel="stylesheet" href="fonts/fonts.css?v=66">
-<link rel="stylesheet" href="css/site.css?v=66">
-<link rel="stylesheet" href="css/components.css?v=66">
-<link rel="stylesheet" href="css/player.css?v=66">
-<link rel="stylesheet" href="css/room.css?v=66">
-<link rel="stylesheet" href="css/polish.css?v=66">
+<link rel="stylesheet" href="fonts/fonts.css?v=67">
+<link rel="stylesheet" href="css/site.css?v=67">
+<link rel="stylesheet" href="css/components.css?v=67">
+<link rel="stylesheet" href="css/player.css?v=67">
+<link rel="stylesheet" href="css/room.css?v=67">
+<link rel="stylesheet" href="css/polish.css?v=67">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -246,9 +246,15 @@
              the reader had to interpret; "or" alone would have made it a menu and
              implied the two are different products. This says the same book is both
              and that nobody has to pick correctly.
+             🔴 "it" CAME OUT 2026-09-07. The author: "it should say read or listen
+             the hcoise is yours not read it remove the it thats ugly."
+             He is right, and it is not only rhythm: "Read it or listen" has an
+             object in the first half and none in the second, so the two verbs are
+             not parallel and the line limps at exactly the point it is trying to
+             offer a choice. Two bare verbs, then the sentence that gives them away.
              🛑 NO RUNTIME ON THIS LINE. See the note above the invite meta — 5 hr
              21 min reads as homework to somebody who has not started. -->
-        Read it or listen. The choice is yours.
+        Read or listen. The choice is yours.
       </div>
       <!-- 🛑 "Contents ↓" IS GONE, 2026-09-05. The author: "i told you i dont want
            the clicker that shows content near the button."
@@ -282,9 +288,14 @@
       <div class="hero-actions">
         <button class="btn btn-begin" id="begin-btn" type="button">
           <span class="bb-glyph" aria-hidden="true">
-            <svg viewBox="0 0 34 34" focusable="false">
-              <circle class="bb-ring" cx="17" cy="17" r="16"/>
-              <path class="bb-tri" d="M13.6 10.8 25 17l-11.4 6.2Z"/>
+            <!-- 🛑 THE 44-UNIT GRID AND THIS PATH ARE SHARED WITH .hs-glyph AND
+                 .transport-play. Geometry, and why each number is what it is, is
+                 written once at .transport-play in css/components.css. Centroid on
+                 22.0, box centre on 24.6 — a play triangle centred on its bounding
+                 box reads as sitting too far left. -->
+            <svg viewBox="0 0 44 44" focusable="false">
+              <circle class="bb-ring" cx="22" cy="22" r="20.5"/>
+              <path class="bb-tri" d="M16.9 13.2 32.3 22 16.9 30.8Z"/>
             </svg>
           </span>
           <span class="bb-text">
@@ -524,9 +535,9 @@
 <div class="toast" id="resume-toast" hidden role="status">
   <button class="btn btn-begin" id="resume-toast-yes" type="button">
     <span class="bb-glyph" aria-hidden="true">
-      <svg viewBox="0 0 34 34" focusable="false">
-        <circle class="bb-ring" cx="17" cy="17" r="16"/>
-        <path class="bb-tri" d="M13.6 10.8 25 17l-11.4 6.2Z"/>
+      <svg viewBox="0 0 44 44" focusable="false">
+        <circle class="bb-ring" cx="22" cy="22" r="20.5"/>
+        <path class="bb-tri" d="M16.9 13.2 32.3 22 16.9 30.8Z"/>
       </svg>
     </span>
     <span class="bb-text">
@@ -603,24 +614,24 @@
          drifts off the circle the moment the stroke width changes. The rotation puts
          the gap at twelve o'clock, where the arrowhead sits. -->
     <div class="room-transport">
-      <button class="room-skip" id="room-back" type="button" aria-label="Skip back 15 seconds">
+      <button class="skip-mark room-skip" id="room-back" type="button" aria-label="Skip back 15 seconds">
         <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false">
           <circle cx="22" cy="22" r="17" fill="none" stroke="currentColor" stroke-width="1.3"
                   stroke-linecap="round" stroke-dasharray="96 10.8" transform="rotate(-85 22 22)"/>
           <path d="M22 1.4 22 10.6 15.4 6Z" fill="currentColor"/>
         </svg>
-        <span class="rs-n" aria-hidden="true">15</span>
+        <span class="sm-n" aria-hidden="true">15</span>
       </button>
       <button class="transport-play room-play" id="room-play" aria-label="Play">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="ico-play" d="M8 5.5v13l11-6.5z"/><g class="ico-pause"><rect x="7" y="5" width="3.4" height="14" rx="1"/><rect x="13.6" y="5" width="3.4" height="14" rx="1"/></g></svg>
+        <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false"><path class="ico-play" d="M16.9 13.2 32.3 22 16.9 30.8Z"/><g class="ico-pause"><rect x="16.4" y="13" width="4.4" height="18" rx="2.2"/><rect x="23.2" y="13" width="4.4" height="18" rx="2.2"/></g></svg>
       </button>
-      <button class="room-skip" id="room-fwd" type="button" aria-label="Skip forward 30 seconds">
+      <button class="skip-mark room-skip" id="room-fwd" type="button" aria-label="Skip forward 30 seconds">
         <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false">
           <circle cx="22" cy="22" r="17" fill="none" stroke="currentColor" stroke-width="1.3"
                   stroke-linecap="round" stroke-dasharray="96 10.8" transform="rotate(-5 22 22) scale(-1 1) translate(-44 0)"/>
           <path d="M22 1.4 22 10.6 28.6 6Z" fill="currentColor"/>
         </svg>
-        <span class="rs-n" aria-hidden="true">30</span>
+        <span class="sm-n" aria-hidden="true">30</span>
       </button>
     </div>
     <!-- 🔴 FIVE CHIPS, NOT FOUR NAKED WORDS. The secondary row was four .btn-icon —
@@ -652,11 +663,29 @@
 <footer class="player" id="player" data-state="idle" aria-label="Audio player">
   <div class="player-controls">
     <div class="player-transport">
-      <button class="btn btn-icon" id="skip-back-btn" title="Back 15s" aria-label="Skip back 15 seconds">−15</button>
-      <button class="transport-play" id="play-btn" title="Play" aria-label="Play">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="ico-play" d="M8 5.5v13l11-6.5z"/><g class="ico-pause"><rect x="7" y="5" width="3.4" height="14" rx="1"/><rect x="13.6" y="5" width="3.4" height="14" rx="1"/></g></svg>
+      <!-- 🔴 DRAWN, NOT TYPED, 2026-09-07 — the Listening Room made this fix two days
+           earlier and the bar never got it. Same SVG, same component (.skip-mark in
+           css/components.css), 44px here against the Room's 62. The number is
+           aria-hidden and the instruction is on the button's own label. -->
+      <button class="skip-mark" id="skip-back-btn" type="button" title="Back 15s" aria-label="Skip back 15 seconds">
+        <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+          <circle cx="22" cy="22" r="17" fill="none" stroke="currentColor" stroke-width="1.3"
+                  stroke-linecap="round" stroke-dasharray="96 10.8" transform="rotate(-85 22 22)"/>
+          <path d="M22 1.4 22 10.6 15.4 6Z" fill="currentColor"/>
+        </svg>
+        <span class="sm-n" aria-hidden="true">15</span>
       </button>
-      <button class="btn btn-icon" id="skip-fwd-btn" title="Forward 30s" aria-label="Skip forward 30 seconds">+30</button>
+      <button class="transport-play" id="play-btn" title="Play" aria-label="Play">
+        <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false"><path class="ico-play" d="M16.9 13.2 32.3 22 16.9 30.8Z"/><g class="ico-pause"><rect x="16.4" y="13" width="4.4" height="18" rx="2.2"/><rect x="23.2" y="13" width="4.4" height="18" rx="2.2"/></g></svg>
+      </button>
+      <button class="skip-mark" id="skip-fwd-btn" type="button" title="Forward 30s" aria-label="Skip forward 30 seconds">
+        <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+          <circle cx="22" cy="22" r="17" fill="none" stroke="currentColor" stroke-width="1.3"
+                  stroke-linecap="round" stroke-dasharray="96 10.8" transform="rotate(-5 22 22) scale(-1 1) translate(-44 0)"/>
+          <path d="M22 1.4 22 10.6 28.6 6Z" fill="currentColor"/>
+        </svg>
+        <span class="sm-n" aria-hidden="true">30</span>
+      </button>
     </div>
     <div class="player-meta">
       <span class="meta-title" id="meta-title">Select a chapter to begin</span>
@@ -710,26 +739,26 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=66"></script>
-<script src="content/images.js?v=66"></script>
-<script src="content/audio-manifest.js?v=66"></script>
-<script src="content/marks.js?v=66"></script>
-<script src="content/thread.js?v=66"></script>
-<script src="content/lexicon.js?v=66"></script>
-<script src="content/names.js?v=66"></script>
-<script src="content/sources.js?v=66"></script>
-<script src="content/verse-notes.js?v=66"></script>
-<script src="content/derivatives.js?v=66"></script>
-<script src="js/render.js?v=66"></script>
-<script src="js/ui.js?v=66"></script>
-<script src="js/motion.js?v=66"></script>
-<script src="js/sync.js?v=66"></script>
-<script src="js/search.js?v=66"></script>
-<script src="js/player.js?v=66"></script>
-<script src="js/room.js?v=66"></script>
+<script src="content/chapters.js?v=67"></script>
+<script src="content/images.js?v=67"></script>
+<script src="content/audio-manifest.js?v=67"></script>
+<script src="content/marks.js?v=67"></script>
+<script src="content/thread.js?v=67"></script>
+<script src="content/lexicon.js?v=67"></script>
+<script src="content/names.js?v=67"></script>
+<script src="content/sources.js?v=67"></script>
+<script src="content/verse-notes.js?v=67"></script>
+<script src="content/derivatives.js?v=67"></script>
+<script src="js/render.js?v=67"></script>
+<script src="js/ui.js?v=67"></script>
+<script src="js/motion.js?v=67"></script>
+<script src="js/sync.js?v=67"></script>
+<script src="js/search.js?v=67"></script>
+<script src="js/player.js?v=67"></script>
+<script src="js/room.js?v=67"></script>
 <!-- select any passage in the book and it offers to send it, with a link that
      unfurls as the chapter and lands on the sentence. See js/quote.js. -->
-<script src="js/quote.js?v=66" defer></script>
+<script src="js/quote.js?v=67" defer></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });
