@@ -220,8 +220,15 @@
 
   function open() {
     ensureIndex();
+    // 🛑 NOT requestAnimationFrame, and for the reason js/ui.js openSheet() records at
+    // length: rAF is a RENDERING callback the browser suspends whenever the document
+    // is not being painted, so the field this sheet exists for was the one thing on
+    // the site still able to open without focus in it. dispatchEvent is synchronous,
+    // so openSheet has already run and focused the close button by this line; taking
+    // focus off it here is the whole point.
     document.dispatchEvent(new CustomEvent('panim:open-sheet', { detail: { id: 'search-sheet' } }));
-    requestAnimationFrame(function () { els.input.focus(); els.input.select(); });
+    els.input.focus();
+    els.input.select();
   }
 
   function init() {

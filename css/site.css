@@ -864,7 +864,7 @@ html[data-theme="night"] .hero-sample { --accent: #E58156; }
    above. The ring draws itself and the triangle lifts with it — the same
    gesture the transport button makes when a chapter starts, so the card is
    rehearsing what pressing it does.
-   ⚠️ THE RING'S DASH LENGTH IS 2πr FOR r=19 AND IT MUST TRACK THE RADIUS. */
+   ⚠️ THE RING'S DASH LENGTH IS 2πr FOR r=20.5 AND IT MUST TRACK THE RADIUS. */
 @keyframes hs-draw {
   from { stroke-dashoffset: 128.81; }
   to   { stroke-dashoffset: 0; }
@@ -893,15 +893,14 @@ html[data-theme="night"] .hero-sample { --accent: #E58156; }
 .hero-sample:hover .hs-tri,
 .hero-sample:focus-visible .hs-tri { fill: var(--accent); }
 
-/* THE RING DRAWS ITSELF ONCE, 900ms, and then it is finished forever. `both` holds
-   the end state, so there is no frame where the ring is missing and no second pass.
-   This is .hairline.is-drawn's gesture, not a new one.
-   🛑 THE 500ms DELAY WENT. In the hero this drew while the reader was still reading
-   the title; down here the element is below the fold and the animation is over long
-   before anybody scrolls to it. A delay now buys nothing and only risks the ring
-   being caught half-drawn. */
-@keyframes hs-draw { from { stroke-dashoffset: 119.38; } to { stroke-dashoffset: 0; } }
-.hs-ring { animation: hs-draw 900ms var(--ease) both; }
+/* 🛑 A SECOND @keyframes hs-draw STOOD HERE AND IT WON, because a later rule of the
+   same name replaces the earlier one. It was left over from the superseded design and
+   it carried the OLD dash length — 119.38, which is 2πr for r=19, against the r=20.5
+   the circle is actually drawn at in js/render.js. The ring therefore started life
+   about 7% already drawn: precisely the silent failure the comment on .hs-ring above
+   was written to warn about. Its companion `.hs-ring { animation: ... }` also fired on
+   load for every ring, unconditionally, which is what .is-arrived exists to control.
+   Both are gone. The one true copy is the @keyframes above. */
 
 .hs-title {
   display: block; min-width: 0;

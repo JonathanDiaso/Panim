@@ -236,6 +236,9 @@
     els.arcFill.style.opacity = ratio > 0.005 ? '1' : '0';
     els.seekFill.style.width = (ratio * 100) + '%';
     els.seek.setAttribute('aria-valuenow', Math.round(ratio * 100));
+    // Same reason as #seekbar in js/player.js: valuenow alone announces "47", which
+    // is not a position in a chapter. valuetext wins over valuenow where it exists.
+    els.seek.setAttribute('aria-valuetext', P.fmtTime(cur) + ' of ' + P.fmtTime(dur));
     var rem = P.sleepRemaining();
     if (rem === null) { els.sleepBadge.hidden = true; }
     else {
@@ -431,10 +434,9 @@
     }
     els.seek.addEventListener('pointerup', endRoomDrag);
     els.seek.addEventListener('pointercancel', endRoomDrag);
-    els.seek.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); P.skip(15); }
-      else if (e.key === 'ArrowLeft') { e.preventDefault(); e.stopPropagation(); P.skip(-15); }
-    });
+    // Home, End, PageUp and PageDown used to be missing here and present on the
+    // transport bar. One implementation now, in js/player.js; 15s is the Room's step.
+    P.wireSliderKeys(els.seek, 15);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && open) closeRoom(); });
 
     document.addEventListener('panim:room-toggle', toggleRoom);

@@ -284,7 +284,11 @@ window.PANIM_IMAGES = {
   },
   // The social card is NOT a plate and does not render in the page, so this stays null.
   // It was cut 2026-08-28 from ch10-morning (centre crop to 1200x630) and lives at the
-  // site root as og-card-face.jpg, wired into index.html, sw.js and js/player.js.
+  // site root as og-card-face.jpg. 🛑 IT IS REFERENCED FROM index.html AND NOWHERE ELSE
+  // — the og:image meta and the JSON-LD "image", both of them metadata read by scrapers.
+  // This line used to name sw.js and js/player.js too: player.js has never touched it
+  // (the lock screen uses the per-chapter nowplaying plates), and it came out of the sw
+  // precache 2026-09-07 because a scraper does not go through a service worker.
   // If it is ever recut, THE FILENAME MUST CHANGE — platforms cache og:image hard by URL.
   "og-image": null
 };

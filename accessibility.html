@@ -7,7 +7,7 @@
 <meta name="description" content="What this site aims for on accessibility, what has been measured, what has not been done yet, and how to report a problem.">
 <link rel="canonical" href="https://jonathandiaso.github.io/Panim/accessibility.html">
 <link rel="icon" type="image/svg+xml" href="/Panim/favicon.svg">
-<link rel="stylesheet" href="/Panim/fonts/fonts.css?v=67">
+<link rel="stylesheet" href="/Panim/fonts/fonts.css?v=68">
 <style>
   /* Standalone page, same pattern as 404.html: the tokens are copied rather than
      imported so this page renders correctly even if the main stylesheet fails.
@@ -314,9 +314,16 @@
         <li>An automated <a href="https://github.com/dequelabs/axe-core">axe-core</a> pass
             over the whole page &#8212; with the Listening Room, all four sheets and the
             lightbox forced open, so the overlays are audited and not just the page behind
-            them &#8212; at 402&#8239;px, 900&#8239;px and 1440&#8239;px, plus this page and
-            the 404. It reports <strong>zero violations</strong> as of 29 August 2026.
-            <strong>That is a floor, not a pass.</strong> Automated checking cannot hear
+            them &#8212; at 402&#8239;px, 900&#8239;px and 1440&#8239;px, plus this page,
+            the 404 and the ten chapter link pages under <code>/c/</code>. It reported
+            <strong>zero violations</strong> when it was last run, on 29 August 2026.
+            <strong>That is a floor, not a pass</strong>, and it is also a date:
+            night mode, the plate ribbon, the Listening Room's chapter colours, the
+            resume notice and the quote-share control all shipped after it and have not
+            been through an automated pass yet. Night mode's contrast was measured by
+            hand instead &#8212; every ink tier against all twelve of its own paper
+            stocks, worst pair 5.23:1, which clears AA for body text.
+            Automated checking cannot hear
             whether a state is announced, whether a label makes sense, or whether the
             reading order is the order the book is in &#8212; which is exactly why the
             screen-reader item above is still on the not-done list.</li>
@@ -327,7 +334,7 @@
 
     <footer>
       <p class="meta">
-        Statement first published 28 August 2026. Last reviewed 29 August 2026.<br>
+        Statement first published 28 August 2026. Last reviewed 7 September 2026.<br>
         Measured against WCAG 2.2 Level AA.
       </p>
     </footer>
