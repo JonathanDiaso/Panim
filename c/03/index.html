@@ -26,9 +26,14 @@
 <meta name="theme-color" content="#EDE9DF">
 
 <!-- A crawler reads the tags above and stops. A person gets sent into the book.
-     The refresh carries a delay so the page is a real page first — nobody who
-     lands here with JavaScript off is left staring at a blank redirect. -->
-<meta http-equiv="refresh" content="2;url=https://jonathandiaso.github.io/Panim/#ch03">
+     🛑 THIS USED TO CARRY <meta http-equiv="refresh" content="2;..."> AND THAT IS A
+     WCAG FAILURE — technique F41 against SC 2.2.1 Timing Adjustable, which a timed
+     refresh between 1s and 20s fails outright because the reader cannot turn it off,
+     extend it, or finish reading the page. /accessibility.html claims WCAG 2.2 AA for
+     this site, so the tag made that claim false on ten pages. Nothing is lost: the
+     script below redirects everyone who has JavaScript, and everyone who does not
+     gets the real visible link under the standfirst, which is the accessible
+     equivalent the technique asks for. Do not put the meta back. -->
 <style>
   :root { color-scheme: light; }
   body {

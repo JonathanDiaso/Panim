@@ -24,6 +24,13 @@
     t = (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'day';
   }
   document.documentElement.setAttribute('data-theme', t);
+  // 🛑 AND THE ADDRESS BAR IS PAINTED HERE TOO, NOT LATER. js/ui.js wireTheme() also
+  // writes this meta, but it does not run until eighteen blocking scripts have
+  // parsed — 363 KB of chapters.js among them — and until then a night reader gets a
+  // cream band above a dark page, which is exactly the flash this whole block exists
+  // to prevent. The two colours must stay in step with wireTheme()'s.
+  var m = document.querySelector('meta[name="theme-color"]');
+  if (m) m.setAttribute('content', t === 'night' ? '#121110' : '#EDE9DF');
 })();
 </script>
 <link rel="canonical" href="https://jonathandiaso.github.io/Panim/">
@@ -78,8 +85,14 @@
      repo — title/description/og:image from the meta above, author and narrator
      from the About sheet ("Written and narrated by Jonathan Diaso"), chapter
      titles and order from content/chapters.js, and duration summed from the
-     ten voiceDur figures in content/audio-manifest.js (19248.98s = the same
-     "5 hr 21 min" the hero already states, rounded the same way). No ISBN,
+     ten voiceDur figures in content/audio-manifest.js (19248.98s = PT5H20M49S).
+     ⚠️ THIS LINE USED TO SAY "the same '5 hr 21 min' the hero already states" AND THE
+     HERO HAS PRINTED NO RUNTIME SINCE 2026-09-05 — see the notes further down this
+     file; the author: "they dont care about the length thats more scary than
+     anything". The only runtime left on the site is "five and a half hours" in the
+     About sheet, and this figure now stands on the manifest alone. It is the VOICE
+     timeline; the music edition that actually ships adds ~18s a chapter, so a
+     listener hears about three minutes more than the graph claims. No ISBN,
      publisher or publication date exists anywhere in this repo, so Book
      properties that would need one are omitted rather than guessed. A
      BreadcrumbList is skipped: this is a single page with in-page fragment
@@ -151,12 +164,12 @@
       href="art/d/hero-940.avif"
       imagesrcset="art/d/hero-640.avif 640w, art/d/hero-940.avif 940w, art/d/hero-1408.avif 1408w"
       imagesizes="(min-width: 1440px) 1440px, 100vw">
-<link rel="stylesheet" href="fonts/fonts.css?v=67">
-<link rel="stylesheet" href="css/site.css?v=67">
-<link rel="stylesheet" href="css/components.css?v=67">
-<link rel="stylesheet" href="css/player.css?v=67">
-<link rel="stylesheet" href="css/room.css?v=67">
-<link rel="stylesheet" href="css/polish.css?v=67">
+<link rel="stylesheet" href="fonts/fonts.css?v=68">
+<link rel="stylesheet" href="css/site.css?v=68">
+<link rel="stylesheet" href="css/components.css?v=68">
+<link rel="stylesheet" href="css/player.css?v=68">
+<link rel="stylesheet" href="css/room.css?v=68">
+<link rel="stylesheet" href="css/polish.css?v=68">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -399,7 +412,7 @@
   </div>
 </div>
 
-<div class="sheet" id="about-sheet" hidden role="dialog" aria-label="About">
+<div class="sheet" id="about-sheet" hidden role="dialog" aria-modal="true" aria-label="About">
   <div class="sheet-inner">
     <button class="btn btn-icon sheet-close" data-close-sheet="about-sheet" aria-label="Close">×</button>
     <h2>About this book</h2>
@@ -465,7 +478,7 @@
      no server and keeps working offline like the rest of the site.
      role="dialog" and the sheet plumbing are the same as every other sheet; the
      results are a live region so a screen reader is told how many there are. -->
-<div class="sheet sheet-search" id="search-sheet" hidden role="dialog" aria-label="Search the book">
+<div class="sheet sheet-search" id="search-sheet" hidden role="dialog" aria-modal="true" aria-label="Search the book">
   <div class="sheet-inner">
     <button class="btn btn-icon sheet-close" data-close-sheet="search-sheet" aria-label="Close">×</button>
     <h2>Search the book</h2>
@@ -479,7 +492,7 @@
   </div>
 </div>
 
-<div class="sheet" id="sleep-sheet" hidden role="dialog" aria-label="Sleep timer">
+<div class="sheet" id="sleep-sheet" hidden role="dialog" aria-modal="true" aria-label="Sleep timer">
   <div class="sheet-inner">
     <button class="btn btn-icon sheet-close" data-close-sheet="sleep-sheet" aria-label="Close">×</button>
     <h2>Sleep timer</h2>
@@ -495,7 +508,7 @@
   </div>
 </div>
 
-<div class="sheet" id="chapters-sheet" hidden role="dialog" aria-label="Chapters">
+<div class="sheet" id="chapters-sheet" hidden role="dialog" aria-modal="true" aria-label="Chapters">
   <div class="sheet-inner">
     <button class="btn btn-icon sheet-close" data-close-sheet="chapters-sheet" aria-label="Close">×</button>
     <h2>Chapters</h2>
@@ -660,7 +673,12 @@
 </section>
 
 <!-- ================= player bar ================= -->
-<footer class="player" id="player" data-state="idle" aria-label="Audio player">
+<!-- 🛑 A <footer> THAT IS A CHILD OF <body> IS THE PAGE'S contentinfo LANDMARK,
+     whatever you label it. This bar is chrome — a screen reader jumping to the
+     footer landed on transport buttons instead of the end of the book, and this
+     site has no footer other than the player. role="region" with the same label
+     keeps it navigable and stops it claiming to be the page's closing matter. -->
+<div class="player" id="player" data-state="idle" role="region" aria-label="Audio player">
   <div class="player-controls">
     <div class="player-transport">
       <!-- 🔴 DRAWN, NOT TYPED, 2026-09-07 — the Listening Room made this fix two days
@@ -733,32 +751,32 @@
       <div class="seek-handle" id="seek-handle"></div>
     </div>
   </div>
-</footer>
+</div>
 
 <div id="aria-live" class="visually-hidden" aria-live="polite"></div>
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=67"></script>
-<script src="content/images.js?v=67"></script>
-<script src="content/audio-manifest.js?v=67"></script>
-<script src="content/marks.js?v=67"></script>
-<script src="content/thread.js?v=67"></script>
-<script src="content/lexicon.js?v=67"></script>
-<script src="content/names.js?v=67"></script>
-<script src="content/sources.js?v=67"></script>
-<script src="content/verse-notes.js?v=67"></script>
-<script src="content/derivatives.js?v=67"></script>
-<script src="js/render.js?v=67"></script>
-<script src="js/ui.js?v=67"></script>
-<script src="js/motion.js?v=67"></script>
-<script src="js/sync.js?v=67"></script>
-<script src="js/search.js?v=67"></script>
-<script src="js/player.js?v=67"></script>
-<script src="js/room.js?v=67"></script>
+<script src="content/chapters.js?v=68"></script>
+<script src="content/images.js?v=68"></script>
+<script src="content/audio-manifest.js?v=68"></script>
+<script src="content/marks.js?v=68"></script>
+<script src="content/thread.js?v=68"></script>
+<script src="content/lexicon.js?v=68"></script>
+<script src="content/names.js?v=68"></script>
+<script src="content/sources.js?v=68"></script>
+<script src="content/verse-notes.js?v=68"></script>
+<script src="content/derivatives.js?v=68"></script>
+<script src="js/render.js?v=68"></script>
+<script src="js/ui.js?v=68"></script>
+<script src="js/motion.js?v=68"></script>
+<script src="js/sync.js?v=68"></script>
+<script src="js/search.js?v=68"></script>
+<script src="js/player.js?v=68"></script>
+<script src="js/room.js?v=68"></script>
 <!-- select any passage in the book and it offers to send it, with a link that
      unfurls as the chapter and lands on the sentence. See js/quote.js. -->
-<script src="js/quote.js?v=67" defer></script>
+<script src="js/quote.js?v=68" defer></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

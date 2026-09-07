@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
 
+# ⚠️ THIS LINE IS NOT REACHING ANYTHING, AND IT IS KEPT ANYWAY.
+# Crawlers read robots.txt only at the HOST root. This is a GitHub Pages PROJECT
+# site, so this file is served at /Panim/robots.txt and jonathandiaso.github.io/robots.txt
+# is somebody else's. The directive costs nothing and becomes live the day this
+# moves to its own domain — but the sitemap has to be submitted by hand in Search
+# Console until then. Do not treat its presence here as the sitemap being wired up.
 Sitemap: https://jonathandiaso.github.io/Panim/sitemap.xml

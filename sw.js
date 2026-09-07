@@ -8,7 +8,7 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v67';
+var SHELL = 'panim-shell-v68';
 var AUDIO = 'panim-audio-v1';
 
 // index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
@@ -22,10 +22,10 @@ var AUDIO = 'panim-audio-v1';
 //      accessibility.html — both are standalone pages with their own copy, and
 //      neither is reached by the index.html sweep. 404.html was left on v24 for
 //      a whole release because of exactly this.
-var ASSET_V = '67';
+var ASSET_V = '68';
 var VERSIONED = /\.(css|js)$/;
 var PRECACHE = [
-  './', 'index.html', 'accessibility.html', 'favicon.svg', 'og-card-face.jpg', 'manifest.webmanifest',
+  './', 'index.html', 'accessibility.html', 'favicon.svg', 'manifest.webmanifest',
   'fonts/fonts.css',
   // The font FILES, not just the stylesheet. Precaching fonts.css alone meant an
   // installed, offline copy of the book named three typefaces it could not fetch and
@@ -55,6 +55,12 @@ var PRECACHE = [
   // through a service worker, so precaching those two spends install bytes on files
   // nobody offline will ever open. Same reason art/*.webp is absent — the plates are
   // heavy and the text is the product. Don't add them.
+  //
+  // 🛑 AND og-card-face.jpg WENT THE SAME WAY, 2026-09-07, BY THE SAME ARGUMENT. It is
+  // the og:image. It appears in index.html twice — the meta and the JSON-LD — and in
+  // no <img>, no CSS url(), and no fetch, so the only client that ever asks for it is
+  // an unfurl scraper, and a scraper does not go through a service worker. At 162 KB
+  // it was about a third of the install budget, spent on a file no reader downloads.
 ];
 
 self.addEventListener('install', function (e) {

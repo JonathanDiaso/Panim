@@ -276,7 +276,6 @@
     emit('panim:speed-change', { speed: v });
   }
   function cycleSpeed() { setSpeed(SPEEDS[(SPEEDS.indexOf(state.speed) + 1) % SPEEDS.length]); }
-  function setVolume(v) { state.volume = Math.max(0, Math.min(1, v)); els.audio.volume = state.volume; }
 
   // ---------- seek UI ----------
   // The book index, on its own rail (see index.html #chapter-rail). Evenly spaced
@@ -323,6 +322,33 @@
 
   function seekToRatio(r) { if (els.audio.duration) els.audio.currentTime = r * els.audio.duration; }
 
+  // 🛑 ONE KEYBOARD FOR EVERY SLIDER ON THE SITE. The transport bar's #seekbar and
+  // the Listening Room's #room-seek are both role="slider" over the same <audio>,
+  // and they used to carry two hand-written handlers — the Room's knew only
+  // ArrowLeft/ArrowRight, so Home, End, PageUp and PageDown did nothing there and a
+  // reader who had learned the bar found half of it missing one screen over. The
+  // arrow step differs on purpose (fine on the bar, lean-back in the Room); nothing
+  // else about them ever should. stopPropagation is what keeps these off the global
+  // ArrowLeft/ArrowRight in wireKeyboard.
+  function wireSliderKeys(el, step) {
+    el.addEventListener('keydown', function (e) {
+      var d = 0;
+      if (e.key === 'ArrowRight') d = step;
+      else if (e.key === 'ArrowLeft') d = -step;
+      else if (e.key === 'PageUp') d = 60;
+      else if (e.key === 'PageDown') d = -60;
+      else if (e.key === 'Home') { e.preventDefault(); e.stopPropagation(); seekToRatio(0); return; }
+      else if (e.key === 'End') {
+        if (!els.audio.duration) return;
+        e.preventDefault(); e.stopPropagation();
+        els.audio.currentTime = Math.max(0, els.audio.duration - 1);
+        return;
+      }
+      else return;
+      e.preventDefault(); e.stopPropagation(); skip(d);
+    });
+  }
+
   function wireSeekbar() {
     var dragging = false;
     function ratioFromEvent(e) {
@@ -347,14 +373,7 @@
     }
     els.seekbar.addEventListener('pointerup', endDrag);
     els.seekbar.addEventListener('pointercancel', endDrag);
-    els.seekbar.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); skip(5); }
-      else if (e.key === 'ArrowLeft') { e.preventDefault(); e.stopPropagation(); skip(-5); }
-      else if (e.key === 'Home') { e.preventDefault(); e.stopPropagation(); seekToRatio(0); }
-      else if (e.key === 'End' && els.audio.duration) { e.preventDefault(); e.stopPropagation(); els.audio.currentTime = Math.max(0, els.audio.duration - 1); }
-      else if (e.key === 'PageUp') { e.preventDefault(); e.stopPropagation(); skip(60); }
-      else if (e.key === 'PageDown') { e.preventDefault(); e.stopPropagation(); skip(-60); }
-    });
+    wireSliderKeys(els.seekbar, 5);
     els.seekMarks.addEventListener('click', function (e) {
       var mark = e.target.closest('[data-mark-chapter]');
       if (mark) loadChapter(mark.getAttribute('data-mark-chapter'), { autoplay: state.playing });
@@ -634,14 +653,24 @@
   // ---------- keyboard ----------
   function wireKeyboard() {
     document.addEventListener('keydown', function (e) {
+      // 🛑 A BARE LETTER IS OURS. A LETTER WITH A MODIFIER BELONGS TO THE BROWSER.
+      // Without this line Cmd/Ctrl+F toggled Follow instead of opening Find, Cmd+S
+      // opened the sleep sheet over a save dialog, and Cmd+L put the Listening Room
+      // behind the address bar. js/search.js guards '/' exactly this way; this is
+      // the same rule, and there is no longer a second version of it.
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
       var tag = (document.activeElement && document.activeElement.tagName) || '';
       if (tag === 'INPUT' || tag === 'TEXTAREA' || (document.activeElement && document.activeElement.isContentEditable)) return;
       switch (e.key) {
         case ' ': e.preventDefault(); togglePlay(); break;
         case 'ArrowLeft': skip(-15); break;
         case 'ArrowRight': skip(30); break;
-        case 'ArrowUp': e.preventDefault(); setVolume(state.volume + 0.05); break;
-        case 'ArrowDown': e.preventDefault(); setVolume(state.volume - 0.05); break;
+        // 🛑 ↑/↓ ARE THE PAGE'S, NOT OURS. They used to preventDefault and then set
+        // els.audio.volume — which iOS ignores outright, so on the one device this
+        // book is mostly read on they were dead keys that also stopped a 312,000px
+        // document from scrolling. There is no on-screen volume control either; the
+        // hardware buttons are the volume control. state.volume survives as the
+        // restore target the two fades read.
         case 's': case 'S': if (window.PanimUI) window.PanimUI.openSheet('sleep-sheet'); break;
         case 'f': case 'F': setFollow(!state.follow); break;
         case 'l': case 'L': emit('panim:room-toggle'); break;
@@ -731,6 +760,6 @@
     setSleep: setSleep, sleepRemaining: sleepRemaining,
     voiceTime: voiceTime, voiceDur: voiceDur, fileDur: fileDur,
     audio: els.audio, fmtTime: fmtTime, chapterTitle: chapterTitle,
-    seekToRatio: seekToRatio
+    seekToRatio: seekToRatio, wireSliderKeys: wireSliderKeys
   };
 })();
