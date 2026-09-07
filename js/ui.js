@@ -13,6 +13,137 @@
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
 
+  // ---------- one scroll, distance-aware ----------
+  // ==========================================================================
+  // 🛑 A SMOOTH SCROLL ACROSS THIS DOCUMENT IS NOT A SCROLL, IT IS A FLIGHT.
+  // The book is ~312,000px tall at 402px wide. css/site.css sets
+  // `html { scroll-behavior: smooth }`, which governs anchor navigation AND
+  // every programmatic scrollTo/scrollIntoView on the page — so tapping
+  // chapter X in the Contents ANIMATED the viewport through a quarter of a
+  // million pixels. Measured 2026-09-07 at 402px, #ch10 from the top: the
+  // section's top passed 96,563px, then 12,187px, then landed, over ~1.5s.
+  // Every content-visibility:auto section between here and there is forced to
+  // render as the viewport flies past it, on a phone, inside that second and a
+  // half. That is the author's "the chapters are falling apart from table of
+  // contents", and the same flight starting the instant a chapter loads is why
+  // the audio stuttered or stopped right after play — the main thread is laying
+  // out ten chapters while the decoder wants it.
+  //
+  // A jump longer than three screens is a JUMP: it lands in one frame and
+  // renders one destination. Only a hop stays animated, because a hop is the
+  // only distance where the animation says anything about where you went.
+  //
+  // ⚠️ AN INSTANT LANDING HAS TO BE SETTLED, and a smooth one never did. The
+  // sections between here and the target are contain-intrinsic-size ESTIMATES
+  // until they have rendered once (css/site.css). A smooth scroll resolved them
+  // during the flight — expensively, but it resolved them. Landing in one frame
+  // means the target's offset can still move under us as the destination paints,
+  // so re-seat it for three frames afterwards. Three, not one: the first frame
+  // resolves the target, the second the sections that shifted because of it.
+  // ==========================================================================
+  var LONG_JUMP_SCREENS = 3;
+
+  function isLongJump(el) {
+    if (!el) return false;
+    return Math.abs(el.getBoundingClientRect().top) > window.innerHeight * LONG_JUMP_SCREENS;
+  }
+  function settle(el, block) {
+    var passes = 0;
+    (function again() {
+      requestAnimationFrame(function () {
+        el.scrollIntoView({ behavior: 'instant', block: block });
+        if (++passes < 3) again();
+      });
+    })();
+  }
+  // The one call every module makes instead of el.scrollIntoView({behavior:'smooth'}).
+  // scrollIntoView, not scrollTo(y), because it honours html{scroll-padding-top}
+  // (site.css keeps that in step with the running head) and a hand-computed y
+  // would have to re-derive it.
+  function scrollElementIntoView(el, block) {
+    if (!el) return;
+    block = block || 'start';
+    var long = isLongJump(el);
+    el.scrollIntoView({ behavior: long ? 'instant' : 'smooth', block: block });
+    if (long) settle(el, block);
+  }
+  // For a caller that has computed a y rather than a target element (js/sync.js
+  // centres a cue line in the readable band). Returns true when it jumped, so the
+  // caller can tell an arrival from an animation still in flight.
+  function scrollToY(y) {
+    var long = Math.abs(y - window.scrollY) > window.innerHeight * LONG_JUMP_SCREENS;
+    window.scrollTo({ top: y, behavior: long ? 'instant' : 'smooth' });
+    return long;
+  }
+  // 🛑 THE CONTENTS, THE RIBBON AND THE RUNNING HEAD ARE PLAIN <a href="#chNN">.
+  // Nothing in this file scrolled them — the browser did, under the CSS above —
+  // so the distance test has to be applied at the click or those three, which are
+  // the longest jumps on the site, keep flying. Bubble phase and a defaultPrevented
+  // check, so a component that owns its own anchor (the gloss card) still wins.
+  // pushState + a synthetic hashchange, because assigning location.hash would hand
+  // the scroll straight back to the browser and start the flight we just refused.
+  function wireLongAnchors() {
+    // 🛑 'manual', AND IT IS NOT OPTIONAL HERE. Chrome's own scroll restoration obeys
+    // html{scroll-behavior:smooth} too, so pressing Back ANIMATED the restore — 1.5s
+    // of flight from 20,212 back to 213,132, measured 2026-09-07, which is the same
+    // quarter-million-pixel flight this whole function exists to refuse, arriving
+    // through the one control a reader presses to escape it. Every entry the site
+    // creates is stamped below, so nothing is lost by taking the wheel.
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+    // ⚠️ TAKING THE WHEEL MEANS DRIVING ON ARRIVAL TOO. With restoration manual, a
+    // RELOAD of a URL that already carries #ch07 came back at the cover: the browser
+    // did its fragment scroll while the document was still an estimate, and then had
+    // nothing left to correct it with. Measured 2026-09-07 — scrollY 0 with #ch07 in
+    // the address bar. This runs on panim:rendered, so the sections exist, and
+    // settle() re-seats the landing once they have painted (which also takes the
+    // first-visit deep link from 264px past its chapter to on it).
+    var arriving = (location.hash || '').slice(1);
+    if (arriving) {
+      var target = document.getElementById(arriving);
+      if (target) scrollElementIntoView(target, 'start');
+    }
+
+    document.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a || a.getAttribute('target')) return;
+      var id = a.getAttribute('href').slice(1);
+      if (!id) return;
+      var el = document.getElementById(id);
+      if (!el) return;
+      // ⚠️ STAMP BEFORE ANYTHING MOVES, and stamp for the SHORT hop as well — the
+      // browser is about to push an entry either way, and this is the last moment
+      // the entry being left still knows where it was. Reading window.scrollY after
+      // the jump recorded 213,132 instead of 20,000, so Back returned the reader to
+      // the chapter they had just asked to leave.
+      history.replaceState({ panimY: window.scrollY }, '');
+      if (!isLongJump(el)) return;          // a hop: let the browser animate it
+      e.preventDefault();
+      scrollElementIntoView(el, 'start');
+      if (location.hash !== '#' + id) {
+        // pushState, not location.hash: assigning the hash hands the scroll straight
+        // back to the browser and starts the flight we just refused. The synthetic
+        // hashchange keeps the lexicon's own #lex- handler working (fromHash, below).
+        history.pushState({ panimId: id }, '', '#' + id);
+        var ev;
+        try { ev = new HashChangeEvent('hashchange'); } catch (err) { ev = new Event('hashchange'); }
+        window.dispatchEvent(ev);
+      }
+    });
+    window.addEventListener('popstate', function (e) {
+      var st = e.state;
+      if (st && typeof st.panimY === 'number') {
+        window.scrollTo({ top: st.panimY, behavior: 'instant' });
+        return;
+      }
+      var h = (location.hash || '').slice(1);
+      var el = h && document.getElementById(h);
+      if (el) scrollElementIntoView(el, 'start');
+      else window.scrollTo({ top: 0, behavior: 'instant' });
+    });
+  }
+
   // ---------- nav ----------
   function buildNav() {
     var chapters = (window.PANIM_RENDERED && window.PANIM_RENDERED.chapters) || [];
@@ -204,7 +335,7 @@
     if (read) read.addEventListener('click', function () {
       dismiss();
       var toc = document.getElementById('contents');
-      if (toc) toc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (toc) scrollElementIntoView(toc, 'start');
     });
     // Escape dismisses without starting anything
     document.addEventListener('keydown', function (e) {
@@ -579,6 +710,7 @@
 
   function init() {
     wireTheme();
+    wireLongAnchors();
     buildNav();
     wireNavToc();
     wireContentsToggle();
@@ -1212,4 +1344,7 @@
   // move initial focus to their first real control without re-deriving the selector —
   // the Tab trap itself (trapOverlayTab, wired once above) already covers both of them.
   window.PanimUI = { openSheet: openSheet, closeSheet: closeSheet, focusableIn: focusableIn };
+  // js/player.js, js/room.js and js/sync.js all used to call scrollIntoView with a
+  // hardcoded behavior:'smooth'. They call these instead — one distance rule, one place.
+  window.PanimScroll = { intoView: scrollElementIntoView, toY: scrollToY, isLongJump: isLongJump };
 })();

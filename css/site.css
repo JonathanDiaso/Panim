@@ -169,6 +169,13 @@
 
 /* ---------- reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
+/* ⚠️ THIS SMOOTH IS FOR HOPS ONLY, and it is not the whole rule any more.
+   It governs anchor navigation AND every programmatic scroll on the page, and the
+   book is ~312,000px tall on a phone — so on its own it turned a tap in the
+   Contents into a 1.5s flight that rendered every content-visibility section on
+   the way past. js/ui.js (wireLongAnchors / PanimScroll) intercepts anything
+   longer than three screens and lands it in one frame instead. Deleting this line
+   would make the short hops instant too; changing it to `auto` is not the fix. */
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 /* WCAG 2.4.11 Focus Not Obscured (Minimum) — the running head and the player bar

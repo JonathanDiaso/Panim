@@ -141,7 +141,11 @@
     var targetY = Math.max(0, window.scrollY + r.top - (band.top + height / 2 - r.height / 2));
     autoTarget = targetY;
     autoUntil = Date.now() + 2500;   // longest a smooth scroll should still be running
-    window.scrollTo({ top: targetY, behavior: reduceMotion ? 'auto' : 'smooth' });
+    // A follow scroll is normally a few hundred pixels. It is not, exactly once:
+    // the moment a chapter starts from somewhere else in the book, when the first
+    // cue can be a hundred thousand pixels away. That one is a jump (js/ui.js).
+    if (reduceMotion || !window.PanimScroll) window.scrollTo({ top: targetY, behavior: reduceMotion ? 'auto' : 'smooth' });
+    else window.PanimScroll.toY(targetY);
   }
 
   // Wheel, touch and keys cover the reader almost always — but not a scrollbar drag,
