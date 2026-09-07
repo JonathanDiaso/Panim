@@ -299,9 +299,22 @@
     // explaining the paragraph was doing.
     return '<section class="section" id="thread" data-ch="fw" aria-labelledby="thread-heading">' +
       '<div class="section-inner">' +
-        '<div class="thread-head">' +
+        // 🔴 THE FIFTH BACK-MATTER HEAD, AND IT WAS THE ONLY ONE STILL DRAWN AS A
+        // LABEL — 2026-09-07. The author: "if its a double title like at the bottom
+        // sections do we need to make any text bigger."
+        // He is looking at "WHAT COMES BACK" and "13 THREADS" sitting side by side,
+        // both 10px tracked uppercase, which is two labels and no title. The other
+        // four back-matter sections — the Lexicon, the Index of Scripture, Names and
+        // Places, the Sources — all became `.is-bare` on 2026-08-30 (D20-A) and set
+        // their name in the serif. This one was missed, and it is the section a
+        // reader reaches FIRST.
+        // 🛑 AND THE COUNT GOES, WHICH IS THE SAME RULING TWICE OVER. D20-A cut
+        // "11 works" off the Sources head; renderContents cut "Ten chapters" off the
+        // contents for the author's own reason — "they cna scroll to fidn out". A
+        // count of thirteen above a list of thirteen is the list counting itself out
+        // loud. `entries.length` is no longer read here at all.
+        '<div class="thread-head is-bare">' +
           '<h2 class="chapter-num" id="thread-heading">What Comes Back</h2>' +
-          '<p class="thread-count">' + entries.length + ' threads</p>' +
         '</div>' +
         rows +
       '</div></section>';

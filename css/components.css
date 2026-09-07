@@ -1162,9 +1162,13 @@
    still recognisably the same family as the labels that are still labels.
    Contrast: --accent on the back-matter paper, 5.23:1, measured.
    ============================================================================ */
-.si-head.is-bare, .lex-head.is-bare { margin-bottom: clamp(.6rem, 1.4vw, 1.1rem); }
+.si-head.is-bare, .lex-head.is-bare, .thread-head.is-bare { margin-bottom: clamp(.6rem, 1.4vw, 1.1rem); }
+/* ⚠️ .thread-head JOINED THIS RULE 2026-09-07 and was the last one outside it. It
+   is the fifth back-matter section and it had kept the old shape — a 10px label for
+   its name and a second 10px label counting its own rows. Same component now. */
 .si-head.is-bare .chapter-num,
-.lex-head.is-bare .chapter-num {
+.lex-head.is-bare .chapter-num,
+.thread-head.is-bare .chapter-num {
   padding-top: 0; margin: 0;
   grid-column: 1 / 8;
   font-family: var(--serif); font-variation-settings: var(--lit-mid);
@@ -1175,7 +1179,8 @@
 }
 @media (max-width: 900px) {
   .si-head.is-bare .chapter-num,
-  .lex-head.is-bare .chapter-num { grid-column: 1 / 7; }
+  .lex-head.is-bare .chapter-num,
+  .thread-head.is-bare .chapter-num { grid-column: 1 / 7; }
 }
 /* 🛑 .si-standfirst IS GONE, 2026-09-07 — four rules for a head that has been bare
    since the apparatus sections dropped their standfirsts. js/render.js emits
@@ -1394,19 +1399,11 @@
 @supports not (grid-template-columns: subgrid) {
   .thread-head { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
 }
-.thread-head .chapter-num { grid-column: 1 / 3; padding-top: .55em; margin: 0; }
-/* The head is now the section's name and a count, nothing else. What was here — a
-   headline plus three italic lines of preamble — is in the git history and in the
-   note above renderThread(); it explained the section to a reader who had just
-   read the book it was explaining. */
-.thread-count {
-  grid-column: 3 / 10; margin: 0;
-  align-self: start; padding-top: .55em;
-  font-family: var(--serif); font-variation-settings: var(--lit-normal);
-  font-size: var(--ap-sm); font-weight: 500;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--ink-faint);
-}
+/* 🛑 .thread-count IS GONE, 2026-09-07, WITH ITS MARKUP. It printed "13 threads"
+   beside the section's own name, both at 10px tracked uppercase — a second label
+   where there should have been a title, and a list counting itself out loud. The
+   same ruling closed "11 works" on the Sources head (D20-A) and "Ten chapters" on
+   the contents. The head now uses the shared `.is-bare` rule above. */
 
 /* Each entry is a native <details>. Native rather than scripted because the
    keyboard behaviour, the ARIA and the find-in-page expansion are all free and
@@ -1599,8 +1596,6 @@
 
 @media (max-width: 900px) {
   .thread-head { grid-template-columns: repeat(6, 1fr); }
-  .thread-head .chapter-num { grid-column: 1 / 7; padding-top: 0; margin-bottom: .6rem; }
-  .thread-count { grid-column: 1 / 7; margin-bottom: .4rem; }
   .thread-item, .thread-summary { grid-template-columns: repeat(6, 1fr); }
   .thread-span { grid-column: 1 / 7; padding-top: 0; margin-bottom: .7rem; }
   .thread-rail { max-width: 220px; }
@@ -2179,7 +2174,22 @@
    phone it is the only feedback there is: there is no hover to light it with. */
 .pl-plate:not(.is-lit) .pl-frame img { filter: saturate(.62) contrast(1.02) brightness(.94); }
 .pl-plate:not(.is-lit) .pl-t { color: var(--ink-soft); }
-.pl-plate.is-lit .pl-n { color: var(--ink); }
+/* ⭐ THE LIT NUMERAL TAKES THE CHAPTER'S OWN ACCENT — 2026-09-07, and it is half of
+   one idea. The caption 104px below is arriving in the same colour in the same
+   frame (see .plh-w), and that is what joins the two across a gap the sway
+   clearance will not let us close.
+   🛑 ONE NUMERAL, NEVER TEN. v54 put a chip of every chapter's stock under every
+   plate and the author called them "so ugly ... tabs". This is the current one and
+   only the current one: it is the state that was already being drawn, painted in
+   the light of the chapter it belongs to instead of in flat ink.
+   ⚠️ --hook-lit IS WRITTEN BY js/ui.js setLit(); the fallback is --ink, so a
+   browser that never runs it, or a first frame before the read lands, gets exactly
+   what this rule drew before. */
+.pl-plate.is-lit .pl-n {
+  color: var(--hook-lit, var(--ink));
+  transition: color 380ms var(--ease);
+}
+@media (prefers-reduced-motion: reduce) { .pl-plate.is-lit .pl-n { transition: none; } }
 /* ⭐ THE LIT PLATE LIFTS, 2026-09-05. The author: "i wouldnt mind ore movement with
    the riboon. it should show off."
    This is the cheapest real motion on the strip and the only one tied to what the
@@ -2397,8 +2407,69 @@
      desktop's twelve (477px at 901). The caption gets NARROWER as the window gets
      wider, once, and it costs two lines. 915 is where the desktop grid has grown
      enough to win them back. */
-  min-height: calc(6 * 1.3em);
-  transition: opacity var(--dur-med) var(--ease);
+  /* 🔴 EVERY STEP OF THIS LADDER WAS ONE LINE SHORT — corrected 2026-09-07, by
+     measurement, and it had been shipping. The reservation exists so the contents
+     page does not jump under the reader's thumb when a snap lands on a long hook,
+     and at nine of the ten widths below it was reserving one line LESS than the
+     tallest hook actually needs. Measured, with the real ten hooks, at 28 widths
+     from 320 to 1920:
+         reserved 195 · actual 227   (320)
+         reserved 162 · actual 195   (380–402)
+         reserved 130 · actual 162   (440)
+         reserved  97 · actual 130   (580)
+         reserved  65 · actual  97   (840–880)   ← two lines short
+         reserved  97 · actual 130   (1010)
+         reserved 132 · actual 176   (1440–1920)
+     Only 901–1009 was right. So one snap in ten moved the page by a full line,
+     which is 32px on a phone and 44px on a desktop.
+     ⚠️ IT IS NOT THE WORD SPANS. The same sweep run with plain textContent — the
+     wrapping this had before the caption was rebuilt — returns the same numbers to
+     the pixel. The ladder simply was not re-measured the last time the type grew.
+     🛑 THE LINE COUNTS BELOW ARE WHERE THE TALLEST HOOK ACTUALLY LOSES A LINE, found
+     by sweep, not interpolated: 320→7 · 340→6 · 420→5 · 460→4 · 620→3 · 901→4.
+     `1.3em` is exactly one line box at every clamp value, so the ladder only has to
+     carry the count and the clamp can move without breaking it. */
+  min-height: calc(7 * 1.3em);
+}
+/* ============================================================================
+   🔴 THE CAPTION IS LIT BY THE CHAPTER IT NAMES — 2026-09-07
+   The author: "on the ribbon now we have big text but its seperated from the very
+   ribbon itself ... rather than just black or white like actually make that text
+   legit make it fn to itnereact with."
+   Two faults, one cause. The swap was 200ms of opacity down, a textContent write,
+   200ms up — the cheapest transition there is, and a fade does not connect a
+   caption to the thing that changed it. And the line was --ink at every position on
+   a strip that is the ONE place a reader sees all ten chapters at once.
+   ⭐ The words arrive one at a time, each carrying that chapter's own accent, and
+   cool to ink over 700ms. Night blue through I–IV, the fire through V–VIII, morning
+   gold for IX and X. The dawn arc, in type, with nothing drawn.
+   🛑 NOTHING PERSISTS, AND THAT IS WHAT MAKES IT NOT THE ARC HE DELETED. v54's ten
+   chips of paper stock were a permanent coloured object under the photographs and he
+   called them "so ugly ... tabs" (FRONT-DOOR §2.8b). This is a colour the type passes
+   THROUGH: 700ms after a snap there is no coloured element on the page.
+   🛑 COMPOSITOR AND PAINT, NEVER LAYOUT. opacity and translate are composited;
+   `color` is a paint on ~20 inline-blocks that never reflows because the words hold
+   their boxes at every stage. The rejected alternative — the five-words gradient
+   sweep — repaints a background-position on twenty background-clip:text spans every
+   frame, and js/ui.js has the other reason not to reuse it.
+   ⚠️ .32em, NOT A PIXEL VALUE. The caption clamps from 25px to 34px, and a fixed
+   rise that reads as a lift at 34px reads as a jump at 25.
+   ============================================================================ */
+.pl-hook .plh-w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(.32em);
+  color: var(--hook-lit, var(--accent));
+  transition: opacity 400ms var(--ease), transform 400ms var(--ease),
+              color 700ms var(--ease) 260ms;
+}
+.pl-hook.is-in .plh-w {
+  opacity: 1;
+  transform: none;
+  color: var(--ink);
+  /* the ladder is on the way IN only — going out, every word leaves together */
+  transition-delay: calc(var(--w, 0) * 24ms), calc(var(--w, 0) * 24ms),
+                    calc(260ms + var(--w, 0) * 24ms);
 }
 /* 🛑 RE-MEASURED FROM SCRATCH AT THE NEW SIZE, 2026-09-05, NOT SCALED. The `em`
    unit makes the ladder track the clamp automatically; it does not make the LINE
@@ -2414,15 +2485,21 @@
    desktop's twelve tracks instead of all six of the phone's — so it gets NARROWER
    as the window gets wider, once. 1010 is where the desktop grid has grown enough
    to win the lines back. */
-@media (min-width: 380px) { .pl-hook { min-height: calc(5 * 1.3em); } }
-@media (min-width: 440px) { .pl-hook { min-height: calc(4 * 1.3em); } }
-@media (min-width: 580px) { .pl-hook { min-height: calc(3 * 1.3em); } }
-@media (min-width: 840px) { .pl-hook { min-height: calc(2 * 1.3em); } }
-.pl-hook.is-swapping { opacity: 0; }
+@media (min-width: 340px) { .pl-hook { min-height: calc(6 * 1.3em); } }
+@media (min-width: 420px) { .pl-hook { min-height: calc(5 * 1.3em); } }
+@media (min-width: 460px) { .pl-hook { min-height: calc(4 * 1.3em); } }
+@media (min-width: 620px) { .pl-hook { min-height: calc(3 * 1.3em); } }
+/* 🛑 .is-swapping IS GONE WITH THE CROSSFADE IT RAN, 2026-09-07 — nothing sets it
+   any more. The caption's transition now lives on its words, above. */
 @media (max-width: 900px) { .pl-hook { grid-column: 1 / 7; } }
-/* the caption narrows at the desktop grid — see the note above */
-@media (min-width: 901px)  { .pl-hook { min-height: calc(4 * 1.3em); } }
-@media (min-width: 1010px) { .pl-hook { min-height: calc(3 * 1.3em); } }
+/* ⚠️ THE CAPTION GETS NARROWER AS THE WINDOW GETS WIDER, ONCE, AND THAT IS NOT A
+   TYPO. 900 is the layout breakpoint: below it the caption spans all six phone
+   tracks (828px at 900), above it seven of the desktop's twelve (477px at 901). So
+   it goes back up to four lines and stays there — measured at 901, 940, 980, 1010,
+   1060, 1120, 1200, 1300, 1440, 1600 and 1920, every one of them four.
+   🛑 THE OLD 1010px STEP BACK DOWN TO THREE WAS SIMPLY WRONG. At 1010 the tallest
+   hook is chapter IV's and it is 130px — four lines — against 97 reserved. */
+@media (min-width: 901px) { .pl-hook { min-height: calc(4 * 1.3em); } }
 
 /* ---------- the arrival ----------
    🛑 IT ANIMATES THE FRAME AND THE ROW, NOT THE PLATE, AND THAT IS LOAD-BEARING.
@@ -2457,7 +2534,13 @@
   .pl-plate { transform: none !important; animation: none !important; }
   .pl-frame img { translate: none !important; animation: none !important; }
   .pl-plate:hover .pl-t, .pl-plate:focus-visible .pl-t { transform: none; }   /* the 2px rise, off */
-  .pl-hook { transition: none; }
+  /* the caption still CHANGES — it has to, it is how the rail says where you are —
+     it simply does not arrive. js/ui.js paints it and adds .is-in in one step here,
+     so these are the resting values and there is no transition to run. */
+  .pl-hook .plh-w {
+    opacity: 1; transform: none; color: var(--ink);
+    transition: none;
+  }
 }
 
 /* ============================================================================

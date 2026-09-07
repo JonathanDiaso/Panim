@@ -1079,6 +1079,12 @@
   function wirePlateRibbon() {
     var rail = document.getElementById('pl-rail');
     var hookEl = document.getElementById('pl-hook');
+    // 🛑 LOOKED UP HERE, NOT BESIDE THE SWAY THAT USED TO OWN IT. setLit writes
+    // --hook-lit on this element and setLit runs on the first frame — a `var`
+    // declared 150 lines further down is hoisted but not yet ASSIGNED, so the very
+    // first caption would have silently painted with no accent and every one after
+    // it would have worked. The kind of fault that never reproduces on a reload.
+    var section = document.getElementById('plates');
     if (!rail || !hookEl) return;
 
     var plates = [].slice.call(rail.querySelectorAll('.pl-plate'));
@@ -1149,21 +1155,118 @@
       return best;
     }
 
-    var lit = -1, hookTimer = 0;
+    // ---------- the caption is lit by the chapter it names ----------
+    // 🔴 THE CAPTION WAS A CROSSFADE AND IT READ AS A SEPARATE PARAGRAPH — rebuilt
+    // 2026-09-07. The author: "on the ribbon now we have big text but its seperated
+    // from the very ribbon itself what if we actually had cool text thats different?
+    // rather than just black or white like actually make that text legit make it fn
+    // to itnereact with."
+    //
+    // He is describing two faults and they have one cause. The line was 200ms of
+    // opacity down, a textContent swap, 200ms up — the cheapest possible transition,
+    // which does not connect the caption to the thing that changed it. And it was
+    // --ink at every position on the strip, so the ONE place on this site where a
+    // reader can see all ten chapters at once said nothing at all about them.
+    //
+    // ⭐ SO THE WORDS ARRIVE ONE AT A TIME, CARRYING THAT CHAPTER'S OWN LIGHT, AND
+    // COOL TO INK. Night blue through chapters I-IV, the fire through V-VIII, morning
+    // gold for IX and X. That is the dawn arc — the book's whole argument — running
+    // live under the strip, in type, with nothing drawn.
+    //
+    // 🛑 THIS IS NOT THE ARC HE DELETED, AND THE DIFFERENCE IS THAT NOTHING PERSISTS.
+    // v54 put ten chips of the chapters' paper stock under the plates and he called
+    // them "so ugly ... tabs" (FRONT-DOOR §2.8b). A tab is a permanent coloured
+    // object competing with the photographs. This is a colour the text passes THROUGH
+    // on its way to black: 700ms after a snap the caption is --ink again and there is
+    // no coloured element anywhere on the page. If it ever reads as decoration, the
+    // whole effect is one line — delete the accent write below.
+    //
+    // 🛑 AND IT IS NOT THE FIVE-WORDS LIGHT EITHER, ON PURPOSE. The ending's sweep
+    // (.fivewords-text.is-lit) is a band of accent travelling across the letterforms
+    // with background-clip:text, and css/components.css argues there that it "runs
+    // ONCE ... because a light that keeps arriving is a barber's pole, and this one is
+    // supposed to have arrived." Running that same effect on every snap of the ribbon
+    // would spend the book's last image on an index. It would also be the expensive
+    // choice: background-position on twenty gradient-clipped spans repaints every
+    // frame, where colour and transform on twenty inline-blocks does not.
+    //
+    // ⚠️ THE ACCENT IS READ FROM THE CHAPTER'S OWN SECTION, NEVER RETYPED. The dawn
+    // table is already in two files (css/site.css and js/motion.js) and that
+    // duplication has cost one live bug; a third copy here would be worse. Each
+    // chapter's <section data-ch="N"> already carries --accent, so this reads the
+    // computed value once per chapter and caches it. Ten reads, on first paint, never
+    // in a scroll handler.
+    var accents = [];
+    function accentFor(i) {
+      if (accents[i] !== undefined) return accents[i];
+      var sec = document.getElementById(plates[i].getAttribute('href').slice(1));
+      var v = '';
+      try { v = sec ? getComputedStyle(sec).getPropertyValue('--accent').trim() : ''; } catch (e) {}
+      accents[i] = v;
+      return v;
+    }
+
+    // ⚠️ THE SPANS ARE BUILT WITH createElement, NOT innerHTML. A chapter hook is
+    // authored prose — it carries apostrophes and em dashes, and one of them could
+    // one day carry an ampersand. Splitting on whitespace and setting textContent
+    // cannot produce markup no matter what the manuscript says.
+    function paintHook(i) {
+      var frag = document.createDocumentFragment();
+      var parts = String(hooks[i] || '').split(/(\s+)/);
+      var w = 0;
+      for (var k = 0; k < parts.length; k++) {
+        if (!parts[k]) continue;
+        if (/^\s+$/.test(parts[k])) { frag.appendChild(document.createTextNode(parts[k])); continue; }
+        var span = document.createElement('i');
+        span.className = 'plh-w';
+        // 🛑 THE DELAY IS CAPPED. Chapter X's hook is 136 characters — about 24
+        // words — and an uncapped 24ms ladder would still be arriving 570ms after
+        // the snap, which is long enough to feel like lag rather than like an
+        // arrival. Past the twelfth word they land together.
+        span.style.setProperty('--w', w < 12 ? w : 12);
+        span.textContent = parts[k];
+        frag.appendChild(span);
+        w++;
+      }
+      hookEl.textContent = '';
+      hookEl.appendChild(frag);
+    }
+
+    var lit = -1, hookRaf = 0;
     function setLit(i) {
       if (i === lit || i < 0) return;
       if (lit >= 0) plates[lit].classList.remove('is-lit');
       lit = i;
       plates[i].classList.add('is-lit');
-      // fade out, swap the text at the bottom of the fade, fade back in. A hard cut
-      // on a 90-character sentence reads as a glitch, and a true crossfade of two
-      // different paragraphs on top of each other is unreadable. One element.
-      hookEl.classList.add('is-swapping');
-      clearTimeout(hookTimer);
-      hookTimer = setTimeout(function () {
-        hookEl.textContent = hooks[i];
-        hookEl.classList.remove('is-swapping');
-      }, REDUCED ? 0 : 200);
+
+      // 🛑 REDUCED MOTION GETS THE TEXT AND NOTHING ELSE. Not a slower arrival — no
+      // arrival. Someone who turned motion off is steering this rail with the same
+      // caption, and it must be readable the instant it changes.
+      if (REDUCED) { hookEl.classList.remove('is-in'); paintHook(i); hookEl.classList.add('is-in'); return; }
+
+      // ⭐ THE PROPERTY GOES ON THE SECTION, NOT THE CAPTION, AND THAT IS THE TIE.
+      // The author's complaint was that the caption is "seperated from the very
+      // ribbon itself" — and it is, by 104px of sway clearance that cannot be cut
+      // without cutting the motion he asked for in the last round. So the two are
+      // joined by COLOUR AND TIMING instead of by distance: the lit plate's numeral
+      // and the arriving words take the same chapter accent in the same frame, which
+      // is what carries the eye across the gap.
+      // ⚠️ ONE LINE TO REVERT: drop this write and the .pl-plate.is-lit .pl-n rule in
+      // css/components.css goes back to --ink on its own.
+      var a = accentFor(i);
+      if (a && section) section.style.setProperty('--hook-lit', a);
+      hookEl.classList.remove('is-in');
+      paintHook(i);
+      // ⚠️ TWO FRAMES, AND ONE IS NOT ENOUGH. The class comes off and the spans are
+      // replaced in the same task, so a single rAF can still land in the frame that
+      // is painting the new spans for the first time — the transition then has no
+      // start value to run from and the words appear instantly. The second frame
+      // guarantees the resting state has been painted once. Same two-frame pattern
+      // scrollElementIntoView uses above, for the same reason.
+      cancelAnimationFrame(hookRaf);
+      hookRaf = requestAnimationFrame(function () {
+        hookRaf = requestAnimationFrame(function () { hookEl.classList.add('is-in'); });
+      });
     }
 
     // ---------- the drift, fallback path ----------
@@ -1176,8 +1279,13 @@
     // while the keyframes used 3.7, so the two implementations disagreed on both the
     // distance AND the direction — Firefox would have drifted the wrong way while
     // Chrome drifted the right way, and nothing would have said so.
-    // ⚠️ 4.6 SINCE 2026-09-05, and @keyframes pl-drift in css/components.css carries
-    // the same value. The overhang moved with it (112% / -6%); the three are one sum.
+    // ⚠️ 5.6 SINCE 2026-09-05, and @keyframes pl-drift in css/components.css carries
+    // the same value — checked 2026-09-07, they agree. The overhang moved with it
+    // (112% / -6%); the three are one sum.
+    // 🛑 THIS COMMENT SAID 4.6 WHILE THE CODE SAID 5.6, which is the exact failure it
+    // exists to prevent: the next person to reconcile the two files would have
+    // "corrected" the working number to the stale one and made Firefox drift a
+    // different distance from Chrome, silently.
     var DRIFT = 5.6;   // 🛑 one number in two files — see @keyframes pl-drift
     if (CSS_DRIFT) document.documentElement.classList.add('pl-sda');
 
@@ -1188,7 +1296,6 @@
     // (js/motion.js's dawn arc), so it earns its place by doing almost nothing:
     // it returns on the first line unless the section is actually on screen, and
     // when it does run it writes ten transforms and reads one rect.
-    var section = document.getElementById('plates');
     var amps = plates.map(function (p) {
       return parseFloat(getComputedStyle(p).getPropertyValue('--amp')) || 0;
     });

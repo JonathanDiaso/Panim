@@ -112,10 +112,39 @@
     return found;
   }
 
+  // 🔴 READ PASS, THEN WRITE PASS — 2026-09-07, and it is the same rule plateFrame
+  // has carried since it was written. This function did not follow it: it wrote
+  // --paper and background-color to the root, THEN read
+  // `documentElement.scrollHeight`, then wrote the whole running head in
+  // updateNav(), then read `#contents.getBoundingClientRect()` in updateTocRoll().
+  // Every one of those reads came after a write, so each forced the engine to lay
+  // out a 266,000px document again before it could answer — TWO FORCED SYNCHRONOUS
+  // LAYOUTS PER SCROLL FRAME, sixty times a second, for the whole book.
+  // ⚠️ THE WRITES WERE ALREADY CHEAP AND THAT IS WHY THIS HID. The compare-then-write
+  // guard below means the root custom properties are usually not written at all —
+  // but updateNav writes on nearly every frame (the hide-on-scroll-down class and
+  // the progress custom property), and updateTocRoll's rect read sat right behind
+  // it. The guard saved the style recalculation and paid for a layout instead.
+  // 🛑 EVERY LAYOUT READ IN THIS FUNCTION BELONGS IN THE BLOCK MARKED `pass 1`.
+  // Reading at the top of a rAF callback is free — layout is clean from the last
+  // paint. Reading after a write is the most expensive thing this page can do.
   function onScrollFrame() {
     ticking = false;
     if (!sections.length) return;
-    var viewportCenter = window.scrollY + window.innerHeight / 2;
+
+    // ---- pass 1: read. Nothing below this block may touch the DOM. ----
+    var scrollY = window.scrollY;
+    var innerH = window.innerHeight;
+    // ⚠️ scrollHeight IS RE-READ EVERY FRAME AND MUST BE. The sections carry
+    // `content-visibility: auto` with `contain-intrinsic-size: auto`, so the
+    // document's real height changes as chapters are rendered for the first time.
+    // A value cached in measureSections() would be right at load and wrong by
+    // chapter III, and the progress hairline would drift with it.
+    var scrollH = document.documentElement.scrollHeight;
+    var tocRect = (tocSection && tocRows && tocRows.length)
+      ? tocSection.getBoundingClientRect() : null;
+
+    var viewportCenter = scrollY + innerH / 2;
 
     // continuous bg lerp between adjacent section midpoints
     var i = 0;
@@ -163,19 +192,19 @@
       document.body.style.color = tok.text;
     }
 
-    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    var progress = docHeight > 0 ? window.scrollY / docHeight : 0;
+    var docHeight = scrollH - innerH;
+    var progress = docHeight > 0 ? scrollY / docHeight : 0;
 
     // progress within the CURRENT chapter, for the hairline under its numeral
     var chProgress = 0;
     if (cur && cur.height) {
-      chProgress = (window.scrollY + window.innerHeight - cur.top) / cur.height;
+      chProgress = (scrollY + innerH - cur.top) / cur.height;
       chProgress = Math.max(0, Math.min(1, chProgress));
     }
 
     // active chapter + nav visibility
     updateNav(cur.ch, progress, chProgress);
-    updateTocRoll();
+    updateTocRoll(tocRect);
 
     if (cur.ch !== lastActiveCh) {
       lastActiveCh = cur.ch;
@@ -206,9 +235,12 @@
     updateTocRoll();
   }
 
-  function updateTocRoll() {
+  // ⚠️ THE RECT IS PASSED IN FROM onScrollFrame's READ PASS. Called with nothing —
+  // from initTocRoll and from the resize handler — it reads its own, which is
+  // correct in both of those because neither is inside a scroll frame.
+  function updateTocRoll(rect) {
     if (!tocSection || !tocRows || !tocRows.length) return;
-    var r = tocSection.getBoundingClientRect();
+    var r = rect || tocSection.getBoundingClientRect();
     var h = r.height || 1;
     // 0 while the contents is still in place; 1 once a full section-height of it
     // has passed above the top of the viewport.
