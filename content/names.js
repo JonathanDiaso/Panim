@@ -52,7 +52,16 @@
     { name: 'Esther',    kind: 'person', forms: ['Esther'], note: 'who wrote a five-word will, then walked toward a face that could kill her' },
     { name: 'Ezekiel',   kind: 'person', forms: ['Ezekiel'], note: 'the priest who never served, and watched the glory ride out on faces' },
     { name: 'Hagar',     kind: 'person', forms: ['Hagar'],     note: 'the runaway who named God' },
-    { name: 'Hannah',    kind: 'person', forms: ['Hannah'], note: 'who prayed at Shiloh, and her face was no longer sad' },
+    // 🔴 THE NOTE DESCRIBED THE WRONG WOMAN UNTIL 2026-09-07. It read "who prayed
+    // at Shiloh, and her face was no longer sad" — the woman in 1 Samuel 1. Every
+    // occurrence the matcher actually finds is the author's sister: ch07-p139 ("My
+    // sister Hannah moved to heaven when she was twenty"), ch09-p77 (her celebration
+    // of life) and ch10-p176, which is the one-word paragraph the chapter turns on.
+    // 🛑 THE WOMAN AT SHILOH IS NEVER NAMED IN THE PROSE — she is "the woman at the
+    // tent", every time — so the index was pointing at three paragraphs about one
+    // person while telling the reader they were about another.
+    // ⭐ The note now says what the book says: one name, two women, which IS chapter X.
+    { name: 'Hannah',    kind: 'person', forms: ['Hannah'], note: "the author's sister — and, the book finds, the name of the woman at Shiloh" },
     { name: 'Isaac',     kind: 'person', forms: ['Isaac'], note: 'the bound son, who drops out of the story until a bride is brought to him' },
     { name: 'Isaiah',    kind: 'person', forms: ['Isaiah'], note: 'who named God by His hiding, and knew what the set face would cost' },
     { name: 'Jacob',     kind: 'person', forms: ['Jacob'],     note: 'who wrestled at the ford and would not let go' },

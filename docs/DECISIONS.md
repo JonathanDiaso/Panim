@@ -15,7 +15,7 @@ no commit ever carries a co-author trailer.
 
 # ⬜ STILL OPEN, AT A GLANCE — everything else on this sheet is done
 
-**Eight things. Three are a decision, five are something only you can check.**
+**Nine things. Four are a decision, five are something only you can check.**
 
 | | what | where |
 |---|---|---|
@@ -27,6 +27,7 @@ no commit ever carries a co-author trailer.
 | ☐ | **One real thumb and one real mouse on the ribbon.** Everything was measured with a synthetic cursor. | §F |
 | ☐ | **Night mode on your own phone, at night.** Contrast is measured; comfort is not the same thing. | §F |
 | ☐ | **Open `#ch07` and `#ch10` cold on the live site** — the one real regression risk of the speed work. | §F |
+| ☐ | **Hannah's line in the index.** It described the woman at Shiloh and pointed at three paragraphs about **your sister**. Rewritten — **the wording is yours to rule on.** | §G.4 |
 
 🗄 **And §E carries the audio and repo work from earlier rounds, untouched and still true** —
 the `3-studiosound/` backup is the only 🔴 on it that has a deadline attached.
@@ -398,4 +399,95 @@ whether it feels like a lamp or a screen is your call.**
 running head, or does the page settle a few hundred pixels off? **The one real regression
 risk of the speed work.**
 - ☐ **Listen through one chapter boundary with continuous play on** — §D.2's open question.
+
+---
+
+# G · ⭐ ROUND 22 — YOUR FOUR NOTES OF 2026-09-07, AND WHAT EACH ONE TURNED OUT TO BE
+
+**All four shipped in `v65`.** 🛑 **Three of them were the same fault**, and it is worth
+naming because it will recur: *this site keeps shipping its small labels at the 10px
+tracked-uppercase floor, and only fixes them when you say so.*
+
+## G.1 ✅ *"numerals could be bigger on the audio player"* — DONE, AND YOU HAD ASKED TWICE BEFORE
+
+**`.seek-mark` went from `.72rem` to `.86rem`** — 11.52px to 13.76px, in Literata, which is
+where a roman numeral belongs.
+
+🛑 **THE SAME SENTENCE IS ALREADY IN THE CODE TWICE.** `css/components.css` records
+*"the abc … could be bigger its hard to see"* against the Names and Places index letter, and
+the fix there was the same fix. This rail was the last 10px label on the site's furniture.
+
+**The ceiling is arithmetic and it was measured, not guessed:** the rail hides below 641px,
+so the tightest real case is the bar at 641 — **34px of clear space between VII and VIII**
+at the new size, 61px at 900, 116px at 1440. **1rem does not fit; `.86rem` does, with room.**
+⚠️ **The bar grew 134px → 136px and `--player-h` moved with it** — that token drives the
+read-along's idea of what is on screen, and a stale value there stops the text scrolling.
+
+## G.2 ✅ *"the resume thing … tiny text a tiny x and a resume buton its kinda ugly"* — IT IS THE JACKET'S BUTTON NOW
+
+**Was:** `Resume "IX. Eyes Opened" at 7:36?` as one sans sentence, a bordered box saying
+**Resume** beside it, and a 10px ×. **Three treatments for one action, and a rectangle.**
+
+⭐ **Now it is `.btn-begin` — the class, not a copy of it.** Accent rule down the left edge,
+the drawn play ring, and two lines: **Pick up where you left off** / **IX. EYES OPENED · 7:36**.
+**The whole block is the target** (235×60), the × is a quiet 44×44, and the screen reader
+hears one sentence: *"Resume IX. Eyes Opened, at 7:36."*
+
+🛑 **YOU ALREADY RULED ON THIS OBJECT, TWICE** — *"could the resume button be any ugglier?"*
+and *"i meant loud as in ugly lol"*. Both were about the jacket. **This one only ever appears
+to a reader who has been here before, which is why it was missed for two rounds.**
+
+## G.3 ✅ *"weird text and long … am i rambling here?"* — YOU DELETED THAT SENTENCE TWICE ALREADY
+
+**The Sources note read:** *"Every pointed Hebrew form and every Greek lemma on this site was
+pulled out of one of these by a script and pasted in. **None was typed by hand.**"*
+
+🛑 **That second sentence is the claim you cut from the Lexicon's standfirst and then from
+this page's own standfirst** (D18-A, D19-A). `content/sources.js` says so at the top of the
+file — *"NOBODY MAKES THE CLAIM ANY MORE"* — and then made it again, in the one place nobody
+re-read, at twice the length of every other note here.
+
+⭐ **It is one line now:** *"Every pointed Hebrew form and every Greek lemma came out of one
+of these."* Same register as *"Every headword was checked in two of these, not one."*
+**The eleven rows are the proof. The page does not also need to say it can be trusted.**
+
+## G.4 ✅ *"do we need two titles??"* — YES, TWO LEVELS. NO, NOT DRAWN THE SAME WAY.
+
+**You were right about what you saw.** "THE SOURCES" and "THE TEXT ITSELF" were **the same
+10.24px tracked uppercase in the same margin column**, so the page appeared to label itself
+twice and neither label won.
+
+⭐ **The group name is a printed index heading now** — serif, in the accent, at 20–26px —
+which is exactly what Names and Places did to its letters after your note about the ABC.
+**Two levels, two sizes, no ambiguity.**
+
+⚠️ **AND THE SECTION WAS ONLY USING THREE-QUARTERS OF THE PAGE.** The entries were pinned to
+columns 3–9 with 10–12 empty down the whole section, while the Index of Scripture and Names
+and Places both run to the edge. **They fill the page now, in two columns**, and the rules
+between entries are gone — with two columns one entry drew a rule and its neighbour did not.
+
+## G.5 🔴 *"do we have my sister in the appendix?"* — YES, AND THE INDEX HAD HER NAME ON THE WRONG WOMAN
+
+**She is there, and she has been all along.** The index entry **Hannah** points at three
+paragraphs — **VII, IX and X**:
+
+| | |
+| --- | --- |
+| `ch07-p139` | *"My sister Hannah moved to heaven when she was twenty."* |
+| `ch09-p77` | *"A few days after Hannah's celebration of life, friends sat me down and prayed for me."* |
+| `ch10-p176` | **`Hannah.`** — the one-word paragraph chapter X turns on |
+
+🛑 **All three are your sister. The note beside them read *"who prayed at Shiloh, and her
+face was no longer sad."*** That is 1 Samuel's Hannah — **and she is never named in the prose
+at all**; she is *"the woman at the tent"*, every time. So the index was pointing at three
+paragraphs about one person while telling the reader they were about another.
+
+⭐ **It now reads:** *"the author's sister — and, the book finds, the name of the woman at
+Shiloh."* **That is chapter X's whole turn in one line.**
+
+☐ **THIS ONE IS YOURS.** It is your sister's entry in your own book and the wording should be
+what you want it to be, not what I picked. **Say the word and it becomes anything you like** —
+`content/names.js`, one string. The two obvious alternatives, both one line:
+- *"my sister — and the name of the woman at Shiloh"* (first person, the way chapter X speaks)
+- *"Hannah — twice"* (the flattest possible, and it makes the reader do the work)
 

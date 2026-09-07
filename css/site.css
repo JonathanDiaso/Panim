@@ -62,11 +62,10 @@
   --lit-mid:     'opsz' 28;
   --lit-display: 'opsz' 60;
 
-  /* Old names kept as aliases so nothing that still says --fr-* silently loses its
-     optical size. Prefer --lit-* in new rules. */
-  --fr-normal: var(--lit-normal);
-  --fr-mid: var(--lit-mid);
-  --fr-display: var(--lit-display);
+  /* 🛑 THE --fr-* ALIASES ARE GONE, 2026-09-07. They existed so that anything still
+     written against the Fraunces names kept its optical size through the type swap.
+     Nothing says --fr-* any more — the whole sheet is on --lit-*. Do not re-add a
+     compatibility layer for a name no rule uses. */
 
   /* ---- paper + ink ------------------------------------------------------
      Default is chapter I's stock. Per-chapter values are set further down and
@@ -248,19 +247,22 @@ body {
   grid-template-columns: repeat(12, 1fr);
   column-gap: var(--step);
 }
-/* the three column ranges the whole book is built from */
-.col-margin { grid-column: 1 / 3; }    /* chapter numbers, plate numbers, labels */
-.col-text   { grid-column: 3 / 9; }    /* the reading measure */
-.col-aside  { grid-column: 10 / 13; }  /* thread notes, captions, references */
-.col-wide   { grid-column: 3 / 12; }   /* titles that need more room than text */
-.col-full   { grid-column: 1 / -1; }
+/* 🛑 THE COLUMN RANGES ARE A VOCABULARY, NOT CLASSES — the utilities were deleted
+   2026-09-07 having never once appeared in markup. Every component states its own
+   `grid-column` directly, which is why comments across components.css cite these
+   ranges by name. Those names still mean this, and nothing more:
+       .col-margin  1 / 3     chapter numbers, plate numbers, labels
+       .col-text    3 / 9     the reading measure
+       .col-aside  10 / 13    thread notes, captions, references
+       .col-wide    3 / 12    titles that need more room than text
+       .col-full    1 / -1
+   Under 900px the grid is six columns and each of those collapses to 1 / 7.
+   🛑 .rule-line went the same day, same reason: a 1px grid-wide rule with no markup.
+   If a component wants one, it is one declaration in that component. */
 
 @media (max-width: 900px) {
   .row, .section { grid-template-columns: repeat(6, 1fr); }
-  .col-margin, .col-text, .col-aside, .col-wide { grid-column: 1 / 7; }
 }
-
-.rule-line { grid-column: 1 / -1; height: 1px; background: var(--rule); border: 0; margin: 0; }
 
 /* ---------- sections ----------
    .section IS the grid container (above), so render.js's <div class="section-inner">
@@ -454,7 +456,9 @@ main { position: relative; }
   max-width: 58ch;
 }
 
-.hebrew-inline { font-family: var(--heb); font-weight: 400; }
+/* 🛑 .hebrew-inline IS GONE, 2026-09-07 — it had no markup. Hebrew inside prose is
+   set by .heb-word and the lexicon components, all of which name var(--heb)
+   themselves. */
 
 /* ---------- glossary term: a dotted underline, nothing more ---------- */
 .gloss-term {
@@ -530,8 +534,11 @@ main { position: relative; }
   .hairline { width: 5rem; transition: none; }
 }
 
-/* legacy hooks kept inert so js/motion.js and js/sync.js keep their contracts */
-.veil-lift::after, .veil-boundary, #ambient-light, #grain { display: none !important; }
+/* legacy hooks kept inert so js/motion.js and js/sync.js keep their contracts.
+   🛑 #ambient-light and #grain came off this line 2026-09-07 — neither id exists in
+   any markup or script, so the rule was hiding nothing. .veil-lift and .veil-boundary
+   stay: js/motion.js still reads both. */
+.veil-lift::after, .veil-boundary { display: none !important; }
 
 
 /* ============================================================================

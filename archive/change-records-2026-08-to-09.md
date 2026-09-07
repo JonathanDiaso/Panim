@@ -231,3 +231,122 @@ figures against a sunset and goes to mush at pill size; `alt-ch08-tornveil` is a
 with no silhouette and reads as a bright blur next to a face in profile. Both are good
 pictures at plate size and bad ones at 96px. **That is the only test this folder applies** —
 inline plates are judged on entirely different grounds.
+
+---
+
+# 🗄 KNOWN-FIXED — moved out of `README.md` §5, 2026-09-07
+
+🛑 **NOT LIVE. This is history, not instruction.** Every fault below was found, fixed and
+shipped. It sat in `README.md` as §5 under the heading *don't re-diagnose*, which is the
+right instruction and the wrong file: 72 lines of closed bugs between the file reference
+(§4) and the headless-testing traps (§6).
+
+⭐ **The rules that came out of them are live in `README.md` §3 and in the stylesheets
+themselves.** Read a paragraph here before you re-open the bug it closed — several of
+these were diagnosed twice already.
+
+Phone play/pause race (iOS only honours `play()` inside its own gesture, so the
+`<audio>` element's own events now drive the UI) · seekbar drew two scales on
+one rail (position vs. chapter ticks — split) · pointer capture +
+`pointercancel` on seek drags · stale `loadedmetadata`/`error` listeners
+stacking across chapter loads · `--ink-faint` failed WCAG AA at 2.66:1 (ink
+tiers now 15.5:6.4:4.5) · Fraunces → Literata (§3) · `--player-h` = 134px/92px ·
+**the Listening Room painted itself cream** (`js/room.js` read the page's paper table
+— see §3) · **`opacity` on text is a colour nobody measured**: four separate AA
+failures found on 2026-08-29 by compositing rather than eyeballing —
+`.chapter-mark` at `.62` (2.58–2.95:1, all ten chapters), `.meta-time` at `.6`
+(4.31:1), `#follow-btn.is-suspended` at `.55` (3.69:1), `.sheet-note` at `.65`
+(2.91:1). All four now use `--ink-soft`/`--ink-faint`/`--accent`, which are measured
+against every paper stock · 113 verse notes were 113 `<aside>` **landmarks** flooding
+the screen-reader rotor (now `role="note"`) · `role="dialog"` on `<aside>` is not
+allowed by ARIA (the four sheets are `<div>` now) · **Follow had no sighted state at
+all** — `js/player.js` toggled `.is-active` and no stylesheet matched it ·
+**every phone paragraph in all ten chapters was set 28px narrow and no plate was
+full-bleed** — `.divider-beat`/`.divider-swell` were `grid-column: 3 / 9` with no mobile
+range (see the grid note in §3) · **Literata GREEK was never precached** — `l00` is
+greek-*ext*, so offline every Greek word broke across two faces mid-word ·
+**the reduced-motion rule for the plates had never applied** — it said `.reveal` (0,1,0)
+against `.plate.reveal` (0,2,0) and lost the cascade every time ·
+**every expanded thread note in *What Comes Back* was setting 88px wide** — two words to
+a line, thirteen times, in the section the book closes on. Chrome 131 wraps `<details>`
+content in a UA pseudo-element, **`::details-content`**, and *that* is the grid item, so
+`.thread-detail`'s `grid-column: 3 / 11` was resolving inside a plain block. 🛑 **A
+`<details>` that is a grid container must place `::details-content` too, and must never
+override its `content-visibility`** — the UA uses it to hide the closed state ·
+**five inline pictures announced themselves as figures** — `<figure tabindex="0"
+role="button">`, and `<figure>` has an implicit role that cannot be overridden, so the
+role was silently discarded (axe `aria-allowed-role`). Each is a real `<button>` wrapping
+the picture now, **not** the `<figcaption>`, and the synthetic Enter/Space handler in
+`js/ui.js` is gone because a button already fires click on both keys.
+
+**Three more from 2026-08-29, and the first one is a rule worth more than the bug.**
+🛑 **`[hidden]` LOSES TO AN AUTHOR `display` RULE.** `hidden` is `display:none` in the UA
+stylesheet and any author `display` on the same element beats it outright. `.lex-plate`
+is `display:flex`, so all forty-nine closed lexicon entries painted and the section
+measured **22,564px — three times what it replaced** — while looking merely long. Three
+elements on this site toggle with `hidden` and carry `display`: `.lex-plate`, `.sheet`
+and `.modal`. **All three now restate `[hidden] { display: none }`, and that is why.**
+· **Thirteen headings announced a stray "plus"** — `content: '+'` on
+`.thread-name::after` is in the accessibility tree, so every *What Comes Back* row read
+as «"Lift up my face" plus», on a `<summary>` that already announces its own state. It is
+`content: '+' / ''` now — **generated-content alt text**. Found by diffing
+`Accessibility.getFullAXTree`; axe reported zero violations before *and* after, because a
+name with a stray character in it is not a violation, it is just wrong ·
+**`openSheet` focused inside a `requestAnimationFrame`** and `js/room.js` never did. rAF
+is a rendering callback the browser suspends whenever the document is not painting, so a
+frame that never lands means focus never enters the dialog. Both are synchronous now —
+**one pattern, one implementation.**
+
+> 🛑 **"Zero automated violations" has a date on it.** Round eleven ran axe and reported
+> zero everywhere; a current axe found five the next day, on a page that had not changed,
+> because the rules moved. **Re-run it every round.** **Current state: axe-core 4.13.0,
+> 2026-08-30 — zero violations on `index.html`, `accessibility.html` AND `404.html`.** It had
+> not been run for three rounds before that, across two entirely new sections. The earlier
+> pass also covered 402/900/1100/1440px with the Room, all four sheets, all thirteen threads
+> and the lightbox forced open — and the screen-reader claim on `/accessibility.html` is
+> still the honest one, because nothing here has been driven with one.
+
+> 🛑 **Every sub-44px target on this site is now either fixed or documented with a reason.**
+> Fixed 2026-08-30: the hero's פָּנִים (42 × 27) and the About sheet's *One Promise* link
+> (351 × 31) — both failed on **both** axes and both were older than the round that found
+> them. Exempt and annotated in place: the **Index of Scripture's citation rows** (dense list
+> of links) and the **ten player seek marks** (their position on the scrub bar *is* the
+> information — growing them would overlap the chapter boundaries and move each tick off the
+> moment it names). Both notes say what would make the exemption stop applying.
+> **At 402px there are zero sub-44px targets of any kind.**
+
+---
+
+# 🗄 CLOSED OUT OF `README.md` §7 — 2026-09-07
+
+🛑 **NOT LIVE.** Four items that had been *answered* were still sitting in the section
+named **Not done**. Three of them are rulings the author made and one is a backlog line
+that was never true in the first place. They are kept verbatim because each one carries
+the reason it closed, and a closed item with no reason gets reopened.
+
+**The Lexicon is no longer on this list, and neither are the two questions it raised.**
+Both shipped 2026-08-29 (v38): the wall **filters by language and sorts A–Z** as well as by
+chapter, and the **31 entries with no root now say why they have none** — in four sentences,
+not one, because "no root" is true of a Greek verb and of a six-word Hebrew clause for
+unrelated reasons. §3 has both.
+
+✅ **`ch02-trees` is off this list, by ruling and not by replacement.** It sat here from
+2026-08-29 as *"the worst single frame on the site"* and three rounds looked for a
+different picture. On 2026-09-03 the author closed it: *"i honestly dont care if it looks
+like fantasy land lol it will be ok."* The frame stays, and its square crop is now the
+chapter II lock-screen plate as well (§4). **Do not reopen it as an art task.**
+
+✅ **Chapter VI is FIXED, and the item it was replaced by is a different chapter.** The
+2026-08-29 note here read *"chapter VI runs 47 paragraphs with no verse, picture, divider or
+break"* — **it has eleven verses**; the real fault was a 47-paragraph *run*, blocks 5–51. A
+`[swell]` at the *melammu* turn and the priestly blessing promoted to a verse block took it
+to **24 paragraphs / 582 words**, and chapter VI is now the sixth-densest chapter, not the
+first.
+
+> 🛑 **A third item stood here for three rounds and was never true.** It read *"neither
+> contents surface says how long a chapter is"* and asked for work that had already
+> shipped: **both** surfaces have carried per-chapter minutes since before it was written —
+> `js/render.js` renderContents draws `.toc-dur`, `js/ui.js` buildNavToc draws `.ntr-dur`,
+> both off `content/audio-manifest.js`. It survived because each round copied the line
+> forward instead of opening the file, and **the author caught it by asking**. Removed
+> 2026-08-29. **A backlog item is a claim about the code until it is re-read.**

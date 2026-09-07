@@ -1102,19 +1102,11 @@
    on a published page. If a placeholder is ever wanted again, put it back here. */
 @media (max-width: 900px) { .img-slot { grid-column: 1 / 7; } }
 
-/* ---------- the margin apparatus ---------- */
-.aside-note {
-  grid-column: 10 / 13;
-  font-family: var(--serif); font-variation-settings: var(--lit-normal);
-  font-size: var(--ap-lg); line-height: 1.6;
-  color: var(--ink-soft); padding-top: .45em;
-}
-.aside-note b {
-  display: block; font-family: var(--ui); font-weight: 600; color: var(--ink);
-  font-size: var(--ap-sm); letter-spacing: .16em; text-transform: uppercase;
-  margin-bottom: .55em;
-}
-@media (max-width: 900px) { .aside-note { grid-column: 1 / 7; } }
+/* ---------- the margin apparatus ----------
+   🛑 .aside-note IS GONE, 2026-09-07 — three rules for a margin note that was never
+   written into any renderer. The apparatus that actually ships in the aside column is
+   the thread note (.ntr) and the plate caption; both are below. A new margin note is
+   a new component, not this one revived. */
 
 /* the back of the book, in both contents surfaces. It is set quieter than a chapter
    because it is apparatus, not narrative — a reader scanning for chapter VII should
@@ -1185,19 +1177,11 @@
   .si-head.is-bare .chapter-num,
   .lex-head.is-bare .chapter-num { grid-column: 1 / 7; }
 }
-.si-standfirst { grid-column: 3 / 10; }
-.si-standfirst h2 {
-  font-variation-settings: var(--lit-mid);
-  font-weight: 350; font-size: clamp(1.5rem, 3vw, 2.1rem);
-  line-height: 1.12; letter-spacing: -.016em; margin: 0 0 .6em;
-}
-.si-standfirst p {
-  font-style: italic; color: var(--ink-soft);
-  font-size: 1rem; line-height: 1.55; max-width: 52ch; margin: 0;
-}
+/* 🛑 .si-standfirst IS GONE, 2026-09-07 — four rules for a head that has been bare
+   since the apparatus sections dropped their standfirsts. js/render.js emits
+   `.si-head.is-bare` and `.lex-head.is-bare` only; nothing has ever emitted this. */
 @media (max-width: 900px) {
   .si-head .chapter-num { grid-column: 1 / 7; }
-  .si-standfirst { grid-column: 1 / 7; }
 }
 
 /* columns rather than a breakpoint per case, the same reasoning as .lex-plates:
@@ -1680,6 +1664,24 @@
    ⚠️ AND ITS BUTTONS WERE 34px — under the 44px minimum, on the one control a
    returning reader is most likely to reach for on a phone. They are .btn's full
    height now. */
+/* 🔴 AND THE CONTROL INSIDE IT WENT 2026-09-07 — the box, the sentence and the ×.
+   The author: "the resume thing it has tiny text a tiny x and a resume buton its kinda
+   ugly cna we make it better?"
+   The container above was already right — paper, hairline, accent rule. What sat in it
+   was the old vocabulary: a run-on sans sentence with the chapter title in quotation
+   marks, then a BORDERED BOX labelled Resume. That box is the shape this page never
+   uses, and it is the exact thing that was taken off the jacket's own resume button
+   two days earlier ("i meant loud as in ugly lol" → .btn-begin, above).
+   ⭐ SO IT IS .btn-begin. Not a copy of it, not a smaller cousin of it — the class. The
+   ring says "this plays", the verb sets on one line, the place sets under it, and the
+   whole thing is one target instead of a sentence with a button after it.
+   🛑 ONE ACCENT RULE, NOT TWO. The toast keeps its own left edge and the button drops
+   its border and its left padding, so the mark the reader sees belongs to the object
+   they can click. Padding moves onto the button for the same reason.
+   ⚠️ THE × IS THE ONE THING THAT MUST STAY QUIET — it is the "no thanks", and a
+   dismiss drawn at the weight of the action it dismisses is a coin toss. --ink-faint
+   at 4.5:1, 44px both axes, and it sits top-aligned so it never competes with the
+   two-line stack for the optical centre. */
 .toast {
   position: fixed; left: var(--edge); bottom: calc(var(--player-h, 134px) + 10px); z-index: 940;
   background: var(--paper);
@@ -1687,17 +1689,29 @@
   border: 1px solid var(--control-edge);
   border-left: 2px solid var(--accent);
   box-shadow: 0 6px 18px rgba(0, 0, 0, .16);
-  padding: .8em 1em; display: flex; gap: .8em; align-items: center;
-  font-family: var(--ui); font-size: var(--ap-lg); max-width: min(440px, 88vw);
+  padding: 0; display: flex; gap: 0; align-items: stretch;
+  font-family: var(--ui); font-size: var(--ap-lg); max-width: min(460px, 92vw);
   opacity: 0; transform: translateY(10px);
   transition: opacity var(--dur-med) var(--ease), transform var(--dur-med) var(--ease),
               bottom var(--dur-med) var(--ease);
 }
 .toast:not([hidden]).is-shown { opacity: 1; transform: none; }
 .toast[hidden] { display: none; }
-.toast .btn { min-height: 44px; padding: .55em 1em; white-space: nowrap; }
-.toast .btn-icon { color: var(--ink-faint); }
-.toast .btn-icon:hover, .toast .btn-icon:focus-visible { color: var(--ink); }
+.toast .btn-begin {
+  border-left: 0;
+  flex: 1 1 auto; min-width: 0;
+  padding: .85em .6em .85em 1.05em;
+}
+/* the title can run long — "The word he kept rehearsing" — and a bookmark that pushes
+   the dismiss off the edge is worse than one that wraps */
+.toast .bb-label { white-space: normal; }
+.toast-dismiss {
+  align-self: flex-start;
+  min-height: 44px;
+  color: var(--ink-faint);
+  font-size: 1.1rem; line-height: 1;
+}
+.toast-dismiss:hover, .toast-dismiss:focus-visible { color: var(--ink); }
 
 #gloss-card {
   position: absolute; z-index: 950; max-width: 320px;
@@ -3534,7 +3548,7 @@ body.nav-toc-open #site-nav {
 /* ============================================================================
    NAMES AND PLACES — js/render.js renderNames(), #names
    The index a reader has and cannot do, 2026-08-30 (D15-F). It reuses the Index of
-   Scripture's head (.si-head / .si-standfirst), its book heading (.si-book-name)
+   Scripture's head (.si-head.is-bare), its book heading (.si-book-name)
    and its citation link (.si-cite) — three components, already measured, already
    at 44px. What is new here is only the entry itself: a name, what it is, and a
    row of chapter numerals.
@@ -3703,28 +3717,62 @@ body.nav-toc-open #site-nav {
 @supports not (grid-template-columns: subgrid) {
   .src-group { grid-template-columns: repeat(12, 1fr); column-gap: var(--step); }
 }
-/* the heading sits in the margin the chapter numerals use, so the page reads down
-   one column of type with its labels hanging to the left — the shape the rest of
-   the apparatus already has */
+/* 🔴 THE GROUP HEADING WAS THE SECOND LABEL IN THE MARGIN, AND IT LOST — fixed
+   2026-09-07. The author: "on the left it has the tiny text … but we already have a
+   title, do we need two titles?" He is right about what he saw and the answer is that
+   the section needs both LEVELS and had been drawing them identically: "THE SOURCES"
+   and "THE TEXT ITSELF" were the same 10.24px tracked uppercase in the same margin
+   column, so the page appeared to label itself twice and neither label won.
+   ⭐ THIS IS THE FIX NAMES AND PLACES ALREADY SHIPPED, ARRIVING LATE. Read the note
+   above `.ni-letter .si-book-name`: the same 10px margin label was "the smallest type
+   in the section and the hardest thing on it to see" ("the abc … could be bigger its
+   hard to see"), and it became a printed index letter — serif, large, in the accent.
+   A group name here is a phrase rather than a letter, so it sets smaller than that
+   one and wraps; everything else about it is the same object.
+   🛑 CONTRAST IS INHERITED, NOT ASSUMED: --accent is #7E5A20 on the section's stock,
+   measured at 5.98:1 for the Names letter, and this is larger than body text. */
 .src-group-head {
   grid-column: 1 / 3;
-  font-family: var(--ui); font-size: var(--ap-sm); font-weight: 600;
-  letter-spacing: .14em; text-transform: uppercase;
-  color: var(--ink-faint);
-  margin: 0; padding-top: .5em; line-height: 1.4;
+  font-family: var(--serif);
+  font-variation-settings: var(--lit-mid);
+  font-size: clamp(1.25rem, 1.9vw, 1.6rem);
+  font-weight: 400; line-height: 1.1;
+  letter-spacing: -.005em; text-transform: none;
+  color: var(--accent);
+  margin: 0; padding-top: .05em;
+  text-wrap: balance;
 }
+/* 🛑 THE NOTE RUNS THE FULL ENTRY MEASURE, NOT A THIRD OF IT. It was `3 / 10` with a
+   52ch cap inside a column that is narrower than 52ch, so the cap never applied and
+   the sentence broke at about forty characters — three cramped ragged lines that read
+   as a caption for something. It is a standfirst; it sets like one. */
 .src-group-note {
-  grid-column: 3 / 10;
+  grid-column: 3 / -1;
   font-style: italic; color: var(--ink-soft);
-  font-size: var(--ap-lg); line-height: 1.55; max-width: 52ch;
-  margin: 0 0 1.4rem;
+  font-size: var(--ap-lg); line-height: 1.55; max-width: 62ch;
+  margin: 0 0 1.5rem;
 }
-.src-items { grid-column: 3 / 10; }
-.src-item {
-  padding: 1.1rem 0;
-  border-top: 1px solid var(--rule);
+/* 🛑 THE ENTRIES FILL THE PAGE. `3 / 10` left columns 10–12 empty down the whole
+   section — a quarter of the sheet blank beside eleven short entries, while the
+   Index of Scripture and Names and Places both run to the edge. Same auto-fill as
+   `.ni-entries`, at a wider minimum because these carry a sentence of prose and a
+   name that runs to sixty characters. */
+.src-items {
+  grid-column: 3 / -1;
+  display: grid; align-content: start;
+  gap: clamp(1.6rem, 2.6vw, 2.4rem) clamp(1.4rem, 2.4vw, 2.6rem);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
 }
-.src-item:first-child { border-top: 0; padding-top: 0; }
+/* 🛑 NO RULE BETWEEN ENTRIES, AND THIS IS THE REASON RATHER THAN A PREFERENCE.
+   Each entry used to carry `border-top`, with the first one clearing it. In a single
+   column that reads; in a grid the top of the SECOND column also clears the group
+   above it, so the rule appeared over one entry and not its neighbour — an orphan
+   mark, and no selector can say "first in each column" across every column count.
+   The rest of the back matter had already settled this: Names and Places separates
+   sixty entries with space alone, and the Index of Scripture rules its book headings,
+   not its rows. Title, attribution and prose are three voices already; space is
+   enough. The only rule left in an entry is the accent flag on an open citation. */
+.src-item { break-inside: avoid; }
 .src-title {
   font-family: var(--serif); font-variation-settings: var(--lit-normal);
   font-weight: 500; font-size: 1.05rem; line-height: 1.35;
@@ -3763,8 +3811,11 @@ body.nav-toc-open #site-nav {
 
 @media (max-width: 900px) {
   .src-body, .src-group { grid-template-columns: repeat(6, 1fr); }
-  .src-group-head { grid-column: 1 / 7; padding-top: 0; margin-bottom: .5rem; }
+  .src-group-head { grid-column: 1 / 7; padding-top: 0; margin-bottom: .6rem; }
   .src-group-note, .src-items { grid-column: 1 / 7; }
+  /* one column on a phone: two 22rem tracks would each be narrower than the minimum
+     and collapse to one anyway — this says so rather than relying on it */
+  .src-items { grid-template-columns: 1fr; }
 }
 
 /* On paper the whole list prints — it is the one section whose entire job is to be
