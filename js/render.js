@@ -1305,12 +1305,32 @@
        +3m56  "He knows exactly Who is in the thin silence."
        +4m43  Elijah walks off the mountain with his face still wrapped
        +4m51  🛑 "The appointment is still on the books."
-     ⭐ +4m51 IS AN ENDING AND IT IS EXACTLY WHERE FIVE MINUTES LANDS. The older
-     note in this file stopped its table at +3m56 and concluded the passage was
-     "four minutes", which is why "five" had to be carried as the author's word
-     over the measurement. It was the table that was short, not the passage. The
-     next line after +4m51 opens a new movement (Hannah), so five minutes is also
-     the last honest place to stop.
+     ⭐ +4m51 IS AN ENDING. The older note in this file stopped its table at +3m56
+     and concluded the passage was "four minutes", which is why "five" had to be
+     carried as the author's word over the measurement. It was the table that was
+     short, not the passage — and it was short twice.
+
+     🔴 FIVE MINUTES → EIGHT, 2026-09-07, ON THE AUTHOR'S "yes" TO OPTION A ON THE
+     DECISIONS SHEET. He asked: "whats the main heart of that 8 minutes anyways…
+     if i want them to click it needs to be good though this should be a true hook."
+     ⭐ AND NOTHING HAD TO MOVE. The table above stops at +4m51 because that is where
+     the Elijah movement closes, not because the door does. Measured on the same
+     cues/ch07.json the table is built from, the SAME href keeps going:
+       +4m54  22:49  "My sister Hannah moved to heaven when she was twenty."
+       +6m47  24:42  "Jesus, do You love me?"
+       +7m34  25:29  "I saw Jesus over the same page I was over, weeping…"
+       +8m01  25:56  "I did not see His face. I saw His tears."
+       +8m19  26:14  🎯 "He answered it wet."
+     So the deep link already reached the best passage in the book with nineteen
+     seconds to spare, and the only thing wrong with the card was that it described
+     itself as half of what it opens. The href is untouched — it is locked, see
+     docs/FRONT-DOOR.md §0.1 — and the eyebrow and the aria-label now say eight.
+
+     🛑 .hs-holds STILL DESCRIBES ONLY THE FIRST FIVE, AND THAT IS DELIBERATELY LEFT.
+     It names the father's hidden face and the mountain, both of which close at
+     +4m51. What happens in minutes five to eight is the author's sister, and the
+     sentence that puts her on the front page has to be his — it is the one line on
+     this site nobody else gets to write. Open on the sheet, under decision 1.
 
      🛑 FOUR ELEMENTS, FOUR DIFFERENT JOBS, AND THE ORDER IS THE AUTHOR'S — "it
      should say only have 5 minutes and then something els":
@@ -1318,7 +1338,7 @@
        2 the bait       two sentences out of the book     — why you would press it
        3 what is inside three stories, named, not summarised
        4 where it goes  Chapter VII · The Glory Backs Out — the destination
-     ⚠️ "FIVE MINUTES" IS SAID ONCE, IN LINE 1, AND NOWHERE ELSE. The card's oldest
+     ⚠️ "EIGHT MINUTES" IS SAID ONCE, IN LINE 1, AND NOWHERE ELSE. The card's oldest
      and most persistent fault is an eyebrow, a title and a meta line all reporting
      the same number of minutes — three lines of chrome carrying one fact, which is
      the most recognisable shape of machine-written UI copy on the page. The action
@@ -1335,10 +1355,10 @@
       // screen reader user the one line on the card that does not persuade anybody and
       // hide the two sentences that do. Same four things, same order, at a length a
       // links list can carry.
-      ' aria-label="If you only have five minutes. ‘A hurt human heart can hide' +
-      ' indefinitely. God’s cannot.’ Play five minutes from chapter seven,' +
+      ' aria-label="If you only have eight minutes. ‘A hurt human heart can hide' +
+      ' indefinitely. God’s cannot.’ Play eight minutes from chapter seven,' +
       ' The Glory Backs Out.">' +
-      '<span class="hs-eyebrow">If you only have five minutes</span>' +
+      '<span class="hs-eyebrow">If you only have eight minutes</span>' +
       '<blockquote class="hs-quote"><p>…a hurt human heart can hide indefinitely.' +
         '<br>God’s cannot.</p></blockquote>' +
       // ⚠️ SHORTER, 2026-09-05 (round seven). The author: "keep that shrter."

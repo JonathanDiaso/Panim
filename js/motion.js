@@ -11,58 +11,78 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Dawn-arc token table (11-website-plan.md §4.2) — mirrors css/site.css section rules.
-  // Direction B: the arc is carried by PAPER TEMPERATURE, not by black turning to
-  // cream. The book opens on a cool, almost grey stock and warms page by page until
-  // chapter X is a bright warm white. The ACCENT is now three colours, not ten —
-  // night (I–IV), fire (V–VIII), morning (IX–X) — switching where the book turns
-  // rather than once per chapter. See the long note in css/site.css.
-  // This table must stay identical to the .section[data-ch] block in css/site.css.
-  var TOKENS = {
-    '0':  { bg: '#EFEBE1', text: '#191510', accent: '#32506B' },
-    '1':  { bg: '#EDE9DF', text: '#191510', accent: '#32506B' },
-    '2':  { bg: '#E7E7E4', text: '#16181A', accent: '#32506B' },
-    '3':  { bg: '#EDE6DB', text: '#1A1510', accent: '#32506B' },
-    '4':  { bg: '#E6E8EA', text: '#15181B', accent: '#32506B' },
-    '5':  { bg: '#F0E9DC', text: '#1A1510', accent: '#A8391B' },
-    '6':  { bg: '#F2ECE0', text: '#1A1610', accent: '#A8391B' },
-    '7':  { bg: '#E9E9E7', text: '#17191B', accent: '#A8391B' },
-    '8':  { bg: '#EBE6E1', text: '#181412', accent: '#A8391B' },
-    '9':  { bg: '#F4EEE1', text: '#1A1610', accent: '#7E5A20' },
-    '10': { bg: '#FBF7EE', text: '#1A1712', accent: '#7E5A20' },
-    'fw': { bg: '#FDFAF3', text: '#1A1712', accent: '#7E5A20' }
-  };
+  // ⭐ THE DAWN ARC IS READ OFF THE STYLESHEET. IT IS NOT COPIED HERE ANY MORE.
+  //
+  // 🛑 THIS FILE USED TO CARRY TWO HAND-KEPT TABLES — twelve day stocks and twelve
+  // night ones, each a literal copy of the .section[data-ch] rules in css/site.css,
+  // each with a comment above it saying "must stay identical". The author, on the
+  // sheet: "fix". They were the same decision written down in two places, and the
+  // failure mode was silent — the lerp would walk the paper toward a stock the
+  // stylesheet never paints, so the page drifted a few hex steps off its own
+  // sections and nothing anywhere said so. It had already cost one live bug.
+  //
+  // css/site.css is the one source now. A hidden probe carrying .section[data-ch]
+  // is asked for the three custom properties the arc is made of, which is the same
+  // question the browser answers for the real sections; the answers are cached per
+  // chapter and thrown away whenever the theme flips, because the night block
+  // redefines every one of them. A probe rather than the real section so this works
+  // before js/render.js has built the chapters, and for [data-ch="fw"], which is not
+  // a chapter at all.
+  //
+  // ⚠️ THE TOKENS MUST STAY AUTHORED AS HEX in css/site.css. hexToRgb below parses
+  // them and the interpolation is done in RGB; a color() or oklch() token would
+  // reach here as a string this file cannot read. That is the one coupling left,
+  // and it is one instead of twenty-four.
+  var probe = null;
+  var stockCache = {};
+  var cachedTheme = null;
 
-  // 🌙 THE SAME ARC WITH THE LIGHTS OFF, 2026-09-05.
-  // 🛑 THIS TABLE MUST STAY IDENTICAL TO THE html[data-theme="night"] .section
-  // BLOCK AT THE BOTTOM OF css/site.css, exactly as TOKENS above must stay
-  // identical to the day block. Two files, one decision, and the failure mode is
-  // silent: the lerp would walk the paper toward a stock the stylesheet never
-  // paints, so the page would drift a few hex steps off its own sections.
-  // The arc is not thrown away in night, it is moved down: chapter I is the tomb
-  // at 1 a.m., chapter X is the same morning seen from a dark room. Contrast
-  // figures for the ink and the three accents are in css/site.css.
-  var TOKENS_NIGHT = {
-    '0':  { bg: '#141311', text: '#EFE9DE', accent: '#8FB4D8' },
-    '1':  { bg: '#121110', text: '#EFE9DE', accent: '#8FB4D8' },
-    '2':  { bg: '#111315', text: '#EAEBEE', accent: '#8FB4D8' },
-    '3':  { bg: '#151211', text: '#F0E9DD', accent: '#8FB4D8' },
-    '4':  { bg: '#101215', text: '#E9ECEF', accent: '#8FB4D8' },
-    '5':  { bg: '#17130F', text: '#F2EADC', accent: '#E58156' },
-    '6':  { bg: '#191410', text: '#F3EBDD', accent: '#E58156' },
-    '7':  { bg: '#131415', text: '#ECEDEE', accent: '#E58156' },
-    '8':  { bg: '#151312', text: '#EFEAE4', accent: '#E58156' },
-    '9':  { bg: '#1A1510', text: '#F4EDDF', accent: '#DCAA51' },
-    '10': { bg: '#1E1913', text: '#F7F1E5', accent: '#DCAA51' },
-    'fw': { bg: '#201B15', text: '#F8F2E7', accent: '#DCAA51' }
-  };
-
-  // one lookup, so nothing below has to know which table it is reading
-  function stock(ch) {
-    var t = document.documentElement.getAttribute('data-theme') === 'night'
-      ? TOKENS_NIGHT : TOKENS;
-    return t[ch] || t['0'];
+  function themeNow() {
+    return document.documentElement.getAttribute('data-theme') === 'night' ? 'night' : 'day';
   }
+
+  function readStock(ch) {
+    if (!probe) {
+      probe = document.createElement('div');
+      probe.className = 'section';
+      // out of the flow and out of the tree's reach: it paints nothing, measures
+      // nothing, and is never a tab stop. Custom properties still resolve on it.
+      probe.style.cssText = 'position:absolute;left:-9999px;top:0;width:0;height:0;' +
+                            'visibility:hidden;pointer-events:none';
+      probe.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(probe);
+    }
+    probe.setAttribute('data-ch', ch);
+    var cs = getComputedStyle(probe);
+    return {
+      bg:     cs.getPropertyValue('--paper').trim(),
+      text:   cs.getPropertyValue('--ink').trim(),
+      accent: cs.getPropertyValue('--accent').trim()
+    };
+  }
+
+  // one lookup, so nothing below has to know where the numbers came from
+  function stock(ch) {
+    var t = themeNow();
+    if (t !== cachedTheme) { stockCache = {}; cachedTheme = t; }
+    var key = String(ch);
+    if (!stockCache[key]) {
+      var v = readStock(key);
+      // A probe asked before <body> exists, or for a data-ch the stylesheet has no
+      // rule for, comes back with the root's own values rather than a section's.
+      // Chapter 0's stock is the honest fallback — it is the jacket, which is what
+      // the page is showing when nothing has claimed it yet — and it is NOT cached,
+      // so the first real answer replaces it.
+      if (!v.bg || v.bg.charAt(0) !== '#') {
+        return key === '0' ? { bg: '#EFEBE1', text: '#191510', accent: '#32638F' } : stock('0');
+      }
+      stockCache[key] = v;
+    }
+    return stockCache[key];
+  }
+
+  // the night block redefines all three properties, so every cached answer is stale
+  document.addEventListener('panim:theme', function () { stockCache = {}; cachedTheme = null; });
 
   function hexToRgb(hex) {
     var n = parseInt(hex.slice(1), 16);
@@ -615,8 +635,17 @@
 
   document.addEventListener('panim:rendered', init);
 
-  // shared with js/room.js so the Listening Room's light follows playback
-  window.PANIM_TOKENS = TOKENS;
+  // 🛑 window.PANIM_TOKENS IS GONE, 2026-09-07, AND IT HAD NO READER LEFT. It was
+  // exported here under the comment "shared with js/room.js so the Listening Room's
+  // light follows playback" — but js/room.js stopped reading it when that block was
+  // found to be painting the Room in daylight cream, and the note there now says in
+  // capitals: "Do not re-point it at PANIM_TOKENS." So this line published a table
+  // nobody consumed, and when the two tables above were replaced by a read of
+  // css/site.css it became `window.PANIM_TOKENS = TOKENS` with no TOKENS to name —
+  // an uncaught ReferenceError on every page load, at the very bottom of the file
+  // where it broke nothing visible. If the Room ever gets the ten-stop ramp its own
+  // note asks for, that ramp is an author decision and belongs in css/room.css, not
+  // in a global re-exported from here.
 
   // NOTE (BUILD-NOTES.md): rewind-line letter-space settle (§8.4) is marked OPTIONAL in the
   // build brief — skip if rewind lines cannot be reliably identified. content/chapters.js
