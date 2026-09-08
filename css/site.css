@@ -108,7 +108,7 @@
      for nothing. Only things you can press use this token. */
   --control-edge: rgba(25, 21, 16, .50);
   --control-wash: rgba(25, 21, 16, .03);
-  --accent: #32506B;          /* night — the default before any section claims the page */
+  --accent: #32638F;          /* night — the default before any section claims the page */
 
   /* ---- the apparatus scale -----------------------------------------------
      THREE SIZES, 2026-08-28. There were twenty-one distinct sub-1rem sizes in this
@@ -381,7 +381,7 @@ main { position: relative; }
    that mean something read as a decision, and the switch happens where the BOOK
    turns, not once per chapter:
 
-     NIGHT   #32506B   I–IV     the face is buried, hidden, fled from, wrestled in the dark
+     NIGHT   #32638F   I–IV     the face is buried, hidden, fled from, wrestled in the dark
      FIRE    #A8391B   V–VIII   the bush, the shine, the glory leaving, the flint and the tear
      MORNING #7E5A20   IX–X     the second fire at dawn, and the face in full light
 
@@ -391,11 +391,29 @@ main { position: relative; }
    night 6.79 : 1, fire 5.19 : 1, morning 5.03 : 1 — all clear of the 4.5 AA floor,
    which matters because the accent paints .chapter-num and .verse-ref at ~10-12px.
    js/motion.js mirrors this table exactly. */
-.section[data-ch="0"]   { --paper:#EFEBE1; --ink:#191510; --accent:#32506B; } /* the jacket */
-.section[data-ch="1"]   { --paper:#EDE9DF; --ink:#191510; --accent:#32506B; } /* the tomb — found in the dark */
-.section[data-ch="2"]   { --paper:#E7E7E4; --ink:#16181A; --accent:#32506B; } /* the hiding */
-.section[data-ch="3"]   { --paper:#EDE6DB; --ink:#1A1510; --accent:#32506B; } /* the mountain they fled */
-.section[data-ch="4"]   { --paper:#E6E8EA; --ink:#15181B; --accent:#32506B; } /* the ford at night */
+/* 🔴 THE NIGHT BLUE WENT #32506B → #32638F, 2026-09-07. The author: "the blue isnt
+   visible and only talking about under the ribbon nothing else."
+   ⭐ AND HE IS RIGHT FOR A REASON THAT IS NOT CONTRAST. The old blue measured 7.07:1
+   on the caption's stock — the HIGHEST of the three accents, higher than the red he
+   says looks good. The problem is the other end: the ribbon caption arrives in the
+   chapter's accent and settles on --ink (see .plh-w in css/components.css), and the
+   old blue's luminance was 0.075 against ink's 0.008, while red sits at 0.113 and
+   gold at 0.119. The blue was nearly as dark as the ink it turns into, so the
+   arrival had nothing to travel — the word landed already looking settled. Red and
+   gold are lighter and warmer, so their arrival reads. Raising contrast would have
+   made it worse; what it needed was to move AWAY from the ink.
+   Same hue (208°), lightness 31% → 38%, saturation 36% → 48%. Luminance 0.116, which
+   is red's and gold's own footing. Re-measured on all five of its stocks: 5.32, 5.22,
+   5.11, 5.11, 5.15:1 — worst 5.11, clearing AA's 4.5 for normal text everywhere, not
+   just the 3.0 the 34px caption would have needed.
+   🛑 NIGHT IS UNTOUCHED AND WAS MEASURED BEFORE DECIDING: #8FB4D8 sits at 0.434
+   against a near-white ink at 0.819, so all three night accents separate from ink
+   already. The fault was day-only, which is exactly the half he described. */
+.section[data-ch="0"]   { --paper:#EFEBE1; --ink:#191510; --accent:#32638F; } /* the jacket */
+.section[data-ch="1"]   { --paper:#EDE9DF; --ink:#191510; --accent:#32638F; } /* the tomb — found in the dark */
+.section[data-ch="2"]   { --paper:#E7E7E4; --ink:#16181A; --accent:#32638F; } /* the hiding */
+.section[data-ch="3"]   { --paper:#EDE6DB; --ink:#1A1510; --accent:#32638F; } /* the mountain they fled */
+.section[data-ch="4"]   { --paper:#E6E8EA; --ink:#15181B; --accent:#32638F; } /* the ford at night */
 .section[data-ch="5"]   { --paper:#F0E9DC; --ink:#1A1510; --accent:#A8391B; } /* the bush that is not consumed */
 .section[data-ch="6"]   { --paper:#F2ECE0; --ink:#1A1610; --accent:#A8391B; } /* borrowed light */
 .section[data-ch="7"]   { --paper:#E9E9E7; --ink:#17191B; --accent:#A8391B; } /* the glory backs out — the fire leaves */
@@ -704,8 +722,19 @@ main { position: relative; }
    night. They are a hand-kept duplicate of two literals, which this file already
    does for the dawn arc in js/motion.js — if the fire ever changes, it changes in
    three places, and this is the third. */
-.hero-sample { --accent: #A8391B; }
-html[data-theme="night"] .hero-sample { --accent: #E58156; }
+/* 🔴 THE RED CAME OFF THIS CARD, 2026-09-07, ONE ROUND AFTER IT WENT ON. The author:
+   "the red can look good but its not calming so red not for the chapter preview lol."
+   ⭐ SEPARATE THE THING FROM ITS FRAME: what he approved last round was the BOX
+   GOING, and the rule down the left that replaced it. The red arrived in the same
+   commit and is the part he is naming now. The rule stays; only its colour goes back.
+   With the override gone the card inherits the accent of the section it sits in —
+   the jacket, [data-ch="0"], which is the night blue he says looks good — instead of
+   reaching two arcs forward for chapter VII's fire. That also retires the hand-kept
+   triplicate the note above this used to warn about: the fire now lives in
+   css/site.css's arc table and nowhere else.
+   ⚠️ HE ALSO ASKED, of the same object: "left of the text when its red is that
+   necesssary". That is a question about the RULE, not the colour, and it is still
+   open on the sheet — it is not answered by deleting it on his behalf. */
 .hero-sample:hover, .hero-sample:focus-visible {
   border-left-color: var(--accent);
   /* ⚠️ THE SURFACE ARRIVES; NOTHING INVERTS AND NOTHING MOVES. Same gesture as
@@ -940,29 +969,34 @@ html[data-theme="night"] .hero-sample { --accent: #E58156; }
   grid-column: 3 / 9;
   max-width: 34rem;
   margin: 1.1rem 0 0;
-  /* 🔴 THE SERIF, NOT THE SANS — 2026-09-07, and it is the last piece of "bloated".
-     ⚠️ --ap-xl WAS THE RIGHT SIZE IN THE WRONG FAMILY. The note it replaces is
-     correct that this line is the reason --ap-xl exists; what it never asked is why a
-     sentence out of the book was being set in the interface face at all. With the box
-     and the internal hairline gone, the card is four things stacked on a rule — and
-     three of them were speaking in three different voices: tracked sans caps, then
-     Literata at display size, then Archivo at 15px, then Literata again. A reader
-     does not call that "four elements", he calls it bloated, which is the word the
-     author used.
-     ⭐ TWO VOICES NOW, NOT THREE. The eyebrow is signage and stays in the sans; every
-     other word on this card is out of the book and is set in the book's face. The
-     site's own rule, written at .verse-note: "the serif is the book and the sans is
-     the machine, and a note about Hebrew grammar written by the author is not
-     machinery." Neither is this.
-     ⚠️ IT GOT ONE STEP LARGER WITH THE FAMILY. Literata at 15.2px against Archivo at
-     15.2px reads smaller — the serif's x-height is lower — and this line was already
-     the smallest thing on the card. 17px at 1440 puts it just under the .hs-act title
-     beside the play mark, which is the right order: this describes, that locates.
-     ⚠️ --ink-soft on bare paper measures 5.39:1 day / 8.74:1 night. */
-  font-family: var(--serif);
-  font-variation-settings: var(--lit-normal);
+  /* 🔴 BACK TO THE SANS, 2026-09-07, ONE ROUND AFTER IT WENT TO THE SERIF. The author:
+     "The one that says click on any paragraph and it will play has weirds font and it
+     could do its job better."
+     🛑 THE TAG AND THE COMPUTED STYLE WERE CHECKED BEFORE THE FAMILY WAS TOUCHED,
+     because the last "weird font" report on this site was a wrapper element and not a
+     font at all — js/ui.js building caption words with createElement('i'). This one is
+     real: Literata, font-style normal, weight 400, 15.68px, --ink-soft. Nothing
+     inherited it and there is no stray <i>. The face itself is the complaint.
+     ⭐ AND THE ROUND THAT SET IT IN THE SERIF ARGUED FROM THE WRONG ELEMENT. Its
+     reasoning was "every other word on THIS CARD is out of the book" — but this line
+     is not on the card. The note directly above says so in its own words: "THIS ONE IS
+     STILL IN THE HERO — it is about the whole book, not about the excerpt, and it was
+     never part of the card." It is an instruction about how the interface behaves,
+     which is the definition of machinery, and this site's own rule at .verse-note is
+     "the serif is the book and the sans is the machine". Set in the book's voice at a
+     size just under the quote above it, it read as a runt paragraph of that quote
+     rather than as something you can act on — which is both halves of what he said:
+     weird, and not doing its job. .hs-holds keeps the serif; it IS on the card and it
+     is describing the passage, so the same round's reasoning holds there.
+     ⚠️ THE SIZE GOES BACK WITH THE FAMILY AND THAT IS NOT A RETURN TO "SUPER SMALL".
+     --ap-xl is .95rem — the token added for exactly this line, in answer to exactly
+     that complaint. Archivo's x-height is taller than Literata's, so 15.2px of Archivo
+     reads larger than the 15.68px of Literata it replaces: the previous round raised
+     the number to compensate for the family, and the compensation leaves with it.
+     ⚠️ --ink-soft on bare paper measures 5.39:1 day / 8.74:1 night — unchanged. */
+  font-family: var(--ui);
   font-weight: 400;
-  font-size: clamp(.98rem, 1.18vw, 1.06rem);
+  font-size: var(--ap-xl);
   line-height: 1.5; letter-spacing: 0;
   color: var(--ink-soft);
 }
@@ -1015,7 +1049,7 @@ html[data-theme="night"] .hero-sample { --accent: #E58156; }
    composites to 3.55:1. --rule / --rule-strong carry containers, which 1.4.11 does
    not cover, and are set by eye at the same weights the day palette uses.
 
-   ⚠️ THE ACCENTS ARE LIFTED, NOT REUSED. #32506B on #121110 is 2.1:1 — it paints
+   ⚠️ THE ACCENTS ARE LIFTED, NOT REUSED. #32638F on #121110 is 2.98:1 — it paints
    .chapter-num and .verse-ref at ~11px, so the day accents are a real failure here
    rather than a taste question. Same three hues, same three moments in the book.
    ============================================================================ */

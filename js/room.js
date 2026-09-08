@@ -131,7 +131,7 @@
   // second consumer that reads the wrong table. Do not re-point it at PANIM_TOKENS.
   //
   // TO BRING THE FEATURE BACK the Room needs its OWN ten-stop ramp, and it is an
-  // author decision, not a derivation: the page's accents (#32506B, #A8391B, #7E5A20)
+  // author decision, not a derivation: the page's accents (#32638F, #A8391B, #7E5A20)
   // are picked for contrast on cream and none of them clears 4.5:1 on #0C0B0A. Until
   // that ramp exists the Room holds the tokens in css/room.css, and its light already
   // follows playback in two other ways — the backdrop plate changes per chapter

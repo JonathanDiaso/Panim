@@ -594,3 +594,23 @@ at exactly the point it was offering a choice.
 
 **Correct, and the new line stays.** The old one is still saved in the round-20 record if it
 is ever wanted back.
+
+
+---
+
+# 🗄 ROUND 22 — YOUR ANSWERS ON THE v67 SHEET, 2026-09-07
+
+**Typed into the sheet itself, in your own hand, and closed in v68.** Kept verbatim
+because the sheet they were written on has been rewritten around them.
+
+| where | what you typed | what it closed |
+| ----- | -------------- | -------------- |
+| Decision 1, option A | *"yes"* | The card says **eight minutes** now. Same locked `href`. |
+| Decision 2 | *"all im actually saying is who hann ah is not any new fun facts just that hannah is the woman at the teple and she is my siter very clearly nothing fancy write it!"* | Narrowed the note from a help note to an identification. **Still open** — the book already makes that exact connection in chapter X, and a note at chapter VII would spoil it. See the live sheet. |
+| Decision 3, heading | *"i dont care about color arcs i want my site to look good and some of the colors dont look good the blue looks good and the red can look good but its not calming so red not for the chapter preview lol colors can be too much. and can look tacky some you maybe dont even need like left of the text whe n its red is that necesssary"* | **Red came off the chapter-preview card.** The left rule stayed; your question about it is still on the live sheet. |
+| Decision 3, option A | *"i just think when it loads the text on red it looks good blue the blue isnt visible and only talking about under the ribbon nothing else. though other colors elsewhere idk about either. our colros are probably mostly bad coding lol"* | **The day blue went #32506B → #32638F.** Diagnosed, measured, and written up in `css/site.css` at the arc table. |
+| Suggestion 1 | *"Why dont we add it to the front page in a way that doesnt take a bunch of room."* | The card is the front-page slot and it is already there; it now reaches the wet answer. The two sentences of bait are still yours. |
+| Suggestion 2 | *"fix"* | **Done.** The dawn arc lived in two hand-kept tables in `js/motion.js`; it is read off `css/site.css` now. |
+| Suggestion 3 | *"so youre saying arrows whatever will look the bes tmake it look exceptional nothing sloppy"* | **Done.** Arrow keys, Home and End steer the ribbon. |
+| Suggestion 4 | *"this is a good idea."* | Approved, not yet built. On the live sheet as the one queued item. |
+| Suggestion 5 | *"If the play actually works it can have a play symbol but idk if it will actually wpork youd still ahve to go to the secion and click play... so i dont think we need a symbol. you cna already click on that. The one that says click on any paragraph and it will play has weirds font and it could do its job better."* | **No play mark on the plates — closed, your call.** And the tap-to-listen line went back to the sans. |

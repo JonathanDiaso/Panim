@@ -1155,6 +1155,62 @@
       return best;
     }
 
+    // ---------- the rail steers from the keyboard ----------
+    // ⭐ THE AUTHOR, ON THE SHEET: "so youre saying arrows whatever will look the
+    // best make it look exceptional nothing sloppy."
+    //
+    // Ten plates in a horizontal scroller. A mouse drags it and a thumb flicks it;
+    // Tab walked all ten one at a time, which WORKS and is not steering — a reader
+    // holding the keyboard had no way to move the strip the way everybody else does.
+    //
+    // 🛑 AND IT WAS WORSE THAN MISSING, BECAUSE THE PAGE ALREADY HAD THOSE KEYS.
+    // js/player.js binds ArrowLeft/ArrowRight on `document` for ⟲15/⟳30 and skips
+    // only INPUT, TEXTAREA and contentEditable — a plate is an <a>, so pressing Left
+    // with a plate focused JUMPED THE NARRATION BACK FIFTEEN SECONDS and did nothing
+    // to the ribbon. stopPropagation below is what ends that, and it is the same
+    // guard #seekbar and #room-seek already use for the same reason.
+    //
+    // One snap per press, Home and End for the two ends, and the plate takes focus so
+    // Tab continues from where the eye is. preventScroll because the browser's own
+    // "scroll a focused element into view" lands on the plate's edge and would fight
+    // the smooth scroll on the very next line — two scrollers, one gesture, visible
+    // as a stutter. REDUCED is the same reduced-motion flag the sway reads.
+    rail.addEventListener('keydown', function (e) {
+      if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+      // 🛑 THE CURSOR IS THE FOCUSED PLATE, NOT THE SCROLL POSITION. The first build
+      // of this stepped from leading() — the plate nearest the scroll offset — and it
+      // advanced focus on every press but the strip on only every OTHER one. The two
+      // disagree by design once focus is ahead of the scroller: pressing Right from
+      // plate 1 focuses plate 2 and scrolls to it, and the NEXT press asked the
+      // scroller where it was, got "1" back because the snap had not settled, and
+      // asked for the position it was already in. Measured, six presses, every other
+      // one dead. Focus is the only cursor that is always exactly one press old.
+      var cur = plates.indexOf(document.activeElement);
+      if (cur < 0) cur = leading();
+      var i;
+      if (e.key === 'ArrowRight') i = Math.min(plates.length - 1, cur + 1);
+      else if (e.key === 'ArrowLeft') i = Math.max(0, cur - 1);
+      else if (e.key === 'Home') i = 0;
+      else if (e.key === 'End') i = plates.length - 1;
+      else return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (i === cur) return;
+      // ⚠️ scrollIntoView, NOT a computed scrollTo. `snaps` is the sway's own table
+      // and it is measured for a different job; driving the rail from it meant this
+      // handler had to keep its own arithmetic in step with scroll-snap and with
+      // scroll-padding-left, which is a second implementation of what the scroller
+      // already does. inline:'start' honours the 48px scroll-padding on its own.
+      // 🛑 block:'nearest' IS LOAD-BEARING. Without it the browser is entitled to
+      // scroll the PAGE vertically to centre the plate, and this strip sits a long
+      // way down a 257,000px document — an arrow key would have thrown the reader
+      // out of the ribbon and down the page.
+      plates[i].scrollIntoView({
+        inline: 'start', block: 'nearest', behavior: REDUCED ? 'auto' : 'smooth'
+      });
+      try { plates[i].focus({ preventScroll: true }); } catch (err) { plates[i].focus(); }
+    });
+
     // ---------- the caption is lit by the chapter it names ----------
     // 🔴 THE CAPTION WAS A CROSSFADE AND IT READ AS A SEPARATE PARAGRAPH — rebuilt
     // 2026-09-07. The author: "on the ribbon now we have big text but its seperated
