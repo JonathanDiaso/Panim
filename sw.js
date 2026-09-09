@@ -8,7 +8,7 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v68';
+var SHELL = 'panim-shell-v71';
 var AUDIO = 'panim-audio-v1';
 
 // index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
@@ -22,16 +22,16 @@ var AUDIO = 'panim-audio-v1';
 //      accessibility.html — both are standalone pages with their own copy, and
 //      neither is reached by the index.html sweep. 404.html was left on v24 for
 //      a whole release because of exactly this.
-var ASSET_V = '68';
+var ASSET_V = '71';
 var VERSIONED = /\.(css|js)$/;
 var PRECACHE = [
   './', 'index.html', 'accessibility.html', 'favicon.svg', 'manifest.webmanifest',
   'fonts/fonts.css',
   // The font FILES, not just the stylesheet. Precaching fonts.css alone meant an
   // installed, offline copy of the book named three typefaces it could not fetch and
-  // rendered the whole thing in Georgia. These SEVEN are every subset the site actually
-  // reaches: Literata roman + italic latin, Literata greek-ext AND greek, Archivo latin,
-  // Frank Ruhl Libre Hebrew + its latin fallback. ~345KB, once.
+  // rendered the whole thing in Georgia. These NINE are every subset the site actually
+  // reaches: Literata roman + italic latin, Literata greek-ext AND greek IN BOTH STYLES,
+  // Archivo latin, Frank Ruhl Libre Hebrew + its latin fallback. ~410KB, once.
   //
   // 🛑 l01 (Literata GREEK, U+0370–03FF) was missing until 2026-08-29, and the list said
   // "six ... every subset the site actually reaches". It was not. l00 is greek-EXT
@@ -40,7 +40,21 @@ var PRECACHE = [
   // word broken across two faces, one glyph in Literata and the rest in a system serif.
   // VERIFY BY MEASUREMENT, not by reading the CSS: load the site and diff
   // performance.getEntriesByType('resource') filtered to woff2 against this list.
+  //
+  // 🛑 AND THE 2026-08-29 FIX WAS HALF A FIX — l05 AND l06 WERE MISSING UNTIL 2026-09-09,
+  // BY THE SAME ARGUMENT, ONE AXIS OVER. l00/l01 are the ITALIC Greek pair. l05/l06 are
+  // the ROMAN pair, same two ranges, font-style:normal — and the site sets Greek in BOTH
+  // styles: .chapter-mark.is-greek is italic (ἀνθρακιά) and .lex-chip-word.is-greek is
+  // roman (σχίζω, ἱλαστήριον, ἐνώπιον, μεταμορφόω, προσαγωγή, παρρησία — six Lexicon
+  // chips). So offline, every roman Greek word broke across two faces in exactly the way
+  // the note above describes, while the note's own fix sat two lines below it.
+  // ⚠️ THE COUNT IN A COMMENT IS NOT A MEASUREMENT. Both times this was wrong the list
+  // asserted a number and the number was believed. Measured 2026-09-09 with every
+  // content-visibility section forced to render — deep sections never fetch their
+  // subsets otherwise, which is why a top-of-page check returns six and agrees with
+  // nothing: reached = l00 l01 l04 l05 l06 l09 g02 h00 h02. Nine.
   'fonts/l04.woff2', 'fonts/l09.woff2', 'fonts/l00.woff2', 'fonts/l01.woff2',
+  'fonts/l05.woff2', 'fonts/l06.woff2',
   'fonts/g02.woff2', 'fonts/h00.woff2', 'fonts/h02.woff2',
   'css/site.css', 'css/components.css', 'css/player.css', 'css/room.css', 'css/polish.css',
   'js/render.js', 'js/ui.js', 'js/motion.js', 'js/sync.js', 'js/search.js',

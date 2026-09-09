@@ -1047,10 +1047,46 @@
 }
 @media (max-width: 900px) { .block-ref { grid-column: 1 / 7; } }
 
-/* narration-aware state — a weight shift on the rule, no glow */
+/* ============================================================================
+   NARRATION-AWARE STATE — the read-along mark
+   🔴 `.block-p.is-live { color: var(--ink) }` HAD BEEN DOING NOTHING SINCE THE
+   REBUILD, AND IT COVERED 94% OF THE CUES. Measured 2026-09-09: a .block-p's base
+   colour computes to var(--ink) already, so setting it again on .is-live changed
+   nothing at all. 1,725 of the 1,841 cue-carrying blocks on the page are .block-p;
+   only the 116 .verse-boxes had a visible state, because theirs moves a BORDER.
+   The v1 rule this replaced was a real effect — `text-shadow: 0 0 22px accent@45%`
+   — and it was deleted on purpose ("a weight shift on the rule, no glow"). The
+   deletion was right and the replacement was half-written: it lit the live
+   paragraph without ever darkening the others, so there was nothing to stand out
+   FROM. The follow ENGINE was never broken — cues resolve, .is-live lands on the
+   right element, the page scrolls. Only the mark was invisible.
+
+   ⭐ SO THE UNREAD TEXT RECEDES; THE READ LINE IS NOT LIT. That is the whole idea,
+   and it is why this is not a highlight. A highlighter adds a coloured object on
+   top of type — the thing this site removes everywhere else (the v54 "tabs", the
+   card's box, the glow above). Here nothing is added: the paragraph being read
+   stays exactly the colour it always was, and its neighbours step back half a tone.
+   It is the oldest trick in a printed book — a reader's own thumb over the page —
+   and it costs one property.
+
+   🛑 GATED ON html.is-narrating, WHICH MEANS ALL THREE OF: playing, Follow on, and
+   not scrolled away (js/sync.js reflectNarrating). Without the gate a paused page
+   would sit with nine tenths of the chapter dimmed and nothing reading it.
+   ⚠️ CONTRAST MEASURED BEFORE SHIPPING, NOT ASSUMED — this dims BODY COPY, so it is
+   the one place a soft ink could fail WCAG outright. --ink-soft against all twelve
+   day stocks: worst 6.01:1. Against all six night stocks: worst 8.34:1. AA for body
+   text is 4.5. Both clear it with room; the live line stays at 14.65:1 / 15.29:1.
+   🛑 IF A NEW CHAPTER STOCK IS ADDED, RE-RUN THAT. A darker paper moves the worst case.
+   ============================================================================ */
 .verse-box.is-live { border-left-color: var(--ink); }
-.block-p.is-live { color: var(--ink); }
+html.is-narrating .block-p { color: var(--ink-soft); }
+/* the live line holds full ink — and it needs the same specificity as the recede
+   above (0,2,1) or the recede wins the cascade and dims the paragraph being read */
+html.is-narrating .block-p.is-live { color: var(--ink); }
 .block-p { transition: color var(--dur-med) var(--ease); }
+/* the recede is a state, not motion, so it survives reduced-motion — but it should
+   not FADE in and out for someone who asked for no animation */
+@media (prefers-reduced-motion: reduce) { .block-p { transition: none; } }
 
 @media (max-width: 900px) { .verse-box { grid-column: 1 / 7; } }
 
