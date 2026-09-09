@@ -3,7 +3,12 @@
 **What the top of the site does, why it does it, and what is next.**
 🛑 **THE VERSION NUMBER LIVES IN `sw.js` (`SHELL` / `ASSET_V`), NEVER IN THIS PROSE.**
 This header has shipped a stale number twice.
-🎯 **v71 IS THE LATEST, 2026-09-09 — §15.** The **read-along mark had been invisible on 94% of
+🎯 **v72 IS THE LATEST, 2026-09-09 — §16.** The site **never said the word "offline"**: with the
+network gone the book reads perfectly and the play button is silence, because the audio is
+saved only on request. There is now a card that says so, and — the author's better half of the
+ask — it **offers the download when the connection comes back**, which is the only moment it
+can be taken. Four bugs on the way, three of them older than the feature.
+🎧 **v70–v71 — §15.** The **read-along mark had been invisible on 94% of
 the book since the rebuild** — `.block-p.is-live` set the colour a paragraph already had — and
 the **whole second audio edition was deleted** on the author's ruling, a code path pointing at
 an `audio/voice/` folder that has never existed here.
@@ -1045,3 +1050,139 @@ injected, both themes read correctly. **Measure the state machine; do not photog
 
 
 
+# 16 · 📴 v72 — THE OFFLINE WARNING, AND THE OFFER MADE AT THE ONLY MOMENT IT CAN BE TAKEN
+
+**2026-09-09.** *"if its offline will it warn that audio will not work offline unless
+dowloaded like if airplane is on can it saay dowload if youw ant to play offline in the
+future etc??? clean code. Make sure theres no bugs"*
+
+## 16.1 🛑 THE ANSWER WAS NO, AND THE REASON IS THAT THE SITE OFFLINE LOOKS PERFECT
+
+`sw.js` precaches the text, the nine font subsets, the cues and every script on the first
+visit, so **with the network gone the book reads flawlessly.** That is the trap. The audio
+is ~241 MB and is stored **only when a reader asks for it** — so on a plane the page is
+immaculate and the play button is silence. What the reader got was a `data-state="error"`
+that **nothing in the CSS styles**, and one `aria-live` sentence — *"Check your
+connection"* — which a sighted reader never sees at all. **Nothing on screen ever said the
+word offline.**
+
+⭐ **AND THE SECOND HALF OF THE ASK IS THE BETTER HALF.** *"say download if you want to play
+offline in the future."* The download is exactly the thing that **cannot be done at the
+moment the reader wants it.** So the offer is not made in the air — it is made **when the
+connection comes back**, which is the only moment it can be acted on.
+
+## 16.2 The new file, and why it is a file
+
+**`js/offline.js` (286 lines), and it took work OFF `js/room.js`, which is now 448.**
+
+`js/room.js` used to hold the service-worker handle, the download queue, and its own idea of
+which chapters were saved — **read back out of the DOM by counting `.is-cached`**, so the
+answer did not exist until the chapters sheet had been opened at least once. The warning needs
+that answer on page load, before any sheet exists. 🛑 **Two files posting to one worker is how a
+✓ and a queue drift apart**, so the split is by ownership, not by size: `js/offline.js` owns the
+worker conversation and the state; `js/room.js` paints, and now posts nothing at all.
+
+| | |
+|---|---|
+| the worker, the queue, the saved flags | `js/offline.js`, published as `panim:audio-cache` |
+| the ↓ column and the Save-all line | `js/room.js`, repainted from that event |
+| the load that actually failed | `js/player.js` `onErr()`, emitted as `panim:audio-error` |
+| the notice itself | `#offline-note`, the `.toast` component with a different inside |
+
+## 16.3 What it says, and it never says the same thing twice
+
+| state | the card |
+|---|---|
+| offline · nothing saved | *"The book reads with no signal, but none of the audio is saved yet…"* |
+| offline · some saved | *"Saved chapters play, and you have 3 of 10…"* |
+| offline · all saved | *"All 10 chapters are saved. Everything plays."* — auto-hides after 7s |
+| back online, having been offline | **Back online** + `Save all 10 · 241 MB`, which starts the queue and opens the chapters sheet so the progress is visible |
+
+🛑 **`navigator.onLine` IS ONE-WAY HONEST.** `false` means there is definitely no network;
+`true` only means an interface is up — a captive hotel portal reports `true` and serves
+nothing. So it **chooses the sentence and never gates the playing.** The only proof there was
+no network is a load that actually failed, and `panim:audio-error` carries it: that event
+un-dismisses the card, because a reader who has just hit the wall is owed the explanation
+again.
+
+⚠️ **THE SENTENCE IS SAID ONCE.** `#offline-note` is `role="status"`, so it announces itself;
+`js/player.js` therefore **deliberately does not** `announce()` on the offline branch. Both
+would read it to a screen reader twice. The online branch still announces, because there is no
+card in that case.
+
+## 16.4 🔴 The offer outlives the tab, and the × is permanent
+
+The realistic shape of this is: no signal on the plane, tab closed, site reopened on wifi a day
+later. Held in memory the offer would be **lost at exactly the moment it becomes useful**, so
+`panim:offlineWanted` persists it. It is cleared when the audio is saved. The **×** sets
+`panim:offlineOfferOff` instead, which never expires — an offer that returns after the reader
+has said no is a nag, and this one would return on every page load. 🛑 **× on the OFFER is
+"stop asking"; × on the WARNING is only "I know"** — the warning comes back on the next state
+change, and it must.
+
+## 16.5 🔴 THE BIGGEST BUG WAS THE ONE THE FEATURE WAS BUILT ON
+
+**A media element is not obliged to tell you it failed.** Measured on `tools/serve.py` with the
+network genuinely off: an **uncached chapter never raises `error`.** It sits at `readyState 0`
+— no error, no metadata, no `timeupdate` — **indefinitely.** The first build of this feature
+hung the message on `panim:audio-error`, and that event **never came**: the reader got a
+pressed play button over silence for as long as they were willing to wait, which is the exact
+complaint the round was opened to fix.
+
+🛑 **SO THE QUESTION IS ASKED BEFORE THE LOAD, NOT AFTER IT.** `PanimOffline.blocked(id)` is
+true when there is provably no network **and** provably nothing stored — which together mean
+there is nothing to fetch and nothing to wait for. `js/player.js` refuses the load and emits
+the failure itself: **2 ms instead of never.**
+⚠️ **AND IT MUTATES NOTHING.** Whatever is playing keeps playing. The reader asked for a
+different chapter and did not get it; that is not a reason to stop the one they had.
+
+⭐ **THE CAPTIVE-PORTAL CASE GETS A WATCHDOG INSTEAD**, because there `onLine` is `true` and
+`blocked()` is correctly false. **Nothing arriving for twelve seconds IS the failure**, so it
+is reported as one. `progress` re-arms the clock, so a slow connection still delivering bytes
+is never cut off — only a dead one is.
+
+🛑 **AND THE ROOM HAD THE SAME HOLE ONE LAYER UP.** `#offline-note` is deliberately
+suppressed while the Listening Room is open (`css/room.css` — a card at z-index 940 over a
+room at 920 paints on top of the night player). So offline, tapping an unsaved chapter in the
+chapters sheet **closed the sheet and did nothing, with the explaining surface switched off.**
+The row itself now goes unavailable when it cannot play, and the Save-all line under it
+already says why. ⚠️ `.btn[disabled]` does not reach it — `.cr-main` is not a `.btn` — so it
+carries its own rule, **and suppresses its hover**: a row that lights up under the finger
+reads as tappable.
+
+## 16.6 Four more, three of them older than the feature
+
+- 🛑 **`.btn` given `hidden` still paints.** `.btn { display: inline-flex }` and the UA sheet's
+  `[hidden] { display: none }` are the **same specificity**, and the author sheet wins — so
+  `noteAction.hidden = true` left **an empty bordered box in the middle of the card** on every
+  state with no action. `#hold-btn[hidden]` in `components.css` already carries this fix; it
+  now has a companion. **Any `.btn` on this site given a `hidden` attribute has this bug.**
+- 🛑 **The toasts painted over the Listening Room.** `.toast` is z-index 940, `#room` is 920.
+  A card arriving while the Room is open sat **on top of the night player**. Fixed in
+  `room.css`, and ⚠️ **the selector has to beat `.toast:not([hidden]).is-shown`** — three
+  classes — or it silently does nothing.
+- 🛑 **Save-all quoted the whole book's size when nine chapters were already on the phone.**
+  It read `musicMB` for every chapter; it now reads only what is missing.
+- **"1 of 10 chapters are saved."** Rewritten so the count cannot decide the verb, because 1 is
+  the count a reader most often has.
+
+## 16.7 Verified
+
+Driven headless at **402 and 1440, both themes**, on `tools/serve.py`: the note appears on
+`offline`, carries the right sentence for 0 / 1 / all saved, the offer appears on `online` and
+survives a reload, the × is permanent, the warning still returns after it, `↓` and Save-all go
+disabled offline with a line saying why, the queue runs sequentially and the ✓ lands, and a
+**saved chapter plays with the network off** (`readyState 4`, clock advancing) while an
+unsaved one is refused in **2 ms** and brings the dismissed card back — **without stopping the
+chapter already playing.** Back online, an ordinary load is unaffected. No JS errors, no horizontal overflow at 402, the × is
+44×44, night contrast measured at ~8:1.
+
+🛑 **AND ONE MORE HARNESS FAULT, RECORDED BECAUSE IT WILL LIE AGAIN.** The first offline run
+reported `data-state="playing"` and **no `MediaError` at all** with the network emulated off —
+which reads as "the player does not notice". It was the server: **`python3 -m http.server`
+types `.m4a` as `audio/mp4a-latm` and ignores Range, so `readyState` stays 0 and no error is
+ever raised.** README says exactly this, four hundred lines from where it was needed. On
+`tools/serve.py` the error fires as designed. **`docs/HEADLESS.md` trap: use the project's own
+server or the media element will not tell you the truth.** It is now trap 10 there.
+
+---

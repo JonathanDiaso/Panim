@@ -223,8 +223,6 @@
   }
 
   // ---------- chapters sheet ----------
-  function audioUrl(id) { return 'audio/music/' + id + '.m4a'; }
-  var sw = null;
   // ==========================================================================
   // 🛑 THE WHOLE BOOK, OFFLINE, IN ONE TAP — 2026-08-30 (D22-E)
   // The author asked whether a reader can play the audio and load the page with no
@@ -236,93 +234,113 @@
   // A reader packing for a flight does not want ten taps. This is the one tap, and
   // it also says the number out loud, which is the thing that was missing: 400MB is
   // a decision and the reader is entitled to make it before it starts.
-  // ⚠️ SEQUENTIAL, NOT Promise.all. Ten parallel 40MB fetches on a phone on hotel
-  // wifi is how you get ten timeouts instead of ten files; the service worker
-  // answers one 'download' message at a time and reports each one back.
+  //
+  // 🛑 THE WORKER TALK MOVED OUT, 2026-09-09 — js/offline.js. This file used to hold
+  // the service-worker handle, the download queue and its own copy of "which
+  // chapters are saved", read back out of the DOM by counting .is-cached. The
+  // offline WARNING needs the same answer before this sheet has ever been built, and
+  // two files posting to one worker is how a ✓ and a queue drift apart. So: that
+  // file owns the state and the messages, this one paints. Nothing here posts.
   // ==========================================================================
-  function totalMB() {
-    var mb = 0;
+  var O = window.PanimOffline;
+
+  function paintRows() {
+    if (!P || !O) return;
     P.ids.forEach(function (id) {
+      // 🛑 THE ROW ITSELF GOES UNAVAILABLE WHEN IT CANNOT PLAY — 2026-09-09, and this
+      // was a silent failure until it did. Offline, tapping an unsaved chapter used to
+      // close the sheet and do nothing: js/player.js refuses the doomed load, and
+      // #offline-note — the surface that would have explained it — is deliberately
+      // suppressed while the Room is open (css/room.css). So the sheet has to answer
+      // for itself. The Save-all line underneath already says why.
+      var row = els.sheetList.querySelector('[data-room-chapter="' + id + '"]');
+      if (row) row.disabled = !!(O.blocked && O.blocked(id));
+
+      var btn = els.sheetList.querySelector('[data-dl-chapter="' + id + '"]');
+      if (!btn) return;
+      var saved = O.isCached(id), queued = O.isQueued(id);
+      btn.textContent = saved ? '✓' : queued ? '…' : '↓';
+      btn.classList.toggle('is-cached', saved);
+      // Offline, the ↓ can only fail. A control that is offered and cannot work is
+      // worse than one that is visibly unavailable, and the row below says why.
+      btn.disabled = saved || queued || !O.isOnline();
       var m = P.manifest[id] || {};
-      mb += m.musicMB || 0;
+      btn.title = saved ? 'Saved for offline' : 'Save for offline (' + (m.musicMB || '?') + ' MB)';
+      btn.setAttribute('aria-label', saved
+        ? 'Chapter saved for offline'
+        : 'Save chapter for offline, ' + (m.musicMB || '?') + ' megabytes');
     });
-    return Math.round(mb);
   }
-  var dlQueue = [];
-  function pumpQueue() {
-    if (!dlQueue.length || !sw) { paintSaveAll(); return; }
-    var id = dlQueue[0];
-    var btn = els.sheetList.querySelector('[data-dl-chapter="' + id + '"]');
-    if (btn) { btn.disabled = true; btn.textContent = '…'; }
-    sw.postMessage({ type: 'download', url: audioUrl(id) });
-  }
+
   function paintSaveAll() {
     var b = document.getElementById('save-all-audio');
-    if (!b) return;
-    if (dlQueue.length) {
+    if (!b || !P || !O) return;
+    var total = P.ids.length, have = O.cachedCount(), pending = O.pending();
+    if (pending) {
       b.disabled = true;
-      b.textContent = 'Saving ' + (P.ids.length - dlQueue.length + 1) + ' of ' + P.ids.length + '…';
+      b.textContent = 'Saving ' + (O.batchSize() - pending + 1) + ' of ' + O.batchSize() + '…';
+    } else if (have === total) {
+      b.disabled = true;
+      b.textContent = 'All ' + total + ' chapters are saved';
+    } else if (!O.isOnline()) {
+      b.disabled = true;
+      b.textContent = 'Saving needs a connection';
     } else {
-      var have = els.sheetList.querySelectorAll('.cr-dl.is-cached').length;
-      b.disabled = have === P.ids.length;
-      b.textContent = have === P.ids.length
-        ? 'All ' + P.ids.length + ' chapters are saved'
-        : 'Save all ' + P.ids.length + ' for offline (' + totalMB() + ' MB)';
+      b.disabled = false;
+      b.textContent = have
+        ? 'Save the remaining ' + (total - have) + ' for offline (' + O.pendingMB() + ' MB)'
+        : 'Save all ' + total + ' for offline (' + O.pendingMB() + ' MB)';
+    }
+    var n = document.getElementById('save-all-note');
+    if (n) {
+      n.textContent = O.isOnline()
+        ? 'The text of the book is already saved. This adds the voice, so the whole thing works with no signal.'
+        : 'You are offline. The text is already saved; the voice can be added when you are back on a connection.';
     }
   }
+
   function buildChaptersSheet() {
+    if (!P || !O) return;
     var r = window.PANIM_RENDERED;
+    var worker = O.hasWorker();
     els.sheetList.innerHTML = P.ids.map(function (id) {
       var m = P.manifest[id] || {};
       var done = P.state.completed[id] ? ' is-complete' : '';
       var cur = id === P.state.chapterId ? ' is-current' : '';
-      var mb = m.musicMB;
       return '<div class="chapter-row' + done + cur + '">' +
         '<button class="cr-main" data-room-chapter="' + id + '">' +
         '<span class="cr-num">' + (r ? r.romanFor(m.num || 0) : '') + '</span>' +
         '<span class="cr-title">' + (m.title || id) + '</span>' +
         '<span class="cr-dur">' + P.fmtTime(m.voiceDur || 0) + '</span></button>' +
-        (sw ? '<button class="btn btn-icon cr-dl" data-dl-chapter="' + id + '" ' +
-        'title="Save for offline (' + (mb || '?') + ' MB)" aria-label="Save chapter for offline">↓</button>' : '') +
+        (worker ? '<button class="btn btn-icon cr-dl" data-dl-chapter="' + id + '" ' +
+        'aria-label="Save chapter for offline">↓</button>' : '') +
         '</div>';
     }).join('');
     var host = document.getElementById('save-all-row');
     if (host) {
-      host.innerHTML = sw
-        ? '<button class="btn" id="save-all-audio"></button>' +
-          '<p class="sheet-note">The text of the book is already saved. This adds the ' +
-          'voice, so the whole thing works with no signal.</p>'
+      host.innerHTML = worker
+        ? '<button class="btn" id="save-all-audio" type="button"></button>' +
+          '<p class="sheet-note" id="save-all-note"></p>'
         : '<p class="sheet-note">Offline saving needs a reload before it is available.</p>';
-      paintSaveAll();
     }
-    refreshCachedMarks();
+    paintRows();
+    paintSaveAll();
   }
-  function refreshCachedMarks() {
-    if (!sw) return;
-    sw.postMessage({ type: 'query', urls: P.ids.map(audioUrl) });
+
+  function openChapters() {
+    buildChaptersSheet();
+    if (window.PanimUI) window.PanimUI.openSheet('chapters-sheet');
   }
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready.then(function (reg) { sw = reg.active; }).catch(function () {});
-    navigator.serviceWorker.addEventListener('message', function (e) {
-      var d = e.data || {};
-      if (d.type === 'cached-state') {
-        d.urls.forEach(function (u, i) {
-          var id = /ch\d\d/.exec(u); if (!id) return;
-          var btn = els.sheetList.querySelector('[data-dl-chapter="' + id[0] + '"]');
-          if (btn && d.cached[i]) { btn.textContent = '✓'; btn.classList.add('is-cached'); }
-        });
-        paintSaveAll();
-      } else if (d.type === 'downloaded') {
-        var id = /ch\d\d/.exec(d.url);
-        var btn = id && els.sheetList.querySelector('[data-dl-chapter="' + id[0] + '"]');
-        if (btn) { btn.textContent = d.ok ? '✓' : '↓'; btn.classList.toggle('is-cached', d.ok); btn.disabled = false; }
-        // 🛑 THE QUEUE ADVANCES ON FAILURE TOO. One 404 or one dropped connection
-        // must not strand the other nine behind it; the row that failed keeps its ↓
-        // and can be tapped on its own.
-        if (id && dlQueue[0] === id[0]) { dlQueue.shift(); pumpQueue(); }
-      }
-    });
-  }
+
+  // The ✓ column and the Save-all line are two views of one fact, and js/offline.js
+  // is where the fact lives — including the case where the worker only became
+  // available after this sheet was first built, which is a first visit.
+  document.addEventListener('panim:audio-cache', function () {
+    if (!P || !O || !els.sheetList.children.length) return;
+    if (O.hasWorker() && !els.sheetList.querySelector('[data-dl-chapter]')) buildChaptersSheet();
+    else { paintRows(); paintSaveAll(); }
+  });
+  document.addEventListener('panim:connection', function () { paintRows(); paintSaveAll(); });
 
   // ---------- wiring ----------
   function wire() {
@@ -332,10 +350,7 @@
     els.fwd.addEventListener('click', function () { P.skip(30); });
     els.speed.addEventListener('click', function () { P.cycleSpeed(); });
     els.sleep.addEventListener('click', function () { if (window.PanimUI) window.PanimUI.openSheet('sleep-sheet'); });
-    els.chapters.addEventListener('click', function () {
-      buildChaptersSheet();
-      if (window.PanimUI) window.PanimUI.openSheet('chapters-sheet');
-    });
+    els.chapters.addEventListener('click', openChapters);
     // ⭐ CONTINUOUS PLAY, 2026-09-05. The author: "Should i have an option that
     // doesnt stop at every chapter or just keep stopping at chapter breaks?"
     // The default is on (js/player.js) and this is the only place it can be turned
@@ -364,21 +379,11 @@
       clockMode = clockMode === 'elapsed' ? 'remaining' : 'elapsed'; tick();
     });
     document.addEventListener('click', function (e) {
-      if (e.target.id === 'save-all-audio' && sw) {
-        dlQueue = P.ids.filter(function (id) {
-          var b = els.sheetList.querySelector('[data-dl-chapter="' + id + '"]');
-          return !(b && b.classList.contains('is-cached'));
-        });
-        paintSaveAll();
-        pumpQueue();
-        return;
-      }
+      // O is absent only if js/offline.js did not run at all, in which case the
+      // sheet has no ↓ column to click — but this listener is on the document.
+      if (e.target.id === 'save-all-audio' && O) { O.downloadAll(); return; }
       var dl = e.target.closest && e.target.closest('[data-dl-chapter]');
-      if (dl && sw) {
-        dl.disabled = true; dl.textContent = '…';
-        sw.postMessage({ type: 'download', url: audioUrl(dl.getAttribute('data-dl-chapter')) });
-        return;
-      }
+      if (dl && O) { O.download(dl.getAttribute('data-dl-chapter')); return; }
       var row = e.target.closest && e.target.closest('[data-room-chapter]');
       if (row) {
         P.load(row.getAttribute('data-room-chapter'), { autoplay: true });
@@ -436,4 +441,8 @@
     var listen = document.getElementById('listen-btn');
     if (listen) listen.addEventListener('click', function () { setTimeout(openRoom, 50); });
   });
+
+  // js/offline.js opens this after starting a Save-all from its notice: the sheet is
+  // the only surface that shows the download getting anywhere.
+  window.PanimRoom = { openChapters: openChapters };
 })();

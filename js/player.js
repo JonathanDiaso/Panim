@@ -125,6 +125,22 @@
   // ---------- load ----------
   function loadChapter(chapterId, opts) {
     opts = opts || {};
+
+    // 🛑 A CHAPTER THAT CANNOT POSSIBLY LOAD IS REFUSED BEFORE IT STALLS — 2026-09-09.
+    // Measured with the network emulated off: an uncached chapter does NOT raise `error`
+    // on the media element. It sits at readyState 0 indefinitely — no error, no metadata,
+    // no timeupdate — so the old code set 'loading' and left the reader with a pressed
+    // play button over silence for as long as they were willing to wait. js/offline.js
+    // knows there is no network AND that nothing is stored, which together mean there is
+    // nothing to fetch; it says so instead, in #offline-note.
+    // ⚠️ NOTHING IS MUTATED ON THIS PATH. Whatever is playing keeps playing — the reader
+    // asked for a different chapter and did not get it; that is not a reason to stop the
+    // one they already had.
+    if (window.PanimOffline && window.PanimOffline.blocked(chapterId)) {
+      emit('panim:audio-error', { chapterId: chapterId, offline: true, blocked: true });
+      return;
+    }
+
     state.chapterId = chapterId;
     els.metaTitle.textContent = chapterTitle(chapterId);
     setPlayerState('loading');
@@ -157,9 +173,22 @@
     // and every later load stacked another one — each closing over a stale resumeAt
     // and a stale autoplay flag, which is how switching chapters could seek or start
     // somewhere nobody asked for.
+    // The other half of the same lesson. `navigator.onLine` says `true` on a captive
+    // hotel portal, and a load that goes nowhere behind one stalls in exactly the way
+    // above without ever erroring. Nothing arriving for twelve seconds IS the failure,
+    // so it is reported as one. `progress` re-arms the clock, so a slow connection that
+    // is still delivering bytes is never cut off — only a dead one is.
+    var STALL_MS = 12000;
+    var stallTimer = null;
+    function armStall() {
+      if (stallTimer) clearTimeout(stallTimer);
+      stallTimer = setTimeout(function () { if (els.audio.readyState === 0) onErr(); }, STALL_MS);
+    }
     function cleanup() {
       els.audio.removeEventListener('loadedmetadata', onReady);
       els.audio.removeEventListener('error', onErr);
+      els.audio.removeEventListener('progress', armStall);
+      if (stallTimer) { clearTimeout(stallTimer); stallTimer = null; }
     }
     function onReady() {
       cleanup();
@@ -188,10 +217,20 @@
     function onErr() {
       cleanup();
       setPlayerState('error');
-      announce('This chapter could not be loaded. Check your connection and try again.');
+      // 🔴 A LOAD THAT FAILED IS THE ONLY PROOF THERE IS NO NETWORK — 2026-09-09.
+      // navigator.onLine says `false` honestly but says `true` for a captive hotel
+      // portal that serves nothing, so it is read here only to CHOOSE THE SENTENCE.
+      // js/offline.js takes the offline case and puts it on screen in #offline-note,
+      // which is role="status" and announces itself: saying it here as well reads the
+      // whole thing to a screen reader twice.
+      var off = navigator.onLine === false;
+      if (!off) announce('This chapter could not be loaded. Check your connection and try again.');
+      emit('panim:audio-error', { chapterId: chapterId, offline: off });
     }
     els.audio.addEventListener('loadedmetadata', onReady);
     els.audio.addEventListener('error', onErr);
+    els.audio.addEventListener('progress', armStall);
+    armStall();
 
     // ⚠️ iOS SAFARI: play() is only honoured inside the user gesture that asked for it.
     // This call used to live in `onReady` above — a network round trip later, because
@@ -751,6 +790,9 @@
     setSleep: setSleep, sleepRemaining: sleepRemaining,
     voiceTime: voiceTime, voiceDur: voiceDur, fileDur: fileDur,
     fmtTime: fmtTime, chapterTitle: chapterTitle,
-    seekToRatio: seekToRatio, wireSliderKeys: wireSliderKeys
+    seekToRatio: seekToRatio, wireSliderKeys: wireSliderKeys,
+    // js/offline.js clears this before it shows its own notice — both cards are
+    // pinned to the same slot above the bar and would otherwise stack.
+    dismissResume: dismissResumeToast
   };
 })();
