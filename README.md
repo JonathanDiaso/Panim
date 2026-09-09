@@ -3,22 +3,28 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: `v72`** — `ASSET_V = '72'`, `panim-shell-v72`. Four rounds on 2026-09-09: `v69` a
+**Current: `v73`** — `ASSET_V = '73'`, `panim-shell-v73`. Five rounds on 2026-09-09: `v69` a
 code-and-bug sweep (the roman Greek subsets were missing from the offline precache; a Web Audio
 analyser was running every frame for a property nothing reads), `v70` the **deletion of the
 second audio edition** — a whole code path pointing at an `audio/voice/` folder that has never
 existed here — `v71` the **read-along mark, which had been invisible on 94% of the book**
-since the rebuild, and `v72` the **offline notice** (`js/offline.js`): the site never said the
+since the rebuild, `v72` the **offline notice** (`js/offline.js`): the site never said the
 word *offline*, so with no signal the book read perfectly and the play button was silence.
-All four in `docs/FRONT-DOOR.md` §14–§16. 🗄 The running log of what each
-version changed is `archive/version-log-through-v46.md`; the round records are
-`archive/round-records-v57-to-v60.md` and `archive/round-records-v61-to-v67.md`, and what the
-front door does *now* is `docs/FRONT-DOOR.md`.
+And `v73` **names Hannah at the tent without touching the manuscript**, moves the ribbon
+caption and the plate titles onto Literata's display optical size, and gives the five-minute
+card a memory.
+🗄 All five are `archive/round-records-v69-to-v73.md`. The running log of what each version
+changed is `archive/version-log-through-v46.md`; the older round records are
+`archive/round-records-v57-to-v60.md` and `archive/round-records-v61-to-v67.md`; what the
+front door does *now* is `docs/FRONT-DOOR.md`; and every decision ever answered is
+`archive/decisions-answered-through-v73.md`.
 🛑 **This line rots.** It said `v55` for nine releases and `v67` for two. Read `sw.js` and
 correct it here — **`sw.js` is the version, this prose is only a copy of it.**
 
-🛑 **`ASSET_V`, `SHELL` and every `?v=` must move together and nothing checks it.**
-They drifted four versions once and offline silently stopped precaching.
+🛑 **`ASSET_V`, `SHELL` and every `?v=` must move together.** They drifted four
+versions once and offline silently stopped precaching, and one version again in the
+v73 bump. ⭐ **`python3 tools/check-version.py`** proves all four agree and exits
+non-zero naming the disagreement if they do not. Run it after every bump.
 
 Read this first in a new session — the only doc in this repo describing current
 state. 👉 Then read the handoff:

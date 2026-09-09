@@ -614,3 +614,42 @@ because the sheet they were written on has been rewritten around them.
 | Suggestion 3 | *"so youre saying arrows whatever will look the bes tmake it look exceptional nothing sloppy"* | **Done.** Arrow keys, Home and End steer the ribbon. |
 | Suggestion 4 | *"this is a good idea."* | Approved, not yet built. On the live sheet as the one queued item. |
 | Suggestion 5 | *"If the play actually works it can have a play symbol but idk if it will actually wpork youd still ahve to go to the secion and click play... so i dont think we need a symbol. you cna already click on that. The one that says click on any paragraph and it will play has weirds font and it could do its job better."* | **No play mark on the plates — closed, your call.** And the tap-to-listen line went back to the sans. |
+
+---
+
+# 🗄 ROUND TWO OF THIS FILE — WHAT v68 → v73 CLOSED
+
+**Appended 2026-09-09.** Same rule as above: **not live**, and kept because a closed decision
+with no reason attached gets re-opened. The live sheet is `../docs/DECISIONS.md`.
+
+## v68 — seven of your eight answers off the 2026-09-07 sheet
+
+| what you typed | what it closed |
+| --- | --- |
+| *"the blue isnt visible and only talking about under the ribbon nothing else"* | 🛑 **It was never a contrast problem.** The old day blue was nearly as dark as the ink it turned into, so the caption's "arrival" arrived at a colour it had almost already been. One value in one table. |
+| *"make it look exceptional nothing sloppy"* | Arrow keys, Home and End steer the ribbon. Focus is the cursor, `scrollIntoView` not `scrollTo` — snap alignment made the two disagree. |
+| *"i dont think we need a symbol"* | **No play mark on the plates.** Closed, your call. |
+
+## v70 — the second voice path
+
+| what you typed | what it closed |
+| --- | --- |
+| *"delete othr voice path we just ned the one voice path in our coding."* | 🛑 **`js/player.js` and `js/room.js` carried a complete second code path pointing at `audio/voice/chNN.m4a`, a folder that has never existed on this site.** Every voice branch resolved to a 404 and was reachable only if the buttons came back. Removed: one path, one folder, one master. **The voice-only master itself is safe in the audio repo.** |
+
+## v72 — the offline warning
+
+| what you typed | what it closed |
+| --- | --- |
+| *"if its offline will it warn that audio will not work offline unless dowloaded… if airplane is on can it saay dowload if youw ant to play offline in the future"* | ⭐ **It did not, and the reason it mattered is that the site offline looks perfect.** `sw.js` precaches the text, the fonts and the cues, so the book reads with no network and the play button is silence. The notice names which chapters are actually saved and offers the download **when the connection comes back**, because that is the only moment the offer can be taken. |
+
+## v73 — three closed in one round
+
+| # | what you typed | what it closed |
+| --- | --- | --- |
+| **2** | *"i never mention that the woman coming to Eli is Hannah… we should probably add a note there"* | 🔴 **REVERSED, AND THE REVERSAL IS THE INTERESTING PART.** This sheet had argued against a Hannah note — correctly, for a note at chapter **VII**, which would hand the reader chapter X's ending three chapters early. **The passage you were pointing at is in chapter X**, at the tent, where the same fact is the **setup** and not the spoiler: the prose never names her, and fourteen paragraphs later the chapter turns on *"It is my sister's name. Hannah."* **The prose is untouched** — the manuscript gained one citation line, `*1 Samuel 1:18*`, under the verse the book already quoted and had never cited, and a `ref` block carries no cue id. Full working: `round-records-v69-to-v73.md` §17.1–17.4. |
+| **4** | *"the text could probably be more iconic and 3d style or something"* + *"that sounds good"* | ⭐ **It was never a font.** The caption and the plate titles were drawn at Literata's **text** optical size (opsz 28) and set at 34px and 27px — reading type enlarged. Both are on `--lit-display` (opsz 60) now, a token the site already had. **No new font, no size change, no weight change.** The reserved-height ladder was re-swept at 1px resolution and every step moved. §17.5–17.6. |
+| **6** | *"this is a good idea"* + *"is this in yet we should have that built"* | ⭐ **Built, and it did not wait for #1 after all.** The eyebrow becomes *"You have heard these eight minutes"* and comes off `--accent` onto `--ink-soft` — the same move `.seek-mark.is-complete` already makes. **The `href` never moves.** #1's third line is still yours to write and the card will take it without being rebuilt. §17.7. |
+
+🛑 **AND ONE THING THAT WAS RE-ASKED AND SHOULD NOT BE AGAIN:** the second door's `href` stays
+on David, `?t=ch07:17m55s`. It has been locked since the round that cost itself
+(`FRONT-DOOR.md` §0.1).
