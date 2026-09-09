@@ -71,7 +71,7 @@
 
   function clearLive() {
     if (liveEl) {
-      liveEl.classList.remove('is-live', 'is-live-paragraph');
+      liveEl.classList.remove('is-live');   // 'is-live-paragraph' was removed here and set nowhere
       liveEl = null;
     }
   }
@@ -196,6 +196,20 @@
     if (!on && resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
     // the player bar owns the Follow button; it must not go on claiming to follow
     document.dispatchEvent(new CustomEvent('panim:follow-suspended', { detail: { suspended: on } }));
+    reflectNarrating();
+  }
+
+  // ⭐ THE ONE FLAG THE PAGE'S READ-ALONG STATE HANGS ON, 2026-09-09.
+  // `html.is-narrating` means all three of: the voice is running, Follow is on, and the
+  // reader has not scrolled away. css/components.css uses it to let the unread paragraphs
+  // recede so the read one stands out — see the note there for why that is not a highlight.
+  // 🛑 IT MUST BE ALL THREE. Gated on `playing` alone, a paused page would sit with nine
+  // tenths of the chapter dimmed and nothing reading it, which is the 2026-08-30 fault
+  // ("it's moving even when i dont play it") wearing different clothes. Gated without
+  // `suspended`, a reader who scrolled ahead to read quietly would have the paragraph they
+  // are actually reading dimmed while the voice lit one three screens back.
+  function reflectNarrating() {
+    document.documentElement.classList.toggle('is-narrating', playing && followEnabled && !suspended);
   }
 
   var SCROLL_KEYS = {
@@ -216,6 +230,7 @@
 
   function setFollow(on) {
     followEnabled = on;
+    reflectNarrating();
     if (on) {
       setSuspended(false);
       if (liveEl) scrollIntoCenterThird(liveEl);   // tapping Follow takes you to the voice
@@ -249,10 +264,13 @@
     if (!playing && resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
     // and pressing play again re-arms it, so following still comes back on its own
     if (playing && !was && suspended) armResume();
+    reflectNarrating();
   });
   document.addEventListener('panim:narration-stopped', function () {
     clearLive();
     currentIndex = -1;
+    playing = false;
+    reflectNarrating();
   });
 
   // ---------------------------------------------------------------------------

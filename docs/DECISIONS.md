@@ -1,183 +1,274 @@
 # ☑ THE SITE — WHAT IS STILL OPEN
 
 **This file is the website and nothing else.** Not the manuscript, not the tape, not the
-messages. **2026-09-07:** *"im working on the site right now… consolidate these make these
-simple website like the actual link that were working on no longer the script etc and
-writting the book."*
-
-|                |                                                                                    |
-| -------------- | ---------------------------------------------------------------------------------- |
-| **the site**   | **this file** — the only thing that carries site work                              |
-| the tape       | ⏸ `Panim-audio/paused/TAPE-EDITS.md` — **paused, not a worklist, do not raise it** |
-| the manuscript | nothing active. A word change costs a re-cut; see the paused bucket.               |
-| what to *say*  | 📋 `../../panim-book/handoffs/link-messages.md` — a **menu**, not a worklist        |
-
-🗄 **Everything already answered is** `../archive/decisions-answered-through-v67.md` — v55
-through v68, with your words on each, **including the eight answers you typed into the last
-sheet.** **Do not re-ask anything in there.**
-
-🛑 **Two things are not up for discussion:** the second door's `href` stays on David
-(`?t=ch07:17m55s`) — `FRONT-DOOR.md` §0.1 — and no commit ever carries a co-author trailer.
+messages.
 
 ---
 
-# ✅ WHAT YOUR ANSWERS CLOSED — v68, 2026-09-07
+# 🚦 START HERE — EVERYTHING OPEN, ON ONE SCREEN
 
-**You typed eight answers into the last sheet. Seven are shipped.**
+**Seven things. One needs a sentence from you; the rest need one word.** My pick is bold in the
+**I suggest** column. **If you say nothing, I build the suggested option** — except #1, which I
+cannot do without you.
 
-|   | what you said | what happened |
-| - | ------------- | ------------- |
-| ✅ | *"the blue isnt visible and only talking about under the ribbon nothing else"* | 🛑 **IT WAS NOT A CONTRAST PROBLEM, WHICH IS WHY IT SURVIVED TWO ROUNDS.** The old blue measured **7.07:1** on the caption's stock — *higher* than the red you say looks good. The fault is at the other end: the caption arrives in the chapter's accent and **settles on ink**, and the blue's luminance was 0.075 against ink's 0.008, while red sits at 0.113 and gold at 0.119. **The blue was nearly as dark as the ink it turns into, so the arrival had nowhere to travel.** Raising contrast would have made it worse. Same hue, one step brighter and more saturated: **#32506B → #32638F.** Re-measured on all five of its stocks — worst **5.11:1**, still clearing AA for normal text, not just the 3.0 a 34px line needs. **Night was measured before deciding and is untouched: the fault was day-only, exactly the half you described.** |
-| ✅ | *"red not for the chapter preview lol"* | **The red is off the card.** It inherits the jacket's blue now instead of reaching two arcs forward for chapter VII's fire — and that retired a hand-kept triplicate at the same time. |
-| ✅ | *"fix"* — the arc living in two files | **Done, and it was worse than the sheet said.** `js/motion.js` carried **two** twelve-row tables, day and night, each a literal copy of `css/site.css` under a comment saying *"must stay identical"*. Both gone; it reads the stylesheet. **A/B-measured across fourteen scroll positions before and after: identical except the one colour you asked to change.** |
-| ✅ | *"so youre saying arrows… make it look exceptional nothing sloppy"* | **Arrow keys, Home and End steer the ribbon**, one plate per press, focus following the eye. 🛑 **And it fixed something worse than it added:** `js/player.js` binds ←/→ globally, so pressing Left on a focused plate had been **jumping the narration back fifteen seconds** and doing nothing to the strip. Measured over six presses: the page does not move vertically and the audio stays at 0:00. |
-| ✅ | *"has weirds font and it could do its job better"* | **Back to the sans.** I checked the tag and the computed style first — this one was a real font, not another stray `<i>`. **The round that set it in the serif argued from the wrong element:** its reasoning was *"every word on this card is out of the book"*, and **that line is not on the card** — the note directly above it says so. It is an instruction about how the interface behaves, and this site's own rule is *"the serif is the book and the sans is the machine."* |
-| ✅ | *"i dont think we need a symbol. you cna already click on that."* | **No play mark on the plates — closed on your call**, and it was the right one: a mark there would promise playback the plate cannot start. |
-| ✅ | *"yes"* — decision 1, option A | **The card says eight minutes.** Same locked `href`, no new deep link, no engineering. One half of it is still open, below. |
+| # | the question | I suggest | why | who |
+|---|---|---|---|---|
+| **1** | 🔴 The eight-minute card describes five minutes. What is the missing sentence? | **only you** | It is your sister's death. I will not guess at it. | **you** |
+| **2** | 🟠 A note at chapter VII saying who Hannah is? | **Don't add it** | Chapter X already does it, as the book's last movement. A note at VII spoils the ending. | **you** |
+| **3** | 🟡 Keep the blue rule down the left of the card? | **Keep it** | It is the only thing marking the card as a card since the box came off. You asked when it was red; the red is gone. | one word |
+| **4** | 🔵 Make the ribbon caption "more iconic"? | **Yes — switch it to `--lit-display`** | The token already exists and the hero already uses it. The caption is set at *reading* optical size and enlarged; that is exactly the flatness you are seeing. | one word |
+| **5** | 🔵 The gap under the ribbon you have flagged three times. | **Fill it, don't shrink it** | Every round measured the wrong edge — the real gap is 118px, not 0. Shrinking costs you the motion you already chose. | one word |
+| **6** | 🟢 Build "the card knows you have heard it"? | **Yes, but after #1** | You already approved it. Building it before the sentence exists means building the card twice. | one word |
+| **7** | 🔵 The read-along mark. Follow was **showing nothing on 94% of the book** — now fixed. Keep the fix, or go further? | **Keep it as shipped** | The unread text steps back; the read line is untouched. It is the opposite of a highlighter. Two richer options below if it is too quiet for you. | one word |
+
+🛑 **TWO THINGS ARE NOT UP FOR DISCUSSION** — the second door's `href` stays on David
+(`?t=ch07:17m55s`), and no commit ever carries a co-author trailer.
+
+🗄 **Everything already answered is `../archive/decisions-answered-through-v67.md`** — v55
+through v68, with your words on each. **Do not re-ask anything in there.**
 
 ---
 
-# ⬜ THREE DECISIONS
+# ✅ WHAT IS ALREADY DONE — you do not need to read this to decide anything
 
-**Only you can make these. Each one is a sentence of yours away from closed.**
+**v71, 2026-09-09 — the read-along mark was invisible on 94% of the book.** Fixed; the working
+is in #7 below. The follow *engine* was fine all along.
 
-## 1 · 🔴 THE CARD SAYS EIGHT MINUTES AND DESCRIBES FIVE OF THEM
+**v70, 2026-09-09 — the voice path is gone, on your ruling.** *"delete othr voice path we
+just ned the one voice path in our coding."* `js/player.js` and `js/room.js` carried a
+complete second code path — a `state.edition`, a setter, a toggle, two buttons, an
+edition-keyed preload cache and a change event — pointing at `audio/voice/chNN.m4a`.
+🛑 **That folder has never existed on this site.** `audio/` holds `music/` and nothing else,
+so every voice branch resolved to a 404 and was only ever reachable if the buttons came back.
+All of it removed; **one path, one folder, one master.** The voice-only file itself is safe in
+the audio repo.
 
-✅ **THE NUMBER IS FIXED AND IT IS NOW TRUE.** The eyebrow and the screen-reader label say
-**eight minutes**, and the door reaches *"He answered it wet"* at **+8m19** with nineteen
-seconds to spare.
+**v70 also closed the door that let the last bug in.** `PanimPlayer.audio` — the raw `<audio>`
+element, handed to any file that asked — is off the public API. It is what allowed the analyser
+below to hijack playback. Nothing used it any more.
 
-⬜ **WHAT IS STILL OPEN IS THE THIRD LINE.** It reads:
+**v69, 2026-09-09 — two defects, each already described in a comment next to it:**
+
+- 🔴 **Six Lexicon chips broke offline.** The precache carried the *italic* Greek subsets and
+  not the *roman* ones, so σχίζω, ἱλαστήριον, ἐνώπιον, μεταμορφόω, προσαγωγή and παρρησία each
+  rendered half in Literata and half in a system serif with no network.
+- 🔴 **A Web Audio analyser ran an FFT every frame for a property nothing reads** — and
+  rerouted the narration through an `AudioContext` to do it, which risks **silent playback**
+  on iOS. Removed.
+
+**v68, 2026-09-07 — seven of your eight answers shipped**, including the ribbon blue (it was
+never a contrast problem — the old blue was nearly as dark as the ink it turned into),
+arrow-key steering on the ribbon, and the arc stopping being kept in two files. Full working:
+`../archive/decisions-answered-through-v67.md` and `FRONT-DOOR.md` §14.
+
+---
+
+# 1 · 🔴 THE CARD SAYS EIGHT MINUTES AND DESCRIBES FIVE OF THEM
+
+✅ **The number is fixed and it is now true.** The eyebrow and the screen-reader label say
+**eight minutes**, and the door reaches *"He answered it wet"* at **+8m19**.
+
+⬜ **What is open is the third line.** It reads:
 
 > *Two years of a father's hidden face, and a mountain where the fire turns out to be the
 > wrong answer.*
 
 **Both of those close at +4m51.** Everything from **+4m54** on — your sister, *"Jesus, do You
-love me?"*, the tears on the page — **is undescribed.** The card now promises eight minutes
-and tells a stranger about five.
+love me?"*, the tears on the page — **is undescribed.**
 
-🛑 **I DID NOT WRITE THE MISSING HALF AND I AM NOT GOING TO GUESS AT IT.** What happens in
-minutes five to eight is your sister's death, and the sentence that puts that on the front
-page of a stranger's phone is the one line on this site nobody else gets to write. **Your
-words: *"if i want them to click it needs to be good though this should be a true hook."***
+🛑 **I did not write the missing half and I am not going to guess at it.** What happens in
+minutes five to eight is your sister's death, and the sentence that puts that on a stranger's
+phone is the one line on this site nobody else gets to write. Your words: *"if i want them to
+click it needs to be good though this should be a true hook."*
 
 **One sentence. Ten to twenty words. It goes after "wrong answer."** My only counsel: **it
-should not name the death.** The passage's power is that the answer arrives *wet*; a line
-that says "and then his sister died" spends that before the reader presses anything.
+should not name the death.** The passage's power is that the answer arrives *wet*; a line that
+says "and then his sister died" spends that before the reader presses anything.
 
-## 2 · 🟠 HANNAH'S NOTE — I went to write it, then found something
+---
 
-**You said:** *"all im actually saying is who hann ah is not any new fun facts just that
-hannah is the woman at the teple and she is my siter very clearly nothing fancy write it!"*
+# 2 · 🟠 HANNAH'S NOTE — ⭐ I SUGGEST: DON'T ADD IT
 
-⭐ **CLEAR, AND IT MADE THE JOB SMALLER — that is an identification, not a help note, and it
-carries no duty with it.** So I went to write it. Then I read the manuscript, and stopped.
+**You said:** *"all im actually saying is who hannah is not any new fun facts just that hannah
+is the woman at the temple and she is my sister very clearly nothing fancy write it!"*
 
-🛑 **THE BOOK ALREADY DOES THIS, AND IT DOES IT AS THE ENDING.** Chapter X, `ch10-p174`
-through `ch10-p177`:
+**Clear — and it made the job smaller.** So I went to write it, then read the manuscript and
+stopped.
 
-> *…Its root means grace, and the picture inside it is stooping: bending down to somebody who
-> cannot come up to you.*
-> **It is my sister's name.**
-> **Hannah.**
+🛑 **THE BOOK ALREADY DOES THIS, AND IT DOES IT AS THE ENDING.** Chapter X, `ch10-p174`–`p177`:
+
+> *…Its root means grace, and the picture inside it is stooping.*
+> **It is my sister's name. Hannah.**
 > *She spent twenty years bending down to people, and nobody ever told her it was her own
 > name.* — and the line after: *Nobody ever told the woman at the tent either.*
 
 **That is the exact sentence you asked me to write, and it is the last movement of the book.**
-A margin note at chapter VII saying *"Hannah is the author's sister, and the name of the woman
-at Shiloh"* **hands the reader chapter X's ending three chapters early.**
+A note at chapter VII hands the reader chapter X's ending three chapters early.
 
-⚠️ **AND THE APPARATUS CANNOT REACH THAT PARAGRAPH ANYWAY.** `.verse-note` is keyed by
-**chapter + citation** and renders under a *quotation*; `ch07-p139` is prose. A note there
-means a second apparatus system, which `js/render.js` argues against in its own words:
-*"There is one apparatus system here and this joins it rather than opening a second one."*
-**And `chapters.js` is generated — it cannot be hand-edited to carry one.**
-
-**So this is a real fork and it is yours. My pick is A.**
+⚠️ **And the apparatus cannot reach that paragraph anyway.** `.verse-note` is keyed by chapter
++ citation and renders under a *quotation*; `ch07-p139` is prose.
 
 | | what | cost | the blocker |
 |---|---|---|---|
-| **A** ⭐ | **Nothing at chapter VII. It is already in two places** — the index entry you approved (*"the author's sister — and, the book finds, the name of the woman at Shiloh"*) and chapter X's ending itself. | none | **You asked for it at the passage.** If what you want is that a reader hit at chapter VII gets an answer *there*, A refuses you — say so and I will build B. |
-| **B** | **A note at John 11:35** — *"Jesus wept"*, two blocks after *"He answered it wet."* The existing apparatus reaches it with **one entry in `content/verse-notes.js`, no new system.** | ~1 round | **It still spoils chapter X,** and it would be the only verse note on the site that is about you rather than about the text. |
-| **C** | **Build the prose-paragraph note.** A second apparatus keyed by block id — and block ids **move** every time a paragraph is added or cut. | ~2 rounds | 🛑 **The site says not to do this, in two files.** I would argue against it. |
-
-## 3 · 🟡 THE RULE DOWN THE LEFT OF THE CARD
-
-**You asked:** *"some you maybe dont even need like left of the text whe n its red is that
-necesssary"*
-
-✅ **HALF OF THIS IS ALREADY ANSWERED — it is not red any more.** The question was about the
-rule *when it was red*, and the red is gone.
-
-⬜ **I DID NOT DELETE THE RULE ON YOUR BEHALF, BECAUSE YOU APPROVED IT LAST ROUND.** When the
-box came off, what replaced it was *"one accent rule down the left and nothing else"* — and
-you called that a fix. **A question is not a verdict, and this is the object you have now had
-rebuilt four times in three days.**
-
-| | what | cost | the blocker |
-|---|---|---|---|
-| **A** ⭐ | **Keep it, now that it is blue.** It is the only thing still marking the card as a card since the box went. | none | **You asked the question.** If the rule is what looks tacky to you, say so and it goes. |
-| **B** | **Take it off.** The card becomes four lines and a play mark on bare paper. | trivial | **Nothing would be holding it together** — which is the complaint that put the box there in the first place. |
+| **A** ⭐ | **Nothing at chapter VII.** It is already in two places — the index entry you approved, and chapter X's ending. | none | **You asked for it at the passage.** If you want a reader hit at VII to get an answer *there*, A refuses you — say so and I build B. |
+| **B** | **A note at John 11:35** — *"Jesus wept"*, two blocks after *"He answered it wet."* One entry in `content/verse-notes.js`, no new system. | ~1 round | Still spoils chapter X, and would be the only verse note about you rather than about the text. |
+| **C** | **Build a prose-paragraph note.** A second apparatus keyed by block id — and block ids **move** whenever a paragraph is added or cut. | ~2 rounds | 🛑 The site argues against this in two files. I would argue against it too. |
 
 ---
 
-# ⬜ ONE THING APPROVED AND QUEUED
+# 3 · 🟡 THE RULE DOWN THE LEFT OF THE CARD — ⭐ I SUGGEST: KEEP IT
 
-| | what | your word |
+**You asked:** *"some you maybe dont even need like left of the text when its red is that
+necessary"*
+
+✅ **Half of this is already answered — it is not red any more.**
+
+⬜ **I did not delete it on your behalf, because you approved it last round.** When the box came
+off, what replaced it was *"one accent rule down the left and nothing else"* — and you called
+that a fix. **A question is not a verdict**, and this is the object you have had rebuilt four
+times in three days.
+
+| | what | cost | the blocker |
+|---|---|---|---|
+| **A** ⭐ | **Keep it, now that it is blue.** The only thing still marking the card as a card. | none | If the rule itself is what looks tacky to you, say so and it goes. |
+| **B** | **Take it off.** Four lines and a play mark on bare paper. | trivial | Nothing holds it together — the complaint that put the box there originally. |
+
+---
+
+# 4 · 🔵 THE RIBBON CAPTION — ⭐ I SUGGEST: SWITCH TO `--lit-display`
+
+**You asked:** *"the text could probably be more iconic and 3d style or something."*
+
+✅ **THE BUGS ARE FIXED AND MEASURED.** The accidental italic is gone (it is a `<span>` at
+`font-style: normal`, weight 400 — read out of a computed-style dump, not off the CSS), and the
+reserved height is exact at every width: **227/227, 195/195, 97/97, 176/176, 176/176.** The page
+no longer jumps under your thumb on a snap. **What is left is not a fault. It is taste.**
+
+## Why it reads flat: it is reading type, enlarged
+
+Literata has an **optical-size axis**, 7 to 72. The site already defines three settings:
+`--lit-normal` (12), `--lit-mid` (28) and **`--lit-display` (60)**.
+
+🔴 **The caption is on `--lit-mid` — measured — and so is the plate title above it.** That is a
+*text* cut: thicker hairlines, blunter serifs, wider spacing, all of which exist so small type
+survives. At 34px it is **enlarged reading type rather than display type**, which is exactly
+what you can see. 🛑 **`--lit-display` already exists and the hero already uses it.** This is
+not a new font or a new token.
+
+| | what | cost | the blocker |
+|---|---|---|---|
+| **A** ⭐ | **`--lit-mid` → `--lit-display`.** Finer hairlines, sharper serifs, more stroke contrast. No new font, no size change. | ~½ round | **The reserved-height ladder must be re-swept** — optical size changes glyph widths. Not optional: v66 shipped one line short at nine widths in ten from exactly this kind of change. |
+| **B** | **A, plus tracking to −.02em.** Display type wants tighter fitting. | ~½ round | Same sweep; moves more steps than A. |
+| **C** | **A, plus a letterpress shadow** — the literal "3D". | ~1 round | 🛑 **I argue against it.** It is the one option that can read cheap, it fights night mode, and it puts a drawn effect on the one line whose whole argument is that it is *type*. |
+| **D** | **Leave it.** | none | Correct as it stands, just not distinctive. |
+
+---
+
+# 5 · 🔵 THE GAP UNDER THE RIBBON — ⭐ I SUGGEST: FILL IT, DON'T SHRINK IT
+
+You have raised this **three times**, most recently *"theres more seperation from the chapter
+description text and the pictures than i would probably want."* Every round measured it,
+reported it fixed, and you raised it again.
+
+🛑 **BECAUSE EVERY ROUND MEASURED THE WRONG EDGE.** Measured 2026-09-09:
+
+| what was measured | reads |
+|---|---|
+| rail's **box** bottom → caption top | **0px** ← what the rounds reported, and it is true |
+| **last plate title** bottom → caption top | **114px at 402, 118px at 1440** ← what your eye sees |
+
+**The 88px of clearance is *inside* the rail's box.** So the number was driven to zero on paper
+while the visible gap never moved. That padding is real sway clearance and **cannot simply be
+cut** — two attempts were measured and reversed, and you already chose motion over room
+(*"more motion some room is fine"*).
+
+| | what | cost | the blocker |
+|---|---|---|---|
+| **A** ⭐ | **Fill the gap instead of shrinking it.** It reads dead because it is empty. Put the one thing that belongs there in it — a position marker (**III / X**), or the held chapter's runtime. **Costs no clearance and no motion.** | ~1 round | You may not want anything else on the strip. |
+| **B** | **Widen the caption.** It is 763px of 1440 — **53% of the viewport, under a strip that bleeds the full width.** The right 47% is bare paper. *"Its seperated from the very ribbon itself"* may have been about this horizontal gap all along. | ~½ round | It was set to a reading measure deliberately; ladder re-sweeps again. |
+| **C** | **Cut the sway amplitude.** Every 10px off is 10px off the gap. | ~½ round | 🛑 **Re-opens a call you already made.** I will not do this unless you say so. |
+
+---
+
+# 6 · 🟢 THE CARD SHOULD KNOW YOU HAVE HEARD IT — approved, queued
+
+**Your word:** *"this is a good idea."* A reader who has already played those eight minutes
+gets the identical card forever; the player already remembers completed chapters.
+
+**Deliberately not built yet**, and the reason still holds: **write #1's sentence and both land
+in one pass** instead of rebuilding the card twice.
+
+---
+
+# 7 · 🔵 THE READ-ALONG MARK — ⭐ I SUGGEST: KEEP WHAT SHIPPED
+
+**You asked:** *"make sure follow is working and it automatic… highlight doesnt normally look
+good we might need something different."*
+
+✅ **THE ENGINE WAS NEVER BROKEN, AND IT IS AUTOMATIC.** Measured: all **118 cues in chapter I
+resolve to a real element**, the right paragraph goes live as the clock passes each cue, Follow
+is **on by default**, and it suspends when you scroll away and resumes on its own.
+
+🔴 **BUT THE MARK ITSELF WAS INVISIBLE ON 94% OF THE BOOK, AND HAD BEEN SINCE THE REBUILD.**
+`.block-p.is-live` set `color: var(--ink)` — and a paragraph's colour **is already `--ink`**, so
+it changed nothing. **1,725 of the 1,841 cue blocks are paragraphs.** Only the 116 verse boxes
+showed anything, because theirs moves a border. The rebuild deliberately deleted v1's glow
+(*"a weight shift on the rule, no glow"*) — **that was right** — but only wrote half the
+replacement: it lit the live line without ever darkening the others, so there was nothing for it
+to stand out from.
+
+⭐ **THE FIX AGREES WITH YOUR INSTINCT ABOUT HIGHLIGHTS.** Nothing is added on top of the type.
+**The paragraph being read stays exactly the colour it always was; its neighbours step back half
+a tone** while the voice is running. It is a reader's own thumb on the page, not a highlighter —
+and it is the same argument that removed the v54 tabs and the card's box.
+
+🛑 **It only happens when all three are true: playing, Follow on, and you have not scrolled
+away.** A paused page never dims. ⚠️ **Contrast measured before shipping, because this dims body
+copy:** the receded ink is **6.01:1 worst case on all twelve day stocks and 8.34:1 on all six
+night stocks** — AA needs 4.5. The live line stays at 14.65:1.
+
+| | what | cost | the blocker |
+|---|---|---|---|
+| **A** ⭐ | **Keep it as shipped.** Quiet, typographic, costs one property. | done | It may be too subtle for you on a phone in daylight. **Look at it before ruling.** |
+| **B** | **Add a mark in the margin** beside the live paragraph — the margin column is empty and the apparatus already lives there. Nothing touches the text at all. Combines well with A. | ~1 round | One more object on the page. |
+| **C** | **A growing rule in the margin** that fills as the paragraph is read — marker and progress in one. The most "state of the art" of the three and still drawn, not glowing. | ~1–2 rounds | Needs per-paragraph duration, which the cues give (next cue − this cue). Most work of the three. |
+
+🛑 **AND ONE I RULED OUT RATHER THAN OFFER: word-by-word karaoke**, the Spotify-lyrics effect.
+It is what "state of the art" usually means here, and **this site cannot do it honestly** — the
+cues are paragraph-level (118 for a whole chapter), so word timing does not exist and would have
+to be faked by interpolation, which drifts audibly within two sentences. 🛑 **A weight shift on
+the live line is also out**: Literata's weight axis changes glyph widths, so the paragraph
+re-wraps and the page jumps under your thumb.
+
+---
+
+# 👀 TWO THINGS ONLY YOUR EYES CAN CHECK
+
+| | what | why a script cannot |
 |---|---|---|
-| 🟢 | **The card should know you have heard it.** A reader who has already played those eight minutes gets the identical card forever; the player already remembers completed chapters. | *"this is a good idea."* |
-
-**Deliberately not built yet.** Its blocker was *"I would not touch it again until decision 1
-is settled"*, and decision 1 is half-settled: the number is fixed, the sentence is not. **Write
-the sentence and both land in one pass instead of rebuilding the card twice.**
-
----
-
-# ⬜ TWO THINGS ONLY YOUR EYES CAN CHECK
-
-|   | what | why a script cannot |
-| - | ---- | ------------------- |
 | ☐ 🔴 | **The hour with the screen off.** A real screen reader through the player and the Listening Room. | `/accessibility.html` says in public that this has never been done. **It is the only claim on the site that is not yet true.** |
 | ☐ 🟠 | **One real thumb and one real mouse on the ribbon** — and **send yourself a passage from your phone.** | A synthetic cursor **teleports**, and a jump-move never fires `pointerenter`. The iMessage unfurl **is** the feature and only a real phone shows it. |
 
-⚠️ **AND ONE NEW THING TO LOOK AT, because I changed a colour you did not watch me change:**
-**the new blue is on chapters I–IV everywhere, not only under the ribbon.** You said *"only
-talking about under the ribbon nothing else"* — but the caption reads the chapter's own
-accent, so there was no way to fix it under the ribbon without fixing it in the arc. **It is
-one value in one table now. If I–IV look wrong anywhere else, that is this change, and it is
-one line to tune.**
+⚠️ **And one thing to glance at, because I changed a colour you did not watch me change:** the
+new blue is on **chapters I–IV everywhere**, not only under the ribbon. The caption reads each
+chapter's own accent, so there was no way to fix it under the ribbon without fixing it in the
+arc. **It is one value in one table. If I–IV look wrong anywhere else, that is this change, and
+it is one line to tune.**
 
 ---
 
-# 💡 SUGGESTIONS FOR THE SITE — mine, not yours
+# 🗄 PARKED — not decisions, just things that are true
 
-**Nothing here is a decision you owe me.**
-
-## 1 ⭐ The retired voice edition is still wired into two files
-
-`#edition-btn` and `#room-edition` are not in the DOM, and ~30 lines across `js/player.js`
-and `js/room.js` still branch on them. **They are inert only because both elements are null.**
-🛑 **I left this deliberately** — `js/player.js` records it as your call (*"the voice sounds
-better when it's actually connected to the music"*) **with a written restore path**, and
-deleting it deletes the way back. **Cost: ~half a round. Blocker: it is dormancy, not dead
-code, and making that permanent is your decision.**
-
-## 2 The card's `.hs-holds` is a second copy of the manuscript
-
-The quote and the holds line are transcribed from `ch07-p107`/`p108`. **If the chapter text is
-ever re-edited they will not follow** — the file says so about itself. **Cost: ~1 round.
-Blocker: none, but it is only worth doing once decision 1's sentence exists.**
-
-## 3 🗄 The four that are known and parked
-
-- **No LQIP and no genuine 2×.** Sources are 1408px; plates want 2400px+. **Blocked on
-  sources, not a decision.**
-- **The 35 rewritten index notes** are drafted and unapplied — `archive/`, round 18 §3 — and
-  **59 of the index's notes have never been audited against the prose at all.**
-- **The ninety-second door** and **the two inline pictures** for chapters III and IV. The
-  prompt for III is written in `art/PROMPTS.md`; **placement is yours.**
-- **Chapter titles disagree** across site / manuscript / audio. The WAV filenames are the only
-  surface still out of step, and they are cosmetic.
+- **`.hs-holds` on the card is a second copy of the manuscript.** Transcribed from
+  `ch07-p107`/`p108`; if the chapter text is re-edited they will not follow. **~1 round, no
+  blocker — but only worth doing once #1's sentence exists.**
+- **No LQIP and no genuine 2×.** Sources are 1408px; plates want 2400px+. **Blocked on sources.**
+- **The 35 rewritten index notes** are drafted and unapplied, and **59 of the index's notes have
+  never been audited against the prose at all.**
+- **The ninety-second door**, and **two inline pictures** for chapters III and IV. The prompt for
+  III is in `art/PROMPTS.md`; **placement is yours.**
+- **Chapter titles disagree** across site / manuscript / audio. Only the WAV filenames are still
+  out of step, and that is cosmetic.
 
 🛑 **AND ONE THAT IS NOT A SUGGESTION:** the whole site is **218 KB gzipped** including the
-complete text of the book, first paint 76ms. **Do not split `chapters.js` per chapter.**
+complete text of the book, first paint 76 ms. **Do not split `chapters.js` per chapter.**

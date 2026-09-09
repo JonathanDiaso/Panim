@@ -3,10 +3,17 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: `v67`** — `ASSET_V = '67'`, `panim-shell-v67`. Four rounds on 2026-09-07: `v64` a dead-rule sweep (`docs/FRONT-DOOR.md` §9), `v65` the small-label round and the Hannah index fix (§10), `v66` the ribbon caption, the apparatus scale, and two real bugs (§11), `v67` the caption's accidental italic, the redrawn play mark, the deboxed five-minute card, and 25% more ribbon motion with 28px less gap (§12). 🗄 The running log of what each
-version changed is `archive/version-log-through-v46.md`; the round records for v57–v60 are
-`archive/round-records-v57-to-v60.md`, and what the front door does *now* is `docs/FRONT-DOOR.md`.
-🛑 **This line rots.** It said `v55` for nine releases. Read `sw.js` and correct it here.
+**Current: `v71`** — `ASSET_V = '71'`, `panim-shell-v71`. Three rounds on 2026-09-09: `v69` a
+code-and-bug sweep (the roman Greek subsets were missing from the offline precache; a Web Audio
+analyser was running every frame for a property nothing reads), `v70` the **deletion of the
+second audio edition** — a whole code path pointing at an `audio/voice/` folder that has never
+existed here — and `v71` the **read-along mark, which had been invisible on 94% of the book**
+since the rebuild. All three in `docs/FRONT-DOOR.md` §14–§15. 🗄 The running log of what each
+version changed is `archive/version-log-through-v46.md`; the round records are
+`archive/round-records-v57-to-v60.md` and `archive/round-records-v61-to-v67.md`, and what the
+front door does *now* is `docs/FRONT-DOOR.md`.
+🛑 **This line rots.** It said `v55` for nine releases and `v67` for two. Read `sw.js` and
+correct it here — **`sw.js` is the version, this prose is only a copy of it.**
 
 🛑 **`ASSET_V`, `SHELL` and every `?v=` must move together and nothing checks it.**
 They drifted four versions once and offline silently stopped precaching.
@@ -22,23 +29,25 @@ Put session notes there, not here.
 🗄 The dated site handoff it replaced is
 `../panim-book/handoffs/archive/site-handoff-2026-08-27-folded-into-next.md`.
 
-## 0. 🔴 RULE ON THESE FIRST — everything below §0 is explanation
+## 0. 🔴 WHAT NEEDS A RULING — one list, and it is not this file
 
 **Added 2026-09-03 on the author's word:** *"in md read me it should show the things to rule on
-first then later explain the stuff."* 🛑 **This section is decisions only. If a row here is not
-waiting on a human, it does not belong here — move it down.**
+first then later explain the stuff."* **That rule still holds. The list moved.**
 
-| | what needs a ruling | where the detail is |
-|---|---|---|
-| 🔴 **1** | **The screen-reader hour.** Everything a machine can check is green — 111 controls named, zero axe violations at four widths. **That is a floor, not a pass**, and `/accessibility.html` says so in public. Only a person can finish it. | §7 |
-| 🔴 **2** | **Chapter X runs 1,138 words over 25 unbroken paragraphs** — the real density outlier, measured across all ten. **Chapter III (661) is the one that wants an inline picture**; the prompt is written in `art/PROMPTS.md`. **Placement is yours.** | §7 |
-| 🟠 **3** | **The dawn arc is a hand-kept table in two files.** The duplication has already cost one live bug. | §3 |
-| 🟠 **4** | **Chapter titles disagree** across site / manuscript / audio — the WAV filenames are the only surface still out of step. | §2 |
-| 🟡 **5** | **No LQIP and no genuine 2×.** Blocked on sources: plates want 2400px+, every one is 1408px. **Not a decision until sources exist.** | §7 |
+🛑 **EVERY OPEN DECISION IS IN [`docs/DECISIONS.md`](docs/DECISIONS.md), WITH THE OPTIONS AT THE
+TOP OF THE FILE.** `docs/FRONT-DOOR.md` says *"do not start a second list"* — and this section
+had become one. **It was also wrong:** it carried *"the dawn arc is a hand-kept table in two
+files"* as a live ruling for two releases after **v68 deleted both tables** and pointed the arc
+at the stylesheet. Verified 2026-09-09: `js/motion.js` holds **three** hex literals, all of them
+one documented bootstrap fallback, not twenty-four.
+
+**Consolidated 2026-09-09.** The five rows that were here are all in the decision sheet: the
+screen-reader hour and the inline pictures under *"only your eyes can check"* and *"parked"*, the
+chapter-title mismatch and the LQIP/2× block under *"parked"*, and the arc row deleted as done.
 
 ⚠️ **`ch06-p57` and `ch10-p178` are text with no tape.** Both clauses are in `chapters.js` and
 not in the recording, so `gen-cues.py` interpolates them and both sit on the review list.
-Coverage held at 98.8%. 🆕 **2026-09-03 — the author says both WERE recorded and were lost in
+Coverage held at 98.8%. **2026-09-03 — the author says both WERE recorded and were lost in
 editing, so this is a recovery from the original Descript project, not a re-record.** Full
 record: [`../panim-book/handoffs/archive/round-21-next-steps.md`](../panim-book/handoffs/archive/round-21-next-steps.md) §0.2.
 

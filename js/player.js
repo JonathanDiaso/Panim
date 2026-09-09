@@ -1,13 +1,25 @@
 // PANIM — player.js (v2)
-// The audio engine. SITE-V2-PLAN.md §6. Two finished editions per chapter —
-// audio/music/chNN.m4a (default: the mastered piano bed) and audio/voice/chNN.m4a
-// (words only). No live mixing, ever: the mix was mastered by ear.
+// The audio engine. SITE-V2-PLAN.md §6. ONE edition: audio/music/chNN.m4a, the
+// mastered piano bed. No live mixing, ever: the mix was mastered by ear.
+//
+// 🛑 THE SECOND EDITION IS GONE, 2026-09-09, AND IT IS NOT COMING BACK BY ACCIDENT.
+// The author, 2026-08-26: "the voice sounds better when it's actually connected to
+// the music" — and again 2026-09-09: "delete othr voice path we just ned the one
+// voice path in our coding." This file used to carry a full second code path —
+// state.edition, setEdition, toggleEdition, updateEditionButtons, an edition-keyed
+// preload cache, an edition-change event and two DOM buttons — for
+// `audio/voice/chNN.m4a`, WHICH HAS NEVER EXISTED ON THIS SITE. `audio/` holds
+// `music/` and nothing else, so every voice branch resolved to a 404. It was
+// switched off at init() rather than removed, so it read as a live feature.
+// ⚠️ THE VOICE-ONLY MASTER IS NOT LOST — it lives in the audio repo. Restoring the
+// toggle means re-adding `audio/voice/`, the buttons, and this path; the shape is
+// in git at v69. Do not re-add the branching before the files exist.
 //
 // TIMELINE RULE: every position this file stores, dispatches, or accepts is on the
-// VOICE timeline (cues/*.json's clock). The music edition prepends 6.0s of music-
-// alone lead-in (content/audio-manifest.js musicOffset), so:
-//   fileTime = voiceTime + offset(edition)   ·   voiceTime = fileTime − offset
-// Switching editions mid-listen converts through this and keeps your place.
+// VOICE timeline (cues/*.json's clock) — that name is about the CLOCK, not about an
+// edition, and it stays. The music master prepends 6.0s of music-alone lead-in
+// (content/audio-manifest.js musicOffset), so:
+//   fileTime = voiceTime + offset()   ·   voiceTime = fileTime − offset()
 
 (function () {
   'use strict';
@@ -23,7 +35,6 @@
     skipBackBtn: document.getElementById('skip-back-btn'),
     skipFwdBtn: document.getElementById('skip-fwd-btn'),
     speedBtn: document.getElementById('speed-btn'),
-    editionBtn: document.getElementById('edition-btn'),
     followBtn: document.getElementById('follow-btn'),
     sleepBtn: document.getElementById('sleep-btn'),
     roomBtn: document.getElementById('room-btn'),
@@ -52,7 +63,6 @@
   var SPEEDS = [0.9, 1, 1.1, 1.25];
   var state = {
     chapterId: null,
-    edition: 'music',           // 'music' | 'voice'
     playing: false,
     speed: 1,
     volume: 1,
@@ -79,11 +89,11 @@
     set: function (k, v) { try { localStorage.setItem('panim:' + k, JSON.stringify(v)); } catch (e) {} }
   };
 
-  function offset() { return state.edition === 'music' ? ((MAN[state.chapterId] || {}).musicOffset || 6.0) : 0; }
+  function offset() { return (MAN[state.chapterId] || {}).musicOffset || 6.0; }
   function voiceDur() { return (MAN[state.chapterId] || {}).voiceDur || 0; }
-  function fileDur() { return els.audio.duration || ((MAN[state.chapterId] || {}).musicDur && state.edition === 'music' ? MAN[state.chapterId].musicDur : voiceDur()) || 0; }
+  function fileDur() { return els.audio.duration || (MAN[state.chapterId] || {}).musicDur || voiceDur() || 0; }
   function voiceTime() { return Math.max(0, (els.audio.currentTime || 0) - offset()); }
-  function src(id, ed) { return 'audio/' + ed + '/' + id + '.m4a'; }
+  function src(id) { return 'audio/music/' + id + '.m4a'; }
 
   function chapterTitle(id) {
     var m = MAN[id];
@@ -112,13 +122,13 @@
   function announce(msg) { if (els.ariaLive) els.ariaLive.textContent = msg; }
   function emit(name, detail) { document.dispatchEvent(new CustomEvent(name, { detail: detail || {} })); }
 
-  // ---------- load / editions ----------
+  // ---------- load ----------
   function loadChapter(chapterId, opts) {
     opts = opts || {};
     state.chapterId = chapterId;
     els.metaTitle.textContent = chapterTitle(chapterId);
     setPlayerState('loading');
-    els.audio.src = src(chapterId, state.edition);
+    els.audio.src = src(chapterId);
     els.audio.load();
     emit('panim:chapter-loaded', { chapterId: chapterId });
     updateMediaSession(chapterId);
@@ -136,9 +146,8 @@
     // CONTINUING is continuing.
     // ⚠️ THE ONE PLACE THAT STILL RESUMES IS THE ONE THAT MEANS IT. The jacket's
     // Continue button and the resume toast both read 'lastChapter'/'lastPos' and
-    // pass the position in as opts.seekTo, which this line still honours, as does
-    // the edition switch (which passes the current position through so a swap
-    // between the music and voice cuts does not lose your place).
+    // pass the position in as opts.seekTo, which this line still honours. (The
+    // edition switch was the third caller and it is gone — see the header.)
     // 🛑 'pos:<chapter>' IS NOT WRITTEN ANY MORE EITHER — see savePosition below.
     // A store nothing reads is a trap for whoever reads this file next.
     var resumeAt = opts.seekTo != null ? opts.seekTo : 0; // voice timeline
@@ -158,8 +167,8 @@
         try { els.audio.currentTime = resumeAt + offset(); } catch (e) {}
       } else if (opts.skipIntro && offset() > 0) {
         // ⭐ NO SECOND OVERTURE ON AUTO-ADVANCE, 2026-09-06.
-        // MEASURED, all ten chapters, from content/audio-manifest.js: the music
-        // edition carries a 6.0s lead-in before the voice and a 12.0s tail after it
+        // MEASURED, all ten chapters, from content/audio-manifest.js: the master
+        // carries a 6.0s lead-in before the voice and a 12.0s tail after it
         // (musicDur − voiceDur − musicOffset = 12.00 on every one). `ended` fires at
         // the END of the file, so the tail is never clipped — it plays in full. What
         // that produced on continuous play was 12s of outro followed immediately by
@@ -192,26 +201,6 @@
     // nothing that was playing. That is the phone play/pause bug. Start it in the same
     // tick as the tap; the seek above does not need a gesture and can wait for metadata.
     if (opts.autoplay) play();
-  }
-
-  function setEdition(ed, opts) {
-    if (ed === state.edition) return;
-    var at = state.chapterId ? voiceTime() : 0;
-    var was = state.playing;
-    state.edition = ed;
-    LS.set('edition', ed);
-    updateEditionButtons();
-    if (state.chapterId) loadChapter(state.chapterId, { seekTo: at, autoplay: was && !(opts && opts.stayPaused) });
-    emit('panim:edition-change', { edition: ed });
-    announce(ed === 'music' ? 'Music edition' : 'Voice only');
-  }
-  function toggleEdition() { setEdition(state.edition === 'music' ? 'voice' : 'music'); }
-  function updateEditionButtons() {
-    if (!els.editionBtn) return;   // single-edition build: the toggle is not in the DOM
-    var music = state.edition === 'music';
-    els.editionBtn.textContent = music ? '♪' : '¶';
-    els.editionBtn.title = music ? 'Music edition. Tap for voice only' : 'Voice only. Tap for music';
-    els.editionBtn.setAttribute('aria-pressed', String(music));
   }
 
   // ---------- transport ----------
@@ -567,10 +556,9 @@
   var preloaded = {};
   function preloadNext() {
     var next = CHAPTER_IDS[CHAPTER_IDS.indexOf(state.chapterId) + 1];
-    var key = state.edition + ':' + next;
-    if (!next || preloaded[key]) return;
-    preloaded[key] = true;
-    try { var a = new Audio(); a.preload = 'auto'; a.src = src(next, state.edition); } catch (e) {}
+    if (!next || preloaded[next]) return;
+    preloaded[next] = true;
+    try { var a = new Audio(); a.preload = 'auto'; a.src = src(next); } catch (e) {}
   }
   function wireAudio() {
     // The only two places the transport UI is allowed to change. Everything else —
@@ -693,7 +681,6 @@
     els.skipBackBtn.addEventListener('click', function () { skip(-15); });
     els.skipFwdBtn.addEventListener('click', function () { skip(30); });
     els.speedBtn.addEventListener('click', cycleSpeed);
-    if (els.editionBtn) els.editionBtn.addEventListener('click', toggleEdition);
     els.followBtn.addEventListener('click', function () {
       // while suspended the button means "take me back to the voice", not "turn this
       // off" — the reader has already stopped following by scrolling away
@@ -719,12 +706,7 @@
 
   function init() {
     state.speed = LS.get('speed', 1);
-    // ONE edition, the author's call 2026-08-26: "the voice sounds better when it's
-    // actually connected to the music." The voice-only master lives on locally;
-    // restoring the toggle = re-adding audio/voice/ + the two edition buttons.
-    state.edition = 'music';
     state.completed = LS.get('completed', {});
-    updateEditionButtons();
     setSpeed(state.speed);
     setFollow(state.follow);
     renderSeekMarks();
@@ -749,17 +731,26 @@
   document.addEventListener('panim:rendered', init);
 
   // API for js/room.js
+  // 🛑 `audio: els.audio` CAME OFF THIS SURFACE, 2026-09-09, AND IT IS A FENCE RATHER
+  // THAN A TIDY-UP. Handing the raw <audio> element to another file is what let
+  // js/room.js call createMediaElementSource() on it — which permanently reroutes
+  // playback through a Web Audio graph, so a context that fails to resume is SILENT
+  // NARRATION. That block is gone (see the tombstone in room.js); this closes the door
+  // it came through. Its only consumer was that analyser. Everything a caller legitimately
+  // needs from the element is already a method here — play, pause, skip, seekToRatio,
+  // voiceTime, fileDur. **If you need the element itself, you are about to do something
+  // to the audio that this file should be doing instead.**
   window.PanimPlayer = {
     state: state,
     ids: CHAPTER_IDS,
     manifest: MAN,
     play: play, pause: pause, toggle: togglePlay, skip: skip,
     load: function (id, opts) { loadChapter(id, opts); },
-    setEdition: setEdition, cycleSpeed: cycleSpeed,
+    cycleSpeed: cycleSpeed,
     setAutoAdvance: setAutoAdvance,
     setSleep: setSleep, sleepRemaining: sleepRemaining,
     voiceTime: voiceTime, voiceDur: voiceDur, fileDur: fileDur,
-    audio: els.audio, fmtTime: fmtTime, chapterTitle: chapterTitle,
+    fmtTime: fmtTime, chapterTitle: chapterTitle,
     seekToRatio: seekToRatio, wireSliderKeys: wireSliderKeys
   };
 })();

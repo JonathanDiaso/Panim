@@ -29,7 +29,6 @@
     back: document.getElementById('room-back'),
     fwd: document.getElementById('room-fwd'),
     speed: document.getElementById('room-speed'),
-    edition: document.getElementById('room-edition'),
     sleep: document.getElementById('room-sleep'),
     follow: document.getElementById('room-follow'),
     chapters: document.getElementById('room-chapters'),
@@ -67,7 +66,6 @@
     if (!P.state.chapterId) P.load(P.ids[0], {});
     refresh();
     armIdle();
-    if (P.state.playing) startPulse();
   }
   function closeRoom() {
     if (!open) return;
@@ -153,44 +151,26 @@
     }
   }
 
-  // ---------- the room breathes with the voice ----------
-  // Same-origin audio, so a Web Audio analyser is available: while the room is open
-  // and playing, --pulse (0..1) follows the narration's short-term level, and CSS
-  // lets the glow behind the play button breathe with the reading. No beat-sync,
-  // no flicker — a 120 ms smoothed swell. Off under prefers-reduced-motion.
-  var actx = null, analyser = null, adata = null, pulseRaf = false, pulseSmooth = 0;
-  function ensureAnalyser() {
-    if (analyser || reduceMotion) return;
-    try {
-      var Ctx = window.AudioContext || window.webkitAudioContext;
-      actx = new Ctx();
-      var srcNode = actx.createMediaElementSource(P.audio);
-      analyser = actx.createAnalyser();
-      analyser.fftSize = 512;
-      analyser.smoothingTimeConstant = 0.6;
-      srcNode.connect(analyser);
-      analyser.connect(actx.destination);
-      adata = new Uint8Array(analyser.fftSize);
-    } catch (e) { analyser = null; }
-  }
-  function pulseFrame() {
-    pulseRaf = false;
-    if (!open || !analyser) { room.style.setProperty('--pulse', '0'); return; }
-    analyser.getByteTimeDomainData(adata);
-    var sum = 0;
-    for (var i = 0; i < adata.length; i += 4) { var v = (adata[i] - 128) / 128; sum += v * v; }
-    var rms = Math.sqrt(sum / (adata.length / 4));
-    var level = Math.min(1, rms * 5);
-    pulseSmooth += (level - pulseSmooth) * 0.25;
-    room.style.setProperty('--pulse', pulseSmooth.toFixed(3));
-    if (P.state.playing) { pulseRaf = true; requestAnimationFrame(pulseFrame); }
-  }
-  function startPulse() {
-    if (reduceMotion) return;
-    ensureAnalyser();
-    if (actx && actx.state === 'suspended') actx.resume();
-    if (analyser && !pulseRaf) { pulseRaf = true; requestAnimationFrame(pulseFrame); }
-  }
+  // ---------- the room used to breathe with the voice — REMOVED 2026-09-09 ----------
+  // 🛑 THE WEB AUDIO ANALYSER IS GONE BECAUSE NOTHING READ IT, AND IT WAS NOT FREE.
+  // It ran a 512-point analyser over the narration on every animation frame while the
+  // Room was open and playing, smoothed the RMS, and wrote it to --pulse on #room. The
+  // CSS that made the glow behind the play button breathe with that number was removed
+  // at some point before v68 and the writer was left behind. Verified twice before
+  // deleting: no `var(--pulse)` anywhere in css/, index.html or content/, and at runtime
+  // a walk of every rule in document.styleSheets matched --pulse zero times.
+  //
+  // ⚠️ AND IT WAS THE EXPENSIVE KIND OF DEAD CODE, WHICH IS WHY IT WENT RATHER THAN
+  // STAYING DORMANT. createMediaElementSource() PERMANENTLY reroutes
+  // the element's output through the AudioContext — after that call the narration is
+  // only audible if the context is running, so an autoplay-policy suspension or a
+  // failed resume() on iOS is silent playback, not a missing glow. It spent a rAF loop
+  // and an FFT per frame, and risked the one thing this site exists to do, for a custom
+  // property with no reader.
+  //
+  // 🛑 IF THE BREATHING GLOW COMES BACK, THE CSS COMES FIRST. Write the rule that reads
+  // var(--pulse), see it do nothing, and only then restore this from git — that ordering
+  // is what would have caught it. The block is in the history at v68.
 
   // ---------- reflect player state ----------
   // ⚠️ THE LABEL CHANGES WITH THE STATE AND SO DOES THE MEANING OF THE CHIP. A
@@ -214,11 +194,6 @@
     els.chnum.textContent = r ? r.romanFor(m.num || 1) : String(m.num || '');
     els.title.textContent = m.title || '';
     els.speed.textContent = P.state.speed + '×';
-    if (els.edition) {
-      var music = P.state.edition === 'music';
-      els.edition.textContent = music ? '♪ Music' : '¶ Voice';
-      els.edition.setAttribute('aria-pressed', String(music));
-    }
     els.play.classList.toggle('is-playing', P.state.playing);
     els.play.setAttribute('aria-label', P.state.playing ? 'Pause' : 'Play');
     reflectAuto();
@@ -248,7 +223,7 @@
   }
 
   // ---------- chapters sheet ----------
-  function audioUrl(id) { return 'audio/' + P.state.edition + '/' + id + '.m4a'; }
+  function audioUrl(id) { return 'audio/music/' + id + '.m4a'; }
   var sw = null;
   // ==========================================================================
   // 🛑 THE WHOLE BOOK, OFFLINE, IN ONE TAP — 2026-08-30 (D22-E)
@@ -269,7 +244,7 @@
     var mb = 0;
     P.ids.forEach(function (id) {
       var m = P.manifest[id] || {};
-      mb += (P.state.edition === 'music' ? m.musicMB : m.voiceMB) || 0;
+      mb += m.musicMB || 0;
     });
     return Math.round(mb);
   }
@@ -301,7 +276,7 @@
       var m = P.manifest[id] || {};
       var done = P.state.completed[id] ? ' is-complete' : '';
       var cur = id === P.state.chapterId ? ' is-current' : '';
-      var mb = P.state.edition === 'music' ? m.musicMB : m.voiceMB;
+      var mb = m.musicMB;
       return '<div class="chapter-row' + done + cur + '">' +
         '<button class="cr-main" data-room-chapter="' + id + '">' +
         '<span class="cr-num">' + (r ? r.romanFor(m.num || 0) : '') + '</span>' +
@@ -356,7 +331,6 @@
     els.back.addEventListener('click', function () { P.skip(-15); });
     els.fwd.addEventListener('click', function () { P.skip(30); });
     els.speed.addEventListener('click', function () { P.cycleSpeed(); });
-    if (els.edition) els.edition.addEventListener('click', function () { P.setEdition(P.state.edition === 'music' ? 'voice' : 'music'); });
     els.sleep.addEventListener('click', function () { if (window.PanimUI) window.PanimUI.openSheet('sleep-sheet'); });
     els.chapters.addEventListener('click', function () {
       buildChaptersSheet();
@@ -441,11 +415,7 @@
 
     document.addEventListener('panim:room-toggle', toggleRoom);
     document.addEventListener('panim:chapter-loaded', function () { if (open) refresh(); });
-    document.addEventListener('panim:play-state', function (e) {
-      if (open) refresh();
-      if (open && e.detail.playing) startPulse();
-    });
-    document.addEventListener('panim:edition-change', function () { if (open) refresh(); });
+    document.addEventListener('panim:play-state', function () { if (open) refresh(); });
     document.addEventListener('panim:speed-change', function () { if (open) refresh(); });
     document.addEventListener('panim:sleep-change', function () { if (open) tick(); });
     document.addEventListener('panim:narration-timeupdate', function () { if (open) tick(); });
