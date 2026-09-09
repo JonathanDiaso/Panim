@@ -709,6 +709,7 @@ window.PANIM_CHAPTERS = [
   "id": "ch02",
   "title": "The Hiding",
   "hook": "Shame never waits to find out whether God has turned away. It turns first, and assumes He has.",
+  "standfirst": "",
   "glossary": [
    {
     "term": "satar",
@@ -1602,6 +1603,7 @@ window.PANIM_CHAPTERS = [
   "id": "ch03",
   "title": "The Face They Fled",
   "hook": "A whole nation washes its clothes for two days to meet God face to face, and then asks to be excused from it.",
+  "standfirst": "",
   "glossary": [
    {
     "term": "panim el panim",
@@ -2948,6 +2950,7 @@ window.PANIM_CHAPTERS = [
   "id": "ch05",
   "title": "Mouth to Mouth",
   "hook": "The fire never shouted at him. It burned, and waited, and only said his name once he had turned his face toward it.",
+  "standfirst": "",
   "glossary": [
    {
     "term": "Ehyeh asher Ehyeh",
@@ -4037,6 +4040,7 @@ window.PANIM_CHAPTERS = [
   "id": "ch06",
   "title": "Borrowed Light",
   "hook": "His face is burning, the whole camp has backed away from him, and nobody will come tell him why. The lamp is the last to know it is lit.",
+  "standfirst": "",
   "glossary": [
    {
     "term": "masveh",
@@ -4951,6 +4955,7 @@ window.PANIM_CHAPTERS = [
   "id": "ch07",
   "title": "The Glory Backs Out",
   "hook": "The light leaves the temple one slow, deliberate step at a time, and the building goes on gleaming as if nothing has happened.",
+  "standfirst": "",
   "glossary": [
    {
     "term": "haster astir",
@@ -8742,6 +8747,7 @@ window.PANIM_CHAPTERS = [
   "id": "ch10",
   "title": "Face to Face",
   "hook": "Every veil in this book was hung to hide a face. The last one is hung to promise one, and it does not tear — it lifts.",
+  "standfirst": "",
   "glossary": [
    {
     "term": "prosagoge",
@@ -9779,6 +9785,10 @@ window.PANIM_CHAPTERS = [
     "type": "p",
     "html": "<em>And the woman went her way and ate, and her face was no longer sad.</em>",
     "id": "ch10-p168"
+   },
+   {
+    "type": "ref",
+    "ref": "1 Samuel 1:18"
    },
    {
     "type": "p",

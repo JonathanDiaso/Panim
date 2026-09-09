@@ -1045,7 +1045,22 @@
   letter-spacing: .16em; text-transform: uppercase;
   color: var(--ink-faint);
 }
-@media (max-width: 900px) { .block-ref { grid-column: 1 / 7; } }
+/* 🔴 A CITATION LINE CAN CARRY A VERSE NOTE NOW, 2026-09-09, AND IT NEEDS THIS RULE
+   TO SURVIVE. A .verse-note under a `verse` block is nested INSIDE the verse's own
+   container, so it inherits that container's column and never asked for one. Hung off
+   a `ref` block it is a direct child of the chapter grid instead, and a grid child
+   with no column lands in a single auto track.
+   🛑 MEASURED, NOT GUESSED: 132px wide and 468px tall at 1440 — a sixty-word note set
+   six steps deep in the margin, which is exactly the ribbon js/render.js's own comment
+   says not to make. It takes the citation's column because it is the citation's note.
+   ⚠️ margin-top: 0 IS DELIBERATE. .block-ref already carries 1.5em beneath it (≈15px
+   at --ap-sm); the note's own 1.15em is measured at --ap-lg (≈17px) and would stack
+   with it. Zero here leaves the same gap the note has under a verse. */
+.block-ref + .verse-note { grid-column: 3 / 9; margin-top: 0; }
+@media (max-width: 900px) {
+  .block-ref,
+  .block-ref + .verse-note { grid-column: 1 / 7; }
+}
 
 /* ============================================================================
    NARRATION-AWARE STATE — the read-along mark
@@ -2371,7 +2386,21 @@ html.is-narrating .block-p.is-live { color: var(--ink); }
   letter-spacing: 0;
 }
 .pl-t {
-  font-variation-settings: var(--lit-mid); font-weight: 400;
+  /* 🔴 --lit-mid → --lit-display, 2026-09-09. The author, of the plate titles and the
+     caption under them: "the text could probably be more iconic and 3d style or
+     something", and then "that sounds good" to this.
+     🛑 IT IS NOT A SIZE CHANGE AND NOT A NEW FONT. Literata carries an optical-size
+     axis, 7 to 72, and the site already names three settings (css/site.css): 12 for
+     reading, 28 for mid, 60 for display. This title sets at 27px at 1440 and was
+     drawn at opsz 28 — a TEXT cut, whose thicker hairlines, blunter serifs and wider
+     default fitting exist so that small type survives. Enlarged to 27px it is
+     reading type made big, which is exactly the flatness he can see. opsz 60 is the
+     same family drawn for display: finer hairlines, sharper serifs, more stroke
+     contrast, tighter natural fitting.
+     ⚠️ THE RIBBON'S RESERVED-HEIGHT LADDER WAS RE-SWEPT FOR THIS. Optical size changes
+     glyph widths, so it changes where lines wrap — see .pl-hook below, and the note
+     there about v66 shipping one line short at nine widths in ten from exactly this. */
+  font-variation-settings: var(--lit-display); font-weight: 400;
   /* clamp(1.02rem, 1.5vw, 1.24rem) → clamp(1.16rem, 1.85vw, 1.46rem) → this.
      🔴 2026-09-05, the author: "titles could prob be bigger under pics."
      A caption under a 400px plate is competing with a photograph, and at 23px it
@@ -2605,7 +2634,15 @@ html.is-narrating .block-p.is-live { color: var(--ink); }
      Measured at 1440: 21.4px → 30.4px, and it now sets like a standfirst rather than
      like a photo credit. Author's pick, of three options offered. */
   font-family: var(--serif);
-  font-variation-settings: var(--lit-mid);
+  /* 🔴 --lit-mid → --lit-display, 2026-09-09, AND IT IS THE THIRD AND LAST ANSWER TO
+     "more iconic". The two before it were size (three times) and weight, and both had
+     run out: the line is already 34px and already at the book's own roman. What was
+     left was the OPTICAL SIZE, and it was wrong — this caption was drawn at opsz 28,
+     the setting a chapter title uses at half this size, so at 34px it was reading type
+     enlarged. opsz 60 is the display cut of the same face. Nothing else moves: same
+     family, same weight, same clamp, same colour.
+     🛑 AND THE LADDER BELOW WAS RE-SWEPT FOR IT, NOT SCALED — see the sweep note. */
+  font-variation-settings: var(--lit-display);
   /* 🔴 350 → 400, 2026-09-07, AND IT IS THE OTHER HALF OF THE ITALIC FIX. 350 is a
      light weight, and a light weight at 34px is a display setting: it wants a big
      page and a lot of paper around it. Here it sits under ten photographs and above
@@ -2670,10 +2707,10 @@ html.is-narrating .block-p.is-live { color: var(--ink); }
      wrapping this had before the caption was rebuilt — returns the same numbers to
      the pixel. The ladder simply was not re-measured the last time the type grew.
      🛑 THE LINE COUNTS BELOW ARE WHERE THE TALLEST HOOK ACTUALLY LOSES A LINE, found
-     by sweep, not interpolated: 320→7 · 340→6 · 420→5 · 460→4 · 620→3 · 901→4.
+     by sweep, not interpolated. The current sweep is the 2026-09-09 one below.
      `1.3em` is exactly one line box at every clamp value, so the ladder only has to
      carry the count and the clamp can move without breaking it. */
-  min-height: calc(7 * 1.3em);
+  min-height: calc(8 * 1.3em);
 }
 /* ============================================================================
    🔴 THE CAPTION IS LIT BY THE CHAPTER IT NAMES — 2026-09-07
@@ -2750,10 +2787,30 @@ html.is-narrating .block-p.is-live { color: var(--ink); }
    fault this reservation exists to prevent, reintroduced by a change three files away
    that had nothing to do with layout. If the caption's face, weight or size moves
    again, re-run the sweep; do not scale these numbers. */
-@media (min-width: 360px) { .pl-hook { min-height: calc(6 * 1.3em); } }
-@media (min-width: 436px) { .pl-hook { min-height: calc(5 * 1.3em); } }
-@media (min-width: 490px) { .pl-hook { min-height: calc(4 * 1.3em); } }
-@media (min-width: 654px) { .pl-hook { min-height: calc(3 * 1.3em); } }
+/* 🔴 RE-SWEPT AGAIN 2026-09-09, AND EVERY STEP MOVED AGAIN — the caption went from
+   --lit-mid (opsz 28) to --lit-display (opsz 60). Optical size is not a size: it is a
+   different DRAWING of the face, and a display cut has finer hairlines and tighter
+   natural fitting, so the words do not occupy the same widths. The note above said to
+   re-run the sweep if the caption's face moves. This is that.
+   🛑 MEASURED AT ONE-PIXEL RESOLUTION, 320 to 1010, then every 10px to 1920 — the same
+   probe cloned from .pl-hook, min-height off, all ten hooks through it, real rendered
+   height against the real line box:
+       320-329  8 lines  ·  330-354  7  ·  355-428  6  ·  429-483  5
+       484-642  4        ·  643-900  3  ·  901+     4  (and 4 at every width to 1920)
+   ⚠️ 320 GAINED A LINE AND EVERY OTHER STEP CAME EARLIER, which looks contradictory
+   and is not: the display cut fits tighter overall — so each count is given up 1-11px
+   sooner — while at 320 the narrowest measure in the set the longest word in chapter
+   X's hook no longer shares a line, and the whole caption takes an eighth. Both are
+   the same sweep and both are real. The 1px resolution is what shows it; the previous
+   sweep stepped in 2s and would have reported 330 as the base.
+   🛑 THE BASE RULE ABOVE IS NOW 8, NOT 7. A base of 7 under-reserves by a full line
+   from 320 to 329 — 44px of the contents page jumping under a thumb, on the narrowest
+   phone there is. */
+@media (min-width: 330px) { .pl-hook { min-height: calc(7 * 1.3em); } }
+@media (min-width: 355px) { .pl-hook { min-height: calc(6 * 1.3em); } }
+@media (min-width: 429px) { .pl-hook { min-height: calc(5 * 1.3em); } }
+@media (min-width: 484px) { .pl-hook { min-height: calc(4 * 1.3em); } }
+@media (min-width: 643px) { .pl-hook { min-height: calc(3 * 1.3em); } }
 /* 🛑 .is-swapping IS GONE WITH THE CROSSFADE IT RAN, 2026-09-07 — nothing sets it
    any more. The caption's transition now lives on its words, above. */
 @media (max-width: 900px) { .pl-hook { grid-column: 1 / 7; } }

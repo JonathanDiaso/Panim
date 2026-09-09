@@ -771,6 +771,17 @@ main { position: relative; }
    pair swap places whenever the copy is reworked, and a dot at full weight against
    a dimmed one is a difference nobody notices until it looks cheap. */
 .hs-eyebrow i, .hs-title i { font-style: normal; opacity: .55; padding-inline: .25em; }
+/* ⭐ ONCE YOU HAVE HEARD IT — 2026-09-09, the author's "this is a good idea".
+   The whole of the built state is this one declaration plus one line of copy
+   (js/ui.js, wireHeardDoor). The eyebrow comes off --accent onto --ink-soft, which
+   is exactly what .seek-mark.is-complete does in css/player.css: on this site
+   "you have already done this one" is said by stepping back, never by adding a tick
+   or a badge. Nothing else on the card moves — the rule down the left stays at full
+   accent, because it is the card's only edge and SC 1.4.11 is resting on it.
+   ⚠️ CONTRAST IS ALREADY MEASURED FOR THIS EXACT PAIRING and it is in the table
+   above: --ink-soft on the card reads 5.03:1 day and 8.52:1 night against the
+   tinted wash, 5.39:1 and 8.74:1 on bare paper. AA needs 4.5. */
+.hero-sample.is-heard .hs-eyebrow { color: var(--ink-soft); }
 
 /* ---------- 2. the voice: the book's own words, at display size ----------
    ⭐ THIS IS THE ELEMENT THE ROUND WAS FOR. ch07-p169 + ch07-p170 verbatim. It is

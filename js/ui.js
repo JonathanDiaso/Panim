@@ -407,6 +407,46 @@
     });
   }
 
+  // ---------- the five-minute card, once you have heard it ----------
+  // 🔴 2026-09-09. The author: "this is a good idea", then "is this in yet we should
+  // have that built." A reader who has already played the eight minutes the second
+  // door opens was being handed the identical pitch forever — "IF YOU ONLY HAVE
+  // EIGHT MINUTES", to someone who has spent them.
+  //
+  // 🛑 THE href NEVER MOVES, AND THAT IS NOT AN OVERSIGHT. FRONT-DOOR.md §0.1 locks
+  // the destination on David at ?t=ch07:17m55s. The card does not become a different
+  // door once it is heard; it becomes the same door that knows. Everything below is
+  // one line of copy and one colour.
+  //
+  // ⭐ AND THE COLOUR IS THE SITE'S OWN COMPLETED MARK, NOT A NEW ONE. .seek-mark
+  // .is-complete comes off --accent onto --ink-soft (css/player.css) and that is
+  // already what "you have done this one" looks like here. Same move, same tokens —
+  // the same argument that took the box off this card and the highlighter off the
+  // read-along line: state is said by stepping back, never by adding an object.
+  //
+  // ⚠️ STATE ARRIVES BY EVENT ONLY, and js/player.js emits it at init as well as on
+  // a live playthrough. Reading PanimPlayer.state here would be a race: both files
+  // initialise on panim:rendered, and this one is the earlier <script>.
+  function wireHeardDoor() {
+    var card = $('#hero-sample');
+    if (!card) return;
+    var eyebrow = card.querySelector('.hs-eyebrow');
+    // ⚠️ THE ACCESSIBLE NAME CARRIES THE OFFER TOO, and an aria-label REPLACES
+    // everything inside the element — see the note on THE_SECOND_DOOR in
+    // js/render.js. Swapping the visible line and leaving the label saying "if you
+    // only have eight minutes" would tell a screen reader user the opposite of what
+    // the page says. Only the opening clause moves; the two sentences of bait after
+    // it are the part that persuades and they stay.
+    var HEARD = 'You have heard these eight minutes';
+    document.addEventListener('panim:door-heard', function () {
+      if (card.classList.contains('is-heard')) return;
+      card.classList.add('is-heard');
+      if (eyebrow) eyebrow.textContent = HEARD;
+      var label = card.getAttribute('aria-label');
+      if (label) card.setAttribute('aria-label', label.replace(/^[^.]*\./, HEARD + '.'));
+    });
+  }
+
   // ---------- lightbox (C10) ----------
   // WCAG 2.1.1 — this used to open on a bare `click` listener only. js/render.js's
   // .img-slot carried no tabindex and no role, so the zoom was mouse-only: a
@@ -717,6 +757,7 @@
     wireSheets();
     wireOnboarding();
     wireGloss();
+    wireHeardDoor();
     wireLightbox();
     wireListenButtons();
     wireShare();

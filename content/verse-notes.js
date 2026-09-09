@@ -496,6 +496,26 @@ window.PANIM_VERSE_NOTES = {
       where: "The end of the letter to Pergamum, in a promise made to whoever overcomes.",
       worth: "A name nobody else can read is not a public honour; it is private. And it is given on a white stone, which in that world was most often the token that got you into a feast."
     },
+    // 🔴 ADDED 2026-09-09, ON THE AUTHOR'S "i never mention that the woman coming
+    // to Eli is Hannah… we should probably add a note there."
+    // He is right, and it is the one fact the ending needs. The prose calls her
+    // "a woman", "she", "the woman at the tent" — never her name — and then chapter
+    // X closes on "It is my sister's name. Hannah." and "Nobody ever told the woman
+    // at the tent either." A reader who does not already know 1 Samuel 1 has no way
+    // to connect the two, and the last movement of the book lands on nothing.
+    // 🛑 THE PROSE IS NOT TOUCHED, AND THAT IS THE WHOLE DESIGN. Naming her in a
+    // paragraph would be a manuscript edit that changes words, which costs a re-cut
+    // and a read-along desync. The manuscript gained ONE citation line instead —
+    // `*1 Samuel 1:18*`, under the verse it already quotes and had never cited —
+    // and a ref block carries no cue id, so the narration is untouched. See the
+    // note at the `ref` branch in js/render.js.
+    // ⚠️ "WORTH KNOWING" DELIBERATELY STOPS AT THE NAME. The root behind it — chen,
+    // grace, the picture of stooping — is what ch10-p174 is FOR, eight paragraphs
+    // later. Spending it here would flatten the paragraph the chapter turns on.
+    "1 Samuel 1:18": {
+      where: "Shiloh, generations before there is a king or a temple. The woman has come to the tent to ask for a child; the priest watching her lips is Eli, and he has decided she is drunk.",
+      worth: "First Samuel gives her a name in its opening lines, and the scene at the tent never uses it. She is Hannah."
+    },
     "Song of Songs 5:2": {
       where: "The woman, half asleep, hearing someone at the door.",
       worth: "In the verses that follow she takes too long to open it, and by the time she does he has gone. The book that ends in union keeps this scene in the middle of it and does not remove it."
