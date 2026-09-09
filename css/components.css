@@ -1854,6 +1854,51 @@ html.is-narrating .block-p.is-live { color: var(--ink); }
 }
 .toast-dismiss:hover, .toast-dismiss:focus-visible { color: var(--ink); }
 
+/* ---------------------------------------------------------------------------
+   THE OFFLINE NOTICE — the same object as the toast, a different job
+   Added 2026-09-09 with js/offline.js. It reuses .toast wholesale — the slot above
+   the bar, the paper, the accent left edge, the fade-and-rise — and changes only
+   what is inside, because a second card that looks nearly like the first is how an
+   interface starts to read as assembled rather than made.
+   🛑 THE × IS TAKEN OUT OF THE FLOW. .toast lays its children out in a row; this
+   card's text block wraps its action button underneath on a narrow phone, and a
+   dismiss participating in that wrap ends up alone on a second line, left-aligned,
+   under a sentence. Absolute in the corner, 44×44 (.btn-icon), and the padding-right
+   below is its lane.
+   ⚠️ NOT --accent FOR THE TITLE. The accent is a rule colour and rides the chapter
+   token; as type it is a contrast gamble that changes ten times down the page.
+   --ink and --ink-soft are the measured pair (5.03:1 day, 8.52:1 night at worst).
+   --------------------------------------------------------------------------- */
+.offline-note {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .55rem .8rem;
+  padding: .85em 46px .85em 1.05em;
+  max-width: min(520px, 92vw);
+}
+.offline-note .on-body {
+  flex: 1 1 13rem; min-width: 0;
+  display: flex; flex-direction: column; gap: .12em;
+}
+.offline-note .on-title {
+  font-size: var(--ap-md); font-weight: 600;
+  letter-spacing: .07em; text-transform: uppercase;
+  color: var(--ink);
+}
+.offline-note .on-text {
+  font-size: var(--ap-lg); line-height: 1.45;
+  color: var(--ink-soft);
+}
+/* flex-basis auto, not 0: the label carries a size in it and must not be squeezed
+   to one word per line beside a paragraph */
+.offline-note .on-action { flex: 0 1 auto; font-size: var(--ap-md); padding: .6em .95em; }
+/* 🛑 .btn SETS display:inline-flex, WHICH BEATS THE UA SHEET'S [hidden]{display:none}
+   — same specificity, author sheet wins. So `noteAction.hidden = true` left an empty
+   bordered box sitting in the middle of the notice, on every state that has no action.
+   Any .btn given a hidden attribute anywhere on this site has the same problem. */
+.offline-note .on-action[hidden] { display: none; }
+.offline-note .toast-dismiss { position: absolute; top: 0; right: 0; }
+
 #gloss-card {
   position: absolute; z-index: 950; max-width: 320px;
   padding: 1em 1.1em;

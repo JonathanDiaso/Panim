@@ -5,8 +5,8 @@ here because it is a procedure, and `README.md` describes the repo.
 
 ---
 
-🛑 **Nine traps, every one of which produced a wrong conclusion at least once.** Traps 5,
-6, 7 and 9 each produced a *reported fault that was not there* — and trap 7's fault was in
+🛑 **Ten traps, every one of which produced a wrong conclusion at least once.** Traps 5,
+6, 7, 9 and 10 each produced a *reported fault that was not there* — and trap 7's fault was in
 the harness's own conclusion about trap 4. Read this before reporting anything visual as
 broken.
 
@@ -75,13 +75,29 @@ broken.
    > browser is not running the frame loop, so anything that waits for a frame waits
    > forever.
 
+10. 🆕 **`python3 -m http.server` MAKES THE AUDIO UNTESTABLE — 2026-09-09.** It types
+    `.m4a` as `audio/mp4a-latm` and ignores Range, so `readyState` stays **0** and **no
+    `MediaError` is ever raised.** Testing the offline warning on it reported
+    `data-state="playing"` with the network emulated off and *no error object at all*,
+    which reads as "the player never notices a failed load" — a fault in the site that was
+    not there. **Use `python3 tools/serve.py` (port 8899).** `README.md` has said this for
+    weeks, four hundred lines from where it was needed.
+    > 🛑 **The real behaviour it was hiding is worth more than the trap.** On `serve.py`,
+    > with the network genuinely off, an **uncached chapter still does not fire `error`** —
+    > it stalls at `readyState 0` indefinitely. A media element is not obliged to tell you it
+    > failed. That is why `js/player.js` refuses a provably-impossible load up front
+    > (`PanimOffline.blocked()`) and arms a twelve-second stall watchdog for the rest.
+    > **Never wait on `error` as your only evidence that audio failed.**
+    > ⚠️ And register the worker by hand in a test: `index.html` only registers it on
+    > `https:`, so on `localhost` there is no service worker unless you ask for one.
+
 ⚠️ **And one that is not the browser: a contrast probe must composite alpha.** Walking up
 for a background colour and stopping at the first non-transparent one reads
 `rgba(25,21,16,.03)` — a 3% tint — as near-black, and turns a **4.91:1 pass into a 2.92:1
 failure that is not there.** Composite every translucent layer down to the opaque one
 underneath.
 
-> 🛑 **The rule under all ten: a measurement that says something is broken is a claim
+> 🛑 **The rule under all eleven: a measurement that says something is broken is a claim
 > about the MEASUREMENT until the measurement has itself been checked.** Three separate
 > "faults" were reported by the harness in one evening on 2026-08-29 — a contrast
 > failure, a dead Enter key, and every overlay losing focus — and **all three were the

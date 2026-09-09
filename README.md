@@ -3,12 +3,14 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: `v71`** — `ASSET_V = '71'`, `panim-shell-v71`. Three rounds on 2026-09-09: `v69` a
+**Current: `v72`** — `ASSET_V = '72'`, `panim-shell-v72`. Four rounds on 2026-09-09: `v69` a
 code-and-bug sweep (the roman Greek subsets were missing from the offline precache; a Web Audio
 analyser was running every frame for a property nothing reads), `v70` the **deletion of the
 second audio edition** — a whole code path pointing at an `audio/voice/` folder that has never
-existed here — and `v71` the **read-along mark, which had been invisible on 94% of the book**
-since the rebuild. All three in `docs/FRONT-DOOR.md` §14–§15. 🗄 The running log of what each
+existed here — `v71` the **read-along mark, which had been invisible on 94% of the book**
+since the rebuild, and `v72` the **offline notice** (`js/offline.js`): the site never said the
+word *offline*, so with no signal the book read perfectly and the play button was silence.
+All four in `docs/FRONT-DOOR.md` §14–§16. 🗄 The running log of what each
 version changed is `archive/version-log-through-v46.md`; the round records are
 `archive/round-records-v57-to-v60.md` and `archive/round-records-v61-to-v67.md`, and what the
 front door does *now* is `docs/FRONT-DOOR.md`.

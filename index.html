@@ -164,12 +164,12 @@
       href="art/d/hero-940.avif"
       imagesrcset="art/d/hero-640.avif 640w, art/d/hero-940.avif 940w, art/d/hero-1408.avif 1408w"
       imagesizes="(min-width: 1440px) 1440px, 100vw">
-<link rel="stylesheet" href="fonts/fonts.css?v=71">
-<link rel="stylesheet" href="css/site.css?v=71">
-<link rel="stylesheet" href="css/components.css?v=71">
-<link rel="stylesheet" href="css/player.css?v=71">
-<link rel="stylesheet" href="css/room.css?v=71">
-<link rel="stylesheet" href="css/polish.css?v=71">
+<link rel="stylesheet" href="fonts/fonts.css?v=72">
+<link rel="stylesheet" href="css/site.css?v=72">
+<link rel="stylesheet" href="css/components.css?v=72">
+<link rel="stylesheet" href="css/player.css?v=72">
+<link rel="stylesheet" href="css/room.css?v=72">
+<link rel="stylesheet" href="css/polish.css?v=72">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -561,6 +561,29 @@
   <button class="btn btn-icon toast-dismiss" id="resume-toast-dismiss" aria-label="Dismiss">×</button>
 </div>
 
+<!-- 🔴 THE OFFLINE NOTICE — 2026-09-09. The author: "if its offline will it warn that
+     audio will not work offline unless dowloaded… if airplane is on can it saay
+     dowload if youw ant to play offline in the future".
+     It did not. sw.js precaches the text, the fonts and the cues, so with the network
+     gone the book READS — which is exactly the trap: the page is perfect and the play
+     button is silence, because the audio is 400MB and is stored only when a reader
+     asks for it. This says which chapters are actually saved, and when the connection
+     comes back it offers the download, because that is the only moment it can be taken.
+     🛑 SAME SLOT AS #resume-toast, BY DESIGN — .toast carries the position, the paper
+     and the accent edge, and js/offline.js clears the other card before showing this
+     one. Do not give it a second position rule.
+     ⚠️ role="status" is the whole accessibility story here: the text is written into
+     a live region, so the aria-live announcement in js/player.js is deliberately NOT
+     made for the offline case. Two of them read the sentence twice. -->
+<div class="toast offline-note" id="offline-note" hidden role="status">
+  <div class="on-body">
+    <span class="on-title" id="offline-note-title">Offline</span>
+    <span class="on-text" id="offline-note-text"></span>
+  </div>
+  <button class="btn on-action" id="offline-note-action" type="button" hidden></button>
+  <button class="btn btn-icon toast-dismiss" id="offline-note-dismiss" aria-label="Dismiss">×</button>
+</div>
+
 <div id="lightbox" hidden>
   <button class="btn btn-icon sheet-close" id="lightbox-close" aria-label="Close image">×</button>
   <img id="lightbox-img" src="" alt="">
@@ -757,26 +780,28 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=71"></script>
-<script src="content/images.js?v=71"></script>
-<script src="content/audio-manifest.js?v=71"></script>
-<script src="content/marks.js?v=71"></script>
-<script src="content/thread.js?v=71"></script>
-<script src="content/lexicon.js?v=71"></script>
-<script src="content/names.js?v=71"></script>
-<script src="content/sources.js?v=71"></script>
-<script src="content/verse-notes.js?v=71"></script>
-<script src="content/derivatives.js?v=71"></script>
-<script src="js/render.js?v=71"></script>
-<script src="js/ui.js?v=71"></script>
-<script src="js/motion.js?v=71"></script>
-<script src="js/sync.js?v=71"></script>
-<script src="js/search.js?v=71"></script>
-<script src="js/player.js?v=71"></script>
-<script src="js/room.js?v=71"></script>
+<script src="content/chapters.js?v=72"></script>
+<script src="content/images.js?v=72"></script>
+<script src="content/audio-manifest.js?v=72"></script>
+<script src="content/marks.js?v=72"></script>
+<script src="content/thread.js?v=72"></script>
+<script src="content/lexicon.js?v=72"></script>
+<script src="content/names.js?v=72"></script>
+<script src="content/sources.js?v=72"></script>
+<script src="content/verse-notes.js?v=72"></script>
+<script src="content/derivatives.js?v=72"></script>
+<script src="js/render.js?v=72"></script>
+<script src="js/ui.js?v=72"></script>
+<script src="js/motion.js?v=72"></script>
+<script src="js/sync.js?v=72"></script>
+<script src="js/search.js?v=72"></script>
+<script src="js/player.js?v=72"></script>
+<!-- before room.js: it owns window.PanimOffline, which room.js paints the ↓ column from -->
+<script src="js/offline.js?v=72"></script>
+<script src="js/room.js?v=72"></script>
 <!-- select any passage in the book and it offers to send it, with a link that
      unfurls as the chapter and lands on the sentence. See js/quote.js. -->
-<script src="js/quote.js?v=71" defer></script>
+<script src="js/quote.js?v=72" defer></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

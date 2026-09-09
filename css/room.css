@@ -63,6 +63,14 @@ body.room-open { overflow: hidden; }
    translucent frame during the cross-fade */
 body.room-open #site-nav,
 body.room-open .player { opacity: 0; pointer-events: none; }
+/* The toasts are pinned above the player bar at z-index 940 and the room is 920, so
+   a card that arrives while the room is open — the resume prompt, the offline notice
+   (js/offline.js) — paints ON TOP of the night player. They belong to the page behind
+   it. The sheets are 970 and still open over the room, which is correct: those are
+   the room's own surfaces.
+   ⚠️ THE SELECTOR HAS TO BEAT `.toast:not([hidden]).is-shown`, which is three
+   classes. Dropping .is-shown here would lose to it and do nothing. */
+body.room-open .toast.is-shown { opacity: 0; pointer-events: none; }
 #site-nav, .player { transition: opacity var(--dur-med) var(--ease); }
 
 /* Same grading decision as the frontispiece: deepen, don't recolor. The room is a
@@ -302,6 +310,12 @@ body.room-open .player { opacity: 0; pointer-events: none; }
   transition: background var(--dur-fast) var(--ease);
 }
 .chapter-row .cr-main:hover, .chapter-row .cr-main:focus-visible { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+/* Offline with the chapter unsaved there is nothing to play, so the row says so rather
+   than swallowing the tap (js/room.js paintRows). .btn[disabled] does not reach here —
+   .cr-main is not a .btn — so it carries its own, and the hover above is suppressed
+   because a row that lights up under the finger reads as tappable. */
+.chapter-row .cr-main[disabled] { opacity: .35; cursor: not-allowed; }
+.chapter-row .cr-main[disabled]:hover { background: none; }
 .chapter-row .cr-dl { min-width: 44px; min-height: 44px; opacity: .7; }
 .chapter-row .cr-dl.is-cached { color: var(--accent); opacity: 1; }
 .chapter-row .cr-num { font-family: var(--ui); font-size: var(--ap-md); letter-spacing: .3em; color: var(--accent); min-width: 2.4em; }
