@@ -47,6 +47,15 @@
     { name: 'Caleb',     kind: 'person', forms: ['Caleb'], note: 'who walked the same forty days, and came back saying their cover was gone' },
     { name: 'Daniel',    kind: 'person', forms: ['Daniel'], note: 'an old man at an east-facing window, praying the blessing back at God' },
     { name: 'David',     kind: 'person', forms: ['David'], note: 'who danced for the face, and told his wife whose face it was' },
+    // 🔴 THE INDEX HAD NO ELI UNTIL 2026-09-09, and he is the man the whole last
+    // movement of the book turns on: the priest whose office is turning God's face
+    // toward people, who never looks at the face in front of him. Two occurrences,
+    // both in ch. X — "The priest on duty is Eli" and, twelve paragraphs later,
+    // "Eli's eyes ... had begun to grow dim."
+    // ⚠️ 'Eli' IS SAFE AS A FORM AND IT WAS CHECKED, NOT ASSUMED. The matcher closes
+    // on (?![A-Za-z]), so Elijah does not match, and the cry from the cross in ch. VIII
+    // is "Eloi", not "Eli" — verified against the manuscript, two hits, both his.
+    { name: 'Eli',       kind: 'person', forms: ['Eli'],       note: "the priest at Shiloh who watched Hannah's lips and decided she was drunk" },
     { name: 'Elijah',    kind: 'person', forms: ['Elijah'],    note: 'and the sound of thin silence at Horeb' },
     { name: 'Esau',      kind: 'person', forms: ['Esau'],      note: "Jacob's brother, and the face he rehearsed for twenty years" },
     { name: 'Esther',    kind: 'person', forms: ['Esther'], note: 'who wrote a five-word will, then walked toward a face that could kill her' },

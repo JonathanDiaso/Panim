@@ -1636,7 +1636,19 @@
         // cites — the prayer in ch. X is written this way throughout. It is
         // apparatus, not narration: the narrator never reads it, so it carries
         // no cue id and the follow-along steps straight over it.
-        html = '<p class="block-ref">' + esc(b.ref) + '</p>';
+        //
+        // ⭐ AND IT CAN CARRY A VERSE NOTE, 2026-09-09. The apparatus used to be
+        // reachable only from a `verse` block, which meant the note could only
+        // land under a quotation the manuscript sets as a BLOCK quote. A passage
+        // the book quotes inline — chapter X quotes 1 Samuel 1:18 as a line of
+        // its own prose — had no way to carry one, and the only alternatives were
+        // a second apparatus keyed by block id (ids move) or nothing.
+        // 🛑 SAME KEY, SAME FILE, SAME LOOKUP. This is not a second system: it is
+        // the same chapter + citation key reaching one more block type, and a ref
+        // with no entry in content/verse-notes.js still renders bare, exactly as
+        // the nine citations in ch. X's prayer do.
+        html = '<p class="block-ref">' + esc(b.ref) + '</p>' +
+               renderVerseNote(chapter.id, b.ref);
       } else if (b.type === 'beat') {
         html = '<div class="divider-beat hairline" aria-hidden="true"></div>';
       } else if (b.type === 'swell') {

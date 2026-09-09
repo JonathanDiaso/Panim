@@ -72,6 +72,9 @@
     sleepEndsAt: null,
     sleepFading: false,
     completed: {},
+    // whether the reader has heard the front page's eight-minute door through to
+    // its end. See markHeardDoor. Set in init() from storage.
+    heardDoor: false,
     inPrayerZone: false,
     // 🔴 CONTINUOUS PLAY, 2026-09-05. The author: "Should i have an option that
     // doesnt stop at every chapter or just keep stopping at chapter breaks?"
@@ -121,6 +124,34 @@
   function setPlayerState(s) { els.player.setAttribute('data-state', s); }
   function announce(msg) { if (els.ariaLive) els.ariaLive.textContent = msg; }
   function emit(name, detail) { document.dispatchEvent(new CustomEvent(name, { detail: detail || {} })); }
+
+  // ---------- the five-minute card's memory ----------
+  // 🔴 2026-09-09, the author's "this is a good idea" and then "is this in yet we
+  // should have that built." The front page's second door offers eight minutes of
+  // chapter VII, and a reader who has already sat through those eight minutes was
+  // being offered them again, in the same words, forever. The player already
+  // remembers finished chapters; this remembers one passage inside one of them.
+  //
+  // 🛑 THE FAR EDGE OF THE DOOR, AND IT IS MEASURED, NOT ROUNDED. The near edge is
+  // locked in the href js/render.js writes (?t=ch07:17m55s, FRONT-DOOR.md §0.1) and
+  // is deliberately NOT repeated here — one fact, one file. This is the other end:
+  // the door's last line is "He answered it wet", ch07-p170, cued at 1574.51 in
+  // cues/ch07.json, and the block after it opens at 1579.04. Passing 1579 is the
+  // first moment the reader has heard the passage THROUGH rather than into.
+  // ⚠️ AND FINISHING THE CHAPTER COUNTS TOO — see markComplete. A reader who played
+  // ch. VII end to end has heard these eight minutes by definition, and on a phone
+  // that finished in the background the timeupdate above may never have run.
+  var DOOR = { chapter: 'ch07', heardThrough: 1579 };
+
+  function markHeardDoor() {
+    if (state.heardDoor) return;
+    state.heardDoor = true;
+    LS.set('heardDoor', true);
+    // js/ui.js repaints the card. The event is the only channel, so the card's copy
+    // stays in the file that owns the card and this file stays the file that owns
+    // the clock.
+    emit('panim:door-heard');
+  }
 
   // ---------- load ----------
   function loadChapter(chapterId, opts) {
@@ -445,7 +476,12 @@
     els.resumeToast.classList.remove('is-shown');
     setTimeout(function () { els.resumeToast.hidden = true; }, 350);
   }
-  function markComplete(id) { state.completed[id] = true; LS.set('completed', state.completed); renderSeekMarks(); }
+  function markComplete(id) {
+    state.completed[id] = true; LS.set('completed', state.completed); renderSeekMarks();
+    // finishing ch. VII is heard-the-door by definition, and it is the path a phone
+    // playing in the background actually takes
+    if (id === DOOR.chapter) markHeardDoor();
+  }
 
   // ---------- sleep timer ----------
   function setSleep(mode) {
@@ -609,6 +645,7 @@
       updateSeekUI();
       // sync.js and the dawn arc consume VOICE-timeline time
       emit('panim:narration-timeupdate', { currentTime: voiceTime(), ratio: voiceDur() ? voiceTime() / voiceDur() : 0 });
+      if (state.chapterId === DOOR.chapter && !state.heardDoor && voiceTime() >= DOOR.heardThrough) markHeardDoor();
       if (els.audio.duration && els.audio.currentTime / els.audio.duration >= 0.8) preloadNext();
     });
     els.audio.addEventListener('ended', function () {
@@ -746,6 +783,12 @@
   function init() {
     state.speed = LS.get('speed', 1);
     state.completed = LS.get('completed', {});
+    // 🛑 EMITTED, NOT READ BACK. js/ui.js registers its listener inside its own
+    // panim:rendered handler, which runs before this one because ui.js is the
+    // earlier <script> — so the card learns its state from the same event a live
+    // playthrough uses, and there is one code path instead of two.
+    state.heardDoor = LS.get('heardDoor', false) === true;
+    if (state.heardDoor) emit('panim:door-heard');
     setSpeed(state.speed);
     setFollow(state.follow);
     renderSeekMarks();
