@@ -337,6 +337,21 @@ main { position: relative; }
 #scripture { contain-intrinsic-size: auto 1700px; }
 #names { contain-intrinsic-size: auto 4100px; }
 #sources { contain-intrinsic-size: auto 2500px; }
+/* THE SAME BOOK IN SPANISH, 2026-09-16. js/spanish-text.js sets lang="es" on each
+   chapter it swaps, and the Spanish page is SHORTER than the English — the verse
+   notes are hidden in Spanish — by up to 4,000px a chapter on a phone. Measured the
+   same way, at 1440px and 402px, with the Spanish on the page. Re-measure these
+   with the English ones. */
+.section[lang="es"][data-ch="1"] { contain-intrinsic-size: auto 16300px; }
+.section[lang="es"][data-ch="2"] { contain-intrinsic-size: auto 20000px; }
+.section[lang="es"][data-ch="3"] { contain-intrinsic-size: auto 19500px; }
+.section[lang="es"][data-ch="4"] { contain-intrinsic-size: auto 15500px; }
+.section[lang="es"][data-ch="5"] { contain-intrinsic-size: auto 25600px; }
+.section[lang="es"][data-ch="6"] { contain-intrinsic-size: auto 20100px; }
+.section[lang="es"][data-ch="7"] { contain-intrinsic-size: auto 29600px; }
+.section[lang="es"][data-ch="8"] { contain-intrinsic-size: auto 25800px; }
+.section[lang="es"][data-ch="9"] { contain-intrinsic-size: auto 25100px; }
+.section[lang="es"][data-ch="10"] { contain-intrinsic-size: auto 41600px; }
 
 @media (max-width: 900px) {
   .section[data-ch="1"] { contain-intrinsic-size: auto 18700px; }
@@ -354,6 +369,16 @@ main { position: relative; }
   #scripture { contain-intrinsic-size: auto 3600px; }
   #names { contain-intrinsic-size: auto 7400px; }
   #sources { contain-intrinsic-size: auto 2800px; }
+  .section[lang="es"][data-ch="1"] { contain-intrinsic-size: auto 18800px; }
+  .section[lang="es"][data-ch="2"] { contain-intrinsic-size: auto 22400px; }
+  .section[lang="es"][data-ch="3"] { contain-intrinsic-size: auto 22300px; }
+  .section[lang="es"][data-ch="4"] { contain-intrinsic-size: auto 18300px; }
+  .section[lang="es"][data-ch="5"] { contain-intrinsic-size: auto 29600px; }
+  .section[lang="es"][data-ch="6"] { contain-intrinsic-size: auto 22900px; }
+  .section[lang="es"][data-ch="7"] { contain-intrinsic-size: auto 33600px; }
+  .section[lang="es"][data-ch="8"] { contain-intrinsic-size: auto 28500px; }
+  .section[lang="es"][data-ch="9"] { contain-intrinsic-size: auto 29200px; }
+  .section[lang="es"][data-ch="10"] { contain-intrinsic-size: auto 48100px; }
 }
 .section-inner { display: contents; }
 

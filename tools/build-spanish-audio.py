@@ -110,6 +110,21 @@ def spanish_blocks(bc, path):
     return num, title, out
 
 
+def map_ids(es_blocks, en_blocks):
+    """Spanish block -> English id, by the shape of the two chapters. None where the
+    Spanish has a line the English does not. tools/build-spanish-text.py uses it too."""
+    ids = [None] * len(es_blocks)
+    sm = difflib.SequenceMatcher(None, [b["type"] for b in es_blocks],
+                                 [b["type"] for b in en_blocks], autojunk=False)
+    for op, i1, i2, j1, j2 in sm.get_opcodes():
+        if op == "equal" or (op == "replace" and i2 - i1 == j2 - j1):
+            for k in range(i2 - i1):
+                e, s = en_blocks[j1 + k], es_blocks[i1 + k]
+                if e["type"] == s["type"] and e["type"] in CUED:
+                    ids[i1 + k] = e["id"]
+    return ids
+
+
 def block_words(bc, b):
     if b["type"] == "p":
         return norm_words(b["html"])
@@ -228,15 +243,7 @@ def main():
         en_blocks = [b for b in en[num]["blocks"] if b["type"] in STRUCT]
 
         # 1. Spanish block -> English id, by the shape of the two chapters.
-        ids = [None] * len(es_blocks)
-        sm = difflib.SequenceMatcher(None, [b["type"] for b in es_blocks],
-                                     [b["type"] for b in en_blocks], autojunk=False)
-        for op, i1, i2, j1, j2 in sm.get_opcodes():
-            if op == "equal" or (op == "replace" and i2 - i1 == j2 - j1):
-                for k in range(i2 - i1):
-                    e, s = en_blocks[j1 + k], es_blocks[i1 + k]
-                    if e["type"] == s["type"] and e["type"] in CUED:
-                        ids[i1 + k] = e["id"]
+        ids = map_ids(es_blocks, en_blocks)
 
         # 2. Spanish block -> the time the voice starts it.
         align = find(ASSEMBLED, num, ".align.json")

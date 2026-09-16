@@ -5,3 +5,9 @@ _*.js
 # Python bytecode from tools/ — never content.
 __pycache__/
 *.pyc
+
+# Masters never go in git. They live on the laptop and the MAS drive (README, "The audio here must stay same-origin").
+*.wav
+*.aif
+*.aiff
+*.flac

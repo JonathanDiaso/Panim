@@ -1008,6 +1008,10 @@
    role="note" is the ancillary-content role, announces the apparatus as a note, and
    adds no landmark at all. Do not put <aside> back.
    --------------------------------------------------------------------------- */
+/* English-only apparatus while the page reads in Spanish — the chapter standfirst,
+   the contents hooks and the verse notes. Set and cleared by js/spanish-text.js. */
+[data-es-hidden] { display: none !important; }
+
 .verse-note {
   margin: 1.15em 0 0;
   padding-top: .85em;

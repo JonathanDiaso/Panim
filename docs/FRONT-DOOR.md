@@ -419,6 +419,41 @@ at 147×44; the Room's six chips break 4 + 2 at 47px tall. Scripts and files: `j
 `js/ui.js` (the two doors), `js/room.js` (the chip), `tools/build-spanish-audio.py` (everything
 under `audio/es/`, `cues/es/`, `content/audio-manifest-es.js`).
 
+## 0.12 ⭐ THE PAGE READS IN SPANISH TOO — v75, 2026-09-16
+
+The author: *"can we now get the spanish text in there as an option we need to do this in a way
+that doesnt bloat the file … it should follow and track."*
+
+**One choice, not two.** Choosing Spanish anywhere (§0.11's three doors, `?lang=es`) puts the
+Spanish narration AND the Spanish words up; choosing English puts both back.
+
+🛑 **NOT BLOAT: IT IS NEVER IN `chapters.js`.** That file is parsed by every visitor before the
+page paints. The Spanish is ten files, `content/es/chNN.json`, 17–46 KB each (7–18 KB
+compressed), fetched by `js/spanish-text.js` only after Spanish is chosen. **Measured: an English
+load requests zero of them.** `sw.js` keeps any same-origin GET it serves, so a Spanish reader
+pays once and reads offline after.
+
+🛑 **FOLLOW AND TRACK COST NOTHING NEW.** The file is keyed by the ENGLISH block ids — the ones
+`cues/es/` already uses — and the swap changes the words inside each element, never the element.
+Measured: 1,839 of 1,841 cued blocks swap (the other two are *Israel.* and *Hannah.*, the same in
+both), the live mark sits on the right Spanish paragraph during Spanish playback, switching back
+restores the English byte for byte, and the paragraph at the top of the screen stays within 1px
+through a switch either way.
+
+| in Spanish | |
+|---|---|
+| Spanish | chapter titles (page, contents, running-head panel), *Capítulo I*, every paragraph and quotation, the citations, the one line only the Spanish has (ch. II, after `ch02-v2`), the closing five words, *Escuchar desde aquí* / *Compartir este capítulo* |
+| hidden | the chapter standfirsts, the contents hooks, the 113 verse notes — English prose with no Spanish, `[data-es-hidden]` |
+| still English | the jacket, the site's controls, plate captions, the back matter, search, the glossary pop-ups |
+
+⚠️ **THE PAGE IS SHORTER IN SPANISH** — the hidden notes — by up to 4,000px a chapter on a phone,
+so `css/site.css` carries a second set of `contain-intrinsic-size`, on `.section[lang="es"]`,
+measured at 1440 and 402. Re-measure both sets together. At 402 nothing is wider than the page
+and the two Spanish chapter buttons are 179×47 and 165×47.
+
+Rebuild: `python3 tools/build-spanish-text.py` — after any Spanish manuscript edit and after
+`tools/build-chapters.py`. It refuses to write if any English block has no Spanish.
+
 ---
 
 # 1 · ⚡ SPEED — what was actually wrong
