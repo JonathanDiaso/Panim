@@ -653,3 +653,20 @@ with no reason attached gets re-opened. The live sheet is `../docs/DECISIONS.md`
 🛑 **AND ONE THING THAT WAS RE-ASKED AND SHOULD NOT BE AGAIN:** the second door's `href` stays
 on David, `?t=ch07:17m55s`. It has been locked since the round that cost itself
 (`FRONT-DOOR.md` §0.1).
+
+
+---
+
+# 🗄 ROUND THREE OF THIS FILE — WHAT v74 → v78 CLOSED
+
+**Added 2026-09-16.** The file keeps its name so no link breaks; it now runs through v78.
+Round records: `round-records-front-door-v55-v74-to-v78.md` §0.11–0.14.
+
+| | asked | answered |
+|---|---|---|
+| **v74–v75** | the book in Spanish, voice and text | ✅ **Built.** `?lang=es`; the page reads in Spanish when Spanish is chosen, and the read-along follows it. |
+| **v76** | *"put the ES next to the moon"* | ✅ Built — then replaced in v78. |
+| **v77** | *"i really dont want the sound in github"* | ✅ **The audio plays from Cloudflare R2** and is gone from both repos' history (force-pushed 2026-09-16). 🛑 **Never `git add` a sound file.** |
+| **v78** | *"use a symbol instead of saying es"* | ✅ **A globe line icon**, his pick of three. |
+| **v78** | *"i dont know where to dowload the ofline audio"* | ✅ **Download chip in the Listening Room**, his pick. |
+| **v78** | *"will it just dowload the spanish or the english… or an option for both"* | ✅ **The language you are in, plus *Also save the Spanish/English*** under it, his pick. |

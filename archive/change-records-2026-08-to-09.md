@@ -350,3 +350,56 @@ first.
 > both off `content/audio-manifest.js`. It survived because each round copied the line
 > forward instead of opening the file, and **the author caught it by asking**. Removed
 > 2026-08-29. **A backlog item is a claim about the code until it is re-read.**
+
+---
+
+# 🗄 README §7 AS IT STOOD AT v78 — moved 2026-09-16, verbatim
+
+Everything still open in it was carried to `docs/DECISIONS.md` (open, eyes-only, or parked).
+
+## 7. Not done (as of v78)
+
+**no LQIP**, and no genuine 2×
+on a wide screen — source images are 1408px and plates want 2400px+ (the *delivery* half
+shipped 2026-08-29, §4) · **the dawn arc is still a hand-kept table in two files**, and
+that duplication has already cost one live bug (§3) · chapter titles need reconciling,
+site vs. manuscript vs. audio (§2) · **the player and the Listening Room have still never
+been driven with a screen reader** — automated checking is green, which is exactly why
+this is the only thing left that can find what is wrong · `hanging-punctuation` is
+Safari-only · `tools/validate.mjs` is referenced in older notes but doesn't exist —
+`check-coverage.py` and the builder's parity assertion are the checks now.
+
+**The real outlier, measured across all ten chapters 2026-08-30: chapter X runs 1,138 words
+over 25 unbroken paragraphs**, only 4 of them short beats. No sheet has ever flagged it,
+because attention kept going where a previous sheet pointed instead of where the manuscript
+was. Chapter IV is third (680 words) **but needs nothing** — that stretch is the chapter's
+opening, already framed by a plate at one end and Genesis 32:20 at the other. **Chapter III
+(661 words) is the one that still wants an inline picture**, and `art/PROMPTS.md` carries the
+prompt for it.
+
+🗄 **The closed items that used to stand in this section are in
+[`archive/change-records-2026-08-to-09.md`](archive/change-records-2026-08-to-09.md), moved
+2026-09-07** — the Lexicon's two questions, `ch02-trees`, chapter VI's density, and the
+backlog line that stood for three rounds and was never true. 🛑 **That last one is the rule
+worth keeping: a backlog item is a claim about the code until it is re-read.**
+
+**Measured and NOT worth a round**, so nobody spends one: the whole site is **218 KB
+gzipped** including the complete text of the book (`content/chapters.js` is 93 KB of
+that — do **not** split it per chapter) · first contentful paint **76 ms**, DOM
+interactive **47 ms**, load complete **221 ms**, 6,085 nodes, cold cache, uncompressed
+HTTP · the seek-bar chapter marks look 9×16px and carry a 44px invisible `::before`,
+so they already pass.
+
+**The screen-reader position, stated honestly.** Everything a machine can check is green
+and measured: the full accessibility tree at four widths, a keyboard walkthrough with
+real key events, **111 controls all named**, 7 named landmarks, no skipped heading
+levels, 24 selectors measured for contrast (worst **4.63:1**), zero axe violations
+everywhere. **That is a floor, not a pass**, and `/accessibility.html` still says in
+public that the player and the Listening Room have never been driven with a screen
+reader — because they have not. The remaining hour is six steps, in
+`round-14-next-steps.md` §8.
+
+All five design calls are answered and archived
+(`panim-book/handoffs/archive/decisions-2026-08-29-design-answered-2026-08-29.md`); four
+are built and live. What's blocked on the author vs. ready to build: the site handoff
+linked at the top of this file, and `round-14-next-steps.md` §7–9.

@@ -8,7 +8,7 @@ shipped (`../archive/`) or parked (bottom of this file).
 
 # 🚦 START HERE — EVERYTHING OPEN, ON ONE SCREEN
 
-**Four things. One needs a sentence from you; two need one word; one is already moving.**
+**Five things. One needs a sentence from you; two need one word; one is a build; one is a sign-up.**
 **If you say nothing, I build the ⭐ option.**
 
 | # | the question | I suggest | why | who |
@@ -17,36 +17,14 @@ shipped (`../archive/`) or parked (bottom of this file).
 | **2** | 🟡 Keep the blue rule down the left of the card? | **Keep it** | It is the only thing marking the card as a card since the box came off. You asked when it was red; the red is gone. | one word |
 | **3** | 🔵 The gap under the ribbon. You asked: *"fill it? Like maybe have the chapter titles move too???"* | **Fill it with the position — and ⚠️ the titles already move** | The sway is on the whole plate, titles included, and has been since v55. What is dead in that band is that it is **empty**, not that it is still. | one word |
 | **4** | 🔵 The read-along mark. You asked for *"something super high tech 2027 awesome."* | **Two rounds: ship the margin rule now, and I go get real word timings** | 🔴 **I was wrong last round.** I said honest word-level timing was impossible here. It is not — it just needs a tool the project does not have yet. | one word |
+| **5** | 🆕 🟢 Visitor and listening stats. You asked: *"how many people access the website and how much they listen… full listens, partials, where peoples favorite spots are."* | **PostHog, free, no cookies, and I wire the listening events** | The only free option that can answer *favorite spots* and *full vs partial* without a paid plan. | **you sign up (5 min), I build** |
 
 🛑 **THREE THINGS ARE NOT UP FOR DISCUSSION** — the second door's `href` stays on David
 (`?t=ch07:17m55s`), no commit ever carries a co-author trailer, and `content/chapters.js` is
 generated and is never hand-edited.
 
 🗄 **Everything already answered is [`../archive/decisions-answered-through-v73.md`](../archive/decisions-answered-through-v73.md)** —
-v55 through v73, with your words on each. **Do not re-ask anything in there.**
-
----
-
-# ✅ CLOSED THIS ROUND — you do not need to read this to decide anything
-
-**v73, 2026-09-09.** Three items came off this sheet:
-
-- 🕯 **Hannah is named at the tent.** *"i never mention that the woman coming to Eli is
-  Hannah."* You were right and my earlier answer was about a different passage — it argued
-  against a note at chapter **VII**, and you were pointing at chapter **X**. There the fact
-  is the setup, not the spoiler. **The prose is untouched:** the manuscript gained one
-  citation line, `*1 Samuel 1:18*`, under the verse the book already quoted and had never
-  cited. A `ref` block carries no cue id, so the tape and the read-along are unaffected.
-  ⚠️ **Eli was not in the index at all.** He is now.
-- 🅰 **The ribbon caption and the plate titles are display type.** They were drawn at
-  Literata's *reading* optical size and set at 34px and 27px — enlarged text type, which is
-  exactly the flatness you could see. Both on `--lit-display` now. **The ladder was re-swept
-  at one-pixel resolution and every step moved**; verified exact at 17 widths.
-- ⭐ **The card knows you have heard it.** *"is this in yet we should have that built."*
-  Built. **It did not have to wait for #1** — the eyebrow is a separate line from the one
-  you are writing, so #1's sentence still lands without rebuilding the card.
-
-Full working: [`../archive/round-records-v69-to-v73.md`](../archive/round-records-v69-to-v73.md) §17.
+v55 through v78, with your words on each (v74–v78 is its last section). **Do not re-ask anything in there.**
 
 ---
 
@@ -201,6 +179,55 @@ what most people mean by "high tech" here, and it is the one shape this book can
 
 ---
 
+# 5 · 🟢 VISITOR AND LISTENING STATS — ⭐ I SUGGEST: POSTHOG
+
+**You asked:** *"i want to view statistics for how many people access the website and how much
+they listen to etc… who goes into the site for how long etc how many full listens how many
+partials where peoples favorite spots are."*
+
+✅ **Today the site counts nothing.** No analytics script of any kind. The only number that
+exists is Cloudflare R2's *Class B operations*, which counts audio fetches, not people.
+
+🛑 **ONE THING NO TOOL WILL GIVE YOU: names.** Every option below is anonymous: a country, a
+city, a phone or a computer, which link they came in by. ⭐ **The way round it that is honest:**
+tag the links you send — `…/Panim/?from=mom`, `?from=church` — and the dashboard shows which
+message brought whom. `panim-book/handoffs/link-messages.md` is the menu those links go in.
+
+## What each option can answer
+
+| | visits, time on site, country, phone vs computer | full listens vs partials, per chapter | favorite spots | whole book finished | cost | the blocker |
+|---|---|---|---|---|---|---|
+| **A** ⭐ **PostHog** (cloud, free tier) | ✅ | ✅ | ✅ **a chart of the most-heard and most-replayed minutes in each chapter** | ✅ | **$0**: 1M events a month, no credit card, so it cannot bill you | A bigger script than the site's own (~60 KB, loaded after the page). Its servers hold the data. |
+| **B** **Umami Cloud** (free Hobby) | ✅ | ✅ | ⚠️ only as a list, not a chart | ✅ | **$0**: 100K events a month, 6 months kept, no card | 100K is tight once minutes are counted: ~200 people listening an hour each. |
+| **C** **Cloudflare Web Analytics** | ✅ | ❌ | ❌ | ❌ | $0, same account as the audio | **Answers only your first question.** No custom events at all. |
+| **D** **Build our own** (Cloudflare Worker + database) | ✅ | ✅ | ✅ | ✅ | $0 on the free plan | ~3 rounds, and a dashboard to build and keep up. **Not worth it before A is outgrown.** |
+
+## What I would measure — the same list whichever you pick
+
+| event | when | answers |
+|---|---|---|
+| `visit` | page opens (automatic) | how many people, from where, which `?from=` link |
+| `read_depth` | furthest chapter scrolled | readers who never press play |
+| `listen_start` | play pressed: chapter, language, downloaded or streamed | who listens at all |
+| `listen_progress` | 25 / 50 / 75 % of a chapter | **partials** |
+| `listen_complete` | 95 % of a chapter | **full listens** |
+| `listen_minutes` | once when they stop: which minutes they actually heard | **favorite spots** — the most-heard minutes |
+| `replay` | a seek *backwards* inside a chapter | **favorite spots, the strong signal** — the lines people go back for |
+| `book_complete` | all ten chapters finished on one device | whole-book listens |
+| `share` / `download` / `language` | share a passage, Download, globe | which features are used |
+
+🛑 **Built so it stays cheap and quiet:** no cookies (so no consent banner), no session
+recordings, one event when a listener stops rather than one a second, and **nothing sent at all
+until the page is idle.** Listening with no signal is not counted — a downloaded chapter played
+in airplane mode is invisible.
+⚠️ **A privacy line goes on the site with it** — `accessibility.html` style: what is counted,
+that it is anonymous, and that nothing is sold. That is the honest price of the numbers.
+
+⬜ **What I need from you for A:** sign up at posthog.com (free, no card), create a project,
+paste me the **Project API key** (starts `phc_`; it is public by design). Then it is one round.
+
+---
+
 # 🟠 MEDIOCRE IDEAS — real, buildable, and I am not recommending them
 
 **You asked for this bucket by name.** Nothing here is wrong; nothing here is worth a round
@@ -217,12 +244,15 @@ yet. **It exists so these stop being re-proposed as if they were new.**
 
 ---
 
-# 👀 TWO THINGS ONLY YOUR EYES CAN CHECK
+# 👀 THINGS ONLY YOUR EYES CAN CHECK
 
 | | what | why a script cannot |
 |---|---|---|
 | ☐ 🔴 | **The hour with the screen off.** A real screen reader through the player and the Listening Room. | `/accessibility.html` says in public that this has never been done. **It is the only claim on the site that is not yet true.** |
 | ☐ 🟠 | **One real thumb and one real mouse on the ribbon** — and **send yourself a passage from your phone.** | A synthetic cursor **teleports**, and a jump-move never fires `pointerenter`. The iMessage unfurl **is** the feature and only a real phone shows it. |
+| ☐ 🟠 🆕 | **Download on your iPhone.** Listen → Download → wait for *Saved ✓* → airplane mode → play a chapter. Then the globe → Spanish → listen to a chapter. | Headless Chrome is not iOS Safari; the save was measured in Chrome only (v78, archive §0.14). |
+| ☐ 🟡 🆕 | **How many audio reads an iPhone play costs.** Cloudflare → R2 → `panim-audio` → Metrics → note *Class B operations* → play one chapter on the iPhone → look again. | Budgeted at 50 a play (≈ 200,000 free plays a month); only a real iPhone gives the real number. |
+| ☐ 🟡 | **Three from the speed round, never checked on a real phone** (archive §1.5): open `#ch07` and `#ch10` cold — does the chapter land under the running head? · the feel of scrolling across a chapter boundary · the lexicon wall inking in on first arrival. | Headless Chrome will not paint a deep-scrolled page. |
 
 ---
 
@@ -236,6 +266,8 @@ yet. **It exists so these stop being re-proposed as if they were new.**
   never been audited against the prose at all.**
 - **The ninety-second door**, and **two inline pictures** for chapters III and IV. The prompt for
   III is in `art/PROMPTS.md`; **placement is yours.**
+- 🆕 **The globe looks the same in either language.** Its label and tooltip change
+  (*Español* / *English*); the drawing does not. Fine unless it confuses someone.
 - **Chapter titles disagree** across site / manuscript / audio. Only the WAV filenames are still
   out of step, and that is cosmetic.
 - 🆕 **Six chapters' `standfirst` field was missing from the generated `chapters.js`** until the

@@ -6,36 +6,12 @@ Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` �
 **Current: `v78`** — `ASSET_V = '78'`, `panim-shell-v78`. **A globe instead of ES beside the
 moon, a Download chip in the Listening Room, and offline saving for either language or both**
 (`docs/FRONT-DOOR.md` §0.14).
-**Before that: `v77`** — **The audio moved to Cloudflare R2
-and out of git** — see *Where the audio lives*. `tools/upload-audio.sh` puts it there.
-**Before that: `v76`** — `ASSET_V = '76'`, `panim-shell-v76`. **ES beside the moon** (`#nav-lang`,
-`docs/FRONT-DOOR.md` §0.13), and **`content/audio-host.js`**, the one line that says where the
-audio is served from — read by the page and by `sw.js`, ready for the move off git.
-**Before that: `v75`** — **The Spanish TEXT, 2026-09-16** — choose
-Spanish and the page reads in Spanish too, and the read-along follows it. Ten small files,
-`content/es/chNN.json` (258 KB, ~100 KB compressed), fetched only when Spanish is chosen, so an
-English reader downloads none of it. **No audio was added to git in v75.** Built by
-`tools/build-spanish-text.py`; swapped in by `js/spanish-text.js`; record in `docs/FRONT-DOOR.md` §0.12.
-**Before that: `v74`** — `ASSET_V = '74'`, `panim-shell-v74`. **The whole book in Spanish,
-2026-09-16** — `audio/es/` (269 MB, the Spanish music edition), a door on the jacket, a sentence
-and a button in the invitation, a language chip in the Listening Room, `?lang=es`. Read-along
-works in both languages. Built by `tools/build-spanish-audio.py`; the front-door record is
-`docs/FRONT-DOOR.md` §0.11, the audio record is `../panim-book/es/00-TTS-SETTINGS.md`.
-**Before that: `v73`** — `ASSET_V = '73'`, `panim-shell-v73`. Five rounds on 2026-09-09: `v69` a
-code-and-bug sweep (the roman Greek subsets were missing from the offline precache; a Web Audio
-analyser was running every frame for a property nothing reads), `v70` the **deletion of the
-second audio edition** — a whole code path pointing at an `audio/voice/` folder that has never
-existed here — `v71` the **read-along mark, which had been invisible on 94% of the book**
-since the rebuild, `v72` the **offline notice** (`js/offline.js`): the site never said the
-word *offline*, so with no signal the book read perfectly and the play button was silence.
-And `v73` **names Hannah at the tent without touching the manuscript**, moves the ribbon
-caption and the plate titles onto Literata's display optical size, and gives the five-minute
-card a memory.
-🗄 All five are `archive/round-records-v69-to-v73.md`. The running log of what each version
-changed is `archive/version-log-through-v46.md`; the older round records are
-`archive/round-records-v57-to-v60.md` and `archive/round-records-v61-to-v67.md`; what the
-front door does *now* is `docs/FRONT-DOOR.md`; and every decision ever answered is
-`archive/decisions-answered-through-v73.md`.
+**Before that:** v77 the audio moved to Cloudflare R2 and out of git · v76 the language button
+and `content/audio-host.js` · v75 the page reads in Spanish · v74 the whole book in Spanish ·
+v73 Hannah named at the tent. 🗄 **What each version changed: `archive/version-log-v73-to-v77.md`**
+and `archive/version-log-through-v46.md`; the round records are `archive/round-records-*`; what the
+front door does *now* is `docs/FRONT-DOOR.md`; every decision ever answered is
+`archive/decisions-answered-through-v73.md` (it runs through v78).
 🛑 **This line rots.** It said `v55` for nine releases and `v67` for two. Read `sw.js` and
 correct it here — **`sw.js` is the version, this prose is only a copy of it.**
 
@@ -723,47 +699,15 @@ produced a *reported fault that was not there*.
 
 ## 7. Not done
 
-**no LQIP**, and no genuine 2×
-on a wide screen — source images are 1408px and plates want 2400px+ (the *delivery* half
-shipped 2026-08-29, §4) · **the dawn arc is still a hand-kept table in two files**, and
-that duplication has already cost one live bug (§3) · chapter titles need reconciling,
-site vs. manuscript vs. audio (§2) · **the player and the Listening Room have still never
-been driven with a screen reader** — automated checking is green, which is exactly why
-this is the only thing left that can find what is wrong · `hanging-punctuation` is
-Safari-only · `tools/validate.mjs` is referenced in older notes but doesn't exist —
-`check-coverage.py` and the builder's parity assertion are the checks now.
+🛑 **The list of what is open is `docs/DECISIONS.md` — one list, not two.** Open decisions,
+the checks only a real phone can do (including the screen-reader hour), and the parked items
+(no LQIP or 2× plates, the chapter-title mismatch, chapter III's inline picture) are all there.
 
-**The real outlier, measured across all ten chapters 2026-08-30: chapter X runs 1,138 words
-over 25 unbroken paragraphs**, only 4 of them short beats. No sheet has ever flagged it,
-because attention kept going where a previous sheet pointed instead of where the manuscript
-was. Chapter IV is third (680 words) **but needs nothing** — that stretch is the chapter's
-opening, already framed by a plate at one end and Genesis 32:20 at the other. **Chapter III
-(661 words) is the one that still wants an inline picture**, and `art/PROMPTS.md` carries the
-prompt for it.
+**Measured and NOT worth a round**, so nobody spends one: the whole site is **218 KB gzipped**
+including the complete text of the book — do **not** split `content/chapters.js` per chapter ·
+first contentful paint **76 ms** · the seek-bar chapter marks carry a 44px invisible `::before`,
+so they already pass. `hanging-punctuation` is Safari-only. `tools/validate.mjs` does not
+exist — `check-coverage.py` and the builder's parity assertion are the checks.
 
-🗄 **The closed items that used to stand in this section are in
-[`archive/change-records-2026-08-to-09.md`](archive/change-records-2026-08-to-09.md), moved
-2026-09-07** — the Lexicon's two questions, `ch02-trees`, chapter VI's density, and the
-backlog line that stood for three rounds and was never true. 🛑 **That last one is the rule
-worth keeping: a backlog item is a claim about the code until it is re-read.**
-
-**Measured and NOT worth a round**, so nobody spends one: the whole site is **218 KB
-gzipped** including the complete text of the book (`content/chapters.js` is 93 KB of
-that — do **not** split it per chapter) · first contentful paint **76 ms**, DOM
-interactive **47 ms**, load complete **221 ms**, 6,085 nodes, cold cache, uncompressed
-HTTP · the seek-bar chapter marks look 9×16px and carry a 44px invisible `::before`,
-so they already pass.
-
-**The screen-reader position, stated honestly.** Everything a machine can check is green
-and measured: the full accessibility tree at four widths, a keyboard walkthrough with
-real key events, **111 controls all named**, 7 named landmarks, no skipped heading
-levels, 24 selectors measured for contrast (worst **4.63:1**), zero axe violations
-everywhere. **That is a floor, not a pass**, and `/accessibility.html` still says in
-public that the player and the Listening Room have never been driven with a screen
-reader — because they have not. The remaining hour is six steps, in
-`round-14-next-steps.md` §8.
-
-All five design calls are answered and archived
-(`panim-book/handoffs/archive/decisions-2026-08-29-design-answered-2026-08-29.md`); four
-are built and live. What's blocked on the author vs. ready to build: the site handoff
-linked at the top of this file, and `round-14-next-steps.md` §7–9.
+🗄 **The long form of this section, as it stood at v78, is the last section of
+[`archive/change-records-2026-08-to-09.md`](archive/change-records-2026-08-to-09.md).**
