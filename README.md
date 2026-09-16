@@ -3,7 +3,9 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: `v76`** — `ASSET_V = '76'`, `panim-shell-v76`. **ES beside the moon** (`#nav-lang`,
+**Current: `v77`** — `ASSET_V = '77'`, `panim-shell-v77`. **The audio moved to Cloudflare R2
+and out of git** — see *Where the audio lives*. `tools/upload-audio.sh` puts it there.
+**Before that: `v76`** — `ASSET_V = '76'`, `panim-shell-v76`. **ES beside the moon** (`#nav-lang`,
 `docs/FRONT-DOOR.md` §0.13), and **`content/audio-host.js`**, the one line that says where the
 audio is served from — read by the page and by `sw.js`, ready for the move off git.
 **Before that: `v75`** — **The Spanish TEXT, 2026-09-16** — choose
@@ -93,25 +95,33 @@ audio or anything on the T7.
 already taken by this site when the book got its own remote; the inversion is
 the most confusing thing in the project.
 
-### 🔊 The audio here must stay same-origin
+### 🔊 Where the audio lives — Cloudflare R2, not git (since v77)
 
-`audio/music/*.m4a` (229 MB) and `audio/es/*.m4a` (269 MB, since v74) are committed on purpose. Two things break
-**silently**, without throwing, if it moves to a CDN without CORS headers and a
-`crossOrigin` attribute: `js/room.js`'s `createMediaElementSource()` taints the
-graph and plays silence, and `sw.js` returns early on
-`url.origin !== location.origin`, breaking offline download and Range-sliced
-seeking. Moving it off-origin is a migration, not a cleanup: rehost with CORS,
-add `crossOrigin="anonymous"`, rewrite the origin check, *then* strip history.
-(The `createMediaElementSource()` half went in v73; the `sw.js` origin check and the
-offline `fetch()` still need same-origin or CORS.)
+The author, 2026-09-16: *"i really dont want the sound in github"* and *"make sure i wont be
+charged"*. So the twenty chapter files are served from an R2 bucket, and git holds none of them.
 
-⚠️ **The author, 2026-09-16: *"dont save big sound files in git!!! keep those on my computer
-and on the backup hardrive."*** Nothing new goes in. Moving the 498 MB already here is the
-migration above, and it needs a host he chooses — **GitHub Releases does not work as-is**:
-measured, its downloads carry no `Access-Control-Allow-Origin` and are typed
-`application/octet-stream`. Every audio file here is also on the MAS drive,
-`/Volumes/MAS/Panim-archive/Panim-site-audio/` (md5-verified 2026-09-16), and the masters they
-were encoded from are on the laptop and on MAS. `.gitignore` refuses WAV/AIFF/FLAC.
+| | |
+|---|---|
+| bucket | `panim-audio` on the author's Cloudflare account, public at `https://pub-b3a31d98ee8f47f291bb96a7d047a1e0.r2.dev` |
+| objects | `Panim/audio/music/chNN.m4a` (English) and `Panim/audio/es/chNN.m4a` (Spanish) — the **same paths the site used**, so an offline copy a reader saved before the move (keyed by pathname in `sw.js`) is still found |
+| the site | `content/audio-host.js` names the base; `js/player.js` and `sw.js` both read it. `<audio crossorigin="anonymous">` |
+| CORS | `https://jonathandiaso.github.io`, `http://localhost:8899`, `http://127.0.0.1:8899` only; GET/HEAD, `Range`, exposes `Content-Range`/`Content-Length`/`Accept-Ranges`/`ETag` |
+| headers | `audio/mp4`, `Cache-Control: public, max-age=86400`, 206 on Range — measured |
+| the files | `audio/music/`, `audio/es/` stay on the laptop, **ignored by git**, as the upload source. Copy on MAS: `Panim-archive/Panim-site-audio/` |
+| upload | `sh tools/upload-audio.sh` (all) or `sh tools/upload-audio.sh es/ch07` — uploads, then md5s the public copy against the local one. Needs `npx wrangler login` once |
+
+💵 **COST: nothing at this size, and no hard cap exists.** R2's free tier is 10 GB stored (the book
+is 0.5 GB), 10 million reads a month and free egress. Past 10 million reads it is $0.36 a million
+— roughly a few hundred thousand chapter plays in one month. Cloudflare has no spending limit for
+R2; the protection is a billing notification in the dashboard.
+⚠️ **`r2.dev` is rate-limited** and Cloudflare calls it not-for-production. At this audience it is
+fine; if the book ever gets heavy traffic, attach a custom domain to the bucket (cached, no rate
+limit) and change the one line in `content/audio-host.js`.
+🛑 **A NEW HOST MUST DO WHAT THE TABLE SAYS.** GitHub Releases was measured and cannot: no
+`Access-Control-Allow-Origin`, typed `application/octet-stream`. Cloudflare Pages caps a file at
+25 MB and chapter X is 47 MB.
+✅ **Measured before the switch (v77):** English and Spanish play from R2; a chapter saved for
+offline plays with the audio host DOWN; an unsaved one does not; the Spanish live mark follows.
 
 ## 2. The text — generated, never hand-edit
 
@@ -424,9 +434,9 @@ art/  *.webp published plates · PROMPTS.md · archive/ (notes + direction studi
 cues/ chNN.json — [{t, id}] on the voice timeline
       es/chNN.json — the same, on the SPANISH voice timeline, under the ENGLISH ids
       (tools/build-spanish-audio.py). Never hand-edit.
-audio/ music/chNN.m4a — the English music edition · es/chNN.m4a — the Spanish one
+audio/ NOT IN GIT. music/chNN.m4a, es/chNN.m4a — local upload source for R2 (see above)
 tools/ build-chapters.py · gen-cues.py · check-coverage.py · tape-vs-page.py · serve.py
-       build-spanish-audio.py (after every Spanish rebuild)
+       build-spanish-audio.py (after every Spanish rebuild), then upload-audio.sh
        build-spanish-text.py (after any Spanish manuscript edit, and after build-chapters.py)
        gen-chapter-stubs.py · make-cards.sh · make-derivatives.sh
 ```

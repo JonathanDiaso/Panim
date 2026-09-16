@@ -11,4 +11,6 @@
 // and expose Content-Range / Content-Length / Accept-Ranges, and type the files
 // audio/mp4 — the <audio> element is crossorigin="anonymous" and the offline save is a
 // fetch(). See README, "Where the audio lives".
-self.PANIM_AUDIO_BASE = '';
+// Cloudflare R2, bucket panim-audio, since v77 (2026-09-16). Objects are
+// Panim/audio/music/chNN.m4a and Panim/audio/es/chNN.m4a.
+self.PANIM_AUDIO_BASE = 'https://pub-b3a31d98ee8f47f291bb96a7d047a1e0.r2.dev/Panim/';

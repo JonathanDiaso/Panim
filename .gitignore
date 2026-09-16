@@ -11,3 +11,7 @@ __pycache__/
 *.aif
 *.aiff
 *.flac
+
+# The site's audio is served from Cloudflare R2 (content/audio-host.js), never from git.
+# These folders stay on the laptop as the upload source; tools/upload-audio.sh.
+audio/

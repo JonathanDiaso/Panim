@@ -29,7 +29,9 @@ shifts through every trim and every pause it opens — so they are exact, not an
 alignment guess. es_master.py changes loudness only, never length; this script
 checks that.
 
-Nothing here costs anything. Run it after every Spanish rebuild.
+Nothing here costs anything. Run it after every Spanish rebuild, and then
+`sh tools/upload-audio.sh` — the site plays the audio from Cloudflare R2, not from
+this folder, and audio/ is not in git.
 """
 
 import argparse
