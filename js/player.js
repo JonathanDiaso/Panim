@@ -20,13 +20,28 @@
 // edition, and it stays. The music master prepends 6.0s of music-alone lead-in
 // (content/audio-manifest.js musicOffset), so:
 //   fileTime = voiceTime + offset()   ·   voiceTime = fileTime − offset()
+//
+// ⭐ TWO LANGUAGES, 2026-09-16 — AND THIS IS NOT THE SECOND EDITION COMING BACK.
+// The author: "i want it to be on the site and clickable." The Spanish book is the
+// same kind of file as the English one — a music edition, audio/es/chNN.m4a — so
+// there is still ONE edition and ONE code path; state.lang only picks the folder, the
+// manifest (content/audio-manifest-es.js) and the cue set (cues/es/). The page text
+// stays English. The Spanish cues carry the ENGLISH paragraph ids, so Follow and
+// tap-to-listen land on the paragraph being read in either language.
+// 🛑 EVERY TIME IS ON THE CLOCK OF THE LANGUAGE PLAYING. A time that was measured on
+// the other clock — a ?t= deep link, the five-minute card, a place saved while the
+// other language was on — travels with opts.clock and is translated through the
+// paragraph ids (PANIM_SYNC.translate) before it is used. A raw English second fed to
+// the Spanish file lands minutes away from the line it names.
 
 (function () {
   'use strict';
 
   var CHAPTER_IDS = ['ch01','ch02','ch03','ch04','ch05','ch06','ch07','ch08','ch09','ch10'];
   var SLEEP_FADE_MS = 30000;
-  var MAN = window.PANIM_AUDIO || {};
+  var MANS = { en: window.PANIM_AUDIO || {}, es: window.PANIM_AUDIO_ES || {} };
+  var DIRS = { en: 'audio/music/', es: 'audio/es/' };
+  function man() { return MANS[state.lang] || MANS.en; }
 
   var els = {
     audio: document.getElementById('narration-audio'),
@@ -84,7 +99,9 @@
     // The Room carries the switch (js/room.js, #room-auto). Set in init() from
     // storage, because `state` is built before LS is reachable in a way that reads
     // cleanly here.
-    autoAdvance: true
+    autoAdvance: true,
+    // 'en' | 'es'. Set in init() from ?lang= or storage. See the header.
+    lang: 'en'
   };
 
   var LS = {
@@ -92,14 +109,15 @@
     set: function (k, v) { try { localStorage.setItem('panim:' + k, JSON.stringify(v)); } catch (e) {} }
   };
 
-  function offset() { return (MAN[state.chapterId] || {}).musicOffset || 6.0; }
-  function voiceDur() { return (MAN[state.chapterId] || {}).voiceDur || 0; }
-  function fileDur() { return els.audio.duration || (MAN[state.chapterId] || {}).musicDur || voiceDur() || 0; }
+  function offset() { return (man()[state.chapterId] || {}).musicOffset || 6.0; }
+  function voiceDur() { return (man()[state.chapterId] || {}).voiceDur || 0; }
+  function fileDur() { return els.audio.duration || (man()[state.chapterId] || {}).musicDur || voiceDur() || 0; }
   function voiceTime() { return Math.max(0, (els.audio.currentTime || 0) - offset()); }
-  function src(id) { return 'audio/music/' + id + '.m4a'; }
+  function src(id, lang) { return (DIRS[lang || state.lang] || DIRS.en) + id + '.m4a'; }
+  function hasLang(lang) { return !!(MANS[lang] && MANS[lang].ch01); }
 
   function chapterTitle(id) {
-    var m = MAN[id];
+    var m = man()[id];
     var r = window.PANIM_RENDERED;
     var num = m ? m.num : parseInt(String(id).slice(2), 10);
     return (r ? r.romanFor(num) : num) + '. ' + (m ? m.title : id);
@@ -142,6 +160,12 @@
   // ch. VII end to end has heard these eight minutes by definition, and on a phone
   // that finished in the background the timeupdate above may never have run.
   var DOOR = { chapter: 'ch07', heardThrough: 1579 };
+  // The Spanish passage ends on the same line at a different second. It is read off
+  // the Spanish cues by tools/build-spanish-audio.py, by paragraph id, never typed.
+  function doorThrough() {
+    return state.lang === 'en' ? DOOR.heardThrough
+      : ((man()[DOOR.chapter] || {}).doorThrough || Infinity);
+  }
 
   function markHeardDoor() {
     if (state.heardDoor) return;
@@ -198,6 +222,14 @@
     // 🛑 'pos:<chapter>' IS NOT WRITTEN ANY MORE EITHER — see savePosition below.
     // A store nothing reads is a trap for whoever reads this file next.
     var resumeAt = opts.seekTo != null ? opts.seekTo : 0; // voice timeline
+    // A time from the other language's clock is translated before it is used; the
+    // seek waits for it (it is a cue lookup, milliseconds, and the file has to fetch
+    // its metadata first anyway). play() below does NOT wait — see the iOS note.
+    var resumeReady = null;
+    if (resumeAt > 0 && opts.clock && opts.clock !== state.lang && window.PANIM_SYNC) {
+      resumeReady = window.PANIM_SYNC.translate(chapterId, resumeAt, opts.clock, state.lang)
+        .then(function (t) { resumeAt = t; });
+    }
 
     // Both listeners come off together, whichever fires. They used to remove only
     // themselves, so a chapter that errored left its `loadedmetadata` handler behind
@@ -223,6 +255,16 @@
     }
     function onReady() {
       cleanup();
+      if (resumeReady) {
+        var wait = resumeReady;
+        resumeReady = null;
+        wait.then(onSeek, onSeek);
+        return;
+      }
+      onSeek();
+    }
+    function onSeek() {
+      if (state.chapterId !== chapterId) return;   // another chapter was asked for meanwhile
       if (resumeAt > 1 && resumeAt < voiceDur() - 2) {
         try { els.audio.currentTime = resumeAt + offset(); } catch (e) {}
       } else if (opts.skipIntro && offset() > 0) {
@@ -345,7 +387,7 @@
     els.seekMarks.innerHTML = CHAPTER_IDS.map(function (id, i) {
       var pct = (i / (CHAPTER_IDS.length - 1)) * 100;
       var cls = 'seek-mark' + (state.completed[id] ? ' is-complete' : '') + (id === state.chapterId ? ' is-current' : '');
-      var roman = r ? r.romanFor((MAN[id] || {}).num || (i + 1)) : (i + 1);
+      var roman = r ? r.romanFor((man()[id] || {}).num || (i + 1)) : (i + 1);
       return '<button type="button" class="' + cls + '" style="left:' + pct + '%"' +
              ' data-mark-chapter="' + id + '"' +
              ' aria-label="' + chapterTitle(id).replace(/"/g, '') + '"' +
@@ -376,6 +418,7 @@
     // timeupdate — four times a second, ten keys — for a value nobody asked for.
     LS.set('lastChapter', state.chapterId);
     LS.set('lastPos', vt);
+    LS.set('lastLang', state.lang);
     updatePositionState();
   }
 
@@ -443,6 +486,7 @@
   function maybeShowResumeToast() {
     var lastChapter = LS.get('lastChapter', null);
     var lastPos = LS.get('lastPos', 0);
+    var lastLang = LS.get('lastLang', 'en');
     if (lastChapter && lastPos > 10) {
       // 🔴 TWO LINES, THE SAME TWO THE JACKET USES — 2026-09-07. This wrote one
       // string: 'Resume "IX. Eyes Opened" at 7:36?'. A verb, a title in quotation
@@ -462,7 +506,7 @@
       requestAnimationFrame(function () { els.resumeToast.classList.add('is-shown'); });
       els.resumeToastYes.onclick = function () {
         dismissResumeToast();
-        loadChapter(lastChapter, { seekTo: lastPos, autoplay: true });
+        loadChapter(lastChapter, { seekTo: lastPos, clock: lastLang, autoplay: true });
         var sec = document.getElementById(lastChapter);
         // Resuming from the jacket is the longest jump on the site — the reader is at
         // the top and the chapter can be 240,000px down. PanimScroll lands it in one
@@ -566,6 +610,7 @@
     els.completionBookmark.onclick = function () {
       LS.set('lastChapter', state.chapterId);
       LS.set('lastPos', voiceTime());
+      LS.set('lastLang', state.lang);
       closeCompletionModal();
       announce('Bookmarked. Come back anytime.');
     };
@@ -612,7 +657,7 @@
   // All ten chapters have their own frame as of v50; the generator refuses to run if one
   // is missing rather than quietly shipping a duplicate.
   function artworkFor(id) {
-    var n = (MAN[id] || {}).num || parseInt(String(id).slice(2), 10) || 1;
+    var n = (man()[id] || {}).num || parseInt(String(id).slice(2), 10) || 1;
     var stem = 'art/np-ch' + (n < 10 ? '0' : '') + n + '-';
     return [96, 256, 512].map(function (t) {
       return { src: stem + t + '.jpg', sizes: t + 'x' + t, type: 'image/jpeg' };
@@ -645,7 +690,7 @@
       updateSeekUI();
       // sync.js and the dawn arc consume VOICE-timeline time
       emit('panim:narration-timeupdate', { currentTime: voiceTime(), ratio: voiceDur() ? voiceTime() / voiceDur() : 0 });
-      if (state.chapterId === DOOR.chapter && !state.heardDoor && voiceTime() >= DOOR.heardThrough) markHeardDoor();
+      if (state.chapterId === DOOR.chapter && !state.heardDoor && voiceTime() >= doorThrough()) markHeardDoor();
       if (els.audio.duration && els.audio.currentTime / els.audio.duration >= 0.8) preloadNext();
     });
     els.audio.addEventListener('ended', function () {
@@ -748,7 +793,8 @@
     if (!m) return false;
     var id = 'ch' + ('0' + m[1]).slice(-2);
     var t = (parseInt(m[2] || 0, 10)) * 60 + parseInt(m[3], 10);
-    if (CHAPTER_IDS.indexOf(id) !== -1) { loadChapter(id, { seekTo: t }); return true; }
+    // ?t= is always written on the English clock — it is the shareable URL.
+    if (CHAPTER_IDS.indexOf(id) !== -1) { loadChapter(id, { seekTo: t, clock: 'en' }); return true; }
     return false;
   }
 
@@ -769,7 +815,7 @@
       if (btn) setSleep(btn.getAttribute('data-sleep'));
     });
     document.addEventListener('panim:listen-chapter', function (e) {
-      loadChapter(e.detail.chapterId, { autoplay: true, seekTo: e.detail.seekTo });
+      loadChapter(e.detail.chapterId, { autoplay: true, seekTo: e.detail.seekTo, clock: e.detail.clock });
     });
     document.addEventListener('panim:listen-toggle', function () {
       if (!state.chapterId) loadChapter(CHAPTER_IDS[0], { autoplay: true });
@@ -798,7 +844,47 @@
     wireKeyboard();
     setPlayerState('idle');
     state.autoAdvance = LS.get('autoAdvance', true) !== false;
+    // ?lang=es is the link to hand a Spanish speaker. It is remembered like a
+    // choice made on the page, because it is one.
+    var asked = /[?&]lang=(en|es)\b/.exec(location.search);
+    var lang = asked ? asked[1] : LS.get('lang', 'en');
+    state.lang = hasLang(lang) ? lang : 'en';
+    if (asked) LS.set('lang', state.lang);
+    emit('panim:lang-change', { lang: state.lang, initial: true });
     if (!maybeDeepLink()) maybeShowResumeToast();
+  }
+
+  // ---------- language ----------
+  // Switching mid-chapter keeps the reader on the same line: the position is
+  // translated through the paragraph being read, and playback carries on if it was
+  // running. Called inside the tap that asked for it, so play() is still permitted.
+  function setLang(lang, opts) {
+    opts = opts || {};
+    if (!hasLang(lang)) return;
+    var was = state.lang;
+    LS.set('lang', lang);
+    if (lang === was) { if (opts.start) startFresh(); return; }
+    var id = state.chapterId, at = id ? voiceTime() : 0, wasPlaying = state.playing;
+    // Offline with the other language's chapter not saved: refuse the switch before
+    // anything changes, or the label would say Spanish over English audio.
+    if (id && window.PanimOffline && window.PanimOffline.blocked(id, lang)) {
+      LS.set('lang', was);
+      emit('panim:audio-error', { chapterId: id, offline: true, blocked: true });
+      return;
+    }
+    state.lang = lang;
+    emit('panim:lang-change', { lang: lang });
+    announce(lang === 'es' ? 'Narración en español.' : 'Narration in English.');
+    if (id) {
+      loadChapter(id, { seekTo: at, clock: was, autoplay: wasPlaying || !!opts.start });
+      renderSeekMarks();
+    } else if (opts.start) {
+      startFresh();
+    }
+  }
+  function startFresh() {
+    if (!state.chapterId) loadChapter(CHAPTER_IDS[0], { autoplay: true });
+    else if (!state.playing) play();
   }
 
   function setAutoAdvance(on) {
@@ -825,7 +911,9 @@
   window.PanimPlayer = {
     state: state,
     ids: CHAPTER_IDS,
-    manifest: MAN,
+    setLang: setLang,
+    hasLang: hasLang,
+    src: src,
     play: play, pause: pause, toggle: togglePlay, skip: skip,
     load: function (id, opts) { loadChapter(id, opts); },
     cycleSpeed: cycleSpeed,
@@ -838,4 +926,7 @@
     // pinned to the same slot above the bar and would otherwise stack.
     dismissResume: dismissResumeToast
   };
+  // The manifest of the language playing. A getter, because js/room.js and
+  // js/offline.js read P.manifest at paint time and must follow a switch.
+  Object.defineProperty(window.PanimPlayer, 'manifest', { get: man, enumerable: true });
 })();

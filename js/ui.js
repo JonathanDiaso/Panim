@@ -327,8 +327,19 @@
 
     $('#onboarding-begin').addEventListener('click', function () {
       dismiss();
+      if (window.PanimPlayer) window.PanimPlayer.setLang('en');
       document.dispatchEvent(new CustomEvent('panim:listen-chapter', { detail: { chapterId: 'ch01' } }));
     });
+    // ⭐ THE SPANISH DOOR, 2026-09-16. Same as Begin, in the other language.
+    var es = $('#onboarding-es');
+    if (es) {
+      if (!(window.PanimPlayer && window.PanimPlayer.hasLang('es'))) es.hidden = true;
+      es.addEventListener('click', function () {
+        dismiss();
+        if (window.PanimPlayer) window.PanimPlayer.setLang('es');
+        document.dispatchEvent(new CustomEvent('panim:listen-chapter', { detail: { chapterId: 'ch01' } }));
+      });
+    }
     // "Read instead" closes the invitation and drops the reader at the contents,
     // which is the whole point of having a contents page.
     var read = $('#onboarding-read');
@@ -506,7 +517,8 @@
       try {
         var ch = JSON.parse(localStorage.getItem('panim:lastChapter'));
         var pos = JSON.parse(localStorage.getItem('panim:lastPos'));
-        if (ch && typeof pos === 'number' && pos > 10) return { chapterId: ch, pos: pos };
+        var lang = JSON.parse(localStorage.getItem('panim:lastLang')) || 'en';
+        if (ch && typeof pos === 'number' && pos > 10) return { chapterId: ch, pos: pos, clock: lang };
       } catch (e) {}
       return null;
     }
@@ -526,23 +538,65 @@
     // ⚠️ THE ACCESSIBLE NAME IS SET IN ONE PIECE. Two spans read out as "Continue
     // chapter seven 37:26" with no punctuation between them, so the label says the
     // whole sentence and the visible type keeps its own arrangement.
-    var place = savedPlace();
     var beginLabel = $('#begin-label');
     var beginPlace = $('#begin-place');
-    if (place && beginBtn && beginLabel && beginPlace) {
-      var rendered = window.PANIM_RENDERED;
-      var num = rendered ? rendered.romanFor(parseInt(place.chapterId.replace('ch', ''), 10)) : '';
-      beginLabel.textContent = 'Continue listening';
-      beginPlace.textContent = (num ? 'Chapter ' + num + ' \u00B7 ' : '') + fmt(place.pos);
-      beginPlace.hidden = false;
-      beginBtn.setAttribute('aria-label',
-        'Continue listening' + (num ? ', chapter ' + num : '') + ', at ' + fmt(place.pos));
+    // ⭐ IN THE LANGUAGE THAT WILL PLAY, 2026-09-16. The door is "your language" and
+    // #begin-lang beside it is "the other one"; both repaint on panim:lang-change.
+    // ⚠️ THE TIME SHOWN IS THE SAVED ONE, on the clock it was saved on. A place saved
+    // in English and resumed in Spanish lands on the same line at a different second;
+    // the door says where the reader stopped, which is the thing they remember.
+    var WORDS = {
+      en: { begin: 'Begin listening', cont: 'Continue listening', ch: 'Chapter', chl: 'chapter', at: 'at' },
+      es: { begin: 'Empezar a escuchar', cont: 'Seguir escuchando', ch: 'Capítulo', chl: 'capítulo', at: 'en' }
+    };
+    function paintBegin(lang) {
+      if (!beginBtn || !beginLabel || !beginPlace) return;
+      var w = WORDS[lang] || WORDS.en;
+      var place = savedPlace();
+      beginBtn.setAttribute('lang', lang);
+      if (place) {
+        var rendered = window.PANIM_RENDERED;
+        var num = rendered ? rendered.romanFor(parseInt(place.chapterId.replace('ch', ''), 10)) : '';
+        beginLabel.textContent = w.cont;
+        beginPlace.textContent = (num ? w.ch + ' ' + num + ' \u00B7 ' : '') + fmt(place.pos);
+        beginPlace.hidden = false;
+        beginBtn.setAttribute('aria-label',
+          w.cont + (num ? ', ' + w.chl + ' ' + num : '') + ', ' + w.at + ' ' + fmt(place.pos));
+      } else {
+        beginLabel.textContent = w.begin;
+        beginPlace.hidden = true;
+        beginBtn.removeAttribute('aria-label');
+      }
+      var other = $('#begin-lang');
+      if (other) {
+        var to = lang === 'es' ? 'en' : 'es';
+        var ok = window.PanimPlayer && window.PanimPlayer.hasLang(to);
+        other.hidden = !ok;
+        other.setAttribute('lang', to);
+        other.setAttribute('data-to-lang', to);
+        other.textContent = to === 'es' ? 'Escuchar en español' : 'Listen in English';
+      }
     }
-    if (beginBtn) beginBtn.addEventListener('click', function () {
+    paintBegin('en');
+    document.addEventListener('panim:lang-change', function (e) { paintBegin(e.detail.lang); });
+
+    function begin() {
       var p = savedPlace();
       document.dispatchEvent(new CustomEvent('panim:listen-chapter', {
-        detail: p ? { chapterId: p.chapterId, seekTo: p.pos } : { chapterId: 'ch01' }
+        detail: p ? { chapterId: p.chapterId, seekTo: p.pos, clock: p.clock } : { chapterId: 'ch01' }
       }));
+    }
+    if (beginBtn) beginBtn.addEventListener('click', begin);
+    // The other language: switch, then do exactly what Begin does. If a chapter is
+    // already loaded, setLang carries it across on the same line and plays it.
+    var langBtn = $('#begin-lang');
+    if (langBtn) langBtn.addEventListener('click', function () {
+      var P = window.PanimPlayer;
+      if (!P) return;
+      var to = langBtn.getAttribute('data-to-lang') || 'es';
+      if (P.state.chapterId) { P.setLang(to, { start: true }); return; }
+      P.setLang(to);
+      begin();
     });
 
     // ---------- the second door, intercepted ----------

@@ -33,6 +33,7 @@
     follow: document.getElementById('room-follow'),
     chapters: document.getElementById('room-chapters'),
     auto: document.getElementById('room-auto'),
+    lang: document.getElementById('room-lang'),
     seek: document.getElementById('room-seek'),
     seekFill: document.getElementById('room-seek-fill'),
     sleepBadge: document.getElementById('room-sleep-badge'),
@@ -187,7 +188,22 @@
       : 'Continuous play is off. Playback stops at the end of this chapter.');
   }
 
+  // ⭐ THE LANGUAGE CHIP, 2026-09-16. It names the language it switches TO — the
+  // convention every bilingual site uses — in that language, with lang set so a
+  // screen reader pronounces it. Hidden if the other edition is not on the site.
+  function reflectLang() {
+    if (!els.lang) return;
+    var to = P.state.lang === 'es' ? 'en' : 'es';
+    els.lang.hidden = !P.hasLang(to);
+    els.lang.setAttribute('lang', to);
+    els.lang.textContent = to === 'es' ? 'Español' : 'English';
+    var say = to === 'es' ? 'Escuchar en español' : 'Listen in English';
+    els.lang.setAttribute('title', say);
+    els.lang.setAttribute('aria-label', say);
+  }
+
   function refresh() {
+    reflectLang();
     if (!P.state.chapterId) return;
     var m = P.manifest[P.state.chapterId] || {};
     var r = window.PANIM_RENDERED;
@@ -357,6 +373,11 @@
     // off, which is the right place: it is the Room that a reader leaves running.
     // ⚠️ THE PRESSED ATTRIBUTE IS BOTH THE STATE AND THE STYLE — css/room.css paints
     // .room-chip[aria-pressed="true"], so there is no second class to keep in step.
+    if (els.lang) els.lang.addEventListener('click', function () {
+      P.setLang(P.state.lang === 'es' ? 'en' : 'es');
+      refresh();
+      if (els.sheetList.children.length) buildChaptersSheet();
+    });
     if (els.auto) els.auto.addEventListener('click', function () {
       P.setAutoAdvance(!P.state.autoAdvance);
       reflectAuto();
@@ -422,6 +443,7 @@
     document.addEventListener('panim:chapter-loaded', function () { if (open) refresh(); });
     document.addEventListener('panim:play-state', function () { if (open) refresh(); });
     document.addEventListener('panim:speed-change', function () { if (open) refresh(); });
+    document.addEventListener('panim:lang-change', function () { reflectLang(); if (open) refresh(); });
     document.addEventListener('panim:sleep-change', function () { if (open) tick(); });
     document.addEventListener('panim:narration-timeupdate', function () { if (open) tick(); });
     setInterval(function () { if (open && P.sleepRemaining() !== null) tick(); }, 1000);
@@ -440,6 +462,10 @@
     if (begin) begin.addEventListener('click', function () { setTimeout(openRoom, 50); });
     var listen = document.getElementById('listen-btn');
     if (listen) listen.addEventListener('click', function () { setTimeout(openRoom, 50); });
+    // the jacket's other-language door is the same door
+    var other = document.getElementById('begin-lang');
+    if (other) other.addEventListener('click', function () { setTimeout(openRoom, 50); });
+    reflectLang();
   });
 
   // js/offline.js opens this after starting a Save-all from its notice: the sheet is

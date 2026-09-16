@@ -263,7 +263,10 @@ body.room-open .toast.is-shown { opacity: 0; pointer-events: none; }
      cannot sit on one row; left to the stack's own 32rem the row breaks 4 + 1 and
      the fifth chip sits alone under four, which reads as an afterthought bolted on
      — which is exactly what "Continuous" would look like if it were one. Capped
-     here the row breaks 3 + 2 and the block reads as a keypad. */
+     here the row breaks 3 + 2 and the block reads as a keypad.
+     ⭐ SIX SINCE 2026-09-16 (the language chip). Measured at 402px the row breaks
+     4 + 2 — the four short controls, then Continuous and the language, the two that
+     change what happens next. (It was measured 4 + 1 before the sixth arrived.) */
   max-width: 20.5rem;
 }
 .room-chip {

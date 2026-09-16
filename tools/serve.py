@@ -89,6 +89,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 class Server(socketserver.ThreadingTCPServer):
     allow_reuse_address = True
     daemon_threads = True
+    # 🛑 THE LISTEN QUEUE WAS 5, THE socketserver DEFAULT — 2026-09-16. A cold page
+    # load opens more connections than that at once; the extras were refused, and a
+    # <script> whose request is refused is SKIPPED, silently. Headless runs came back
+    # with js/player.js, offline.js, room.js and quote.js never requested — the book
+    # rendered, window.PanimPlayer did not exist, and it read as a site fault on
+    # every other run. docs/HEADLESS.md trap 11.
+    request_queue_size = 128
 
 
 if __name__ == '__main__':

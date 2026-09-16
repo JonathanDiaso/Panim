@@ -628,6 +628,27 @@
 }
 .hero-meta b { display: block; color: var(--ink); font-weight: 600; }
 .hero-actions { grid-column: 3 / 9; display: flex; gap: .8rem; align-items: center; margin-top: 1.8rem; flex-wrap: wrap; }
+/* ⭐ THE OTHER LANGUAGE, 2026-09-16. Type, not a box — see the note in index.html.
+   Sans at --ap-xl in --ink-soft, the voice .hero-sample-note already speaks on this
+   jacket, with a hairline under it that turns to the accent: the underline is the
+   affordance, the 44px is the target. Hover lifts the ink; nothing fills. */
+.hero-lang {
+  display: inline-flex; align-items: center;
+  min-height: 44px; padding: 0 .2em;
+  font-family: var(--ui); font-size: var(--ap-xl); font-weight: 400;
+  color: var(--ink-soft);
+  background: none; border: 0;
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .35em;
+  transition: color var(--dur-fast) var(--ease),
+              text-decoration-color var(--dur-fast) var(--ease);
+}
+.hero-lang:hover, .hero-lang:focus-visible {
+  color: var(--ink);
+  text-decoration-color: var(--accent);
+}
 /* 🛑 .hero-hint IS GONE, 2026-09-05, WITH ITS ONLY MARKUP. It styled the
    "Contents ↓" link beside the Begin button; the author asked for that link to go
    ("i told you i dont want the clicker that shows content near the button") and a
@@ -3063,6 +3084,8 @@ html.is-narrating .block-p.is-live { color: var(--ink); }
   font-size: 1rem; color: var(--ink-soft); margin-bottom: 0;
 }
 .invite-lede em { font-style: italic; color: var(--accent); }
+/* the Spanish line sits under the logistics line at its weight, one lede-gap below */
+.invite-lede-es { margin-top: .85em; }
 .invite-actions { display: flex; gap: .7rem; flex-wrap: wrap; margin: 1.6rem 0 1.2rem; }
 .invite-meta {
   font-family: var(--ui);

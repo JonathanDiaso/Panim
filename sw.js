@@ -8,7 +8,7 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v73';
+var SHELL = 'panim-shell-v74';
 var AUDIO = 'panim-audio-v1';
 
 // index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
@@ -22,7 +22,7 @@ var AUDIO = 'panim-audio-v1';
 //      accessibility.html — both are standalone pages with their own copy, and
 //      neither is reached by the index.html sweep. 404.html was left on v24 for
 //      a whole release because of exactly this.
-var ASSET_V = '73';
+var ASSET_V = '74';
 var VERSIONED = /\.(css|js)$/;
 var PRECACHE = [
   './', 'index.html', 'accessibility.html', 'favicon.svg', 'manifest.webmanifest',
@@ -59,11 +59,17 @@ var PRECACHE = [
   'css/site.css', 'css/components.css', 'css/player.css', 'css/room.css', 'css/polish.css',
   'js/render.js', 'js/ui.js', 'js/motion.js', 'js/sync.js', 'js/search.js',
   'js/player.js', 'js/offline.js', 'js/room.js', 'js/quote.js',
-  'content/chapters.js', 'content/images.js', 'content/audio-manifest.js', 'content/marks.js',
+  'content/chapters.js', 'content/images.js', 'content/audio-manifest.js', 'content/audio-manifest-es.js',
+  'content/marks.js',
   'content/thread.js', 'content/lexicon.js', 'content/names.js', 'content/sources.js', 'content/verse-notes.js',
   'content/derivatives.js',
   'cues/ch01.json', 'cues/ch02.json', 'cues/ch03.json', 'cues/ch04.json', 'cues/ch05.json',
-  'cues/ch06.json', 'cues/ch07.json', 'cues/ch08.json', 'cues/ch09.json', 'cues/ch10.json'
+  'cues/ch06.json', 'cues/ch07.json', 'cues/ch08.json', 'cues/ch09.json', 'cues/ch10.json',
+  // The Spanish edition's cues (2026-09-16), so Follow works in Spanish offline too.
+  // Its AUDIO is not precached, for the reason the English audio is not.
+  'cues/es/ch01.json', 'cues/es/ch02.json', 'cues/es/ch03.json', 'cues/es/ch04.json',
+  'cues/es/ch05.json', 'cues/es/ch06.json', 'cues/es/ch07.json', 'cues/es/ch08.json',
+  'cues/es/ch09.json', 'cues/es/ch10.json'
   // NOT HERE, and asked and answered 2026-08-28: sitemap.xml and robots.txt. This list
   // is what a reader needs to read the book with no network. A crawler never goes
   // through a service worker, so precaching those two spends install bytes on files

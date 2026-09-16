@@ -37,9 +37,14 @@
 
   var P = null;             // PanimPlayer, bound on panim:rendered
   var sw = null;            // the active service worker, once there is one
-  var cached = {};          // chapterId -> true when its audio is stored
-  var queue = [];           // chapters waiting to be saved, in order
-  var inFlight = null;      // the one the worker is fetching right now
+  // ⭐ KEYED BY FILE, NOT BY CHAPTER, 2026-09-16. There are two languages now, and
+  // "chapter III is saved" is a different fact for audio/music/ch03.m4a and for
+  // audio/es/ch03.m4a. Everything the sheet and the notice show is about the
+  // language playing (js/player.js src()), and a download started in one language
+  // finishes and is remembered even if the reader switches while it runs.
+  var cached = {};          // url -> true when that file is stored
+  var queue = [];           // urls waiting to be saved, in order
+  var inFlight = null;      // the url the worker is fetching right now
   var batchTotal = 0;       // how many this run of the queue started with
 
   // The worker has not answered yet, so we do not know what is saved and must not
@@ -70,22 +75,22 @@
     LS.set('offlineWanted', on);
   }
 
-  function audioUrl(id) { return 'audio/music/' + id + '.m4a'; }
-  function chapterFromUrl(u) { var m = /ch\d\d/.exec(u || ''); return m ? m[0] : null; }
+  function audioUrl(id, lang) { return P && P.src ? P.src(id, lang) : 'audio/music/' + id + '.m4a'; }
+  function isSaved(id) { return !!cached[audioUrl(id)]; }
   function isOnline() { return navigator.onLine !== false; }
   function ids() { return P ? P.ids : []; }
   function emit(name, detail) { document.dispatchEvent(new CustomEvent(name, { detail: detail || {} })); }
 
   function cachedCount() {
     var n = 0;
-    ids().forEach(function (id) { if (cached[id]) n++; });
+    ids().forEach(function (id) { if (isSaved(id)) n++; });
     return n;
   }
   // The size of what is LEFT, not of the book. The Save-all button used to say
   // "412 MB" with nine chapters already on the phone.
   function pendingMB() {
     var mb = 0;
-    ids().forEach(function (id) { if (!cached[id]) mb += (P.manifest[id] || {}).musicMB || 0; });
+    ids().forEach(function (id) { if (!isSaved(id)) mb += (P.manifest[id] || {}).musicMB || 0; });
     return Math.round(mb);
   }
 
@@ -116,17 +121,15 @@
     var d = e.data || {};
     if (d.type === 'cached-state') {
       (d.urls || []).forEach(function (u, i) {
-        var id = chapterFromUrl(u);
-        if (id) cached[id] = !!(d.cached && d.cached[i]);
+        cached[u] = !!(d.cached && d.cached[i]);
       });
       known = true;
     } else if (d.type === 'downloaded') {
-      var id = chapterFromUrl(d.url);
-      if (id) cached[id] = !!d.ok;
+      if (d.url) cached[d.url] = !!d.ok;
       // 🛑 THE QUEUE ADVANCES ON FAILURE TOO. One 404 or one dropped connection must
       // not strand the other nine behind it; the chapter that failed keeps its ↓ and
       // can be asked for on its own.
-      if (id && id === inFlight) inFlight = null;
+      if (d.url && d.url === inFlight) inFlight = null;
       pump();
     } else {
       return;   // not ours — sw.js also answers 'removed', which nothing here sends
@@ -145,13 +148,14 @@
     // is worse than ten rows that still offer their ↓. Drop it and let them ask again.
     if (!isOnline()) { queue.length = 0; return; }
     inFlight = queue.shift();
-    sw.postMessage({ type: 'download', url: audioUrl(inFlight) });
+    sw.postMessage({ type: 'download', url: inFlight });
   }
   function settle() { if (!inFlight && !queue.length) batchTotal = 0; }
 
   function enqueue(id) {
-    if (!sw || cached[id] || id === inFlight || queue.indexOf(id) !== -1) return false;
-    queue.push(id);
+    var u = audioUrl(id);
+    if (!sw || cached[u] || u === inFlight || queue.indexOf(u) !== -1) return false;
+    queue.push(u);
     batchTotal = Math.max(batchTotal, queue.length + (inFlight ? 1 : 0));
     return true;
   }
@@ -287,12 +291,19 @@
     bindWorker();
     render();
   });
+  // Another language is another set of files: ask the worker what it holds of them.
+  document.addEventListener('panim:lang-change', function () {
+    if (!P) return;
+    query();
+    emit('panim:audio-cache', {});
+    render();
+  });
 
   // API for js/room.js — it paints the ↓ column, this file owns what it means.
   window.PanimOffline = {
     isOnline: isOnline,
     hasWorker: function () { return !!sw; },
-    isCached: function (id) { return !!cached[id]; },
+    isCached: isSaved,
     // 🛑 MEASURED 2026-09-09: WITH THE NETWORK OFF, AN UNSAVED CHAPTER NEVER RAISES
     // `error` ON THE MEDIA ELEMENT. It sits at readyState 0 and stalls — twelve seconds
     // of a play button that looks pressed and a bar that says 0:00, forever. So the
@@ -300,8 +311,10 @@
     // nothing stored, which means there is nothing to fetch and nothing to wait for.
     // `known` matters — before the worker has answered, we do not know what is stored
     // and must not refuse a chapter that is sitting in the cache.
-    blocked: function (id) { return known && !isOnline() && !cached[id]; },
-    isQueued: function (id) { return id === inFlight || queue.indexOf(id) !== -1; },
+    // `lang` is for js/player.js asking before a language switch; omitted, it is the
+    // language playing.
+    blocked: function (id, lang) { return known && !isOnline() && !cached[audioUrl(id, lang)]; },
+    isQueued: function (id) { var u = audioUrl(id); return u === inFlight || queue.indexOf(u) !== -1; },
     pending: function () { return queue.length + (inFlight ? 1 : 0); },
     batchSize: function () { return batchTotal; },
     cachedCount: cachedCount,

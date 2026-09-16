@@ -24,8 +24,9 @@
 (function () {
   'use strict';
 
-  var cuesCache = {};   // chapterId -> [{t, id}] (empty array on any failure)
+  var cuesCache = {};   // 'lang:chapterId' -> [{t, id}] (empty array on any failure)
   var currentChapterId = null;
+  var currentLang = null;
   var currentCues = [];
   var currentIndex = -1;
   var liveEl = null;
@@ -48,25 +49,65 @@
   var RESUME_IDLE = 12000;      // hands off this long and the page starts following again
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function fetchCues(chapterId) {
-    if (cuesCache[chapterId]) return Promise.resolve(cuesCache[chapterId]);
-    return fetch('cues/' + chapterId + '.json')
+  // ⭐ ONE CUE SET PER LANGUAGE, 2026-09-16. cues/es/ holds the Spanish voice's
+  // times under the ENGLISH paragraph ids (tools/build-spanish-audio.py), so
+  // everything below — the glow, the follow, tap-to-listen — is unchanged; only the
+  // file it reads moves. The language playing is js/player.js's to say.
+  function lang() {
+    return (window.PanimPlayer && window.PanimPlayer.state.lang) || 'en';
+  }
+  function fetchCues(chapterId, lng) {
+    lng = lng || lang();
+    var key = lng + ':' + chapterId;
+    if (cuesCache[key]) return Promise.resolve(cuesCache[key]);
+    return fetch('cues/' + (lng === 'en' ? '' : lng + '/') + chapterId + '.json')
       .then(function (r) { return r.ok ? r.json() : []; })
       .catch(function () { return []; })
       .then(function (data) {
         var cues = Array.isArray(data) ? data.slice().sort(function (a, b) { return a.t - b.t; }) : [];
-        cuesCache[chapterId] = cues;
+        cuesCache[key] = cues;
         return cues;
       });
   }
 
   function setChapter(chapterId) {
-    if (chapterId === currentChapterId) return;
+    var lng = lang();
+    if (chapterId === currentChapterId && lng === currentLang) return;
+    // the same chapter in the other language keeps the reader's place on the page
+    if (chapterId !== currentChapterId) setSuspended(false);
     currentChapterId = chapterId;
+    currentLang = lng;
     currentIndex = -1;
-    clearLive();
-    setSuspended(false);   // a new chapter is a fresh start, not a continued read-ahead
-    fetchCues(chapterId).then(function (cues) { currentCues = cues; });
+    currentCues = [];      // never read the old language's times against the new file
+    fetchCues(chapterId, lng).then(function (cues) {
+      if (chapterId === currentChapterId && lng === currentLang) currentCues = cues;
+    });
+  }
+
+  // A second on one language's clock -> the same place on the other's. Through the
+  // paragraph: find the block being read at `t`, find that block in the other cue
+  // set, and carry the distance into it across, scaled by how long each language
+  // takes over that paragraph. Resolves to `t` unchanged if either set is missing,
+  // which is the pre-2026-09-16 behaviour and never worse than it.
+  function translate(chapterId, t, from, to) {
+    if (from === to) return Promise.resolve(t);
+    return Promise.all([fetchCues(chapterId, from), fetchCues(chapterId, to)]).then(function (both) {
+      var a = both[0], b = both[1];
+      if (!a.length || !b.length) return t;
+      var i = -1;
+      for (var k = 0; k < a.length && a[k].t <= t; k++) i = k;
+      if (i < 0) return t * (b[0].t / Math.max(a[0].t, 0.01));   // still in the title
+      var at = {};
+      b.forEach(function (c, n) { at[c.id] = n; });
+      var j = -1;
+      for (var m = i; m >= 0 && j < 0; m--) { if (at[a[m].id] != null) { j = at[a[m].id]; i = m; } }
+      if (j < 0) return b[0].t;
+      var into = t - a[i].t;
+      var spanA = i + 1 < a.length ? a[i + 1].t - a[i].t : 0;
+      var spanB = j + 1 < b.length ? b[j + 1].t - b[j].t : 0;
+      if (spanA > 0 && spanB > 0) into = Math.min(into, spanA) * (spanB / spanA);
+      return b[j].t + Math.max(0, into);
+    });
   }
 
   function clearLive() {
@@ -310,7 +351,7 @@
     var id = block.getAttribute('data-cue-id');
     var chapterId = chapterOf(id);
     if (!chapterId) return;
-    fetchCues(chapterId).then(function (cues) {
+    fetchCues(chapterId, lang()).then(function (cues) {
       var cue = null;
       for (var i = 0; i < cues.length; i++) { if (cues[i].id === id) { cue = cues[i]; break; } }
       if (!cue) return;                                // no cue, no guess
@@ -331,6 +372,7 @@
   // exposed for player.js / debugging
   window.PANIM_SYNC = {
     setChapter: setChapter,
+    translate: translate,
     setFollow: setFollow,
     state: function () {
       return { follow: followEnabled, suspended: suspended, playing: playing,

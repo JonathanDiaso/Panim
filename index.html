@@ -164,12 +164,12 @@
       href="art/d/hero-940.avif"
       imagesrcset="art/d/hero-640.avif 640w, art/d/hero-940.avif 940w, art/d/hero-1408.avif 1408w"
       imagesizes="(min-width: 1440px) 1440px, 100vw">
-<link rel="stylesheet" href="fonts/fonts.css?v=73">
-<link rel="stylesheet" href="css/site.css?v=73">
-<link rel="stylesheet" href="css/components.css?v=73">
-<link rel="stylesheet" href="css/player.css?v=73">
-<link rel="stylesheet" href="css/room.css?v=73">
-<link rel="stylesheet" href="css/polish.css?v=73">
+<link rel="stylesheet" href="fonts/fonts.css?v=74">
+<link rel="stylesheet" href="css/site.css?v=74">
+<link rel="stylesheet" href="css/components.css?v=74">
+<link rel="stylesheet" href="css/player.css?v=74">
+<link rel="stylesheet" href="css/room.css?v=74">
+<link rel="stylesheet" href="css/polish.css?v=74">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -316,6 +316,16 @@
             <span class="bb-place" id="begin-place" hidden></span>
           </span>
         </button>
+        <!-- ⭐ THE OTHER LANGUAGE, 2026-09-16. The author: "have a button to click on
+             spanish in the front page." The whole book is narrated in Spanish too.
+             🛑 IT IS NOT A SECOND BOX. .btn-begin lost its box on 2026-09-06 because a
+             bordered rectangle is the one shape this page never uses; a boxed "Español"
+             beside it would bring that shape straight back. It is set as a quiet line of
+             type with the accent under it — the same weight as the tap-to-listen note.
+             ⚠️ IT ALWAYS OFFERS THE LANGUAGE THAT IS NOT PLAYING. js/ui.js swaps its
+             words, its lang and the Begin button's words together, so the big door is
+             always "your language" and this is always "the other one". -->
+        <button class="hero-lang" id="begin-lang" type="button" lang="es" data-to-lang="es">Escuchar en español</button>
       </div>
       <!-- ⤵ THE SECOND DOOR MOVED OUT OF THE HERO, 2026-09-05. The author: "we
            could possibly move that button down a bit so they interact with the
@@ -390,8 +400,18 @@
     chapters, start to finish. Read along, or close your eyes and just listen. It keeps
     your place either way.</p>
 
+    <!-- ⭐ SPANISH, INTRODUCED IN THE DOORWAY, 2026-09-16. The author: "maybe
+         introduce it in the opener." One sentence, in Spanish, to the reader it is for.
+         🛑 IT SAYS "RECREADA" AND THAT WORD IS NOT OPTIONAL. The English lede above says
+         "that is me reading it", and it is. The Spanish is his voice, cloned and
+         rendered by ElevenLabs — a Spanish speaker told "con mi voz" and nothing else
+         would be told he read it. -->
+    <p class="invite-lede invite-lede-last invite-lede-es" lang="es">¿Prefieres español?
+    El libro completo está narrado en español, con mi voz recreada digitalmente.</p>
+
     <div class="invite-actions">
       <button class="btn btn-solid" id="onboarding-begin">Begin listening</button>
+      <button class="btn" id="onboarding-es" lang="es">Escuchar en español</button>
       <button class="btn" id="onboarding-read">Read instead</button>
     </div>
 
@@ -688,6 +708,12 @@
       <button class="btn room-chip" id="room-chapters" type="button" title="Chapters" aria-haspopup="dialog" aria-controls="chapters-sheet">Chapters</button>
       <button class="btn room-chip" id="room-auto" type="button" aria-pressed="true"
               title="Play the next chapter automatically">Continuous</button>
+      <!-- ⭐ THE LANGUAGE, 2026-09-16 — "and in the little studio sound area".
+           Names the language it will switch TO, like every language link people know.
+           Switching keeps the place: js/player.js translates the position through the
+           paragraph being read. js/room.js writes the words. -->
+      <button class="btn room-chip" id="room-lang" type="button" lang="es"
+              title="Escuchar en español">Español</button>
     </div>
   </div>
   <div class="seekbar seekbar-edge" id="room-seek" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
@@ -780,28 +806,29 @@
 
 <audio id="narration-audio" preload="none"></audio>
 
-<script src="content/chapters.js?v=73"></script>
-<script src="content/images.js?v=73"></script>
-<script src="content/audio-manifest.js?v=73"></script>
-<script src="content/marks.js?v=73"></script>
-<script src="content/thread.js?v=73"></script>
-<script src="content/lexicon.js?v=73"></script>
-<script src="content/names.js?v=73"></script>
-<script src="content/sources.js?v=73"></script>
-<script src="content/verse-notes.js?v=73"></script>
-<script src="content/derivatives.js?v=73"></script>
-<script src="js/render.js?v=73"></script>
-<script src="js/ui.js?v=73"></script>
-<script src="js/motion.js?v=73"></script>
-<script src="js/sync.js?v=73"></script>
-<script src="js/search.js?v=73"></script>
-<script src="js/player.js?v=73"></script>
+<script src="content/chapters.js?v=74"></script>
+<script src="content/images.js?v=74"></script>
+<script src="content/audio-manifest.js?v=74"></script>
+<script src="content/audio-manifest-es.js?v=74"></script>
+<script src="content/marks.js?v=74"></script>
+<script src="content/thread.js?v=74"></script>
+<script src="content/lexicon.js?v=74"></script>
+<script src="content/names.js?v=74"></script>
+<script src="content/sources.js?v=74"></script>
+<script src="content/verse-notes.js?v=74"></script>
+<script src="content/derivatives.js?v=74"></script>
+<script src="js/render.js?v=74"></script>
+<script src="js/ui.js?v=74"></script>
+<script src="js/motion.js?v=74"></script>
+<script src="js/sync.js?v=74"></script>
+<script src="js/search.js?v=74"></script>
+<script src="js/player.js?v=74"></script>
 <!-- before room.js: it owns window.PanimOffline, which room.js paints the ↓ column from -->
-<script src="js/offline.js?v=73"></script>
-<script src="js/room.js?v=73"></script>
+<script src="js/offline.js?v=74"></script>
+<script src="js/room.js?v=74"></script>
 <!-- select any passage in the book and it offers to send it, with a link that
      unfurls as the chapter and lands on the sentence. See js/quote.js. -->
-<script src="js/quote.js?v=73" defer></script>
+<script src="js/quote.js?v=74" defer></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

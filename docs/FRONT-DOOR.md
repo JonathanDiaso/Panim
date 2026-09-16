@@ -3,7 +3,9 @@
 **What the top of the site does, why it does it, and what is next.**
 🛑 **THE VERSION NUMBER LIVES IN `sw.js` (`SHELL` / `ASSET_V`), NEVER IN THIS PROSE.**
 This header has shipped a stale number twice.
-🎯 **v73 IS THE LATEST, 2026-09-09 — [`../archive/round-records-v69-to-v73.md`](../archive/round-records-v69-to-v73.md) §17.**
+🎯 **v74, 2026-09-16 — THE BOOK IN SPANISH. §0.11.** Nothing about the English front door moved;
+a second language was added beside it.
+🎯 **v73, 2026-09-09 — [`../archive/round-records-v69-to-v73.md`](../archive/round-records-v69-to-v73.md) §17.**
 Three items off the sheet in one round. **The woman at the tent is named Hannah now** — she
 never was in the prose, and chapter X's last movement turns on the reader knowing it. Done
 **without touching a word of the manuscript**: one citation line, and a `ref` block carries no
@@ -380,6 +382,44 @@ type did not, so the air scaled and the words did not.
 ---
 
 
+
+## 0.11 ⭐ THE SPANISH DOOR — v74, 2026-09-16
+
+The author: *"i want it to be on the site and clickable. the only question is exactly how we
+wire it in and how clear we make the spanish option maybe introduce in in the opener and have a
+button to click on spanish in the front page and in the little studio sound area."*
+
+**All three places he named, and nothing else.**
+
+| where | what | why this shape |
+|---|---|---|
+| the jacket, beside **Begin listening** | `#begin-lang`, **Escuchar en español** | set as TYPE with a hairline underline, Archivo `--ap-xl` in `--ink-soft` — the voice the tap-to-listen note already speaks here. 🛑 **Not a box**: the black slab went on 2026-09-05 and the box on 2026-09-06, and a boxed "Español" beside the door would bring both back |
+| the invitation | one Spanish sentence, and a third button | the reader it is for is told in their own language, before choosing |
+| the Listening Room | a sixth chip, **Español** / **English** | the Room is where a listener changes how they listen; it keeps the place |
+
+🛑 **THE BIG DOOR IS ALWAYS "YOUR LANGUAGE", THE SMALL ONE ALWAYS "THE OTHER".** Choose Spanish
+and Begin becomes *Empezar a escuchar* / *Seguir escuchando*, and the small line becomes
+*Listen in English*. Two doors that both said English-then-Spanish would ask a Spanish speaker
+to press the English one to continue in Spanish.
+
+⭐ **SWITCHING NEVER LOSES THE LINE.** Every time on the site is on the clock of the language
+playing. A time from the other clock — a `?t=` link (always English), the five-minute card, a
+place saved in the other language — is carried across through the paragraph being read
+(`PANIM_SYNC.translate`, `cues/es/` keyed by the English ids). Measured: `?t=ch07:17m55s` lands at
+21:41 in Spanish, on the same paragraph; Spanish 10:01 of chapter I switches to English 8:38.
+
+🔗 **`?lang=es`** is the link to give a Spanish speaker. It is remembered.
+
+🛑 **THE INVITATION SAYS *recreada*.** The English says *"that is me reading it"* and it is; the
+Spanish is his voice cloned. See `panim-book/es/00-TTS-SETTINGS.md`.
+
+**Measured at 402px:** the door row wraps, Begin on one line and *Escuchar en español* under it
+at 147×44; the Room's six chips break 4 + 2 at 47px tall. Scripts and files: `js/player.js`
+(`state.lang`, `setLang`), `js/sync.js` (`translate`), `js/offline.js` (saved state per file),
+`js/ui.js` (the two doors), `js/room.js` (the chip), `tools/build-spanish-audio.py` (everything
+under `audio/es/`, `cues/es/`, `content/audio-manifest-es.js`).
+
+---
 
 # 1 · ⚡ SPEED — what was actually wrong
 

@@ -91,6 +91,19 @@ broken.
     > ⚠️ And register the worker by hand in a test: `index.html` only registers it on
     > `https:`, so on `localhost` there is no service worker unless you ask for one.
 
+11. 🆕 **`tools/serve.py` REFUSED CONNECTIONS ON A COLD LOAD — 2026-09-16.** Its listen queue
+    was `socketserver`'s default of **5**. A fresh profile opens more than that at once, the
+    extras are refused, and **a `<script>` whose request fails is skipped without a word.**
+    Signature: the book renders, `window.PanimPlayer` is `undefined`, and the server log has
+    no line at all for `js/player.js`, `offline.js`, `room.js`, `quote.js`. It came and went
+    between runs, and each failed run read as a different site bug (a missing manifest, a
+    deep link that did not seek). **Fixed in the tool (`request_queue_size = 128`).** Two more
+    things that bit in the same session, both harness-side: reuse of one
+    `--remote-debugging-port` lets the next run attach to the previous, still-closing Chrome
+    and read *its* page; and a persistent `--user-data-dir` carries state between runs. **One
+    port and one profile per run.** And `--virtual-time-budget` with a real media load **hangs**;
+    drive Chrome over the DevTools protocol instead when audio is under test.
+
 ⚠️ **And one that is not the browser: a contrast probe must composite alpha.** Walking up
 for a background colour and stopping at the first non-transparent one reads
 `rgba(25,21,16,.03)` — a 3% tint — as near-black, and turns a **4.91:1 pass into a 2.92:1
