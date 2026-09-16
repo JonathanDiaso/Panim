@@ -1326,7 +1326,9 @@
      itself as half of what it opens. The href is untouched — it is locked, see
      docs/FRONT-DOOR.md §0.1 — and the eyebrow and the aria-label now say eight.
 
-     🛑 .hs-holds STILL DESCRIBES ONLY THE FIRST FIVE, AND THAT IS DELIBERATELY LEFT.
+     ✅ 2026-09-16: .hs-holds now carries a second sentence for minutes five to eight,
+     at the author's request. The note below is the history of why it waited.
+     🛑 .hs-holds DESCRIBED ONLY THE FIRST FIVE, AND THAT WAS DELIBERATELY LEFT.
      It names the father's hidden face and the mountain, both of which close at
      +4m51. What happens in minutes five to eight is the author's sister, and the
      sentence that puts her on the front page has to be his — it is the one line on
@@ -1372,8 +1374,15 @@
       // costs five minutes. A card that takes a paragraph to say it is short is
       // arguing against itself. Two of the three stories survive; the father at the
       // door was the weakest of them and it is the one the quote already implies.
+      // ⭐ THE SECOND SENTENCE, 2026-09-16. The author, asked to write the line for
+      // minutes five to eight: "well why dont you come up with a clever idea … whats
+      // the best way to get someone to click without revealing???" The question is
+      // the hook: it is the one thing on the card a reader cannot answer for himself,
+      // and it names neither the loss nor the tears, so the passage still lands.
+      // Alternatives offered beside it are in docs/DECISIONS.md.
       '<span class="hs-holds">Two years of a father’s hidden face, and a mountain ' +
-        'where the fire turns out to be the wrong answer.</span>' +
+        'where the fire turns out to be the wrong answer. Then one question on a blank ' +
+        'page — <i>Jesus, do You love me?</i> — and how He answered it.</span>' +
       '<span class="hs-act">' +
         // 🛑 THE 44-UNIT GRID AND THIS PATH ARE THE SITE'S ONE PLAY MARK. Same
         // geometry as .bb-glyph in index.html and .transport-play in the bar and the
@@ -1447,6 +1456,17 @@
         // aria-labelledby still points here, so a screen reader keeps its name.
         '<h2 class="visually-hidden" id="plates-label">The Plates</h2>' +
         '<nav class="pl-rail" id="pl-rail" aria-label="The ten plates">' + plates + '</nav>' +
+        // ⭐ THE POSITION AND TWO ARROWS, IN THE BAND UNDER THE STRIP, 2026-09-16. The
+        // author, of the empty space under the pictures: "do it … should we have an
+        // arrow there???" The band is the sway's clearance and cannot be cut; this is
+        // the one thing that can live in it. The arrows are also the only way a mouse
+        // with no sideways scroll can move the strip. js/ui.js drives both.
+        // The count is aria-hidden: each plate's own label already says its chapter.
+        '<div class="pl-nav" id="pl-nav">' +
+          '<button class="btn btn-icon pl-step" type="button" data-step="-1" aria-controls="pl-rail" aria-label="Previous chapter"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5.5 8 12l6.5 6.5"/></svg></button>' +
+          '<span class="pl-pos" aria-hidden="true"><span class="pl-pos-n" id="pl-pos-n">I</span><span class="pl-pos-of"> / X</span></span>' +
+          '<button class="btn btn-icon pl-step" type="button" data-step="1" aria-controls="pl-rail" aria-label="Next chapter"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button>' +
+        '</div>' +
         // aria-hidden: every hook is already inside its own plate's accessible name,
         // and a caption that announced itself on each snap would talk over a screen
         // reader user steering the ribbon.

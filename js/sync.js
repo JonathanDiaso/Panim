@@ -113,6 +113,7 @@
   function clearLive() {
     if (liveEl) {
       liveEl.classList.remove('is-live');   // 'is-live-paragraph' was removed here and set nowhere
+      liveEl.style.removeProperty('--read');
       liveEl = null;
     }
   }
@@ -267,6 +268,21 @@
       currentIndex = idx;
       if (idx >= 0) setLive(currentCues[idx].id);
     }
+    paintReadLine(currentTime);
+  }
+
+  // The reading line in the margin (css/components.css, .block-p.is-live::after):
+  // how far through this paragraph's cue span the voice is. The last cue runs to the
+  // end of the chapter.
+  function paintReadLine(t) {
+    if (!liveEl || currentIndex < 0) return;
+    var cue = currentCues[currentIndex];
+    var next = currentCues[currentIndex + 1];
+    var P = window.PanimPlayer;
+    var end = next ? next.t : (P ? P.voiceDur() : cue.t);
+    var span = end - cue.t;
+    var p = span > 0 ? Math.max(0, Math.min(1, (t - cue.t) / span)) : 1;
+    liveEl.style.setProperty('--read', p.toFixed(3));
   }
 
   function setFollow(on) {

@@ -1416,11 +1416,20 @@
     }
 
     var lit = -1, hookRaf = 0;
+    var posN = document.getElementById('pl-pos-n');
+    var steps = [].slice.call(document.querySelectorAll('#pl-nav .pl-step'));
     function setLit(i) {
       if (i === lit || i < 0) return;
       if (lit >= 0) plates[lit].classList.remove('is-lit');
       lit = i;
       plates[i].classList.add('is-lit');
+      if (posN) posN.textContent = plates[i].querySelector('.pl-n').textContent;
+      steps.forEach(function (b) {
+        var to = i + (+b.getAttribute('data-step'));
+        // aria-disabled, not disabled: a disabled button drops the keyboard focus
+        // that just pressed it, and the reader would be thrown back to the page.
+        b.setAttribute('aria-disabled', String(to < 0 || to >= plates.length));
+      });
 
       // 🛑 REDUCED MOTION GETS THE TEXT AND NOTHING ELSE. Not a slower arrival — no
       // arrival. Someone who turned motion off is steering this rail with the same
@@ -1505,10 +1514,29 @@
       swayFrame();
     }
 
+    // ⚠️ AN ARROW CAN HOLD A PLATE THE SCROLLER CANNOT REACH. On a desktop the rail
+    // runs out of travel with chapter VIII at the gutter (see the pointer note below),
+    // so stepping to IX or X lights the plate directly and holds it until the reader
+    // moves the strip themselves.
+    var held = -1;
+    function current() { return held >= 0 ? held : leading(); }
+    ['pointerdown', 'wheel', 'touchstart'].forEach(function (ev) {
+      rail.addEventListener(ev, function () { held = -1; }, { passive: true });
+    });
+    steps.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var i = Math.max(0, Math.min(plates.length - 1, lit + (+b.getAttribute('data-step'))));
+        if (i === lit) return;
+        held = i;
+        plates[i].scrollIntoView({ inline: 'start', block: 'nearest', behavior: REDUCED ? 'auto' : 'smooth' });
+        setLit(i);
+      });
+    });
+
     var ticking = false;
     function frame() {
       ticking = false;
-      setLit(leading());
+      setLit(current());
       if (!DRIFT_JS) return;
       // 🛑 ALL READS, THEN ALL WRITES. clientWidth is read once, outside the loop:
       // interleaving a read with a style write inside it forces one layout per
@@ -1570,7 +1598,7 @@
         p.addEventListener('pointerenter', function () { setLit(i); });
         p.addEventListener('focus', function () { setLit(i); });
       });
-      rail.addEventListener('pointerleave', function () { setLit(leading()); });
+      rail.addEventListener('pointerleave', function () { setLit(current()); });
     }
 
     // 🛑 ARM FIRST, THEN OBSERVE. .is-armed is what puts the plates at opacity 0 and

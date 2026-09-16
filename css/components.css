@@ -1141,6 +1141,26 @@ html.is-narrating .block-p.is-live { color: var(--ink); }
    not FADE in and out for someone who asked for no animation */
 @media (prefers-reduced-motion: reduce) { .block-p { transition: none; } }
 
+/* ⭐ THE READING LINE, 2026-09-16. The author, of option A on the sheet: "do it".
+   A hairline in the margin beside the paragraph being read, filling top to bottom as
+   the voice goes through it. It needs no word timings: js/sync.js writes --read, the
+   fraction of this paragraph's cue span already heard, about four times a second.
+   🛑 NOTHING TOUCHES THE TYPE. Weight, size and spacing all re-wrap the line; this is
+   a drawn mark in the margin, in the same place the hover mark uses (css/polish.css),
+   which stands down on the live paragraph so the two never show at once.
+   The track is --rule, the fill is the chapter's --accent; it is decorative, and the
+   receding colour above is still what carries the state. */
+@property --read { syntax: '<number>'; inherits: true; initial-value: 0; }
+.block-p.is-live { position: relative; transition: color var(--dur-med) var(--ease), --read 300ms linear; }
+html.is-narrating .block-p.is-live::after {
+  content: '';
+  position: absolute; left: -.85em; top: .35em; bottom: .35em;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent) calc(var(--read, 0) * 100%), var(--rule) 0);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) { .block-p.is-live { transition: none; } }
+
 @media (max-width: 900px) { .verse-box { grid-column: 1 / 7; } }
 
 /* ---------------------------------------------------------------------------
@@ -2634,7 +2654,12 @@ html.is-narrating .block-p.is-live { color: var(--ink); }
      full-bleed strip, and a caption that starts two columns in from the plate it
      describes reads as a stray paragraph. It begins where the first plate begins
      and stops at a comfortable measure. */
-  grid-column: 1 / 8;
+  /* ⭐ 1/8 → 1/11, 2026-09-16. The author: "texdt under pics being wider should be
+     fine." It was 763px of 1440 under a strip that bleeds the full width, with 47% of
+     the row bare paper. Ten of twelve tracks keeps a measure a 34px display line can
+     carry, and leaves the right-hand columns to the position and arrows above it.
+     🛑 THE DESKTOP LADDER BELOW WAS RE-SWEPT FOR THIS WIDTH, NOT SCALED. */
+  grid-column: 1 / 11;
   /* ⚠️ TIGHT ABOVE, ON PURPOSE, AND TIGHTER AGAIN 2026-09-05 — the author: "maybe
      it doesnt have to be so far bwellow the pics so it looks more ohesive."
      The rail's own bottom padding came down from 5rem to 3.4 in the same round (see
@@ -2859,7 +2884,50 @@ html.is-narrating .block-p.is-live { color: var(--ink); }
    1060, 1120, 1200, 1300, 1440, 1600 and 1920, every one of them four.
    🛑 THE OLD 1010px STEP BACK DOWN TO THREE WAS SIMPLY WRONG. At 1010 the tallest
    hook is chapter IV's and it is 130px — four lines — against 97 reserved. */
-@media (min-width: 901px) { .pl-hook { min-height: calc(4 * 1.3em); } }
+/* 🔴 RE-SWEPT 2026-09-16 FOR THE WIDER CAPTION (1/11): every width from 901 to 1960,
+   one pixel apart, the same probe cloned from .pl-hook with all ten hooks — THREE
+   lines at every one of them (the same sweep at the old 1/8 returns four, which is
+   what proves the probe). The caption no longer narrows at the breakpoint, so the
+   desktop reserves a line less than it did. */
+@media (min-width: 901px) { .pl-hook { min-height: calc(3 * 1.3em); } }
+
+/* ============================================================================
+   THE POSITION AND THE ARROWS, UNDER THE STRIP — 2026-09-16
+   The author, of the empty band between the pictures and the caption: "do it …
+   should we have an arrow there???"
+   🛑 IT SITS INSIDE THE RAIL'S BOTTOM PADDING, AND THE NUMBER IS MEASURED. That
+   padding is the sway's clearance (see .pl-rail) and nothing may overlap a plate's
+   title. While the rail's bottom edge is on screen a plate travels at most 78px down
+   into it, and a one-line plate carries a 26px empty tail, so the lowest a title
+   ever reaches is 36px above the rail's edge. -36px puts the row's top exactly
+   there: no title touches it at any scroll position.
+   Right-aligned, so it sits over the bare paper to the right of the caption rather
+   than stacking on the caption's first word.
+   ============================================================================ */
+.pl-nav {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 44px;
+  margin-top: -36px;
+  position: relative;
+}
+.pl-step { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; }
+.pl-step svg { width: 22px; height: 22px; }
+.pl-step[aria-disabled="true"] { opacity: .3; cursor: default; }
+.pl-pos {
+  font-family: var(--serif);
+  font-size: 1.05rem; font-weight: 500;
+  letter-spacing: .12em;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--ink-soft);
+  min-width: 4.6em;
+  text-align: center;
+}
+/* the held chapter's numeral takes the same accent as its plate and its caption */
+.pl-pos-n { color: var(--hook-lit, var(--accent)); transition: color 380ms var(--ease); }
+@media (prefers-reduced-motion: reduce) { .pl-pos-n { transition: none; } }
 
 /* ---------- the arrival ----------
    🛑 IT ANIMATES THE FRAME AND THE ROW, NOT THE PLATE, AND THAT IS LOAD-BEARING.

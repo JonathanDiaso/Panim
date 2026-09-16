@@ -3,7 +3,12 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: `v79`** — `ASSET_V = '79'`, `panim-shell-v79`. **Anonymous visitor and listening
+**Current: `v80`** — `ASSET_V = '80'`, `panim-shell-v80`. The author's answers of 2026-09-16 evening
+(`archive/decisions-answered-2026-09-16-evening.md`): **a position counter with arrows under the
+plates** (`.pl-nav`), **the caption under them widened** to 10 of 12 columns, **a reading line in
+the margin** beside the paragraph being read (`--read`, js/sync.js), and **the sample card's second
+sentence**. `docs/DECISIONS.md` is now every open decision in Panim, not only the site's.
+**Before that: `v79`** — **anonymous visitor and listening
 stats, built and OFF** until `content/stats-key.js` carries the PostHog project key. What is sent
 and why: the header of `js/stats.js`. No PostHog library, no cookies, no names. Turning it on is
 one line plus a version bump, and a privacy note on the site goes with it.
