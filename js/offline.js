@@ -76,21 +76,25 @@
   }
 
   function audioUrl(id, lang) { return P && P.src ? P.src(id, lang) : 'audio/music/' + id + '.m4a'; }
-  function isSaved(id) { return !!cached[audioUrl(id)]; }
+  // `lang` omitted everywhere below means the language playing.
+  function isSaved(id, lang) { return !!cached[audioUrl(id, lang)]; }
   function isOnline() { return navigator.onLine !== false; }
   function ids() { return P ? P.ids : []; }
   function emit(name, detail) { document.dispatchEvent(new CustomEvent(name, { detail: detail || {} })); }
 
-  function cachedCount() {
+  function cachedCount(lang) {
     var n = 0;
-    ids().forEach(function (id) { if (isSaved(id)) n++; });
+    ids().forEach(function (id) { if (isSaved(id, lang)) n++; });
     return n;
   }
+  // Every language this build has audio for — the sheet offers the other one too.
+  function langs() { return ['en', 'es'].filter(function (l) { return P && P.hasLang(l); }); }
   // The size of what is LEFT, not of the book. The Save-all button used to say
   // "412 MB" with nine chapters already on the phone.
-  function pendingMB() {
+  function pendingMB(lang) {
+    var man = lang && P.manifestFor ? P.manifestFor(lang) : P.manifest;
     var mb = 0;
-    ids().forEach(function (id) { if (!isSaved(id)) mb += (P.manifest[id] || {}).musicMB || 0; });
+    ids().forEach(function (id) { if (!isSaved(id, lang)) mb += (man[id] || {}).musicMB || 0; });
     return Math.round(mb);
   }
 
@@ -114,7 +118,9 @@
 
   function query() {
     if (!sw || !ids().length) return;
-    sw.postMessage({ type: 'query', urls: ids().map(audioUrl) });
+    var urls = [];
+    langs().forEach(function (l) { ids().forEach(function (id) { urls.push(audioUrl(id, l)); }); });
+    sw.postMessage({ type: 'query', urls: urls });
   }
 
   function onWorkerMessage(e) {
@@ -152,23 +158,23 @@
   }
   function settle() { if (!inFlight && !queue.length) batchTotal = 0; }
 
-  function enqueue(id) {
-    var u = audioUrl(id);
+  function enqueue(id, lang) {
+    var u = audioUrl(id, lang);
     if (!sw || cached[u] || u === inFlight || queue.indexOf(u) !== -1) return false;
     queue.push(u);
     batchTotal = Math.max(batchTotal, queue.length + (inFlight ? 1 : 0));
     return true;
   }
-  function download(id) {
-    if (!enqueue(id)) return;
+  function download(id, lang) {
+    if (!enqueue(id, lang)) return;
     pump();
     settle();
     emit('panim:audio-cache', {});
     render();
   }
-  function downloadAll() {
+  function downloadAll(lang) {
     var any = false;
-    ids().forEach(function (id) { if (enqueue(id)) any = true; });
+    ids().forEach(function (id) { if (enqueue(id, lang)) any = true; });
     if (!any) return;
     pump();
     settle();
@@ -254,7 +260,7 @@
     downloadAll();
     // 400MB with no visible progress reads as nothing happening. The chapters sheet
     // is where the per-chapter ✓ and the "Saving 3 of 10…" line already live.
-    if (window.PanimRoom && window.PanimRoom.openChapters) window.PanimRoom.openChapters();
+    if (window.PanimRoom && window.PanimRoom.openChapters) window.PanimRoom.openChapters(true);
   }
 
   noteDismiss.addEventListener('click', function () {
@@ -314,7 +320,11 @@
     // `lang` is for js/player.js asking before a language switch; omitted, it is the
     // language playing.
     blocked: function (id, lang) { return known && !isOnline() && !cached[audioUrl(id, lang)]; },
-    isQueued: function (id) { var u = audioUrl(id); return u === inFlight || queue.indexOf(u) !== -1; },
+    isQueued: function (id, lang) { var u = audioUrl(id, lang); return u === inFlight || queue.indexOf(u) !== -1; },
+    // Is any of this language's audio queued or downloading right now?
+    isSaving: function (lang) {
+      return ids().some(function (id) { var u = audioUrl(id, lang); return u === inFlight || queue.indexOf(u) !== -1; });
+    },
     pending: function () { return queue.length + (inFlight ? 1 : 0); },
     batchSize: function () { return batchTotal; },
     cachedCount: cachedCount,

@@ -356,6 +356,8 @@ body:has(.player[data-state="idle"]) { --player-h: 0px; }
    decision. 44px comes from .btn. */
 .save-all-row { margin-top: 1.4em; padding-top: 1.2em; border-top: 1px solid var(--rule); }
 .save-all-row .btn { width: 100%; justify-content: center; }
+/* the other language's audio, under this one's — the same decision, second */
+.save-all-row .btn + .btn { margin-top: .6em; }
 .save-all-row .sheet-note {
   margin: .7em 0 0;
   font-family: var(--ui); font-size: var(--ap-sm);

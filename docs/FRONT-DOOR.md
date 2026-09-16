@@ -476,6 +476,35 @@ groups at ≤480px, and at ≤340px out of the contents toggle's padding and the
 ✅ **Re-measured, scrollbar off: 0px overflow at 320, 325, 330, 335, 340, 341, 360, 375, 380, 390,
 393, 402, 414, 430, 480, 600, 900, 1280, and nothing in the bar under 44×44.**
 
+## 0.14 ⭐ A GLOBE, AND DOWNLOAD IN THE ROOM — v78, 2026-09-16
+
+The author: *"maybe we can use a symbol instead of saying es.... mak eit look nicer"*, and
+*"i dont know where to dowload the ofline audio where is that button? and will it just dowload
+the spanish or the english etc??? or an option for both???"* He chose, from three options each:
+a plain line globe; a chip in the Listening Room; the language you are in, plus an option for both.
+
+🌐 **`#nav-lang` is a globe now** — circle, one meridian, the equator, 1.5 stroke, drawn to the
+moon's 18.4px and its visual weight (the first draw, r 8.6, read heavier than the moon at 402px
+and was cut to 7.9). Same button, same labels: it still names the other language to a screen
+reader and in the tooltip. ✅ Bar overflow re-measured, scrollbar off: **0px at 320, 360, 375,
+390, 402, 414, 430, 480, 768, 1024, 1280**, no target under 44.
+
+⬇️ **`#room-save`, the seventh chip: *Download* → *Saving…* → *Saved ✓*** (lit, `.is-saved`,
+the pressed look — a fact, not a toggle). It speaks for the language playing. A tap opens the
+chapters sheet **scrolled to the save line**, where the size is said before anything starts; the
+count ("Saving 3 of 10…") lives there, not on the chip, so the chip does not widen mid-run.
+Hidden where there is no service worker. 🛑 **The label is short on purpose:** *Save offline*
+(117px) broke the chips 4 + 2 + 1 — the lone chip the row's cap exists to prevent — and the cap
+went 20.5 → 21.5rem. ✅ **4 + 3 at 360–430px; 3 + 2 + 2 at 320.**
+
+🔤 **Both languages.** Under *Save all 10 for offline (241 MB)* a second line: *Also save the
+Spanish (269 MB)* — or the English, from Spanish. `js/offline.js` takes a language on
+`download`, `downloadAll`, `cachedCount`, `pendingMB`, `isQueued` and the new `isSaving`, and
+asks the worker about both languages' files; `js/player.js` gained `manifestFor(lang)` for the
+other language's sizes. ✅ **Measured (local, worker on):** saving Spanish chapter II while in
+English left English II unsaved; after switching, the sheet said *Save the remaining 9 (249 MB)*
+and *Also save the English (241 MB)*; Spanish II then played from the phone's copy.
+
 ---
 
 # 1 · ⚡ SPEED — what was actually wrong

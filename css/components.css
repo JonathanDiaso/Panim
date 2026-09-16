@@ -428,7 +428,7 @@
 @media (max-width: 380px) {
   .nav-mark { display: none; }
 }
-/* 🔴 THE FIFTH ACTION, 2026-09-16: #nav-lang (ES / EN) beside the moon. Measured with it
+/* 🔴 THE FIFTH ACTION, 2026-09-16: #nav-lang (the globe, first ES / EN) beside the moon. Measured with it
    and the scrollbar off, the bar ran over by 21px at 320, 28 at 390, 16 at 402, 4 at 414
    and 24 at 430 — and by 0 everywhere without it. The room comes out of the 1.5rem gaps
    between the bar's groups, which on a phone were air nobody reads, and at the smallest
@@ -4343,9 +4343,6 @@ body.nav-toc-open #site-nav {
   box-shadow: inset 0 -1px 0 var(--accent);
 }
 #search-btn svg { width: 17px; height: 17px; display: block; }
-/* The ES / EN beside the moon: chrome, like it — two tracked capitals in the nav's
-   own size, no box. min-width comes from .btn-icon (44px). */
-.nav-lang { letter-spacing: .08em; font-weight: 600; }
 #search-btn { display: grid; place-items: center; }
 
 @media (max-width: 640px) {

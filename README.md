@@ -3,7 +3,10 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: `v77`** — `ASSET_V = '77'`, `panim-shell-v77`. **The audio moved to Cloudflare R2
+**Current: `v78`** — `ASSET_V = '78'`, `panim-shell-v78`. **A globe instead of ES beside the
+moon, a Download chip in the Listening Room, and offline saving for either language or both**
+(`docs/FRONT-DOOR.md` §0.14).
+**Before that: `v77`** — **The audio moved to Cloudflare R2
 and out of git** — see *Where the audio lives*. `tools/upload-audio.sh` puts it there.
 **Before that: `v76`** — `ASSET_V = '76'`, `panim-shell-v76`. **ES beside the moon** (`#nav-lang`,
 `docs/FRONT-DOOR.md` §0.13), and **`content/audio-host.js`**, the one line that says where the

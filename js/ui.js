@@ -590,7 +590,6 @@
       navLang.setAttribute('data-to-lang', to);
       navLang.setAttribute('aria-label', say);
       navLang.setAttribute('title', to === 'es' ? 'Leer y escuchar en español' : 'Read and listen in English');
-      navLang.textContent = to === 'es' ? 'ES' : 'EN';
     }
     if (navLang) navLang.addEventListener('click', function () {
       if (window.PanimPlayer) window.PanimPlayer.setLang(navLang.getAttribute('data-to-lang') || 'es');

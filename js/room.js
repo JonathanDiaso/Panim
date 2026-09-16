@@ -34,6 +34,7 @@
     chapters: document.getElementById('room-chapters'),
     auto: document.getElementById('room-auto'),
     lang: document.getElementById('room-lang'),
+    save: document.getElementById('room-save'),
     seek: document.getElementById('room-seek'),
     seekFill: document.getElementById('room-seek-fill'),
     sleepBadge: document.getElementById('room-sleep-badge'),
@@ -288,13 +289,38 @@
     });
   }
 
+  var LANG_NAME = { en: 'English', es: 'Spanish' };
+  function otherLang() { var to = P.state.lang === 'es' ? 'en' : 'es'; return P.hasLang(to) ? to : null; }
+  function savingLabel() { return 'Saving ' + (O.batchSize() - O.pending() + 1) + ' of ' + O.batchSize() + '…'; }
+
+  // ⭐ THE CHIP, 2026-09-16. Three states, and the ✓ one is lit so the Room says at a
+  // glance that the phone can go into airplane mode. It speaks for the language playing.
+  function paintSaveChip() {
+    if (!els.save || !P || !O) return;
+    els.save.hidden = !O.hasWorker();
+    if (els.save.hidden) return;
+    var total = P.ids.length, have = O.cachedCount();
+    var saving = O.pending() > 0, done = have === total;
+    // ⚠️ SHORT ON PURPOSE: 'Save offline' (117px) broke the chips 4 + 2 + 1 at 402px, the
+    // lone chip the row's max-width was set to prevent. These keep it 4 + 3; the full
+    // sentence is on aria-label and in the sheet the chip opens.
+    // The count lives in the sheet ("Saving 3 of 10…"); here it would widen the chip mid-run.
+    els.save.textContent = saving ? 'Saving…' : done ? 'Saved ✓' : 'Download';
+    els.save.classList.toggle('is-saved', done && !saving);
+    els.save.setAttribute('aria-label', done
+      ? 'The ' + LANG_NAME[P.state.lang] + ' audio is saved for offline'
+      : 'Save the ' + LANG_NAME[P.state.lang] + ' audio for offline, ' + O.pendingMB() + ' megabytes');
+  }
+
   function paintSaveAll() {
+    paintSaveChip();
+    paintSaveOther();
     var b = document.getElementById('save-all-audio');
     if (!b || !P || !O) return;
-    var total = P.ids.length, have = O.cachedCount(), pending = O.pending();
-    if (pending) {
+    var total = P.ids.length, have = O.cachedCount();
+    if (O.isSaving(P.state.lang)) {
       b.disabled = true;
-      b.textContent = 'Saving ' + (O.batchSize() - pending + 1) + ' of ' + O.batchSize() + '…';
+      b.textContent = savingLabel();
     } else if (have === total) {
       b.disabled = true;
       b.textContent = 'All ' + total + ' chapters are saved';
@@ -312,6 +338,31 @@
       n.textContent = O.isOnline()
         ? 'The text of the book is already saved. This adds the voice, so the whole thing works with no signal.'
         : 'You are offline. The text is already saved; the voice can be added when you are back on a connection.';
+    }
+  }
+
+  // The other language, one line under this one. The author: "will it just dowload the
+  // spanish or the english etc??? or an option for both???" — the language you are in
+  // is the first decision; this is the second, with its own size.
+  function paintSaveOther() {
+    var b = document.getElementById('save-other-audio');
+    if (!b || !P || !O) return;
+    var to = otherLang();
+    b.hidden = !to;
+    if (!to) return;
+    var name = LANG_NAME[to], total = P.ids.length, have = O.cachedCount(to);
+    if (O.isSaving(to)) {
+      b.disabled = true;
+      b.textContent = O.isSaving(P.state.lang) ? 'The ' + name + ' is next' : savingLabel();
+    } else if (have === total) {
+      b.disabled = true;
+      b.textContent = 'The ' + name + ' is saved too';
+    } else if (!O.isOnline()) {
+      b.disabled = true;
+      b.textContent = 'Saving the ' + name + ' needs a connection';
+    } else {
+      b.disabled = false;
+      b.textContent = 'Also save the ' + name + ' (' + O.pendingMB(to) + ' MB)';
     }
   }
 
@@ -336,6 +387,7 @@
     if (host) {
       host.innerHTML = worker
         ? '<button class="btn" id="save-all-audio" type="button"></button>' +
+          '<button class="btn" id="save-other-audio" type="button" hidden></button>' +
           '<p class="sheet-note" id="save-all-note"></p>'
         : '<p class="sheet-note">Offline saving needs a reload before it is available.</p>';
     }
@@ -343,20 +395,25 @@
     paintSaveAll();
   }
 
-  function openChapters() {
+  function openChapters(atSave) {
     buildChaptersSheet();
     if (window.PanimUI) window.PanimUI.openSheet('chapters-sheet');
+    // The save line sits under ten rows; on a phone that is below the fold.
+    var row = atSave === true && document.getElementById('save-all-row');
+    if (row) requestAnimationFrame(function () { row.scrollIntoView({ block: 'end', behavior: 'instant' }); });
   }
 
   // The ✓ column and the Save-all line are two views of one fact, and js/offline.js
   // is where the fact lives — including the case where the worker only became
   // available after this sheet was first built, which is a first visit.
   document.addEventListener('panim:audio-cache', function () {
+    paintSaveChip();
     if (!P || !O || !els.sheetList.children.length) return;
     if (O.hasWorker() && !els.sheetList.querySelector('[data-dl-chapter]')) buildChaptersSheet();
     else { paintRows(); paintSaveAll(); }
   });
   document.addEventListener('panim:connection', function () { paintRows(); paintSaveAll(); });
+  document.addEventListener('panim:lang-change', function () { paintSaveAll(); });
 
   // ---------- wiring ----------
   function wire() {
@@ -367,6 +424,7 @@
     els.speed.addEventListener('click', function () { P.cycleSpeed(); });
     els.sleep.addEventListener('click', function () { if (window.PanimUI) window.PanimUI.openSheet('sleep-sheet'); });
     els.chapters.addEventListener('click', openChapters);
+    if (els.save) els.save.addEventListener('click', function () { openChapters(true); });
     // ⭐ CONTINUOUS PLAY, 2026-09-05. The author: "Should i have an option that
     // doesnt stop at every chapter or just keep stopping at chapter breaks?"
     // The default is on (js/player.js) and this is the only place it can be turned
@@ -403,6 +461,7 @@
       // O is absent only if js/offline.js did not run at all, in which case the
       // sheet has no ↓ column to click — but this listener is on the document.
       if (e.target.id === 'save-all-audio' && O) { O.downloadAll(); return; }
+      if (e.target.id === 'save-other-audio' && O && otherLang()) { O.downloadAll(otherLang()); return; }
       var dl = e.target.closest && e.target.closest('[data-dl-chapter]');
       if (dl && O) { O.download(dl.getAttribute('data-dl-chapter')); return; }
       var row = e.target.closest && e.target.closest('[data-room-chapter]');
@@ -466,6 +525,7 @@
     var other = document.getElementById('begin-lang');
     if (other) other.addEventListener('click', function () { setTimeout(openRoom, 50); });
     reflectLang();
+    paintSaveChip();
   });
 
   // js/offline.js opens this after starting a Save-all from its notice: the sheet is

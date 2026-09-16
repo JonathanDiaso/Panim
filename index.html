@@ -164,12 +164,12 @@
       href="art/d/hero-940.avif"
       imagesrcset="art/d/hero-640.avif 640w, art/d/hero-940.avif 940w, art/d/hero-1408.avif 1408w"
       imagesizes="(min-width: 1440px) 1440px, 100vw">
-<link rel="stylesheet" href="fonts/fonts.css?v=77">
-<link rel="stylesheet" href="css/site.css?v=77">
-<link rel="stylesheet" href="css/components.css?v=77">
-<link rel="stylesheet" href="css/player.css?v=77">
-<link rel="stylesheet" href="css/room.css?v=77">
-<link rel="stylesheet" href="css/polish.css?v=77">
+<link rel="stylesheet" href="fonts/fonts.css?v=78">
+<link rel="stylesheet" href="css/site.css?v=78">
+<link rel="stylesheet" href="css/components.css?v=78">
+<link rel="stylesheet" href="css/player.css?v=78">
+<link rel="stylesheet" href="css/room.css?v=78">
+<link rel="stylesheet" href="css/polish.css?v=78">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -198,10 +198,15 @@
       <!-- 🌐 THE LANGUAGE, 2026-09-16. The author: "a small button like the light one that
            doesnt look like a normal button that allows you to click on spanish from the
            main page". Chrome like the moon, always in the bar, names the OTHER language
-           (ES in English, EN in Spanish). Switches words and narration; starts nothing.
-           js/ui.js paints and wires it. -->
+           Switches words and narration; starts nothing. js/ui.js paints and wires it.
+           ⭐ A GLOBE, NOT "ES", 2026-09-16 — the author: "maybe we can use a symbol instead
+           of saying es.... mak eit look nicer". Drawn at the moon's stroke and size. The
+           words it lost are on its label: it names the OTHER language to a screen reader
+           and in the tooltip. -->
       <button class="btn btn-icon nav-lang" id="nav-lang" type="button" lang="es"
-              title="Leer y escuchar en español" aria-label="Español: leer y escuchar el libro en español">ES</button>
+              title="Leer y escuchar en español" aria-label="Español: leer y escuchar el libro en español">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="7.9"/><ellipse cx="12" cy="12" rx="3.4" ry="7.9"/><path d="M4.1 12h15.8" stroke-linecap="round"/></svg>
+      </button>
       <button class="btn btn-icon" id="theme-btn" type="button" aria-pressed="false"
               title="Night mode" aria-label="Turn on night mode">
         <svg class="theme-moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.2 15.1A8.4 8.4 0 0 1 9 3.9a8.4 8.4 0 1 0 11.2 11.2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
@@ -721,6 +726,12 @@
            paragraph being read. js/room.js writes the words. -->
       <button class="btn room-chip" id="room-lang" type="button" lang="es"
               title="Escuchar en español">Español</button>
+      <!-- ⭐ SAVE FOR OFFLINE, 2026-09-16 — the author: "i dont know where to dowload the
+           ofline audio where is that button?" It was Chapters → the bottom of a sheet.
+           This chip opens that sheet AT the save line, where the size is said before
+           anything starts, and it wears the progress and the ✓ itself. js/room.js. -->
+      <button class="btn room-chip" id="room-save" type="button" hidden
+              title="Download the audio to play with no signal" aria-haspopup="dialog" aria-controls="chapters-sheet">Download</button>
     </div>
   </div>
   <div class="seekbar seekbar-edge" id="room-seek" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
@@ -813,32 +824,32 @@
 
 <audio id="narration-audio" preload="none" crossorigin="anonymous"></audio>
 
-<script src="content/chapters.js?v=77"></script>
-<script src="content/images.js?v=77"></script>
-<script src="content/audio-host.js?v=77"></script>
-<script src="content/audio-manifest.js?v=77"></script>
-<script src="content/audio-manifest-es.js?v=77"></script>
-<script src="content/marks.js?v=77"></script>
-<script src="content/thread.js?v=77"></script>
-<script src="content/lexicon.js?v=77"></script>
-<script src="content/names.js?v=77"></script>
-<script src="content/sources.js?v=77"></script>
-<script src="content/verse-notes.js?v=77"></script>
-<script src="content/derivatives.js?v=77"></script>
-<script src="js/render.js?v=77"></script>
-<script src="js/ui.js?v=77"></script>
-<script src="js/motion.js?v=77"></script>
-<script src="js/sync.js?v=77"></script>
-<script src="js/search.js?v=77"></script>
-<script src="js/player.js?v=77"></script>
+<script src="content/chapters.js?v=78"></script>
+<script src="content/images.js?v=78"></script>
+<script src="content/audio-host.js?v=78"></script>
+<script src="content/audio-manifest.js?v=78"></script>
+<script src="content/audio-manifest-es.js?v=78"></script>
+<script src="content/marks.js?v=78"></script>
+<script src="content/thread.js?v=78"></script>
+<script src="content/lexicon.js?v=78"></script>
+<script src="content/names.js?v=78"></script>
+<script src="content/sources.js?v=78"></script>
+<script src="content/verse-notes.js?v=78"></script>
+<script src="content/derivatives.js?v=78"></script>
+<script src="js/render.js?v=78"></script>
+<script src="js/ui.js?v=78"></script>
+<script src="js/motion.js?v=78"></script>
+<script src="js/sync.js?v=78"></script>
+<script src="js/search.js?v=78"></script>
+<script src="js/player.js?v=78"></script>
 <!-- before room.js: it owns window.PanimOffline, which room.js paints the ↓ column from -->
-<script src="js/offline.js?v=77"></script>
-<script src="js/room.js?v=77"></script>
+<script src="js/offline.js?v=78"></script>
+<script src="js/room.js?v=78"></script>
 <!-- the Spanish words, fetched only when Spanish is chosen. See js/spanish-text.js. -->
-<script src="js/spanish-text.js?v=77"></script>
+<script src="js/spanish-text.js?v=78"></script>
 <!-- select any passage in the book and it offers to send it, with a link that
      unfurls as the chapter and lands on the sentence. See js/quote.js. -->
-<script src="js/quote.js?v=77" defer></script>
+<script src="js/quote.js?v=78" defer></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

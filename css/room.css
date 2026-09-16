@@ -266,8 +266,11 @@ body.room-open .toast.is-shown { opacity: 0; pointer-events: none; }
      here the row breaks 3 + 2 and the block reads as a keypad.
      ⭐ SIX SINCE 2026-09-16 (the language chip). Measured at 402px the row breaks
      4 + 2 — the four short controls, then Continuous and the language, the two that
-     change what happens next. (It was measured 4 + 1 before the sixth arrived.) */
-  max-width: 20.5rem;
+     change what happens next. (It was measured 4 + 1 before the sixth arrived.)
+     ⭐ SEVEN SINCE 2026-09-16 (Download). At 20.5rem it broke 4 + 2 + 1, the lone chip
+     again; 21.5rem is the least that holds 4 + 3 at 402px with the widest label the
+     chip wears ("Download"), and the first row still cannot take a fifth. */
+  max-width: 21.5rem;
 }
 .room-chip {
   min-height: 48px; padding: .6em 1.05em;
@@ -278,7 +281,9 @@ body.room-open .toast.is-shown { opacity: 0; pointer-events: none; }
    toggles (Read, Continuous) and both already had to set aria-pressed for a screen
    reader; styling off the same attribute is what guarantees the two can never
    disagree — which is the classic failure of a parallel .is-on class. */
-.room-chip[aria-pressed="true"] {
+/* .is-saved: #room-save once the language playing is all on the phone — a fact, not
+   a toggle, so it borrows the lit look without claiming to be pressable-off. */
+.room-chip[aria-pressed="true"], .room-chip.is-saved {
   border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 20%, transparent);
   color: var(--ink);

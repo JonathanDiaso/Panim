@@ -917,6 +917,8 @@
     ids: CHAPTER_IDS,
     setLang: setLang,
     hasLang: hasLang,
+    // js/offline.js sizes the OTHER language's download before anyone switches to it.
+    manifestFor: function (lang) { return MANS[lang] || MANS.en; },
     src: src,
     play: play, pause: pause, toggle: togglePlay, skip: skip,
     load: function (id, opts) { loadChapter(id, opts); },
