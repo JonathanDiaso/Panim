@@ -37,7 +37,8 @@
   'use strict';
 
   var cfg = self.PANIM_STATS || {};
-  if (!cfg.key) return;
+  // 🛑 phc_ only: a secret key (phs_/phx_) in a public page can read the data back.
+  if (!/^phc_/.test(cfg.key || '')) return;
   if (location.protocol !== 'https:' && !cfg.allowHttp) return;
   if (navigator.globalPrivacyControl === true || navigator.doNotTrack === '1') return;
 

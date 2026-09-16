@@ -8,8 +8,11 @@
 // host is the PostHog region the project was made in: US https://us.i.posthog.com,
 // EU https://eu.i.posthog.com. The project's settings page shows which.
 //
+// 🛑 ONLY A phc_ KEY. phs_ (project secret) and phx_ (personal) can READ the data; js/stats.js
+// refuses anything else, and one was pasted by mistake on 2026-09-16.
+//
 // 🛑 Changing this file is a version bump: it is precached like every other content file.
 self.PANIM_STATS = {
-  key: '',
+  key: 'phc_CJX8SQkHfMDTmjJvJo9ngtP4wBedTYcGqNxuFLPDKzES',
   host: 'https://us.i.posthog.com'
 };
