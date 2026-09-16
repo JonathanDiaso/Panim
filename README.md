@@ -110,16 +110,24 @@ charged"*. So the twenty chapter files are served from an R2 bucket, and git hol
 | the files | `audio/music/`, `audio/es/` stay on the laptop, **ignored by git**, as the upload source. Copy on MAS: `Panim-archive/Panim-site-audio/` |
 | upload | `sh tools/upload-audio.sh` (all) or `sh tools/upload-audio.sh es/ch07` — uploads, then md5s the public copy against the local one. Needs `npx wrangler login` once |
 
-💵 **COST: nothing at this size, and no hard cap exists.** R2's free tier is 10 GB stored (the book
-is 0.5 GB), 10 million reads a month and free egress. Past 10 million reads it is $0.36 a million
-— roughly a few hundred thousand chapter plays in one month. Cloudflare has no spending limit for
-R2; the protection is a billing notification in the dashboard.
+💵 **COST: nothing at this size, and no hard cap exists.** R2's free tier, reset every month:
+10 GB stored (the book is 0.5 GB), 10 million reads, 1 million writes, and downloads (egress)
+free. Past 10 million reads it is $0.36 a million.
+**Reads per play, measured in Chrome (v77): 1 to start a chapter, +1 per seek.** A chapter saved
+for offline costs 0 (`sw.js` answers from the cache). Safari on iPhone asks in more pieces —
+budget ~20–50 per play to be safe. So 10 million reads is **~200,000 plays a month in the worst
+case, millions in the usual one**; 100,000 plays a month is free. Only uploads are writes.
+Cloudflare has no spending limit for R2; the protection is a billing notification
+(Dashboard → Notifications → Add → Usage Based Billing).
 ⚠️ **`r2.dev` is rate-limited** and Cloudflare calls it not-for-production. At this audience it is
 fine; if the book ever gets heavy traffic, attach a custom domain to the bucket (cached, no rate
 limit) and change the one line in `content/audio-host.js`.
 🛑 **A NEW HOST MUST DO WHAT THE TABLE SAYS.** GitHub Releases was measured and cannot: no
 `Access-Control-Allow-Origin`, typed `application/octet-stream`. Cloudflare Pages caps a file at
 25 MB and chapter X is 47 MB.
+🧹 **The history is clean too.** The old audio commits were stripped with `git filter-repo`
+and force-pushed on 2026-09-16 (527 MB → 46 MB, tree unchanged). The pre-strip history is on MAS,
+`Panim-archive/_git-backups/Panim-site-before-audio-strip-2026-09-16.{git,bundle}`.
 ✅ **Measured before the switch (v77):** English and Spanish play from R2; a chapter saved for
 offline plays with the audio host DOWN; an unsaved one does not; the Spanish live mark follows.
 
