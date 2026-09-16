@@ -1,275 +1,105 @@
-# ☑ THE SITE — WHAT IS STILL OPEN
+# Website — open decisions
 
-**This file is the website and nothing else.** Not the manuscript, not the tape, not the
-messages. **It is the only sheet with open work on it.** If a thing is not here, it is either
-shipped (`../archive/`) or parked (bottom of this file).
+**This is the only list of open website work.** Finished items are in `../archive/`.
+Every item says what it is, why it matters, your options, and what I suggest.
+If you don't answer, I build what I suggest (except #1, which only you can write).
 
----
-
-# 🚦 START HERE — EVERYTHING OPEN, ON ONE SCREEN
-
-**Five things. One needs a sentence from you; two need one word; one is a build; one is a sign-up.**
-**If you say nothing, I build the ⭐ option.**
-
-| # | the question | I suggest | why | who |
-|---|---|---|---|---|
-| **1** | 🔴 The eight-minute card describes five minutes. What is the missing sentence? | **only you** | It is your sister's death. I will not guess at it. | **you** |
-| **2** | 🟡 Keep the blue rule down the left of the card? | **Keep it** | It is the only thing marking the card as a card since the box came off. You asked when it was red; the red is gone. | one word |
-| **3** | 🔵 The gap under the ribbon. You asked: *"fill it? Like maybe have the chapter titles move too???"* | **Fill it with the position — and ⚠️ the titles already move** | The sway is on the whole plate, titles included, and has been since v55. What is dead in that band is that it is **empty**, not that it is still. | one word |
-| **4** | 🔵 The read-along mark. You asked for *"something super high tech 2027 awesome."* | **Two rounds: ship the margin rule now, and I go get real word timings** | 🔴 **I was wrong last round.** I said honest word-level timing was impossible here. It is not — it just needs a tool the project does not have yet. | one word |
-| **5** | 🆕 🟢 Visitor and listening stats. You asked: *"how many people access the website and how much they listen… full listens, partials, where peoples favorite spots are."* | **PostHog, free, no cookies, and I wire the listening events** | The only free option that can answer *favorite spots* and *full vs partial* without a paid plan. | **you sign up (5 min), I build** |
-
-🛑 **THREE THINGS ARE NOT UP FOR DISCUSSION** — the second door's `href` stays on David
-(`?t=ch07:17m55s`), no commit ever carries a co-author trailer, and `content/chapters.js` is
-generated and is never hand-edited.
-
-🗄 **Everything already answered is [`../archive/decisions-answered-through-v73.md`](../archive/decisions-answered-through-v73.md)** —
-v55 through v78, with your words on each (v74–v78 is its last section). **Do not re-ask anything in there.**
+The full reasoning and measurements behind each one are in
+`../archive/decisions-long-form-2026-09-16.md`.
 
 ---
 
-# 1 · 🔴 THE CARD SAYS EIGHT MINUTES AND DESCRIBES FIVE OF THEM
+## Needs you
 
-✅ **The number is fixed and it is now true.** The eyebrow and the screen-reader label say
-**eight minutes**, and the door reaches *"He answered it wet"* at **+8m19**.
+### 1. Write one sentence for the 8-minute sample on the front page
+**What:** The front page has a card that plays 8 minutes of chapter 7. Its description only
+covers the first 5 minutes.
+**Why:** The last 3 minutes (your sister, *"Jesus, do You love me?"*) have no description, and
+that part is the hook that makes people press play.
+**What to do:** Send me one sentence, 10 to 20 words. It goes after *"…the wrong answer."*
+**My advice:** Don't say outright that she died; let the listener hear it.
 
-⬜ **What is open is the third line.** It reads:
+### 2. The thin blue line down the left edge of that card: keep or remove?
+**Why it's there:** Since the box around the card was removed, the line is the only thing
+showing it's something you can tap, and it helps people with poor eyesight see the card's edge.
+- **Keep it** ⭐ (suggested)
+- **Remove it** (then the card has no visible edge)
 
-> *Two years of a father's hidden face, and a mountain where the fire turns out to be the
-> wrong answer.*
+### 3. The empty space under the row of chapter pictures
+**What:** There's about 115px of blank space between the pictures and the text under them.
+It can't just be cut, because the pictures need that room to sway.
+- **A. Put a small "3 / 10" counter there**, showing which chapter you're on ⭐ (suggested, ~1 round)
+- **B. Make the text under the pictures wider** so it fills more of the space (~½ round)
+- **C. Both A and B** (~1½ rounds)
+- **D. Make the pictures sway less** (this undoes your earlier choice of more motion)
 
-**Both of those close at +4m51.** Everything from **+4m54** on — your sister, *"Jesus, do You
-love me?"*, the tears on the page — **is undescribed.**
+(The chapter titles already sway along with the pictures.)
 
-🛑 **I did not write the missing half and I am not going to guess at it.** What happens in
-minutes five to eight is your sister's death, and the sentence that puts that on a stranger's
-phone is the one line on this site nobody else gets to write. Your words: *"if i want them to
-click it needs to be good though this should be a true hook."*
+### 4. Highlighting the words while the book reads aloud
+**What it does now:** The paragraph being read stays dark and the others fade slightly.
+- **A. Add a thin line in the margin** beside the paragraph being read, which fills up as it's
+  read ⭐ (suggested first, ~1 round)
+- **B. Light up each word the moment it's spoken.** Needs a tool that times every word in the
+  audio; ~2–3 rounds. ⭐ (suggested after A)
+- **C. Leave it as it is.**
 
-**One sentence. Ten to twenty words. It goes after "wrong answer."** My only counsel: **it
-should not name the death.** The passage's power is that the answer arrives *wet*; a line that
-says "and then his sister died" spends that before the reader presses anything.
+(Making words bold or bigger as they're read won't work: it makes the lines jump around.)
 
-⭐ **AND IT IS NO LONGER BLOCKING ANYTHING.** It was holding up #6 last round; #6 shipped
-without it. **This is now the only thing on the site waiting on you alone.**
-
----
-
-# 2 · 🟡 THE RULE DOWN THE LEFT OF THE CARD — ⭐ I SUGGEST: KEEP IT
-
-**You asked:** *"some you maybe dont even need like left of the text when its red is that
-necessary"*
-
-✅ **Half of this is already answered — it is not red any more.**
-
-⬜ **I did not delete it on your behalf, because you approved it last round.** When the box came
-off, what replaced it was *"one accent rule down the left and nothing else"* — and you called
-that a fix. **A question is not a verdict**, and this is the object you have had rebuilt four
-times in three days.
-
-| | what | cost | the blocker |
-|---|---|---|---|
-| **A** ⭐ | **Keep it, now that it is blue.** The only thing still marking the card as a card. | none | If the rule itself is what looks tacky to you, say so and it goes. |
-| **B** | **Take it off.** Four lines and a play mark on bare paper. | trivial | 🛑 **It is the card's only edge**, so it is also the whole of WCAG SC 1.4.11's boundary. Taking it off is an accessibility change, not only a visual one. |
-
----
-
-# 3 · 🔵 THE GAP UNDER THE RIBBON — ⭐ FILL IT, AND YOUR SECOND IDEA IS ALREADY TRUE
-
-You have raised this **three times**, most recently *"theres more seperation from the chapter
-description text and the pictures than i would probably want"*, and this round you asked:
-*"fill it? Like maybe have the chapter titles move too??? on the sections that have space in
-no tabs or boxes???"*
-
-## ⚠️ Taking the second half first: the titles already move
-
-**The sway is on `.pl-plate`, and `.pl-plate` contains the numeral and the title** — checked
-in `js/render.js`, not assumed. It has been that way since v55: the whole plate breathes,
-caption row included, on one cosine across the ten so it reads as a field of plates rather
-than as the strip sliding. **You are already getting what you just asked for.**
-
-⚠️ **One caveat and it is the only one:** the sway runs off a scroll-driven animation
-(`animation-timeline: view()`), so a browser without that support gets a still ribbon — not a
-ribbon whose pictures move and whose titles do not. **There is no half state to fix.**
-
-🛑 **WHICH MEANS THE BAND IS NOT DEAD BECAUSE IT IS STILL. IT IS DEAD BECAUSE IT IS EMPTY.**
-
-## And why every round "fixed" it and you raised it again
-
-🛑 **BECAUSE EVERY ROUND MEASURED THE WRONG EDGE.** Measured 2026-09-09:
-
-| what was measured | reads |
-|---|---|
-| rail's **box** bottom → caption top | **0px** ← what the rounds reported, and it is true |
-| **last plate title** bottom → caption top | **114px at 402, 118px at 1440** ← what your eye sees |
-
-**The 88px of clearance is *inside* the rail's box.** So the number was driven to zero on paper
-while the visible gap never moved. That padding is real sway clearance and **cannot simply be
-cut** — two attempts were measured and reversed, and you already chose motion over room
-(*"more motion some room is fine"*).
-
-| | what | cost | the blocker |
-|---|---|---|---|
-| **A** ⭐ | **Put the position in it — `III / X`, small, centred, in the held chapter's accent.** A horizontally-scrolling strip of ten is the one place a position marker is information rather than decoration, and it is **no tab and no box**: it is type on paper, like everything else that survived v54. **Costs no clearance and no motion.** | ~1 round | You may not want anything else on the strip at all. |
-| **B** | **Widen the caption.** It is 763px of 1440 — **53% of the viewport, under a strip that bleeds the full width.** The right 47% is bare paper. *"Its seperated from the very ribbon itself"* may have been about this horizontal gap all along. | ~½ round | It was set to a reading measure deliberately; **the ladder re-sweeps again**, and that is now a 1px sweep at 17 verification widths. |
-| **C** | **A + B.** | ~1½ rounds | Two changes to the same object in one round is how the caption ended up italic for two days. |
-| **D** | **Cut the sway amplitude.** Every 10px off is 10px off the gap. | ~½ round | 🛑 **Re-opens a call you already made.** I will not do this unless you say so. |
+### 5. Visitor and listening stats — ✅ built, waiting on your key
+**What:** Anonymous counts: visitors, time on the site, country, phone or computer, chapter
+starts, partial listens (25/50/75%), full listens, whole-book listens, the most-heard minutes,
+where people rewind, downloads, shares, language switches.
+**Why it's off:** It needs your PostHog project key to know where to send the numbers.
+**What to do:** In PostHog, open **Settings → Project**, copy the **Project API key** (starts
+with `phc_`), and tell me whether your PostHog web address starts with **us.** or **eu.**
+I paste it in, add a short privacy note to the site, and publish.
+**Free?** Yes. The free plan is 1 million events a month with no credit card, so it can't
+charge you. That's roughly 2,500 whole-book listens a month; past that it stops counting
+until the next month.
+**No names:** Nobody's name is ever collected. To know who a visit came from, send tagged links:
+`https://jonathandiaso.github.io/Panim/?from=church`.
 
 ---
 
-# 4 · 🔵 THE READ-ALONG MARK — 🔴 I WAS WRONG, AND HERE IS THE 2027 ANSWER
+## Only you can check these (on a real phone)
 
-**You asked:** *"is there anything better to highlight text thats being read than what we have,
-something super high tech 2027 awesome — can you research that and find out."*
-
-✅ **WHAT SHIPPED IN v71 IS WORKING AND IS NOT THE PROBLEM.** All 118 cues in chapter I resolve
-to a real element, Follow is on by default, it suspends when you scroll away and resumes on its
-own. The paragraph being read stays the colour it always was; **its neighbours step back half a
-tone.** Contrast measured before shipping: 6.01:1 worst case day, 8.34:1 night. AA needs 4.5.
-
-## 🛑 THE CORRECTION: I told you word-by-word was impossible here. It is not.
-
-Last round I ruled out the Spotify-lyrics effect because **the cues are paragraph-level** — 118
-for a whole chapter — so word timing "does not exist and would have to be faked by
-interpolation, which drifts audibly within two sentences." **The second half of that is still
-true. The first half was wrong.**
-
-⭐ **THE THING I DID NOT KNOW ABOUT IS CALLED FORCED ALIGNMENT.** It is not transcription and it
-does not guess. You give it the audio **and the exact words that were spoken**, and it returns
-the start and end time of **every single word**. It is the standard tool for exactly this job,
-and **this project already has both inputs**: `panim-book/chapters/*.md` is the script the
-narrator actually read, and `audio/music/*.m4a` is the reading.
-
-| | |
-| --- | --- |
-| **the tool** | **Montreal Forced Aligner.** WhisperX is the better-known one and it is easier to run, but a 2024 comparison against a Kaldi acoustic model found **MFA beat both WhisperX and Meta's MMS on alignment accuracy** — and alignment accuracy is the entire product here. |
-| **what it produces** | one JSON per chapter, same shape as `cues/`, one row per word instead of one per block |
-| **where it runs** | offline, once, as a build step beside `gen-cues.py`. **Nothing ships to the browser but the numbers.** |
-| **what it is not** | it is not AI narration, not a re-cut, and it does not touch the tape. The audio file is read, never written. |
-
-⚠️ **AND IT IS ALSO THE PUBLISHING INDUSTRY'S OWN ANSWER.** EPUB Media Overlays — the spec
-Apple Books and every read-along ebook uses — synchronises audio to text **at the word level**,
-by exactly this method. Word-level is the mature form of this feature, not a gimmick.
-
-## What you could then draw, and what you still could not
-
-🛑 **ONE CONSTRAINT SURVIVES INTACT AND IT RULES OUT MOST OF THE OBVIOUS IDEAS.** Literata's
-weight axis **changes glyph widths**, so bolding the live word re-wraps the paragraph and the
-page jumps under your thumb. **Same for size, and same for letter-spacing.** Anything that
-moves with the voice must not change the text's metrics. That leaves colour, opacity and a
-drawn mark — and it is why a highlighter keeps being the thing everyone reaches for.
-
-| | what | cost | the blocker |
-|---|---|---|---|
-| **A** ⭐ | **Ship the margin rule now.** A hairline in the empty margin column beside the live paragraph, filling as the paragraph is read — marker and progress in one, and it needs **no** word timings: the cues already give a paragraph's duration (next cue − this cue). **Nothing touches the type at all.** | ~1 round | It is per-paragraph, so it is smooth but not precise. |
-| **B** ⭐⭐ | **Then the reading edge.** With real word timings, ink saturation wipes along the line at the voice's exact position — read text at full `--ink`, unread at the receded tone, and a soft boundary travelling between them. **It is the opposite of a highlighter: nothing is added on top of the type, the type itself is being lit.** This is the thing that reads as 2027. | ~2–3 rounds, and **one of them is the aligner, not the site** | 🛑 **The page↔tape coverage is 98.8%, not 100%.** About 1% of words will not align, and those paragraphs must fall back to A cleanly rather than stall. That fallback is most of the work. |
-| **C** | **Keep v71 exactly as it is.** | done | It may be too quiet for you on a phone in daylight. **Look at it before ruling.** |
-
-⚠️ **ONE MEASURED WARNING ABOUT B, BECAUSE THIS SITE HAS ALREADY REJECTED THE TECHNIQUE ONCE.**
-A gradient wipe over `background-clip: text` was rejected for the ribbon caption, and correctly:
-it repaints a background-position on **twenty** spans **every frame**. The read-along case is
-not that — **one** paragraph is live at a time, and its wipe is a single CSS transition between
-two known cue times. It is one element, not twenty, and the browser drives it, not JavaScript.
-**Different cost, same technique, and the difference is worth stating so the old note does not
-get read as a ban.**
-
-🛑 **AND ONE I STILL RULE OUT: word-by-word "pop", the karaoke bounce.** Every implementation
-of it scales or weights the live word, which is the one thing that re-wraps the line. **It is
-what most people mean by "high tech" here, and it is the one shape this book cannot have.**
+- [ ] **Download on iPhone:** Listen → Download → wait for *Saved ✓* → airplane mode → play a
+  chapter. *Why:* It was only tested on a computer.
+- [ ] **Spanish on iPhone:** tap the globe → Spanish → listen to a chapter.
+- [ ] **Screen reader:** use the player with VoiceOver for an hour. *Why:* the accessibility page
+  says this has never been done.
+- [ ] **Ribbon and sharing:** scroll the picture row with your thumb and a mouse, then share a
+  passage to yourself in iMessage and check the preview.
+- [ ] **Chapter links:** open `…/Panim/#ch07` and `…/Panim/#ch10` fresh. Does the page land on
+  the chapter title, or a little off?
+- [ ] *Optional:* **audio cost per iPhone play:** Cloudflare → R2 → `panim-audio` → Metrics →
+  note *Class B operations*, play one chapter on the iPhone, check again.
 
 ---
 
-# 5 · 🟢 VISITOR AND LISTENING STATS — ⭐ I SUGGEST: POSTHOG
+## Parked (not decisions, just known)
 
-**You asked:** *"i want to view statistics for how many people access the website and how much
-they listen to etc… who goes into the site for how long etc how many full listens how many
-partials where peoples favorite spots are."*
+- **The 8-minute card copies two lines from chapter 7.** If chapter 7's text changes, those lines
+  won't update. Worth fixing only after #1.
+- **The chapter pictures aren't sharp on big screens.** The originals are 1408px wide; they
+  need 2400px+. Blocked until there are bigger originals.
+- **Index notes:** 35 rewritten notes are drafted but not applied, and 59 were never checked
+  against the book.
+- **Two inline pictures** for chapters III and IV are waiting on where you want them.
+- **Chapter titles differ** slightly between the site, manuscript and audio file names. Cosmetic.
+- **The globe icon looks the same in English and Spanish.** Only its label changes.
 
-✅ **Today the site counts nothing.** No analytics script of any kind. The only number that
-exists is Cloudflare R2's *Class B operations*, which counts audio fetches, not people.
+## Ideas I don't recommend (listed so they stop coming back)
 
-🛑 **ONE THING NO TOOL WILL GIVE YOU: names.** Every option below is anonymous: a country, a
-city, a phone or a computer, which link they came in by. ⭐ **The way round it that is honest:**
-tag the links you send — `…/Panim/?from=mom`, `?from=church` — and the dashboard shows which
-message brought whom. `panim-book/handoffs/link-messages.md` is the menu those links go in.
+- A 3D shadow on the chapter caption: looks cheap and fights night mode.
+- A note at John 11:35 (*"Jesus wept"*): it would be the only note about you rather than the text.
+- Notes attached to paragraphs: they break every time a paragraph is added or removed.
+- A play symbol on each chapter picture: you already said no.
+- Word-by-word highlighting with guessed timings: goes out of sync within two sentences.
+- Splitting the book text into one file per chapter: the site is already fast.
 
-## What each option can answer
+## Never changing
 
-| | visits, time on site, country, phone vs computer | full listens vs partials, per chapter | favorite spots | whole book finished | cost | the blocker |
-|---|---|---|---|---|---|---|
-| **A** ⭐ **PostHog** (cloud, free tier) | ✅ | ✅ | ✅ **a chart of the most-heard and most-replayed minutes in each chapter** | ✅ | **$0**: 1M events a month, no credit card, so it cannot bill you | A bigger script than the site's own (~60 KB, loaded after the page). Its servers hold the data. |
-| **B** **Umami Cloud** (free Hobby) | ✅ | ✅ | ⚠️ only as a list, not a chart | ✅ | **$0**: 100K events a month, 6 months kept, no card | 100K is tight once minutes are counted: ~200 people listening an hour each. |
-| **C** **Cloudflare Web Analytics** | ✅ | ❌ | ❌ | ❌ | $0, same account as the audio | **Answers only your first question.** No custom events at all. |
-| **D** **Build our own** (Cloudflare Worker + database) | ✅ | ✅ | ✅ | ✅ | $0 on the free plan | ~3 rounds, and a dashboard to build and keep up. **Not worth it before A is outgrown.** |
-
-## What I would measure — the same list whichever you pick
-
-| event | when | answers |
-|---|---|---|
-| `visit` | page opens (automatic) | how many people, from where, which `?from=` link |
-| `read_depth` | furthest chapter scrolled | readers who never press play |
-| `listen_start` | play pressed: chapter, language, downloaded or streamed | who listens at all |
-| `listen_progress` | 25 / 50 / 75 % of a chapter | **partials** |
-| `listen_complete` | 95 % of a chapter | **full listens** |
-| `listen_minutes` | once when they stop: which minutes they actually heard | **favorite spots** — the most-heard minutes |
-| `replay` | a seek *backwards* inside a chapter | **favorite spots, the strong signal** — the lines people go back for |
-| `book_complete` | all ten chapters finished on one device | whole-book listens |
-| `share` / `download` / `language` | share a passage, Download, globe | which features are used |
-
-🛑 **Built so it stays cheap and quiet:** no cookies (so no consent banner), no session
-recordings, one event when a listener stops rather than one a second, and **nothing sent at all
-until the page is idle.** Listening with no signal is not counted — a downloaded chapter played
-in airplane mode is invisible.
-⚠️ **A privacy line goes on the site with it** — `accessibility.html` style: what is counted,
-that it is anonymous, and that nothing is sold. That is the honest price of the numbers.
-
-⬜ **What I need from you for A:** sign up at posthog.com (free, no card), create a project,
-paste me the **Project API key** (starts `phc_`; it is public by design). Then it is one round.
-
----
-
-# 🟠 MEDIOCRE IDEAS — real, buildable, and I am not recommending them
-
-**You asked for this bucket by name.** Nothing here is wrong; nothing here is worth a round
-yet. **It exists so these stop being re-proposed as if they were new.**
-
-| the idea | why it is only mediocre |
-|---|---|
-| **A letterpress shadow on the ribbon caption** — the literal "3D" you asked about | It is the one option that can read cheap, it fights night mode, and it puts a **drawn effect** on the one line whose whole argument is that it is *type*. The optical-size fix is the version of this that works. |
-| **A verse note at John 11:35** (*"Jesus wept"*), two blocks after *"He answered it wet"* | Now that chapter X carries the Hannah note, this would be the **only** verse note on the site about the author rather than about the text. One entry, no new system — but it changes what the apparatus is for. |
-| **A prose-paragraph note system**, keyed by block id | 🛑 **Block ids move** whenever a paragraph is added or cut. The site argues against this in two files and so do I. v73 found the honest way round it: a citation line, which does not move. |
-| **A play mark on each plate in the ribbon** | ⛔ **You already closed this** — *"i dont think we need a symbol."* Listed only so it stops coming back. |
-| **Word-by-word karaoke with interpolated timings** | Drifts audibly within two sentences. **Real timings make this good; faked ones make it worse than nothing.** See #4. |
-| **Splitting `content/chapters.js` per chapter** | 🛑 **Not a suggestion — a refusal.** The whole site is **218 KB gzipped** including the complete text of the book, first paint 76 ms. There is nothing to fix. |
-
----
-
-# 👀 THINGS ONLY YOUR EYES CAN CHECK
-
-| | what | why a script cannot |
-|---|---|---|
-| ☐ 🔴 | **The hour with the screen off.** A real screen reader through the player and the Listening Room. | `/accessibility.html` says in public that this has never been done. **It is the only claim on the site that is not yet true.** |
-| ☐ 🟠 | **One real thumb and one real mouse on the ribbon** — and **send yourself a passage from your phone.** | A synthetic cursor **teleports**, and a jump-move never fires `pointerenter`. The iMessage unfurl **is** the feature and only a real phone shows it. |
-| ☐ 🟠 🆕 | **Download on your iPhone.** Listen → Download → wait for *Saved ✓* → airplane mode → play a chapter. Then the globe → Spanish → listen to a chapter. | Headless Chrome is not iOS Safari; the save was measured in Chrome only (v78, archive §0.14). |
-| ☐ 🟡 🆕 | **How many audio reads an iPhone play costs.** Cloudflare → R2 → `panim-audio` → Metrics → note *Class B operations* → play one chapter on the iPhone → look again. | Budgeted at 50 a play (≈ 200,000 free plays a month); only a real iPhone gives the real number. |
-| ☐ 🟡 | **Three from the speed round, never checked on a real phone** (archive §1.5): open `#ch07` and `#ch10` cold — does the chapter land under the running head? · the feel of scrolling across a chapter boundary · the lexicon wall inking in on first arrival. | Headless Chrome will not paint a deep-scrolled page. |
-
----
-
-# 🗄 PARKED — not decisions, just things that are true
-
-- **`.hs-holds` on the card is a second copy of the manuscript.** Transcribed from
-  `ch07-p107`/`p108`; if the chapter text is re-edited they will not follow. **~1 round, no
-  blocker — but only worth doing once #1's sentence exists.**
-- **No LQIP and no genuine 2×.** Sources are 1408px; plates want 2400px+. **Blocked on sources.**
-- **The 35 rewritten index notes** are drafted and unapplied, and **59 of the index's notes have
-  never been audited against the prose at all.**
-- **The ninety-second door**, and **two inline pictures** for chapters III and IV. The prompt for
-  III is in `art/PROMPTS.md`; **placement is yours.**
-- 🆕 **The globe looks the same in either language.** Its label and tooltip change
-  (*Español* / *English*); the drawing does not. Fine unless it confuses someone.
-- **Chapter titles disagree** across site / manuscript / audio. Only the WAV filenames are still
-  out of step, and that is cosmetic.
-- 🆕 **Six chapters' `standfirst` field was missing from the generated `chapters.js`** until the
-  v73 rebuild wrote it. Nothing changed on the page — but it means the committed file had not
-  been regenerated in a while. **Re-run the three tools after any manuscript edit, in order.**
+- The 8-minute card always starts at David (chapter 7, 17:55).
+- No commit ever has a co-author line.
+- `content/chapters.js` is generated by a script and never edited by hand.

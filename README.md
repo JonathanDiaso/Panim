@@ -3,10 +3,12 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: `v78`** — `ASSET_V = '78'`, `panim-shell-v78`. **A globe instead of ES beside the
-moon, a Download chip in the Listening Room, and offline saving for either language or both**
-(`docs/FRONT-DOOR.md` §0.14).
-**Before that:** v77 the audio moved to Cloudflare R2 and out of git · v76 the language button
+**Current: `v79`** — `ASSET_V = '79'`, `panim-shell-v79`. **Anonymous visitor and listening
+stats, built and OFF** until `content/stats-key.js` carries the PostHog project key. What is sent
+and why: the header of `js/stats.js`. No PostHog library, no cookies, no names. Turning it on is
+one line plus a version bump, and a privacy note on the site goes with it.
+**Before that:** v78 a globe beside the moon and Download in the Listening Room
+(`archive/round-records-front-door-v55-v74-to-v78.md` §0.14) · v77 the audio moved to Cloudflare R2 and out of git · v76 the language button
 and `content/audio-host.js` · v75 the page reads in Spanish · v74 the whole book in Spanish ·
 v73 Hannah named at the tent. 🗄 **What each version changed: `archive/version-log-v73-to-v77.md`**
 and `archive/version-log-through-v46.md`; the round records are `archive/round-records-*`; what the

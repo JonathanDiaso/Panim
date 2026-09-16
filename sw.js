@@ -8,7 +8,7 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v78';
+var SHELL = 'panim-shell-v79';
 var AUDIO = 'panim-audio-v1';
 
 // index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
@@ -22,7 +22,7 @@ var AUDIO = 'panim-audio-v1';
 //      accessibility.html — both are standalone pages with their own copy, and
 //      neither is reached by the index.html sweep. 404.html was left on v24 for
 //      a whole release because of exactly this.
-var ASSET_V = '78';
+var ASSET_V = '79';
 var VERSIONED = /\.(css|js)$/;
 // Where the audio lives, from the same file the page reads. '' = this origin.
 importScripts('content/audio-host.js?v=' + ASSET_V);
@@ -63,9 +63,9 @@ var PRECACHE = [
   'fonts/g02.woff2', 'fonts/h00.woff2', 'fonts/h02.woff2',
   'css/site.css', 'css/components.css', 'css/player.css', 'css/room.css', 'css/polish.css',
   'js/render.js', 'js/ui.js', 'js/motion.js', 'js/sync.js', 'js/search.js',
-  'js/player.js', 'js/offline.js', 'js/room.js', 'js/quote.js', 'js/spanish-text.js',
+  'js/player.js', 'js/offline.js', 'js/room.js', 'js/quote.js', 'js/spanish-text.js', 'js/stats.js',
   'content/chapters.js', 'content/images.js', 'content/audio-host.js', 'content/audio-manifest.js', 'content/audio-manifest-es.js',
-  'content/marks.js',
+  'content/marks.js', 'content/stats-key.js',
   'content/thread.js', 'content/lexicon.js', 'content/names.js', 'content/sources.js', 'content/verse-notes.js',
   'content/derivatives.js',
   'cues/ch01.json', 'cues/ch02.json', 'cues/ch03.json', 'cues/ch04.json', 'cues/ch05.json',
