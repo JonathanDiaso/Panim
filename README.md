@@ -3,15 +3,19 @@
 Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
-**Current: `v80`** — `ASSET_V = '80'`, `panim-shell-v80`. The author's answers of 2026-09-16 evening
+**Current: `v81`** — `ASSET_V = '81'`, `panim-shell-v81`. **Stats are on**: the PostHog project token
+is in `content/stats-key.js`, and `js/stats.js` now refuses any key that is not `phc_` (a secret
+`phs_` key was pasted first). No privacy note, by the author's choice
+(`archive/decisions-answered-2026-09-16-night.md`).
+**Before that: `v80`**. The author's answers of 2026-09-16 evening
 (`archive/decisions-answered-2026-09-16-evening.md`): **a position counter with arrows under the
 plates** (`.pl-nav`), **the caption under them widened** to 10 of 12 columns, **a reading line in
 the margin** beside the paragraph being read (`--read`, js/sync.js), and **the sample card's second
 sentence**. `docs/DECISIONS.md` is now every open decision in Panim, not only the site's.
 **Before that: `v79`** — **anonymous visitor and listening
-stats, built and OFF** until `content/stats-key.js` carries the PostHog project key. What is sent
+stats**, OFF until v81 put the PostHog project key in `content/stats-key.js`. What is sent
 and why: the header of `js/stats.js`. No PostHog library, no cookies, no names. Turning it on is
-one line plus a version bump, and a privacy note on the site goes with it.
+one line plus a version bump.
 **Before that:** v78 a globe beside the moon and Download in the Listening Room
 (`archive/round-records-front-door-v55-v74-to-v78.md` §0.14) · v77 the audio moved to Cloudflare R2 and out of git · v76 the language button
 and `content/audio-host.js` · v75 the page reads in Spanish · v74 the whole book in Spanish ·

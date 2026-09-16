@@ -1,182 +1,102 @@
 # Panim — every open decision
 
-**This is the one list of decisions for all of Panim**: the website, the book, the audio and
-the rest. Each item says what it is, why it matters, your options and what I suggest (⭐).
-**Answer by typing after "Your pick:"**, like last time. Skip one and nothing changes, except
-where it says otherwise.
-**13 left** (#2–#14). Answered items are archived in `../archive/` (the latest is
-`decisions-answered-2026-09-16-evening.md`).
+**One list for all of Panim.** Each item says what it is, why, your options and what I suggest (⭐).
+Type after **Your pick:**. Answered items are archived in `../archive/` (latest:
+`decisions-answered-2026-09-16-night.md`).
 
 ---
 
-## Website
+## Open now (2)
 
-#1 (the card sentence) is answered: kept, and the audio still starts where it does. Archived.
+### 1. Light up each word as it's spoken?
 
-### 2. Bigger chapter pictures?
+**Your question:** do I recommend it?
+**My honest answer: not yet.** The site took the highlighter off the reading line once already,
+because a moving highlight pulls your eyes off the words and away from the voice. Word lighting is
+that, twenty times a sentence. It *is* cool, but cool isn't the job here. The reading line you have
+now is the calm version.
 
-**What:** You asked whether the pictures in the row should be bigger.
-**Why I'd wait:** on a phone each picture is already about ¾ of the screen wide. Bigger means
-you stop seeing the edge of the next picture, and that edge is what tells people to swipe.
-
-- **A. Keep the size** ⭐ keep size
-- **B. Bigger on computers only** (about 15% bigger; phones stay the same)
-- **C. Bigger everywhere**
-
-**Your pick:**
-
-### 3. More sway on the pictures? hmm well maybe we can slightly slow the scroll down when we go through the images so it is enhanced the movement or som ething super clever cause it could be improved for sure. is that arrow design the c leanest possible?
-
-**What:** You said keep the sway, "maybe add more".
-**Why I'd wait:** more sway needs more empty space under the pictures, the space you wanted less of.
-The new counter and arrows now sit in that space.
-
-- **A. Keep it as it is** ⭐
-- **B. More sway** (the gap under the pictures grows by the same amount)
-
-**Your pick:**
-
-### 4. Light up each word as it's spoken? hmmmm di you recommend this??? It would be pretty cool for sure..... 
-
-**What:** The reading line in the margin is built. The next step is lighting each word exactly
-when it's spoken.
-**Why it's a bigger job:** it needs a free tool that times every word in the audio (about 2–3
-rounds). About 1 word in 100 won't time correctly, and those paragraphs fall back to the line.
-
-- **A. Look at the new reading line on your phone first, then decide** ⭐
-- **B. Build it now**
+- **A. Use the reading line on your phone for a week, then decide** ⭐
+- **B. Build it now** (2–3 rounds, free; about 1 word in 100 times wrong)
 - **C. Don't build it**
 
 **Your pick:**
 
-### 5. Privacy note for the stats i dont see why i ahve to tell them if its ananomous to be honest also the about section could look better and cleaner its just a bunch of text maybe an image or some charachter so its not so flat??? 
+### 2. The new backup drive
 
-**What:** When your PostHog key goes in, the site starts counting visits and listens anonymously.
-**Why:** it's honest (and expected) to tell visitors, in one sentence: *"This site counts visits
-and listening anonymously: no names, no cookies, nothing sold."*
+**What:** You said a new drive is connected, but the Mac doesn't see it. The only drives showing are
+MAS and Time Machine, and they are one physical disk.
+**Try:** plug it straight into the Mac (not a hub), and check it shows in Finder's sidebar. If it
+asks to be formatted, tell me first. Then I copy everything to it, the same way as MAS.
 
-- **A. Add it to the About section** ⭐
-- **B. Add it to the accessibility page**
-- **C. Don't add a note**
-
-**Your pick:**
-
-### 6. The 35 rewritten notes in the name index
-
-**What:** The index at the back of the site (people and places) has short notes. 35 were
-rewritten weeks ago but never put on the site, and 59 others were never checked against the book.
-**Why it matters:** a wrong note is a wrong fact in your book.
-
-- **A. I check all of them against the book, fix what's wrong and put them on the site** ⭐ (~1 round) make sre these are legit
-- **B. Show them to me first, a few at a time**
-- **C. Leave them**
-
-**Your pick:**
-
-### 7. Two extra pictures inside chapters III and IV
-
-**What:** Chapters III and IV each have a long stretch of text with no picture. A picture prompt
-exists for III; neither picture has been made.
-
-- **A. Leave them without** ⭐ (the site is complete as it is)
-- **B. Make both pictures** and I place them i might make more pictures but wont do this now put this at the bottom of decisons md with future decisions for tomorrow 
-
-**Your pick:**
-
-### 8. Sharper pictures on big computer screens can i jjust upscale my current image or image would need to be remade? if i jcan just increase image quality as is that would work but i dont watnt o remake images right now. 
-
-**What:** The chapter pictures are 1408px wide, so they look slightly soft on large screens.
-**Why:** fixing it needs bigger originals (2400px+).
-
-- **A. Leave them** ⭐ (phones, where most readers are, look sharp)
-- **B. Remake or upscale the ten pictures**
-
-**Your pick:**
+**Your pick:** tell me when it shows in Finder
 
 ---
 
-## Book and audio (paused, so only if you want to)
+## Tomorrow (in this order)
 
-### 9. A sentence that appears twice huh so we know for certain it shouldnt be there? Do we really need to go to eleven labs to do this cant you just delete the sentence eaily? lol it shouldnt be that hard but i do want it fixed. we should find a simple fix like just deleting it ourselves not going back to the audio on eleven labs or descript etc. I dont understand how i would ahve a random part of chapter 8 in chapter 10 youre saying it clearly doesnt belong??? How bad is it to leave it there its obvious that its not in the right place? 
+### T1. Delete the sentence that's in chapter 10 by mistake
 
-**What:** *"Of all the faces in the courtyard, it finds the one trying hardest not to be known."*
-is in chapter 8 (where it belongs, about Peter) and again in chapter 10 (after *"A table and a
-seat…"*), where it looks like a leftover paste. It's in the English and Spanish audio too.
-**Why it's not a quick fix:** removing it means editing the English recording and re-making one
-small piece of the Spanish audio (a few hundred voice credits).
+**Is it certain?** Yes. In chapter 8 the sentence is about Peter, and its "it" is Jesus' face turning to find him. In
+chapter 10 it follows *"He said it with the bread still in his hands"*, so its "it" points at
+nothing, and there's no courtyard in that scene. It's a stray paste.
+**How bad to leave it:** a careful listener hears a line that makes no sense.
+**The simple fix (no ElevenLabs, no Descript):** cut the sentence out of the chapter 10 text and
+out of both audio files (English and Spanish) directly, then fix the timings after it and
+re-upload. About 4 seconds of audio each; the originals stay backed up.
 
-- **A. Fix it next time the audio is open** ⭐
-- **B. Leave it**
+### T2. Check the name index notes (you picked A: "make sure these are legit")
 
-**Your pick:**
+Check all 94 notes (35 rewritten + 59 never checked) against the book, fix what's wrong, put them
+on the site, and list every change so you can see what moved.
 
-### 10. Three passages on the page that aren't in the audio we reallyu should fix this lets pencil this for a tomorrow change at bottom of this md do ypou think you can do without descript or we need to go back to descript and do all the sound editing afterwards???? this will be a lot of work i think lol
+### T3. The three passages missing from the audio
 
-**What:** These are in the book text but not in the recording:
+**Your question:** can it be done without Descript?
+**Probably.** The Studio Sound files on disk were made *before* the edit that lost the chapter 6
+and 10 passages, so they're likely still in there. I look first; if they're there, it's a splice,
+not a Descript session. Chapter 5's 8 words may never have been recorded.
+⚠️ The Spanish audio can't get these passages until you have ElevenLabs credits again.
 
-- ch 5: *"slow of speech, and the Hebrew is blunter"* (8 words)
-- ch 6: the *vichunecha / chen* (grace, a girl's name) passage (28 words)
-- ch 10: *"nobody ever told the woman at the tent either…"* (28 words)
+### T4. Small audio fixes
 
-You said the ch 6 and ch 10 ones were recorded and lost in editing.
+About 15 claps or mouth sounds, "on silver back home" said twice in ch 7, and 3 repeats to check
+by ear. Same kind of direct cut as T1.
 
-- **A. Look for them in the original Descript project next time the audio is open** ⭐
-- **B. Cut them from the page** so the text matches the audio
-- **C. Leave them**
+### T5. Picture row: movement and arrows (design, I bring options)
 
-**Your pick:**
+**Your notes:** slow the scroll so the sway shows more, or "something super clever"; and is the
+arrow design the cleanest possible?
+**Why not slow the scroll:** it fights your thumb, and the page feels broken.
+**The clever version I'd show you:** the pictures swing a little *from how fast you swipe*, like
+pictures hanging on a string, then settle. Plus 2–3 cleaner versions of the counter and arrows, side
+by side, for you to pick.
 
-### 11. Small audio fixes pencil at bottom of md for tomorrow changes i do want to fix all of these issues but later
+### T6. The About section looks flat (design, I bring options)
 
-**What:** About 15 claps or mouth sounds left (5 in ch 9), *"on silver back home"* said twice in
-ch 7, and 3 other repeated phrases to check by ear.
+**Your note:** it's a block of text; maybe an image or a character. I'd mock up 2–3 versions (for
+example: one of your chapter pictures beside it, a single drawn mark, or a short pulled quote set
+large) for you to pick from.
 
-- **A. Do them together in one audio sitting, whenever you want** ⭐
-- **B. Leave them**
+### T7. Sharper pictures on big screens
 
-**Your pick:**
-
-### 12. The Portuguese translation i might just stall this for now i lost all my eleven labs credits. 
-
-**What:** A Portuguese (Brazil) translation was started today: 6 of 10 chapters are drafted in
-`panim-book/pt/`.
-**Why ask:** finishing is free. Turning it into audio, like the Spanish, costs voice credits.
-
-- **A. Finish the text, then decide about audio** ⭐
-- **B. Pause it**
-- **C. Finish the text and make the audio**
-
-**Your pick:**
+**Your question:** can you just upscale the current images? **Yes.** No remake. An AI upscaler
+doubles them to 2816px wide. Phones keep the current files; only big screens get the sharp ones.
 
 ---
 
-## Everything else i have a new backup connected
+## Later
 
-### 13. A second backup
-
-**What:** Everything is backed up to the MAS drive, but MAS is the same physical disk as Time
-Machine. If that drive dies, both copies go.
-
-- **A. Buy a second external drive (~$70) and I'll copy everything to it too** ⭐
-- **B. Cloud backup** (about $10/month, e.g. Backblaze)
-- **C. Leave it**
-
-**Your pick:**
-
-### 14. Old audio still cached on GitHub
-
-**What:** The audio was removed from GitHub's history, but GitHub may keep hidden copies for a while.
-Nothing links to them.
-
-- **A. Leave it** ⭐ jsut leave it for now they should remove it soon??? 
-- **B. Ask GitHub Support to delete them** (you'd send the request)
-
-**Your pick:**
+- **More pictures inside chapters** (III and IV have none): you may make more pictures, not now.
+- **Portuguese translation:** paused, 6 of 10 chapters drafted, no ElevenLabs credits.
+- **Old audio cached on GitHub:** left alone. GitHub clears it on its own schedule.
 
 ---
 
 ## Checks only you can do (not decisions)
 
+- [ ] **Stats:** open PostHog → Activity. You should see visits coming in (the first is my test
+  from a Mac).
 - [ ] **Download on iPhone:** Listen → Download → wait for *Saved ✓* → airplane mode → play a chapter.
 - [ ] **Spanish:** tap the globe → Spanish → listen to a chapter.
 - [ ] **New on the site:** the reading line (play any chapter), the counter and arrows under the
@@ -188,11 +108,11 @@ Nothing links to them.
 
 ## Not doing (so they stop coming back)
 
-A 3D shadow on the caption (you said don't) · a note at John 11:35 · notes attached to
-paragraphs · a play symbol on each picture · word highlighting with guessed timings · splitting
-the book text into files.
+A 3D shadow on the caption · bigger chapter pictures · a privacy note for the stats · slowing the
+scroll · a note at John 11:35 · notes attached to paragraphs · a play symbol on each picture ·
+word highlighting with guessed timings · splitting the book text into files.
 
 ## Never changing
 
 The sample card starts at David (ch 7, 17:55) · no co-author line on any commit ·
-`content/chapters.js` is generated, never hand-edited.
+`content/chapters.js` is generated, never hand-edited · the stats key is `phc_` only.
