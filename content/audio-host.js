@@ -1,0 +1,14 @@
+// WHERE THE AUDIO LIVES — one line, read by the page (js/player.js) AND by the
+// service worker (sw.js importScripts), so the two can never disagree.
+//
+// '' means this site's own origin: audio/music/chNN.m4a and audio/es/chNN.m4a next to
+// index.html. A URL means a bucket whose paths mirror the site's, ending in the site's
+// own /Panim/ prefix — so a chapter's cache key (its pathname, sw.js) is the same
+// string wherever it is served from, and a chapter a reader saved for offline before
+// the move is still found after it.
+//
+// 🛑 A HOST MUST SEND CORS for https://jonathandiaso.github.io, allow the Range header
+// and expose Content-Range / Content-Length / Accept-Ranges, and type the files
+// audio/mp4 — the <audio> element is crossorigin="anonymous" and the offline save is a
+// fetch(). See README, "Where the audio lives".
+self.PANIM_AUDIO_BASE = '';

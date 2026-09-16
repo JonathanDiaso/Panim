@@ -113,7 +113,9 @@
   function voiceDur() { return (man()[state.chapterId] || {}).voiceDur || 0; }
   function fileDur() { return els.audio.duration || (man()[state.chapterId] || {}).musicDur || voiceDur() || 0; }
   function voiceTime() { return Math.max(0, (els.audio.currentTime || 0) - offset()); }
-  function src(id, lang) { return (DIRS[lang || state.lang] || DIRS.en) + id + '.m4a'; }
+  // content/audio-host.js: '' for this origin, or the bucket the files live in.
+  var BASE = window.PANIM_AUDIO_BASE || '';
+  function src(id, lang) { return BASE + (DIRS[lang || state.lang] || DIRS.en) + id + '.m4a'; }
   function hasLang(lang) { return !!(MANS[lang] && MANS[lang].ch01); }
 
   function chapterTitle(id) {
@@ -678,7 +680,9 @@
     var next = CHAPTER_IDS[CHAPTER_IDS.indexOf(state.chapterId) + 1];
     if (!next || preloaded[next]) return;
     preloaded[next] = true;
-    try { var a = new Audio(); a.preload = 'auto'; a.src = src(next); } catch (e) {}
+    // same CORS mode as #narration-audio, or the HTTP cache keeps two copies and the
+    // real element cannot use this one
+    try { var a = new Audio(); a.crossOrigin = 'anonymous'; a.preload = 'auto'; a.src = src(next); } catch (e) {}
   }
   function wireAudio() {
     // The only two places the transport UI is allowed to change. Everything else —

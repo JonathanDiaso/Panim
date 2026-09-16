@@ -8,7 +8,7 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v75';
+var SHELL = 'panim-shell-v76';
 var AUDIO = 'panim-audio-v1';
 
 // index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
@@ -22,8 +22,13 @@ var AUDIO = 'panim-audio-v1';
 //      accessibility.html — both are standalone pages with their own copy, and
 //      neither is reached by the index.html sweep. 404.html was left on v24 for
 //      a whole release because of exactly this.
-var ASSET_V = '75';
+var ASSET_V = '76';
 var VERSIONED = /\.(css|js)$/;
+// Where the audio lives, from the same file the page reads. '' = this origin.
+importScripts('content/audio-host.js?v=' + ASSET_V);
+var AUDIO_ORIGIN = self.PANIM_AUDIO_BASE ? new URL(self.PANIM_AUDIO_BASE).origin : location.origin;
+var AUDIO_PATH = /\/audio\/[a-z]+\/ch\d\d\.m4a$/;
+
 var PRECACHE = [
   './', 'index.html', 'accessibility.html', 'favicon.svg', 'manifest.webmanifest',
   'fonts/fonts.css',
@@ -59,7 +64,7 @@ var PRECACHE = [
   'css/site.css', 'css/components.css', 'css/player.css', 'css/room.css', 'css/polish.css',
   'js/render.js', 'js/ui.js', 'js/motion.js', 'js/sync.js', 'js/search.js',
   'js/player.js', 'js/offline.js', 'js/room.js', 'js/quote.js', 'js/spanish-text.js',
-  'content/chapters.js', 'content/images.js', 'content/audio-manifest.js', 'content/audio-manifest-es.js',
+  'content/chapters.js', 'content/images.js', 'content/audio-host.js', 'content/audio-manifest.js', 'content/audio-manifest-es.js',
   'content/marks.js',
   'content/thread.js', 'content/lexicon.js', 'content/names.js', 'content/sources.js', 'content/verse-notes.js',
   'content/derivatives.js',
@@ -126,9 +131,13 @@ function sliceRange(request, response) {
 
 self.addEventListener('fetch', function (e) {
   var url = new URL(e.request.url);
-  if (url.origin !== location.origin) return;
+  // A chapter file is answered from the offline cache whichever origin serves it
+  // (content/audio-host.js); every other foreign request goes straight to the network.
+  var audio = (url.origin === location.origin && url.pathname.indexOf('/audio/') !== -1) ||
+              (url.origin === AUDIO_ORIGIN && AUDIO_PATH.test(url.pathname));
+  if (!audio && url.origin !== location.origin) return;
 
-  if (url.pathname.indexOf('/audio/') !== -1) {
+  if (audio) {
     e.respondWith(
       caches.open(AUDIO).then(function (c) {
         return c.match(url.pathname).then(function (hit) {

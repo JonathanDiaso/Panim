@@ -454,6 +454,28 @@ and the two Spanish chapter buttons are 179×47 and 165×47.
 Rebuild: `python3 tools/build-spanish-text.py` — after any Spanish manuscript edit and after
 `tools/build-chapters.py`. It refuses to write if any English block has no Spanish.
 
+## 0.13 ⭐ ES BESIDE THE MOON — v76, 2026-09-16
+
+The author: *"make sure … spanish is introduced to the reader on the opening screen. wondering if
+we should have a small button like the light one that doesnt look like a normal button that
+allows you to click on spanish from the main page?"*
+
+🔴 **HE WAS RIGHT THAT IT WAS MISSING.** Measured: *Escuchar en español* on the jacket sits
+below the first screen at EVERY width (877–1186px down against an 800px screen). Only a
+first-time visitor, through the invitation, met Spanish before scrolling.
+
+**`#nav-lang`** — two tracked capitals, **ES**, between About and the moon; `.btn-icon`, so no
+box, no wash, `--ink-soft`, like its neighbours. It names the OTHER language (**EN** while in
+Spanish), its accessible name is a sentence in that language, and it **only switches** — words
+and narration — it does not start playback, because a reader who taps it at the top of the
+page may want to read. Playing audio carries across on the same line (§0.11).
+
+🛑 **A FIFTH ACTION DID NOT FIT.** With it the bar ran over by 21/28/16/4/24px at
+320/390/402/414/430 (0 without it). The space came out of the 1.5rem gaps between the bar's
+groups at ≤480px, and at ≤340px out of the contents toggle's padding and the actions' gap.
+✅ **Re-measured, scrollbar off: 0px overflow at 320, 325, 330, 335, 340, 341, 360, 375, 380, 390,
+393, 402, 414, 430, 480, 600, 900, 1280, and nothing in the bar under 44×44.**
+
 ---
 
 # 1 · ⚡ SPEED — what was actually wrong

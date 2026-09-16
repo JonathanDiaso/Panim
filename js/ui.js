@@ -577,8 +577,30 @@
         other.textContent = to === 'es' ? 'Escuchar en español' : 'Listen in English';
       }
     }
+    // The bar's quiet ES / EN, beside the moon: the same "other language" rule as
+    // #begin-lang, but it only switches — a reader who taps it may want to read.
+    var navLang = $('#nav-lang');
+    function paintNavLang(lang) {
+      if (!navLang) return;
+      var to = lang === 'es' ? 'en' : 'es';
+      var say = to === 'es' ? 'Español: leer y escuchar el libro en español'
+                            : 'English: read and listen to the book in English';
+      navLang.hidden = !(window.PanimPlayer && window.PanimPlayer.hasLang(to));
+      navLang.setAttribute('lang', to);
+      navLang.setAttribute('data-to-lang', to);
+      navLang.setAttribute('aria-label', say);
+      navLang.setAttribute('title', to === 'es' ? 'Leer y escuchar en español' : 'Read and listen in English');
+      navLang.textContent = to === 'es' ? 'ES' : 'EN';
+    }
+    if (navLang) navLang.addEventListener('click', function () {
+      if (window.PanimPlayer) window.PanimPlayer.setLang(navLang.getAttribute('data-to-lang') || 'es');
+    });
     paintBegin('en');
-    document.addEventListener('panim:lang-change', function (e) { paintBegin(e.detail.lang); });
+    paintNavLang('en');
+    document.addEventListener('panim:lang-change', function (e) {
+      paintBegin(e.detail.lang);
+      paintNavLang(e.detail.lang);
+    });
 
     function begin() {
       var p = savedPlace();
