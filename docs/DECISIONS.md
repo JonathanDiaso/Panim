@@ -1,92 +1,100 @@
 # Panim — every open decision
 
-**One list for all of Panim.** Each item says what it is, why, your options and what I suggest (⭐).
-Type after **Your pick:**. Answered items are archived in `../archive/` (latest:
-`decisions-answered-2026-09-16-night.md`).
+**One list for all of Panim.** Each item says what it is, why it matters, your options, and what I suggest (⭐).
+Type after **Your pick:**. Answered sheets are archived in `../archive/` (latest:
+`decisions-answered-2026-09-16-audio-night.md`, with your notes exactly as you left them).
 
 ---
 
-## Open now (2)
+## Open now (6)
 
-### 1. Light up each word as it's spoken?
+### 1. Listen through the tape check ⭐ start here
 
-**Your question:** do I recommend it?
-**My honest answer: not yet.** The site took the highlighter off the reading line once already,
-because a moving highlight pulls your eyes off the words and away from the voice. Word lighting is
-that, twenty times a sentence. It *is* cool, but cool isn't the job here. The reading line you have
-now is the calm version.
+**What:** one page with every spot worth hearing on the English tape: your list, repeats,
+missing words, claps and background sounds. 219 spots, each with a clip. Where a fix can be
+made from the tape, the clip also plays **after** the fix.
+**Link:** https://claude.ai/artifact/TisFha4vTgKgvLbkZU58Fi
+**How:** start with the **Your list** tab. Tap one answer per spot; it saves by itself.
+**Why it matters:** nothing gets cut until you've heard the fix. Your current audio is untouched.
+All work happens on copies (`Panim-audio/v2/`).
 
-- **A. Use the reading line on your phone for a week, then decide** ⭐
-- **B. Build it now** (2–3 rounds, free; about 1 word in 100 times wrong)
-- **C. Don't build it**
+**Your pick:** (just tell me when you've done a tab or all of it)
+
+### 2. Two lines that were never recorded
+
+**What:** the ch 6 *chen* line ("The word in the middle is *vichunecha*…") and the ch 10 closer
+("Nobody ever told the woman at the tent either…").
+**What I found:** they aren't lost audio. They were written into the book on **Aug 30**, four
+days after the tape was finished (Aug 26), and no Descript project changed after that. There's
+no take anywhere.
+
+- **A. Record them** (about 2 minutes at the mic), then Studio Sound in Descript, then I splice them in ⭐
+- **B. Take them out of the book** so the page matches the tape (no audio work)
+- **C. Leave both as they are** (the read-along shows two lines nobody says)
 
 **Your pick:**
 
-### 2. The new backup drive
+### 3. Five lines you recorded that were left out of the edit
 
-**What:** You said a new drive is connected, but the Mac doesn't see it. The only drives showing are
-MAS and Time Machine, and they are one physical disk.
-**Try:** plug it straight into the Mac (not a hub), and check it shows in Finder's sidebar. If it
-asks to be formatted, tell me first. Then I copy everything to it, the same way as MAS.
+**What:** takes exist in your pickup sessions for *"the Hebrew word for face"* (ch 7),
+*"written by this man"* (ch 7), *"sit at my right hand"* (ch 10), *"of everything God could
+require"* (ch 10), *"the word is ra'ah"* (ch 10). They're on the review page with timecodes.
+**The catch:** the takes are raw (before Studio Sound), so they won't match. You said not to use
+pre-Descript audio, so they need Studio Sound first.
 
-**Your pick:** tell me when it shows in Finder
+- **A. You run Studio Sound (65%) on those takes in Descript and export them**; I give you exact timecodes ⭐
+- **B. I ask Descript's built-in editor to make a new composition with just those takes and Studio Sound** (existing compositions untouched)
+- **C. Leave them out and change the book to match the tape**
+
+**Your pick:**
+
+### 4. When the tape and the book say it differently, which one wins?
+
+**What:** 57 places where you reworded a line at the mic (e.g. ch 5, the book says *"the
+Hebrew is blunter"*, you said *"He does not say slow. He says heavy."*). They're in the
+**Words** tab.
+**My suggestion:** the tape wins by default and the book follows. Changing the book is free;
+changing the tape means a new recording. Mark only the ones where the book should win.
+
+**Your pick:**
+
+### 5. The piano is 3 dB louder at the start and end of Spanish chapters
+
+**What:** found while proving the music rebuild. English plays the piano alone at the open
+and close 9 dB under your voice; Spanish plays it 6 dB under. Everywhere else they match.
+
+- **A. Leave it**; nobody hears both back to back ⭐
+- **B. Match Spanish to English** the next time Spanish is rebuilt
+
+**Your pick:**
+
+### 6. "Karmol" (ch 7, 20:06)
+
+**What:** *"Whatever fell on Karmol"*: the second Carmel is mispronounced. Only a new take fixes it.
+
+- **A. Leave it** ⭐ (you said it matters less)
+- **B. Record it with #2** (one sentence, same sitting)
+
+**Your pick:**
 
 ---
 
-## Tomorrow (in this order)
+## Claude's queue (in this order)
 
-### T1. Delete the sentence that's in chapter 10 by mistake
-
-**Is it certain?** Yes. In chapter 8 the sentence is about Peter, and its "it" is Jesus' face turning to find him. In
-chapter 10 it follows *"He said it with the bread still in his hands"*, so its "it" points at
-nothing, and there's no courtyard in that scene. It's a stray paste.
-**How bad to leave it:** a careful listener hears a line that makes no sense.
-**The simple fix (no ElevenLabs, no Descript):** cut the sentence out of the chapter 10 text and
-out of both audio files (English and Spanish) directly, then fix the timings after it and
-re-upload. About 4 seconds of audio each; the originals stay backed up.
-
-### T2. Check the name index notes (you picked A: "make sure these are legit")
-
-Check all 94 notes (35 rewritten + 59 never checked) against the book, fix what's wrong, put them
-on the site, and list every change so you can see what moved.
-
-### T3. The three passages missing from the audio
-
-**Your question:** can it be done without Descript?
-**Probably.** The Studio Sound files on disk were made *before* the edit that lost the chapter 6
-and 10 passages, so they're likely still in there. I look first; if they're there, it's a splice,
-not a Descript session. Chapter 5's 8 words may never have been recorded.
-⚠️ The Spanish audio can't get these passages until you have ElevenLabs credits again.
-
-### T4. Small audio fixes
-
-About 15 claps or mouth sounds, "on silver back home" said twice in ch 7, and 3 repeats to check
-by ear. Same kind of direct cut as T1.
-
-### T5. Picture row: movement and arrows (design, I bring options)
-
-**Your notes:** slow the scroll so the sway shows more, or "something super clever"; and is the
-arrow design the cleanest possible?
-**Why not slow the scroll:** it fights your thumb, and the page feels broken.
-**The clever version I'd show you:** the pictures swing a little *from how fast you swipe*, like
-pictures hanging on a string, then settle. Plus 2–3 cleaner versions of the counter and arrows, side
-by side, for you to pick.
-
-### T6. The About section looks flat (design, I bring options)
-
-**Your note:** it's a block of text; maybe an image or a character. I'd mock up 2–3 versions (for
-example: one of your chapter pictures beside it, a single drawn mark, or a short pulled quote set
-large) for you to pick from.
-
-### T7. Sharper pictures on big screens
-
-**Your question:** can you just upscale the current images? **Yes.** No remake. An AI upscaler
-doubles them to 2816px wide. Phones keep the current files; only big screens get the sharp ones.
+1. **Audio v2:** apply your answers from #1 to copies → rebuild music → check every file
+   (loudness, peak, a fresh transcript so no word was lost) → you listen to whole chapters →
+   ship only if it's better. Record: `Panim-audio/v2/README.md`.
+2. **T2. Index notes:** check all 94 against the book. *(You asked if it's done: no. The 35
+   rewrites were drafts and never went on the site.)*
+3. **T5. Picture row:** swipe-driven sway plus 2–3 cleaner counter/arrow versions to pick from.
+4. **T6. About section:** 2–3 mockups (picture beside it, a drawn mark, a large pulled quote).
+5. **T7. Sharper pictures:** upscale the ten plates to 2816px for big screens only.
 
 ---
 
 ## Later
 
+- **Word-by-word lighting:** kept as an option, not required (your note). I'd still suggest a week with the reading line first.
 - **More pictures inside chapters** (III and IV have none): you may make more pictures, not now.
 - **Portuguese translation:** paused, 6 of 10 chapters drafted, no ElevenLabs credits.
 - **Old audio cached on GitHub:** left alone. GitHub clears it on its own schedule.
@@ -95,14 +103,13 @@ doubles them to 2816px wide. Phones keep the current files; only big screens get
 
 ## Checks only you can do (not decisions)
 
-- [ ] **Stats:** open PostHog → Activity. You should see visits coming in (the first is my test
-  from a Mac).
+- [ ] **New backup drive:** the Mac sees only one external disk, the SL500 that holds MAS and
+  Time Machine (checked by model, ID and contents). If you plugged in a second one, it isn't
+  connecting. Try another cable or port.
+- [ ] **Stats:** PostHog → Activity. Visits should be arriving.
 - [ ] **Download on iPhone:** Listen → Download → wait for *Saved ✓* → airplane mode → play a chapter.
 - [ ] **Spanish:** tap the globe → Spanish → listen to a chapter.
-- [ ] **New on the site:** the reading line (play any chapter), the counter and arrows under the
-  pictures, and the card's new sentence.
-- [ ] **Screen reader:** use the player with VoiceOver for an hour; the accessibility page says
-  this was never done.
+- [ ] **Screen reader:** use the player with VoiceOver for an hour; the accessibility page says this was never done.
 - [ ] **Share a passage** to yourself in iMessage and check the preview.
 - [ ] **Chapter links:** open `…/Panim/#ch07` fresh. Does it land on the chapter title?
 
@@ -110,9 +117,11 @@ doubles them to 2816px wide. Phones keep the current files; only big screens get
 
 A 3D shadow on the caption · bigger chapter pictures · a privacy note for the stats · slowing the
 scroll · a note at John 11:35 · notes attached to paragraphs · a play symbol on each picture ·
-word highlighting with guessed timings · splitting the book text into files.
+word highlighting with guessed timings · splitting the book text into files · muting a clap
+(it leaves a hole in the room; claps get the room's own tone instead) · removing breaths.
 
 ## Never changing
 
 The sample card starts at David (ch 7, 17:55) · no co-author line on any commit ·
-`content/chapters.js` is generated, never hand-edited · the stats key is `phc_` only.
+`content/chapters.js` is generated, never hand-edited · the stats key is `phc_` only ·
+the shipped audio is never edited in place: fixes happen on copies and ship only after you've listened.
