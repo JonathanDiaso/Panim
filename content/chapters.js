@@ -24,7 +24,7 @@ window.PANIM_CHAPTERS = [
   "glossary": [
    {
     "term": "panim",
-    "gloss": "Panim — it is the Hebrew word for face, and it has a biography."
+    "gloss": "Panim: it is the Hebrew word for face, and it has a biography."
    },
    {
     "term": "merachefet",
@@ -224,7 +224,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "The answer is a single Hebrew word, and this book is going to follow it across the whole Bible the way you would follow a life. <em>Panim</em> — it is the Hebrew word for face, and it has a biography.",
+    "html": "The answer is a single Hebrew word, and this book is going to follow it across the whole Bible the way you would follow a life. <em>Panim</em>: it is the Hebrew word for face, and it has a biography.",
     "id": "ch01-p31"
    },
    {
@@ -494,7 +494,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "It is there on Mount Moriah, where Abraham names the mountain <em>YHWH-jireh</em>. Your Bible translates it “the LORD will provide,” but <em>jireh</em> is <em>ra'ah</em> again: literally, <em>the LORD will see</em> — He will see to it. Even our English keeps the secret: “provide” comes from a Latin word meaning <em>to see ahead</em>. Provision was never a separate miracle. It was what seeing looked like when the One who saw you was God.",
+    "html": "It is there on Mount Moriah, where Abraham names the mountain <em>YHWH-jireh</em>. Your Bible translates it “the LORD will provide,” but <em>jireh</em> is <em>ra'ah</em> again: literally, <em>the LORD will see</em>. He will see to it. Even our English keeps the secret: “provide” comes from a Latin word meaning <em>to see ahead</em>. Provision was never a separate miracle. It was what seeing looked like when the One who saw you was God.",
     "id": "ch01-p79"
    },
    {
@@ -636,7 +636,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "One of the psalms is built like a question at a door. Who may go up the hill of the LORD? Who gets to stand in the holy place? And the answer comes back the way answers come back at doors — short. Clean hands. A pure heart. Then the psalm names that crowd, and the name it gives them is the one this whole search has been reaching for: <em>the generation of those who seek Him, who seek Your face.</em>",
+    "html": "One of the psalms is built like a question at a door. Who may go up the hill of the LORD? Who gets to stand in the holy place? And the answer comes back the way answers come back at doors: short. Clean hands. A pure heart. Then the psalm names that crowd, and the name it gives them is the one this whole search has been reaching for: <em>the generation of those who seek Him, who seek Your face.</em>",
     "id": "ch01-p106"
    },
    {
@@ -2132,7 +2132,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "He agrees with their reasons and mourns their choice in the same breath, and between those two sentences sits the whole grief of God. He signs what they asked for, and before the ink is dry He is already drafting the promise that will one day undo it. It is the sound of a father saying yes to being loved from farther away — while quietly writing, in the other room, a will that leaves the children everything, including the nearness they were afraid of.",
+    "html": "He agrees with their reasons and mourns their choice in the same breath, and between those two sentences sits the whole grief of God. He signs what they asked for, and before the ink is dry He is already drafting the promise that will one day undo it. It is the sound of a father saying yes to being loved from farther away, while quietly writing, in the other room, a will that leaves the children everything, including the nearness they were afraid of.",
     "id": "ch03-p87"
    },
    {
@@ -2147,7 +2147,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "And what they commission is the exact inverse of what they fled. Sinai was a voice with no form. The calf is a form with no voice — molten, portable, and above all silent. Silent is the feature.",
+    "html": "And what they commission is the exact inverse of what they fled. Sinai was a voice with no form. The calf is a form with no voice: molten, portable, and above all silent. Silent is the feature.",
     "id": "ch03-p90"
    },
    {
@@ -2474,7 +2474,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "The old rabbis could not leave that blindness alone. His eyes had failed, they said, from the day on the mountain when he was bound — a man who looks into that much glory does not keep his sight. Maybe.",
+    "html": "The old rabbis could not leave that blindness alone. His eyes had failed, they said, from the day on the mountain when he was bound. A man who looks into that much glory does not keep his sight. Maybe.",
     "id": "ch04-p6"
    },
    {
@@ -2779,7 +2779,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Peniel. It is Hebrew for the face of God. Jacob limps out of the only fight of his life he could not win, having survived a night with God and been handed a new name, and he names the ground for neither one. He names it for the seeing. <em>I have seen God face to face</em> — said of a night in which he saw nothing at all. The dark made sure of it, start to finish. And he is not wrong anyway. For one entire night there was nothing in between, not even the width of a shadow. A whole nation will learn that lesson at a burning mountain someday. Jacob learned it with his arms.",
+    "html": "Peniel. It is Hebrew for the face of God. Jacob limps out of the only fight of his life he could not win, having survived a night with God and been handed a new name, and he names the ground for neither one. He names it for the seeing. <em>I have seen God face to face</em>, said of a night in which he saw nothing at all. The dark made sure of it, start to finish. And he is not wrong anyway. For one entire night there was nothing in between, not even the width of a shadow. A whole nation will learn that lesson at a burning mountain someday. Jacob learned it with his arms.",
     "id": "ch04-p59"
    },
    {
@@ -3803,7 +3803,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "The Hebrew under <em>protection</em> is <em>tzel</em> — shade, what a body has over it when the sun can kill.",
+    "html": "The Hebrew under <em>protection</em> is <em>tzel</em>, shade, what a body has over it when the sun can kill.",
     "id": "ch05-p141"
    },
    {
@@ -4048,11 +4048,11 @@ window.PANIM_CHAPTERS = [
    },
    {
     "term": "qaran",
-    "gloss": "The Hebrew verb for what Moses’s face did is qaran — to shoot out rays, to horn out light the way the sun horns over a ridgeline."
+    "gloss": "The Hebrew verb for what Moses’s face did is qaran, to shoot out rays, to horn out light the way the sun horns over a ridgeline."
    },
    {
     "term": "melammu",
-    "gloss": "In Babylon they called it melammu: the terrifying radiance the gods wore like armor and kings claimed at coronation — conferred in a ceremony, stripped from you when you fell, transferred to your rival."
+    "gloss": "In Babylon they called it melammu: the terrifying radiance the gods wore like armor and kings claimed at coronation: conferred in a ceremony, stripped from you when you fell, transferred to your rival."
    },
    {
     "term": "panim",
@@ -4206,7 +4206,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "The shine even has a comic afterlife. The Hebrew verb for what Moses’s face did is <em>qaran</em> — to shoot out rays, to horn out light the way the sun horns over a ridgeline. Centuries later a translator rendered it a shade too literally, and that is why Michelangelo’s Moses sits in Rome to this day with two small horns on his head.",
+    "html": "The shine even has a comic afterlife. The Hebrew verb for what Moses’s face did is <em>qaran</em>, to shoot out rays, to horn out light the way the sun horns over a ridgeline. Centuries later a translator rendered it a shade too literally, and that is why Michelangelo’s Moses sits in Rome to this day with two small horns on his head.",
     "id": "ch06-p27"
    },
    {
@@ -4214,7 +4214,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "But the ancient world would not have laughed at the shining itself. The ancient world had a word for it. In Babylon they called it <em>melammu</em>: the terrifying radiance the gods wore like armor and kings claimed at coronation — conferred in a ceremony, stripped from you when you fell, transferred to your rival. A crown made of light. Like every crown, it marked rank.",
+    "html": "But the ancient world would not have laughed at the shining itself. The ancient world had a word for it. In Babylon they called it <em>melammu</em>: the terrifying radiance the gods wore like armor and kings claimed at coronation: conferred in a ceremony, stripped from you when you fell, transferred to your rival. A crown made of light. Like every crown, it marked rank.",
     "id": "ch06-p28"
    },
    {
@@ -4298,7 +4298,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "He is a priest and a king, and the city he is king of is Salem — the city that will one day be called Jerusalem.",
+    "html": "He is a priest and a king, and the city he is king of is Salem, the city that will one day be called Jerusalem.",
     "id": "ch06-p43"
    },
    {
@@ -4369,7 +4369,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "The blessing is fifteen words in Hebrew. Three, then five, then seven, opening as it goes — which means it has a middle. One word with seven in front of it and seven behind. And on either side of that one word, a face: His face shining, two words before it; His face lifting, three words after.",
+    "html": "The blessing is fifteen words in Hebrew. Three, then five, then seven, opening as it goes, which means it has a middle. One word with seven in front of it and seven behind. And on either side of that one word, a face: His face shining, two words before it; His face lifting, three words after.",
     "id": "ch06-p56"
    },
    {
@@ -4389,7 +4389,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Countenance is a Sunday word, and underneath it is <em>panim</em>. The LORD lift up His face toward you. And in Israel, that phrase had a rap sheet. Lifting someone’s face is courtroom language, and in the law of Moses it is the crooked kind: it is what a bought judge does. “You shall not be partial,” God orders Israel’s courts — and the Hebrew beneath partial says, <em>you shall not lift up faces</em>. Do not let the verdict tilt because you like the man standing in front of you.",
+    "html": "Countenance is a Sunday word, and underneath it is <em>panim</em>. The LORD lift up His face toward you. And in Israel, that phrase had a rap sheet. Lifting someone’s face is courtroom language, and in the law of Moses it is the crooked kind: it is what a bought judge does. “You shall not be partial,” God orders Israel’s courts, and the Hebrew beneath partial says, <em>you shall not lift up faces</em>. Do not let the verdict tilt because you like the man standing in front of you.",
     "id": "ch06-p58"
    },
    {
@@ -4967,7 +4967,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "term": "qol demamah daqqah",
-    "gloss": "And after the fire comes something the Hebrew can barely say and English cannot: qol demamah daqqah — a voice of thin silence."
+    "gloss": "And after the fire comes something the Hebrew can barely say and English cannot: qol demamah daqqah, a voice of thin silence."
    }
   ],
   "blocks": [
@@ -5604,7 +5604,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "There is a story Jesus told, and He told it because He had been accused of eating with the wrong people. <em>This man receives sinners and eats with them</em> — that was the charge, and the story is His answer to it.",
+    "html": "There is a story Jesus told, and He told it because He had been accused of eating with the wrong people. <em>This man receives sinners and eats with them</em>. That was the charge, and the story is His answer to it.",
     "id": "ch07-p109"
    },
    {
@@ -5614,7 +5614,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "The younger son is still a long way off when the father sees him, and Luke spends three verbs on what happens next. He ran. He fell on his neck. He kissed him. In Greek those are the same three verbs, in the same order, that the Greek Old Testament uses for exactly one other reunion — the morning Esau came over the ridge with four hundred men behind him and ran at the brother who had spent twenty years certain he was coming to kill him.",
+    "html": "The younger son is still a long way off when the father sees him, and Luke spends three verbs on what happens next. He ran. He fell on his neck. He kissed him. In Greek those are the same three verbs, in the same order, that the Greek Old Testament uses for exactly one other reunion: the morning Esau came over the ridge with four hundred men behind him and ran at the brother who had spent twenty years certain he was coming to kill him.",
     "id": "ch07-p111"
    },
    {
@@ -5694,7 +5694,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "And after the fire comes something the Hebrew can barely say and English cannot: <em>qol demamah daqqah</em> — a voice of thin silence. A sound so quiet it can only be heard by a man who has run out of everything else.",
+    "html": "And after the fire comes something the Hebrew can barely say and English cannot: <em>qol demamah daqqah</em>, a voice of thin silence. A sound so quiet it can only be heard by a man who has run out of everything else.",
     "id": "ch07-p127"
    },
    {
@@ -6389,11 +6389,11 @@ window.PANIM_CHAPTERS = [
   "glossary": [
    {
     "term": "metamorphoo",
-    "gloss": "The Gospel writers, reaching for a word to file this morning under, chose a Greek one: metamorphoo — transformed, changed from the inside out."
+    "gloss": "The Gospel writers, reaching for a word to file this morning under, chose a Greek one: metamorphoo, transformed, changed from the inside out."
    },
    {
     "term": "schizo",
-    "gloss": "Mark tells it in one verse, and Mark has been saving the verb: schizo — to rip, to tear violently."
+    "gloss": "Mark tells it in one verse, and Mark has been saving the verb: schizo, to rip, to tear violently."
    }
   ],
   "blocks": [
@@ -6580,7 +6580,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "The Gospel writers, reaching for a word to file this morning under, chose a Greek one: <em>metamorphoo</em> — transformed, changed from the inside out. In the whole New Testament, that word is spent on only four sentences. Two of them describe this mountain.",
+    "html": "The Gospel writers, reaching for a word to file this morning under, chose a Greek one: <em>metamorphoo</em>, transformed, changed from the inside out. In the whole New Testament, that word is spent on only four sentences. Two of them describe this mountain.",
     "id": "ch08-p34"
    },
    {
@@ -6954,7 +6954,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "And Isaiah has been standing here from the beginning — the flint, the spitting, the faces turned away. There is a reason he keeps knowing what this face would do.",
+    "html": "And Isaiah has been standing here from the beginning: the flint, the spitting, the faces turned away. There is a reason he keeps knowing what this face would do.",
     "id": "ch08-p98"
    },
    {
@@ -6964,7 +6964,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "His call came the year King Uzziah died. The Lord, high and lifted up, the train of His robe filling the temple, and over the throne the burning ones — six wings each, and two of the six spent covering their own faces.",
+    "html": "His call came the year King Uzziah died. The Lord, high and lifted up, the train of His robe filling the temple, and over the throne the burning ones, six wings each, and two of the six spent covering their own faces.",
     "id": "ch08-p100"
    },
    {
@@ -7523,7 +7523,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Mark tells it in one verse, and Mark has been saving the verb: <em>schizo</em> — to rip, to tear violently.",
+    "html": "Mark tells it in one verse, and Mark has been saving the verb: <em>schizo</em>, to rip, to tear violently.",
     "id": "ch08-p198"
    },
    {
@@ -7663,7 +7663,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Mark keeps a detail most readers walk straight past. The centurion was standing <em>ex enantias autou</em> — opposite Him. Facing Him. He watched the whole thing from the front.",
+    "html": "Mark keeps a detail most readers walk straight past. The centurion was standing <em>ex enantias autou</em>, opposite Him. Facing Him. He watched the whole thing from the front.",
     "id": "ch08-p224"
    },
    {
@@ -7755,7 +7755,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "term": "metamorphoo",
-    "gloss": "The Greek is a word you have seen on a mountain: metamorphoo — the transfiguration word."
+    "gloss": "The Greek is a word you have seen on a mountain: metamorphoo, the transfiguration word."
    }
   ],
   "blocks": [
@@ -8224,7 +8224,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Then they prayed, and something in my chest let go — a tension I had carried so long I had stopped hoping for a cure.",
+    "html": "Then they prayed, and something in my chest let go, a tension I had carried so long I had stopped hoping for a cure.",
     "id": "ch09-p83"
    },
    {
@@ -8349,7 +8349,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "They are all together in one place in Jerusalem when a sound like a violent rushing wind fills the whole house, and then the fire appears — dividing itself, coming apart into tongues, and coming to rest on each of them, one flame per head, nobody missed.",
+    "html": "They are all together in one place in Jerusalem when a sound like a violent rushing wind fills the whole house, and then the fire appears, dividing itself, coming apart into tongues, and coming to rest on each of them, one flame per head, nobody missed.",
     "id": "ch09-p102"
    },
    {
@@ -8410,7 +8410,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "And the promise that reaches furthest into Pentecost was written centuries before it — in Ezekiel, by the God whose glory once backed out of a temple eastward while nobody called. Here is how He described the day the hiding would end.",
+    "html": "And the promise that reaches furthest into Pentecost was written centuries before it, in Ezekiel, by the God whose glory once backed out of a temple eastward while nobody called. Here is how He described the day the hiding would end.",
     "id": "ch09-p113"
    },
    {
@@ -8565,7 +8565,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "And what happens to a face that stays there? It changes. The Greek is a word you have seen on a mountain: <em>metamorphoo</em> — the transfiguration word. Four uses in the whole New Testament. Two of them describe His face shining like the sun on the summit. This is the third, and it is aimed at you. And run the direction of it: from glory to glory, increasing. Moses’s shine ran downhill and faded beneath the veil; yours is designed to climb.",
+    "html": "And what happens to a face that stays there? It changes. The Greek is a word you have seen on a mountain: <em>metamorphoo</em>, the transfiguration word. Four uses in the whole New Testament. Two of them describe His face shining like the sun on the summit. This is the third, and it is aimed at you. And run the direction of it: from glory to glory, increasing. Moses’s shine ran downhill and faded beneath the veil; yours is designed to climb.",
     "id": "ch09-p141"
    },
    {
@@ -9022,7 +9022,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "God specified that building down to the rings and the poles — the ark, the table, the lampstand, the altars, the basin. He never ordered a place for a priest to sit. They stood. Hebrews says why: <em>every priest stands daily ministering and offering time after time the same sacrifices, which can never take away sins.</em>",
+    "html": "God specified that building down to the rings and the poles: the ark, the table, the lampstand, the altars, the basin. He never ordered a place for a priest to sit. They stood. Hebrews says why: <em>every priest stands daily ministering and offering time after time the same sacrifices, which can never take away sins.</em>",
     "id": "ch10-p45"
    },
    {
@@ -9037,7 +9037,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "And the psalm that named that priesthood had opened with it a thousand years earlier, three lines before it ever got to Melchizedek — the man who walked out of nowhere to meet Abram, carrying bread and wine, and whose city was called Peace.",
+    "html": "And the psalm that named that priesthood had opened with it a thousand years earlier, three lines before it ever got to Melchizedek, the man who walked out of nowhere to meet Abram, carrying bread and wine, and whose city was called Peace.",
     "id": "ch10-p48"
    },
    {

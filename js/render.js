@@ -213,7 +213,12 @@
       '</div></section>';
   }
 
-  // WHAT COMES BACK — the closing section, after the five words.
+  // WHAT COMES BACK — the closing section, after the Lexicon.
+  // ⚠️ THE ORDER IS LEXICON FIRST, 2026-08-30. The comment here used to say this
+  // section follows the five words directly, and the one on renderLexicon said the
+  // Lexicon follows the Thread. Both were left behind by the swap; the reason for
+  // the real order is written at the BACK_MATTER push below. A comment that
+  // contradicts the order feeds the next hand a wrong contents list.
   //
   // It used to be a sheet behind a button in the running head: thirteen bare labels
   // and two chapter links, opened by a control that competed with About and Listen
@@ -320,7 +325,7 @@
       '</div></section>';
   }
 
-  // THE LEXICON — the closing plate, after the Thread.
+  // THE LEXICON — the closing plate, the first thing after the five words.
   //
   // The words are set as REAL TEXT in Frank Ruhl Libre, not as images. A Hebrew
   // letterform is already a drawing; a picture of one is heavier, blurrier at the

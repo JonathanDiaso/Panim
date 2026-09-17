@@ -34,35 +34,35 @@ window.PANIM_VERSE_NOTES = {
   // ---- Chapter I ----
   ch01: {
     "Numbers 6:24–26": {
-      where: "Aaron and his sons are given the exact words they are to say over Israel — not a prayer they compose, a text they are handed. Priests have spoken it over bowed heads every day since.",
-      worth: "This is the passage on the silver scrolls from Ketef Hinnom, and that makes it the oldest biblical text ever found — roughly four centuries older than the earliest Dead Sea Scroll. The oldest surviving words of Scripture are a blessing about a face."
+      where: "Aaron and his sons are given the exact words they are to say over Israel: not a prayer they compose, a text they are handed. Priests have spoken it over bowed heads every day since.",
+      worth: "This is the passage on the silver scrolls from Ketef Hinnom, and that makes it the oldest biblical text ever found, roughly four centuries older than the earliest Dead Sea Scroll. The oldest surviving words of Scripture are a blessing about a face."
     },
     "Genesis 16:13": {
       where: "Hagar is a pregnant Egyptian slave who has run into the desert to get away from the woman who owns her. She is alone, and God finds her there.",
-      worth: "In the whole Bible, this is the only time a human being gives God a name. Not a prophet, not a patriarch — a runaway foreign slave girl, and the name she gives Him is <em>El Ro’i</em>, the God who sees me."
+      worth: "In the whole Bible, this is the only time a human being gives God a name. Not a prophet, not a patriarch: a runaway foreign slave girl, and the name she gives Him is <em>El Ro’i</em>, the God who sees me."
     },
     "Matthew 5:8": {
       where: "Early in the Sermon on the Mount, in a list of blessings, spoken to an ordinary crowd on a hillside.",
-      worth: "Every other beatitude promises something you can picture — comfort, land, mercy. This one promises the thing Moses asked for and was refused. It is said flatly, to a crowd, with no explanation, and nothing in the surrounding chapters comes back to it."
+      worth: "Every other beatitude promises something you can picture: comfort, land, mercy. This one promises the thing Moses asked for and was refused. It is said flatly, to a crowd, with no explanation, and nothing in the surrounding chapters comes back to it."
     }
   },
   // ---- Chapter II ----
   ch02: {
     "Genesis 3:8": {
       where: "The first thing the man and the woman do after eating is not argue and not explain. They hear Him coming and they go into the trees.",
-      worth: "The phrase behind <em>the cool of the day</em> is literally <em>at the wind of the day</em> — the hour when the air begins to move. Scripture’s first record of shame is dated by the weather."
+      worth: "The phrase behind <em>the cool of the day</em> is literally <em>at the wind of the day</em>, the hour when the air begins to move. Scripture’s first record of shame is dated by the weather."
     },
     "Genesis 4:5": {
       where: "God accepts Abel’s offering and not Cain’s. Before a word is said about murder, Genesis tells you what happened to Cain’s face.",
-      worth: "<em>His face fell</em> is Hebrew idiom carried into English intact — <em>vayiplu panav</em>, and the noun is plural, his faces. It is the first time the book puts <em>panim</em> on a human being in trouble, and the phrase is still in use four thousand years later."
+      worth: "<em>His face fell</em> is Hebrew idiom carried into English intact, <em>vayiplu panav</em>, and the noun is plural, his faces. It is the first time the book puts <em>panim</em> on a human being in trouble, and the phrase is still in use four thousand years later."
     },
     "Genesis 4:14": {
-      where: "Cain is being sent east of Eden, and this is him answering the sentence — counting up what he is about to lose.",
+      where: "Cain is being sent east of Eden, and this is him answering the sentence, counting up what he is about to lose.",
       worth: "He names four losses and puts the face last. The verb is <em>satar</em>: hiddenness on purpose, a face deliberately turned away. The first murderer in Scripture describes his own punishment in the vocabulary this book is following, before there is a law or a priest to explain it to him."
     },
     "Jonah 1:3": {
       where: "Jonah is told to go east to Nineveh. He walks down to the coast and buys passage to the furthest west port anyone in his world had heard of.",
-      worth: "<em>From the presence of the LORD</em> is <em>millifnei</em> — from before His face. Jonah’s stated destination is not a city, it is an absence; and Tarshish is usually placed on the far coast of Spain, which is to say he bought a ticket to the end of the map."
+      worth: "<em>From the presence of the LORD</em> is <em>millifnei</em>, from before His face. Jonah’s stated destination is not a city, it is an absence; and Tarshish is usually placed on the far coast of Spain, which is to say he bought a ticket to the end of the map."
     },
     "Jonah 2:4": {
       where: "Praying from inside the fish, and this is the line where he says what he believes has happened to him.",
@@ -70,7 +70,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "Isaiah 59:2": {
       where: "Isaiah is answering a complaint. The people have said God is not listening, and the prophet tells them the problem is not His hearing.",
-      worth: "The verse does not say God hid His face. It makes their sins the subject of the verb — the sins did the hiding. That puts the turning-away on the near side of the gap, which is a different claim from the one the complaint was making."
+      worth: "The verse does not say God hid His face. It makes their sins the subject of the verb: the sins did the hiding. That puts the turning-away on the near side of the gap, which is a different claim from the one the complaint was making."
     },
     "Job 13:24": {
       where: "Job is mid-argument, addressing God directly, well past the point of managing his tone.",
@@ -82,27 +82,27 @@ window.PANIM_VERSE_NOTES = {
     },
     "Psalm 13:1": {
       where: "Four questions in two verses, all of them the same question, and the psalm has still not said what is actually wrong.",
-      worth: "<em>How long</em> opens the line four times running — <em>ad-anah</em>, the densest repetition of its kind in the Psalter. A psalm that never names its trouble and never stops counting the days."
+      worth: "<em>How long</em> opens the line four times running, <em>ad-anah</em>, the densest repetition of its kind in the Psalter. A psalm that never names its trouble and never stops counting the days."
     },
     "Psalm 13:6": {
       where: "Six verses later. Same psalm, same psalmist, and nothing in between has been reported as fixed.",
-      worth: "The complaint is not withdrawn and no rescue is described. The turn happens anyway. Hebrew laments do this so consistently that the swing has a name in the scholarship — the psalm moves to trust without waiting for the circumstances to move first."
+      worth: "The complaint is not withdrawn and no rescue is described. The turn happens anyway. Hebrew laments do this so consistently that the swing has a name in the scholarship: the psalm moves to trust without waiting for the circumstances to move first."
     },
     "Psalm 88:14, 18": {
       where: "Near the end of the darkest psalm in the book, and it is about to finish without turning.",
       worth: "Psalm 88 is the one lament in the Psalter with no turn in it. The last word in the Hebrew is <em>darkness</em>. Whoever assembled the book left it in: a collection made for public worship kept a prayer that does not resolve."
     },
     "Psalm 32:5": {
-      where: "David describing what ended a stretch he has just spent four verses calling physical — bones wasting, strength dried up.",
+      where: "David describing what ended a stretch he has just spent four verses calling physical: bones wasting, strength dried up.",
       worth: "Three different Hebrew words for wrongdoing appear in this one verse. The psalm has been circling; here it says all of it at once, and gives the turn no drama at all."
     },
     "Psalm 27:8": {
       where: "In the middle of a psalm about wanting one thing, the psalmist stops and quotes God back to Him.",
-      worth: "The Hebrew is famously broken here — the persons do not agree, and translators have been patching the line for centuries. What survives every patch is the shape of it: a command about a face, and a heart answering in the same words."
+      worth: "The Hebrew is famously broken here. The persons do not agree, and translators have been patching the line for centuries. What survives every patch is the shape of it: a command about a face, and a heart answering in the same words."
     },
     "Hosea 5:15–6:3": {
       where: "God announcing a withdrawal, and then, with no break in the text, the people’s answer to it.",
-      worth: "The chapter division falls in the middle of this. In the Hebrew there is no gap between the going away and the coming after — the numbering is a much later editor’s, and reading straight across it is closer to what Hosea wrote."
+      worth: "The chapter division falls in the middle of this. In the Hebrew there is no gap between the going away and the coming after. The numbering is a much later editor’s, and reading straight across it is closer to what Hosea wrote."
     },
     "Hosea 2:6": {
       where: "God describing what He is about to do to a wife who is going after other lovers, inside the marriage figure the book opens with.",
@@ -110,17 +110,17 @@ window.PANIM_VERSE_NOTES = {
     },
     "Hosea 2:7": {
       where: "The wife, having failed to find the lovers, talking to herself on the road.",
-      worth: "Her stated reason for going back is not remorse — she says she was better off before. It is the most unflattering motive available, and the next thing God says is that He will allure her. Hosea sets the shabby reason and the tender answer side by side and leaves them there."
+      worth: "Her stated reason for going back is not remorse. She says she was better off before. It is the most unflattering motive available, and the next thing God says is that He will allure her. Hosea sets the shabby reason and the tender answer side by side and leaves them there."
     },
     "Hosea 2:14": {
       where: "Directly after the thorns and the wall, with no transition of any kind.",
-      worth: "The verb is <em>patah</em> — the word used elsewhere for seducing, or for talking someone into something. And the place He takes her is the wilderness, which in this book is not exile. It is where the courtship happened the first time."
+      worth: "The verb is <em>patah</em>, the word used elsewhere for seducing, or for talking someone into something. And the place He takes her is the wilderness, which in this book is not exile. It is where the courtship happened the first time."
     }
   },
   // ---- Chapter III ----
   ch03: {
     "Deuteronomy 5:4": {
-      where: "Moses, forty years on, telling a new generation what happened at Sinai — and telling them it happened to them.",
+      where: "Moses, forty years on, telling a new generation what happened at Sinai, and telling them it happened to them.",
       worth: "This is <em>panim be-panim</em>, the phrase in full. Deuteronomy uses it for an event the same speech insists nobody saw: no form, only a voice. Both claims stand four verses apart and neither is withdrawn."
     },
     "Deuteronomy 4:12": {
@@ -137,30 +137,30 @@ window.PANIM_VERSE_NOTES = {
     },
     "Deuteronomy 5:28–29": {
       where: "God speaking to Moses about the people’s request to be kept back, out of their hearing.",
-      worth: "The Hebrew is <em>mi-yitten</em> — literally <em>who will give</em>, the ordinary idiom for <em>if only</em>. Whatever theology one brings to the sentence, it is a wish, and God is the one making it."
+      worth: "The Hebrew is <em>mi-yitten</em>, literally <em>who will give</em>, the ordinary idiom for <em>if only</em>. Whatever theology one brings to the sentence, it is a wish, and God is the one making it."
     },
     "Ezekiel 36:26": {
       where: "Centuries later, in a prophecy to people already in exile, God says what He intends to do about the thing He wished for.",
-      worth: "The wish at Sinai was for a heart. This is that wish restated as a promise, with a mechanism attached: He will do it rather than ask for it. Nothing in Deuteronomy points forward to this verse — the connection is only visible looking back."
+      worth: "The wish at Sinai was for a heart. This is that wish restated as a promise, with a mechanism attached: He will do it rather than ask for it. Nothing in Deuteronomy points forward to this verse. The connection is only visible looking back."
     },
     "Deuteronomy 5:3": {
       where: "Moses addressing people who were children or unborn when Sinai happened.",
-      worth: "Almost none of them were there; Deuteronomy has already said the Sinai generation died in the wilderness. He tells them it was made with them anyway. The claim is not that they misremember — it is that a covenant is not something you inherit from outside it."
+      worth: "Almost none of them were there; Deuteronomy has already said the Sinai generation died in the wilderness. He tells them it was made with them anyway. The claim is not that they misremember. It is that a covenant is not something you inherit from outside it."
     }
   },
   // ---- Chapter IV ----
   ch04: {
     "Genesis 32:20": {
       where: "Jacob is sending waves of livestock ahead of him toward a brother who last saw him twenty years ago and swore to kill him.",
-      worth: "The verse says <em>face</em> four times in one breath — cover his face, go before my face, see his face, lift up my face. Every English translation smooths at least three of them into something else. The repetition is the anxiety, and it only survives in the Hebrew."
+      worth: "The verse says <em>face</em> four times in one breath: cover his face, go before my face, see his face, lift up my face. Every English translation smooths at least three of them into something else. The repetition is the anxiety, and it only survives in the Hebrew."
     },
     "Genesis 32:26": {
       where: "The night before the meeting. Alone at a river crossing, in a fight he has been losing since dark.",
-      worth: "Jacob has spent his whole life taking blessings — from a brother, from a father, in disguise. This is the first time he asks for one. He asks while he is losing, and his hip is already out."
+      worth: "Jacob has spent his whole life taking blessings: from a brother, from a father, in disguise. This is the first time he asks for one. He asks while he is losing, and his hip is already out."
     },
     "Genesis 32:30–31": {
       where: "Naming the place, at dawn, walking away from it.",
-      worth: "Peniel means the face of God. The next clause reports the sun rising on him and the limp in the same sentence — Hebrew narrative almost never mentions weather, and here it gives you light and injury together. He gets the dawn and he keeps the limp."
+      worth: "Peniel means the face of God. The next clause reports the sun rising on him and the limp in the same sentence. Hebrew narrative almost never mentions weather, and here it gives you light and injury together. He gets the dawn and he keeps the limp."
     },
     "Genesis 33:10": {
       where: "The next morning, standing in front of Esau, who has just run to him and wept on his neck.",
@@ -179,7 +179,7 @@ window.PANIM_VERSE_NOTES = {
   ch05: {
     "Exodus 3:6": {
       where: "At the bush, at the moment God names Himself as the God of Moses’ fathers.",
-      worth: "Moses hides his face before he is told to — there is no command in the verse. The fear comes first and the covering is his own idea. Forty years later he will ask to see the thing he is hiding from here."
+      worth: "Moses hides his face before he is told to. There is no command in the verse. The fear comes first and the covering is his own idea. Forty years later he will ask to see the thing he is hiding from here."
     },
     "Exodus 3:14": {
       where: "Moses has asked for a name to give the Israelites. This is the answer he is given to carry.",
@@ -190,12 +190,12 @@ window.PANIM_VERSE_NOTES = {
       worth: "The Hebrew is literally <em>heavy of mouth and heavy of tongue</em>. Whatever the condition was, he describes it as weight. And this is the man who ends up described as speaking with God mouth to mouth."
     },
     "Exodus 4:11": {
-      where: "God’s answer to the objection — and it does not contain a cure.",
+      where: "God’s answer to the objection, and it does not contain a cure.",
       worth: "The reply names mute, deaf, seeing and blind together and claims all four. Moses’ mouth is not fixed in this scene or in any later one. Aaron is assigned to speak and the heaviness stays."
     },
     "Exodus 33:14–15": {
       where: "After the golden calf, in a negotiation where Moses has already turned down an angel as a substitute.",
-      worth: "<em>My presence</em> is <em>panai</em> — literally My face. Moses answers that if the face does not go, He should not send them up at all. He refuses the land, the escort and the promise, and holds out for the one thing he has already been told he cannot see."
+      worth: "<em>My presence</em> is <em>panai</em>, literally My face. Moses answers that if the face does not go, He should not send them up at all. He refuses the land, the escort and the promise, and holds out for the one thing he has already been told he cannot see."
     },
     "Exodus 33:22": {
       where: "God agreeing to pass by, on terms, and setting out the arrangement.",
@@ -203,7 +203,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "Psalm 84:11": {
       where: "A pilgrim song about wanting to be in the courts of the temple, not a treatise on glory.",
-      worth: "The pairing is odd on purpose. A sun is the thing you need a shield from. The psalm gives both jobs to the same subject and moves on without explaining it — which is the problem the cleft of the rock was built to solve."
+      worth: "The pairing is odd on purpose. A sun is the thing you need a shield from. The psalm gives both jobs to the same subject and moves on without explaining it, which is the problem the cleft of the rock was built to solve."
     },
     "Numbers 11:29": {
       where: "Moses answering Joshua, who wants two men prophesying back in the camp to be stopped.",
@@ -215,7 +215,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "Numbers 13:30": {
       where: "Caleb interrupting the scouts’ report before it has finished.",
-      worth: "The Hebrew has him quiet the people first — he is talking over a panic already underway. He and Joshua are the only two of the twelve who live to enter, and the vote goes ten to two."
+      worth: "The Hebrew has him quiet the people first. He is talking over a panic already underway. He and Joshua are the only two of the twelve who live to enter, and the vote goes ten to two."
     },
     "Numbers 14:42": {
       where: "The morning after the refusal, when the people change their minds and decide to invade after all.",
@@ -223,7 +223,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "Numbers 14:44": {
       where: "They go anyway. The ark stays in the camp, and so does Moses.",
-      worth: "The verb behind <em>heedlessly</em> is a rare one — it turns up in only one other place in the Bible, where it means swollen or puffed up. What they did that morning has a name, and the name is presumption."
+      worth: "The verb behind <em>heedlessly</em> is a rare one. It turns up in only one other place in the Bible, where it means swollen or puffed up. What they did that morning has a name, and the name is presumption."
     },
     "Deuteronomy 34:10": {
       where: "The last paragraph of the Torah, written after Moses’ death, functioning as an obituary.",
@@ -234,7 +234,7 @@ window.PANIM_VERSE_NOTES = {
   ch06: {
     "Exodus 34:29–30": {
       where: "Moses coming down the mountain the second time, carrying the second set of tablets.",
-      worth: "The verb is <em>qaran</em>, from the noun for a horn — light projecting the way a horn does. The Vulgate translated it as <em>horned</em>, which is why Michelangelo’s Moses has them. The mistranslation is a thousand years old and carved in marble in Rome."
+      worth: "The verb is <em>qaran</em>, from the noun for a horn: light projecting the way a horn does. The Vulgate translated it as <em>horned</em>, which is why Michelangelo’s Moses has them. The mistranslation is a thousand years old and carved in marble in Rome."
     },
     "Numbers 6:26": {
       where: "The last line of the priestly blessing, the third of three.",
@@ -246,27 +246,27 @@ window.PANIM_VERSE_NOTES = {
     },
     "Song of Songs 2:9": {
       where: "The woman describing her beloved, who has arrived and is standing outside the wall.",
-      worth: "He is at the window and he does not come in. The book is full of this — arrivals that stop just short, and a great deal of looking through things. The lattice is the point: he can be seen, in pieces, through a screen."
+      worth: "He is at the window and he does not come in. The book is full of this: arrivals that stop just short, and a great deal of looking through things. The lattice is the point: he can be seen, in pieces, through a screen."
     },
     "Psalm 34:5": {
       where: "A psalm about deliverance, in a list of what happens to people who ask.",
-      worth: "The verb behind <em>radiant</em> shares its consonants with the verb for a river flowing. And the shining here is not Moses’ — it is plural, ordinary, anyone’s. The one face in the Bible described as glowing on loan is not the only face described as glowing."
+      worth: "The verb behind <em>radiant</em> shares its consonants with the verb for a river flowing. And the shining here is not Moses’. It is plural, ordinary, anyone’s. The one face in the Bible described as glowing on loan is not the only face described as glowing."
     },
     "1 Samuel 16:7": {
       where: "Samuel, in Bethlehem, looking at Eliab and about to anoint the wrong son.",
-      worth: "The Hebrew is literally <em>man looks to the eyes</em> — the idiom for the surface. The person being corrected here is the prophet. He has read a face wrong, on the job, with the horn of oil already in his hand."
+      worth: "The Hebrew is literally <em>man looks to the eyes</em>, the idiom for the surface. The person being corrected here is the prophet. He has read a face wrong, on the job, with the horn of oil already in his hand."
     },
     "Acts 6:15": {
       where: "Stephen on trial in front of the council, in the middle of the accusation against him.",
-      worth: "Luke reports it as something the council saw, not something Stephen claimed. Outside the transfiguration it is the only time the New Testament describes a face this way, and it happens to a man who is about to be stoned in the street."
+      worth: "Luke reports it as something the council saw, not something Stephen claimed. He is the only living man in the New Testament whose face is described this way; the others so described are Jesus on the mountain, and the Lord and the angel in John's visions. It happens to a man who is about to be stoned in the street."
     },
     "Acts 4:13": {
       where: "Peter and John in front of the same council, two chapters earlier.",
-      worth: "The word the council uses of them is <em>agrammatoi</em> — unlettered. What is recognised is not competence. It is proximity, visible on two men who cannot account for it themselves."
+      worth: "The word the council uses of them is <em>agrammatoi</em>, unlettered. What is recognised is not competence. It is proximity, visible on two men who cannot account for it themselves."
     },
     "Psalm 34:8": {
       where: "Three verses after the radiance, in the same psalm.",
-      worth: "It is an invitation, not a report. The psalm has been describing what happened to other people and here it turns to the reader and asks for a trial. Hebrew mixes the senses without apology — you are told to taste a fact."
+      worth: "It is an invitation, not a report. The psalm has been describing what happened to other people and here it turns to the reader and asks for a trial. Hebrew mixes the senses without apology. You are told to taste a fact."
     },
     "Psalm 67:1": {
       where: "The opening line of a short psalm, borrowing the priestly blessing almost word for word.",
@@ -274,7 +274,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "Psalm 67:2": {
       where: "The second line, giving the reason for the first.",
-      worth: "The psalm asks for the shining face and then says what it is for, and the answer is not Israel. The blessing is requested as a means of transmission — light on one face so that other nations can see by it."
+      worth: "The psalm asks for the shining face and then says what it is for, and the answer is not Israel. The blessing is requested as a means of transmission: light on one face so that other nations can see by it."
     }
   },
   // ---- Chapter VII ----
@@ -301,7 +301,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "Psalm 23:5": {
       where: "The psalm’s turn, where the shepherd becomes a host and the field becomes a room.",
-      worth: "<em>In the presence of</em> is <em>neged</em> — in front of, facing. The enemies are not defeated in this line and they have not left. They are watching, and the meal happens anyway."
+      worth: "<em>In the presence of</em> is <em>neged</em>, in front of, facing. The enemies are not defeated in this line and they have not left. They are watching, and the meal happens anyway."
     },
     "2 Samuel 9:11": {
       where: "After David asks whether anyone is left of Saul’s house, and is told there is one.",
@@ -309,7 +309,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "1 Kings 19:13": {
       where: "Elijah at the mouth of the cave on Horeb, after the wind, the earthquake and the fire.",
-      worth: "He covers his face for the thin silence, not for the fire. And Horeb is Sinai — the text has put him standing where Moses stood in the cleft, on purpose, and gives him a different answer."
+      worth: "He covers his face for the thin silence, not for the fire. And Horeb is Sinai. The text has put him standing where Moses stood in the cleft, on purpose, and gives him a different answer."
     },
     "John 11:35": {
       where: "At the tomb of Lazarus, minutes before raising him.",
@@ -317,7 +317,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "Psalm 31:20": {
       where: "In a psalm otherwise full of enemies, slander and plots.",
-      worth: "The Hebrew is <em>in the seter of Your panim</em> — the hiding of Your face. Both of those words have been the trouble for two chapters. Here they are put together and the result is sanctuary."
+      worth: "The Hebrew is <em>in the seter of Your panim</em>, the hiding of Your face. Both of those words have been the trouble for two chapters. Here they are put together and the result is sanctuary."
     },
     "Isaiah 54:8": {
       where: "Immediately after the servant song, in a passage that addresses a city the way one addresses a wife.",
@@ -325,7 +325,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "2 Chronicles 7:14": {
       where: "God answering Solomon at night, after the temple has been dedicated.",
-      worth: "The verse is quoted constantly and the middle of it usually goes missing. What is asked for is not a policy — it is four verbs, humble, pray, seek and turn, and the object of the seeking is a face."
+      worth: "The verse is quoted constantly and the middle of it usually goes missing. What is asked for is not a policy. It is four verbs, humble, pray, seek and turn, and the object of the seeking is a face."
     },
     "2 Chronicles 7:15": {
       where: "The next sentence, and the promise attached to the condition.",
@@ -364,11 +364,11 @@ window.PANIM_VERSE_NOTES = {
     },
     "Matthew 26:39": {
       where: "In the garden, past midnight, with the three asleep a stone’s throw off.",
-      worth: "Matthew records the posture: on His face, on the ground. It is the position taken by Moses, by Joshua, by Ezekiel, by John on Patmos — always in front of God. Here it is taken by the one they were in front of."
+      worth: "Matthew records the posture: on His face, on the ground. It is the position taken by Moses, by Joshua, by Ezekiel, by John on Patmos, always in front of God. Here it is taken by the one they were in front of."
     },
     "Isaiah 6:5": {
       where: "Isaiah’s commissioning vision, in the temple, in the year King Uzziah died.",
-      worth: "He does not say he is afraid. He says he is undone, and gives the reason as his lips — the one part of him he is about to be commissioned to use. The coal is applied to the part he named."
+      worth: "He does not say he is afraid. He says he is undone, and gives the reason as his lips, the one part of him he is about to be commissioned to use. The coal is applied to the part he named."
     },
     "John 12:41": {
       where: "John quoting Isaiah 6 to explain why people did not believe what they were shown.",
@@ -376,7 +376,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "Luke 22:61": {
       where: "In the high priest’s courtyard, at the third denial, as a rooster crows.",
-      worth: "Only Luke records the look, and only Luke places the two men where it is possible — Jesus is being held within sight of the fire. Nothing is said. Peter goes outside and weeps."
+      worth: "Only Luke records the look, and only Luke places the two men where it is possible. Jesus is being held within sight of the fire. Nothing is said. Peter goes outside and weeps."
     },
     "Psalm 22:24": {
       where: "In the second half of the psalm that opens with <em>why have you forsaken me</em>.",
@@ -388,7 +388,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "Isaiah 53:12": {
       where: "The last verse of the last servant song, stating the terms of what has happened.",
-      worth: "The verb is the one used for pouring out a drink offering, and the word behind <em>himself</em> is <em>nephesh</em> — life, throat, the self. It is sacrificial language applied to a person rather than to what a person brings."
+      worth: "The verb is the one used for pouring out a drink offering, and the word behind <em>himself</em> is <em>nephesh</em>: life, throat, the self. It is sacrificial language applied to a person rather than to what a person brings."
     },
     "Mark 15:39": {
       where: "The centurion, at the foot of the cross, after the veil has torn.",
@@ -415,11 +415,11 @@ window.PANIM_VERSE_NOTES = {
     },
     "Isaiah 43:25": {
       where: "In a passage where God is listing everything Israel has failed to bring Him.",
-      worth: "The reason given is not their repentance. It is <em>for My own sake</em> — forgiveness stated as something He does for Himself, which is the least sentimental ground available and the most stable."
+      worth: "The reason given is not their repentance. It is <em>for My own sake</em>, forgiveness stated as something He does for Himself, which is the least sentimental ground available and the most stable."
     },
     "Matthew 25:21": {
       where: "In a parable about money left with staff, told days before the arrest.",
-      worth: "The commendation is identical for the man given five and the man given two — same words, in the same order, a few verses apart. The amounts differ and the praise does not."
+      worth: "The commendation is identical for the man given five and the man given two: same words, in the same order, a few verses apart. The amounts differ and the praise does not."
     },
     "Luke 24:51": {
       where: "At Bethany, at the very end of Luke’s gospel.",
@@ -446,7 +446,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "John 14:21": {
       where: "A few sentences later, in the same conversation, at the same table.",
-      worth: "The verb is <em>emphanizo</em> — to show plainly, to make visible; it is a legal and physical word. Jesus attaches it not to a vision but to keeping what He said."
+      worth: "The verb is <em>emphanizo</em>, to show plainly, to make visible; it is a legal and physical word. Jesus attaches it not to a vision but to keeping what He said."
     },
     "John 14:23": {
       where: "Answering Judas — not Iscariot — who has asked why He will show Himself to them and not to the world.",
@@ -462,7 +462,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "2 Corinthians 3:18": {
       where: "The conclusion of Paul’s long argument about Moses and the veil.",
-      worth: "<em>We all</em> is the load-bearing phrase. Paul has spent the chapter on one man’s shining face and here he hands it to everybody — and the verb he uses for the change is <em>metamorphoo</em>, the transfiguration word."
+      worth: "<em>We all</em> is the load-bearing phrase. Paul has spent the chapter on one man’s shining face and here he hands it to everybody, and the verb he uses for the change is <em>metamorphoo</em>, the transfiguration word."
     },
     "Song of Songs 2:14": {
       where: "The man speaking to the woman, who is out of sight somewhere in the rocks.",
@@ -474,7 +474,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "Hosea 2:19–20": {
       where: "The end of the wilderness passage, after the thorns, the wall and the alluring.",
-      worth: "The verb <em>I will betroth</em> is repeated three times in two verses, each time with different terms attached — righteousness and justice, then lovingkindness and compassion, then faithfulness. The last clause is that she will know Him, in the verb Hebrew uses for a marriage."
+      worth: "The verb <em>I will betroth</em> is repeated three times in two verses, each time with different terms attached: righteousness and justice, then lovingkindness and compassion, then faithfulness. The last clause is that she will know Him, in the verb Hebrew uses for a marriage."
     },
     "Revelation 19:9": {
       where: "A voice from the throne interrupting to tell John to write this particular line down.",
@@ -526,7 +526,7 @@ window.PANIM_VERSE_NOTES = {
     },
     "Revelation 3:21": {
       where: "The last promise in the last of the seven letters.",
-      worth: "It is the highest offer in the book and it is made to the worst of the seven churches. The order is not accidental — the letters run from Ephesus to Laodicea and the reward gets larger as the church gets colder."
+      worth: "It is the highest offer in the book and it is made to the worst of the seven churches. The order is not accidental. The letters run from Ephesus to Laodicea and the reward gets larger as the church gets colder."
     },
     "Numbers 6:24–26": {
       where: "The last words of the book, and the same words it opened with.",

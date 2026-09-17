@@ -85,6 +85,20 @@ pass after you've answered, not line by line.
 
 ---
 
+## Done since this sheet was written
+
+- **The writing pass, 2026-09-17 (site v82, not pushed).** 27 em dashes out of the manuscript and 50
+  out of the verse notes, punctuation only — no word changed, cues and coverage unaffected. The book
+  now runs 0.98 em dashes per thousand words, the notes 3.05. An AI-phrase scan of every
+  reader-facing text came back clean. Full account in `panim-book/handoffs/NEXT.md`.
+- **"Why are the sources unconfirmed?" They are not.** All eleven rows in `content/sources.js` carry
+  a citation, `status: 'unconfirmed'` appears on none of them, and the "listed with the citation
+  still open" line therefore never renders. The three hits I reported were the word appearing in
+  that file's own comments.
+- **One over-strong claim rewritten:** the Acts 6:15 note no longer says Stephen's is the only face
+  the New Testament describes that way outside the transfiguration (Revelation 1:16 and 10:1
+  describe two more). It now says the only living man.
+
 ## Claude's queue (in this order)
 
 1. **Audio v2:** your answers → edits on copies (`Panim-audio/v2/scripts/apply.py`) → music rebuild →
