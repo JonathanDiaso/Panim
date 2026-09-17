@@ -6,34 +6,42 @@ Type after **Your pick:**. Answered sheets are archived in `../archive/` (latest
 
 ---
 
-## Open now (6)
+## Open now (4: items 0, 1, 3, 5)
 
-### 1. The tape check, round 2 ⭐ start here
+### 0. Book follows tape — 28 spots, one answer ⭐ start here
 
-**What:** the same page, rebuilt from your notes. Every card now shows **what you say on the tape
-next to what the book prints**, highlights the words as the clip plays, answers your note, and
-says what a fix costs (Tape fix / Book text / In Descript / Record / Nothing to do).
-**Link:** https://claude.ai/artifact/TisFha4vTgKgvLbkZU58Fi (open **Start here** first)
-**What changed:** the clap remover now removes the ring, not just the hit (you were right: none of
-the old fixes worked). Three "claps" were broken words and have cuts. 73 word flags are 53 spots.
-Your first-round answers and notes are kept on their cards.
-**Cards that need a letter:** "silver back home" (A = cut the first, as the book ⭐), "opened eyes",
-"since the nursery", "El mistater".
+**What:** the 28 places where you said it differently at the mic and the book still has the older
+wording. The full list, with the book's sentence and yours side by side, is
+`panim-book/handoffs/BOOK-FOLLOWS-TAPE.md`.
+**Why it is one question:** you answered **tape** on all seven of these you reached on the page,
+and #4 below has recommended the same since it was written.
+**Your pick:** say **"all tape"** and I make the pass, run the site's three text tools and bump the
+version; or give me the numbers where the BOOK should win. Text only — no audio changes.
+
+### 1. The tape check, round 2 — 99 answered, 101 left
+
+**Done:** 37 edits are made on copies (English ch 3, 6, 7, 8, 9, 10 and Spanish ch 10). Every spot
+where you wrote "you found it but it's still there" was re-measured and really was still there;
+what was wrong with each is in `Panim-audio/v2/README.md`.
+**Left:** 101 cards — 45 breaths (nothing to do, you keep breaths), 14 claps, and 42 word cards, of
+which 28 are item 0 above and 14 are transcript mishearings with nothing to decide.
+**Still needs a letter from you:** ch 9 9:46.8 (`clap-ch09-5868`) — "did we cut empty at the end or
+its ok lol". It is three separate sounds in one pause; say fix or leave.
+**Link:** https://claude.ai/artifact/TisFha4vTgKgvLbkZU58Fi
 
 **Your pick:** (tell me when a tab is done)
 
-### 2. Two lines that were never recorded
+### 2. Two lines that were never recorded — ANSWERED 2026-09-17
 
-**What:** the ch 6 *chen* line ("The word in the middle is *vichunecha*…") and the ch 10 closer
-("Nobody ever told the woman at the tent either…").
-**Checked again 2026-09-17:** not on your raw sessions in Descript either (all 9½ hours searched),
-not in the pickups. They were written Aug 30, after the tape was done.
-
-- **A. Record them** (about 2 minutes at the mic), Studio Sound in Descript, then I splice them in ⭐
-- **B. Take them out of the book** so the page matches the tape (no audio work)
-- **C. Leave both** (the read-along shows two lines nobody says)
-
-**Your pick:**
+**Your answer:** keep both lines in the book, do not record now, and try a free voice clone.
+**Done:** the text stays. The clone is local only (F5-TTS on this Mac, nothing uploaded); ElevenLabs
+cannot do it on your pay-as-you-go tier and Higgsfield is at zero credits. First drafts are in
+`Panim-audio/v2/work/clone/`. Judge them by ear — the measurements say the synthetic room is far
+noisier than yours, so a splice would open the room for one sentence.
+**If you record them later:** send me the file and I splice it; `scripts/splicecheck.py` checks the
+room, hum, brightness, loudness, peak and the words before anything goes in.
+**Open, small:** the read-along will show two lines nobody says. Say the word if you want them
+marked on the page as print-only.
 
 ### 3. Four missing lines that ARE recorded (no mic needed)
 
@@ -55,17 +63,13 @@ not in the pickups. They were written Aug 30, after the tape was done.
 
 **Your pick:**
 
-### 4. When the tape and the book say it differently
+### 4. When the tape and the book say it differently — now item 0
 
-**What:** 32 places you reworded a line at the mic (e.g. ch 5 *"the Hebrew is blunter"* became
-*"He does not say slow. He says heavy."*). The tape is complete in all of them.
-**Suggestion ⭐:** the book follows the tape. It's text only, then the site's read-along matches
-the audio. The Words tab → **Book follows tape** has a one-tap button for the lot; mark only the
-ones where the book should win.
-**Note:** changing the book changes the site text (through its build tools), so I do it as one
-pass after you've answered, not line by line.
-
-**Your pick:**
+Superseded. The 32 spots are 28 still-open ones (item 0, with the full list in
+`panim-book/handoffs/BOOK-FOLLOWS-TAPE.md`) plus the five already made on 2026-09-17 because you
+answered **tape** on their cards: ch 1 "He danced *lifnei YHWH*", ch 1 "Everybody knows the phrase",
+ch 2 "And one Hebrew word does both jobs", ch 2 "trusted in the unfailing love", ch 9 "about the
+net". Site is at v83; cues did not move and coverage held at 98.8%.
 
 ### 5. The piano is 3 dB louder at the start and end of Spanish chapters
 
@@ -74,18 +78,26 @@ pass after you've answered, not line by line.
 
 **Your pick:**
 
-### 6. "Karmol" (ch 7, 20:06)
+### 6. "Karmol" (ch 7, 20:06) — ANSWERED
 
-*"Whatever fell on Karmol"*: only a new take fixes it.
-
-- **A. Leave it** ⭐ (you said it matters less)
-- **B. Record it with #2** (one sentence, same sitting)
-
-**Your pick:**
+You picked **A** ("great job"), and the cut is made on the copy.
 
 ---
 
 ## Done since this sheet was written
+
+- **Round 3 of the tape check, 2026-09-17.** Your 99 answers became 37 edits on copies (English ch 3,
+  6, 7, 8, 9, 10; Spanish ch 10). Every "you found it but it's still there" note was right, and each
+  had a different cause — the clap remover stopped at one hit per pause, its crossfade handed the
+  attack back when a clap began the instant a word ended, one cut point came from Whisper's word
+  times and ate the end of "cooking", and one cut started a hundredth of a second after the breath
+  it was meant to remove. Causes and fixes: `Panim-audio/v2/README.md`.
+- **Both copies are proved clean.** `samplecheck.py` compares each edited chapter to the shipped one
+  sample by sample: no change that an approved edit does not explain, and no length drift, in any of
+  the six. `wordcheck.py` reads the transcripts on top of that.
+- **Five book-follows-tape edits made** (see item 4), site at **v83**, not pushed.
+- **Backed up** to the MAS drive while it was connected: 2.7 GB written, 33 GB mirror at
+  `/Volumes/MAS/Panim-archive/_mirror/Panim`.
 
 - **The writing pass, 2026-09-17 (site v82, not pushed).** 27 em dashes out of the manuscript and 50
   out of the verse notes, punctuation only — no word changed, cues and coverage unaffected. The book

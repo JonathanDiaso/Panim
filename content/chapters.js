@@ -330,7 +330,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "David danced the day the ark came home to Jerusalem, out in the street with everything he had, spinning out of his royal robes until his own wife despised him from a window. Your Bible says he danced <em>before the LORD</em>. The Hebrew says he danced <em>before the face of the LORD</em>. He was not performing for the crowd, and he was not working up a feeling; he was a man dancing at the face of Someone he could feel watching him, and loving every second of it.",
+    "html": "David danced the day the ark came home to Jerusalem, out in the street with everything he had, spinning out of his royal robes until his own wife despised him from a window. He danced <em>lifnei YHWH</em>, before the face of the LORD. He was not performing for the crowd, and he was not working up a feeling; he was a man dancing at the face of Someone he could feel watching him, and loving every second of it.",
     "id": "ch01-p50"
    },
    {
@@ -494,7 +494,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "It is there on Mount Moriah, where Abraham names the mountain <em>YHWH-jireh</em>. Your Bible translates it “the LORD will provide,” but <em>jireh</em> is <em>ra'ah</em> again: literally, <em>the LORD will see</em>. He will see to it. Even our English keeps the secret: “provide” comes from a Latin word meaning <em>to see ahead</em>. Provision was never a separate miracle. It was what seeing looked like when the One who saw you was God.",
+    "html": "It is there on Mount Moriah, where Abraham names the mountain <em>YHWH-jireh</em>. Everybody knows the phrase, “the LORD will provide,” but <em>jireh</em> is <em>ra'ah</em> again: literally, <em>the LORD will see</em>. He will see to it. Even our English keeps the secret: “provide” comes from a Latin word meaning <em>to see ahead</em>. Provision was never a separate miracle. It was what seeing looked like when the One who saw you was God.",
     "id": "ch01-p79"
    },
    {
@@ -869,7 +869,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "And the word He reaches for does two jobs in Hebrew. <em>Nasa.</em> It is the word for lifting a face. It is also the word for taking something heavy off a man’s back and carrying it away yourself.",
+    "html": "And one Hebrew word does both jobs. <em>Nasa.</em> It is the word for lifting a face. It is also the word for taking something heavy off a man’s back and carrying it away yourself.",
     "id": "ch02-p25"
    },
    {
@@ -1256,7 +1256,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Then the psalm turns. He says he has trusted in the lovingkindness after all, and that his heart is going to rejoice. And the last line is the one he had no business reaching:",
+    "html": "Then the psalm turns. Trusted in the unfailing love after all, and that his heart is going to rejoice. And the last line is the one he had no business reaching:",
     "id": "ch02-p87"
    },
    {
@@ -8088,7 +8088,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "And just as day is breaking, a figure stands on the beach and calls out about the nets.",
+    "html": "And just as day is breaking, a figure stands on the beach and calls out about the net.",
     "id": "ch09-p59"
    },
    {
