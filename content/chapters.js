@@ -1256,7 +1256,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Then the psalm turns. Trusted in the unfailing love after all, and that his heart is going to rejoice. And the last line is the one he had no business reaching:",
+    "html": "Then the psalm turns. He says he has trusted in the unfailing love after all, and that his heart is going to rejoice. And the last line is the one he had no business reaching:",
     "id": "ch02-p87"
    },
    {

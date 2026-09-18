@@ -1,7 +1,24 @@
 # Panim — what's waiting on you
 
-**Updated 2026-09-17, evening.** Everything that needs a decision from you now lives on one page.
-This file is the map: where the decisions are, what is already settled, and what only you can do.
+**Updated 2026-09-18.** Everything that needs a decision from you lives on one page. This file is
+the map: where the decisions are, what is already settled, and what only you can do.
+
+> ### 🔴 Since your last answers, three things changed
+>
+> 1. **The book sheet was wrong and has been rebuilt.** It was marking verse references, Hebrew
+>    words and lone *a*/*or*/*is* as "not on the tape", off a single Whisper pass. Nothing was ever
+>    applied — the manuscript holds 140 verse references today against 138 in June, and none has ever
+>    been removed. Four kinds of text can no longer reach a sheet at all, and nothing reaches one on
+>    a single transcript any more. See `panim-book/handoffs/BOOK-FOLLOWS-TAPE.md`: **18 changes, not 28.**
+> 2. **The raw session is on the MAS drive** — 9h33m, 24-bit, every take of every line
+>    (`/Volumes/MAS/Music/book222 pt *.aif`). A broken word can now be replaced with the same word
+>    said cleanly, in your voice, instead of being carved out of the shipped tape.
+> 3. **Studio Sound can be done here**, measured off 24 stretches where we hold both the raw and the
+>    Studio-Sounded version of the same words. A raw take comes out 2.3 dB from the shipped tape with
+>    the noise floor matched to +0.1 dB. **No Descript credits are needed for the restores.**
+>
+> **Round four is one page: https://claude.ai/artifact/XXYUPkgnh9SHABoAh6AqxX** (published from **mylipsloveit@gmail.com**) — 30 decisions:
+> the six clips, the eighteen book lines, six questions. The whole-book check found 0 broken words.
 
 ---
 
@@ -33,13 +50,36 @@ recommendation across the board. You can still change any single one after tappi
 
 ---
 
+## 1b. Six clips waiting for your ears
+
+Each file plays **as it ships first, then the new version**, one after the other. Nothing here has
+been applied to anything.
+
+| what | file under `Panim-audio/v2/work/` |
+|---|---|
+| ch 8 — the clap after "Peter" you said was *not fixed* | `patch/flag-ch08-994.mp3` |
+| ch 9 — *"can you find cooking somewhere else and paste it there?"* | `patch/flag-ch09-594.mp3` |
+| ch 10 — *"why not use a different nursery"* | `patch/flag-ch10-958.mp3` |
+| ch 2 — "He wastes nothing. Not even the running." put back | `restore/ch02-6157-preview.mp3` |
+| ch 7 — "…was written by this man." put back | `restore/ch07-9459-preview.mp3` |
+| ch 10 — "Sit at My right hand." put back | `restore/ch10-6669-preview.mp3` |
+
+All six are the raw session, processed to match the tape, and every one transcribes back
+word-perfect after the splice.
+
+---
+
 ## 2. Only you can do these (not decisions — jobs)
 
 - [ ] **Listen to the six edited chapters end to end** (3, 6, 7, 8, 9, 10) against the ones that ship
       now. v2 ships only if it is better. Copies live in `Panim-audio/v2/voice/`.
-- [ ] **Studio Sound on the four restores** — only if you pick **A** on the sign-off page.
-      Descript project **"Raw DO NOT EDIT (panim)"**; timecodes are on the page and in
-      `Panim-audio/v2/edits-need-work.md`.
+- [ ] ~~**Studio Sound on the four restores** in Descript~~ — **not needed any more.** Three of the
+      four are rebuilt from the raw session and processed here. The fourth (ch 10 *"The word is
+      ra'ah."*) exists only in the 14 Aug pickups: either export that one clip from the Descript
+      project **"edits panim"**, or say the line again in ten seconds and I do the rest.
+- [ ] **Two sentences at a mic, under a minute** — ch 6 (*chen*) and ch 10 (*the woman at the tent*).
+      They were written on 30 August, after the tape was recorded on 26 August, so they exist in no
+      take anywhere. This is the only recording left in the whole project.
 - [ ] **New backup drive:** the Mac sees only the SL500 (MAS + Time Machine). Try another cable or port.
 - [ ] **Stats:** PostHog → Activity. Visits should be arriving.
 - [ ] **Download on iPhone:** Listen → Download → *Saved ✓* → airplane mode → play a chapter.
@@ -94,12 +134,14 @@ Older answered sheets: `../archive/`, most recently
 
 ## 5. What I do next, in this order
 
-1. **Your sign-off answers** → the nine repairs onto the copies, the 28 text edits into the
-   manuscript, then the site's three text tools and a version bump.
-2. **Music rebuild** from the edited voice, then per-file checks, then site cues, encode, R2, version.
-3. **T5. Picture row:** swipe-driven sway plus 2–3 cleaner counter/arrow versions.
-4. **T6. About section:** 2–3 mockups.
-5. **T7. Sharper pictures:** upscale the ten plates to 2816px for big screens only.
+1. **Your ears on the six clips in §1b**, then those go onto the copies with the rest of the repairs.
+2. **The 18 book changes** in `BOOK-FOLLOWS-TAPE.md` into the manuscript — eight of them are rewrites,
+   not deletions, and I will show you the new wording before it goes in. Then the site's three text
+   tools and a version bump.
+3. **Music rebuild** from the edited voice, then per-file checks, then site cues, encode, R2, version.
+4. **T5. Picture row:** swipe-driven sway plus 2–3 cleaner counter/arrow versions.
+5. **T6. About section:** 2–3 mockups.
+6. **T7. Sharper pictures:** upscale the ten plates to 2816px for big screens only.
 
 ---
 
@@ -123,3 +165,8 @@ The sample card starts at David (ch 7, 17:55) · no co-author line on any commit
 `content/chapters.js` is generated, never hand-edited · the stats key is `phc_` only ·
 the shipped audio is never edited in place: fixes happen on copies and ship only after you have
 listened · archive, never delete.
+
+**And, from 2026-09-18, four things a transcript may never touch in the book** — a verse reference,
+anything inside a block quote, a Hebrew or Greek term, or a lone function word. Enforced in code
+(`Panim-audio/v2/scripts/guards.py`), not by memory. No claim that the tape is missing something
+reaches a sheet on one transcript; it takes two, read with different biases, agreeing.
