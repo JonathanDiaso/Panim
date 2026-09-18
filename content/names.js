@@ -33,19 +33,53 @@
 //          that the name had not already told them. The badge is gone and the note
 //          does its work, so a new entry without one now renders a bare name.
 
+// ✅ ALL 59 NOTES CHECKED AGAINST THE MANUSCRIPT, 2026-09-17. Every entry's forms
+// were matched over panim-book/chapters/*.md — 660 occurrences, none with zero — and
+// each note was read against the passages it points at. Twelve notes changed:
+//
+//   Daniel    WRONG. ch 7 says "Daniel is east. His windows are cut the other way."
+//             He is IN the east; the windows face Jerusalem, which is west of him.
+//             The note had him at an east-facing window, which is the posture of the
+//             twenty-five men the very same passage condemns. Now "a window open
+//             toward Jerusalem".
+//   Jesus     'his face like flint' → 'His'. Every other sentence in the book
+//             capitalises a pronoun standing for Jesus; this note did not.
+//   Jonah     'who went out from the face' was Cain's verb. ch 2 gives Cain "went out
+//             from the presence of the LORD" and Jonah "ran ... millifnei YHWH", and
+//             the escalation between them — a garden, a country, an ocean — is the
+//             point of the passage. Now "who ran from the face of the LORD, and got
+//             there anyway", which also carries ch 2's own landing ("Nineveh was
+//             already a mile toward it").
+//   Joshua    'scandalised' → 'scandalized'. The manuscript spells it with a z, and
+//             this was the only British spelling in the file.
+//   9 notes   straight apostrophes → typographic. tools/build-chapters.py smart-quotes
+//             the chapter text and js/render.js prints a note verbatim, so the index
+//             was the one block on the page showing Moses's beside the book's Moses’s.
+//
+// 🟡 FOUR NOTES ARE TRUE BUT SAY MORE THAN THE BOOK DOES, and were left alone because
+// a note exists to tell a reader who someone is, not to quote the manuscript:
+//   Eli           "at Shiloh" — right (1 Samuel 1), but the book never names Shiloh.
+//   John          "leaned on the chest ... rather come than write" — John 13:23 and
+//                 2 John 12; neither is anywhere in this book.
+//   Ketef Hinnom  "Chamber 25" — where the amulets really were found; the book says
+//                 only "chamber after chamber".
+//   Melchizedek   "brought no altar" — true of Genesis 14, but "a priest with no
+//                 altar" is ch 7's line about EZEKIEL, so it reads as an echo.
+// If any of those should instead say what the book says, they are one edit each.
+
 (function () {
   'use strict';
 
   window.PANIM_NAMES = [
     // ---- people ----
-    { name: 'Aaron',     kind: 'person', forms: ['Aaron'],     note: "Moses's brother, and Israel's first high priest" },
+    { name: 'Aaron',     kind: 'person', forms: ['Aaron'],     note: "Moses’s brother, and Israel’s first high priest" },
     { name: 'Abraham',   kind: 'person', forms: ['Abraham'],   note: 'called Abram before the name was changed' },
     { name: 'Abram',     kind: 'person', forms: ['Abram'],     note: 'Abraham, before the name was changed' },
-    { name: 'Absalom',   kind: 'person', forms: ['Absalom'],   note: "David's son, and the two years of a face withheld" },
+    { name: 'Absalom',   kind: 'person', forms: ['Absalom'],   note: "David’s son, and the two years of a face withheld" },
     { name: 'Adam',      kind: 'person', forms: ['Adam'],      note: 'the first man, and the first hiding' },
     { name: 'Cain',      kind: 'person', forms: ['Cain'],      note: 'whose face fell before he raised a hand' },
     { name: 'Caleb',     kind: 'person', forms: ['Caleb'], note: 'who walked the same forty days, and came back saying their cover was gone' },
-    { name: 'Daniel',    kind: 'person', forms: ['Daniel'], note: 'an old man at an east-facing window, praying the blessing back at God' },
+    { name: 'Daniel',    kind: 'person', forms: ['Daniel'], note: 'an old man at a window open toward Jerusalem, praying the blessing back at God' },
     { name: 'David',     kind: 'person', forms: ['David'], note: 'who danced for the face, and told his wife whose face it was' },
     // 🔴 THE INDEX HAD NO ELI UNTIL 2026-09-09, and he is the man the whole last
     // movement of the book turns on: the priest whose office is turning God's face
@@ -55,9 +89,9 @@
     // ⚠️ 'Eli' IS SAFE AS A FORM AND IT WAS CHECKED, NOT ASSUMED. The matcher closes
     // on (?![A-Za-z]), so Elijah does not match, and the cry from the cross in ch. VIII
     // is "Eloi", not "Eli" — verified against the manuscript, two hits, both his.
-    { name: 'Eli',       kind: 'person', forms: ['Eli'],       note: "the priest at Shiloh who watched Hannah's lips and decided she was drunk" },
+    { name: 'Eli',       kind: 'person', forms: ['Eli'],       note: "the priest at Shiloh who watched Hannah’s lips and decided she was drunk" },
     { name: 'Elijah',    kind: 'person', forms: ['Elijah'],    note: 'and the sound of thin silence at Horeb' },
-    { name: 'Esau',      kind: 'person', forms: ['Esau'],      note: "Jacob's brother, and the face he rehearsed for twenty years" },
+    { name: 'Esau',      kind: 'person', forms: ['Esau'],      note: "Jacob’s brother, and the face he rehearsed for twenty years" },
     { name: 'Esther',    kind: 'person', forms: ['Esther'], note: 'who wrote a five-word will, then walked toward a face that could kill her' },
     { name: 'Ezekiel',   kind: 'person', forms: ['Ezekiel'], note: 'the priest who never served, and watched the glory ride out on faces' },
     { name: 'Hagar',     kind: 'person', forms: ['Hagar'],     note: 'the runaway who named God' },
@@ -70,15 +104,15 @@
     // tent", every time — so the index was pointing at three paragraphs about one
     // person while telling the reader they were about another.
     // ⭐ The note now says what the book says: one name, two women, which IS chapter X.
-    { name: 'Hannah',    kind: 'person', forms: ['Hannah'], note: "the author's sister — and, the book finds, the name of the woman at Shiloh" },
+    { name: 'Hannah',    kind: 'person', forms: ['Hannah'], note: "the author’s sister — and, the book finds, the name of the woman at Shiloh" },
     { name: 'Isaac',     kind: 'person', forms: ['Isaac'], note: 'the bound son, who drops out of the story until a bride is brought to him' },
     { name: 'Isaiah',    kind: 'person', forms: ['Isaiah'], note: 'who named God by His hiding, and knew what the set face would cost' },
     { name: 'Jacob',     kind: 'person', forms: ['Jacob'],     note: 'who wrestled at the ford and would not let go' },
-    { name: 'Jesus',     kind: 'person', forms: ['Jesus'], note: 'who set his face like flint, and let it be spat on' },
+    { name: 'Jesus',     kind: 'person', forms: ['Jesus'], note: 'who set His face like flint, and let it be spat on' },
     { name: 'Job',       kind: 'person', forms: ['Job'], note: 'who would not take the explanation, and held out for a face' },
     { name: 'John',      kind: 'person', forms: ['John'], note: 'who leaned on the chest, and would rather come than write' },
-    { name: 'Jonah',     kind: 'person', forms: ['Jonah'],     note: 'who went out from the face of the LORD' },
-    { name: 'Joshua',    kind: 'person', forms: ['Joshua'], note: "Moses's aide, scandalised that the Spirit went where the ceremony had not" },
+    { name: 'Jonah',     kind: 'person', forms: ['Jonah'],     note: 'who ran from the face of the LORD, and got there anyway' },
+    { name: 'Joshua',    kind: 'person', forms: ['Joshua'], note: "Moses’s aide, scandalized that the Spirit went where the ceremony had not" },
     { name: 'Judas',     kind: 'person', forms: ['Judas'], note: 'who went out into the night, and the one who stayed had the same name' },
     { name: 'Luke',      kind: 'person', forms: ['Luke'], note: 'who spends three verbs on a father running' },
     { name: 'Mary',      kind: 'person', forms: ['Mary'], note: 'left crying outside the tomb after the others had gone home' },
@@ -89,7 +123,7 @@
     { name: 'Pharaoh',   kind: 'person', forms: ['Pharaoh'], note: 'the face Moses asked to be excused from, and was not' },
     { name: 'Philip',    kind: 'person', forms: ['Philip'], note: 'who asked for the Father with no idea whose words he was carrying' },
     { name: 'Rebekah',   kind: 'person', forms: ['Rebekah'], note: 'whose name means to tie fast, and who lifted her eyes as he lifted his' },
-    { name: 'Sarai',     kind: 'person', forms: ['Sarai'], note: "Abram's wife, and the owner of the slave girl who named God" },
+    { name: 'Sarai',     kind: 'person', forms: ['Sarai'], note: "Abram’s wife, and the owner of the slave girl who named God" },
     { name: 'Saul',      kind: 'person', forms: ['Saul'], note: 'the king who heard about his replacement years before he met the boy' },
     { name: 'Solomon',   kind: 'person', forms: ['Solomon'], note: 'who built the house the glory would later leave' },
     { name: 'Stephen',   kind: 'person', forms: ['Stephen'],   note: 'whose face was like the face of an angel' },
@@ -100,14 +134,14 @@
     // ---- places ----
     { name: 'Babylon',   kind: 'place', forms: ['Babylon'],    note: 'and its borrowed radiance' },
     { name: 'Carmel',    kind: 'place', forms: ['Carmel'], note: 'where the fire fell, and the morning after it' },
-    { name: 'Damascus',  kind: 'place', forms: ['Damascus'], note: "a road, a light that took a man's eyes, and the rest of his life" },
+    { name: 'Damascus',  kind: 'place', forms: ['Damascus'], note: "a road, a light that took a man’s eyes, and the rest of his life" },
     { name: 'Eden',      kind: 'place', forms: ['Eden'], note: 'the garden, and the move this book watches us make in every chapter' },
     { name: 'Egypt',     kind: 'place', forms: ['Egypt'], note: 'a country of gods with stone faces, and not one of them looked back' },
     { name: 'Emmaus',    kind: 'place', forms: ['Emmaus'],     note: 'the road, and the table after it' },
     { name: 'Galilee',   kind: 'place', forms: ['Galilee'], note: 'where the man undone by a look went back to fishing' },
     { name: 'Gath',      kind: 'place', forms: ['Gath'], note: 'where David let his spit run into his beard to stay alive' },
     { name: 'Golgotha',  kind: 'place', forms: ['Golgotha'], note: 'where the set face arrived' },
-    { name: 'Horeb',     kind: 'place', forms: ['Horeb'], note: "Sinai's other name, the cleft in its rock, and the thin silence" },
+    { name: 'Horeb',     kind: 'place', forms: ['Horeb'], note: "Sinai’s other name, the cleft in its rock, and the thin silence" },
     { name: 'Jabbok',    kind: 'place', forms: ['Jabbok'],     note: 'the ford, and the night at it' },
     { name: 'Jerusalem', kind: 'place', forms: ['Jerusalem'], note: 'where the silver went into the ground, and where the face was set' },
     { name: 'Ketef Hinnom', kind: 'place', forms: ['Ketef Hinnom', 'Hinnom'], note: 'the burial caves, and Chamber 25' },

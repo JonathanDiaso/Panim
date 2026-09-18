@@ -5,7 +5,7 @@ This file is the map: where the decisions are, what is already settled, and what
 
 ---
 
-## 1. The sign-off page — 41 decisions, all of them
+## 1. The sign-off page — 45 decisions, all of them
 
 ### 👉 **https://claude.ai/artifact/QPm9n1c3W74AR6A3om3X42**
 
@@ -24,6 +24,7 @@ moment you tap it — there is nothing to send me, and you can stop and come bac
 | The cloned voice | **1** | the ch 10 line, cloned on this Mac — ship it, keep it print-only, or record it yourself | yes |
 | Book or tape | **28** | you said it differently at the mic; which wording does the printed book carry | no (audio there if you want it) |
 | No listening needed | **3** | Studio Sound on the four restores · the Spanish piano · marking the print-only lines | no |
+| The index notes | **4** | four notes that are true but say more than the book does | no |
 
 There is an **All 28 → tape** button at the top of the third section if you agree with the
 recommendation across the board. You can still change any single one after tapping it.
@@ -79,6 +80,14 @@ Older answered sheets: `../archive/`, most recently
   said you didn't want buzzing or added words creeping in.
 - **The voice clone**, local only, nothing uploaded, no account.
 - **The sign-off page** above, replacing the round-2 review page.
+- **T2 is done: all 59 index notes checked against the manuscript**, 660 occurrences, every one
+  read. Twelve notes were wrong and are fixed; the site is at **v84**. The old bookkeeping said
+  "94 notes (35 rewritten + 59 never checked)" — there were never 94. The index has held 58–59
+  entries in every version in git, and no draft of 35 rewrites survives anywhere, so what the
+  sheet called two jobs was one. Worst error found: **Daniel** was at "an east-facing window",
+  and chapter 7 says *"Daniel is east. His windows are cut the other way."* East-facing is the
+  posture of the twenty-five men that same passage condemns. Full account in the header comment
+  of `content/names.js`.
 - **Backed up** to MAS: 2.7 GB, then 198 MB, at `/Volumes/MAS/Panim-archive/_mirror/Panim`.
 
 ---
@@ -88,11 +97,9 @@ Older answered sheets: `../archive/`, most recently
 1. **Your sign-off answers** → the nine repairs onto the copies, the 28 text edits into the
    manuscript, then the site's three text tools and a version bump.
 2. **Music rebuild** from the edited voice, then per-file checks, then site cues, encode, R2, version.
-3. **T2. Index notes:** check all 94 against the book (the 35 rewrites were never applied). This is
-   the largest block of reader-facing text nobody has verified.
-4. **T5. Picture row:** swipe-driven sway plus 2–3 cleaner counter/arrow versions.
-5. **T6. About section:** 2–3 mockups.
-6. **T7. Sharper pictures:** upscale the ten plates to 2816px for big screens only.
+3. **T5. Picture row:** swipe-driven sway plus 2–3 cleaner counter/arrow versions.
+4. **T6. About section:** 2–3 mockups.
+5. **T7. Sharper pictures:** upscale the ten plates to 2816px for big screens only.
 
 ---
 
