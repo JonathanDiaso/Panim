@@ -1619,7 +1619,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "term": "mi-yitten",
-    "gloss": "The Hebrew is mi-yitten, literally, “Who will give?” There is no true English equivalent, because it is neither a request nor a command."
+    "gloss": "Mi-yitten."
    },
    {
     "term": "l'fanenu",
@@ -1847,7 +1847,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "And He did not begin with rules. The commandments came out of the fire, but the fire came first. The order is the message: He comes near before He asks for anything.",
+    "html": "And He did not begin with rules. The commandments came out of the fire, but the fire came first. He comes near before He asks for anything.",
     "id": "ch03-p39"
    },
    {
@@ -1993,7 +1993,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Centuries later a farmer named Gideon, threshing wheat down in a winepress to hide even his harvest, looks up into the face of the angel of the LORD and cries out the same fear that gripped the crowd at Sinai, certain the sight has killed him. Heaven’s answer is almost tender: “do not fear; you shall not die.”",
+    "html": "Centuries later a farmer named Gideon, threshing wheat down in a winepress to hide even his harvest, looks up into the face of the angel of the LORD and cries out the same fear that gripped the crowd at Sinai, certain the sight has killed him. Heaven’s answer is almost tender: “Peace to you, do not fear; you shall not die.” Judges 6:23.",
     "id": "ch03-p64"
    },
    {
@@ -2060,12 +2060,12 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Our English translations render it, “Oh that they had such a heart,” a wistful phrase.",
+    "html": "<em>Mi-yitten</em>. Two words. Literally, “Who will give?” Our Bibles turned it into a sigh: “Oh that they had such a heart.” And it is not a sigh.",
     "id": "ch03-p75"
    },
    {
     "type": "p",
-    "html": "The Hebrew is <em>mi-yitten</em>, literally, “Who will give?” There is no true English equivalent, because it is neither a request nor a command.",
+    "html": "There is no true English equivalent, because it is neither a request nor a command.",
     "id": "ch03-p76"
    },
    {
@@ -2729,7 +2729,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "One word. The truth. The first time, his name was the one thing the blessing required him to hide. This time, his real name is the one thing the blessing requires him to say. And the moment it is out of his mouth, the voice in the dark takes it from him. “You will no longer be called Jacob, but Israel.”",
+    "html": "The first time, his name was the one thing the blessing required him to hide. This time, his real name is the one thing the blessing requires him to say. And the moment it is out of his mouth, the voice in the dark takes it from him. “You will no longer be called Jacob, but Israel.”",
     "id": "ch04-p51"
    },
    {
@@ -2970,7 +2970,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "term": "kavod",
-    "gloss": "The word he uses is kavod, and at its root it means weight, heaviness, sheer mass."
+    "gloss": "The word he used is kavod, and at its root it means weight."
    },
    {
     "term": "Peh el peh",
@@ -3079,7 +3079,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "<em>Ehyeh asher Ehyeh.</em> I AM WHO I AM. The strangeness was the point. Every god in Egypt had a name that worked like a label on a statue: this one is Ra, that one is Horus, sort them by falcon and jackal. The voice in the bush hands over a verb. To be. Present tense. First person. An existence, not a label: nothing you could carve, only something you can stand in front of.",
+    "html": "<em>Ehyeh asher Ehyeh.</em> I AM WHO I AM. The strangeness was the point. Every god in Egypt had a name that worked like a label on a statue: this one is Ra, that one is Horus, sort them by falcon and jackal. The voice in the bush hands over a verb. To be. Present tense. An existence, not a label: nothing you could carve, only something you can stand in front of.",
     "id": "ch05-p15"
    },
    {
@@ -3113,7 +3113,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Our English says slow of speech, and the Hebrew is blunter: heavy of mouth and heavy of tongue. That is how it feels from inside, and Moses has had forty years of desert silence to feel it. The words weigh too much. By the time his mouth has lifted them, the moment they were for has passed.",
+    "html": "He does not say slow. He says heavy: heavy of mouth and heavy of tongue. That is how it feels from inside, and Moses has had forty years of desert silence to feel it. The words weigh too much. By the time his mouth has lifted them, the moment they were for has passed.",
     "id": "ch05-p20"
    },
    {
@@ -3140,12 +3140,12 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "The edge on that question is Egyptian. There was a ritual in the country Moses grew up in, performed in its temples and at every funeral it held, called the Opening of the Mouth. Priests took a ritual adze, a small copper blade on a handle, and held it to the carved lips of statues and the bandaged mouths of mummies, so that the dead could breathe, eat, and speak in the world to come.",
+    "html": "There was a ritual in the country Moses grew up in, performed in its temples and at every funeral it held, called the Opening of the Mouth. Priests took a ritual adze, a small copper blade on a handle, and held it to the carved lips of statues and the bandaged mouths of mummies, so that the dead could breathe, eat, and speak in the world to come.",
     "id": "ch05-p23"
    },
    {
     "type": "p",
-    "html": "Every god Moses had grown up around had a mouth that human hands had to open. Gods who could not speak until a human being pried them open. Into that memory God drops His question. Who has made man’s mouth? I do not open mouths with an adze. I made the mouth.",
+    "html": "Every god Moses had grown up around had a mouth that human hands had to open. Gods who could not speak until a human being pried them open. Into that memory God drops His question. Who has made man’s mouth? I do not open mouths with a copper blade. I made the mouth.",
     "id": "ch05-p24"
    },
    {
@@ -3416,7 +3416,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Our English Bibles print “presence,” and “presence” is not wrong. But the Hebrew word underneath it is the word this whole book is tracking: <em>panim</em>. <em>My face shall go with you. If Your face does not go, do not carry us up from here.</em>",
+    "html": "The word printed there as “presence” is <em>panim</em>, the word this book has been following since the first page. <em>My face shall go with you. If Your face does not go, do not carry us up from here.</em>",
     "id": "ch05-p75"
    },
    {
@@ -3446,7 +3446,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "The word he uses is <em>kavod</em>, and at its root it means weight, heaviness, sheer mass. Heavy is what Moses called his own tongue at the bush, the same Hebrew root, the word he used to disqualify himself.",
+    "html": "The word he used is <em>kavod</em>, and at its root it means weight. Heavy is what Moses called his own tongue at the bush, the same Hebrew root, the word he used to disqualify himself.",
     "id": "ch05-p81"
    },
    {
@@ -4389,7 +4389,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Countenance is a Sunday word, and underneath it is <em>panim</em>. The LORD lift up His face toward you. And in Israel, that phrase had a rap sheet. Lifting someone’s face is courtroom language, and in the law of Moses it is the crooked kind: it is what a bought judge does. “You shall not be partial,” God orders Israel’s courts, and the Hebrew beneath partial says, <em>you shall not lift up faces</em>. Do not let the verdict tilt because you like the man standing in front of you.",
+    "html": "Countenance is a Sunday word, and underneath it is <em>panim</em>. The LORD lift up His face toward you. Lifting someone’s face is courtroom language, and in the law of Moses it is the crooked kind: it is what a bought judge does. “You shall not be partial,” God orders Israel’s courts, and the Hebrew beneath partial says, <em>you shall not lift up faces</em>. Do not let the verdict tilt because you like the man standing in front of you.",
     "id": "ch06-p58"
    },
    {
@@ -4483,7 +4483,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "To carry it is to walk around marked: His, addressed as His, spoken for.",
+    "html": "To carry it is to walk around marked.",
     "id": "ch06-p75"
    },
    {
@@ -5107,7 +5107,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "There is a small thing buried in that line. The Hebrew word for face, <em>panim</em>, comes from the verb <em>panah</em>, to turn. A face, in Hebrew, is the turned-toward part of a person.",
+    "html": "There is a small thing buried in that line. <em>Panim</em> comes from the verb <em>panah</em>, to turn. A face, in Hebrew, is the turned-toward part of a person.",
     "id": "ch07-p27"
    },
    {
@@ -6194,7 +6194,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "It is the blessing. The English reaches for a different verb here, and underneath it is the same one: the same word for shining, the same word for face, the one the priests had raised their hands and spoken over him every year of his childhood, the one that went into the ground on silver back home.",
+    "html": "It is the blessing. Different verbs in English. In Hebrew, it is one word: the same word for shining, the same word for face, the one the priests had raised their hands and spoken over him every year of his childhood, the one that went into the ground on silver back home.",
     "id": "ch07-p212"
    },
    {
@@ -7947,10 +7947,10 @@ window.PANIM_CHAPTERS = [
    {
     "type": "verse",
     "lines": [
-     "Then the eyes of both of them were opened, and they knew that they were naked; and they sewed fig leaves together and made themselves loin coverings."
+     "Then the eyes of both of them were opened, and they realized they were naked; so they sewed fig leaves together and made coverings for themselves."
     ],
     "ref": "Genesis 3:7",
-    "translation": "NASB",
+    "translation": "NIV",
     "id": "ch09-v3"
    },
    {
@@ -8359,7 +8359,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "This morning the approach reverses. The fire leaves the mountaintops, crosses the city, comes indoors, and lands on people, and nobody is consumed, and nobody backs away. The fire came to the people, and the people held still, and then the people spoke.",
+    "html": "This morning the approach reverses. The fire leaves the mountaintops, crosses the city, comes indoors, and lands on people, and nobody is consumed, and nobody backs away. The fire came to the people, and the people held still, and then the people spoke. And the shape the fire chose is its own sermon.",
     "id": "ch09-p104"
    },
    {
@@ -8377,7 +8377,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "And the shape the fire chose is its own sermon. Of every form flame can take, it arrives as tongues. The God who once stood in a bush saying, “I will be with your mouth,” has kept His word: the fire of the Presence, resting on the organ of speech, and every mouth in the room opening at once.",
+    "html": "Of every form flame can take, it arrives as tongues. The God who once stood in a bush saying, “I will be with your mouth,” has kept His word: the fire of the Presence, resting on the organ of speech, and every mouth in the room opening at once.",
     "id": "ch09-p107"
    },
    {
@@ -9338,7 +9338,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "The chapter of the Binding closes by naming the bride whose name means bound. The covenant God had just tied to Himself so that nothing in heaven or earth could ever break it, and a bride whose name means bound. Scripture lays them on the same page on purpose.",
+    "html": "The chapter of the Binding closes by naming the bride whose name means bound. The covenant God had just tied to Himself so that nothing in heaven or earth could ever break it, and a bride whose name means bound.",
     "id": "ch10-p98"
    },
    {
@@ -9471,7 +9471,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Of everything God could require at the end of a reconciliation, He asks for a change of name. Not more reverence. Less distance.",
+    "html": "At the end of a reconciliation, He asks for a change of name. Not more reverence. Less distance.",
     "id": "ch10-p119"
    },
    {
@@ -9524,7 +9524,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "The covering He swallows is called, word for word, <em>the face of the shroud</em>. This book’s own word, worn by the thing that covers us.",
+    "html": "And the covering He swallows has a name: <em>the face of the shroud</em>. This book’s own word, worn by the thing that covers us.",
     "id": "ch10-p126"
    },
    {
@@ -9639,7 +9639,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "There it is. In the first chapter I gave you a sentence from a hillside: <em>blessed are the pure in heart, for they shall see God</em>. It has been burning quietly for ten chapters, through the tomb and the trees and the mountains and the fires.",
+    "html": "In the first chapter I gave you a sentence from a hillside: <em>blessed are the pure in heart, for they shall see God</em>. It has been burning quietly for ten chapters, through the tomb and the trees and the mountains and the fires.",
     "id": "ch10-p144"
    },
    {

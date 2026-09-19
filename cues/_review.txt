@@ -12,12 +12,10 @@ ch08: 247/247 blocks cued (0 interpolated), median conf 1.00
 ch09: 180/180 blocks cued (0 interpolated), median conf 1.00
 ch10: 292/292 blocks cued (3 interpolated), median conf 1.00
 
-review list (11):
+review list (9):
   ch04-p52  conf=0.00  interpolated t=853.4
-  ch05-p75  conf=0.57  t=1032.5
   ch05-p163  conf=0.00  interpolated t=2016.5
   ch06-p57  conf=0.03  t=734.1
-  ch06-p75  conf=0.57  t=926.5
   ch07-p108  conf=0.33  t=1084.8
   ch08-p162  conf=0.33  t=1233.3
   ch08-p163  conf=0.50  t=1235.7

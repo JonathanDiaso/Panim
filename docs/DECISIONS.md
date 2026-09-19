@@ -19,6 +19,11 @@ the map: where the decisions are, what is already settled, and what only you can
 >
 > **Round four is one page: https://claude.ai/artifact/XXYUPkgnh9SHABoAh6AqxX** (published from **mylipsloveit@gmail.com**) — 30 decisions:
 > the six clips, the eighteen book lines, six questions. The whole-book check found 0 broken words.
+>
+> **Answered 2026-09-18, late (v86).** All 22 book edits applied (verse references 140 → 141; Genesis 3:7 is NIV, labelled).
+> **All six audio clips rejected**: the inserted words sat 3–15 dB low, with room echo. The home-made Studio Sound (`enhance.py`) is
+> retired for speech. New audio now goes through the RUNBOOK chain: record → preclean → Descript Studio Sound 65% → level-matched splice (±1.5 dB gate).
+> Plan and questions: `panim-book/handoffs/NEXT.md`.
 
 ---
 
