@@ -1601,6 +1601,12 @@ html.is-narrating .block-p.is-live::after {
   color: var(--ink-faint); text-decoration: underline; text-underline-offset: 3px;
 }
 .about-fineprint a:hover, .about-fineprint a:focus-visible { color: var(--ink); }
+/* The publishers' Scripture notices (2026-09-18). Required wording, so it is set as
+   quiet apparatus rather than cut down; the colour is the sheet's own faint ink. */
+.sheet p.about-notice {
+  font-family: var(--ui); font-size: var(--ap-md); line-height: 1.55;
+  color: var(--ink-faint); margin-bottom: .8em;
+}
 
 /* ============================================================================
    THE THREAD — a closing section, not a sheet

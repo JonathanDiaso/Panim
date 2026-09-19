@@ -164,12 +164,12 @@
       href="art/d/hero-940.avif"
       imagesrcset="art/d/hero-640.avif 640w, art/d/hero-940.avif 940w, art/d/hero-1408.avif 1408w"
       imagesizes="(min-width: 1440px) 1440px, 100vw">
-<link rel="stylesheet" href="fonts/fonts.css?v=86">
-<link rel="stylesheet" href="css/site.css?v=86">
-<link rel="stylesheet" href="css/components.css?v=86">
-<link rel="stylesheet" href="css/player.css?v=86">
-<link rel="stylesheet" href="css/room.css?v=86">
-<link rel="stylesheet" href="css/polish.css?v=86">
+<link rel="stylesheet" href="fonts/fonts.css?v=87">
+<link rel="stylesheet" href="css/site.css?v=87">
+<link rel="stylesheet" href="css/components.css?v=87">
+<link rel="stylesheet" href="css/player.css?v=87">
+<link rel="stylesheet" href="css/room.css?v=87">
+<link rel="stylesheet" href="css/polish.css?v=87">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -498,6 +498,16 @@
       <li><kbd>L</kbd> the Listening Room</li>
     </ul>
 
+    <!-- SCRIPTURE NOTICES, 2026-09-18 (round five, q5-copyright: "ok").
+         All four publishers allow quoting without asking, online as in print, ONLY with
+         their notice shown. Source of the wording: panim-book/book/07-copyright-page.md,
+         which carries the publishers' links. Change it there first, then here. -->
+    <h3 class="about-sub">Scripture</h3>
+    <p class="about-notice">Unless otherwise indicated, Scripture quotations are taken from the (NASB®) New American Standard Bible®, Copyright © 1995 by The Lockman Foundation. Used by permission. All rights reserved. www.Lockman.org</p>
+    <p class="about-notice">Scripture quotations marked (ESV) are from the ESV® Bible (The Holy Bible, English Standard Version®), © 2001 by Crossway, a publishing ministry of Good News Publishers. ESV Text Edition: 2025. The ESV text may not be quoted in any publication made available to the public by a Creative Commons license. The ESV may not be translated in whole or in part into any other language. Used by permission. All rights reserved.</p>
+    <p class="about-notice">Scripture quotations marked (NLT) are taken from the Holy Bible, New Living Translation, copyright © 1996, 2004, 2015 by Tyndale House Foundation. Used by permission of Tyndale House Publishers, Carol Stream, Illinois 60188. All rights reserved.</p>
+    <p class="about-notice">Scripture quotations marked (NIV) are taken from The Holy Bible, New International Version®, NIV®. Copyright © 1973, 1978, 1984, 2011 by Biblica, Inc.™ Used by permission. All rights reserved worldwide.</p>
+
     <!-- The accessibility statement lives in About rather than in a footer because this
          site has no footer other than the player, which is chrome. -->
     <p class="about-fineprint"><a href="accessibility.html">Accessibility</a></p>
@@ -824,36 +834,36 @@
 
 <audio id="narration-audio" preload="none" crossorigin="anonymous"></audio>
 
-<script src="content/chapters.js?v=86"></script>
-<script src="content/images.js?v=86"></script>
-<script src="content/audio-host.js?v=86"></script>
-<script src="content/audio-manifest.js?v=86"></script>
-<script src="content/audio-manifest-es.js?v=86"></script>
-<script src="content/marks.js?v=86"></script>
-<script src="content/thread.js?v=86"></script>
-<script src="content/lexicon.js?v=86"></script>
-<script src="content/names.js?v=86"></script>
-<script src="content/sources.js?v=86"></script>
-<script src="content/verse-notes.js?v=86"></script>
-<script src="content/derivatives.js?v=86"></script>
-<script src="js/render.js?v=86"></script>
-<script src="js/ui.js?v=86"></script>
-<script src="js/motion.js?v=86"></script>
-<script src="js/sync.js?v=86"></script>
-<script src="js/search.js?v=86"></script>
-<script src="js/player.js?v=86"></script>
+<script src="content/chapters.js?v=87"></script>
+<script src="content/images.js?v=87"></script>
+<script src="content/audio-host.js?v=87"></script>
+<script src="content/audio-manifest.js?v=87"></script>
+<script src="content/audio-manifest-es.js?v=87"></script>
+<script src="content/marks.js?v=87"></script>
+<script src="content/thread.js?v=87"></script>
+<script src="content/lexicon.js?v=87"></script>
+<script src="content/names.js?v=87"></script>
+<script src="content/sources.js?v=87"></script>
+<script src="content/verse-notes.js?v=87"></script>
+<script src="content/derivatives.js?v=87"></script>
+<script src="js/render.js?v=87"></script>
+<script src="js/ui.js?v=87"></script>
+<script src="js/motion.js?v=87"></script>
+<script src="js/sync.js?v=87"></script>
+<script src="js/search.js?v=87"></script>
+<script src="js/player.js?v=87"></script>
 <!-- before room.js: it owns window.PanimOffline, which room.js paints the ↓ column from -->
-<script src="js/offline.js?v=86"></script>
-<script src="js/room.js?v=86"></script>
+<script src="js/offline.js?v=87"></script>
+<script src="js/room.js?v=87"></script>
 <!-- the Spanish words, fetched only when Spanish is chosen. See js/spanish-text.js. -->
-<script src="js/spanish-text.js?v=86"></script>
+<script src="js/spanish-text.js?v=87"></script>
 <!-- anonymous visitor and listening counts, OFF until content/stats-key.js has a key.
      See js/stats.js. -->
-<script src="content/stats-key.js?v=86"></script>
-<script src="js/stats.js?v=86"></script>
+<script src="content/stats-key.js?v=87"></script>
+<script src="js/stats.js?v=87"></script>
 <!-- select any passage in the book and it offers to send it, with a link that
      unfurls as the chapter and lands on the sentence. See js/quote.js. -->
-<script src="js/quote.js?v=86" defer></script>
+<script src="js/quote.js?v=87" defer></script>
 <script>
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function(){}); });

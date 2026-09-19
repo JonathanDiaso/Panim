@@ -1,29 +1,34 @@
 # Panim — what's waiting on you
 
-**Updated 2026-09-18.** Everything that needs a decision from you lives on one page. This file is
-the map: where the decisions are, what is already settled, and what only you can do.
+**Updated 2026-09-18, late (round five answered, site v87).** This file is the map: where the
+decisions are, what is already settled, and what only you can do. The full write-up is
+`panim-book/handoffs/NEXT.md`.
 
-> ### 🔴 Since your last answers, three things changed
+> ### 🔴 Now: decide four things, then record
 >
-> 1. **The book sheet was wrong and has been rebuilt.** It was marking verse references, Hebrew
->    words and lone *a*/*or*/*is* as "not on the tape", off a single Whisper pass. Nothing was ever
->    applied — the manuscript holds 140 verse references today against 138 in June, and none has ever
->    been removed. Four kinds of text can no longer reach a sheet at all, and nothing reaches one on
->    a single transcript any more. See `panim-book/handoffs/BOOK-FOLLOWS-TAPE.md`: **18 changes, not 28.**
-> 2. **The raw session is on the MAS drive** — 9h33m, 24-bit, every take of every line
->    (`/Volumes/MAS/Music/book222 pt *.aif`). A broken word can now be replaced with the same word
->    said cleanly, in your voice, instead of being carved out of the shipped tape.
-> 3. **Studio Sound can be done here**, measured off 24 stretches where we hold both the raw and the
->    Studio-Sounded version of the same words. A raw take comes out 2.3 dB from the shipped tape with
->    the noise floor matched to +0.1 dB. **No Descript credits are needed for the restores.**
+> **Pickup script: https://claude.ai/artifact/HyU8YS2ogCghkcFRcmNPJg** (v3). Every line says who is
+> right, the book or the tape, and why. You asked *"are we sure the tape isn't wrong there?"*: for
+> **ch 7 it is the tape that is right**, and the line is off the must-record list.
 >
-> **Round four is one page: https://claude.ai/artifact/XXYUPkgnh9SHABoAh6AqxX** (published from **mylipsloveit@gmail.com**) — 30 decisions:
-> the six clips, the eighteen book lines, six questions. The whole-book check found 0 broken words.
+> **Before you record, your call:**
 >
-> **Answered 2026-09-18, late (v86).** All 22 book edits applied (verse references 140 → 141; Genesis 3:7 is NIV, labelled).
-> **All six audio clips rejected**: the inserted words sat 3–15 dB low, with room echo. The home-made Studio Sound (`enhance.py`) is
-> retired for speech. New audio now goes through the RUNBOOK chain: record → preclean → Descript Studio Sound 65% → level-matched splice (±1.5 dB gate).
-> Plan and questions: `panim-book/handoffs/NEXT.md`.
+> 1. **Ch 7: should the book follow the tape?** *"…about a table was:"* then the verse. Recommended.
+> 2. **The Nemo transition**: after the aquarium, *"that engraving"* points back 6½ minutes. Re-name
+>    it (*"…right beside His name on their foreheads…"*), one line to record. Recommended.
+> 3. **Abraham going west**: not in the book today. Genesis runs the other way (leaving God goes
+>    *east*: Eden, Cain, Babel, Lot), so a whole-Bible "east to west" line at the end would be wrong
+>    as worded. One or two sentences in ch 1–2 would be right. Your call; it is new writing.
+> 4. **A continuity read of the whole book** before you record, so anything it finds is read in the
+>    same session. Recommended.
+>
+> **Answered in round five** (`Panim-audio/v2/picks-round5.json`): ch 8 clap, ch 9 "cooking", ch 10
+> "right hand" **approved**; ch 2 "wastes nothing", ch 7 "this man", ch 10 "nursery" **still wrong** →
+> the pickup script. **Copyright page approved**: in the book (`panim-book/book/07-copyright-page.md`)
+> and in the About panel (v87). **Spanish Bible: set aside** until the English recording is done.
+>
+> **Levels, measured on all ten chapters:** −21.0 LUFS, −3.0 dBTP, speech within 0.1 dB chapter to
+> chapter, no jumps anywhere. **Levelling is done.** One finding: ch 2 and 10 are about 2 dB duller
+> up top than ch 3 and 9. The fix goes in the final master pass, with your ear on a before/after.
 
 ---
 
