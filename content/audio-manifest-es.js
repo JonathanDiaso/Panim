@@ -5,10 +5,10 @@ window.PANIM_AUDIO_ES = {
  "ch01": {
   "num": 1,
   "title": "El Dios que ve",
-  "voiceDur": 1507.42,
-  "musicDur": 1525.42,
+  "voiceDur": 1555.15,
+  "musicDur": 1573.15,
   "musicOffset": 6.0,
-  "musicMB": 18.7
+  "musicMB": 19.2
  },
  "ch02": {
   "num": 2,
@@ -53,11 +53,11 @@ window.PANIM_AUDIO_ES = {
  "ch07": {
   "num": 7,
   "title": "La gloria sale de espaldas",
-  "voiceDur": 2648.53,
-  "musicDur": 2666.53,
+  "voiceDur": 2603.04,
+  "musicDur": 2621.04,
   "musicOffset": 6.0,
-  "musicMB": 32.6,
-  "doorThrough": 1895.35
+  "musicMB": 32.0,
+  "doorThrough": 1849.78
  },
  "ch08": {
   "num": 8,
@@ -78,9 +78,9 @@ window.PANIM_AUDIO_ES = {
  "ch10": {
   "num": 10,
   "title": "Cara a cara",
-  "voiceDur": 3855.48,
-  "musicDur": 3873.48,
+  "voiceDur": 3849.23,
+  "musicDur": 3867.23,
   "musicOffset": 6.0,
-  "musicMB": 47.4
+  "musicMB": 47.3
  }
 };

@@ -20,4 +20,5 @@ self.PANIM_AUDIO_BASE = 'https://pub-b3a31d98ee8f47f291bb96a7d047a1e0.r2.dev/Pan
 // (R2 objects go out with max-age=86400) can be served against the new read-along cues.
 // The service worker keys its offline copies by pathname, so the query never splits a
 // saved chapter in two. v2 = the English tape re-edited and cleaned, 2026-09-19.
-self.PANIM_AUDIO_V = '2';
+// v3 = the Spanish chapters 1, 7 and 10 rebuilt to follow it, same day.
+self.PANIM_AUDIO_V = '3';
