@@ -14,3 +14,10 @@
 // Cloudflare R2, bucket panim-audio, since v77 (2026-09-16). Objects are
 // Panim/audio/music/chNN.m4a and Panim/audio/es/chNN.m4a.
 self.PANIM_AUDIO_BASE = 'https://pub-b3a31d98ee8f47f291bb96a7d047a1e0.r2.dev/Panim/';
+
+// WHICH RECORDING. Bumped when the files at those paths are replaced with a new master.
+// The page asks for chNN.m4a?v=<this>, so no browser or CDN copy of the old recording
+// (R2 objects go out with max-age=86400) can be served against the new read-along cues.
+// The service worker keys its offline copies by pathname, so the query never splits a
+// saved chapter in two. v2 = the English tape re-edited and cleaned, 2026-09-19.
+self.PANIM_AUDIO_V = '2';

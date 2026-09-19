@@ -6,7 +6,7 @@
 
    ⭐ THE BOOK IS FREE AND IT MOVES BY BEING SENT TO PEOPLE. Everything else on
    this site already understood that — /c/NN/ exists so a chapter link unfurls as
-   that chapter, `?t=ch07:17m55s` exists so a moment in the tape survives being
+   that chapter, `?t=ch07:17m21s` exists so a moment in the tape survives being
    pasted. The one thing missing was the smallest unit anybody actually sends:
    a sentence somebody just read and wants to hand to one other person.
 

@@ -3,7 +3,7 @@
 **What the top of the site does, why it does it, and where it lives.**
 🛑 **THE VERSION NUMBER LIVES IN `sw.js` (`SHELL` / `ASSET_V`), NEVER IN THIS PROSE.**
 🛑 **Every open decision is in `docs/DECISIONS.md` — do not start a second list.**
-🛑 **The second door's `href` stays on David (`?t=ch07:17m55s`).** Why, and what it cost to learn:
+🛑 **The second door's `href` stays on David (`?t=ch07:17m21s`; 17m55s on the v1 tape).** Why, and what it cost to learn:
 archive §0.1.
 
 🗄 **Every shipped round is in `../archive/`, not here** — §4, §13, §18 and §19 below are the

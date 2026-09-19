@@ -58,10 +58,10 @@ MUSIC_OFFSET = 6.0            # introoutro.py LEAD_IN, same as the English
 BITRATE = 96000               # the English files measure 97-99 kbps
 
 # The five-minute card on the front page is a passage of chapter VII that ends on
-# "He answered it wet" (ch07-p170). A reader has heard it through when the NEXT
+# "He answered it wet" (ch07-p166; p170 before the 2026-09-19 ch 7 cut). A reader has heard it through when the NEXT
 # block starts. js/player.js holds the English number; the Spanish one is read off
 # the Spanish cues here, by id, so the two can never disagree about which line.
-DOOR_CHAPTER, DOOR_NEXT_ID = "ch07", "ch07-p171"
+DOOR_CHAPTER, DOOR_NEXT_ID = "ch07", "ch07-p167"
 
 # A Spanish line that is nothing but a scripture reference. The English builder's
 # CITATION is ASCII-only and English-named, so "Génesis 1:2." parses as prose there.

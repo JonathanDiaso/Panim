@@ -19,7 +19,11 @@ import re
 import unicodedata
 
 SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRT_DIR = os.path.expanduser("~/Panim-audio/transcripts")
+# The tape the site plays is v2 (2026-09-19). Its SRTs are the verified Descript ones carried
+# onto the v2 timeline by ~/Panim-audio/v2/scripts/srt_v2.py -- golden times moved by exactly
+# as much as the tape moved under them, pickup words snapped to real onsets. Same convention
+# (voice time - 0.5 s). The v1 originals are still in ~/Panim-audio/transcripts/; SRTDIR= picks.
+SRT_DIR = os.environ.get("SRTDIR") or os.path.expanduser("~/Panim-audio/v2/transcripts-site")
 ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
 
 

@@ -330,53 +330,58 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "David danced the day the ark came home to Jerusalem, out in the street with everything he had, spinning out of his royal robes until his own wife despised him from a window. He danced <em>lifnei YHWH</em>, before the face of the LORD. He was not performing for the crowd, and he was not working up a feeling; he was a man dancing at the face of Someone he could feel watching him, and loving every second of it.",
+    "html": "By then he had been walking that way for years. When people leave in Genesis, they go east: Adam and Eve out past the cherubim at the east of the garden, Cain east of Eden, the builders of Babel journeying east. Every road had led away from the face. Then Abram left Ur for a country he had never seen, and his road led toward it. Years later, when his nephew Lot chose the best land and journeyed east, toward Sodom, Abram stayed. He never went back.",
     "id": "ch01-p50"
    },
    {
     "type": "p",
-    "html": "The woman at the window was Saul’s daughter. She came out to tell him how he had looked in front of the servant girls, and he did not defend the dancing. He told her which face he had been dancing for, and then he named her father. <em>It was before the LORD, who chose me above your father.</em>",
+    "html": "David danced the day the ark came home to Jerusalem, out in the street with everything he had, spinning out of his royal robes until his own wife despised him from a window. He danced <em>lifnei YHWH</em>, before the face of the LORD. He was not performing for the crowd, and he was not working up a feeling; he was a man dancing at the face of Someone he could feel watching him, and loving every second of it.",
     "id": "ch01-p51"
    },
    {
     "type": "p",
-    "html": "Her father had lost a kingdom explaining himself in one sentence. <em>I feared the people and listened to their voice.</em>",
+    "html": "The woman at the window was Saul’s daughter. She came out to tell him how he had looked in front of the servant girls, and he did not defend the dancing. He told her which face he had been dancing for, and then he named her father. <em>It was before the LORD, who chose me above your father.</em>",
     "id": "ch01-p52"
    },
    {
     "type": "p",
-    "html": "She had grown up in a house that played to the room. And when she told her husband he had humiliated himself in public, he said he would go lower than that, and be low in his own eyes.",
+    "html": "Her father had lost a kingdom explaining himself in one sentence. <em>I feared the people and listened to their voice.</em>",
     "id": "ch01-p53"
    },
    {
     "type": "p",
-    "html": "And the same key cuts the other way: when a man sins <em>before the LORD</em>, he is sinning in front of a face, and that sentence is suddenly much harder to read. The Bible does not just record what happened. Page after page, it records Whose face it happened before.",
+    "html": "She had grown up in a house that played to the room. And when she told her husband he had humiliated himself in public, he said he would go lower than that, and be low in his own eyes.",
     "id": "ch01-p54"
    },
    {
     "type": "p",
-    "html": "Counting its compound forms, the word appears more than two thousand times, which means the face of God has been sitting inside sentences you have read all your life, hidden under a word as ordinary as before. You may have met the face in its famous verses, the blessings and the psalms. It was also standing on nearly every other page.",
+    "html": "And the same key cuts the other way: when a man sins <em>before the LORD</em>, he is sinning in front of a face, and that sentence is suddenly much harder to read. The Bible does not just record what happened. Page after page, it records Whose face it happened before.",
     "id": "ch01-p55"
    },
    {
     "type": "p",
-    "html": "And sometimes it is not hidden at all. Sometimes it has been taken out.",
+    "html": "Counting its compound forms, the word appears more than two thousand times, which means the face of God has been sitting inside sentences you have read all your life, hidden under a word as ordinary as before. You may have met the face in its famous verses, the blessings and the psalms. It was also standing on nearly every other page.",
     "id": "ch01-p56"
    },
    {
     "type": "p",
-    "html": "Three years of famine in David’s country, year after year, and the king goes looking for God.",
+    "html": "And sometimes it is not hidden at all. Sometimes it has been taken out.",
     "id": "ch01-p57"
    },
    {
     "type": "p",
-    "html": "The text says he sought the face of the LORD.",
+    "html": "Three years of famine in David’s country, year after year, and the king goes looking for God.",
     "id": "ch01-p58"
    },
    {
     "type": "p",
-    "html": "You have only ever read that he inquired.",
+    "html": "The text says he sought the face of the LORD.",
     "id": "ch01-p59"
+   },
+   {
+    "type": "p",
+    "html": "You have only ever read that he inquired.",
+    "id": "ch01-p60"
    },
    {
     "type": "beat"
@@ -384,47 +389,47 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "One of those is a man at a counter. The other is a man looking for someone.",
-    "id": "ch01-p60"
-   },
-   {
-    "type": "p",
-    "html": "And the first person who ever looked toward that face and understood what she was seeing was a slave.",
     "id": "ch01-p61"
    },
    {
     "type": "p",
-    "html": "She is Egyptian, property in the household of Abram, pregnant with a child she did not choose. The pregnancy was her mistress’s plan. In that world a slave could be used however her owners wished, her body conscripted into someone else’s dream. And the story hides a detail in plain sight: to this point, no one has spoken her name. Sarai says “my maid.” Abram says “your maid.” She is discussed, handed over, blamed. Never once addressed.",
+    "html": "And the first person who ever looked toward that face and understood what she was seeing was a slave.",
     "id": "ch01-p62"
    },
    {
     "type": "p",
-    "html": "Then the household turns cruel, and Hagar has nowhere to appeal, no one to protect her, no door that opens for her.",
+    "html": "She is Egyptian, property in the household of Abram, pregnant with a child she did not choose. The pregnancy was her mistress’s plan. In that world a slave could be used however her owners wished, her body conscripted into someone else’s dream. And the story hides a detail in plain sight: to this point, no one has spoken her name. Sarai says “my maid.” Abram says “your maid.” She is discussed, handed over, blamed. Never once addressed.",
     "id": "ch01-p63"
    },
    {
     "type": "p",
-    "html": "She runs.",
+    "html": "Then the household turns cruel, and Hagar has nowhere to appeal, no one to protect her, no door that opens for her.",
     "id": "ch01-p64"
    },
    {
     "type": "p",
-    "html": "Out into the desert. Down the road toward Egypt, toward the only other life she has ever known.",
+    "html": "She runs.",
     "id": "ch01-p65"
    },
    {
     "type": "p",
-    "html": "And what is waiting at the end of that road?",
+    "html": "Out into the desert. Down the road toward Egypt, toward the only other life she has ever known.",
     "id": "ch01-p66"
    },
    {
     "type": "p",
-    "html": "Egypt is a country of gods with stone faces, the faces Hagar grew up beneath, gilded and staring down the Nile. Not one of them ever looked back at a slave girl.",
+    "html": "And what is waiting at the end of that road?",
     "id": "ch01-p67"
    },
    {
     "type": "p",
-    "html": "She is running home to the gods who do not see.",
+    "html": "Egypt is a country of gods with stone faces, the faces Hagar grew up beneath, gilded and staring down the Nile. Not one of them ever looked back at a slave girl.",
     "id": "ch01-p68"
+   },
+   {
+    "type": "p",
+    "html": "She is running home to the gods who do not see.",
+    "id": "ch01-p69"
    },
    {
     "type": "ref",
@@ -433,47 +438,47 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Then, at a spring in the wilderness, a voice finds her.",
-    "id": "ch01-p69"
-   },
-   {
-    "type": "p",
-    "html": "She does not know yet whose voice it is.",
     "id": "ch01-p70"
    },
    {
     "type": "p",
-    "html": "But before He asks her for anything, He gives her something no one in her world ever has.",
+    "html": "She does not know yet whose voice it is.",
     "id": "ch01-p71"
    },
    {
     "type": "p",
-    "html": "Her name.",
+    "html": "But before He asks her for anything, He gives her something no one in her world ever has.",
     "id": "ch01-p72"
    },
    {
     "type": "p",
-    "html": "“Hagar, servant of Sarai, where have you come from, and where are you going?” Gen 16:8",
+    "html": "Her name.",
     "id": "ch01-p73"
    },
    {
     "type": "p",
-    "html": "He already knows both answers. He asks anyway. Orders are what you give property; a question is what you give a person whose story matters. And this question hands her back the two things slavery had erased: a past worth telling, and a future worth asking about. God does not begin by telling her what to do. He begins by asking who she is.",
+    "html": "“Hagar, servant of Sarai, where have you come from, and where are you going?” Gen 16:8",
     "id": "ch01-p74"
    },
    {
     "type": "p",
-    "html": "When the encounter ends, this pregnant runaway does something found nowhere else in all of Scripture.",
+    "html": "He already knows both answers. He asks anyway. Orders are what you give property; a question is what you give a person whose story matters. And this question hands her back the two things slavery had erased: a past worth telling, and a future worth asking about. God does not begin by telling her what to do. He begins by asking who she is.",
     "id": "ch01-p75"
    },
    {
     "type": "p",
-    "html": "No patriarch gives Him one. No prophet. No king.",
+    "html": "When the encounter ends, this pregnant runaway does something found nowhere else in all of Scripture.",
     "id": "ch01-p76"
    },
    {
     "type": "p",
-    "html": "She gives God a name.",
+    "html": "No patriarch gives Him one. No prophet. No king.",
     "id": "ch01-p77"
+   },
+   {
+    "type": "p",
+    "html": "She gives God a name.",
+    "id": "ch01-p78"
    },
    {
     "type": "beat"
@@ -490,67 +495,67 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "<em>El Roi.</em> Two Hebrew words: <em>El</em>, God, and <em>Roi</em>, who sees me. And sitting inside <em>Roi</em> is the verb <em>ra'ah</em>, the plain physical act of eyes landing on something. Once you have met that verb, you find it standing at the hinges of the whole story.",
-    "id": "ch01-p78"
-   },
-   {
-    "type": "p",
-    "html": "It is there on Mount Moriah, where Abraham names the mountain <em>YHWH-jireh</em>. Everybody knows the phrase, “the LORD will provide,” but <em>jireh</em> is <em>ra'ah</em> again: literally, <em>the LORD will see</em>. He will see to it. Even our English keeps the secret: “provide” comes from a Latin word meaning <em>to see ahead</em>. Provision was never a separate miracle. It was what seeing looked like when the One who saw you was God.",
     "id": "ch01-p79"
    },
    {
     "type": "p",
-    "html": "For Hagar, being seen and being cared for were the same mercy, moving toward her from the same face. Genesis 22:14.",
+    "html": "It is there on Mount Moriah, where Abraham names the mountain <em>YHWH-jireh</em>. Everybody knows the phrase, “the LORD will provide,” but <em>jireh</em> is <em>ra'ah</em> again: literally, <em>the LORD will see</em>. He will see to it. Even our English keeps the secret: “provide” comes from a Latin word meaning <em>to see ahead</em>. Provision was never a separate miracle. It was what seeing looked like when the One who saw you was God.",
     "id": "ch01-p80"
    },
    {
     "type": "p",
-    "html": "The verb returns centuries later, at the bottom of Israel’s darkest stretch, when four hundred years of slavery finally crack open against a single line: “God saw the sons of Israel, and God took notice of them.” Ex 2:25.",
+    "html": "For Hagar, being seen and being cared for were the same mercy, moving toward her from the same face. Genesis 22:14.",
     "id": "ch01-p81"
    },
    {
     "type": "p",
-    "html": "The whole exodus — the plagues, the sea, the mountain — swings on a verb of the eyes. Rescue begins the same way it began for Hagar: not with an army, but with a look.",
+    "html": "The verb returns centuries later, at the bottom of Israel’s darkest stretch, when four hundred years of slavery finally crack open against a single line: “God saw the sons of Israel, and God took notice of them.” Ex 2:25.",
     "id": "ch01-p82"
    },
    {
     "type": "p",
-    "html": "Her theology did not come from a scroll or an altar or a vision of thrones. She was simply seen. Seen all the way through, where she came from and where she was going, by Someone who did not look away.",
+    "html": "The whole exodus — the plagues, the sea, the mountain — swings on a verb of the eyes. Rescue begins the same way it began for Hagar: not with an army, but with a look.",
     "id": "ch01-p83"
    },
    {
     "type": "p",
-    "html": "The lowest-ranked person in the story walked out of that desert knowing what to call God before the patriarchs did.",
+    "html": "Her theology did not come from a scroll or an altar or a vision of thrones. She was simply seen. Seen all the way through, where she came from and where she was going, by Someone who did not look away.",
     "id": "ch01-p84"
    },
    {
     "type": "p",
-    "html": "She is the first of a long line.",
+    "html": "The lowest-ranked person in the story walked out of that desert knowing what to call God before the patriarchs did.",
     "id": "ch01-p85"
    },
    {
     "type": "p",
-    "html": "Maybe that is why her story still finds people, four thousand years later. You were built to notice faces. Deep in your brain, a small patch of circuitry is devoted almost entirely to recognizing them. Almost nothing else you look at gets that. Not trees, not mountains, not the sunsets you stop the car for. Faces alone get their own machinery.",
+    "html": "She is the first of a long line.",
     "id": "ch01-p86"
    },
    {
     "type": "p",
-    "html": "And that wiring is installed before almost anything else is ready. A newborn’s eyes arrive focused to roughly one distance, and it is not the distance to the window or the ceiling. It is eight to twelve inches: the distance to the face of whoever is holding them. From your first hours of life, you were scanning for a face, and you have never stopped.",
+    "html": "Maybe that is why her story still finds people, four thousand years later. You were built to notice faces. Deep in your brain, a small patch of circuitry is devoted almost entirely to recognizing them. Almost nothing else you look at gets that. Not trees, not mountains, not the sunsets you stop the car for. Faces alone get their own machinery.",
     "id": "ch01-p87"
    },
    {
     "type": "p",
-    "html": "Science can map the circuitry. It can describe the mechanism. But it cannot tell you what a face is for.",
+    "html": "And that wiring is installed before almost anything else is ready. A newborn’s eyes arrive focused to roughly one distance, and it is not the distance to the window or the ceiling. It is eight to twelve inches: the distance to the face of whoever is holding them. From your first hours of life, you were scanning for a face, and you have never stopped.",
     "id": "ch01-p88"
    },
    {
     "type": "p",
-    "html": "Hagar could.",
+    "html": "Science can map the circuitry. It can describe the mechanism. But it cannot tell you what a face is for.",
     "id": "ch01-p89"
    },
    {
     "type": "p",
-    "html": "You were built to search for a face. This book is about the One you were made to find.",
+    "html": "Hagar could.",
     "id": "ch01-p90"
+   },
+   {
+    "type": "p",
+    "html": "You were built to search for a face. This book is about the One you were made to find.",
+    "id": "ch01-p91"
    },
    {
     "type": "beat"
@@ -558,27 +563,27 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "One man in the Gospels acted that out with his whole body.",
-    "id": "ch01-p91"
-   },
-   {
-    "type": "p",
-    "html": "He was the chief tax collector in Jericho, which in that town meant a man everyone could name and nobody would stand beside. He was also short. So when the crowd closed up along the road, he did the undignified thing: he ran on ahead of everybody and climbed a sycamore, because a face was coming through and he could not see over the shoulders in front of him.",
     "id": "ch01-p92"
    },
    {
     "type": "p",
-    "html": "The face stopped underneath him.",
+    "html": "He was the chief tax collector in Jericho, which in that town meant a man everyone could name and nobody would stand beside. He was also short. So when the crowd closed up along the road, he did the undignified thing: he ran on ahead of everybody and climbed a sycamore, because a face was coming through and he could not see over the shoulders in front of him.",
     "id": "ch01-p93"
    },
    {
     "type": "p",
-    "html": "Jesus looked up, and used his name, and invited Himself to dinner.",
+    "html": "The face stopped underneath him.",
     "id": "ch01-p94"
    },
    {
     "type": "p",
-    "html": "He came to see. He got seen. And it ended at his own table, with the neighbors out in the street complaining about who was eating in there.",
+    "html": "Jesus looked up, and used his name, and invited Himself to dinner.",
     "id": "ch01-p95"
+   },
+   {
+    "type": "p",
+    "html": "He came to see. He got seen. And it ended at his own table, with the neighbors out in the street complaining about who was eating in there.",
+    "id": "ch01-p96"
    },
    {
     "type": "ref",
@@ -587,62 +592,62 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And one page earlier, Luke had already put another tax collector in the temple, too ashamed to try any of that.",
-    "id": "ch01-p96"
-   },
-   {
-    "type": "p",
-    "html": "He stood off at a distance. He would not lift his eyes off the floor. All he could do was strike his own chest and ask God for mercy.",
     "id": "ch01-p97"
    },
    {
     "type": "p",
-    "html": "Jesus said that one went home justified.",
+    "html": "He stood off at a distance. He would not lift his eyes off the floor. All he could do was strike his own chest and ask God for mercy.",
     "id": "ch01-p98"
    },
    {
     "type": "p",
-    "html": "Two tax collectors, back to back in the same Gospel. One climbed a tree to get his eyes up. One could not raise his at all.",
+    "html": "Jesus said that one went home justified.",
     "id": "ch01-p99"
    },
    {
     "type": "p",
-    "html": "Neither of them missed.",
+    "html": "Two tax collectors, back to back in the same Gospel. One climbed a tree to get his eyes up. One could not raise his at all.",
     "id": "ch01-p100"
    },
    {
     "type": "p",
-    "html": "And there was a third man, earlier still, who was not looking for anything.",
+    "html": "Neither of them missed.",
     "id": "ch01-p101"
    },
    {
     "type": "p",
-    "html": "A skeptic named Nathanael gets dragged to Jesus by a friend, arrives with his arms folded, and is undone inside of one sentence. Not by an argument. By a location.",
+    "html": "And there was a third man, earlier still, who was not looking for anything.",
     "id": "ch01-p102"
    },
    {
     "type": "p",
-    "html": "“Before Philip called you, when you were under the fig tree, I saw you.” John 1:48.",
+    "html": "A skeptic named Nathanael gets dragged to Jesus by a friend, arrives with his arms folded, and is undone inside of one sentence. Not by an argument. By a location.",
     "id": "ch01-p103"
    },
    {
     "type": "p",
-    "html": "Nobody was there. A man alone under some leaves, and Someone was already looking.",
+    "html": "“Before Philip called you, when you were under the fig tree, I saw you.” John 1:48.",
     "id": "ch01-p104"
    },
    {
     "type": "p",
-    "html": "And that search comes with a promise, and the promise is older than the man who made it.",
+    "html": "Nobody was there. A man alone under some leaves, and Someone was already looking.",
     "id": "ch01-p105"
    },
    {
     "type": "p",
-    "html": "One of the psalms is built like a question at a door. Who may go up the hill of the LORD? Who gets to stand in the holy place? And the answer comes back the way answers come back at doors: short. Clean hands. A pure heart. Then the psalm names that crowd, and the name it gives them is the one this whole search has been reaching for: <em>the generation of those who seek Him, who seek Your face.</em>",
+    "html": "And that search comes with a promise, and the promise is older than the man who made it.",
     "id": "ch01-p106"
    },
    {
     "type": "p",
-    "html": "Centuries later a man stood on a hillside with no temple in sight and gave the door’s own answer back to a crowd.",
+    "html": "One of the psalms is built like a question at a door. Who may go up the hill of the LORD? Who gets to stand in the holy place? And the answer comes back the way answers come back at doors: short. Clean hands. A pure heart. Then the psalm names that crowd, and the name it gives them is the one this whole search has been reaching for: <em>the generation of those who seek Him, who seek Your face.</em>",
     "id": "ch01-p107"
+   },
+   {
+    "type": "p",
+    "html": "Centuries later a man stood on a hillside with no temple in sight and gave the door’s own answer back to a crowd.",
+    "id": "ch01-p108"
    },
    {
     "type": "verse",
@@ -656,17 +661,17 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "The door had offered a way in. He offers the face.",
-    "id": "ch01-p108"
-   },
-   {
-    "type": "p",
-    "html": "He named who gets to.",
     "id": "ch01-p109"
    },
    {
     "type": "p",
-    "html": "Nobody has collected on it yet.",
+    "html": "He named who gets to.",
     "id": "ch01-p110"
+   },
+   {
+    "type": "p",
+    "html": "Nobody has collected on it yet.",
+    "id": "ch01-p111"
    },
    {
     "type": "beat"
@@ -674,17 +679,17 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "The oldest Bible on earth is a prayer about the face of God, and the only name a human being ever gave Him is <em>the One who sees</em>.",
-    "id": "ch01-p111"
-   },
-   {
-    "type": "p",
-    "html": "With a beginning like that, the rest should be simple: A God who loves to look. A people learning to be seen. Glory the whole way home.",
     "id": "ch01-p112"
    },
    {
     "type": "p",
-    "html": "That is not what happens.",
+    "html": "With a beginning like that, the rest should be simple: A God who loves to look. A people learning to be seen. Glory the whole way home.",
     "id": "ch01-p113"
+   },
+   {
+    "type": "p",
+    "html": "That is not what happens.",
+    "id": "ch01-p114"
    },
    {
     "type": "swell"
@@ -692,12 +697,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Back in the garden, in the cool of the day, on the first evening after everything went wrong, God comes looking for two human faces.",
-    "id": "ch01-p114"
+    "id": "ch01-p115"
    },
    {
     "type": "p",
     "html": "They hide.",
-    "id": "ch01-p115"
+    "id": "ch01-p116"
    },
    {
     "type": "swell"
@@ -5459,66 +5464,43 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "Two chapters earlier, the same king did the opposite for a man with no claim on him at all.",
+    "html": "So David summons him at last.",
     "id": "ch07-p85"
    },
    {
     "type": "p",
-    "html": "Not a son. The grandson of the man whose throne David was sitting on. And a cripple.",
+    "html": "Absalom comes in and bows his face to the ground, and his father kisses him.",
     "id": "ch07-p86"
    },
    {
     "type": "p",
-    "html": "David sent for him, and Scripture closes his story in one breath: he ate at the king’s table every day of his life, and he was lame in both his feet.",
-    "id": "ch07-p87"
-   },
-   {
-    "type": "beat"
-   },
-   {
-    "type": "p",
-    "html": "One of them was home and could not see his father’s face. The other could not walk, and never missed a meal in front of the king’s.",
-    "id": "ch07-p88"
-   },
-   {
-    "type": "p",
-    "html": "So David summons him at last.",
-    "id": "ch07-p89"
-   },
-   {
-    "type": "p",
-    "html": "Absalom comes in and bows his face to the ground, and his father kisses him.",
-    "id": "ch07-p90"
-   },
-   {
-    "type": "p",
     "html": "The text records no words.",
-    "id": "ch07-p91"
+    "id": "ch07-p87"
    },
    {
     "type": "p",
     "html": "The face has finally turned toward him.",
-    "id": "ch07-p92"
+    "id": "ch07-p88"
    },
    {
     "type": "p",
     "html": "Within a few chapters the son who could not get his father’s face is taking his father’s kingdom instead, and dying in the attempt, and David is climbing the stairs over the city gate, coming apart in front of his own soldiers:",
-    "id": "ch07-p93"
+    "id": "ch07-p89"
    },
    {
     "type": "p",
     "html": "“O my son Absalom, my son, my son Absalom.",
-    "id": "ch07-p94"
+    "id": "ch07-p90"
    },
    {
     "type": "p",
     "html": "“Would I had died instead of you.”",
-    "id": "ch07-p95"
+    "id": "ch07-p91"
    },
    {
     "type": "p",
     "html": "The most famous sentence anyone ever wrote about a table was written by this man.",
-    "id": "ch07-p96"
+    "id": "ch07-p92"
    },
    {
     "type": "verse",
@@ -5533,22 +5515,22 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "David knew exactly what it was to be given a seat. He had been fed in front of men who wanted him dead. And for two years he ran a house where his own son had a roof, an allowance, and no chair.",
-    "id": "ch07-p97"
+    "id": "ch07-p93"
    },
    {
     "type": "p",
     "html": "Which is not the only thing that was happening at that table.",
-    "id": "ch07-p98"
+    "id": "ch07-p94"
    },
    {
     "type": "p",
     "html": "Years before Absalom ever came home, David had gone looking for anyone left alive from the house of Saul — the house that had hunted him through the wilderness for a decade — and found one survivor. A grandson of the man who threw spears at him. The boy had been dropped in his nurse’s arms the day the news came from the battlefield, and he had been lame in both feet ever since.",
-    "id": "ch07-p99"
+    "id": "ch07-p95"
    },
    {
     "type": "p",
     "html": "David sent for him. And what he handed him was not a pension.",
-    "id": "ch07-p100"
+    "id": "ch07-p96"
    },
    {
     "type": "verse",
@@ -5562,27 +5544,27 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Four times in one short chapter the text says it, the way a man repeats a thing he cannot get over. At my table. At my table regularly. As one of the king’s sons. And then the chapter closes on the detail it had been saving: <em>Now he was lame in both feet.</em>",
-    "id": "ch07-p101"
+    "id": "ch07-p97"
    },
    {
     "type": "p",
     "html": "So there were two men in that house.",
-    "id": "ch07-p102"
+    "id": "ch07-p98"
    },
    {
     "type": "p",
     "html": "The enemy’s grandson, who could not walk, ate at the king’s table as a son.",
-    "id": "ch07-p103"
+    "id": "ch07-p99"
    },
    {
     "type": "p",
     "html": "The king’s own son, who could walk anywhere he liked, lived down the street for two years and never saw his father’s face.",
-    "id": "ch07-p104"
+    "id": "ch07-p100"
    },
    {
     "type": "p",
     "html": "A chair in that house was never about deserving it. It was about who the king had decided to look at.",
-    "id": "ch07-p105"
+    "id": "ch07-p101"
    },
    {
     "type": "beat"
@@ -5590,112 +5572,112 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Pardon without presence is not mercy at half strength. It is forgiveness that never reaches the wound.",
-    "id": "ch07-p106"
+    "id": "ch07-p102"
    },
    {
     "type": "p",
     "html": "David forgave his son and went on hiding his face for two years, because a hurt human heart can hide indefinitely.",
-    "id": "ch07-p107"
+    "id": "ch07-p103"
    },
    {
     "type": "p",
     "html": "God’s cannot.",
-    "id": "ch07-p108"
+    "id": "ch07-p104"
    },
    {
     "type": "p",
     "html": "There is a story Jesus told, and He told it because He had been accused of eating with the wrong people. <em>This man receives sinners and eats with them</em>. That was the charge, and the story is His answer to it.",
-    "id": "ch07-p109"
+    "id": "ch07-p105"
    },
    {
     "type": "p",
     "html": "And when He built the father in that story, He built him out of somebody.",
-    "id": "ch07-p110"
+    "id": "ch07-p106"
    },
    {
     "type": "p",
     "html": "The younger son is still a long way off when the father sees him, and Luke spends three verbs on what happens next. He ran. He fell on his neck. He kissed him. In Greek those are the same three verbs, in the same order, that the Greek Old Testament uses for exactly one other reunion: the morning Esau came over the ridge with four hundred men behind him and ran at the brother who had spent twenty years certain he was coming to kill him.",
-    "id": "ch07-p111"
+    "id": "ch07-p107"
    },
    {
     "type": "p",
     "html": "Jesus was accused of eating with the wrong people. He answered with a story, and He gave the father Esau’s legs.",
-    "id": "ch07-p112"
+    "id": "ch07-p108"
    },
    {
     "type": "p",
     "html": "It ends at a feast. One son is inside at the table. The other one will not come in.",
-    "id": "ch07-p113"
+    "id": "ch07-p109"
    },
    {
     "type": "p",
     "html": "And the father does not send for him. He gets up, leaves his own party, and goes out to the door to plead with a son standing in the dark on purpose.",
-    "id": "ch07-p114"
+    "id": "ch07-p110"
    },
    {
     "type": "p",
     "html": "David waited two years for Absalom to come to him. This father would not wait through dinner.",
-    "id": "ch07-p115"
+    "id": "ch07-p111"
    },
    {
     "type": "p",
     "html": "The story never tells you whether the older son went in. It just leaves the father standing out there at the edge of the light, with the music going on behind him.",
-    "id": "ch07-p116"
+    "id": "ch07-p112"
    },
    {
     "type": "p",
     "html": "Elijah has just come off the most public miracle in generations, fire out of the sky on Carmel, at his word, in front of the assembled nation. And one death threat from one queen later, he is a day into the wilderness, under a juniper tree, asking God to take his life.",
-    "id": "ch07-p117"
+    "id": "ch07-p113"
    },
    {
     "type": "p",
     "html": "Whatever fell on Carmel, it is not holding him up now.",
-    "id": "ch07-p118"
+    "id": "ch07-p114"
    },
    {
     "type": "p",
     "html": "He walks forty days to Horeb, the mountain of God.",
-    "id": "ch07-p119"
+    "id": "ch07-p115"
    },
    {
     "type": "p",
     "html": "This mountain has become, by now, where the lost keep getting sent: a nation met the fire there, a shepherd met the bush there, and now a burned-out prophet crawls into a cave there, because crawling into a hole is what is left of his strength.",
-    "id": "ch07-p120"
+    "id": "ch07-p116"
    },
    {
     "type": "p",
     "html": "Then God gives him Sinai again, piece by piece.",
-    "id": "ch07-p121"
+    "id": "ch07-p117"
    },
    {
     "type": "p",
     "html": "A wind tears the mountains apart; the LORD is not in the wind.",
-    "id": "ch07-p122"
+    "id": "ch07-p118"
    },
    {
     "type": "p",
     "html": "An earthquake; He is not in the earthquake.",
-    "id": "ch07-p123"
+    "id": "ch07-p119"
    },
    {
     "type": "p",
     "html": "A fire; He is not in the fire.",
-    "id": "ch07-p124"
+    "id": "ch07-p120"
    },
    {
     "type": "p",
     "html": "All the old spectacle, emptied out, as if heaven were retiring it in front of him.",
-    "id": "ch07-p125"
+    "id": "ch07-p121"
    },
    {
     "type": "p",
     "html": "Even his own fire. Especially his own fire.",
-    "id": "ch07-p126"
+    "id": "ch07-p122"
    },
    {
     "type": "p",
     "html": "And after the fire comes something the Hebrew can barely say and English cannot: <em>qol demamah daqqah</em>, a voice of thin silence. A sound so quiet it can only be heard by a man who has run out of everything else.",
-    "id": "ch07-p127"
+    "id": "ch07-p123"
    },
    {
     "type": "verse",
@@ -5709,7 +5691,7 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "The wind did not make him move.",
-    "id": "ch07-p128"
+    "id": "ch07-p124"
    },
    {
     "type": "beat"
@@ -5717,212 +5699,212 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "The earthquake did not make him move.",
-    "id": "ch07-p129"
+    "id": "ch07-p125"
    },
    {
     "type": "p",
     "html": "The whisper brings him to the mouth of the cave with his cloak pulled over his face, the same thing Moses did at the bush.",
-    "id": "ch07-p130"
+    "id": "ch07-p126"
    },
    {
     "type": "p",
     "html": "He knows exactly Who is in the thin silence.",
-    "id": "ch07-p131"
+    "id": "ch07-p127"
    },
    {
     "type": "p",
     "html": "And the whisper does not scold him for despairing, and it does not heal him either; there is no verse where the darkness lifts.",
-    "id": "ch07-p132"
+    "id": "ch07-p128"
    },
    {
     "type": "p",
     "html": "It asks him a question, twice, and lets him empty his heart twice, and then it gives him what God gives His exhausted ones in the hiding centuries: work to do, a successor to find, and a corrected count.",
-    "id": "ch07-p133"
+    "id": "ch07-p129"
    },
    {
     "type": "p",
     "html": "Seven thousand others, Elijah; you were never as alone as the despair said.",
-    "id": "ch07-p134"
+    "id": "ch07-p130"
    },
    {
     "type": "p",
     "html": "Then it sends him back the way he came.",
-    "id": "ch07-p135"
+    "id": "ch07-p131"
    },
    {
     "type": "p",
     "html": "And here the scene refuses to resolve.",
-    "id": "ch07-p136"
+    "id": "ch07-p132"
    },
    {
     "type": "p",
     "html": "Elijah walks off the mountain of God with his face still wrapped, a man who heard the voice but never saw the glory.",
-    "id": "ch07-p137"
+    "id": "ch07-p133"
    },
    {
     "type": "p",
     "html": "The appointment is still on the books.",
-    "id": "ch07-p138"
+    "id": "ch07-p134"
    },
    {
     "type": "p",
     "html": "My sister Hannah moved to heaven when she was twenty. A blood clot reached her heart, and I found out suddenly, in another state.",
-    "id": "ch07-p139"
+    "id": "ch07-p135"
    },
    {
     "type": "p",
     "html": "She threw me a surprise party once and would not simply let me walk into it. She hid the whole thing behind a scavenger hunt and made me find it, one clue at a time, until I opened the last door and everybody I knew was standing in the room.",
-    "id": "ch07-p140"
+    "id": "ch07-p136"
    },
    {
     "type": "p",
     "html": "When I moved away, she threw me a going-away party with a pineapple theme. Pineapples were mine, and she knew it the way she knew everything about me. She got every friend I had into one room for it.",
-    "id": "ch07-p141"
+    "id": "ch07-p137"
    },
    {
     "type": "p",
     "html": "I only found out later what a pineapple on a gatepost used to mean. Sea captains were said to set one out when they had made it home. It was the sign for a safe return.",
-    "id": "ch07-p142"
+    "id": "ch07-p138"
    },
    {
     "type": "p",
     "html": "She hung it on a party about leaving.",
-    "id": "ch07-p143"
+    "id": "ch07-p139"
    },
    {
     "type": "p",
     "html": "She was in the stands at my baseball games, all of them, including the ones that did not matter to anybody but the people playing in them.",
-    "id": "ch07-p144"
+    "id": "ch07-p140"
    },
    {
     "type": "p",
     "html": "And she was there on the worst days. She just came.",
-    "id": "ch07-p145"
+    "id": "ch07-p141"
    },
    {
     "type": "p",
     "html": "She had been doing that my whole life.",
-    "id": "ch07-p146"
+    "id": "ch07-p142"
    },
    {
     "type": "p",
     "html": "And then she was not there, and the question that moved into the space she left was not about her.",
-    "id": "ch07-p147"
+    "id": "ch07-p143"
    },
    {
     "type": "p",
     "html": "It was whether He had been in the stands.",
-    "id": "ch07-p148"
+    "id": "ch07-p144"
    },
    {
     "type": "p",
     "html": "Years later I was at a school of supernatural ministry in Pennsylvania, learning to listen.",
-    "id": "ch07-p149"
+    "id": "ch07-p145"
    },
    {
     "type": "p",
     "html": "The exercise was simple. A pen. A blank sheet of paper. A question for Jesus. Then you listened, and wrote down whatever came.",
-    "id": "ch07-p150"
+    "id": "ch07-p146"
    },
    {
     "type": "p",
     "html": "At the top of mine, I wrote:",
-    "id": "ch07-p151"
+    "id": "ch07-p147"
    },
    {
     "type": "p",
     "html": "Jesus, do You love me?",
-    "id": "ch07-p152"
+    "id": "ch07-p148"
    },
    {
     "type": "p",
     "html": "Then nothing.",
-    "id": "ch07-p153"
+    "id": "ch07-p149"
    },
    {
     "type": "p",
     "html": "A minute passed. Maybe two.",
-    "id": "ch07-p154"
+    "id": "ch07-p150"
    },
    {
     "type": "p",
     "html": "I was overthinking it, because I already knew what I was waiting for. A sentence. Words in my head. The voice I had decided He used.",
-    "id": "ch07-p155"
+    "id": "ch07-p151"
    },
    {
     "type": "p",
     "html": "Not God, exactly.",
-    "id": "ch07-p156"
+    "id": "ch07-p152"
    },
    {
     "type": "p",
     "html": "The format I expected God to use.",
-    "id": "ch07-p157"
+    "id": "ch07-p153"
    },
    {
     "type": "p",
     "html": "Nothing came in that format.",
-    "id": "ch07-p158"
+    "id": "ch07-p154"
    },
    {
     "type": "p",
     "html": "My head went down, and the tears I had not cried in years began falling onto the page.",
-    "id": "ch07-p159"
+    "id": "ch07-p155"
    },
    {
     "type": "p",
     "html": "Onto the question.",
-    "id": "ch07-p160"
+    "id": "ch07-p156"
    },
    {
     "type": "p",
     "html": "And then I saw Him.",
-    "id": "ch07-p161"
+    "id": "ch07-p157"
    },
    {
     "type": "p",
     "html": "I saw Jesus over the same page I was over, weeping, His tears falling onto the question from the other side.",
-    "id": "ch07-p162"
+    "id": "ch07-p158"
    },
    {
     "type": "p",
     "html": "They came down over my handwriting.",
-    "id": "ch07-p163"
+    "id": "ch07-p159"
    },
    {
     "type": "p",
     "html": "The ink began to run.",
-    "id": "ch07-p164"
+    "id": "ch07-p160"
    },
    {
     "type": "p",
     "html": "The words blurred beneath the water until I could no longer read what I had written.",
-    "id": "ch07-p165"
+    "id": "ch07-p161"
    },
    {
     "type": "p",
     "html": "I did not see His face.",
-    "id": "ch07-p166"
+    "id": "ch07-p162"
    },
    {
     "type": "p",
     "html": "I saw His tears.",
-    "id": "ch07-p167"
+    "id": "ch07-p163"
    },
    {
     "type": "p",
     "html": "And somewhere in the water spreading across that page, mine and His became impossible to separate.",
-    "id": "ch07-p168"
+    "id": "ch07-p164"
    },
    {
     "type": "p",
     "html": "He did not answer the question.",
-    "id": "ch07-p169"
+    "id": "ch07-p165"
    },
    {
     "type": "p",
     "html": "He answered it wet.",
-    "id": "ch07-p170"
+    "id": "ch07-p166"
    },
    {
     "type": "swell"
@@ -5930,7 +5912,7 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "The shortest verse in the English Bible is two words long, and it is about His face.",
-    "id": "ch07-p171"
+    "id": "ch07-p167"
    },
    {
     "type": "verse",
@@ -5944,27 +5926,27 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "I had been waiting for the wind. The earthquake. The fire.",
-    "id": "ch07-p172"
+    "id": "ch07-p168"
    },
    {
     "type": "p",
     "html": "I had already decided which one I wanted.",
-    "id": "ch07-p173"
+    "id": "ch07-p169"
    },
    {
     "type": "p",
     "html": "But He came to me the way He came to that cave.",
-    "id": "ch07-p174"
+    "id": "ch07-p170"
    },
    {
     "type": "p",
     "html": "Not as the thing I was watching for.",
-    "id": "ch07-p175"
+    "id": "ch07-p171"
    },
    {
     "type": "p",
     "html": "As tears.",
-    "id": "ch07-p176"
+    "id": "ch07-p172"
    },
    {
     "type": "swell"
@@ -5972,37 +5954,37 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "God’s hiding is not like ours at one point: when He turns His face away, His attention does not go with it.",
-    "id": "ch07-p177"
+    "id": "ch07-p173"
    },
    {
     "type": "p",
     "html": "The face may disappear from the scene.",
-    "id": "ch07-p178"
+    "id": "ch07-p174"
    },
    {
     "type": "p",
     "html": "That scavenger hunt my sister sent me on was never meant to keep me out of the room.",
-    "id": "ch07-p179"
+    "id": "ch07-p175"
    },
    {
     "type": "p",
     "html": "The finding was the gift.",
-    "id": "ch07-p180"
+    "id": "ch07-p176"
    },
    {
     "type": "p",
     "html": "I did not know that while I was looking.",
-    "id": "ch07-p181"
+    "id": "ch07-p177"
    },
    {
     "type": "p",
     "html": "And there is one psalm where David takes the hiding word itself and turns it over in his hand.",
-    "id": "ch07-p182"
+    "id": "ch07-p178"
    },
    {
     "type": "p",
     "html": "He uses the same root twice in a single line — Cain’s root, the one Deuteronomy doubled into bold — and he uses it as an address.",
-    "id": "ch07-p183"
+    "id": "ch07-p179"
    },
    {
     "type": "verse",
@@ -6016,22 +5998,22 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Word for word, the Hebrew says: <em>You hide them in the hiding of Your face.</em>",
-    "id": "ch07-p184"
+    "id": "ch07-p180"
    },
    {
     "type": "p",
     "html": "Everywhere else, the hiding of the face is the catastrophe. Here it is the shelter.",
-    "id": "ch07-p185"
+    "id": "ch07-p181"
    },
    {
     "type": "p",
     "html": "There is a hiding that puts you outside the face of God.",
-    "id": "ch07-p186"
+    "id": "ch07-p182"
    },
    {
     "type": "p",
     "html": "And there is a hiding that puts you inside it.",
-    "id": "ch07-p187"
+    "id": "ch07-p183"
    },
    {
     "type": "beat"
@@ -6039,7 +6021,7 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And Isaiah, who named God twice by His hiding, is the one who finally puts a clock on it.",
-    "id": "ch07-p188"
+    "id": "ch07-p184"
    },
    {
     "type": "verse",
@@ -6053,37 +6035,37 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "A moment, against everlasting.",
-    "id": "ch07-p189"
+    "id": "ch07-p185"
    },
    {
     "type": "p",
     "html": "He does not deny the anger and He does not soften the hiding. He measures it. And the measurement is the whole comfort: the thing that felt like the permanent weather of a life is, in the accounting of the One doing it, a moment.",
-    "id": "ch07-p190"
+    "id": "ch07-p186"
    },
    {
     "type": "p",
     "html": "And He proves it twice.",
-    "id": "ch07-p191"
+    "id": "ch07-p187"
    },
    {
     "type": "p",
     "html": "The first proof was on file four hundred years before the glory moved an inch: the way back was written before the hiding ever began.",
-    "id": "ch07-p192"
+    "id": "ch07-p188"
    },
    {
     "type": "p",
     "html": "The night Solomon dedicated the temple was the housewarming of God. The glory filled the building that week with such density that the priests could not stand up to minister; the opening ceremony ended with the clergy sitting down, because the Presence left no room to work.",
-    "id": "ch07-p193"
+    "id": "ch07-p189"
    },
    {
     "type": "p",
     "html": "And that night God appears to Solomon, and He does something that reads almost unbearable in hindsight. In the middle of blessing the brand-new house, He begins to talk about the day His face will be hidden from it.",
-    "id": "ch07-p194"
+    "id": "ch07-p190"
    },
    {
     "type": "p",
     "html": "“When I shut up the heavens,” He says. “When the locusts come. When the rot sets in because My people have left Me.” On the happiest night in Israel’s history, with the cedar still fresh, God writes the disaster plan, and at the center of it He places this:",
-    "id": "ch07-p195"
+    "id": "ch07-p191"
    },
    {
     "type": "verse",
@@ -6097,12 +6079,12 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Seek My face.",
-    "id": "ch07-p196"
+    "id": "ch07-p192"
    },
    {
     "type": "p",
     "html": "And the next verse is the other half of it.",
-    "id": "ch07-p197"
+    "id": "ch07-p193"
    },
    {
     "type": "verse",
@@ -6116,67 +6098,67 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "He asks to be looked for, and in the same breath promises to be looking.",
-    "id": "ch07-p198"
+    "id": "ch07-p194"
    },
    {
     "type": "p",
     "html": "The people who wear My name, the name the blessing has been settling on them generation after generation, can end the hiding whenever they turn.",
-    "id": "ch07-p199"
+    "id": "ch07-p195"
    },
    {
     "type": "p",
     "html": "A door left closed, but never locked.",
-    "id": "ch07-p200"
+    "id": "ch07-p196"
    },
    {
     "type": "p",
     "html": "The way you leave a door when you want it opened.",
-    "id": "ch07-p201"
+    "id": "ch07-p197"
    },
    {
     "type": "p",
     "html": "The hiding ends where the seeking starts.",
-    "id": "ch07-p202"
+    "id": "ch07-p198"
    },
    {
     "type": "p",
     "html": "And somebody did it.",
-    "id": "ch07-p203"
+    "id": "ch07-p199"
    },
    {
     "type": "p",
     "html": "Daniel is an old man in Babylon when he works out from the scrolls how long the exile is meant to run, and he does not celebrate. He fasts. He puts on sackcloth.",
-    "id": "ch07-p204"
+    "id": "ch07-p200"
    },
    {
     "type": "p",
     "html": "Twenty-five men once stood inside that house with their backs to it and their faces to the east.",
-    "id": "ch07-p205"
+    "id": "ch07-p201"
    },
    {
     "type": "p",
     "html": "Daniel is east. His windows are cut the other way.",
-    "id": "ch07-p206"
+    "id": "ch07-p202"
    },
    {
     "type": "p",
     "html": "Three times a day he kneels at those windows and faces a hill with nothing left on it.",
-    "id": "ch07-p207"
+    "id": "ch07-p203"
    },
    {
     "type": "p",
     "html": "He starts by giving his face away.",
-    "id": "ch07-p208"
+    "id": "ch07-p204"
    },
    {
     "type": "p",
     "html": "The Hebrew has him hand it over before he says a word. Sackcloth, ashes, and a man surrendering the thing Adam carried into the trees.",
-    "id": "ch07-p209"
+    "id": "ch07-p205"
    },
    {
     "type": "p",
     "html": "Then he prays one of the longest prayers in the Old Testament, and near the end of it he reaches for words he has known since he was a boy in Jerusalem.",
-    "id": "ch07-p210"
+    "id": "ch07-p206"
    },
    {
     "type": "verse",
@@ -6190,32 +6172,32 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Let Your face shine.",
-    "id": "ch07-p211"
+    "id": "ch07-p207"
    },
    {
     "type": "p",
     "html": "It is the blessing. Different verbs in English. In Hebrew, it is one word: the same word for shining, the same word for face, the one the priests had raised their hands and spoken over him every year of his childhood, the one that went into the ground on silver back home.",
-    "id": "ch07-p212"
+    "id": "ch07-p208"
    },
    {
     "type": "p",
     "html": "But he does not say it the way they said it.",
-    "id": "ch07-p213"
+    "id": "ch07-p209"
    },
    {
     "type": "p",
     "html": "When the priests raised their hands, the verb was about God. May He make His face shine. A wish spoken over a crowd, God in the third person, the way you talk about someone who is not in the room.",
-    "id": "ch07-p214"
+    "id": "ch07-p210"
    },
    {
     "type": "p",
     "html": "Daniel puts Him in the room. One letter changes at the front of the word, and the blessing stops being about God and starts being said to Him.",
-    "id": "ch07-p215"
+    "id": "ch07-p211"
    },
    {
     "type": "p",
     "html": "He is not making a wish. He is telling God where to look.",
-    "id": "ch07-p216"
+    "id": "ch07-p212"
    },
    {
     "type": "beat"
@@ -6223,42 +6205,42 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "Make Your face shine.",
-    "id": "ch07-p217"
+    "id": "ch07-p213"
    },
    {
     "type": "p",
     "html": "And he does not ask it for himself.",
-    "id": "ch07-p218"
+    "id": "ch07-p214"
    },
    {
     "type": "p",
     "html": "He asks it for the building. He asks God to turn His face back toward the room His face walked out of.",
-    "id": "ch07-p219"
+    "id": "ch07-p215"
    },
    {
     "type": "p",
     "html": "Gabriel reaches him, the text says, about the time of the evening offering.",
-    "id": "ch07-p220"
+    "id": "ch07-p216"
    },
    {
     "type": "p",
     "html": "Every evening of his childhood a lamb went up at that hour. Smoke over the city every single day, so steady you did not need to be told what time it was. You could smell it.",
-    "id": "ch07-p221"
+    "id": "ch07-p217"
    },
    {
     "type": "p",
     "html": "There is no lamb now. Nothing has gone up over that hill in nearly fifty years.",
-    "id": "ch07-p222"
+    "id": "ch07-p218"
    },
    {
     "type": "p",
     "html": "The hour survives in one place, and he is kneeling in it.",
-    "id": "ch07-p223"
+    "id": "ch07-p219"
    },
    {
     "type": "p",
     "html": "That is the hour heaven answers on.",
-    "id": "ch07-p224"
+    "id": "ch07-p220"
    },
    {
     "type": "beat"
@@ -6266,17 +6248,17 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "He was not the only one. There is a psalm that prays the same line as a chorus, three times over, at the start and the middle and the end, the way a nation leans on a door: cause Your face to shine on us, and we will be saved.",
-    "id": "ch07-p225"
+    "id": "ch07-p221"
    },
    {
     "type": "p",
     "html": "And Ezekiel, of all people, the man who had to watch the glory back out of its own house, is the one who gets shown the homecoming.",
-    "id": "ch07-p226"
+    "id": "ch07-p222"
    },
    {
     "type": "p",
     "html": "Years later, in a final vision, he is standing at the gate of a temple yet to be built, the east gate, the very gate the glory paused at on its way out.",
-    "id": "ch07-p227"
+    "id": "ch07-p223"
    },
    {
     "type": "verse",
@@ -6290,17 +6272,17 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "The same road.",
-    "id": "ch07-p228"
+    "id": "ch07-p224"
    },
    {
     "type": "p",
     "html": "He left by the east gate to the mountain east of the city, and He takes the identical route back.",
-    "id": "ch07-p229"
+    "id": "ch07-p225"
    },
    {
     "type": "p",
     "html": "The departure was walked backward on purpose, so that one day every step of it could be walked forward.",
-    "id": "ch07-p230"
+    "id": "ch07-p226"
    },
    {
     "type": "beat"
@@ -6308,52 +6290,52 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "And this time nothing is backing away.",
-    "id": "ch07-p231"
+    "id": "ch07-p227"
    },
    {
     "type": "p",
     "html": "The very ground catches what His nearness does: <em>the earth shone with His glory</em>.",
-    "id": "ch07-p232"
+    "id": "ch07-p228"
    },
    {
     "type": "p",
     "html": "So Ezekiel ends with a road map.",
-    "id": "ch07-p233"
+    "id": "ch07-p229"
    },
    {
     "type": "p",
     "html": "East, out. East, back in.",
-    "id": "ch07-p234"
+    "id": "ch07-p230"
    },
    {
     "type": "p",
     "html": "The last place on earth the glory was seen was the ridge east of the city, the Mount of Olives, standing over Jerusalem like a promise only one deportee was shown.",
-    "id": "ch07-p235"
+    "id": "ch07-p231"
    },
    {
     "type": "p",
     "html": "And for six hundred years, that is where the story waited: an east gate, an empty house, and a road with the return trip written into it.",
-    "id": "ch07-p236"
+    "id": "ch07-p232"
    },
    {
     "type": "p",
     "html": "Six hundred years later, a rabbi from Galilee comes up to Jerusalem for the feast, with crowds ahead of Him and crowds behind.",
-    "id": "ch07-p237"
+    "id": "ch07-p233"
    },
    {
     "type": "p",
     "html": "Of every approach a traveler can choose into the city, He chooses the east.",
-    "id": "ch07-p238"
+    "id": "ch07-p234"
    },
    {
     "type": "p",
     "html": "Over the Mount of Olives.",
-    "id": "ch07-p239"
+    "id": "ch07-p235"
    },
    {
     "type": "p",
     "html": "Down the glory’s old road, toward the glory’s old gate, walking the road of departure in the opposite direction.",
-    "id": "ch07-p240"
+    "id": "ch07-p236"
    },
    {
     "type": "swell"
@@ -6361,22 +6343,22 @@ window.PANIM_CHAPTERS = [
    {
     "type": "p",
     "html": "East, out. East, back in.",
-    "id": "ch07-p241"
+    "id": "ch07-p237"
    },
    {
     "type": "p",
     "html": "And as He crests the ridge, with the whole city laid out shining below Him, He stops.",
-    "id": "ch07-p242"
+    "id": "ch07-p238"
    },
    {
     "type": "p",
     "html": "The city is there. The temple is there. The road is there.",
-    "id": "ch07-p243"
+    "id": "ch07-p239"
    },
    {
     "type": "p",
     "html": "And then He looks at Jerusalem.",
-    "id": "ch07-p244"
+    "id": "ch07-p240"
    }
   ]
  },
@@ -9539,7 +9521,7 @@ window.PANIM_CHAPTERS = [
    },
    {
     "type": "p",
-    "html": "A table and a seat. He said it with the bread still in his hands. Of all the faces in the courtyard, it finds the one trying hardest not to be known.",
+    "html": "A table and a seat. He said it with the bread still in his hands.",
     "id": "ch10-p129"
    },
    {

@@ -1292,7 +1292,13 @@
      🛑 SO DO NOT MOVE THE href AGAIN TO FIX A COPY PROBLEM. The excerpt is the
      author's, chosen by text, twice. If the card is not working, the card is wrong.
 
-     ⚠️ 17m55s IS ONE SECOND EARLY ON PURPOSE. ch07-p107's cue is 17:56.320; a seek
+     🔁 THE v2 TAPE, 2026-09-19: SAME PASSAGE, NEW CLOCK. The approved cut of the first
+     Mephibosheth telling (43.6 s) and v2's longer pauses sit BEFORE this passage, so
+     "David forgave his son" moved from 17:56.320 to 17:22.500 and the href from 17m55s
+     to 17m21s. The excerpt did not move; only where it sits on the tape. The times in
+     the notes below are the v1 tape's and are kept as the record of how it was chosen.
+     ⚠️ 17m21s IS ONE SECOND EARLY ON PURPOSE. ch07-p103's cue is 17:22.500 (v1: p107,
+     17:56.320); a seek
      landing a few milliseconds late clips the "D" of "David", and the second of
      lead-in is the tail of ch07-p106, a complete clause. Do not "correct" it.
 
@@ -1356,7 +1362,7 @@
      chapter text is ever re-edited this is a second copy and will not follow.
      ========================================================================== */
   var THE_SECOND_DOOR =
-    '<a class="hero-sample" id="hero-sample" href="?t=ch07:17m55s"' +
+    '<a class="hero-sample" id="hero-sample" href="?t=ch07:17m21s"' +
       // ⚠️ THE LABEL CARRIES THE BAIT, and that is deliberate. An aria-label REPLACES
       // everything inside the element, so a label naming only the action would hand a
       // screen reader user the one line on the card that does not persuade anybody and

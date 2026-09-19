@@ -425,7 +425,7 @@
   // EIGHT MINUTES", to someone who has spent them.
   //
   // 🛑 THE href NEVER MOVES, AND THAT IS NOT AN OVERSIGHT. FRONT-DOOR.md §0.1 locks
-  // the destination on David at ?t=ch07:17m55s. The card does not become a different
+  // the destination on David at ?t=ch07:17m21s. The card does not become a different
   // door once it is heard; it becomes the same door that knows. Everything below is
   // one line of copy and one colour.
   //

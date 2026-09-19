@@ -115,7 +115,10 @@
   function voiceTime() { return Math.max(0, (els.audio.currentTime || 0) - offset()); }
   // content/audio-host.js: '' for this origin, or the bucket the files live in.
   var BASE = window.PANIM_AUDIO_BASE || '';
-  function src(id, lang) { return BASE + (DIRS[lang || state.lang] || DIRS.en) + id + '.m4a'; }
+  // ?v= names the recording (content/audio-host.js), so a cached copy of an older master is
+  // never played against the current cues. The worker ignores it: it keys by pathname.
+  var AV = window.PANIM_AUDIO_V ? '?v=' + window.PANIM_AUDIO_V : '';
+  function src(id, lang) { return BASE + (DIRS[lang || state.lang] || DIRS.en) + id + '.m4a' + AV; }
   function hasLang(lang) { return !!(MANS[lang] && MANS[lang].ch01); }
 
   function chapterTitle(id) {
@@ -153,15 +156,16 @@
   // remembers finished chapters; this remembers one passage inside one of them.
   //
   // 🛑 THE FAR EDGE OF THE DOOR, AND IT IS MEASURED, NOT ROUNDED. The near edge is
-  // locked in the href js/render.js writes (?t=ch07:17m55s, FRONT-DOOR.md §0.1) and
+  // locked in the href js/render.js writes (?t=ch07:17m21s, FRONT-DOOR.md §0.1) and
   // is deliberately NOT repeated here — one fact, one file. This is the other end:
-  // the door's last line is "He answered it wet", ch07-p170, cued at 1574.51 in
-  // cues/ch07.json, and the block after it opens at 1579.04. Passing 1579 is the
+  // the door's last line is "He answered it wet", ch07-p166, cued at 1544.81 in
+  // cues/ch07.json, and the block after it opens at 1549.34. Passing 1549 is the
   // first moment the reader has heard the passage THROUGH rather than into.
   // ⚠️ AND FINISHING THE CHAPTER COUNTS TOO — see markComplete. A reader who played
   // ch. VII end to end has heard these eight minutes by definition, and on a phone
   // that finished in the background the timeupdate above may never have run.
-  var DOOR = { chapter: 'ch07', heardThrough: 1579 };
+  // v2 tape, 2026-09-19: was p170 / 1579 on v1; the ch 7 cut and v2's pauses sit before it.
+  var DOOR = { chapter: 'ch07', heardThrough: 1549 };
   // The Spanish passage ends on the same line at a different second. It is read off
   // the Spanish cues by tools/build-spanish-audio.py, by paragraph id, never typed.
   function doorThrough() {
