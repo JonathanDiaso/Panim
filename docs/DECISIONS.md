@@ -4,7 +4,14 @@
 decisions are, what is already settled, and what only you can do. The full write-up is
 `panim-book/handoffs/NEXT.md`.
 
-> ### 🔴 Now: decide four things, then record
+> ### 🔴 Now: round six, the book read → https://claude.ai/artifact/6MkaMCkhusuX6tDetrNr1G
+>
+> Ten cards from a full read of all ten chapters: the Abraham line (drafted), the "that engraving"
+> fix, three cuts that need no recording (ch 7 Mephibosheth told twice, ch 10 stray lines at 32:33,
+> ch 9 "Eight verses later"), ch 5 "the last chapter", ch 7 (not detrimental either way). Answer
+> these first; the pickup script takes its final lines from them.
+>
+> ### Earlier tonight: decide four things, then record
 >
 > **Pickup script: https://claude.ai/artifact/HyU8YS2ogCghkcFRcmNPJg** (v3). Every line says who is
 > right, the book or the tape, and why. You asked *"are we sure the tape isn't wrong there?"*: for
