@@ -116,9 +116,14 @@
   // content/audio-host.js: '' for this origin, or the bucket the files live in.
   var BASE = window.PANIM_AUDIO_BASE || '';
   // ?v= names the recording (content/audio-host.js), so a cached copy of an older master is
-  // never played against the current cues. The worker ignores it: it keys by pathname.
-  var AV = window.PANIM_AUDIO_V ? '?v=' + window.PANIM_AUDIO_V : '';
-  function src(id, lang) { return BASE + (DIRS[lang || state.lang] || DIRS.en) + id + '.m4a' + AV; }
+  // never played against the current cues. ONE PER LANGUAGE: re-cutting the English tape
+  // must not change a single Spanish URL, or a Spanish listener re-downloads half a
+  // gigabyte of bytes that did not change. The worker reads the same map.
+  var AV = window.PANIM_AUDIO_V || {};
+  function src(id, lang) {
+    lang = (DIRS[lang || state.lang] ? (lang || state.lang) : 'en');
+    return BASE + DIRS[lang] + id + '.m4a' + (AV[lang] ? '?v=' + AV[lang] : '');
+  }
   function hasLang(lang) { return !!(MANS[lang] && MANS[lang].ch01); }
 
   function chapterTitle(id) {

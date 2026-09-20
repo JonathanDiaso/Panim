@@ -18,13 +18,14 @@ self.PANIM_AUDIO_BASE = 'https://pub-b3a31d98ee8f47f291bb96a7d047a1e0.r2.dev/Pan
 // WHICH RECORDING. Bumped when the files at those paths are replaced with a new master.
 // The page asks for chNN.m4a?v=<this>, so no browser or CDN copy of the old recording
 // (R2 objects go out with max-age=86400) can be served against the new read-along cues.
-// The service worker keys its offline copies by pathname, so the query never splits a
-// saved chapter in two. v2 = the English tape re-edited and cleaned, 2026-09-19.
+// The service worker keys its offline copies by pathname AND this number, so bumping
+// one language drops only that language's saved chapters (sw.js, akey).
+// v2 = the English tape re-edited and cleaned, 2026-09-19.
 // v3 = the Spanish chapters 1, 7 and 10 rebuilt to follow it, same day.
 // v4 = the hiss taken off both recordings and both re-encoded at 192 kbps, 2026-09-19:
 // the reader's room tone (-69 -> -83 dB in the gaps) and the piano's own tape hiss.
 // Same takes, same lengths, same cues -- only the noise between the words is different.
-// v5 = English re-done, 2026-09-20, because v4 was wrong in a way the author heard.
+// v5 (en) = English re-done, 2026-09-20, because v4 was wrong in a way the author heard.
 // v4's denoiser only removed noise where noise was the loudest thing in the frame,
 // which is the pauses: it emptied them to -116 dB and left the hiss under the voice
 // untouched, so the floor switched on with every word (12.7 dB step against the
@@ -32,6 +33,20 @@ self.PANIM_AUDIO_BASE = 'https://pub-b3a31d98ee8f47f291bb96a7d047a1e0.r2.dev/Pan
 // v5 subtracts ONE fixed noise profile from every frame alike -- the floor drops the
 // same amount everywhere and never switches (step 3.0-4.8 dB) -- and de-esses, which
 // nothing in this pipeline had ever done: the reader's sibilants peaked 1.9-6.2 dB
-// under his own speaking level and now sit 6.6-10.6 under. Spanish is unchanged in
-// v5; it is re-requested only because this number is shared by both languages.
-self.PANIM_AUDIO_V = '5';
+// under his own speaking level and now sit 6.6-10.6 under. Spanish stayed at v4 and
+// is not re-requested at all -- see the note on the two keys below.
+//
+// ONE NUMBER PER LANGUAGE, not one for the site. Until 2026-09-20 this was a single
+// string, so re-cutting the English tape also changed every Spanish URL: a Spanish
+// listener re-downloaded 500 MB of bytes that were identical to the ones already on
+// the phone, and the service worker (which renamed its whole audio cache to match)
+// threw away every chapter either language had saved for offline. Nothing about the
+// Spanish recording had changed. A key here moves only when the files under that
+// key's folder are replaced -- en = audio/music/, es = audio/es/.
+//
+// These are CACHE KEYS, not master names, and they only ever go forward. es is 5 and
+// not 4 although the Spanish master is the 2026-09-19 one: the site spent a day serving
+// Spanish at ?v=5 under the old shared number, so every copy already on a phone is
+// keyed 5, and moving it back to 4 would force exactly the re-download this change
+// exists to stop. It moves next when the Spanish recording does.
+self.PANIM_AUDIO_V = { en: '5', es: '5' };

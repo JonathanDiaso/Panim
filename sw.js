@@ -8,13 +8,16 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v91';
-// AUDIO is renamed only when the recording itself changes (content/audio-host.js PANIM_AUDIO_V).
-// activate deletes every cache that is not SHELL or AUDIO, so a chapter a reader saved from the
-// OLD master is dropped instead of being played under the new master's read-along cues. v2 =
-// the re-edited English tape, 2026-09-19. Saved Spanish chapters go with it and re-save as-is.
-// v3 = the Spanish follows it, same day (Abraham passage in, two passages out, chapters 1/7/10).
-var AUDIO = 'panim-audio-v5';
+var SHELL = 'panim-shell-v92';
+// The offline audio cache. ITS NAME NEVER CHANGES AGAIN. Through v5 it carried the
+// recording's version (panim-audio-v5) and activate deleted every cache that was not the
+// current one -- which meant re-cutting the ENGLISH tape silently threw away every chapter
+// a SPANISH listener had downloaded for offline, though not one Spanish byte had moved.
+// Now each stored chapter is keyed by its pathname AND the version of its own language
+// (akey, below), so bumping one language evicts only that language's saved chapters and
+// leaves the other's alone. Entries from the old per-version caches are carried across
+// once, on activate, so nobody loses a download in the changeover.
+var AUDIO = 'panim-audio';
 
 // index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
 // in step with the `?v=` in index.html and with the SHELL number, or the
@@ -27,12 +30,63 @@ var AUDIO = 'panim-audio-v5';
 //      accessibility.html — both are standalone pages with their own copy, and
 //      neither is reached by the index.html sweep. 404.html was left on v24 for
 //      a whole release because of exactly this.
-var ASSET_V = '91';
+var ASSET_V = '92';
 var VERSIONED = /\.(css|js)$/;
 // Where the audio lives, from the same file the page reads. '' = this origin.
 importScripts('content/audio-host.js?v=' + ASSET_V);
 var AUDIO_ORIGIN = self.PANIM_AUDIO_BASE ? new URL(self.PANIM_AUDIO_BASE).origin : location.origin;
 var AUDIO_PATH = /\/audio\/[a-z]+\/ch\d\d\.m4a$/;
+
+// WHICH VERSION A STORED CHAPTER BELONGS TO. The folder in the path says the language
+// (audio/music/ is the English read, audio/es/ the Spanish) and content/audio-host.js
+// gives that language its own number. Every cache call in this file goes through akey,
+// so the four of them can never key the same file two different ways.
+var AV = self.PANIM_AUDIO_V || {};
+function avFor(path) {
+  var m = /\/audio\/([a-z]+)\//.exec(path);
+  return AV[m && m[1] !== 'music' ? m[1] : 'en'] || '';
+}
+function akey(path) { var v = avFor(path); return v ? path + '?v=' + v : path; }
+
+// Carry downloads over from the last per-version cache this file opened, then drop
+// anything whose language has since moved on. Both are cheap and both are idempotent:
+// after the first activate on the new name there is nothing left to do.
+//
+// ONLY panim-audio-v5 is adopted, not every old name. A browser that still holds one
+// of these is a browser whose last activate ran under that name, and v5 is the last
+// name this file ever used -- so its English entries are the v5 master and its Spanish
+// entries are the v4 master, which is exactly what akey will now label them. An older
+// cache that somehow survived holds bytes we cannot name, so it is dropped instead of
+// mislabelled, and the listener re-downloads.
+var ADOPT = 'panim-audio-v5';
+function adoptOldAudio(names) {
+  if (!names.length) return Promise.resolve();
+  return caches.open(AUDIO).then(function (c) {
+    return Promise.all(names.map(function (n) {
+      return caches.open(n).then(function (o) {
+        return o.keys().then(function (reqs) {
+          return Promise.all(reqs.map(function (r) {
+            var key = akey(new URL(r.url).pathname);
+            return c.match(key).then(function (have) {
+              if (have) return;
+              return o.match(r).then(function (res) { if (res) return c.put(key, res); });
+            });
+          }));
+        });
+      });
+    }));
+  });
+}
+function dropStaleAudio() {
+  return caches.open(AUDIO).then(function (c) {
+    return c.keys().then(function (reqs) {
+      return Promise.all(reqs.map(function (r) {
+        var u = new URL(r.url);
+        if (akey(u.pathname) !== u.pathname + u.search) return c.delete(r);
+      }));
+    });
+  });
+}
 
 var PRECACHE = [
   './', 'index.html', 'accessibility.html', 'favicon.svg', 'manifest.webmanifest',
@@ -111,9 +165,12 @@ self.addEventListener('install', function (e) {
 });
 self.addEventListener('activate', function (e) {
   e.waitUntil(caches.keys().then(function (keys) {
-    return Promise.all(keys.filter(function (k) { return k !== SHELL && k !== AUDIO; })
-      .map(function (k) { return caches.delete(k); }));
-  }).then(function () { return self.clients.claim(); }));
+    return adoptOldAudio(keys.filter(function (k) { return k === ADOPT; }))
+      .then(function () {
+        return Promise.all(keys.filter(function (k) { return k !== SHELL && k !== AUDIO; })
+          .map(function (k) { return caches.delete(k); }));
+      });
+  }).then(dropStaleAudio).then(function () { return self.clients.claim(); }));
 });
 
 function sliceRange(request, response) {
@@ -145,7 +202,7 @@ self.addEventListener('fetch', function (e) {
   if (audio) {
     e.respondWith(
       caches.open(AUDIO).then(function (c) {
-        return c.match(url.pathname).then(function (hit) {
+        return c.match(akey(url.pathname)).then(function (hit) {
           if (hit) return sliceRange(e.request, hit.clone());
           return fetch(e.request);
         });
@@ -206,19 +263,19 @@ self.addEventListener('message', function (e) {
       caches.open(AUDIO).then(function (c) {
         return fetch(d.url).then(function (res) {
           if (!res.ok) throw new Error('fetch failed');
-          return c.put(new URL(d.url, location.href).pathname, res);
+          return c.put(akey(new URL(d.url, location.href).pathname), res);
         });
       }).then(function () { reply(e, { type: 'downloaded', url: d.url, ok: true }); })
         .catch(function () { reply(e, { type: 'downloaded', url: d.url, ok: false }); })
     );
   } else if (d.type === 'remove' && d.url) {
     e.waitUntil(caches.open(AUDIO).then(function (c) {
-      return c.delete(new URL(d.url, location.href).pathname);
+      return c.delete(akey(new URL(d.url, location.href).pathname));
     }).then(function () { reply(e, { type: 'removed', url: d.url }); }));
   } else if (d.type === 'query' && d.urls) {
     e.waitUntil(caches.open(AUDIO).then(function (c) {
       return Promise.all(d.urls.map(function (u) {
-        return c.match(new URL(u, location.href).pathname).then(function (hit) { return !!hit; });
+        return c.match(akey(new URL(u, location.href).pathname)).then(function (hit) { return !!hit; });
       }));
     }).then(function (flags) { reply(e, { type: 'cached-state', urls: d.urls, cached: flags }); }));
   }
