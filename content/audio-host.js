@@ -24,4 +24,14 @@ self.PANIM_AUDIO_BASE = 'https://pub-b3a31d98ee8f47f291bb96a7d047a1e0.r2.dev/Pan
 // v4 = the hiss taken off both recordings and both re-encoded at 192 kbps, 2026-09-19:
 // the reader's room tone (-69 -> -83 dB in the gaps) and the piano's own tape hiss.
 // Same takes, same lengths, same cues -- only the noise between the words is different.
-self.PANIM_AUDIO_V = '4';
+// v5 = English re-done, 2026-09-20, because v4 was wrong in a way the author heard.
+// v4's denoiser only removed noise where noise was the loudest thing in the frame,
+// which is the pauses: it emptied them to -116 dB and left the hiss under the voice
+// untouched, so the floor switched on with every word (12.7 dB step against the
+// master's own 2.1) and its musical noise rose from 6.9 to 10.2 dB of bin flicker.
+// v5 subtracts ONE fixed noise profile from every frame alike -- the floor drops the
+// same amount everywhere and never switches (step 3.0-4.8 dB) -- and de-esses, which
+// nothing in this pipeline had ever done: the reader's sibilants peaked 1.9-6.2 dB
+// under his own speaking level and now sit 6.6-10.6 under. Spanish is unchanged in
+// v5; it is re-requested only because this number is shared by both languages.
+self.PANIM_AUDIO_V = '5';
