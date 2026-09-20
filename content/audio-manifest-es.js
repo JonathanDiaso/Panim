@@ -8,7 +8,7 @@ window.PANIM_AUDIO_ES = {
   "voiceDur": 1555.15,
   "musicDur": 1573.15,
   "musicOffset": 6.0,
-  "musicMB": 19.2
+  "musicMB": 38.7
  },
  "ch02": {
   "num": 2,
@@ -16,7 +16,7 @@ window.PANIM_AUDIO_ES = {
   "voiceDur": 1691.27,
   "musicDur": 1709.27,
   "musicOffset": 6.0,
-  "musicMB": 20.8
+  "musicMB": 42.1
  },
  "ch03": {
   "num": 3,
@@ -24,7 +24,7 @@ window.PANIM_AUDIO_ES = {
   "voiceDur": 1823.94,
   "musicDur": 1841.94,
   "musicOffset": 6.0,
-  "musicMB": 22.5
+  "musicMB": 45.3
  },
  "ch04": {
   "num": 4,
@@ -32,7 +32,7 @@ window.PANIM_AUDIO_ES = {
   "voiceDur": 1605.73,
   "musicDur": 1623.73,
   "musicOffset": 6.0,
-  "musicMB": 19.9
+  "musicMB": 39.9
  },
  "ch05": {
   "num": 5,
@@ -40,7 +40,7 @@ window.PANIM_AUDIO_ES = {
   "voiceDur": 2450.06,
   "musicDur": 2468.06,
   "musicOffset": 6.0,
-  "musicMB": 30.0
+  "musicMB": 60.7
  },
  "ch06": {
   "num": 6,
@@ -48,7 +48,7 @@ window.PANIM_AUDIO_ES = {
   "voiceDur": 1784.46,
   "musicDur": 1802.46,
   "musicOffset": 6.0,
-  "musicMB": 22.0
+  "musicMB": 44.4
  },
  "ch07": {
   "num": 7,
@@ -56,7 +56,7 @@ window.PANIM_AUDIO_ES = {
   "voiceDur": 2603.04,
   "musicDur": 2621.04,
   "musicOffset": 6.0,
-  "musicMB": 32.0,
+  "musicMB": 64.5,
   "doorThrough": 1849.78
  },
  "ch08": {
@@ -65,7 +65,7 @@ window.PANIM_AUDIO_ES = {
   "voiceDur": 2122.03,
   "musicDur": 2140.03,
   "musicOffset": 6.0,
-  "musicMB": 26.1
+  "musicMB": 52.7
  },
  "ch09": {
   "num": 9,
@@ -73,7 +73,7 @@ window.PANIM_AUDIO_ES = {
   "voiceDur": 2376.42,
   "musicDur": 2394.42,
   "musicOffset": 6.0,
-  "musicMB": 29.3
+  "musicMB": 58.9
  },
  "ch10": {
   "num": 10,
@@ -81,6 +81,6 @@ window.PANIM_AUDIO_ES = {
   "voiceDur": 3849.23,
   "musicDur": 3867.23,
   "musicOffset": 6.0,
-  "musicMB": 47.3
+  "musicMB": 95.1
  }
 };

@@ -21,4 +21,7 @@ self.PANIM_AUDIO_BASE = 'https://pub-b3a31d98ee8f47f291bb96a7d047a1e0.r2.dev/Pan
 // The service worker keys its offline copies by pathname, so the query never splits a
 // saved chapter in two. v2 = the English tape re-edited and cleaned, 2026-09-19.
 // v3 = the Spanish chapters 1, 7 and 10 rebuilt to follow it, same day.
-self.PANIM_AUDIO_V = '3';
+// v4 = the hiss taken off both recordings and both re-encoded at 192 kbps, 2026-09-19:
+// the reader's room tone (-69 -> -83 dB in the gaps) and the piano's own tape hiss.
+// Same takes, same lengths, same cues -- only the noise between the words is different.
+self.PANIM_AUDIO_V = '4';

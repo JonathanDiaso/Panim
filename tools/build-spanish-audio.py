@@ -52,10 +52,12 @@ HOME = os.path.expanduser("~")
 ES_BOOK = os.path.join(HOME, "Panim/panim-book/es/chapters")
 ASSEMBLED = os.path.join(HOME, "Panim-audio/es/1-assembled")
 VOICE = os.path.join(HOME, "Panim-audio/es/2-voice-final")
-MUSIC = os.path.join(HOME, "Panim-audio/es/3-music")
+MUSIC = os.environ.get("ES_MUSICDIR") or os.path.join(HOME, "Panim-audio/es/3-music")
 
 MUSIC_OFFSET = 6.0            # introoutro.py LEAD_IN, same as the English
-BITRATE = 96000               # the English files measure 97-99 kbps
+BITRATE = 192000              # 2026-09-19, up from 96000, matching the English files.
+# See v2/scripts/ship.sh for the measurement: at 96k the encoder's own noise sits only
+# 12 dB under the quiet it is hiding in, at 192k it sits 21 dB under.
 
 # The five-minute card on the front page is a passage of chapter VII that ends on
 # "He answered it wet" (ch07-p166; p170 before the 2026-09-19 ch 7 cut). A reader has heard it through when the NEXT

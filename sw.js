@@ -8,13 +8,13 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v89';
+var SHELL = 'panim-shell-v90';
 // AUDIO is renamed only when the recording itself changes (content/audio-host.js PANIM_AUDIO_V).
 // activate deletes every cache that is not SHELL or AUDIO, so a chapter a reader saved from the
 // OLD master is dropped instead of being played under the new master's read-along cues. v2 =
 // the re-edited English tape, 2026-09-19. Saved Spanish chapters go with it and re-save as-is.
 // v3 = the Spanish follows it, same day (Abraham passage in, two passages out, chapters 1/7/10).
-var AUDIO = 'panim-audio-v3';
+var AUDIO = 'panim-audio-v4';
 
 // index.html requests every stylesheet and script as `...?v=ASSET_V`. Keep this
 // in step with the `?v=` in index.html and with the SHELL number, or the
@@ -27,7 +27,7 @@ var AUDIO = 'panim-audio-v3';
 //      accessibility.html — both are standalone pages with their own copy, and
 //      neither is reached by the index.html sweep. 404.html was left on v24 for
 //      a whole release because of exactly this.
-var ASSET_V = '89';
+var ASSET_V = '90';
 var VERSIONED = /\.(css|js)$/;
 // Where the audio lives, from the same file the page reads. '' = this origin.
 importScripts('content/audio-host.js?v=' + ASSET_V);
