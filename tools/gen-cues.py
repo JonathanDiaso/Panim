@@ -42,16 +42,59 @@ SRTS = {1:'Chapter 1_  The God Who Sees.srt', 2:'Chapter 2_  The Hiding.srt',
 def words_of(text):
     return re.findall(r"[a-z0-9']+", html.unescape(re.sub(r'<[^>]+>', ' ', text)).lower())
 
+# 🛑 ONE TIME PER SUBTITLE IS NOT ONE TIME PER WORD, 2026-09-22. This used to give
+# every word in a block the block's START time. A block holds up to ~7 s of speech,
+# so when a paragraph break fell inside one ("And they heard in that slow withdrawal
+# the echo of a verse: I will go away…"), both paragraphs got the same cue: the
+# first was never highlighted and the second lit up while the first was still being
+# read. 73 English paragraphs did this (ch07-p45 / ch07-v2, 4.6 s early, seen live).
+# Words now carry their share of the block by characters, and a paragraph that starts
+# mid-block is snapped to the pause the reader actually took (snap_to_pause, below).
 def srt_words(path):
-    w, t = [], []
+    w, t, mid = [], [], []
     for b in re.split(r'\n\s*\n', open(path, encoding='utf-8').read().strip()):
-        m = re.search(r'(\d\d):(\d\d):(\d\d)[,.](\d+)\s*-->', b)
+        m = re.search(r'(\d\d):(\d\d):(\d\d)[,.](\d+)\s*-->\s*(\d\d):(\d\d):(\d\d)[,.](\d+)', b)
         if not m: continue
         s = int(m[1])*3600 + int(m[2])*60 + int(m[3]) + int(m[4])/1000
+        e = int(m[5])*3600 + int(m[6])*60 + int(m[7]) + int(m[8])/1000
         body = b[b.index(m.group(0)) + len(m.group(0)):]
         body = body.split('\n', 1)[1] if '\n' in body else ''
-        for x in words_of(body): w.append(x); t.append(s)
-    return w, t
+        ws = words_of(body)
+        total = sum(len(x) + 1 for x in ws) or 1
+        done = 0
+        for k, x in enumerate(ws):
+            w.append(x); t.append(s + (e - s) * done / total); mid.append(k > 0)
+            done += len(x) + 1
+    return w, t, mid
+
+# The shipped music edition, read once per chapter, gives the pauses. Voice time =
+# file time - 6.0 (the music lead-in, js/player.js offset()). Absent file = no snap,
+# and the proportional estimate stands.
+MUSIC_LEAD = 6.0
+def pause_ends(n):
+    path = os.path.join(SITE, 'audio', 'music', f'ch{n:02d}.m4a')
+    if not os.path.exists(path): return None
+    import subprocess, numpy as np
+    raw = subprocess.run(['ffmpeg', '-v', '0', '-i', path, '-ac', '1', '-ar', '8000',
+                          '-f', 'f32le', '-'], capture_output=True, check=True).stdout
+    x = np.frombuffer(raw, np.float32)
+    hop = 80                                             # 10 ms
+    e = 10*np.log10((x[:len(x)//hop*hop].reshape(-1, hop)**2).mean(1) + 1e-12)
+    quiet = e < np.percentile(e, 95) - 22                # the piano sits ~28 dB under
+    ends = []                                            # speech onsets after >=150 ms of quiet
+    run = 0
+    for i, q in enumerate(quiet):
+        if q: run += 1
+        else:
+            if run >= 15: ends.append(i*0.01 - MUSIC_LEAD)
+            run = 0
+    return np.array(ends)
+
+def snap_to_pause(t, ends, reach=1.2):
+    if ends is None or not len(ends): return t
+    import numpy as np
+    k = int(np.argmin(abs(ends - t)))
+    return float(ends[k]) if abs(ends[k] - t) <= reach else t
 
 src = open(os.path.join(SITE, 'content/chapters.js')).read()
 _i = src.index('[', src.index('window.PANIM_CHAPTERS'))   # the header comment has brackets
@@ -61,7 +104,8 @@ review = []
 per_chapter = []
 for ch in chapters:
     n = ch['num']
-    aw, at = srt_words(os.path.join(SRTD, SRTS[n]))
+    aw, at, amid = srt_words(os.path.join(SRTD, SRTS[n]))
+    ends = pause_ends(n)
     blocks = []
     for b in ch['blocks']:
         if b['type'] == 'p': blocks.append((b['id'], words_of(b['html'])))
@@ -72,12 +116,14 @@ for ch in chapters:
         bw += ws; owner += [bid]*len(ws)
     sm = difflib.SequenceMatcher(None, bw, aw, autojunk=False)
     hit = {}   # block id -> (matched words, first spoken t)
+    first = {} # block id -> index of its first spoken word in aw
     tot = {bid: len(ws) for bid, ws in blocks}
     for tag, i1, i2, j1, j2 in sm.get_opcodes():
         if tag != 'equal': continue
         for k in range(i2 - i1):
             bid = owner[i1 + k]
             m, t0 = hit.get(bid, (0, None))
+            if t0 is None: first[bid] = j1 + k
             hit[bid] = (m + 1, t0 if t0 is not None else at[j1 + k])
     # A block difflib could attribute no word to used to be DROPPED. Every one of them
     # is two to five words long ("Israel.", "The word is ra'ah.") — short lines get
@@ -101,6 +147,7 @@ for ch in chapters:
         placed.add(bid)
 
     cues = []
+    last = -1.0   # a snap may never land at or before the paragraph above it
     for bid, ws in blocks:
         m, t0 = hit.get(bid, (0, None))
         conf = m / max(1, tot[bid])
@@ -108,7 +155,12 @@ for ch in chapters:
             review.append((bid, 0.0, 'NO MATCH')); continue
         if bid in placed: review.append((bid, 0.0, f'interpolated t={t0 + HEAD_PAD:.1f}'))
         elif conf < 0.6: review.append((bid, conf, f't={t0:.1f}'))
-        cues.append(dict(t=round(t0 + HEAD_PAD, 2), id=bid))
+        t = t0 + HEAD_PAD
+        if bid in first and amid[first[bid]]:
+            ts = snap_to_pause(t, ends)
+            if ts > last + 0.3: t = ts
+        last = t
+        cues.append(dict(t=round(t, 2), id=bid))
 
     # Cue times must not go backwards against the manuscript. sync.js walks the file in
     # time order and highlights whatever it lands on, so one badly-aligned block that
