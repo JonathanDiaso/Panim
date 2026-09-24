@@ -49,4 +49,9 @@ self.PANIM_AUDIO_BASE = 'https://pub-b3a31d98ee8f47f291bb96a7d047a1e0.r2.dev/Pan
 // Spanish at ?v=5 under the old shared number, so every copy already on a phone is
 // keyed 5, and moving it back to 4 would force exactly the re-download this change
 // exists to stop. It moves next when the Spanish recording does.
-self.PANIM_AUDIO_V = { en: '5', es: '5' };
+// v6 (en) = chapter 1 re-cleaned, 2026-09-24: mouth clicks rebuilt out, the hiss taken
+// out of the pauses and word tails only (the voice itself is the recording, sample for
+// sample, while it speaks -- a denoiser on the words took the air off the esses), and
+// the room let fall away with the voice instead of held and cut. Same takes, same length
+// (1399.93 s), same cues. Chapters 2-10 follow as they are redone.
+self.PANIM_AUDIO_V = { en: '6', es: '5' };
