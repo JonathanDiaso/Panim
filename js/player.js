@@ -17,7 +17,7 @@
 //
 // TIMELINE RULE: every position this file stores, dispatches, or accepts is on the
 // VOICE timeline (cues/*.json's clock) — that name is about the CLOCK, not about an
-// edition, and it stays. The music master prepends 6.0s of music-alone lead-in
+// edition, and it stays. The music master prepends a music-alone lead-in (6.0s; 10.0s English since v95)
 // (content/audio-manifest.js musicOffset), so:
 //   fileTime = voiceTime + offset()   ·   voiceTime = fileTime − offset()
 //
@@ -282,7 +282,9 @@
         // ⭐ NO SECOND OVERTURE ON AUTO-ADVANCE, 2026-09-06.
         // MEASURED, all ten chapters, from content/audio-manifest.js: the master
         // carries a 6.0s lead-in before the voice and a 12.0s tail after it
-        // (musicDur − voiceDur − musicOffset = 12.00 on every one). `ended` fires at
+        // (musicDur − voiceDur − musicOffset = 12.00 on every one). [v95, 2026-09-24: a
+        // 10.0s lead-in, and the file now ends 0.5s after its fade: ~9s of piano after the
+        // last word, ~6.7s after the voice file. Skipping the intro here still stands.] `ended` fires at
         // the END of the file, so the tail is never clipped — it plays in full. What
         // that produced on continuous play was 12s of outro followed immediately by
         // 6s of intro: EIGHTEEN SECONDS of music between two chapters, plus whatever

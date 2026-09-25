@@ -19,7 +19,7 @@ same pass as content/chapters.js. "ref" blocks are page-only apparatus and are
 deliberately not cued.
 
 Emits [{t, id}] on the VOICE-edition timeline (SRT time + 0.5s head pad).
-The music edition is voice + 6.0s (introoutro LEAD_IN), applied in the player.
+The music edition is voice + musicOffset (introoutro LEAD_IN, per chapter in content/audio-manifest.js), applied in the player.
 Confidence report: any block matching under 60% of its first words is listed for
 manual review (tools/cue-marker.html) and still emitted (best guess beats none).
 """
@@ -68,10 +68,15 @@ def srt_words(path):
     return w, t, mid
 
 # The shipped music edition, read once per chapter, gives the pauses. Voice time =
-# file time - 6.0 (the music lead-in, js/player.js offset()). Absent file = no snap,
-# and the proportional estimate stands.
-MUSIC_LEAD = 6.0
+# file time - the chapter's musicOffset (the music lead-in, js/player.js offset(); 6.0
+# until 2026-09-24, then 10.0 as chapters were remixed). Absent file = no snap, and
+# the proportional estimate stands.
+def music_lead(n):
+    s = open(os.path.join(SITE, 'content', 'audio-manifest.js'), encoding='utf-8').read()
+    man = json.loads(s[s.index('{', s.index('window.PANIM_AUDIO')):s.rindex('}') + 1])
+    return float(man[f'ch{n:02d}'].get('musicOffset', 6.0))
 def pause_ends(n):
+    MUSIC_LEAD = music_lead(n)
     path = os.path.join(SITE, 'audio', 'music', f'ch{n:02d}.m4a')
     if not os.path.exists(path): return None
     import subprocess, numpy as np

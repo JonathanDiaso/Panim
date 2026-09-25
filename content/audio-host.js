@@ -54,4 +54,9 @@ self.PANIM_AUDIO_BASE = 'https://pub-b3a31d98ee8f47f291bb96a7d047a1e0.r2.dev/Pan
 // sample, while it speaks -- a denoiser on the words took the air off the esses), and
 // the room let fall away with the voice instead of held and cut. Same takes, same length
 // (1399.93 s), same cues. Chapters 2-10 follow as they are redone.
-self.PANIM_AUDIO_V = { en: '6', es: '5' };
+// v7 (en) = all ten chapters through that same clean-up, and new music, 2026-09-24: a 10 s
+// piano opening heard from the first second (musicOffset 10.0), the piano levelled so it
+// neither blurts nor vanishes under the voice and sits ~3 dB lower, a softer 9 s close,
+// and the file ends 0.5 s after it (no dead air before the next chapter). Voice lengths and
+// cues unchanged; every speech frame within 0.04 dB of the recording.
+self.PANIM_AUDIO_V = { en: '7', es: '5' };
