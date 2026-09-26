@@ -63,4 +63,9 @@ self.PANIM_AUDIO_BASE = 'https://pub-b3a31d98ee8f47f291bb96a7d047a1e0.r2.dev/Pan
 // full stop at nearly every pause of chapters 4 and 9, so the sentence ride moved the voice phrase
 // by phrase (471 level changes in ch 9) -- now grouped into real sentences. And every chapter now
 // opens and closes with the same piano (chapter 1's), its own music in between. Same lengths, cues.
-self.PANIM_AUDIO_V = { en: '8', es: '5' };
+// v9 (en) = v8 with the hiss gone, 2026-09-26. The author heard a faint hiss under the voice
+// (ch 9 "exactly what happened") in every chapter: cleanup had only touched the pauses, so the
+// hiss switched on with each phrase and off after it. Now the denoised voice throughout (their
+// pick, "F sounds like me"), with the recording itself back wherever denoising made a sound
+// quieter (guard.py): no speech frame more than 0.9 dB under the recording. Same lengths, cues.
+self.PANIM_AUDIO_V = { en: '9', es: '5' };
