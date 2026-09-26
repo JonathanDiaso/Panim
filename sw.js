@@ -8,7 +8,7 @@
 // returning visitor is served the previous build out of the old cache
 // indefinitely — v3 was the Direction B rebuild, v4 the text rebuilt from the
 // manuscript, v5 the four new plates and the section dividers.
-var SHELL = 'panim-shell-v95';
+var SHELL = 'panim-shell-v96';
 // The offline audio cache. ITS NAME NEVER CHANGES AGAIN. Through v5 it carried the
 // recording's version (panim-audio-v5) and activate deleted every cache that was not the
 // current one -- which meant re-cutting the ENGLISH tape silently threw away every chapter
@@ -30,7 +30,7 @@ var AUDIO = 'panim-audio';
 //      accessibility.html — both are standalone pages with their own copy, and
 //      neither is reached by the index.html sweep. 404.html was left on v24 for
 //      a whole release because of exactly this.
-var ASSET_V = '95';
+var ASSET_V = '96';
 var VERSIONED = /\.(css|js)$/;
 // Where the audio lives, from the same file the page reads. '' = this origin.
 importScripts('content/audio-host.js?v=' + ASSET_V);

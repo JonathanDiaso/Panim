@@ -59,4 +59,8 @@ self.PANIM_AUDIO_BASE = 'https://pub-b3a31d98ee8f47f291bb96a7d047a1e0.r2.dev/Pan
 // neither blurts nor vanishes under the voice and sits ~3 dB lower, a softer 9 s close,
 // and the file ends 0.5 s after it (no dead air before the next chapter). Voice lengths and
 // cues unchanged; every speech frame within 0.04 dB of the recording.
-self.PANIM_AUDIO_V = { en: '7', es: '5' };
+// v8 (en) = v7 fixed, 2026-09-25. The author heard chapter 9 as "trash": the transcript had put a
+// full stop at nearly every pause of chapters 4 and 9, so the sentence ride moved the voice phrase
+// by phrase (471 level changes in ch 9) -- now grouped into real sentences. And every chapter now
+// opens and closes with the same piano (chapter 1's), its own music in between. Same lengths, cues.
+self.PANIM_AUDIO_V = { en: '8', es: '5' };

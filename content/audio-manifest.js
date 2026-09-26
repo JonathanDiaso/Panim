@@ -26,7 +26,7 @@ window.PANIM_AUDIO = {
   "musicDur": 1647.68,
   "musicOffset": 10.0,
   "voiceMB": 16.8,
-  "musicMB": 40.2
+  "musicMB": 40.3
  },
  "ch04": {
   "num": 4,
@@ -35,7 +35,7 @@ window.PANIM_AUDIO = {
   "musicDur": 1462.83,
   "musicOffset": 10.0,
   "voiceMB": 14.9,
-  "musicMB": 35.8
+  "musicMB": 35.7
  },
  "ch05": {
   "num": 5,
