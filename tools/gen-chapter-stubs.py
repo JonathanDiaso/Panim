@@ -24,7 +24,7 @@ Writes: c/01/index.html … c/10/index.html
 import json, os, re, html, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE = "https://jonathandiaso.github.io/Panim"
+BASE = "https://panim.onechurchsandiego.org"
 ROMAN = {1:'I',2:'II',3:'III',4:'IV',5:'V',6:'VI',7:'VII',8:'VIII',9:'IX',10:'X'}
 
 

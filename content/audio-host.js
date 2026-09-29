@@ -7,7 +7,8 @@
 // string wherever it is served from, and a chapter a reader saved for offline before
 // the move is still found after it.
 //
-// 🛑 A HOST MUST SEND CORS for https://jonathandiaso.github.io, allow the Range header
+// 🛑 A HOST MUST SEND CORS for https://panim.onechurchsandiego.org (and the old
+// https://jonathandiaso.github.io, which redirects there), allow the Range header
 // and expose Content-Range / Content-Length / Accept-Ranges, and type the files
 // audio/mp4 — the <audio> element is crossorigin="anonymous" and the offline save is a
 // fetch(). See README, "Where the audio lives".

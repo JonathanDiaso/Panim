@@ -1,6 +1,6 @@
 # PANIM — the website
 
-Live: **https://jonathandiaso.github.io/Panim/** · repo `JonathanDiaso/Panim` · branch `main`
+Live: **https://panim.onechurchsandiego.org/** · repo `JonathanDiaso/Panim` · branch `main` · the old `https://jonathandiaso.github.io/Panim/` redirects here (GitHub Pages custom domain, `CNAME` file; DNS is a `panim` CNAME in the church domain's Vercel DNS)
 (GitHub Pages deploys `main` root; a push takes 1–3 minutes to appear.)
 
 **Current: `v81`** — `ASSET_V = '81'`, `panim-shell-v81`. **Stats are on**: the PostHog project token
@@ -95,7 +95,7 @@ charged"*. So the twenty chapter files are served from an R2 bucket, and git hol
 | bucket | `panim-audio` on the author's Cloudflare account, public at `https://pub-b3a31d98ee8f47f291bb96a7d047a1e0.r2.dev` |
 | objects | `Panim/audio/music/chNN.m4a` (English) and `Panim/audio/es/chNN.m4a` (Spanish) — the **same paths the site used**, so an offline copy a reader saved before the move (keyed by pathname in `sw.js`) is still found |
 | the site | `content/audio-host.js` names the base; `js/player.js` and `sw.js` both read it. `<audio crossorigin="anonymous">` |
-| CORS | `https://jonathandiaso.github.io`, `http://localhost:8899`, `http://127.0.0.1:8899` only; GET/HEAD, `Range`, exposes `Content-Range`/`Content-Length`/`Accept-Ranges`/`ETag` |
+| CORS | `https://panim.onechurchsandiego.org`, `https://jonathandiaso.github.io` (kept: the old address still redirects), `http://localhost:8899`, `http://127.0.0.1:8899` only; GET/HEAD, `Range`, exposes `Content-Range`/`Content-Length`/`Accept-Ranges`/`ETag` |
 | headers | `audio/mp4`, `Cache-Control: public, max-age=86400`, 206 on Range — measured |
 | the files | `audio/music/`, `audio/es/` stay on the laptop, **ignored by git**, as the upload source. Copy on MAS: `Panim-archive/Panim-site-audio/` |
 | upload | `sh tools/upload-audio.sh` (all) or `sh tools/upload-audio.sh es/ch07` — uploads, then md5s the public copy against the local one. Needs `npx wrangler login` once |
